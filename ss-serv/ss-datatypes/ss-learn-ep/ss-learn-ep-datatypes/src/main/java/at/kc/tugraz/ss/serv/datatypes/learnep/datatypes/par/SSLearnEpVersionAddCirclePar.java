@@ -1,0 +1,67 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
+
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
+public class SSLearnEpVersionAddCirclePar extends SSServPar{
+  
+  public SSUri         learnEpVersionUri = null;
+  public SSLabelStr    label             = null;
+  public Float         xLabel            = null;
+  public Float       yLabel            = null;
+  public Float       xR                = null;
+  public Float       yR                = null;
+  public Float       xC                = null;
+  public Float       yC                = null;
+  
+  public SSLearnEpVersionAddCirclePar(SSServPar par) throws Exception{
+      
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        learnEpVersionUri = (SSUri) pars.get(SSVarU.learnEpVersionUri);
+        label             = (SSLabelStr) pars.get(SSVarU.label);
+        xLabel            = (Float)    pars.get(SSVarU.xLabel);
+        yLabel            = (Float)    pars.get(SSVarU.yLabel);
+        xR                = (Float)    pars.get(SSVarU.xR);
+        yR                = (Float)    pars.get(SSVarU.yR);
+        xC                = (Float)    pars.get(SSVarU.xC);
+        yC                = (Float)    pars.get(SSVarU.yC);
+      }
+      
+      if(clientPars != null){
+        learnEpVersionUri = SSUri.get        (clientPars.get(SSVarU.learnEpVersionUri));
+        label             = SSLabelStr.get   (clientPars.get(SSVarU.label));
+        xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
+        yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
+        xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
+        yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
+        xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
+        yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+}
