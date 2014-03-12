@@ -1,0 +1,9 @@
+!!at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf
+ssConf:
+  use: false
+  executeOpAtStartUp: false
+  op:
+  host: localhost
+  port: 8390
+jsonLDConf:
+  uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/  

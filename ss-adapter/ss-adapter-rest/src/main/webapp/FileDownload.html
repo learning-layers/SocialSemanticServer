@@ -1,0 +1,98 @@
+<!--
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *-->
+<!DOCTYPE html>
+<html>
+  <body>
+    
+    <script type="text/javascript">
+      
+      window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.BlobBuilder        = window.BlobBuilder       || window.WebKitBlobBuilder || window.MozBlobBuilder;
+      
+      var fileEntry;
+      var fileWriter;
+      
+      function getFile(){
+        window.requestFileSystem(window.TEMPORARY, 104857600, resultHandlerRequestFileSystem, errorHandlerRequestFileSystem);
+      }
+      
+      function resultHandlerRequestFileSystem(fileSystem){
+        fileSystem.root.getFile("myFile.jpg", {'create': true}, resultHandlerCreateFile, errorHandlerCreateFile);
+      }
+      
+      function resultHandlerCreateFile(fileEntry1){
+        
+        fileEntry = fileEntry1;
+        
+        fileEntry.createWriter(resultHandlerCreateFileWriter, errorHandlerCreateFileWriter);
+      }
+      
+      function resultHandlerCreateFileWriter(fileWriter1){
+        
+        fileWriter   = fileWriter1;
+        var xhr      = new XMLHttpRequest(); 
+        var formData = new FormData();
+        
+        formData.append("user",     "http://dt.ll/user/dt/");
+        formData.append("uri",      "http://dt.ll/file/1370956599382.jpg");
+        formData.append("userKey",  "FischersFritzFischtFrischeFische");
+        
+        xhr.onload   = function(){
+          
+          if(
+              this.readyState    !== 4   ||
+              this.status        !== 200 ||
+              this.response.type !== "application/octet-stream"){
+            return;
+          }
+          
+          fileWriter.write(this.response);
+          
+          var fileUri = fileEntry.toURL();
+          var a       = document.createElement("a");
+          
+          a.download    = "mayFileName.jpg";
+          a.href        = fileUri;
+          a.textContent = "download";
+          
+          a.click();
+        };
+        
+        xhr.responseType = "blob";
+        xhr.open("POST", "rest/SSAdapterRest/fileDownload/", true);  
+        xhr.send(formData);
+      }
+      
+      function errorHandlerRequestFileSystem(error){
+        console.log(error);
+      }
+      
+      function errorHandlerCreateFile(error){
+        console.log(error);
+      }
+      
+      function errorHandlerCreateFileWriter(error){
+        console.log(error);
+      }
+      
+    </script>
+      
+    <p>
+      Get a file : <input type="submit" name="file" onclick="getFile();" />
+    </p>
+      
+  </body>
+</html>
