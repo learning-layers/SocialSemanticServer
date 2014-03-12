@@ -1,0 +1,101 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package at.kc.tugraz.ss.serv.db.api.mediaWiki;
+
+import at.kc.tugraz.socialserver.utils.SSMediaWikiU;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.datatypes.mediaWiki.SSMediaWikiRevision;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+
+public class SSDBSQLMediaWikiFct extends SSDBSQLFct{
+  
+  protected SSDBSQLMediaWikiFct(final SSDBSQLI dbSQL) throws Exception{
+    super(dbSQL);
+  }
+  
+  public void insertRevision (String tableName, SSMediaWikiRevision revision) throws Exception{
+    
+    Map<String, String> parNamesAndValues;
+    parNamesAndValues = new HashMap<String, String>();
+    
+    parNamesAndValues.put(SSMediaWikiU.userID,    revision.userID);
+    parNamesAndValues.put(SSMediaWikiU.timestamp, revision.timestamp);
+    parNamesAndValues.put(SSMediaWikiU.wikiID,    revision.wikiID);
+    parNamesAndValues.put(SSMediaWikiU.wikiText,  revision.wikiText);
+    parNamesAndValues.put(SSMediaWikiU.htmlText,  revision.htmlText);
+      
+//    serv.db.insert(tableName, parNamesAndValues); //"wiki_revision_test"  //String            query = "INSERT INTO wiki_revision_test(UserID, Timestamp, WikiID, WikiText, HtmlText) VALUES (?, ?, ?, ?, ?)";
+  }
+  
+  public SSMediaWikiRevision revision(String tableName, String userID, String timestamp, String wikiID) throws Exception{
+    
+    ResultSet           resultSet  = null;
+    Map<String, String> selectPars = new HashMap<String, String>();
+    SSMediaWikiRevision revision   = null;
+    
+    selectPars.put(SSMediaWikiU.userID,    userID);
+    selectPars.put(SSMediaWikiU.timestamp, timestamp);
+    
+    try{
+//      resultSet = serv.db.selectAllWhere(tableName, selectPars); //= "SELECT * FROM wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
+      
+      resultSet.first();
+      
+      if(bindingStr(resultSet, SSMediaWikiU.wikiID).equals(wikiID)) {
+        
+        revision =
+          new SSMediaWikiRevision(
+          userID,
+          wikiID,
+          timestamp,
+          bindingStr(resultSet, SSMediaWikiU.wikiText),
+          SSMediaWikiU.wikiContent(bindingStr(resultSet, SSMediaWikiU.htmlText)));
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+//      serv.db.closeStmt(resultSet);
+    }
+    
+    return revision;
+  }
+}
+
+
+//public static synchronized SSMediaWikiRevision getWikiRevisionByID(Connection conn, int id) {
+//		String query = "SELECT * FROM wiki_revision_test WHERE WikiRevisionID = ?";
+//		SSMediaWikiRevision data = null;
+//		
+//		try {
+//			PreparedStatement stmt = conn.prepareStatement(query);
+//			stmt.setInt(1, id);
+//			ResultSet results = stmt.executeQuery();
+//			
+//			while (results.next()) {
+//				data = new SSMediaWikiRevision(results.getString("UserID"), results.getString("WikiID"), results.getString("Timestamp"),
+//						results.getString("WikiText"), SSMediaWikiU.wikiContent(results.getString("HtmlText")));
+//			}
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		
+//		return data;
+//	}
