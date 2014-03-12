@@ -1,0 +1,210 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package at.kc.tugraz.ss.test.serv.recomm;
+
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.serv.job.recomm.serv.SSRecommServ;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.reg.SSServReg;
+
+public class SSRecommTester extends SSServImplA implements Runnable{
+  
+  public SSRecommTester() throws Exception{
+    super(null);
+  }
+  
+  @Override
+  public void run() {
+    
+    try{
+      
+      SSRecommConf recommConf = (SSRecommConf)SSRecommServ.inst.conf;
+      
+      if(recommConf.executeOpAtStartUp){
+        test(recommConf.op, recommConf);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErr(error);
+    }finally{
+      SSServReg.finalizeThread(this);
+    }
+  }
+  
+  private void test(SSMethU op, SSRecommConf recommConf) throws Exception{
+    
+//    if(SSMethU.equals(op, SSMethU.recommLanguageModel)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.user,           null);
+//      opPars.put(SSVarU.fileName,       "wiki_sample_core_user_15_c16");
+//      opPars.put(SSVarU.resource,       null);
+//      opPars.put(SSVarU.numTags,        10);
+//      
+//      List<String> tags = (List<String>) SSServReg.callServServer(new SSServPar(SSMethU.recommLanguageModel, opPars));
+//    }
+//    
+//    if(SSMethU.equals(op, SSMethU.recommSplitSample)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.dataSet,        recommConf.dataSet);
+//      opPars.put(SSVarU.sampleName,     recommConf.sampleName);
+//      opPars.put(SSVarU.sampleCount,    recommConf.sampleCount);
+//      opPars.put(SSVarU.userLevel,      recommConf.userLevel);
+//      opPars.put(SSVarU.resourceLevel,  recommConf.resourceLevel);
+//      opPars.put(SSVarU.tagLevel,       recommConf.tagLevel);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommSplitSample, opPars));
+//    }
+//    
+//    if(SSMethU.equals(op, SSMethU.recommCalcThreeLayers)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.sampleName,        recommConf.sampleName);
+//      opPars.put(SSVarU.sampleCount,       recommConf.sampleCount);
+//      opPars.put(SSVarU.prefix,            recommConf.prefix);
+//      opPars.put(SSVarU.predictTags,       recommConf.predictTags);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcThreeLayers, opPars));
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+//      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+//      opPars.put(SSVarU.prefix,           "3layers");
+//      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+//      opPars.put(SSVarU.k,                recommConf.k);
+//      opPars.put(SSVarU.posfix,           recommConf.posfix);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommWriteMetrics, opPars));
+//    }
+//    
+//    if(SSMethU.equals(op, SSMethU.recommCalcLDA)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+//      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+//      opPars.put(SSVarU.topics,           recommConf.topics);
+//      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcLDA, opPars));
+//    }
+    
+    //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcCFTAG)){
+    //
+    //      opPars = new HashMap<String, Object>();
+    //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+    //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //      opPars.put(SSVarU.neighbors,        recommConf.neighbors);
+    //      opPars.put(SSVarU.betaUpperBound,   recommConf.betaUpperBound);
+    //
+    //      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcCFTAG, opPars));
+    //    }
+    //
+    //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcFolkRank)){
+    //
+    //      opPars = new HashMap<String, Object>();
+    //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+    //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //
+    //      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcFolkRank, opPars));
+    //    }
+    //
+    //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcAct)){
+    //
+    //      opPars = new HashMap<String, Object>();
+    //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+    //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //      opPars.put(SSVarU.dUpperBound,      recommConf.dUpperBound);
+    //      opPars.put(SSVarU.betaUpperBound,   recommConf.betaUpperBound);
+    //
+    //      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcAct, opPars));
+    //    }
+    //
+    //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcLDAModel)){
+    //
+    //      opPars = new HashMap<String, Object>();
+    //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+    //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //      opPars.put(SSVarU.topics,           recommConf.topics);
+    //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //      opPars.put(SSVarU.betaUpperBound,   recommConf.betaUpperBound);
+    //      opPars.put(SSVarU.modelBeta,        recommConf.modelBeta);
+    //
+    //      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcLDAModel, opPars));
+    //    }
+    //
+    //     if(SSStrU.equals(recommConf.op, SSMethU.recommCalcLanguageModel)){
+    //
+    //       opPars = new HashMap<String, Object>();
+    //       opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+    //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //       opPars.put(SSVarU.betaUpperBound,   recommConf.betaUpperBound);
+    //
+    //       SSServReg.callServServer(new SSServPar(SSMethU.recommCalcLanguageModel, opPars));
+    //     }
+    
+//    if(SSMethU.equals(recommConf.op, SSMethU.recommBaseline)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
+//      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+//      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommBaseline, opPars));
+//    }
+//    
+//    if(SSMethU.equals(recommConf.op, SSMethU.recommCreateLDASamples)){
+//      
+//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+//      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+//      opPars.put(SSVarU.topics,           recommConf.topics);
+//      
+//      SSServReg.callServServer(new SSServPar(SSMethU.recommCreateLDASamples, opPars));
+//    }
+    
+    //     if(SSStrU.equals(recommConf.op, SSMethU.recommCreateLanguageModelSamples)){
+    //
+    //       opPars = new HashMap<String, Object>();
+    //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //
+    //        SSServReg.callServServer(new SSServPar(SSMethU.recommCreateLanguageModelSamples, opPars));
+    //      }
+    
+    //     if(SSStrU.equals(recommConf.op, SSMethU.recommCalcMulan)){
+    //
+    //       opPars = new HashMap<String, Object>();
+    //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
+    //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
+    //
+    //       SSServReg.callServServer(new SSServPar(SSMethU.recommCalcMulan, opPars));
+    //
+    //       opPars = new HashMap<String, Object>();
+    //       opPars.put(SSVarU.sampleDir,       recommConf.sampleDir);
+    //       opPars.put(SSVarU.sampleName,      recommConf.sampleName);
+    //       opPars.put(SSVarU.sampleCount,     recommConf.sampleCount);
+    //       opPars.put(SSVarU.k,               recommConf.k);
+    //
+    //       SSServReg.callServServer(new SSServPar(SSMethU.recommWriteMetricsMulan, opPars));
+    //     }
+  }
+}
