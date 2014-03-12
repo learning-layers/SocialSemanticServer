@@ -1,0 +1,425 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>at.kc.tugraz.ss</groupId>
+    <artifactId>ss-root</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>at.kc.tugraz.ss</groupId>
+  <artifactId>ss</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>ss</name>
+  <packaging>jar</packaging>
+  <url>http://maven.apache.org</url>
+  
+  <build>
+ 
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+          
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>install</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/ss-app/lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <outputDirectory>${project.build.directory}/ss-app/</outputDirectory>
+          <finalName>ss</finalName>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>at.kc.tugraz.ss.main.SSMain</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+        
+        <executions>
+        
+          <execution>
+            <id>copy-resources-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/ss-app/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/conf</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+            
+<!--          <execution>
+            <id>copy-resources-data-csv</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/ss-app/data/csv/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/data/csv</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+<!--          <execution>
+            <id>copy-resources-script</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/ss-app/script/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/script</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+<!--          <execution>
+            <id>copy-resources-tmp</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/ss-app/tmp/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/tmp</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+
+        <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.api</groupId>
+      <artifactId>ss-serv-api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+     <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-serv-test-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
+      <artifactId>ss-serv-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.jobs.evernote</groupId>
+      <artifactId>ss-evernote-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.datatypes.entity</groupId>
+      <artifactId>ss-entity-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.datatypes.learnep</groupId>
+      <artifactId>ss-learn-ep-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.dataexport</groupId>
+      <artifactId>ss-dataexport-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.file.sys.local</groupId>
+      <artifactId>ss-file-sys-local-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.file.sys.local</groupId>
+      <artifactId>ss-file-sys-local-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
+      <artifactId>ss-recomm-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.datatype.location</groupId>
+      <artifactId>ss-location-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-solr-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-modeling-ue-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
+      <artifactId>ss-recomm-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-user-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-userevent-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.adapter</groupId>
+      <artifactId>ss-adapter-socket-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-scaff-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-scaff-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-lomextractor-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-dataimport-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-coll-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-coll-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-db-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-dataimport-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-voc-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-jsonld-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-jsonld-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-db-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-auth-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-auth-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.datatypes</groupId>
+      <artifactId>ss-datatypes-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.util</groupId>
+      <artifactId>ss-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-filerepo-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-disc-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-rating-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-tag-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-search-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-filerepo-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-broadcast-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-broadcast-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.evernote</groupId>
+      <artifactId>evernote-api</artifactId>
+      <version>${evernoteVersion}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junitVersion}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4jVersion}</version>
+    </dependency>
+  </dependencies>
+</project>
