@@ -30,12 +30,6 @@
     </dependency>
     
     <dependency>
-       <groupId>at.kc.tugraz.ss.serv</groupId>
-       <artifactId>ss-voc-datatypes</artifactId>
-       <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>at.kc.tugraz.ss.datatypes</groupId>
       <artifactId>ss-datatypes-datatypes</artifactId>
       <version>${project.version}</version>

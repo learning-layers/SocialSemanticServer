@@ -31,12 +31,6 @@
         
     <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-voc-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-voc-conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
