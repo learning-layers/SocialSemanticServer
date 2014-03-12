@@ -1,0 +1,136 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ package at.kc.tugraz.ss.service.disc.impl.fct.graph;
+
+import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+
+public class SSDiscGraphFct extends SSDBGraphFct{
+  
+  public SSDiscGraphFct(SSServImplWithDBA serv) throws Exception{
+    super(serv.dbGraph);
+  }
+  
+//  public SSUri addDiscEntry(
+//    SSUri              disc, 
+//    SSUri              user, 
+//    SSDiscEntryContent content) throws Exception {
+//
+//    SSUri discEntry = createDiscEntryUri();
+//
+//    if(db.has(disc, predType(), objDisc(), namedGraphUri)) {
+//
+//      db.add(discEntry, predType(),        objDiscEntry(),                       namedGraphUri);
+//      db.add(disc,      predHasEntry(),    discEntry,                            namedGraphUri);
+//      db.add(discEntry, predTime(),        objTime(),                            namedGraphUri);
+//      db.add(discEntry, predHasContent(),  objContent(SSStrU.toString(content)), namedGraphUri);
+//      db.add(user,      predIsAuthor(),    discEntry,                            namedGraphUri);
+//
+//      return discEntry;
+//    } else {
+//      SSLogU.logAndThrow(new Exception("disc doesn't exist (cannot add entry to)"));
+//    }
+//  }
+//
+//  public List<SSDisc> getDiscs() throws Exception {
+//
+//    List<SSDisc> discs  = new ArrayList<SSDisc>();
+//    String       disc, label, target;
+//    
+//    String queryString = 
+//      selectWithParFromAndWhere(bindDisc, bindTarget)   + 
+//      and(bindTarget, predHasDiscussion(), bindDisc)    + 
+//      whereEnd();
+//    
+//    for (SSQueryResultItem item : db.query(queryString)) {
+//
+//      disc   = binding(item, bindDisc);
+//      target = binding(item, bindTarget);
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, SSUri.get(disc));
+//      
+//      label = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      
+//      discs.add(SSDisc.get(
+//        SSUri.get(disc), 
+//        SSLabelStr.get(label), 
+//        null, 
+//        SSUri.get(target),
+//        null));
+//    }
+//    
+//    return discs;
+//  }
+//
+//  public List<SSDiscEntry> getDiscEntries(
+//    SSUri disc, 
+//    int   count) throws Exception {
+//
+//    List<SSDiscEntry> entries       = new ArrayList<SSDiscEntry>();
+//    String            discEntry, content, author, time;
+//
+//    String queryString =
+//      selectWithParFromAndWhere(bindContent, bindAuthor, bindDiscEntry, bindTime)  + 
+//      and(disc,           predHasEntry(),               bindDiscEntry)             + 
+//      and(bindDiscEntry,  predTime(),                   bindTime)                  +
+//      and(bindDiscEntry,  predHasContent(),             bindContent)               +
+//      and(bindAuthor,     predIsAuthor(),               bindDiscEntry)             +
+//      whereEnd()                                                                   +
+//      orderByDesc(bindTime)                                                        +
+//      limit(count);
+//    
+//    for (SSQueryResultItem item : db.query(queryString)) {
+//      
+//      discEntry = binding(item, bindDiscEntry);
+//      content   = binding(item, bindContent);
+//      author    = binding(item, bindAuthor);
+//      time      = binding(item, bindTime);
+//      
+//      entries.add(SSDiscEntry.get(
+//        SSUri.get(discEntry),
+//        -1,
+//        SSDiscEntryContent.get(content),
+//        SSUri.get(author),
+//        getLongFromGraphDoubleString(time)));
+//    }
+//    
+//    return entries;
+//  }
+//
+//  public SSUri createDisc(
+//    String label, 
+//    SSUri  target, 
+//    SSUri  user) throws Exception {
+//
+//    SSUri disc = createDiscUri();
+//
+//    db.add(disc,    predType(),            objDisc(), namedGraphUri);
+//    db.add(disc,    predHasLabel(),        objHasLabel(label), namedGraphUri);
+//    db.add(target,  predHasDiscussion(),   disc, namedGraphUri);
+//    db.add(user,    predIsAuthor(),        disc, namedGraphUri);
+//
+//    return disc;
+//  }
+//  
+//  private SSUri createDiscUri() throws Exception{
+//    return SSUri.get(voc.vocGraphUriForNamespace(SSVocNamespace.disc).toString() + SSDateU.dateAsNano());
+//  }
+//  
+//  private SSUri createDiscEntryUri() throws Exception{
+//    return SSUri.get(voc.vocGraphUriForNamespace(SSVocNamespace.discEntry).toString() + SSDateU.dateAsNano());
+//  }
+}

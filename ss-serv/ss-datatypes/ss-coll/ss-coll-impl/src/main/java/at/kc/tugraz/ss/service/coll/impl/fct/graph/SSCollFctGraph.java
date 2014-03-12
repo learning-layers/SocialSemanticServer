@@ -1,0 +1,665 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ package at.kc.tugraz.ss.service.coll.impl.fct.graph;
+
+import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+
+public class SSCollFctGraph extends SSDBGraphFct{
+  
+  public SSCollFctGraph(final SSServImplWithDBA serv) throws Exception{
+    super(serv.dbGraph);
+  }
+  
+//  public boolean addCollEntry(
+//    SSUri coll,
+//    SSUri collEntry) throws Exception{
+//
+//    return db.add(coll, predHasCollectionEntry(), collEntry, namedGraphUri);
+//  }
+//
+//  public boolean setCollEntryPos(
+//    SSUri coll,
+//    SSUri collEntry,
+//    int   collEntryPos) throws Exception{
+//
+//    if(db.notHas(collEntry, predHasCollectionPosition(), objHasCollectionPosition(coll, collEntryPos), namedGraphUri)){
+//      
+//      for(SSStatement stm : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
+//
+//        if(SSUri.isSame(coll, splitObject(stm.object).get(0))){
+//          db.remove(stm, namedGraphUri);
+//        }
+//      }
+//
+//      db.add(collEntry, predHasCollectionPosition(), objHasCollectionPosition(coll, collEntryPos), namedGraphUri);
+//      return true;
+//    }
+//    return false;
+//  }
+//
+//  public boolean followsColl(
+//    SSUri  userUri,
+//    SSUri  collUri) throws Exception{
+//
+//    return db.has(userUri, predFollows(), collUri, namedGraphUri);
+//  }
+//
+//  public SSUri createColl(
+//    SSUri       user,
+//    String      label,
+//    SSSpaceEnum space) throws Exception{
+//
+//    SSUri coll = createCollUri();
+//    
+//    db.add(coll, predType(),           objColl(), namedGraphUri);
+//    db.add(user, predIsAuthor(),       coll, namedGraphUri);
+//    db.add(coll, predTime(),           objTime(), namedGraphUri);
+//    db.add(coll, predHasLabel(),       objHasLabel(label), namedGraphUri);
+//    db.add(coll, predCollectionType(), objSpace(space), namedGraphUri);
+//
+//    return coll;
+//  }
+//  
+//  public SSUri collRootCreate(SSUri user) throws Exception{
+//    
+//    SSUri coll = createColl(user, SSStrU.valueRoot, SSSpaceEnum.privateSpace);
+//    
+//    db.add(coll, predIsRootColl(), objTrue(), namedGraphUri);
+//
+//    return coll;
+//  }
+//
+//  public boolean removeCollectionEntryType(
+//    SSUri   collUri,
+//    SSUri   collEntryUri) throws Exception{
+//
+//    boolean changed = false;
+//   
+//    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
+//
+//      if(SSUri.isSame(collUri, splitObject(stm.object).get(0))){
+//        db.remove(stm, namedGraphUri);
+//        changed = true;
+//      }
+//    }
+//    
+//    return changed;
+//  }
+//
+//  public boolean removeCollEntry(
+//    SSUri coll,
+//    SSUri collEntry) throws Exception{
+//
+//    if(db.has(coll, predHasCollectionEntry(), collEntry, namedGraphUri)){
+//
+//      db.remove(coll, predHasCollectionEntry(), collEntry, namedGraphUri);
+//      return true;
+//    }
+//
+//    return false;
+//  }
+//
+//  public boolean removeCollEntryPos(
+//    SSUri coll,
+//    SSUri collEntry) throws Exception{
+//
+//    for(SSStatement state : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
+//
+//      if(SSUri.isSame(coll, splitObject(state.object).get(0))){
+//        db.remove(state, namedGraphUri);
+//        return true;
+//      }
+//    }
+//
+//    return false;
+//  }
+//
+//  public boolean removeColl(
+//    SSUri coll) throws Exception{
+//    
+//    db.remove(coll,   null, null, namedGraphUri);
+//    db.remove(null,   null, coll, namedGraphUri);
+//    
+//    return true;
+//  }
+//
+//  public boolean unFollowColl(
+//    SSUri user, 
+//    SSUri coll) throws Exception{
+//    
+//    db.remove(user, predFollows(), coll, namedGraphUri);
+//    return true;
+//  }
+//
+//  public boolean setCollSpace(
+//    SSUri  coll,
+//    SSSpaceEnum space) throws Exception{
+//   
+//    db.remove (coll, predCollectionType(), null, namedGraphUri);
+//    db.add    (coll, predCollectionType(), objSpace(space), namedGraphUri);
+//      
+//    return true;
+//  }
+//  
+//  public boolean setCollEntrySpace(
+//    SSUri         collUri,
+//    SSUri         collEntryUri,
+//    SSSpaceEnum   space) throws Exception{
+//
+//    boolean changed   = false;
+//    boolean isColl    = SSEntityEnum.isColl(voc.vocEntityTypeFromUri(collEntryUri));
+//
+//    if(
+//      !isColl &&
+//      SSSpaceEnum.isFollow(space)){
+//
+//      space = SSSpaceEnum.sharedSpace;
+//    }
+//
+//    if(
+//      db.has(collEntryUri, predHasEntryType(), objHasEntryType(collUri, space), namedGraphUri) ||
+//      db.has(collEntryUri, predHasEntryType(), objHasEntryType(collUri, SSSpaceEnum.followSpace), namedGraphUri)){
+//      return changed;
+//    }
+//
+//    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
+//
+//      if(SSUri.isSame(collUri, splitObject(stm.object).get(0))){
+//        db.remove(stm, namedGraphUri);
+//      }
+//    }
+//
+//    db.add(collEntryUri, predHasEntryType(), objHasEntryType(collUri, space), namedGraphUri);
+//
+//    changed = true;
+//
+//    return changed;
+//  }
+//
+//  public boolean followColl(
+//    SSUri user,
+//    SSUri coll) throws Exception{
+//    
+//    db.add(user, predFollows(), coll, namedGraphUri);
+//    
+//    return true;
+//  }
+//
+//  private List<SSUri> getFollowCollUris(
+//    SSUri userUri) throws Exception{
+//
+//    List<SSUri> outUris = new ArrayList<SSUri>();
+//    
+//    for(SSStatement stm  : db.get(userUri, predFollows(), null, namedGraphUri)){
+//
+//      outUris.add(SSUri.get(SSStrU.toString(stm.object)));
+//    }
+//
+//    return outUris;
+//  }
+//
+//  public SSColl collRootWithoutEntries(SSUri user) throws Exception{
+//   
+//    SSColl collRoot = null;
+//    String queryString, coll, label, space;
+//      
+//    queryString = 
+//      selectWithParFromAndWhere(bindColl, bindType)    + 
+//      and(bindColl, predType(),           objColl())   + 
+//      and(user,     predIsAuthor(),       bindColl)    + 
+//      and(bindColl, predIsRootColl(),     bindTrue)    +
+//      and(bindColl, predCollectionType(), bindType)    + 
+//      whereEnd();
+//    
+//    for(SSQueryResultItem item : db.query(queryString)){
+//      
+//      coll   = binding(item, bindColl);
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, SSUri.get(coll));
+//      
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      space  = binding(item, bindType);
+//      
+//      collRoot =
+//        SSColl.get(
+//        SSUri.get(coll),
+//        null,
+//        user,
+//        label,
+//        SSSpaceEnum.get(space));
+//    }
+//    
+//    return collRoot;
+//  }
+//  
+//  public SSColl collRootWithEntries(SSUri user) throws Exception{
+//    
+//    SSColl collRoot = collRootWithoutEntries(user);
+//    
+//    if(SSObjU.isNull(collRoot)){
+//      return null;
+//    }
+//    
+//    collRoot.entries = collEntries(collRoot.uri, true);
+//    
+//    return collRoot;
+//  }
+//  
+// public List<SSUri> collPossibleParentUris(SSUri userUri, SSUri collUri) throws Exception{
+//    
+//   List<SSUri> colls = new ArrayList<SSUri>();
+//    String queryString;
+//    
+//    queryString = 
+//      selectWithParFromAndWhere(bindColl)                  + 
+//      and(bindColl, predType(),               objColl())   + 
+//      and(bindColl, predHasCollectionEntry(), collUri)     +
+//      whereEnd();
+//
+//    for(SSQueryResultItem item : db.query(queryString)){
+//      colls.add(SSUri.get(binding(item, bindColl)));
+//    }
+//
+//    return colls;
+//  }
+// 
+//  public List<SSCollEntry> collEntries(
+//    SSUri   collUri,
+//    boolean sort) throws Exception {
+//
+//    List<SSUri>           entryUris  = getCollEntryUris(collUri, sort);
+//    List<SSCollEntry>     entries    = new ArrayList<SSCollEntry>();
+//    SSSpaceEnum           space;
+//    String                entryLabel;
+//    
+//    for(SSUri entryUri : entryUris){
+//
+//      space      = getTypeOfEntry       (collUri, entryUri);
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, entryUri);
+//      
+//      entryLabel = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      
+//      if(sort){
+//        entries.add(SSCollEntry.get(entryUri, entryLabel, space, getCollEntryPosition(collUri, entryUri)));
+//      }else{
+//        entries.add(SSCollEntry.get(entryUri, entryLabel, space, -1));
+//      }
+//    }
+//    
+//    return entries;
+//  }
+  
+//  //what is about colls being not author? e.g. public collection in a followed one?
+//  private List<SSColl> getUserCollsWithoutEntries(
+//    SSUri user) throws Exception{
+//
+//    HashMap<String, SSColl> colls = new HashMap<String, SSColl>();
+//    String                  queryString;
+//    SSColl                  collection;
+//    String coll, space, label;
+//    
+//    queryString = 
+//      selectWithParFromAndWhere(bindColl, bindType)    + 
+//      and(bindColl, predType(),           objColl())   + 
+//      and(user,     predIsAuthor(),       bindColl)    + 
+//      and(bindColl, predCollectionType(), bindType)    + 
+//      whereEnd();
+//
+//    for(SSQueryResultItem item : db.query(queryString)){
+//
+//      coll   = binding(item, bindColl);
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, SSUri.get(coll));
+//      
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      space  = binding(item, bindType);
+//      
+//      colls.put(
+//        SSUri.get(coll).toString(),
+//        SSColl.get(
+//        SSUri.get(coll),
+//        null,
+//        user,
+//        label,
+//        SSSpaceEnum.get(space)));
+//    }
+//
+//    for(SSUri uri : getFollowCollUris(user)){
+//
+//      if(colls.containsKey(SSStrU.toString(uri))){
+//        colls.get(uri.toString()).space = SSSpaceEnum.followSpace;
+//      }else{
+//
+//        collection = getCollWithoutEntries(uri);
+//
+//        collection.space = SSSpaceEnum.followSpace;
+//
+//        colls.put(SSStrU.toString(uri), collection);
+//      }
+//    }
+//
+//    return Arrays.asList(SSColl.toCollArray(colls.values()));
+//  }
+
+//  public SSColl getCollWithoutEntries(
+//    SSUri collUri) throws Exception{
+//
+//    String user, type, label;
+//    
+//    String queryString =
+//      selectWithParFromAndWhere(bindUser, bindType)   + 
+//      and(collUri,   predType(),           objColl()) +
+//      and(bindUser,  predIsAuthor(),       collUri)   +
+//      and(collUri,   predCollectionType(), bindType)  +
+//      whereEnd();
+//
+//    for(SSQueryResultItem item : db.query(queryString)){
+//
+//      user  = SSStrU.removeDoubleQuotes(binding(item, bindUser));
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, collUri);
+//      
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      type   = SSStrU.removeDoubleQuotes(binding(item, bindType));
+//      
+//      return SSColl.get(
+//        collUri, 
+//        null, 
+//        SSUri.get(user), 
+//        label,
+//        SSSpaceEnum.get(type));
+//    }
+//
+//    return null;
+//  }
+//
+//  static Map sortByValue(
+//    Map map){
+//    List list = new LinkedList(map.entrySet());
+//    Collections.sort(list, new Comparator(){
+//      @Override
+//      public int compare(
+//        Object o1,
+//        Object o2){
+//        return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+//      }
+//    });
+//
+//    Map result = new LinkedHashMap();
+//    for(Iterator it = list.iterator(); it.hasNext();){
+//      Map.Entry entry = (Map.Entry) it.next();
+//      result.put(entry.getKey(), entry.getValue());
+//    }
+//    return result;
+//  }
+//
+//  public int getCollEntryPosition(
+//    SSUri collUri,
+//    SSUri entryUri) throws Exception{
+//
+//    int          result = -1;
+//    List<String> split;
+//
+//    for(SSStatement state : db.get(entryUri, predHasCollectionPosition(), null, namedGraphUri)){
+//
+//      split = splitObject(state.object);
+//
+//      if(SSUri.isSame(collUri, split.get(0))){
+//        result = Integer.parseInt(split.get(1));
+//      }
+//    }
+//
+//    return result;
+//  }
+//
+//  public SSSpaceEnum getTypeOfEntry(
+//    SSUri collUri,
+//    SSUri entryUri)  throws Exception{
+//
+//    List<String> split;
+//     
+//    for(SSStatement state : db.get(entryUri, predHasEntryType(), null, namedGraphUri)){
+//
+//      split = splitObject(state.object);
+//
+//      if(SSUri.isSame(collUri, split.get(0))){
+//        return SSSpaceEnum.get(split.get(1));
+//      }
+//    }
+//
+//    return null;
+//  }
+//
+//  public List<SSColl> collsSharedWithoutEntries() throws Exception{
+//
+//    Map<String, SSColl> resultColls = new HashMap<String, SSColl>();
+//    String              queryString;
+//    SSUri               coll;
+//    String              label;
+//    
+//    queryString = 
+//      selectWithParFromAndWhere(bindColl, bindTime, bindUser)                 + 
+//      and(bindColl,  predType(),           objColl())                         + 
+//      and(bindColl,  predCollectionType(), objSpace(SSSpaceEnum.sharedSpace)) + 
+//      and(bindUser,  predIsAuthor(),       bindColl)                          + 
+//      and(bindColl,  predTime(),           bindTime)                          + 
+//      whereEnd()                                                              +
+//      orderByAsc (bindTime);
+//      
+//    for(SSQueryResultItem item : db.query(queryString)){
+//
+//      coll = SSUri.get(binding(item, bindColl));
+//      
+//      opPars = new HashMap<String, Object>();
+//      opPars.put(SSVarU.resource, coll);
+//      
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      
+//      resultColls.put(
+//        coll.toString(),
+//        SSColl.get(
+//        coll, 
+//        null,
+//        SSUri.get(binding(item, bindUser)), 
+//        label,
+//        SSSpaceEnum.sharedSpace));
+//    }
+//    
+//    return new ArrayList<SSColl>(resultColls.values());
+//  }
+//
+//  public List<SSUri> getCollEntryUris(
+//    SSUri   collUri,
+//    boolean sort) throws Exception{
+//
+//    HashMap<String, Integer> entryUriMap  = new HashMap<String, Integer>();
+//    String                   collEntry;
+//    
+//    String queryString = 
+//      selectWithParFromAndWhere(bindCollEntry)                      + 
+//      and(collUri, predHasCollectionEntry(), bindCollEntry) + 
+//      whereEnd();
+//    
+//    for(SSQueryResultItem item : db.query(queryString)){
+//
+//      collEntry = binding(item, bindCollEntry);
+//
+//      entryUriMap.put(SSStrU.toString(SSUri.get(collEntry)), getCollEntryPosition(collUri, SSUri.get(collEntry)));
+//    }
+//
+//    if(sort){
+//      return SSUri.get(sortByValue(entryUriMap).keySet());
+//    }else{
+//      return SSUri.get(entryUriMap.keySet());
+//    }
+//  }
+//  
+//  private SSUri createCollUri() throws Exception{
+//    return SSUri.get(objColl() + SSDateU.dateAsNano().toString());
+//  }
+}
+
+
+//public String[] getUserCollections(String user) {
+//	List<String> outList = new ArrayList<String>();
+//
+//	String from = namedGraphURI.toString();
+//	String queryString = "SELECT ?col ?time FROM <" + from + "> WHERE{ " + "?col <" + SemanticVocabulary.RDFtype + "> <" + SemanticVocabulary.typeCollection + ">." + "?col <"
+//			+ SemanticVocabulary.timestamp + "> ?time.} ORDER BY ASC (?time)";
+//
+//	SSQueryResult result = null;
+//	try {
+//		result = serv.prepareSparqlQuery(queryString);
+//	} catch (Exception e) {
+//		e.printStackTrace();
+//	}
+//	for(SSQueryResultItem item : result)
+//	{
+//		outList.add(item.getBinding("col"));
+//	}
+//
+//	String[] outString = (String[]) outList.toArray();
+//
+//	return outString;
+//}
+//public boolean addArrayToCollection(String collectionId, String user, String[] resourceIds, String[] type, int[] positions) {
+//if (resourceIds.length != type.length) {
+//	return false;
+//}
+//int i = 0;
+//for (String resourceId : resourceIds) {
+//	addToCollection(collectionId, user, resourceId, type[i], positions[i]);
+//	i++;
+//}
+//return true;
+//}
+//public boolean removeArrayFromCollection(String collectionId, String user, String[] resourceIds) {
+//for (String resourceId : resourceIds) {
+//	removeFromCollection(collectionId, user, resourceId);
+//}
+//return true;
+//}
+//public boolean updateCollection(String jsonCollection, String user) {
+//WCollection collection = null;
+//try {
+//	JSONObject json = new JSONObject(jsonCollection);
+//	collection = new WCollection(json.getString("url"));
+//	JSONArray jsonArray = json.getJSONArray("entries");
+//	Entry[] entries = new Entry[jsonArray.length()];
+//	for (int i = 0; i < jsonArray.length(); i++) {
+//
+//		Entry entry = new Entry(jsonArray.getJSONObject(i).getString("url"));
+//		entry.setPos(jsonArray.getJSONObject(i).getInt("pos"));
+//		entry.setType(jsonArray.getJSONObject(i).getString("type"));
+//		entry.setLabel(jsonArray.getJSONObject(i).getString("label"));
+//		entries[i] = entry;
+//
+//	}
+//	collection.setEntries(entries);
+//
+//} catch (JSONException e1) {
+//	e1.printStackTrace();
+//}
+//
+//for (Entry entry : collection.getEntries()) {
+//	this.addToCollection(collection.getUrl(), user, entry.getUrl(), entry.getType(), entry.getPos());
+//	this.setNodeLabel(entry.getUrl(), entry.getLabel());
+//}
+//return true;
+//}
+//private String[] getItemsFromCollectionUnsorted(String collectionId) {
+//	ArrayList<String> outList = new ArrayList<String>();
+//	String[] outString = null;
+//	try {
+//		String from = namedGraphURI.toString();
+//		String queryString = "PREFIX matns: <http://tug.mature-ip.eu/> SELECT ?item FROM <" + from + "> WHERE{ " + "<" + collectionId + "> <" + SemanticVocabulary.hasCollectionEntry + "> ?item.}";
+//
+//		SSQueryResult result = null;
+//
+//		result = serv.prepareSparqlQuery(queryString);
+//
+//		for (SSQueryResultItem item : result) {
+//			String outs = item.getBinding("item");
+//			outList.add(outs);
+//		}
+//		outString = (String[]) outList.toArray();
+//
+//	} catch (Exception e) {
+//		e.printStackTrace();
+//	}
+//	return outString;
+//}
+//private boolean addToCollection(
+//		boolean shouldCommit,
+//		SSUri     collUri, 
+//		SSUri     collEntryUri, 
+//		String  type, 
+//		int     position) throws TripleStoreException{
+//
+//	boolean changed              = false;
+//	
+//	try {
+//		
+//		if (!serv.hasStatement(collUri, SemanticVocabulary.hasCollectionEntry, collEntryUri)) {
+//			
+//			serv.addStatement(collUri, SemanticVocabulary.hasCollectionEntry, collEntryUri);
+//			changed = true;
+//		}
+//
+//		if(
+//				setCollectionEntryType(
+//						false,
+//						collUri, 
+//						collEntryUri, 
+//						type)){
+//			
+//			changed = true;
+//		}
+//		
+//		if (!serv.hasStatement(collEntryUri, SemanticVocabulary.hasCollectionPosition, SSLiteral.createHasCollectionPositionLiteral(collUri, position))) {
+//			
+//			ArrayList<SSStatement> find = serv.getStatement(collEntryUri, SemanticVocabulary.hasCollectionPosition, null);
+//
+//			for (SSStatement state : find) {
+//				
+//				String[] split = state.object.toString().replaceAll(GC.stringQuote, GC.stringEmpty).split("\\|");
+//				
+//				if (GM.isSame(split[0], collUri)) {
+//					serv.removeStatement(state);
+//				}
+//			}
+//
+//			serv.addStatement(collEntryUri, SemanticVocabulary.hasCollectionPosition, SSLiteral.createHasCollectionPositionLiteral(collUri, position));
+//			changed = true;
+//		}
+//
+//		commit(changed, shouldCommit);
+//
+//	} catch (Exception exception) {
+//		
+//		rollBackOrThrow(
+//				shouldCommit,
+//				exception);
+//	}
+//	
+//	return changed;
+//}
