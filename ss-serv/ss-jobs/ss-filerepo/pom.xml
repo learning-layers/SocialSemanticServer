@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>ss-jobs</artifactId>
+    <groupId>at.kc.tugraz.ss.serv</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>at.kc.tugraz.ss.serv</groupId>
+  <artifactId>ss-filerepo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ss-filerepo</name>
+  <modules>
+    <module>ss-filerepo-api</module>
+    <module>ss-filerepo-conf</module>
+    <module>ss-filerepo-datatypes</module>
+    <module>ss-filerepo-serv</module>
+    <module>ss-filerepo-impl</module>
+  </modules>
+</project>

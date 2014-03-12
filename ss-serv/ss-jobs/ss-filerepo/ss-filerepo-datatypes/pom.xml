@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>at.kc.tugraz.ss.serv</groupId>
+    <artifactId>ss-filerepo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>at.kc.tugraz.ss.serv</groupId>
+  <artifactId>ss-filerepo-datatypes</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>ss-filerepo-datatypes</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-tag-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-rating-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-serv-err-reg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.datatypes.entity</groupId>
+      <artifactId>ss-entity-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
+      <artifactId>ss-serv-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+<!--    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-jsonld-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>-->
+        
+    <dependency>
+      <groupId>at.kc.tugraz.ss.datatypes</groupId>
+      <artifactId>ss-datatypes-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.adapter</groupId>
+      <artifactId>ss-adapter-socket-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.util</groupId>
+      <artifactId>ss-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  
+  </dependencies>
+</project>
