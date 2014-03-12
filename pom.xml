@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>at.kc.tugraz.ss</groupId>
+  <artifactId>ss-root</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>ss-root</name>
+  <packaging>pom</packaging>
+  <!-- <url>http://maven.apache.org</url> -->
+  
+  <build>
+    
+    <plugins>
+     
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.1</version>
+        
+        <executions>
+        
+<!--          <execution>
+            <id>install_openrdf_sesame</id>
+            <inherited>false</inherited>
+            <phase>clean</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>./ss-3rdpartylibs/libs/openrdf-sesame-2.1.2-onejar.jar</file> 
+              <groupId>org.openrdf</groupId>
+              <artifactId>openrdf-sesame</artifactId>
+              <version>2.1.2</version>
+            </configuration>
+          </execution>-->
+          
+<!--          <execution>
+            <id>install_html2image</id>
+            <inherited>false</inherited>
+            <phase>clean</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>./ss-3rdpartylibs/libs/html2image-0.9.jar</file>
+              <groupId>gui.ava</groupId>
+              <artifactId>html2image</artifactId>
+              <version>0.9</version>
+            </configuration>
+          </execution>-->
+          
+          <!-- LGPL licensed -->
+           <execution>
+            <id>install_jpedal</id>
+            <inherited>false</inherited>
+            <phase>clean</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>./ss-3rdpartylibs/libs/jpedal_lgpl.jar</file>
+              <groupId>jpedal</groupId>
+              <artifactId>jpedal_lgpl</artifactId>
+              <version>1</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </execution>
+          
+<!--          <execution>
+            <id>install_lingpipe</id>
+            <inherited>false</inherited>
+            <phase>clean</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>./ss-3rdpartylibs/libs/lingpipe-4.1.0.jar</file>
+              <groupId>lingpipe</groupId>
+              <artifactId>lingpipe-jar</artifactId>
+              <version>4.1.0</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </execution>-->
+          
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+    <ssVersion>1.0-SNAPSHOT</ssVersion>
+    <log4jVersion>1.2.17</log4jVersion>
+    <junitVersion>4.10</junitVersion>
+    <snakeyamlVersion>1.10</snakeyamlVersion>
+    <evernoteVersion>1.25.1</evernoteVersion>
+  </properties>
+
+  <modules>
+    <module>ss</module>
+    <module>ss-util</module>
+    <module>ss-adapter</module>
+    <module>ss-serv</module>
+    <module>ss-log</module>
+    <module>ss-datatypes</module>
+    <module>ss-conf</module>
+  </modules>
+  
+</project>
