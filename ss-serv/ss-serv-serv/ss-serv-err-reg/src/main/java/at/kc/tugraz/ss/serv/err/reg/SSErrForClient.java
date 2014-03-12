@@ -1,0 +1,160 @@
+/**
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package at.kc.tugraz.ss.serv.err.reg;
+
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SSErrForClient {
+
+  public final String    className;
+  public final String    message;
+  public final Long      threadWhereThrown;
+  public final String    classWhereThrown;
+  public final String    methodWhereThrown;
+  public final Integer   lineWhereThrown;
+  public final Exception exception;
+  
+  public static SSErrForClient get(Exception error) throws Exception{
+    return new SSErrForClient(error);
+  }
+  
+  private SSErrForClient(Exception error) throws Exception{
+    
+    if(
+      error            == null ||
+      error.getClass() == null){
+      SSServErrReg.regErrThrow(new Exception("client error cannot be set"));
+      throw null;
+    }
+    
+    this.exception = error;
+    this.className = error.getClass().getName();
+    this.message   = error.getMessage();
+    
+    threadWhereThrown  = Thread.currentThread().getId();
+    classWhereThrown   = Thread.currentThread().getStackTrace()[4].getClassName();
+    methodWhereThrown  = Thread.currentThread().getStackTrace()[4].getMethodName();
+    lineWhereThrown    = Thread.currentThread().getStackTrace()[4].getLineNumber();
+  }
+  
+  public static Boolean contains(List<SSErrForClient> errorsForClient, Exception error){
+    
+    if(errorsForClient == null){
+      return false;
+    }
+    
+    for(SSErrForClient errorForClient : errorsForClient){
+     
+      if(errorForClient.exception.equals(error)){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public static List<String> linesWhereThrown(List<SSErrForClient> errors) {
+    
+    List<String> linesWhereThrown = new ArrayList<String>();
+    
+    if(errors == null){
+      return linesWhereThrown;
+    }
+    
+    for(SSErrForClient error: errors){
+      linesWhereThrown.add(SSStrU.toString(error.lineWhereThrown));
+    }
+    
+    return linesWhereThrown;
+  }
+  
+  public static List<String> methodsWhereThrown(List<SSErrForClient> errors) {
+    
+    List<String> methodsWhereThrown = new ArrayList<String>();
+    
+    if(errors == null){
+      return methodsWhereThrown;
+    }
+    
+    for(SSErrForClient error: errors){
+      methodsWhereThrown.add(SSStrU.toString(error.methodWhereThrown));
+    }
+    
+    return methodsWhereThrown;
+  }
+  
+  public static List<String> classesWhereThrown(List<SSErrForClient> errors) {
+    
+    List<String> classesWhereThrown = new ArrayList<String>();
+    
+    if(errors == null){
+      return classesWhereThrown;
+    }
+    
+    for(SSErrForClient error: errors){
+      classesWhereThrown.add(SSStrU.toString(error.classWhereThrown));
+    }
+    
+    return classesWhereThrown;
+  }
+  
+  public static List<String> threadsWhereThrown(List<SSErrForClient> errors) {
+    
+    List<String> threadsWhereThrown = new ArrayList<String>();
+    
+    if(errors == null){
+      return threadsWhereThrown;
+    }
+    
+    for(SSErrForClient error: errors){
+      threadsWhereThrown.add(SSStrU.toString(error.threadWhereThrown));
+    }
+    
+    return threadsWhereThrown;
+  }
+  
+  public static List<String> messages(List<SSErrForClient> errors) {
+    
+    List<String> messages = new ArrayList<String>();
+    
+    if(errors == null){
+      return messages;
+    }
+    
+    for(SSErrForClient error: errors){
+      messages.add(error.message);
+    }
+    
+    return messages;
+  }
+  
+  public static List<String> classNames(List<SSErrForClient> errors) {
+    
+    List<String> classNames = new ArrayList<String>();
+    
+    if(errors == null){
+      return classNames;
+    }
+    
+    for(SSErrForClient error : errors){
+      classNames.add(error.className);
+    }
+    
+    return classNames;
+  }
+}
