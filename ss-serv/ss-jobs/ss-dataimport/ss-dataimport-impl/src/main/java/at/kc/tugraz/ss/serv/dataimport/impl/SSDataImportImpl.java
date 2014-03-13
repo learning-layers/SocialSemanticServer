@@ -174,6 +174,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           
           userName = userName.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty); 
           
+          System.out.println(userName);
+          
         }catch(Exception error){
           continue;
         }
