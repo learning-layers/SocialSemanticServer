@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,43 @@ import java.util.Map;
 
 public class SSRecommFct{
 
-  public static Boolean exportEntityTagTimestampCategoryCombinationsForAllUsers(
+  public static Boolean exportEntityTagCombinationsForAllUsers(
+     final String fileName) throws Exception {
+    
+    Boolean                   somethingExported = false;
+    Map<String, List<String>> tagsPerEntities;
+    
+    for(SSUri user : SSServCaller.getAllUsers()){
+      
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      
+      if(tagsPerEntities.isEmpty()){
+        continue;
+      }
+      
+      SSServCaller.dataExportUserEntityTags(
+        user,
+        tagsPerEntities,
+        fileName,
+        false);
+      
+      somethingExported = true;
+    }
+    
+    if(!somethingExported){
+      return false;
+    }
+    
+    SSServCaller.dataExportUserEntityTags(
+      null,
+      new HashMap<String, List<String>>(),
+      fileName,
+      true);
+    
+    return true;
+  }   
+  
+  public static Boolean exportEntityTagTimestampCombinationsForAllUsers(
     final String fileName) throws Exception {
     
     Boolean                   somethingExported = false;
@@ -45,7 +81,89 @@ public class SSRecommFct{
       //TODO dtheiler: provide various sortings by timestamps
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
-      SSServCaller.dataExportUserResourceTimestampTagsCategories(
+      SSServCaller.dataExportUserEntityTagTimestamps(
+        user,
+        tagsPerEntities,
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceEnum.sharedSpace),
+        fileName,
+        false);
+      
+      somethingExported = true;
+    }
+    
+    if(!somethingExported){
+      return false;
+    }
+    
+    SSServCaller.dataExportUserEntityTagTimestamps(
+      null,
+      new HashMap<String, List<String>>(),
+      null,
+      fileName,
+      true);
+    
+    return true;
+  }
+  
+  public static Boolean exportEntityTagCategoryCombinationsForAllUsers(
+    final String fileName) throws Exception {
+    
+    Boolean                   somethingExported = false;
+    Map<String, List<String>> tagsPerEntities;
+    
+    for(SSUri user : SSServCaller.getAllUsers()){
+      
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      
+      if(tagsPerEntities.isEmpty()){
+        continue;
+      }
+      
+      //TODO dtheiler: provide various sortings by timestamps
+      //TODO dtheiler: allow more than one file per algo
+      //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
+      SSServCaller.dataExportUserEntityTagCategories(
+        user,
+        tagsPerEntities,
+        SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
+        fileName,
+        false);
+      
+      somethingExported = true;
+    }
+    
+    if(!somethingExported){
+      return false;
+    }
+    
+    SSServCaller.dataExportUserEntityTagCategories(
+      null,
+      new HashMap<String, List<String>>(),
+      new HashMap<String, List<String>>(),
+      fileName,
+      true);
+    
+    return true;
+  }
+  
+  public static Boolean exportEntityTagCategoryTimestampCombinationsForAllUsers(
+    final String fileName) throws Exception {
+    
+    Boolean                   somethingExported = false;
+    Map<String, List<String>> tagsPerEntities;
+    
+    for(SSUri user : SSServCaller.getAllUsers()){
+      
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      
+      if(tagsPerEntities.isEmpty()){
+        continue;
+      }
+      
+      //TODO dtheiler: provide various sortings by timestamps
+      //TODO dtheiler: allow more than one file per algo
+      //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
+      SSServCaller.dataExportUserEntityTagCategoryTimestamps(
         user,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
@@ -60,7 +178,7 @@ public class SSRecommFct{
       return false;
     }
     
-    SSServCaller.dataExportUserResourceTimestampTagsCategories(
+    SSServCaller.dataExportUserEntityTagCategoryTimestamps(
       null,
       new HashMap<String, List<String>>(),
       new HashMap<String, List<String>>(),

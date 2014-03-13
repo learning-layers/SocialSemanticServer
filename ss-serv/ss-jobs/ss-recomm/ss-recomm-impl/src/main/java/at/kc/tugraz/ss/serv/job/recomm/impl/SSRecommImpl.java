@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,19 +27,14 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommBaseLevelLearningWithContextUpdatePar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommLanguageModelUpdatePar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsAdaptedPageRankPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsBaseLevelLearningWithContextPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsCollaborativeFilteringOnEntitySimilarityPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsCollaborativeFilteringOnUserSimilarityPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsFolkRankPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsLDAPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsLanguageModelPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsTemporalUsagePatternsPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersPar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersWithTimePar;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommThreeLayersUpdatePar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdatePar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsLanguageModelUpdateBasedOnUserEntityTagPar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampPar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsLanguageModelBasedOnUserEntityTagPar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryPar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampPar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdatePar;
+import at.kc.tugraz.ss.serv.job.recomm.datatypes.par.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdatePar;
 import at.kc.tugraz.ss.serv.job.recomm.impl.engine.BaseLevelLearningEngine;
 import at.kc.tugraz.ss.serv.job.recomm.impl.engine.LanguageModelEngine;
 import at.kc.tugraz.ss.serv.job.recomm.impl.engine.ThreeLayersEngine;
@@ -53,9 +48,11 @@ import java.util.List;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
-  private static final BaseLevelLearningEngine baseLevelLearningEngine = new BaseLevelLearningEngine();
-  private static final LanguageModelEngine     languageModelEngine     = new LanguageModelEngine();
-  private static final ThreeLayersEngine       threeLayersEngine       = new ThreeLayersEngine();
+  private static final BaseLevelLearningEngine recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp   = new BaseLevelLearningEngine();
+  private static final LanguageModelEngine     recommenderTagLanguageModelBasedOnUserEntityTag                = new LanguageModelEngine();
+  private static final ThreeLayersEngine       recommenderTagThreeLayersBasedOnUserEntityTagCategory          = new ThreeLayersEngine();
+  private static final ThreeLayersEngine       recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp = new ThreeLayersEngine();
+//  private static final ThreeLayersEngine       threeLayersEngine                                            = new ThreeLayersEngine();
   
   public SSRecommImpl(final SSServConfA conf) throws Exception{
     super(conf);
@@ -103,22 +100,22 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   
   /* SSRecommServerI */
   @Override
-  public void recommBaseLevelLearningWithContextUpdate(final SSServPar parA) throws Exception{
+  public void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate(final SSServPar parA) throws Exception{
     
-    final SSRecommBaseLevelLearningWithContextUpdatePar par        = new SSRecommBaseLevelLearningWithContextUpdatePar(parA);
-    final SSRecommConf                                  recommConf = (SSRecommConf) conf;
+    final SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdatePar par        = new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdatePar(parA);
+    final SSRecommConf                                                                   recommConf = (SSRecommConf) conf;
     
     try{
       
-      if(!SSRecommFct.exportEntityTagTimestampCategoryCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContext)){
+      if(!SSRecommFct.exportEntityTagTimestampCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp)){
         return;
       }
 
       try{
         
-        baseLevelLearningEngine.loadFile(
+        recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.loadFile(
           SSStrU.removeTrailingString(
-            recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContext,
+            recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,
             SSStrU.dot + SSFileExtU.txt));
         
       }catch(FileNotFoundException errFileNotFound){
@@ -131,65 +128,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public void recommLanguageModelUpdate(final SSServPar parA) throws Exception{
+  public List<SSTag> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(final SSServPar parA) throws Exception{
     
-    final SSRecommLanguageModelUpdatePar     par        = new SSRecommLanguageModelUpdatePar(parA);
-    final SSRecommConf                       recommConf = (SSRecommConf) conf;
-    
-    try{
-      
-      if(!SSRecommFct.exportEntityTagTimestampCategoryCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsLanguageModel)){
-        return;
-      }
-
-      try{
-        
-        languageModelEngine.loadFile(
-          SSStrU.removeTrailingString(
-            recommConf.fileNameForOpRecommTagsLanguageModel,
-            SSStrU.dot + SSFileExtU.txt));
-        
-      }catch(FileNotFoundException errFileNotFound){
-        SSLogU.warn("file not found for recommLanguageModelUpdate");
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void recommThreeLayersUpdate(final SSServPar parA) throws Exception{
-    
-    final SSRecommThreeLayersUpdatePar     par        = new SSRecommThreeLayersUpdatePar(parA);
-    final SSRecommConf                     recommConf = (SSRecommConf) conf;
-    
-    try{
-      
-      if(!SSRecommFct.exportEntityTagTimestampCategoryCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsThreeLayers)){
-        return;
-      }
-
-      try{
-        
-        threeLayersEngine.loadFile(
-          SSStrU.removeTrailingString(
-            recommConf.fileNameForOpRecommTagsThreeLayers,
-            SSStrU.dot + SSFileExtU.txt));
-        
-      }catch(FileNotFoundException errFileNotFound){
-        SSLogU.warn("file not found for recommThreeLayersUpdate");
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public List<SSTag> recommTagsBaseLevelLearningWithContext(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsBaseLevelLearningWithContextPar par = new SSRecommTagsBaseLevelLearningWithContextPar(parA);
+    final SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampPar par = new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampPar(parA);
     
     try{
       
@@ -197,7 +138,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       tags.addAll(
         SSTag.getDistinct(
-          baseLevelLearningEngine.getTags(
+          recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.getTags(
             SSUri.toStr(par.forUser),
             SSUri.toStr(par.entityUri),
             par.maxTags)));
@@ -213,16 +154,44 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public List<SSTag> recommTagsLanguageModel(final SSServPar parA) throws Exception{
+  public void recommTagsLanguageModelBasedOnUserEntityTagUpdate(final SSServPar parA) throws Exception{
     
-    final SSRecommTagsLanguageModelPar par = new SSRecommTagsLanguageModelPar(parA);
+    final SSRecommTagsLanguageModelUpdateBasedOnUserEntityTagPar     par        = new SSRecommTagsLanguageModelUpdateBasedOnUserEntityTagPar(parA);
+    final SSRecommConf                       recommConf = (SSRecommConf) conf;
+    
+    try{
+      
+      if(!SSRecommFct.exportEntityTagCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag)){
+        return;
+      }
+
+      try{
+        
+        recommenderTagLanguageModelBasedOnUserEntityTag.loadFile(
+          SSStrU.removeTrailingString(
+            recommConf.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag,
+            SSStrU.dot + SSFileExtU.txt));
+        
+      }catch(FileNotFoundException errFileNotFound){
+        SSLogU.warn("file not found for recommLanguageModelUpdate");
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public List<SSTag> recommTagsLanguageModelBasedOnUserEntityTag(final SSServPar parA) throws Exception{
+    
+    final SSRecommTagsLanguageModelBasedOnUserEntityTagPar par = new SSRecommTagsLanguageModelBasedOnUserEntityTagPar(parA);
     
     try{
       final List<SSTag> tags = new ArrayList<SSTag>();
       
       tags.addAll(
         SSTag.getDistinct(
-          languageModelEngine.getTags(
+          recommenderTagLanguageModelBasedOnUserEntityTag.getTags(
             SSUri.toStr (par.forUser),
             SSUri.toStr (par.entityUri),
             par.maxTags)));
@@ -238,16 +207,44 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public List<SSTag> recommTagsThreeLayers(final SSServPar parA) throws Exception{
+  public void recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate(final SSServPar parA) throws Exception{
     
-    final SSRecommTagsThreeLayersPar par = new SSRecommTagsThreeLayersPar(parA);
+    final SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdatePar     par        = new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdatePar(parA);
+    final SSRecommConf                     recommConf = (SSRecommConf) conf;
+    
+    try{
+      
+      if(!SSRecommFct.exportEntityTagCategoryCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory)){
+        return;
+      }
+
+      try{
+        
+        recommenderTagThreeLayersBasedOnUserEntityTagCategory.loadFile(
+          SSStrU.removeTrailingString(
+            recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory,
+            SSStrU.dot + SSFileExtU.txt));
+        
+      }catch(FileNotFoundException errFileNotFound){
+        SSLogU.warn("file not found for recommThreeLayersUpdate");
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategory(final SSServPar parA) throws Exception{
+    
+    final SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryPar par = new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryPar(parA);
     
     try{
       final List<SSTag> tags = new ArrayList<SSTag>();
       
       tags.addAll(
         SSTag.getDistinct(
-          threeLayersEngine.getTags(
+          recommenderTagThreeLayersBasedOnUserEntityTagCategory.getTags(
             SSUri.toStr (par.forUser),
             SSUri.toStr (par.entityUri),
             par.categories,
@@ -265,16 +262,44 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public List<SSTag> recommTagsThreeLayersWithTime(final SSServPar parA) throws Exception{
+  public void recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate(final SSServPar parA) throws Exception{
     
-    final SSRecommTagsThreeLayersWithTimePar par = new SSRecommTagsThreeLayersWithTimePar(parA);
+    final SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdatePar     par        = new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdatePar(parA);
+    final SSRecommConf                     recommConf = (SSRecommConf) conf;
+    
+    try{
+      
+      if(!SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp)){
+        return;
+      }
+
+      try{
+        
+        recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp.loadFile(
+          SSStrU.removeTrailingString(
+            recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp,
+            SSStrU.dot + SSFileExtU.txt));
+        
+      }catch(FileNotFoundException errFileNotFound){
+        SSLogU.warn("file not found for recommThreeLayersUpdate");
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(final SSServPar parA) throws Exception{
+    
+    final SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampPar par = new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampPar(parA);
     
     try{
       final List<SSTag> tags = new ArrayList<SSTag>();
       
       tags.addAll(
         SSTag.getDistinct(
-          threeLayersEngine.getTags(
+          recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp.getTags(
             SSUri.toStr (par.forUser),
             SSUri.toStr (par.entityUri),
             par.categories,
@@ -291,57 +316,58 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     }
   }
   
-  @Override
-  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsCollaborativeFilteringOnEntitySimilarityPar par = new SSRecommTagsCollaborativeFilteringOnEntitySimilarityPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-  
-  @Override 
-  public List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsCollaborativeFilteringOnUserSimilarityPar par = new SSRecommTagsCollaborativeFilteringOnUserSimilarityPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-   
-  @Override 
-  public List<SSTag> recommTagsAdaptedPageRank(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsAdaptedPageRankPar par = new SSRecommTagsAdaptedPageRankPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-    
-  @Override 
-  public List<SSTag> recommTagsFolkRank(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsFolkRankPar par = new SSRecommTagsFolkRankPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-  
-  @Override 
-  public List<SSTag> recommTagsLDA(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsLDAPar par = new SSRecommTagsLDAPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-  
-  @Override 
-  public List<SSTag> recommTagsTemporalUsagePatterns(final SSServPar parA) throws Exception{
-    
-    final SSRecommTagsTemporalUsagePatternsPar par = new SSRecommTagsTemporalUsagePatternsPar(parA);
-    
-    throw new UnsupportedOperationException();
-  }
-  
-  
-  
-  //  @Override
+}
+
+
+//  @Override
+//  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsCollaborativeFilteringOnEntitySimilarityPar par = new SSRecommTagsCollaborativeFilteringOnEntitySimilarityPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+//  
+//  @Override 
+//  public List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsCollaborativeFilteringOnUserSimilarityPar par = new SSRecommTagsCollaborativeFilteringOnUserSimilarityPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+//   
+//  @Override 
+//  public List<SSTag> recommTagsAdaptedPageRank(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsAdaptedPageRankPar par = new SSRecommTagsAdaptedPageRankPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+//    
+//  @Override 
+//  public List<SSTag> recommTagsFolkRank(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsFolkRankPar par = new SSRecommTagsFolkRankPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+//  
+//  @Override 
+//  public List<SSTag> recommTagsLDA(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsLDAPar par = new SSRecommTagsLDAPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+//  
+//  @Override 
+//  public List<SSTag> recommTagsTemporalUsagePatterns(final SSServPar parA) throws Exception{
+//    
+//    final SSRecommTagsTemporalUsagePatternsPar par = new SSRecommTagsTemporalUsagePatternsPar(parA);
+//    
+//    throw new UnsupportedOperationException();
+//  }
+
+ //  @Override
   //  public void recommWriteMetricsMulan(SSServPar parA) throws Exception{
   //
   //    SSRecommWriteMetricsMulanPar par = new SSRecommWriteMetricsMulanPar(parA);
@@ -813,4 +839,3 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
 //    SSLogU.logInfo("Tag-Assignments: " + tagAssignments);
 //    SSLogU.logInfo("Max P@10: " + tagAssignments / users / 10);
 //  }
-}

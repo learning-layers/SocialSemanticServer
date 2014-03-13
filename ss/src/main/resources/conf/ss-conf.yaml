@@ -149,31 +149,10 @@ recommConf: #files have to be provided in sss's_working_dir/data/csv/
   executeOpAtStartUp: false
   op:
   initAtStartUp: true # true, false
-  rPath: #/usr/bin/, C:\\Program Files\\R\\R-2.15.3\\bin\\
-  fileNameForOpRecommTagsTemporalUsagePatterns:
-  fileNameForOpRecommTagsThreeLayers:
-  fileNameForOpRecommTagsLDA:
-  fileNameForOpRecommTagsFolkRank:
-  fileNameForOpRecommTagsAdaptedPageRank:
-  fileNameForOpRecommTagsCollaborativeFilteringOnUserSimilarity:
-  fileNameForOpRecommTagsCollaborativeFilteringOnEntitySimilarity:
-  fileNameForOpRecommTagsBaseLevelLearningWithContext: entityTagTimestampCategoryPerUser
-  fileNameForOpRecommTagsLanguageModel: entityTagTimestampCategoryPerUser
-  dataSetShortName: #cul, wiki, flickr,	nytimes, youtube, bib, lastfm, del, culdb
-  sampleCount:
-  betaUpperBound:
-  prefix:
-  posfix:
-  userLevel:
-  resourceLevel:
-  tagLevel:  
-  predictTags:
-  topics:
-  neighbors: 
-  modelBeta: 
-  dUpperBound:
-  k:
-  tableName:
+  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp:
+  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: 
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory:
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp:
 fileSysLocalConf:
   use: true
   executeOpAtStartUp: false

@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class SSScaffTester extends Thread{
     }      
     
     switch(scaffConf.op){
-      case scaffRecommTags: new Thread(new SSScaffRecommTagsTest(scaffConf)).start(); break;
+      case scaffRecommTagsBasedOnUserEntityTag: new Thread(new SSScaffRecommTagsBasedOnUserEntityTagTimeTest(scaffConf)).start(); break;
     }
   } 
 }

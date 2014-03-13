@@ -18,9 +18,10 @@ package at.kc.tugraz.ss.serv.job.recomm.serv;
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.job.recomm.impl.SSRecommImpl;
-import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommBaseLevelLearningWithContextUpdateTask;
-import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommLanguageModelUpdateTask;
-import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommThreeLayersUpdateTask;
+import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdateTask;
+import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsLanguageModelBasedOnUserEntityTagUpdateTask;
+import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdateTask;
+import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdateTask;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -43,23 +44,29 @@ public class SSRecommServ extends SSServA{
     }
     
     if(!((SSRecommConf)servConf).initAtStartUp){
-      SSServCaller.recommBaseLevelLearningWithContextUpdate();
-      SSServCaller.recommLanguageModelUpdate();
-      SSServCaller.recommThreeLayersUpdate();
+      SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate();
+      SSServCaller.recommTagsLanguageModelBasedOnUserEntityTagUpdate();
+      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate();
+      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate();
     }
 
     SSDateU.scheduleAtFixedRate(
-      new SSRecommBaseLevelLearningWithContextUpdateTask(),
+      new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdateTask(),
       SSDateU.getDateForTomorrowMorning(),
       SSDateU.dayInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
-      new SSRecommLanguageModelUpdateTask(),
+      new SSRecommTagsLanguageModelBasedOnUserEntityTagUpdateTask(),
       SSDateU.getDateForTomorrowMorning(),
       SSDateU.dayInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
-      new SSRecommThreeLayersUpdateTask(),
+      new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdateTask(),
+      SSDateU.getDateForTomorrowMorning(),
+      SSDateU.dayInMilliSeconds);
+    
+    SSDateU.scheduleAtFixedRate(
+      new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdateTask(),
       SSDateU.getDateForTomorrowMorning(),
       SSDateU.dayInMilliSeconds);
   }
@@ -73,8 +80,9 @@ public class SSRecommServ extends SSServA{
       return;
     }
     
-    SSServCaller.recommBaseLevelLearningWithContextUpdate();
-    SSServCaller.recommLanguageModelUpdate();
-    SSServCaller.recommThreeLayersUpdate();
+    SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate();
+    SSServCaller.recommTagsLanguageModelBasedOnUserEntityTagUpdate();
+    SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate();
+    SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate();
   }
 }

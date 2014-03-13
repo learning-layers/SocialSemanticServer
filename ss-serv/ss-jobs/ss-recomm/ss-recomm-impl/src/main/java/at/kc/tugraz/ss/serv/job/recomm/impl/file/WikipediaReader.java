@@ -1,7 +1,6 @@
 package at.kc.tugraz.ss.serv.job.recomm.impl.file;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.recomm.impl.common.UserData;
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,7 +59,7 @@ public class WikipediaReader {
     while ((line = br.readLine()) != null) {
       lineParts = line.split(";");
       if (lineParts.length < 4) {
-        System.out.println("Line too short: " + this.userLines.size());
+//        System.out.println("Line too short: " + this.userLines.size());
         continue;
       }
       processUserData(userID, userData, tags, categories, wikiID);

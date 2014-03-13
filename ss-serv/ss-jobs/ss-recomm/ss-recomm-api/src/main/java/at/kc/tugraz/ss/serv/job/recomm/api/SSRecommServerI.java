@@ -21,22 +21,22 @@ import java.util.List;
 
 public interface SSRecommServerI{
 
-  public List<SSTag> recommTagsBaseLevelLearningWithContext             (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsLanguageModel                            (final SSServPar parA) throws Exception;
+  public List<SSTag> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp                 (final SSServPar parA) throws Exception;
+  public void        recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate           (final SSServPar parA) throws Exception;
+  public List<SSTag> recommTagsLanguageModelBasedOnUserEntityTag                                         (final SSServPar parA) throws Exception;
+  public void        recommTagsLanguageModelBasedOnUserEntityTagUpdate                                   (final SSServPar parA) throws Exception;
+  public List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategory                                   (final SSServPar parA) throws Exception;
+  public void        recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate                             (final SSServPar parA) throws Exception;
+  public List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                          (final SSServPar parA) throws Exception;  
+  public void        recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate                    (final SSServPar parA) throws Exception;  
   
-  public void        recommBaseLevelLearningWithContextUpdate           (final SSServPar parA) throws Exception;
-  public void        recommLanguageModelUpdate                          (final SSServPar parA) throws Exception;
-  public void        recommThreeLayersUpdate                            (final SSServPar parA) throws Exception;
   
-  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity   (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsAdaptedPageRank                          (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsFolkRank                                 (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsLDA                                      (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsThreeLayers                              (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsThreeLayersWithTime                      (final SSServPar parA) throws Exception;
-  public List<SSTag> recommTagsTemporalUsagePatterns                    (final SSServPar parA) throws Exception;
-  
+//  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity (final SSServPar parA) throws Exception;
+//  public List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity   (final SSServPar parA) throws Exception;
+//  public List<SSTag> recommTagsAdaptedPageRank                          (final SSServPar parA) throws Exception;
+//  public List<SSTag> recommTagsFolkRank                                 (final SSServPar parA) throws Exception;
+//  public List<SSTag> recommTagsLDA                                      (final SSServPar parA) throws Exception;
+//  public List<SSTag> recommTagsTemporalUsagePatterns                    (final SSServPar parA) throws Exception;
 //  public void          recommSplitSample                (SSServPar parA)     throws Exception;
 //  public List<Integer> recommBetaValues                 (SSServPar parI)     throws Exception;
 //  public void          recommTrainTestSize              (SSServPar parA)     throws Exception;

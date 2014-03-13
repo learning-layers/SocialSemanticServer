@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.SSRecommAlgoE;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -920,10 +919,8 @@ public class SSServCaller {
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collUserEntriesDelete, opPars));
   }
 
-  /******* solr **********************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /* solr */
+
   public static List<String> solrSearch(
     final SSSolrKeywordLabel keyword,
     final Integer            maxResults) throws Exception{
@@ -950,10 +947,8 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.solrAddDoc, opPars));
   }
   
-  /******* disc **********************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /* disc */
+
   public static List<SSUri> discUrisForTarget(
     final SSUri   userUri,
     final SSUri   entityUri) throws Exception{
@@ -978,10 +973,8 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.discUserRemove, opPars));
   }
   
-  /******* rating **********************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /* rating */
+
   public static SSRatingOverall ratingOverallGet(
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
@@ -1020,10 +1013,8 @@ public class SSServCaller {
     return (Integer) SSServA.callServViaServer(new SSServPar(SSMethU.ratingUserGet, opPars));
   }
   
-  /******* entity **********************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /* entity */
+
   public static Long entityCreationTimeGet(final SSUri entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1139,10 +1130,8 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.uEAdd, opPars));
   }
   
-  /******* modeling user event ********************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /* modeling user event */
+
   public static List<SSUri> modelUEEntitiesForMiGet(
     final SSUri            userUri, 
     final SSModelUEMILabel mi) throws Exception{
@@ -1171,11 +1160,60 @@ public class SSServCaller {
     return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.modelUEMIsForEntityGet, opPars));
   }
   
-  /******* data export ****************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
-  public static void dataExportUserResourceTimestampTagsCategories(
+  /* data export **/
+  public static void dataExportUserEntityTags(
+    final SSUri                     user,
+    final Map<String, List<String>> tagsPerEntities,
+    final String                    fileName,
+    final Boolean                   wasLastLine) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,              fileName);
+    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
+    opPars.put(SSVarU.user,                  user);
+    opPars.put(SSVarU.wasLastLine,           wasLastLine);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTags, opPars));
+  }
+  
+  public static void dataExportUserEntityTagTimestamps(
+    final SSUri                     user,
+    final Map<String, List<String>> tagsPerEntities,
+    final Long                      timestampForTag,
+    final String                    fileName,
+    final Boolean                   wasLastLine) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,              fileName);
+    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
+    opPars.put(SSVarU.user,                  user);
+    opPars.put(SSVarU.timestamp,             timestampForTag);
+    opPars.put(SSVarU.wasLastLine,           wasLastLine);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagTimestamps, opPars));
+  }
+  
+  public static void dataExportUserEntityTagCategories(
+    final SSUri                     user,
+    final Map<String, List<String>> tagsPerEntities,
+    final Map<String, List<String>> categoriesPerEntities,
+    final String                    fileName,
+    final Boolean                   wasLastLine) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,              fileName);
+    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
+    opPars.put(SSVarU.categoriesPerEntities, categoriesPerEntities);
+    opPars.put(SSVarU.user,                  user);
+    opPars.put(SSVarU.wasLastLine,           wasLastLine);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategories, opPars));
+  }
+  
+  public static void dataExportUserEntityTagCategoryTimestamps(
     final SSUri                     user,
     final Map<String, List<String>> tagsPerEntities,
     final Map<String, List<String>> categoriesPerEntities,
@@ -1192,13 +1230,11 @@ public class SSServCaller {
     opPars.put(SSVarU.timestamp,             timestampForTag);
     opPars.put(SSVarU.wasLastLine,           wasLastLine);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserResourceTimestampTagsCategories, opPars));
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
   
-  /******* tag ************************************/
-  /************************************************/
-  /************************************************/
-  /************************************************/
+  /*  tag  */
+ 
   public static void tagsAdd(final SSUri userUri, 
     final SSUri            entityUri, 
     final List<SSTagLabel> tagList, 
@@ -1363,7 +1399,7 @@ public class SSServCaller {
   
   /* recommendation */
   
-  public static List<SSTag> recommTagsLanguageModel(
+   public static List<SSTag> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1376,26 +1412,14 @@ public class SSServCaller {
     opPars.put(SSVarU.entityUri,      entityUri);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModel, opPars));
+    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
   }
   
-  public static List<SSTag> recommTagsBaseLevelLearningWithContext(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContext, opPars));
+  public static void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate, new HashMap<String, Object>()));
   }
   
-  public static List<SSTag> recommTagsFolkRank(
+  public static List<SSTag> recommTagsLanguageModelBasedOnUserEntityTag(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1408,45 +1432,18 @@ public class SSServCaller {
     opPars.put(SSVarU.entityUri,      entityUri);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsFolkRank, opPars));
+    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTag, opPars));
   }
   
-  public static List<SSTag> recommTagsLDA(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLDA, opPars));
-  }
-    
-  public static List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsCollaborativeFilteringOnUserSimilarity, opPars));
+  public static void recommTagsLanguageModelBasedOnUserEntityTagUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTagUpdate, new HashMap<String, Object>()));
   }
   
-  public static List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity(
+  public static List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategory(
     final SSUri         userUri, 
     final SSUri         forUser, 
-    final SSUri         entityUri, 
+    final SSUri         entityUri,
+    final List<String>  categories,
     final Integer       maxTags) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1454,28 +1451,18 @@ public class SSServCaller {
     opPars.put(SSVarU.user,           userUri);
     opPars.put(SSVarU.forUser,        forUser);
     opPars.put(SSVarU.entityUri,      entityUri);
+    opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsCollaborativeFilteringOnEntitySimilarity, opPars));
+    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategory, opPars));
   }
   
-  public static List<SSTag> recommTagsAdaptedPageRank(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsAdaptedPageRank, opPars));
+  public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate, new HashMap<String, Object>()));
   }
-
-  public static List<SSTag> recommTagsThreeLayers(
+  
+  
+  public static List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1490,53 +1477,11 @@ public class SSServCaller {
     opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayers, opPars));
+    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp, opPars));
   }
   
-  public static List<SSTag> recommTagsThreeLayersWithTime(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final List<String>  categories,
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.categories,     categories);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersWithTime, opPars));
-  }
-  
-  public static List<SSTag> recommTagsTemporalUsagePatterns(
-    final SSUri         userUri, 
-    final SSUri         forUser, 
-    final SSUri         entityUri, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entityUri,      entityUri);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsTemporalUsagePatterns, opPars));
-  }
-
-  public static void recommBaseLevelLearningWithContextUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommBaseLevelLearningWithContextUpdate, new HashMap<String, Object>()));
-  }
-  
-  public static void recommLanguageModelUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommLanguageModelUpdate, new HashMap<String, Object>()));
-  }
-  
-  public static void recommThreeLayersUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommThreeLayersUpdate, new HashMap<String, Object>()));
+  public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate, new HashMap<String, Object>()));
   }
   
   /* file */
@@ -1619,22 +1564,72 @@ public class SSServCaller {
   
   /* scaff */
   
-  public static List<String> scaffRecommTags(
+  public static List<String> scaffRecommTagsBasedOnUserEntityTag(
     final SSUri         userUri,
+    final SSUri         forUserUri,
+    final SSUri         entityUri,
+    final Integer       maxTags) throws  Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.forUserUri,   forUserUri);
+    opPars.put(SSVarU.entityUri,    entityUri);
+    opPars.put(SSVarU.maxTags,      maxTags);
+    
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTag, opPars));
+  }
+  
+  public static List<String> scaffRecommTagsBasedOnUserEntityTagTime(
+    final SSUri         userUri,
+    final SSUri         forUserUri,
+    final SSUri         entityUri,
+    final Integer       maxTags) throws  Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,        userUri);
+    opPars.put(SSVarU.forUserUri,  forUserUri);
+    opPars.put(SSVarU.entityUri,   entityUri);
+    opPars.put(SSVarU.maxTags,     maxTags);
+    
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagTime, opPars));
+  }
+  
+  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategory(
+    final SSUri         userUri,
+    final SSUri         forUserUri,
     final SSUri         entityUri,
     final List<String>  categories,
-    final Integer       maxTags,
-    final SSRecommAlgoE algo) throws  Exception{
+    final Integer       maxTags) throws  Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,       userUri);
-    opPars.put(SSVarU.resource,   entityUri);
+    opPars.put(SSVarU.forUserUri, forUserUri);
+    opPars.put(SSVarU.entityUri,  entityUri);
     opPars.put(SSVarU.categories, categories);
     opPars.put(SSVarU.maxTags,    maxTags);
-    opPars.put(SSVarU.algo,       algo);
     
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTags, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory, opPars));
+  }
+  
+  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(
+    final SSUri         userUri,
+    final SSUri         forUserUri,
+    final SSUri         entityUri,
+    final List<String>  categories,
+    final Integer       maxTags) throws  Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,       userUri);
+    opPars.put(SSVarU.forUserUri, forUserUri);
+    opPars.put(SSVarU.entityUri,  entityUri);
+    opPars.put(SSVarU.categories, categories);
+    opPars.put(SSVarU.maxTags,    maxTags);
+    
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime, opPars));
   }
   
   /* data import */
@@ -1676,3 +1671,101 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
   }
 }
+
+
+
+//public static List<SSTag> recommTagsFolkRank(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsFolkRank, opPars));
+//  }
+//  
+//  public static List<SSTag> recommTagsLDA(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLDA, opPars));
+//  }
+//    
+//  public static List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsCollaborativeFilteringOnUserSimilarity, opPars));
+//  }
+//  
+//  public static List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsCollaborativeFilteringOnEntitySimilarity, opPars));
+//  }
+//  
+//  public static List<SSTag> recommTagsAdaptedPageRank(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsAdaptedPageRank, opPars));
+//  }
+
+//public static List<SSTag> recommTagsTemporalUsagePatterns(
+//    final SSUri         userUri, 
+//    final SSUri         forUser, 
+//    final SSUri         entityUri, 
+//    final Integer       maxTags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<String, Object>();
+//    
+//    opPars.put(SSVarU.user,           userUri);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entityUri,      entityUri);
+//    opPars.put(SSVarU.maxTags,        maxTags);
+//    
+//    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsTemporalUsagePatterns, opPars));
+//  }

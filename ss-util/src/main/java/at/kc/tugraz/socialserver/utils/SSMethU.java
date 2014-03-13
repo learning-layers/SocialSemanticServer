@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,10 @@ public enum SSMethU{
   learnEpVersionGetTimelineState                      ,
   
   //data export
-  dataExportUserResourceTimestampTagsCategories       ,
+  dataExportUserEntityTags                            ,
+  dataExportUserEntityTagTimestamps                   ,
+  dataExportUserEntityTagCategories                   ,
+  dataExportUserEntityTagCategoryTimestamps           ,
   
   //file sys
   fileSysLocalFormatAudioAndVideoFileNamesInDir       ,
@@ -126,7 +129,10 @@ public enum SSMethU{
   ratingsUserRemove                                   ,
   
   //scaff
-  scaffRecommTags                                     ,
+  scaffRecommTagsBasedOnUserEntityTag                 ,
+  scaffRecommTagsBasedOnUserEntityTagTime             ,
+  scaffRecommTagsBasedOnUserEntityTagCategory         ,
+  scaffRecommTagsBasedOnUserEntityTagCategoryTime     ,
   
   //model ue
   modelUEUpdate                                       ,
@@ -213,21 +219,22 @@ public enum SSMethU{
   collUserCumulatedTagsGet                            ,
   
   //recomm
-  recommTagsBaseLevelLearningWithContext,
-  recommTagsLanguageModel,
-  recommTagsThreeLayers,
+  recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,
+  recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate,
+  recommTagsLanguageModelBasedOnUserEntityTag,
+  recommTagsLanguageModelBasedOnUserEntityTagUpdate,
+  recommTagsThreeLayersBasedOnUserEntityTagCategory,
+  recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate,
+  recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp,
+  recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate;
   
-  recommTagsCollaborativeFilteringOnUserSimilarity,
-  recommTagsCollaborativeFilteringOnEntitySimilarity,
-  recommTagsAdaptedPageRank,
-  recommTagsThreeLayersWithTime,
-  recommTagsTemporalUsagePatterns,
-  recommTagsFolkRank,
-  recommTagsLDA,
-  
-  recommLanguageModelUpdate,
-  recommBaseLevelLearningWithContextUpdate,
-  recommThreeLayersUpdate;
+//  recommTagsCollaborativeFilteringOnUserSimilarity,
+//  recommTagsCollaborativeFilteringOnEntitySimilarity,
+//  recommTagsAdaptedPageRank,
+//  recommTagsThreeLayersWithTime,
+//  recommTagsTemporalUsagePatterns,
+//  recommTagsFolkRank,
+//  recommTagsLDA;
 //  recommTags                                          ,
 //  recommCreateLDASamples                              ,
   //  recommWriteMetricsMulan                        ,

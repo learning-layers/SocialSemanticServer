@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -547,9 +547,33 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "scaffRecommTags")
-  public String scaffRecommTags(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTags);
+  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTag")
+  public String scaffRecommTagsBasedOnUserEntityTag(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTag);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagTime")
+  public String scaffRecommTagsBasedOnUserEntityTagTime(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagTime);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagCategory")
+  public String scaffRecommTagsBasedOnUserEntityTagCategory(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagCategoryTime")
+  public String scaffRecommTagsBasedOnUserEntityTagCategoryTime(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime);
   }
   
   @POST

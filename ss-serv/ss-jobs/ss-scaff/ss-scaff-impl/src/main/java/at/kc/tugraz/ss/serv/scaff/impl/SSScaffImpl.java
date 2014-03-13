@@ -1,5 +1,5 @@
  /**
-  * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+  * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
   * you may not use this file except in compliance with the License.
@@ -20,10 +20,11 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffClientI;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffServerI;
-import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.recomm.datatypes.SSRecommAlgoE;
+import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagCategoryPar;
+import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar;
+import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagPar;
+import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagTimePar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -81,62 +82,96 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
   /* SSScaffClientI */
   
   @Override
-  public void scaffRecommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void scaffRecommTagsBasedOnUserEntityTag(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTags(parA), parA.op));
+    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTag(parA), parA.op));
+  }
+  
+  @Override
+  public void scaffRecommTagsBasedOnUserEntityTagTime(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagTime(parA), parA.op));
+  }
+  
+  @Override
+  public void scaffRecommTagsBasedOnUserEntityTagCategory(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagCategory(parA), parA.op));
+  }
+  
+  @Override
+  public void scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagCategoryTime(parA), parA.op));
   }
   
   /* SSScaffServerI */
   
   @Override
-  public List<String> scaffRecommTags(final SSServPar parA) throws Exception{
+  public List<String> scaffRecommTagsBasedOnUserEntityTag(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsPar par = new SSScaffRecommTagsPar(parA);
+    final SSScaffRecommTagsBasedOnUserEntityTagPar par = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
     
-    try{
+    return SSTag.toDistinctStringArray(
+      SSServCaller.recommTagsLanguageModelBasedOnUserEntityTag(
+        par.user,
+        par.forUserUri,
+        par.entityUri,
+        par.maxTags));
+  }
+  
+  @Override
+  public List<String> scaffRecommTagsBasedOnUserEntityTagTime(final SSServPar parA) throws Exception{
+    
+    final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
+    
+    return SSTag.toDistinctStringArray(
+      SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
+        par.user,
+        par.forUserUri,
+        par.entityUri,
+        par.maxTags));
+    
+  }
+  
+  @Override
+  public List<String> scaffRecommTagsBasedOnUserEntityTagCategory(final SSServPar parA) throws Exception{
+    
+    final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
       
-      if(par.algo == null){
-        par.algo = SSRecommAlgoE.languageModelForTags;
-      }
-      
-      switch(par.algo){
-        
-        case languageModelForTags:
-          return SSTag.toDistinctStringArray(
-            SSServCaller.recommTagsLanguageModel(
-              par.user,
-              par.forUser,
-              par.resource,
-              par.maxTags));
-          
-        case baseLevelLearningWithContextForTags:
-          return SSTag.toDistinctStringArray(
-            SSServCaller.recommTagsBaseLevelLearningWithContext(
-              par.user,
-              par.forUser,
-              par.resource,
-              par.maxTags));
-          
-        case threeLayersForTags:
-          return SSTag.toDistinctStringArray(
-            SSServCaller.recommTagsThreeLayers(
-              par.user,
-              par.forUser,
-              par.resource,
-              par.categories,
-              par.maxTags));
-          
-        case threeLayersWithTimeForTags:
-          return SSTag.toDistinctStringArray(
-            SSServCaller.recommTagsThreeLayersWithTime(
-              par.user,
-              par.forUser,
-              par.resource,
-              par.categories,
-              par.maxTags));
-          
+    return SSTag.toDistinctStringArray(
+      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategory(
+        par.user,
+        par.forUserUri,
+        par.entityUri,
+        par.categories,
+        par.maxTags));
+  }
+  
+  @Override
+  public List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSServPar parA) throws Exception{
+    
+    final SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(parA);
+    
+    return SSTag.toDistinctStringArray(
+      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
+        par.user,
+        par.forUserUri,
+        par.entityUri,
+        par.categories,
+        par.maxTags));
+  }
+}
+
+  
 //        case collaborativeFilteringOnEntitySimilarityForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsCollaborativeFilteringOnEntitySimilarity(
@@ -184,13 +219,3 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-          
-        default:
-          throw new Exception("recommendation of tags for " + par.algo + " algorithm not available");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-}
