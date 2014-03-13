@@ -19,6 +19,7 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSAuthServ extends SSServA{
   
@@ -33,5 +34,13 @@ public class SSAuthServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    
+    if(!servConf.use){
+      return;
+    }
+    
+    switch(((SSAuthConf)servConf).authType){
+      case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(); break;
+    }
   }
 }

@@ -20,26 +20,18 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 public enum SSAuthEnum {
   
   wikiAuth, 
-  noAuth;
+  noAuth,
+  csvFileAuth;
   
-  public static SSAuthEnum get(String type) {
+  public static SSAuthEnum get(final String type) {
     return SSAuthEnum.valueOf(type);
   }
     
-  public static boolean isNotSame(
-    SSAuthEnum type1, 
-    SSAuthEnum type2){
+  public static Boolean isSame(
+    final SSAuthEnum type1, 
+    final SSAuthEnum type2){
     
-    return !isSame(type1, type2);
-  }
-  
-  public static boolean isSame(
-    SSAuthEnum type1, 
-    SSAuthEnum type2){
-    
-    if(
-      SSObjU.isNull(type1) ||
-      SSObjU.isNull(type2)){
+    if(SSObjU.isNull(type1, type2)){
       return false;
     }
     

@@ -52,19 +52,6 @@ import java.util.Map;
 
 public class SSServCaller {
   
-  public static void checkKey(final SSServPar par) throws Exception{
-    
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    try{
-      opPars.put(SSVarU.key, par.key);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static SSUri createLearnEp(SSUri userUri, SSLabelStr label, SSSpaceEnum space, Boolean shouldCommit) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1662,5 +1649,30 @@ public class SSServCaller {
     opPars.put(SSVarU.user,             userUri);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.dataImportUserResourceTagFromWikipedia, opPars));
+  }
+  
+  public static Map<String, String> dataImportSSSUsersFromCSVFile( 
+    final String fileName) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,     fileName);
+    
+    return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.dataImportSSSUsersFromCSVFile, opPars));
+  }
+  
+  /* auth */
+  
+  public static void authUsersFromCSVFileAdd() throws Exception{
+    SSServA.callServViaServer(new SSServPar(SSMethU.authUsersFromCSVFileAdd, new HashMap<String, Object>()));
+  }
+    
+  public static void checkKey(final SSServPar par) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.key, par.key);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
   }
 }

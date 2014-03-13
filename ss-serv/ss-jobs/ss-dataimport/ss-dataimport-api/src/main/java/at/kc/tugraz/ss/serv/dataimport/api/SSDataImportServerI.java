@@ -16,10 +16,12 @@
  package at.kc.tugraz.ss.serv.dataimport.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import java.util.Map;
 
 public interface SSDataImportServerI {
   
-  public Boolean dataImportUserResourceTagFromWikipedia (final SSServPar parA) throws Exception;
-  public void    dataImportEvernote                     (final SSServPar parA) throws Exception;
-  public void    dataImportMediaWikiUser                (final SSServPar parA) throws Exception;
+  public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws Exception;
+  public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
+  public void                dataImportEvernote                       (final SSServPar parA) throws Exception;
+  public void                dataImportMediaWikiUser                  (final SSServPar parA) throws Exception;
 }

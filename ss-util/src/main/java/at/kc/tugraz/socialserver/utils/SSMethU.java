@@ -169,6 +169,7 @@ public enum SSMethU{
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,
+  dataImportSSSUsersFromCSVFile                       ,
   dataImportEvernote                                  ,
   dataImportMediaWikiUser,
   
@@ -186,8 +187,10 @@ public enum SSMethU{
   broadcastUpdateTimeGet                              ,
   
   //auth
+  authUsersFromCSVFileAdd                             ,
   authCheckCred                                       ,
   authCheckKey                                        ,
+  
   
   //coll
   collUserRootGet                                     ,

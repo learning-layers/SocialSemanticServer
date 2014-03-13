@@ -21,7 +21,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSAuthCheckCredPar extends SSServPar{
   
-  public String pass     = null;
+  public String userLabel  = null;
+  public String pass       = null;
   
   public SSAuthCheckCredPar(SSServPar par) throws Exception{
     
@@ -30,11 +31,13 @@ public class SSAuthCheckCredPar extends SSServPar{
     try{
       
       if(pars != null){
-        pass = (String) pars.get(SSVarU.pass);
+        userLabel = (String) pars.get(SSVarU.userLabel);
+        pass      = (String) pars.get(SSVarU.pass);
       }
       
       if(clientPars != null){
-        pass = (String) clientPars.get(SSVarU.pass);
+        userLabel = clientPars.get(SSVarU.userLabel);
+        pass =      clientPars.get(SSVarU.pass);
       }
       
     }catch(Exception error){

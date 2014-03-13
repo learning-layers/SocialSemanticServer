@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
@@ -35,20 +34,22 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
+import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import au.com.bytecode.opencsv.CSVReader;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
@@ -104,9 +105,41 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   
   /* SSDataImportServerI */
   @Override
+  public Map<String, String> dataImportSSSUsersFromCSVFile(final SSServPar parA) throws Exception{
+    
+    final SSDataImportSSSUsersFromCSVFilePar par = new SSDataImportSSSUsersFromCSVFilePar(parA);
+    final List<String[]>                     lines;
+    
+    try{
+      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+      
+    final Map<String, String> passwordPerUser = new HashMap<String, String>();
+    
+    try{
+      
+      for(String[] line : lines){
+
+        try{
+          passwordPerUser.put(line[0].trim(), line[1].trim());
+        }catch(Exception error){
+        }
+      }
+      
+      return passwordPerUser;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void dataImportEvernote(final SSServPar parA) throws Exception{
     
-    SSDataImportEvernotePar par                 = new SSDataImportEvernotePar(parA);
+    final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
     
     try{
       
@@ -125,34 +158,13 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   public void dataImportMediaWikiUser(final SSServPar parA) throws Exception{
 
     final SSDataImportMediaWikiUserPar par         = new SSDataImportMediaWikiUserPar(parA);
-    final List<String[]>               lines       = new ArrayList<String[]>();
-    FileInputStream                    in          = null;   
-    InputStreamReader                  reader      = null;
-    CSVReader                          csvReader   = null;
+    final List<String[]>               lines;
     
     try{
-      in        = SSFileU.openFileForRead (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
-      reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8));
-      csvReader = new CSVReader           (reader, SSStrU.semiColon.charAt(0));
-      
-      lines.addAll(csvReader.readAll());
-      
-      csvReader.close();
+      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(in != null){
-        in.close();
-      }
-      
-      if(reader != null){
-        reader.close();
-      }
-      
-      if(csvReader != null){
-        csvReader.close();
-      }
+      return;
     }
     
     String firstName;

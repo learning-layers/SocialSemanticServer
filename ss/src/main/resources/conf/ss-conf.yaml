@@ -79,7 +79,8 @@ authConf:
   use: true
   executeOpAtStartUp: false
   op: 
-  authType: noAuth #noAuth
+  authType: noAuth #noAuth, csvFileAuth
+  fileName:
 scaffConf:
   use: true
   executeOpAtStartUp: false

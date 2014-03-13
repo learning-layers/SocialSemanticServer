@@ -18,6 +18,12 @@
   <dependencies>
    
     <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.caller</groupId>
+      <artifactId>ss-serv-caller</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-serv-err-reg</artifactId>
       <version>${project.version}</version>

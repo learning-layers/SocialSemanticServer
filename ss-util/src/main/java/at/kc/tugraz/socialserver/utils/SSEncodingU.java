@@ -18,9 +18,9 @@ package at.kc.tugraz.socialserver.utils;
 public class SSEncodingU{
   
   public static final String utf8                       = "UTF-8";
-  
+  public static final String md5                        = "MD5";
   public static final String en                         = "en";
-  public static final String hu                         = "hu";
+  public static final String hu                         = "hu"; 
   public static final String ro                         = "ro";
   public static final String fr                         = "fr";
   public static final String de                         = "de";

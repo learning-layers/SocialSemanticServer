@@ -19,6 +19,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSAuthServerI {
 
-  public String             authCheckCred (SSServPar par)    throws Exception;
-  public void               authCheckKey  (SSServPar parI)   throws Exception;
+  public String             authCheckCred           (final SSServPar parA) throws Exception;
+  public void               authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
+  public void               authCheckKey            (final SSServPar parA) throws Exception;
 }

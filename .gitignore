@@ -144,3 +144,6 @@
 /ss-adapter/ss-adapter-rest-conf/target/
 /ss-adapter/ss-adapter-rest/target/
 /ss/data
+/ss/ss-conf.yaml
+/ss/ss.log
+/ss/sss_users.csv

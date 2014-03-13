@@ -15,7 +15,6 @@
  */
  package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public class SSDataImportUserResourceTagFromWikipediaPar extends SSServPar{
@@ -23,5 +22,6 @@ public class SSDataImportUserResourceTagFromWikipediaPar extends SSServPar{
   public SSDataImportUserResourceTagFromWikipediaPar(SSServPar par) throws Exception{
    
     super(par);
+    
   }  
 }

@@ -16,41 +16,50 @@
  package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
+import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuthServerI{
   
-  //  private static final String DEFAULT_AGENT_KEY                        = "d4ed2b76cfcf9bad374ef96c9c7ab3b";
-  //  private SSAuthWiki              wikiauth      = null;
-  private final List<String>      defaultKeys;
-//  private final Map<String, List<SSAuthEntity>>   keyMappings = new HashMap<String, List<SSAuthEntity>>();
-
+  private static final List<String>          keys             = new ArrayList<String>();
+  private static final Map<String, String>   keyPerUser       = new HashMap<String, String>();
+  private static final Map<String, String>   passwordPerUser  = new HashMap<String, String>();
+  
   public SSAuthImpl(final SSAuthConf conf) throws Exception {
     
     super(conf);
     
-    defaultKeys = new ArrayList<String>();
-    
-    defaultKeys.add("FischersFritzFischtFrischeFische");
-    defaultKeys.add("681V454J1P3H4W3B367BB79615U184N22356I3E");
-    defaultKeys.add("d4ed2b76cfcf9bad374ef96c9c7ab3b");
-    
+    switch(conf.authType){
+      
+      case noAuth:
+        
+        if(keys.isEmpty()){
+          keys.add("FischersFritzFischtFrischeFische");
+          keys.add("681V454J1P3H4W3B367BB79615U184N22356I3E");
+          keys.add("d4ed2b76cfcf9bad374ef96c9c7ab3b");
+        }
+        
+        break;
+    }    
 //    wikiauth  = new SSAuthWiki();
   }
   
-  /****** SSServRegisterableImplI ******/
+  /* SSServRegisterableImplI */
   
   @Override
   public List<SSMethU> publishClientOps() throws Exception{
@@ -90,52 +99,77 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
     return SSAuthServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
-  /****** SSAuthServClientI ******/
+  /* SSAuthServClientI */
   
   @Override
   public void authCheckCred(SSSocketCon sSCon, SSServPar par) throws Exception {
     sSCon.writeRetFullToClient(SSAuthCheckCredRet.get(authCheckCred(par), par.op));
   }
-
-  /****** SSAuthServServerI ******/
+  
+  /* SSAuthServServerI */
   
   @Override
-  public String authCheckCred(SSServPar parI) throws Exception {
+  public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     
-    switch(SSAuthEnum.get(((SSAuthConf)conf).authType)){
+    final SSAuthUsersFromCSVFileAddPar par = new SSAuthUsersFromCSVFileAddPar(parA);
+    String                             key;
+    
+    try{
+      passwordPerUser.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
       
+      for(Map.Entry<String, String> passwordForUser : passwordPerUser.entrySet()){
+        
+        key = SSAuthFct.generateKey(passwordForUser.getKey() + passwordForUser.getValue());
+        
+        keyPerUser.put(passwordForUser.getKey(), key);
+        keys.add(key);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public String authCheckCred(final SSServPar parA) throws Exception {
+    
+    final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
+    
+    switch(((SSAuthConf)conf).authType){
+      
+      case noAuth:      
+        return keys.get(1);
+      
+      case csvFileAuth: 
+        return SSAuthFct.checkPasswordAndGetUserKey(passwordPerUser, keyPerUser, par.userLabel, par.pass);
+      
+      default: 
+        throw new UnsupportedOperationException();
+        
+        
 //      case wikiAuth:{
-//        // TODO get SSAuthWikiConf 
+//        // TODO get SSAuthWikiConf
 //        boolean authUser = wikiauth.authUser(par.user, par.pass, new SSAuthWikiConf());
-//          
+//
 //        if (authUser) {
-//          
+//
 //          if (SSStrU.containsNot(keylist, alternateKeys[0])) {
 //            keylist.add(alternateKeys[0]);
-//          } 
-//        
+//          }
+//
 //          return alternateKeys[0];
 //        }else{
 //          Exception ile = new Exception();
-//          
+//
 //          throw ile;
 //        }
 //      }
-        
-      case noAuth:{
-        return defaultKeys.get(1);
-      }
     }
-    
-    return null;
   }
 
   @Override
-  public void authCheckKey(SSServPar parA) throws Exception {
-    
-    if(SSStrU.containsNot(defaultKeys, parA.key)){
-      SSServErrReg.regErrThrow(new Exception("Login key is wrong."));
-    }
+  public void authCheckKey(final SSServPar parA) throws Exception {
+    SSAuthFct.checkKey(keys, parA.key);
   }
    
 //  @Override
@@ -323,3 +357,6 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
 //    this.key = hexString.toString();
 //    return key.substring(2, 2 + length);
 //  }
+
+//  private static final String DEFAULT_AGENT_KEY                        = "d4ed2b76cfcf9bad374ef96c9c7ab3b";
+  //  private SSAuthWiki              wikiauth      = null;
