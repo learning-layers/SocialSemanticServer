@@ -221,6 +221,12 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       
       discUri = par.disc;
         
+      if(
+        !par.addNewDisc && 
+        par.content == null){
+        throw new Exception("pars not valid");
+      }
+      
       if(par.addNewDisc){
         
         discUri   = sqlFct.createDiscUri();

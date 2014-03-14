@@ -22,7 +22,18 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
 public class SSDiscEntryContent extends SSEntityA {
 
   public static SSDiscEntryContent get(final String content) throws Exception{
-    return new SSDiscEntryContent(SSStrU.replaceLineFeedsWithTextualRepr(content));
+    
+    if(SSStrU.isEmpty(content)){
+      return null; 
+    }
+    
+    final String tmp = SSStrU.replaceLineFeedsWithTextualRepr(content);
+    
+    if(SSStrU.isEmpty(tmp)){
+      return null; 
+    }
+    
+    return new SSDiscEntryContent(tmp);
   }
 
   public static String toStr(final SSDiscEntryContent content){
