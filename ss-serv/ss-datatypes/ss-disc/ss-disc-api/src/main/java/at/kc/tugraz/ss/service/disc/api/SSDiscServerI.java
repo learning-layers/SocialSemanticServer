@@ -18,16 +18,15 @@
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import java.util.List;
 
 public interface SSDiscServerI {
   
+  public List<SSDisc>             discsUserAllGet           (final SSServPar parA) throws Exception;
+  public List<SSUri>              discUrisUserForTargetGet  (final SSServPar parA) throws Exception;
   public SSDisc                   discUserWithEntriesGet    (final SSServPar parA) throws Exception;
   public List<SSDisc>             discsUserWithEntriesGet   (final SSServPar parA) throws Exception;
+  public SSDiscUserEntryAddRet        discUserEntryAdd          (final SSServPar parA) throws Exception;
   public SSUri                    discUserRemove            (final SSServPar parA) throws Exception;
-  
-  public SSDiscEntryAddRet        discEntryAdd              (final SSServPar parA) throws Exception;
-  public List<SSDisc>             discsAll                  (final SSServPar parA) throws Exception;
-  public List<SSUri>              discUrisForTarget         (final SSServPar parA) throws Exception;
 }

@@ -27,15 +27,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSDiscsAllRet extends SSServRetI{
+public class SSDiscsUserAllGetRet extends SSServRetI{
 
   public List<SSDisc> discs = new ArrayList<SSDisc>();
 
-  public static SSDiscsAllRet get(List<SSDisc> discs, SSMethU op){
-    return new SSDiscsAllRet(discs, op);
+  public static SSDiscsUserAllGetRet get(List<SSDisc> discs, SSMethU op){
+    return new SSDiscsUserAllGetRet(discs, op);
   }
   
-  private SSDiscsAllRet(List<SSDisc> discs, SSMethU op){
+  private SSDiscsUserAllGetRet(List<SSDisc> discs, SSMethU op){
     
     super(op);
     

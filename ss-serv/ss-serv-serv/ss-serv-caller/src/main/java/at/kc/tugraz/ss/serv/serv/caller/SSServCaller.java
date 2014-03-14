@@ -392,22 +392,6 @@ public class SSServCaller {
     return result;
   }
   
-  public static List<SSDisc> getAllDiscsWithoutEntries(SSUri userUri) throws Exception{
-    
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    List<SSDisc>        result = null;
-    
-    try{
-      opPars.put(SSVarU.user, userUri);
-      
-      result = (List<SSDisc>) SSServA.callServViaServer(new SSServPar(SSMethU.discsAll, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    return result;
-  }
-  
   public static List<Note> getEvernoteLinkedNotes(NoteStoreClient noteStore, LinkedNotebook linkedNotebook) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
@@ -931,7 +915,16 @@ public class SSServCaller {
   
   /* disc */
 
-  public static List<SSUri> discUrisForTarget(
+  public static List<SSDisc> discsUserAllGet(final SSUri userUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user, userUri);
+    
+    return (List<SSDisc>) SSServA.callServViaServer(new SSServPar(SSMethU.discsUserAllGet, opPars));
+  }
+  
+  public static List<SSUri> discUrisUserForTargetGet(
     final SSUri   userUri,
     final SSUri   entityUri) throws Exception{
     
@@ -940,7 +933,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         userUri);
     opPars.put(SSVarU.entityUri,    entityUri);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discUrisForTarget, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discUrisUserForTargetGet, opPars));
   }
   
   public static SSDisc discUserWithEntriesGet(

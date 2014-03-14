@@ -20,11 +20,11 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 
 public class SSDiscUEFct {
 
-  public static void discCreate(final SSDiscEntryAddPar par, final SSUri discUri){
+  public static void discCreate(final SSDiscUserEntryAddPar par, final SSUri discUri){
     
     if(!par.saveUE){
       return;
@@ -51,7 +51,7 @@ public class SSDiscUEFct {
     }
   }
 
-  public static void discEntryAdd(final SSDiscEntryAddPar par, final SSUri discEntryUri){
+  public static void discEntryAdd(final SSDiscUserEntryAddPar par, final SSUri discEntryUri){
 
      if(!par.saveUE){
       return;

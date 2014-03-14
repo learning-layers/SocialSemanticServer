@@ -283,9 +283,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discEntryAdd")
-  public String discEntryAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discEntryAdd);
+  @Path    (SSStrU.slash + "discUserEntryAdd")
+  public String discUserEntryAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discUserEntryAdd);
   }
   
   @POST
@@ -299,9 +299,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discsAll")
-  public String discsAll(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discsAll);
+  @Path    (SSStrU.slash + "discsUserAllGet")
+  public String discsUserAllGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discsUserAllGet);
   }
   
   @POST

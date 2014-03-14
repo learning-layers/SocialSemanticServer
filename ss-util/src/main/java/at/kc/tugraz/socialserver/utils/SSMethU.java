@@ -180,12 +180,11 @@ public enum SSMethU{
   dataImportMediaWikiUser,
   
   //disc
-  discEntryAdd                                        ,
-  discsAll                                            ,
-  
-  discUrisForTarget                                   ,
+  discsUserAllGet                                     ,
+  discUrisUserForTargetGet                            ,
   discUserWithEntriesGet                              ,
   discsUserWithEntriesGet                             ,
+  discUserEntryAdd                                    ,
   discUserRemove                                      ,
   
   //broadcast

@@ -20,25 +20,22 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSDiscUserWithEntriesPar extends SSServPar{
+public class SSDiscUrisUserForTargetGetPar extends SSServPar{
   
-  public SSUri  disc                 = null;
-  public int    maxDiscEntries       = 10;
+  public SSUri               entityUri         = null;
+            
+  public SSDiscUrisUserForTargetGetPar(SSServPar par) throws Exception{
       
-  public SSDiscUserWithEntriesPar(SSServPar par) throws Exception{
-    
     super(par);
     
     try{
       
       if(pars != null){
-        disc             = (SSUri)   pars.get(SSVarU.disc);
-        maxDiscEntries   = (Integer) pars.get(SSVarU.maxDiscEntries);
+        entityUri        = (SSUri)              pars.get(SSVarU.entityUri);
       }
       
       if(clientPars != null){
-        disc             = SSUri.get       ((String)clientPars.get(SSVarU.disc));
-        maxDiscEntries   = Integer.valueOf ((String)clientPars.get(SSVarU.maxDiscEntries));
+        entityUri        = SSUri.get             (clientPars.get(SSVarU.entityUri));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

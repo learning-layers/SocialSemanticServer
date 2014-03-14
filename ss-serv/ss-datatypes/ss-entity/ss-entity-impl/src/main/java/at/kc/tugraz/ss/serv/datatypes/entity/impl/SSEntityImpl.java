@@ -151,8 +151,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(par), par.op));
   }
   
-  /****** SSEntityServerI ******/
-  /*****************************/
+  /* SSEntityServerI */
   
   @Override
   public SSUri entityLabelSet(SSServPar parI) throws Exception{
@@ -348,7 +347,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSEntityDescA entityDescGet(SSServPar parA) throws Exception{
+  public SSEntityDescA entityDescGet(final SSServPar parA) throws Exception{
     
     final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
     List<SSTag>               tags          = null;
@@ -370,7 +369,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       if(par.getDiscUris){
-        discUris          = SSServCaller.discUrisForTarget  (par.user, par.entityUri);
+        discUris          = SSServCaller.discUrisUserForTargetGet  (par.user, par.entityUri);
       }
       
       if(par.getTags){

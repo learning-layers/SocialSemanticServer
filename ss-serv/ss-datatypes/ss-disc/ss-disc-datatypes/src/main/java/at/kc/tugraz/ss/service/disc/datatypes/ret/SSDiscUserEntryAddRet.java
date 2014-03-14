@@ -24,16 +24,16 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSDiscEntryAddRet extends SSServRetI{
+public class SSDiscUserEntryAddRet extends SSServRetI{
   
   public SSUri disc      = null; 
   public SSUri discEntry = null;
   
-  public static SSDiscEntryAddRet get(final SSUri disc, final SSUri discEntry, final SSMethU op){
-    return new SSDiscEntryAddRet(disc, discEntry, op);
+  public static SSDiscUserEntryAddRet get(final SSUri disc, final SSUri discEntry, final SSMethU op){
+    return new SSDiscUserEntryAddRet(disc, discEntry, op);
   }
   
-  private SSDiscEntryAddRet(final SSUri disc, final SSUri discEntry, final SSMethU op){
+  private SSDiscUserEntryAddRet(final SSUri disc, final SSUri discEntry, final SSMethU op){
     
     super(op);
     this.disc      = disc;

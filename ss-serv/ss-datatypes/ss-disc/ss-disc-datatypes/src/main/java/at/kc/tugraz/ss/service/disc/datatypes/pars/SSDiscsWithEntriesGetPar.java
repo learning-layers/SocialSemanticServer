@@ -16,26 +16,25 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSDiscUrisForTargetPar extends SSServPar{
+public class SSDiscsWithEntriesGetPar extends SSServPar{
   
-  public SSUri               entityUri         = null;
-            
-  public SSDiscUrisForTargetPar(SSServPar par) throws Exception{
-      
+  public Integer maxDiscEntries = 10;
+  
+  public SSDiscsWithEntriesGetPar(SSServPar par) throws Exception{
+    
     super(par);
     
     try{
       
       if(pars != null){
-        entityUri        = (SSUri)              pars.get(SSVarU.entityUri);
+        this.maxDiscEntries = (Integer) pars.get(SSVarU.maxDiscEntries);
       }
       
       if(clientPars != null){
-        entityUri        = SSUri.get             (clientPars.get(SSVarU.entityUri));
+        this.maxDiscEntries = Integer.valueOf((String)clientPars.get(SSVarU.maxDiscEntries));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

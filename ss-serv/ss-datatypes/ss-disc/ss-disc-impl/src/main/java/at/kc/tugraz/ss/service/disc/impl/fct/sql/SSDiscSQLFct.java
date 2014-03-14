@@ -45,6 +45,27 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     super(serv.dbSQL);
   }
 
+  public List<SSUri> getAllDiscUris() throws Exception {
+    
+    final List<SSUri>   discUris     = new ArrayList<SSUri>();
+    ResultSet           resultSet = null;
+
+    try{
+      resultSet = dbSQL.selectAll(discTable);
+
+      while(resultSet.next()){
+        discUris.add(bindingStrToUri (resultSet, SSSQLVarU.discId));
+      }
+
+      return discUris;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public List<SSUri> getDiscUrisForTarget(final SSUri targetUri) throws Exception {
   
     if(SSObjU.isNull(targetUri)){
@@ -73,29 +94,6 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-  }
-  
-  public List<SSDisc> getDiscsWithoutEntries() throws Exception {
-    
-    List<SSDisc>        discs     = new ArrayList<SSDisc>();
-    ResultSet           resultSet;
-
-    resultSet = dbSQL.selectAll(discTable);
-    
-    while(resultSet.next()){
-      
-      discs.add(
-        SSDisc.get(
-        bindingStrToUri (resultSet, SSSQLVarU.discId),
-        null,
-        null,
-        bindingStrToUri (resultSet, SSSQLVarU.target),
-        null));
-    }
-    
-    dbSQL.closeStmt(resultSet);
-    
-    return discs;
   }
 
   public void createDisc(SSUri discUri, SSUri user, SSUri target, SSLabelStr label) throws Exception{
@@ -200,8 +198,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     return isDiscEntry;
   }
   
-  
-  private SSDisc getDiscWithoutEntries(
+  public SSDisc getDiscWithoutEntries(
     final SSUri discUri) throws Exception{
     
     if(SSObjU.isNull(discUri)){
@@ -220,7 +217,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       columNames.add(SSSQLVarU.label);
       columNames.add(SSSQLVarU.author);
-      columNames.add(SSSQLVarU.target);
+      columNames.add(SSSQLVarU.discId);
       columNames.add(SSSQLVarU.target);
       
       whereParNamesWithValues.put(SSSQLVarU.discId, discUri.toString());
