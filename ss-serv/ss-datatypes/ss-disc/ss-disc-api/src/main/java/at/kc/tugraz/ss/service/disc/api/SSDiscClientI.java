@@ -20,7 +20,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSDiscClientI {
   
+  public void discUserWithEntriesGet    (SSSocketCon sSCon, SSServPar par) throws Exception;
   public void discEntryAdd              (SSSocketCon sSCon, SSServPar par) throws Exception;
   public void discsAll                  (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void discWithEntries           (SSSocketCon sSCon, SSServPar par) throws Exception;
 }

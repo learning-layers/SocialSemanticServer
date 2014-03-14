@@ -23,10 +23,11 @@ import java.util.List;
 
 public interface SSDiscServerI {
   
+  public SSDisc                   discUserWithEntriesGet    (final SSServPar parA) throws Exception;
+  public List<SSDisc>             discsUserWithEntriesGet   (final SSServPar parA) throws Exception;
+  public SSUri                    discUserRemove            (final SSServPar parA) throws Exception;
+  
   public SSDiscEntryAddRet        discEntryAdd              (final SSServPar parA) throws Exception;
   public List<SSDisc>             discsAll                  (final SSServPar parA) throws Exception;
-  public List<SSDisc>             discsWithEntries          (final SSServPar parA) throws Exception;
-  public SSDisc                   discWithEntries           (final SSServPar parA) throws Exception;
   public List<SSUri>              discUrisForTarget         (final SSServPar parA) throws Exception;
-  public SSUri                    discUserRemove            (final SSServPar parA) throws Exception;
 }

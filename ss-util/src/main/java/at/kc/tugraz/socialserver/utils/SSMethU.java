@@ -181,10 +181,11 @@ public enum SSMethU{
   
   //disc
   discEntryAdd                                        ,
-  discWithEntries                                     ,
   discsAll                                            ,
-  discsWithEntries                                    ,
+  
   discUrisForTarget                                   ,
+  discUserWithEntriesGet                              ,
+  discsUserWithEntriesGet                             ,
   discUserRemove                                      ,
   
   //broadcast

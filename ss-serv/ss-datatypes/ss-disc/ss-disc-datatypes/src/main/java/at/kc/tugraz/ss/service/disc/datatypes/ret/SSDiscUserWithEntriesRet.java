@@ -24,15 +24,15 @@ import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSDiscWithEntriesRet extends SSServRetI{
+public class SSDiscUserWithEntriesRet extends SSServRetI{
 
   public SSDisc disc = null;
 
-  public static SSDiscWithEntriesRet get(SSDisc disc, SSMethU op){
-    return new SSDiscWithEntriesRet(disc, op);
+  public static SSDiscUserWithEntriesRet get(SSDisc disc, SSMethU op){
+    return new SSDiscUserWithEntriesRet(disc, op);
   }
   
-  private SSDiscWithEntriesRet(SSDisc disc, SSMethU op){
+  private SSDiscUserWithEntriesRet(SSDisc disc, SSMethU op){
     
     super(op);
     this.disc = disc;

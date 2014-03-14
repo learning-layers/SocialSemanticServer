@@ -291,9 +291,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discWithEntries")
-  public String discWithEntries(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discWithEntries);
+  @Path    (SSStrU.slash + "discUserWithEntriesGet")
+  public String discUserWithEntriesGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discUserWithEntriesGet);
   }
   
   @POST

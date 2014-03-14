@@ -264,8 +264,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   }
   
   public SSDisc getDiscWithEntries(
-    final SSUri   discUri, 
-    final Integer maxDiscEntries) throws Exception {
+    final SSUri   discUri) throws Exception {
     
     if(SSObjU.isNull(discUri)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
