@@ -45,16 +45,16 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     super(serv.dbSQL);
   }
 
-  public List<SSUri> getAllDiscUris() throws Exception {
-    
-    final List<SSUri>   discUris     = new ArrayList<SSUri>();
-    ResultSet           resultSet = null;
+  public List<SSUri> getAllDiscUris() throws Exception{
+
+    final List<SSUri> discUris  = new ArrayList<SSUri>();
+    ResultSet         resultSet = null;
 
     try{
       resultSet = dbSQL.selectAll(discTable);
 
       while(resultSet.next()){
-        discUris.add(bindingStrToUri (resultSet, SSSQLVarU.discId));
+        discUris.add(bindingStrToUri(resultSet, SSSQLVarU.discId));
       }
 
       return discUris;

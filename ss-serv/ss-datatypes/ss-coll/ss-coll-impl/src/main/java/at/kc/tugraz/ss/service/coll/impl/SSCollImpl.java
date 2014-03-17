@@ -294,10 +294,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
   }
 
-   /*********************** SSCollServerI * *********************/
+   /*  SSCollServerI */
    
   @Override
-  public Boolean collUserRootAdd(SSServPar parA) throws Exception{
+  public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
 
     final SSCollUserRootAddPar par = new SSCollUserRootAddPar(parA);
     final SSUri rootCollUri;
@@ -335,42 +335,46 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
 
     final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
-    final SSColl parentColl;
+    final SSColl                parentColl;
 
     try{
 
       parentColl = sqlFct.getUserColl(par.user, par.coll);
 
       if(
+        par.addNewColl &&
+        SSSpaceEnum.isFollow(par.space)){
+        SSServErrReg.regErrThrow(new Exception("cannot add a new coll and follow it the same time"));
+        return null;
+      }
+      
+      if(
         par.addNewColl || 
         sqlFct.isColl(par.collEntry)){ //to add coll entry is coll itself
 
         if(
-          SSSpaceEnum.isSharedOrFollow(parentColl.space) && 
-          SSSpaceEnum.isPrivate(par.space)){
+          SSSpaceEnum.isSharedOrFollow  (parentColl.space) && 
+          SSSpaceEnum.isPrivate         (par.space)){
           SSServErrReg.regErrThrow(new Exception("cannot add private to shared / followed collection"));
           return null;
         }
 
         if(SSSpaceEnum.isFollow(par.space)){
 
-          if(par.addNewColl){
-            SSServErrReg.regErrThrow(new Exception("cannot add a new coll and follow the same at the same time"));
+//TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
+
+          if(SSSpaceEnum.isSharedOrFollow  (parentColl.space)){
+            SSServErrReg.regErrThrow(new Exception("cannot follow coll in shared / followed parent coll"));
             return null;
           }
-
-          if(!sqlFct.isRootColl(par.coll)){
-            SSServErrReg.regErrThrow(new Exception("cannot follow coll on this level"));
+          
+          if(sqlFct.ownsUserColl(par.user, par.collEntry)){
+            SSServErrReg.regErrThrow(new Exception("coll is already followed by user"));
             return null;
           }
-
-          if(sqlFct.followsUserColl(par.user, par.collEntry)){
-            SSServErrReg.regErrThrow(new Exception("coll already followed"));
-            return null;
-          }
-
-          if(sqlFct.followsUserAParentOrSubColl(par.user, par.collEntry)){
-            SSServErrReg.regErrThrow(new Exception("a sub or a parent coll is already followed"));
+          
+          if(sqlFct.ownsUserASubColl(par.user, par.collEntry)){
+            SSServErrReg.regErrThrow(new Exception("a sub coll is already followed"));
             return null;
           }
         }
@@ -391,7 +395,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           sqlFct.createColl(par.collEntry);
         }
 
-        sqlFct.addCollToUserColl(par.user, par.coll, par.collEntry, par.space, par.collEntryLabel);
+        sqlFct.addCollToUserColl(par.user, par.coll, par.collEntry, par.space);
         
         dbSQL.commit(par.shouldCommit);
         
@@ -458,6 +462,59 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
+  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
+
+    try{
+
+      sqlFct.getUserColl(par.user, par.coll);
+
+      if(sqlFct.isColl(par.collEntry)){ //to remove coll entry is coll itself
+
+        if(
+          sqlFct.ownsUserColl(par.user, par.collEntry, SSSpaceEnum.sharedSpace) ||
+          sqlFct.ownsUserColl(par.user, par.collEntry, SSSpaceEnum.followSpace)){ //to remove coll is either shared or followed by user
+
+          dbSQL.startTrans(par.shouldCommit);
+
+          sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
+
+          dbSQL.commit(par.shouldCommit);
+          
+          SSCollUEFct.collUserUnSubscribeColl(par);
+          
+        }else{//to remove coll is private
+
+          dbSQL.startTrans(par.shouldCommit);
+
+          //remove the private coll and unlink sub colls
+          sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
+
+          dbSQL.commit(par.shouldCommit);
+          
+          SSCollUEFct.collUserDeleteColl(par);
+        }
+      }else{ //to remove coll entry is NO collection
+
+        dbSQL.startTrans(par.shouldCommit);
+
+        sqlFct.removeEntryFromColl(par.coll, par.collEntry);
+
+        dbSQL.commit(par.shouldCommit);
+      }
+
+      SSCollUEFct.collUserEntryDelete(par);
+      
+      return true;
+    }catch(Exception error){
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public Boolean collUserEntriesDelete(final SSServPar parA) throws Exception{
 
     final SSCollUserEntriesDeletePar par = new SSCollUserEntriesDeletePar(parA);
@@ -482,67 +539,26 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
+  public Boolean collUserShare(final SSServPar parA) throws Exception{
 
-    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
+    final SSCollUserSharePar par         = new SSCollUserSharePar(parA);
 
     try{
+      final SSColl userColl = sqlFct.getUserColl(par.user, par.coll);
 
-      sqlFct.getUserColl(par.user, par.coll);
-
-      if(sqlFct.isColl(par.collEntry)){ //to remove coll entry is coll itself
-
-        if(sqlFct.followsUserColl(par.user, par.collEntry)){ //to remove coll is only followed by user
-
-          dbSQL.startTrans(par.shouldCommit);
-
-          sqlFct.unfollowColl(par.user, par.coll, par.collEntry);
-
-          dbSQL.commit(par.shouldCommit);
-          
-          SSCollUEFct.collUserUnSubscribeColl(par);
-          
-        }else{//to remove coll at least private or shared
-
-          dbSQL.startTrans(par.shouldCommit);
-
-          //remove the coll
-          sqlFct.removeColl(par.collEntry);
-
-          dbSQL.commit(par.shouldCommit);
-          
-          SSCollUEFct.collUserDeleteColl(par);
-        }
-      }else{   //to remove coll entry is NO collection
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        sqlFct.removeEntryFromColl(par.coll, par.collEntry);
-
-        dbSQL.commit(par.shouldCommit);
+      if(SSSpaceEnum.isSharedOrFollow(userColl.space)){
+        throw new Exception("coll already shared / followed");
       }
-
-      SSCollUEFct.collUserEntryDelete(par);
+    
+      if(
+        sqlFct.ownsUserASubColl(par.user, par.coll, SSSpaceEnum.sharedSpace) ||
+        sqlFct.ownsUserASubColl(par.user, par.coll, SSSpaceEnum.followSpace)){
+        throw new Exception("a sub coll is already shared / followed");
+      }
       
-      return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserShare(SSServPar parA) throws Exception{
-
-    final SSCollUserSharePar par = new SSCollUserSharePar(parA);
-
-    try{
-      sqlFct.getUserColl(par.user, par.coll);
-
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.shareColl(par.coll);
+      sqlFct.shareCollAndSubColls(par.coll);
 
       dbSQL.commit(par.shouldCommit);
       

@@ -57,50 +57,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return collUri;
   }
   
-  public void removeColl(final SSUri collUri) throws Exception{
-    
-    if(collUri == null){
-      SSServErrReg.regErrThrow(new Exception("colluri null"));
-      return;
-    }
-    
-    final List<String> subCollUris = new ArrayList<String>();
-    Map<String, String> deletePars;
-    
-    try{
-      
-      //retrieve all sub coll uris
-      getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
-          
-      //remove all sub colls
-      for(String subCollUri : subCollUris){
-        
-        deletePars = new HashMap<String, String>();
-        deletePars.put(SSSQLVarU.collId, subCollUri);
-        
-        dbSQL.deleteWhere(collTable, deletePars);
-        
-        deletePars = new HashMap<String, String>();
-        deletePars.put(SSSQLVarU.entryId, subCollUri);
-        
-        dbSQL.deleteWhere(collEntryPosTable, deletePars);
-      }
-      
-      deletePars = new HashMap<String, String>();
-      deletePars.put(SSSQLVarU.collId, SSUri.toStr(collUri));
-
-      dbSQL.deleteWhere(collTable, deletePars);
-      
-      deletePars = new HashMap<String, String>();
-      deletePars.put(SSSQLVarU.entryId, SSUri.toStr(collUri));
-
-      dbSQL.deleteWhere(collEntryPosTable, deletePars);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void addUserRootColl(final SSUri rootCollUri, final SSUri userUri) throws Exception{
     
     if(SSObjU.isNull(rootCollUri, userUri)){
@@ -243,17 +199,27 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }  
   
-  public Boolean followsUserColl(final SSUri userUri, final SSUri collUri) throws Exception{
+ 
+  public Boolean ownsUserColl(
+    final SSUri       userUri, 
+    final SSUri       collUri, 
+    final SSSpaceEnum space) throws Exception{
+    
+    if(SSObjU.isNull(userUri, collUri, space)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return null;
+    }
     
     final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
     ResultSet                 resultSet                = null;
     
-    whereParNamesWithValues.put(SSSQLVarU.userId,    userUri.toString());
-    whereParNamesWithValues.put(SSSQLVarU.collId,    collUri.toString());
-    whereParNamesWithValues.put(SSSQLVarU.collSpace, SSSpaceEnum.followSpace.toString());
-    
     try{
+      whereParNamesWithValues.put(SSSQLVarU.userId,    userUri.toString());
+      whereParNamesWithValues.put(SSSQLVarU.collId,    collUri.toString());
+      whereParNamesWithValues.put(SSSQLVarU.collSpace, space.toString());
+      
       resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -263,10 +229,63 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public Boolean followsUserAParentOrSubColl(final SSUri userUri, final SSUri collUri) throws Exception{
+  public Boolean ownsUserColl(
+    final SSUri userUri, 
+    final SSUri collUri) throws Exception {
     
+    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
+    ResultSet                 resultSet                = null;
+    
+    try{
+
+      whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
+      whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
+    
+      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }  
+  
+  public Boolean ownsUserASubColl(
+    final SSUri       userUri, 
+    final SSUri       collUri,
+    final SSSpaceEnum space) throws Exception{
+    
+    if(SSObjU.isNull(userUri, collUri, space)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return null;
+    }
+        
     final List<String> subCollUris    = new ArrayList<String>();
-    final List<String> parentCollUris = new ArrayList<String>();
+    
+    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
+    
+    for(String subCollUri : subCollUris){
+      
+      if(ownsUserColl(userUri, SSUri.get(subCollUri), space)){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public Boolean ownsUserASubColl(
+    final SSUri userUri, 
+    final SSUri collUri) throws Exception{
+    
+    if(SSObjU.isNull(userUri, collUri)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return null;
+    }
+        
+    final List<String> subCollUris    = new ArrayList<String>();
     
     getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
     
@@ -277,9 +296,47 @@ public class SSCollSQLFct extends SSDBSQLFct{
       }
     }
     
-    getAllParentCollURIs(collUri.toString(), collUri.toString(), parentCollUris);
+    return false;
+  }
+  
+  public Boolean ownsUserASuperColl(
+    final SSUri       userUri, 
+    final SSUri       collUri,
+    final SSSpaceEnum space) throws Exception{
     
-    for(String parentCollUri : parentCollUris){
+    if(SSObjU.isNull(userUri, collUri, space)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return null;
+    }
+        
+    final List<String> superCollUris = new ArrayList<String>();
+    
+    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
+    
+    for(String parentCollUri : superCollUris){
+      
+      if(ownsUserColl(userUri, SSUri.get(parentCollUri), space)){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public Boolean ownsUserASuperColl(
+    final SSUri userUri, 
+    final SSUri collUri) throws Exception{
+    
+    if(SSObjU.isNull(userUri, collUri)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return null;
+    }
+        
+    final List<String> superCollUris = new ArrayList<String>();
+    
+    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
+    
+    for(String parentCollUri : superCollUris){
       
       if(ownsUserColl(userUri, SSUri.get(parentCollUri))){
         return true;
@@ -293,23 +350,26 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri       user, 
     final SSUri       collParent, 
     final SSUri       collChild, 
-    final SSSpaceEnum collChildSpace, 
-    final SSLabelStr  collChildLabel) throws Exception{
+    final SSSpaceEnum collChildSpace) throws Exception{
     
-    Map<String, String> insertPars;
+    if(SSObjU.isNull(user, collParent, collChild, collChildSpace)){
+      SSServErrReg.regErrThrow(new Exception("pars not ok"));
+      return;
+    }
+    
+    final Map<String, String> insertPars = new HashMap<String, String>(); 
     
     //add relation of coll parent to child coll to hierarchy table
-    insertPars = new HashMap<String, String>();
+    insertPars.clear();
     insertPars.put(SSSQLVarU.collParentId, collParent.toString());
     insertPars.put(SSSQLVarU.collChildId,  collChild.toString());
     
     dbSQL.insert(collHierarchyTable, insertPars);
     
     //add coll child to coll parent in coll entry pos table
-    Integer collEntryCount = getCollEntryCount(collParent);
+    final Integer collEntryCount = getCollEntryCount(collParent) + 1;
     
-    collEntryCount++;
-    insertPars = new HashMap<String, String>();
+    insertPars.clear();
     insertPars.put(SSSQLVarU.collId,  collParent.toString());
     insertPars.put(SSSQLVarU.entryId, collChild.toString());
     insertPars.put(SSSQLVarU.pos,     collEntryCount.toString());
@@ -317,17 +377,17 @@ public class SSCollSQLFct extends SSDBSQLFct{
     dbSQL.insert(collEntryPosTable, insertPars);
     
     //add child coll to user coll table
-    insertPars = new HashMap<String, String>();
+    insertPars.clear();
     insertPars.put(SSSQLVarU.userId,    user.toString());
     insertPars.put(SSSQLVarU.collId,    collChild.toString());
     insertPars.put(SSSQLVarU.collSpace, collChildSpace.toString());
     
     dbSQL.insert(collUserTable, insertPars);
     
-    //add currently added collection to other users as well
+    //add currently added coll to other users as well
     if(SSSpaceEnum.isShared(collChildSpace)){
 
-      insertPars = new HashMap<String, String>();
+      insertPars.clear();
       insertPars.put(SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
       insertPars.put(SSSQLVarU.collId,    collChild.toString());
         
@@ -337,20 +397,20 @@ public class SSCollSQLFct extends SSDBSQLFct{
           continue;
         }
         
-        insertPars.put(SSSQLVarU.userId,    coUserUri.toString());
+        insertPars.put(SSSQLVarU.userId, coUserUri.toString());
         
         dbSQL.insert(collUserTable, insertPars);
       }
     }
     
-    //add sub colls of to to be followed coll for this user as well
+    //add sub colls of to be followed coll for this user as well
     if(SSSpaceEnum.isFollow(collChildSpace)){
       
       final List<String> subCollUris = new ArrayList<String>();
       
       getAllChildCollURIs(collChild.toString(), collChild.toString(), subCollUris);
       
-      insertPars = new HashMap<String, String>();
+      insertPars.clear();
       insertPars.put(SSSQLVarU.userId,    user.toString());
       insertPars.put(SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
       
@@ -363,17 +423,24 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void unfollowColl(final SSUri user, final SSUri parentColl, final SSUri coll) throws Exception{
+  public void unlinkUserCollAndSubColls(
+    final SSUri userUri, 
+    final SSUri parentCollUri, 
+    final SSUri collUri) throws Exception{
     
-    Map<String, String> deletePars;
+    if(SSObjU.isNull(userUri, parentCollUri, collUri)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return;
+    }
+    
+    final Map<String, String> deletePars = new HashMap<String, String>(); 
+    final List<String>       subCollUris = new ArrayList<String>();
 
     //remove sub colls of followed coll from user coll table as well
-    final List<String> subCollUris = new ArrayList<String>();
+    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
     
-    getAllChildCollURIs(coll.toString(), coll.toString(), subCollUris);
-    
-    deletePars = new HashMap<String, String>();
-    deletePars.put(SSSQLVarU.userId, user.toString());
+    deletePars.clear();
+    deletePars.put(SSSQLVarU.userId, userUri.toString());
     
     for(String subCollUri : subCollUris){
       
@@ -383,23 +450,23 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
     
     //remove coll from user coll table
-    deletePars = new HashMap<String, String>();
-    deletePars.put(SSSQLVarU.userId,     user.toString());
-    deletePars.put(SSSQLVarU.collId,     coll.toString());
+    deletePars.clear();
+    deletePars.put(SSSQLVarU.userId,     userUri.toString());
+    deletePars.put(SSSQLVarU.collId,     collUri.toString());
             
     dbSQL.deleteWhere(collUserTable, deletePars);
     
     //remove coll from coll hierarchy table
-    deletePars = new HashMap<String, String>();
-    deletePars.put(SSSQLVarU.collParentId, parentColl.toString());
-    deletePars.put(SSSQLVarU.collChildId,  coll.toString());
+    deletePars.clear();
+    deletePars.put(SSSQLVarU.collParentId, parentCollUri.toString());
+    deletePars.put(SSSQLVarU.collChildId,  collUri.toString());
             
     dbSQL.deleteWhere(collHierarchyTable, deletePars);
     
     //remove coll from coll entries pos table
-    deletePars = new HashMap<String, String>();
-    deletePars.put(SSSQLVarU.collId,   parentColl.toString());
-    deletePars.put(SSSQLVarU.entryId,  coll.toString());
+    deletePars.clear();
+    deletePars.put(SSSQLVarU.collId,   parentCollUri.toString());
+    deletePars.put(SSSQLVarU.entryId,  collUri.toString());
             
     dbSQL.deleteWhere(collEntryPosTable, deletePars);
   }
@@ -488,14 +555,56 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void removeEntryFromColl(SSUri coll, SSUri collEntry) throws Exception{
+  public void removeUserPrivateCollAndUnlinkSubColls(
+    final SSUri userUri,
+    final SSUri collUri) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, collUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final Map<String, String> deletePars = new HashMap<String, String>();
+      final List<String>        directChildCollURIs;
+      
+      //retrieve all direct sub coll uris
+      directChildCollURIs = getDirectChildCollURIs(collUri.toString());
+      
+      //unlink all direct sub colls (and hence their sub colls as well)
+      for(String subCollUri : directChildCollURIs){
+        unlinkUserCollAndSubColls(userUri, collUri, SSUri.get(subCollUri));
+      }
+      
+      deletePars.clear();
+      deletePars.put(SSSQLVarU.collId, SSUri.toStr(collUri));
+      
+      dbSQL.deleteWhere(collTable, deletePars);
+      
+      deletePars.clear();
+      deletePars.put(SSSQLVarU.entryId, SSUri.toStr(collUri));
+      
+      dbSQL.deleteWhere(collEntryPosTable, deletePars);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void removeEntryFromColl(
+    final SSUri collUri, 
+    final SSUri collEntryUri) throws Exception{
+    
+    if(SSObjU.isNull(collUri, collEntryUri)){
+      SSServErrReg.regErrThrow(new Exception("pars not ok"));
+      return;
+    }
 
-    Map<String, String> deletePars;
+    final Map<String, String> deletePars = new HashMap<String, String>();
     
     //remove coll entry from coll entry pos table
-    deletePars = new HashMap<String, String>();
-    deletePars.put(SSSQLVarU.collId,  coll.toString());
-    deletePars.put(SSSQLVarU.entryId, collEntry.toString());
+    deletePars.put(SSSQLVarU.collId,  collUri.toString());
+    deletePars.put(SSSQLVarU.entryId, collEntryUri.toString());
       
     dbSQL.deleteWhere(collEntryPosTable, deletePars);
   }
@@ -528,15 +637,31 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void shareColl(SSUri coll) throws Exception{
+  public void shareCollAndSubColls(
+    final SSUri collUri) throws Exception{
     
-    Map<String, String> updatePars;
-    Map<String, String> newValues;
+    if(SSObjU.isNull(collUri)){
+      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+      return;
+    }
+  
+    final Map<String, String> updatePars = new HashMap<String, String>();
+    final Map<String, String> newValues  = new HashMap<String, String>();
+    final List<String>        subCollUris = new ArrayList<String>();
+    
+    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
+    
+    //set space in user coll table for each sub coll to shared
+    for(String subCollUri : subCollUris){
+      
+      updatePars.put(SSSQLVarU.collId,    subCollUri.toString());
+      newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
+      
+      dbSQL.updateWhere(collUserTable, updatePars, newValues);
+    }
     
     //set space in user coll table for coll to shared
-    newValues  = new HashMap<String, String>();
-    updatePars = new HashMap<String, String>();
-    updatePars.put(SSSQLVarU.collId,    coll.toString());
+    updatePars.put(SSSQLVarU.collId,    collUri.toString());
     newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
     
     dbSQL.updateWhere(collUserTable, updatePars, newValues);
@@ -665,34 +790,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-  
-  //    IF(OWNSUSERCOLLBYHIERARCHY(USERURI, COLLURI)){
-//      
-//      TRY{
-//        
-//        WHEREPARNAMESWITHVALUES.PUT(SSSQLVARU.ID, COLLURI.TOSTRING());
-//        
-//        RESULTSET = DBSQL.DBSQLSELECTALLWHERE(ENTITYTABLE, WHEREPARNAMESWITHVALUES);
-//        
-//        RESULTSET.FIRST();
-//        
-//        RETURN SSCOLL.GET(
-//          COLLURI,
-//          NULL,
-//          BINDINGSTRTOURI  (RESULTSET, SSSQLVARU.AUTHOR),
-//          BINDINGSTR       (RESULTSET, SSSQLVARU.LABEL),
-//          SSSPACEENUM.SHAREDSPACE);
-//        
-//      }CATCH(EXCEPTION ERROR){
-//        SSSERVERRREG.REGERRTHROW(ERROR);
-//        RETURN NULL;
-//      }FINALLY{
-//        DBSQL.DBSQLCLOSESTMT(RESULTSET);
-//      }
-//    }
-//    
-//    SSSERVERRREG.REGERRTHROW(NEW EXCEPTION("COLL NEITHER IS OWNED NOR FOLLOWED BY USER"));
-//    RETURN NULL;
   }
   
   public SSColl getUserCollWithEntries(
@@ -799,21 +896,24 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return null;
   }
 
-  public Boolean containsEntry(SSUri collUri, SSUri collEntryUri) throws Exception{
+  public Boolean containsEntry(
+    final SSUri collUri, 
+    final SSUri collEntryUri) throws Exception{
     
     if(SSObjU.isNull(collUri, collEntryUri)){
       SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
       return null;
     }
     
-    ResultSet           resultSet               = null;
-    Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    
-    whereParNamesWithValues.put(SSSQLVarU.collId,  SSUri.toStr(collUri));
-    whereParNamesWithValues.put(SSSQLVarU.entryId, SSUri.toStr(collEntryUri));
+    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+    ResultSet                 resultSet               = null;
     
     try{
+      whereParNamesWithValues.put(SSSQLVarU.collId,  SSUri.toStr(collUri));
+      whereParNamesWithValues.put(SSSQLVarU.entryId, SSUri.toStr(collEntryUri));
+    
       resultSet = dbSQL.selectAllWhere(collEntryPosTable, whereParNamesWithValues);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -823,15 +923,22 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public Boolean existsUserRootColl(SSUri user) throws Exception{
+  public Boolean existsUserRootColl(
+    final SSUri userUri) throws Exception{
+    
+    if(SSObjU.isNull(userUri)){
+      SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
+      return null;
+    }
     
     final Map<String, String> selectPars         = new HashMap<String, String>();
     ResultSet                 resultSet          = null;
     
-    selectPars.put(SSSQLVarU.userId, user.toString());
-    
     try{
+      selectPars.put(SSSQLVarU.userId, userUri.toString());
+      
       resultSet  = dbSQL.selectAllWhere(collRootTable, selectPars);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -849,36 +956,20 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.coll.toString());
   }  
   
-  private Boolean ownsUserColl(final SSUri userUri, final SSUri collUri) throws Exception {
-    
-    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
-    ResultSet                 resultSet                = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
-    whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+  private List<SSUri> getCollUsers(
+    final SSUri collUri) throws Exception{
 
-      return resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+    if(SSObjU.isNull(collUri)){
+      SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
       return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
     }
-  }  
-  
-  private List<SSUri> getCollUsers(SSUri collUri) throws Exception{
     
     final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
     final List<SSUri>         users                    = new ArrayList<SSUri>();
     ResultSet                 resultSet                = null;
     
-    whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
-    
     try{
+      whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
       
       resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
       
@@ -1253,5 +1344,50 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
+//    }
+//  }
+
+//  public void removeColl(
+//    final SSUri collUri) throws Exception{
+//    
+//    if(collUri == null){
+//      SSServErrReg.regErrThrow(new Exception("colluri null"));
+//      return;
+//    }
+//    
+//    final List<String>        subCollUris = new ArrayList<String>();
+//    final Map<String, String> deletePars  = new HashMap<String, String>();
+//    
+//    try{
+//      
+//      //retrieve all sub coll uris
+//      getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
+//          
+//      //remove all sub colls
+//      for(String subCollUri : subCollUris){
+//        
+//        deletePars.clear();
+//        deletePars.put(SSSQLVarU.collId, subCollUri);
+//        
+//        dbSQL.deleteWhere(collTable, deletePars);
+//        
+//        deletePars.clear();
+//        deletePars.put(SSSQLVarU.entryId, subCollUri);
+//        
+//        dbSQL.deleteWhere(collEntryPosTable, deletePars);
+//      }
+//      
+//      deletePars.clear();
+//      deletePars.put(SSSQLVarU.collId, SSUri.toStr(collUri));
+//
+//      dbSQL.deleteWhere(collTable, deletePars);
+//      
+//      deletePars.clear();
+//      deletePars.put(SSSQLVarU.entryId, SSUri.toStr(collUri));
+//
+//      dbSQL.deleteWhere(collEntryPosTable, deletePars);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
 //    }
 //  }

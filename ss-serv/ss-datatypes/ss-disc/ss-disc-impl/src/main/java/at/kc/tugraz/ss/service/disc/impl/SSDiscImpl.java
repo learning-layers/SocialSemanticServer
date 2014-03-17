@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUrisUserForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
@@ -286,45 +287,47 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
 
   @Override
-  public List<SSDisc> discsUserAllGet(final SSServPar parA) throws Exception {
+  public List<SSDisc> discsUserAllGet(final SSServPar parA) throws Exception{
 
-    final List<SSDisc> discsWithoutEntries = new ArrayList<SSDisc>();
+    final SSDiscsUserAllGetPar par                 = new SSDiscsUserAllGetPar(parA);
+    final List<SSDisc>         discsWithoutEntries = new ArrayList<SSDisc>();
 
-    try {
+    
+    try{
 
-      for (SSUri discUri : sqlFct.getAllDiscUris()) {
+      for(SSUri discUri : sqlFct.getAllDiscUris()){
         discsWithoutEntries.add(sqlFct.getDiscWithoutEntries(discUri));
       }
 
       return discsWithoutEntries;
-    } catch (Exception error) {
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 
   @Override
-  public SSDisc discUserWithEntriesGet(final SSServPar parA) throws Exception {
+  public SSDisc discUserWithEntriesGet(final SSServPar parA) throws Exception{
 
     final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
 
-    try {
+    try{
       return sqlFct.getDiscWithEntries(par.disc);
-    } catch (Exception error) {
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 
   @Override
-  public List<SSDisc> discsUserWithEntriesGet(final SSServPar parA) throws Exception {
+  public List<SSDisc> discsUserWithEntriesGet(final SSServPar parA) throws Exception{
 
     final SSDiscsWithEntriesGetPar par = new SSDiscsWithEntriesGetPar(parA);
     final List<SSDisc> discsWithEntries = new ArrayList<SSDisc>();
 
-    try {
+    try{
 
-      for (SSDisc disc : SSServCaller.discsUserAllGet(par.user)) {
+      for(SSDisc disc : SSServCaller.discsUserAllGet(par.user)){
 
         discsWithEntries.add(
           SSServCaller.discUserWithEntriesGet(
@@ -334,7 +337,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       }
 
       return discsWithEntries;
-    } catch (Exception error) {
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
