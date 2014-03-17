@@ -220,14 +220,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collSharedAll(SSSocketCon sSCon, SSServPar par) throws Exception{
-
-    SSServCaller.checkKey(par);
-
-    sSCon.writeRetFullToClient(SSCollSharedAllRet.get(collSharedAll(par), par.op));
-  }
-
-  @Override
   public void collUserShare(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);

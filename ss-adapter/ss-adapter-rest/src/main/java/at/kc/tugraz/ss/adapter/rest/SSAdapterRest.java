@@ -251,14 +251,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collSharedAll")
-  public String collSharedAll(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collSharedAll);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collUserWithEntries")
   public String collUserWithEntries(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserWithEntries);
