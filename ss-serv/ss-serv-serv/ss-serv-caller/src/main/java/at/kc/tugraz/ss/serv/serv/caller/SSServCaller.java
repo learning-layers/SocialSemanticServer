@@ -884,6 +884,16 @@ public class SSServCaller {
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collUserEntriesDelete, opPars));
   }
+  
+  public static Boolean collsUserCouldSubscribeGet(
+    final SSUri       userUri) throws Exception{
+      
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collsUserCouldSubscribeGet, opPars));
+  }
 
   /* solr */
 

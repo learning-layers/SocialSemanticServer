@@ -179,6 +179,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "collsUserCouldSubscribeGet")
+  public String collsUserCouldSubscribeGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsUserCouldSubscribeGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collUserRootGet")
   public String collUserRootGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserRootGet);

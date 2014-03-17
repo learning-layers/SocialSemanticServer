@@ -217,6 +217,7 @@ public enum SSMethU{
   collEntityPrivateForUserIs                          ,
   collUserHierarchyGet                                ,
   collUserCumulatedTagsGet                            ,
+  collsUserCouldSubscribeGet                          ,
   
   //recomm
   recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,

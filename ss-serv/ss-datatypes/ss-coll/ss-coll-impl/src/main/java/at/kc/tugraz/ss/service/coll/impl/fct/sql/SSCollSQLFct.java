@@ -177,13 +177,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
   
   public List<String> getAllUserCollURIs(final SSUri userUri) throws Exception{
      
-    final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
-    final List<String>        userCollUris              = new ArrayList<String>();
-    ResultSet                 resultSet                 = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
+    ResultSet resultSet = null;
     
     try{
+      final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
+      final List<String>        userCollUris              = new ArrayList<String>();
+    
+      whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
+      
       resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
       
       while(resultSet.next()){
@@ -693,7 +694,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSColl getColl(final SSUri collUri, final SSSpaceEnum collSpace) throws Exception{
+  public SSColl getColl(
+    final SSUri       collUri, 
+    final SSSpaceEnum collSpace) throws Exception{
    
     if(SSObjU.isNull(collUri, collSpace)){
       SSServErrReg.regErrThrow(new Exception("pars null"));

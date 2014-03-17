@@ -34,4 +34,5 @@ public interface SSCollClientI{
   public void collUserHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collUserCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collsUserEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collsUserCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

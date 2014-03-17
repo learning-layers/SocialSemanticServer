@@ -63,9 +63,11 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntitySharedOrFollowedF
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSpaceGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCummulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
+import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -133,9 +135,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       author);
   }
 
-  /**
-   * SSServRegisterableImplI 
-   */
+  /* SSServRegisterableImplI */
   @Override
   public List<SSMethU> publishClientOps() throws Exception{
 
@@ -174,10 +174,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     return SSCollServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 
-  /**
-   * ****
-   * SSCollClientI *****
-   */
+  /* SSCollClientI */
   @Override
   public void collUserParentGet(SSSocketCon sSCon, SSServPar par) throws Exception{
 
@@ -205,6 +202,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(par), par.op));
   }
+  
+  @Override
+  public void collsUserCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+
+    SSServCaller.checkKey(par);
+
+    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(par), par.op));
+  }  
 
   @Override
   public void collUserEntriesDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
@@ -870,6 +875,36 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
        
       for(String collUri : SSStrU.retainAll(collUris, userCollUris)){
         colls.add(sqlFct.getUserColl(par.user, SSUri.get(collUri)));
+      }
+      
+      return colls;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
+   
+    try{
+      final SSCollsUserCouldSubscribeGetPar par               = new SSCollsUserCouldSubscribeGetPar(parA);
+      final List<SSColl>                    colls             = new ArrayList<SSColl>();
+      final List<SSUri>                     sharedCollURIs    = sqlFct.getAllSharedCollURIs();
+      final List<String>                    userCollURIs      = sqlFct.getAllUserCollURIs(par.user);
+      
+      for(SSUri sharedCollURI : sharedCollURIs){
+        
+        if(
+          userCollURIs.contains  (SSUri.toStr(sharedCollURI)) ||
+          sqlFct.ownsUserASubColl(par.user, sharedCollURI)){
+          continue;
+        }
+        
+        colls.add(
+          sqlFct.getColl(
+            sharedCollURI,
+            SSSpaceEnum.sharedSpace));
       }
       
       return colls;
