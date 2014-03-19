@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ public class SSMimeTypeU {
 	public final static String                 applicationLatex                                           = "application/x-latex";
 	public final static String                 applicationRdf                                             = "application/rdf+xml";
 	public final static String                 applicationOgg                                             = "application/ogg";
+  public final static String                 applicationJson                                            = "application/json";
 	public final static String                 textPlain                                                  = "text/plain";
 	public final static String                 textHtml                                                   = "text/html";
 	public final static String                 textCss                                                    = "text/css";

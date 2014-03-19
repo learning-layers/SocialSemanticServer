@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.main;
 
+import at.kc.tugraz.ss.test.i5cloud.SSI5CloudTester;
 import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
 import at.kc.tugraz.ss.test.serv.scaff.SSScaffTester;
@@ -27,6 +28,7 @@ public class SSTester extends Thread{
       new SSDataImportTester().start();
       new SSEntityTester().start();
       new SSScaffTester().start();
+      new SSI5CloudTester().start();
       
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();

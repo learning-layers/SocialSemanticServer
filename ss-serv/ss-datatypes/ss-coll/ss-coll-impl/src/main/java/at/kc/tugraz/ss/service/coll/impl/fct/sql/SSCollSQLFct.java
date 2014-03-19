@@ -200,7 +200,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }  
   
- 
   public Boolean ownsUserColl(
     final SSUri       userUri, 
     final SSUri       collUri, 
@@ -228,6 +227,10 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }finally{
       dbSQL.closeStmt(resultSet);
     }
+    
+    //select * from entity, circleUser, circleEntity, cirlce where 
+    //id = entityUri, circleUser = userUri, circleType = private and id=entityId, circle.circleId=circlecircleId
+    //select * from entity, circleUser, circleEntity, cirlce where id = entityUri, circleUser = userUri, circleType != private;
   }
   
   public Boolean ownsUserColl(
@@ -743,7 +746,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return coll;
   }
   
-  public SSColl getUserColl(final SSUri userUri, final SSUri collUri) throws Exception{
+  public SSColl getUserColl(
+    final SSUri userUri, 
+    final SSUri collUri) throws Exception{
    
     if(SSObjU.isNull(userUri, collUri)){
       SSServErrReg.regErrThrow(new Exception("pars null"));

@@ -48,7 +48,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryDeleteRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserParentGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserShareRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollSharedAllRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -348,18 +347,18 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       if(
         par.addNewColl || 
         sqlFct.isColl(par.collEntry)){ //to add coll entry is coll itself
-
+        
         if(
-          SSSpaceEnum.isSharedOrFollow  (parentColl.space) && 
+          SSSpaceEnum.isSharedOrFollow  (parentColl.space) &&
           SSSpaceEnum.isPrivate         (par.space)){
           SSServErrReg.regErrThrow(new Exception("cannot add private to shared / followed collection"));
           return null;
         }
-
+        
         if(SSSpaceEnum.isFollow(par.space)){
-
+          
 //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
-
+          
           if(SSSpaceEnum.isSharedOrFollow  (parentColl.space)){
             SSServErrReg.regErrThrow(new Exception("cannot follow coll in shared / followed parent coll"));
             return null;
@@ -375,11 +374,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             return null;
           }
         }
-
+        
         if(par.addNewColl){
           par.collEntry = sqlFct.createCollURI();
         }
-
+        
         SSServCaller.addEntity(
           par.user,
           par.collEntry,

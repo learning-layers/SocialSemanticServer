@@ -7,6 +7,17 @@ ssConf:
   port: 8390
 jsonLDConf:
   uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/
+i5CloudConf:
+  use: true
+  executeOpAtStartUp: false
+  op: #i5CloudAuth
+  uri: 
+  userLabel: 
+  pass:
+accessRightsConf:
+  use: true
+  executeOpAtStartUp: false
+  op:  
 dbGraphConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
   use: true
   executeOpAtStartUp: false

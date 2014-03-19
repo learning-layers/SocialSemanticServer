@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.impl.SSServerSocket;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -29,7 +28,7 @@ public class SSMain{
   }
   
   public void start(String[] args) throws Exception {
-    
+
 //    addShutDownHookThread ();
     //TODO dtheiler: create conf via service as well
     SSCoreConf.instSet(SSFileU.fileNameWithExtSSConf);

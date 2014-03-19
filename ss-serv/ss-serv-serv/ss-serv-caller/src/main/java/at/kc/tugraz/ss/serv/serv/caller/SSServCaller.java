@@ -1669,6 +1669,12 @@ public class SSServCaller {
     
     SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
   }
+  
+  /* i5Cloud */
+  
+  public static Map<String, String> i5CloudAuth() throws Exception{
+    return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAuth, new HashMap<String, Object>()));
+  }
 }
 
 

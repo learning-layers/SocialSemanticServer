@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>ss-jobs</artifactId>
+    <groupId>at.kc.tugraz.ss.serv</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>at.kc.tugraz.ss.serv.job.accessrights</groupId>
+  <artifactId>ss-accessrights</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ss-accessrights</name>
+  <modules>
+    <module>ss-accessrights-serv</module>
+    <module>ss-accessrights-impl</module>
+    <module>ss-accessrights-conf</module>
+    <module>ss-accessrights-datatypes</module>
+    <module>ss-accessrights-api</module>
+  </modules>
+</project>
