@@ -33,6 +33,7 @@ public class SSMimeTypeU {
 	public final static String                 applicationRdf                                             = "application/rdf+xml";
 	public final static String                 applicationOgg                                             = "application/ogg";
   public final static String                 applicationJson                                            = "application/json";
+  public final static String                 multipartFormData                                          = "multipart/form-data";
 	public final static String                 textPlain                                                  = "text/plain";
 	public final static String                 textHtml                                                   = "text/html";
 	public final static String                 textCss                                                    = "text/css";

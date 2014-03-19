@@ -126,7 +126,8 @@ public class SSFileU{
 		}
 	}	
 	
-	public static FileInputStream openFileForRead(String filePath) throws Exception{
+	public static FileInputStream openFileForRead(
+    final String filePath) throws Exception{
 
 		try{
 			return new FileInputStream(new File(filePath));
@@ -136,7 +137,8 @@ public class SSFileU{
 		}
 	}
 	
-	public static FileOutputStream openOrCreateFileWithPathForWrite(final String filePath) throws Exception{
+	public static FileOutputStream openOrCreateFileWithPathForWrite(
+    final String filePath) throws Exception{
 		
 		try{
       
@@ -153,28 +155,176 @@ public class SSFileU{
     }
 	}
   
-  public static String readFileText(File file, Charset charset) throws Exception {
+  public static String readFileText(
+    final File    file, 
+    final Charset charset) throws Exception {
    
-    FileInputStream   in          = openFileForRead(file.getAbsolutePath());
-    String            fileContent = SSStrU.empty;
-    byte[]            bytes       = new byte[1];
+    FileInputStream   in = null;
     
-    while(in.read(bytes) != -1){
-      fileContent += new String(bytes, charset);
+    try{
+      
+      final byte[] bytes       = new byte[1];
+      String       fileContent = SSStrU.empty;
+      
+      in = openFileForRead(file.getAbsolutePath());
+
+      while(in.read(bytes) != -1){
+        fileContent += new String(bytes, charset);
+      }
+
+      in.close();
+
+      return fileContent;
+   }catch(Exception error){
+      SSLogU.errThrow(error);
+      return null;
+   }finally{
+      
+      if(in != null){
+        in.close();
+      }
     }
-    
-    in.close();
-    
-    return fileContent;
   }
   
-  public static void writeFileText(File file, String text) throws Exception{
+  public static String readStreamText(
+    final InputStream streamIn) throws Exception{
     
-    FileOutputStream openFileForWrite = openOrCreateFileWithPathForWrite(file.getAbsolutePath());
-    byte[]           bytes            = text.getBytes();
+    if(SSObjU.isNull(streamIn)){
+      SSLogU.errThrow(new Exception("pars not ok"));
+      return null;
+    }
     
-    openFileForWrite.write (bytes, 0, bytes.length);
-    openFileForWrite.close ();
+    try{
+      final InputStreamReader inputReader = new InputStreamReader (streamIn, SSEncodingU.utf8);
+      final char[]            buffer      = new char[1];
+      String                  result      = new String();
+
+      while(inputReader.read(buffer) != -1){
+        result += buffer[0];
+      }
+
+      return result;
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+      return null;
+    }finally{
+      
+      if(streamIn != null){
+        streamIn.close();
+      }
+    }
+  }
+   
+  public static void readFileBytes(
+    final OutputStream    outStream, 
+    final FileInputStream fileIn) throws Exception{
+    
+    if(SSObjU.isNull(outStream, fileIn)){
+      SSLogU.errThrow(new Exception("pars not ok"));
+      return;
+    }
+    
+    final byte[] fileBytes   = new byte[SSSocketU.socketTranmissionSize];
+    int          read;
+    
+    try{
+      
+      while ((read = fileIn.read(fileBytes)) != -1) {
+        
+        if(
+          fileBytes.length == 0 ||
+          read             <= 0){
+          
+          outStream.write     (new byte[0]);
+          outStream.flush     ();
+          break;
+        }
+        
+        outStream.write     (fileBytes, 0, read);
+        outStream.flush     ();
+      }
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+    }finally{
+      
+      if(outStream != null){
+        outStream.close();
+      }
+      
+      if(fileIn != null){
+        fileIn.close();
+      }
+    }
+  }
+  
+  public static void writeFileText(
+    final File   file,
+    final String text) throws Exception{
+    
+    if(SSObjU.isNull(file, text)){
+      SSLogU.errThrow(new Exception("pars not ok"));
+      return;
+    }
+        
+    final byte[]     bytes      = text.getBytes();
+    FileOutputStream fileOut    = null;
+    
+    try{
+      
+      fileOut = openOrCreateFileWithPathForWrite(file.getAbsolutePath());
+      
+      fileOut.write (bytes, 0, bytes.length);
+      
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+    }finally{
+      
+      if(fileOut != null){
+        fileOut.close();
+      }
+    }
+  }
+  
+  public static void writeFileBytes(
+    final FileOutputStream fileOut, 
+    final InputStream      streamIn) throws Exception{
+    
+    if(SSObjU.isNull(fileOut, streamIn)){
+      SSLogU.errThrow(new Exception("pars not ok"));
+      return;
+    }
+    
+    final byte[] fileBytes   = new byte[SSSocketU.socketTranmissionSize];
+    int          read;
+    
+    try{
+    
+      while ((read = streamIn.read(fileBytes)) != -1) {
+
+        if(
+          fileBytes.length == 0 ||
+          read             <= 0){
+
+          fileOut.write     (new byte[0]);
+          fileOut.flush     ();
+          break;
+        }
+
+        fileOut.write     (fileBytes, 0, read);
+        fileOut.flush     ();
+      }
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+    }finally{
+      
+      if(fileOut != null){
+        fileOut.close();
+      }
+      
+      if(streamIn != null){
+        streamIn.close();
+      }
+    }
   }
   
   public static File[] filesForDirPath(String dirPath){

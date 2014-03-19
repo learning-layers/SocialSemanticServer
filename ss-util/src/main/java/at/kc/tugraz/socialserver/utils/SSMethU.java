@@ -230,7 +230,9 @@ public enum SSMethU{
   recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate,
   
   //i5cloud
-  i5CloudAuth;
+  i5CloudAuth,
+  i5CloudFileUpload,
+  i5CloudFileDownload;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

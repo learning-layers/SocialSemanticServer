@@ -10,7 +10,7 @@ jsonLDConf:
 i5CloudConf:
   use: true
   executeOpAtStartUp: false
-  op: #i5CloudAuth
+  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
   uri: 
   userLabel: 
   pass:

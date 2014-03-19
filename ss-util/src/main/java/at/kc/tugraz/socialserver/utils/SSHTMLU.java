@@ -19,4 +19,7 @@ public class SSHTMLU{
 
   public static final String acceptCharset = "Accept-Charset";
   public static final String contentType   = "Content-Type";
+  public static final String get           = "GET";
+  public static final String put           = "PUT";
+  public static final String xAuthToken    = "X-Auth-Token";
 }

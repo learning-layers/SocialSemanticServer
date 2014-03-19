@@ -19,5 +19,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.Map;
 
 public interface SSI5CloudServerI{
-  public Map<String, String> i5CloudAuth(final SSServPar parA) throws Exception;
+  public Map<String, String> i5CloudAuth         (final SSServPar parA) throws Exception;
+  public Boolean             i5CloudFileUpload   (final SSServPar parA) throws Exception;
+  public Boolean             i5CloudFileDownload (final SSServPar parA) throws Exception;
 }

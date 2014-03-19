@@ -19,6 +19,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String username                                       = "username";
+  public static final String password                                       = "password";
   public static final String forUserUri                                     = "forUserUri";
   public static final String tagLabel                                       = "tagLabel";
   public static final String collEntries                                    = "collEntries";
@@ -74,6 +76,7 @@ public class SSVarU{
   public static final String categories                                     = "categories";
   public static final String numTags                                        = "numTags";
   public static final String fileName                                       = "fileName";
+  public static final String xAuthToken                                     = "xAuthToken";
   public static final String tagsPerEntities                                = "tagsPerEntities";
   public static final String categoriesPerEntities                          = "categoriesPerEntities";
   public static final String dUpperBound                                    = "dUpperBound";

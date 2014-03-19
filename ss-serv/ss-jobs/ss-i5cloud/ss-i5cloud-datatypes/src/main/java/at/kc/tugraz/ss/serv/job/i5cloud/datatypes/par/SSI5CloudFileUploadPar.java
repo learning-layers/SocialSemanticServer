@@ -15,11 +15,28 @@
  */
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSI5CloudAuthPar extends SSServPar{
+public class SSI5CloudFileUploadPar extends SSServPar{
   
-  public SSI5CloudAuthPar(final SSServPar par) throws Exception{
+  public String xAuthToken  = null;
+  public String fileName    = null;
+  public String space       = null;
+  
+  public SSI5CloudFileUploadPar(final SSServPar par) throws Exception{
     super(par);
+    
+    try{
+      
+      if(pars != null){
+        fileName        = (String) pars.get(SSVarU.fileName);
+        xAuthToken      = (String) pars.get(SSVarU.xAuthToken);
+        space           = (String) pars.get(SSVarU.space);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

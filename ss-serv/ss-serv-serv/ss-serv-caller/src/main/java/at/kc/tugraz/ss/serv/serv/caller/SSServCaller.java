@@ -1675,6 +1675,30 @@ public class SSServCaller {
   public static Map<String, String> i5CloudAuth() throws Exception{
     return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAuth, new HashMap<String, Object>()));
   }
+  
+  public static Boolean i5CloudFileUpload(
+    final String fileName,
+    final String xAuthToken) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,   fileName);
+    opPars.put(SSVarU.xAuthToken, xAuthToken);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileUpload, opPars));
+  }
+  
+  public static Boolean i5CloudFileDownload(
+    final String fileName,
+    final String xAuthToken) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.fileName,   fileName);
+    opPars.put(SSVarU.xAuthToken, xAuthToken);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileDownload, opPars));
+  }
 }
 
 
