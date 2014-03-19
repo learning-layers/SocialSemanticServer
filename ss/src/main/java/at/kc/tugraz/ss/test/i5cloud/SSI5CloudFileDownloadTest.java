@@ -33,7 +33,7 @@ public class SSI5CloudFileDownloadTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    final Boolean result = SSServCaller.i5CloudFileDownload("test.pdf", "4a400ba7c47f41dcabb8f3cdd664003c");
+    final Boolean result = SSServCaller.i5CloudFileDownload("test.pdf", "private", "4a400ba7c47f41dcabb8f3cdd664003c");
     
     SSLogU.info("end " + op + "Test");
   }

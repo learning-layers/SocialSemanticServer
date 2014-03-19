@@ -22,7 +22,8 @@ public enum SSFileRepoTypeE {
   localWork,
   fileSys,
   webdav, 
-  solr;
+  solr,
+  i5Cloud;
   
   public static SSFileRepoTypeE get(
     String value){

@@ -15,20 +15,22 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
-import static at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE.fileSys;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 public class SSFileDownloader extends SSServImplStartA{
   
@@ -50,19 +52,6 @@ public class SSFileDownloader extends SSServImplStartA{
     this.sSCon             = sSCon;
     this.par               = new SSFileDownloadPar(par);
     this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.uri);
-    
-    switch(fileRepoConf.fileRepoType){
-        case fileSys:
-          fileReader = new DataInputStream (new FileInputStream(new File(fileRepoConf.getPath() + fileId)));
-          break;
-        default:
-          throw new UnsupportedOperationException("impl. currently not supported");
-    }
-    
-//    if(SSFileRepoTypeEnum.isSame(fileRepoConf.fileRepoType, SSFileRepoTypeEnum.webdav)){
-//      this.webdavInputStream = SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId);
-////      fileReader = new DataInputStream(SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId));
-//    }
   }
   
   @Override
@@ -71,6 +60,16 @@ public class SSFileDownloader extends SSServImplStartA{
     try{
       
       sSCon.writeRetFullToClient(new SSFileDownloadRet(par.uri, par.op));
+      
+      switch(((SSFileRepoConf)conf).fileRepoType){
+        case i5Cloud: downloadFromI5Cloud(); break;    
+//    if(SSFileRepoTypeEnum.isSame(fileRepoConf.fileRepoType, SSFileRepoTypeEnum.webdav)){
+//      this.webdavInputStream = SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId);
+////      fileReader = new DataInputStream(SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId));
+//    }
+      }
+
+      fileReader = new DataInputStream (new FileInputStream(new File(((SSFileRepoConf)conf).getPath() + fileId)));
       
       while(true){
         
@@ -84,9 +83,7 @@ public class SSFileDownloader extends SSServImplStartA{
           return;
         }
         
-        if(sSCon.writeFileChunkToClient(chunk, fileChunkLength)){
-          continue;
-        }
+        sSCon.writeFileChunkToClient(chunk, fileChunkLength);
       }
       
     }catch(Exception error1){
@@ -100,11 +97,29 @@ public class SSFileDownloader extends SSServImplStartA{
       }
     }finally{
       
+      if(fileReader != null){
+        
+        try{
+          fileReader.close();
+        }catch(IOException ex){
+          SSLogU.err(ex);
+        }
+      }
+      
       try{
         finalizeImpl();
       }catch(Exception error3){
         SSLogU.err(error3);
       }
+    }
+  }
+  
+  private void downloadFromI5Cloud() throws Exception{
+    
+    try{
+      SSServCaller.i5CloudFileDownload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

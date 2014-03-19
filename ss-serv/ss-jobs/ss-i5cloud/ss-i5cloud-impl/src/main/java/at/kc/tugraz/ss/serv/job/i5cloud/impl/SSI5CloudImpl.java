@@ -21,7 +21,6 @@ import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
-import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -31,15 +30,10 @@ import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudAuthPar;
+import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
-import at.kc.tugraz.ss.serv.job.i5cloud.impl.fct.misc.SSI5CloudMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
@@ -147,6 +141,8 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       SSFileU.readFileBytes(
         i5CloudCon.getOutputStream(), 
         SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.fileName));
+     
+      SSFileU.readStreamText(i5CloudCon.getInputStream());
       
       return true;
     }catch(Exception error){
@@ -158,8 +154,8 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   @Override
   public Boolean i5CloudFileDownload(final SSServPar parA) throws Exception{
     
-    final SSI5CloudFileUploadPar par   = new SSI5CloudFileUploadPar(parA);
-    final HttpURLConnection      i5CloudCon;     
+    final SSI5CloudFileDownloadPar par   = new SSI5CloudFileDownloadPar(parA);
+    final HttpURLConnection        i5CloudCon;     
     
     try{
       

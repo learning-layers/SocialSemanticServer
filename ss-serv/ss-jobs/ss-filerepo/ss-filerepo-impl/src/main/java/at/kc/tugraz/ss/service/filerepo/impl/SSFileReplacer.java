@@ -16,8 +16,10 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -26,8 +28,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
-import at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE;
-import static at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE.fileSys;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
 import com.googlecode.sardine.SardineFactory;
@@ -59,15 +59,8 @@ public class SSFileReplacer extends SSServImplStartA{
     this.sSCon                = sSCon;
     this.par                  = new SSFileReplacePar(par);
     this.localWorkConf        = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
-    
-    switch(fileRepoConf.fileRepoType){
-        case fileSys:
-          this.fileId            = SSServCaller.fileIDFromURI   (this.par.user, this.par.uri);
-          this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite     (localWorkConf.getPath() + fileId);
-          break;
-        default:
-          throw new UnsupportedOperationException("impl. currently not supported");
-    }
+    this.fileId               = SSServCaller.fileIDFromURI               (this.par.user, this.par.uri);
+    this.fileOutputStream     = SSFileU.openOrCreateFileWithPathForWrite (localWorkConf.getPath() + fileId);
   }
   
   @Override
@@ -96,8 +89,12 @@ public class SSFileReplacer extends SSServImplStartA{
         synchronized(fileAccessProperties){
           
           if(SSServCaller.fileCanWrite(par.user, par.uri).canWrite){
-            moveFileToLocalRepo();
-            uploadFileToWebDav();
+            
+            switch(((SSFileRepoConf)conf).fileRepoType){
+              case fileSys: moveFileToLocalRepo();  break;
+              case webdav:  uploadFileToWebDav();   break;
+              case i5Cloud: uploadFileToI5Cloud();  break;
+            }
             
             SSServCaller.fileRemoveReaderOrWriter(par.user, par.uri, true, true);
             
@@ -136,10 +133,6 @@ public class SSFileReplacer extends SSServImplStartA{
   
   private void moveFileToLocalRepo() throws Exception{
     
-    if(!SSFileRepoTypeE.isSame(((SSFileRepoConf)conf).fileRepoType, SSFileRepoTypeE.fileSys)){
-      return;
-    }
-    
     if(SSStrU.equals(localWorkConf.getPath(), ((SSFileRepoConf)conf).getPath())){
       return;
     }
@@ -156,18 +149,28 @@ public class SSFileReplacer extends SSServImplStartA{
   }
   
   private void uploadFileToWebDav() throws Exception{
-    
-    if(!SSFileRepoTypeE.isSame(((SSFileRepoConf)conf).fileRepoType, SSFileRepoTypeE.webdav)){
-      return;
+
+    try{
+      fileInputStream = SSFileU.openFileForRead(localWorkConf.getPath() + fileId);
+
+      SardineFactory.begin(
+        ((SSFileRepoConf)conf).user,
+        ((SSFileRepoConf)conf).password).put(((SSFileRepoConf)conf).getPath() + fileId, fileInputStream);
+
+      fileInputStream.close();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    fileInputStream = SSFileU.openFileForRead(localWorkConf.getPath() + fileId);
-    
-    SardineFactory.begin(
-      ((SSFileRepoConf)conf).user,
-      ((SSFileRepoConf)conf).password).put(((SSFileRepoConf)conf).getPath() + fileId, fileInputStream);
-    
-    fileInputStream.close();
+  }
+  
+  private void uploadFileToI5Cloud() throws Exception{
+
+    try{
+      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{

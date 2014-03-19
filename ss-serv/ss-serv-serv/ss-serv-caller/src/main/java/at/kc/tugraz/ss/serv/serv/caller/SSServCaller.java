@@ -1678,11 +1678,13 @@ public class SSServCaller {
   
   public static Boolean i5CloudFileUpload(
     final String fileName,
+    final String containerSpace,
     final String xAuthToken) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.fileName,   fileName);
+    opPars.put(SSVarU.space,      containerSpace);
     opPars.put(SSVarU.xAuthToken, xAuthToken);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileUpload, opPars));
@@ -1690,11 +1692,13 @@ public class SSServCaller {
   
   public static Boolean i5CloudFileDownload(
     final String fileName,
+    final String containerSpace,
     final String xAuthToken) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.fileName,   fileName);
+    opPars.put(SSVarU.space,      containerSpace);
     opPars.put(SSVarU.xAuthToken, xAuthToken);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileDownload, opPars));

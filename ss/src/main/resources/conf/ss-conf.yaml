@@ -65,7 +65,7 @@ filerepoConf:
   executeOpAtStartUp: false
   op: 
   path: #leave empty for workingDir/tmp; http://localhost:80/webdav/knowBrainWeb/
-  fileRepoType: fileSys #fileSys, webdav, solr, localWork
+  fileRepoType: fileSys #fileSys, webdav, solr, localWork, i5Cloud
   user: 
   password: 
 solrConf:

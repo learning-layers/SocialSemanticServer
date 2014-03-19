@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,11 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -28,13 +30,13 @@ import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SSFileUploader extends SSServImplStartA{
   
@@ -59,16 +61,9 @@ public class SSFileUploader extends SSServImplStartA{
     this.localWorkConf     = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
     
     try{
-      this.uri = SSServCaller.fileCreateUri(par.user, SSMimeTypeU.fileExtForMimeType(this.par.mimeType));
-      
-      switch(fileRepoConf.fileRepoType){
-        case fileSys:
-          this.fileId            = SSServCaller.fileIDFromURI (par.user, uri);
-          this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkConf.getPath() + fileId);
-          break;
-        default:
-          throw new UnsupportedOperationException("impl. currently not supported");
-      }
+      this.uri               = SSServCaller.fileCreateUri(par.user, SSMimeTypeU.fileExtForMimeType(this.par.mimeType));
+      this.fileId            = SSServCaller.fileIDFromURI (par.user, uri);
+      this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkConf.getPath() + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -97,8 +92,12 @@ public class SSFileUploader extends SSServImplStartA{
         
         fileOutputStream.close();
         
-        moveFileToLocalRepo();
-        uploadFileToWebDav();
+        switch(((SSFileRepoConf)conf).fileRepoType){
+          case fileSys: moveFileToLocalRepo(); break;
+          case webdav:  uploadFileToWebDav();  break;
+          case i5Cloud: uploadFileToI5Cloud(); break;
+        }
+        
         addFileToSolr();
         addFileEntity();
         
@@ -117,6 +116,15 @@ public class SSFileUploader extends SSServImplStartA{
         SSServErrReg.regErr(error2);
       }
     }finally{
+      
+      if(fileOutputStream != null){
+        
+        try{
+          fileOutputStream.close();
+        }catch(IOException ex){
+          SSLogU.err(ex);
+        }
+      }
       
       try{
         finalizeImpl();
@@ -150,10 +158,6 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void moveFileToLocalRepo() throws Exception{
     
-    if(!SSFileRepoTypeE.isSame(((SSFileRepoConf)conf).fileRepoType, SSFileRepoTypeE.fileSys)){
-      return;
-    }
-    
     if(SSStrU.equals(localWorkConf.getPath(), ((SSFileRepoConf)conf).getPath())){
       return;
     }
@@ -171,19 +175,28 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void uploadFileToWebDav() throws Exception{
     
-    if(!SSFileRepoTypeE.isSame(((SSFileRepoConf)conf).fileRepoType, SSFileRepoTypeE.webdav)){
-      return;
+    try{
+      fileInputStream = SSFileU.openFileForRead(localWorkConf.getPath() + fileId);
+      
+      SardineFactory.begin(
+        ((SSFileRepoConf)conf).user,
+        ((SSFileRepoConf)conf).password).put(((SSFileRepoConf)conf).getPath() + fileId, fileInputStream);
+      
+      fileInputStream.close();
+    }catch(Exception error){
+      SSServErrReg.regErr(error);
     }
-    
-    fileInputStream = SSFileU.openFileForRead(localWorkConf.getPath() + fileId);
-    
-    SardineFactory.begin(
-      ((SSFileRepoConf)conf).user,
-      ((SSFileRepoConf)conf).password).put(((SSFileRepoConf)conf).getPath() + fileId, fileInputStream);
-    
-    fileInputStream.close();
   }
+  
+  private void uploadFileToI5Cloud() throws Exception{
 
+    try{
+      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   private void addFileToSolr(){
     
     try{
