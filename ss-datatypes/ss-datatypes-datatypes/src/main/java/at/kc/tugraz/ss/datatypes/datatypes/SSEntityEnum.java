@@ -19,6 +19,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import java.util.List;
 
 public enum SSEntityEnum implements SSJSONLDPropI{
   entity,
@@ -39,6 +40,7 @@ public enum SSEntityEnum implements SSJSONLDPropI{
   evernoteNotebook,
   evernoteNote,
   evernoteResource,
+  circle,
 
   entityDesc,
   collDesc,
@@ -56,6 +58,24 @@ public enum SSEntityEnum implements SSJSONLDPropI{
   userDesc, 
   locationDesc;
 
+  public static Boolean contains(
+    final List<SSEntityEnum> types, 
+    final SSEntityEnum       certainType){
+
+    if(SSObjU.isNull(certainType)){
+      return false;
+    }
+    
+    for(SSEntityEnum type : types){
+    
+      if(SSStrU.equals(toStr(type), toStr(certainType))){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   public static String toStr(final SSEntityEnum entityType){
     return SSStrU.toString(entityType);
   }

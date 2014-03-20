@@ -232,7 +232,14 @@ public enum SSMethU{
   //i5cloud
   i5CloudAuth,
   i5CloudFileUpload,
-  i5CloudFileDownload;
+  i5CloudFileDownload,
+  
+  //access rights
+  accessRightsUserAllowedIs,
+  accessRightsUserCirclesGet,
+  accessRightsUserCircleCreate,
+  accessRightsUserEntitiesToCircleAdd,
+  accessRightsUserUsersToCircleAdd;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

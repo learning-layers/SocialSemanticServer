@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.job.accessrights.api;
+package at.kc.tugraz.ss.serv.job.accessrights.datatypes.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.List;
 
-public interface SSAccessRightsServerI{
-  
-  public SSUri          accessRightsUserCircleCreate        (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserEntitiesToCircleAdd (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserUsersToCircleAdd    (final SSServPar parA) throws Exception;
-  public List<SSCircle> accessRightsUserCirclesGet          (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserAllowedIs           (final SSServPar parA) throws Exception;
+public class SSAccessRightsUserCirclesGetPar extends SSServPar{
+
+  public SSAccessRightsUserCirclesGetPar(final SSServPar par) throws Exception{
+    super(par);
+  }
 }

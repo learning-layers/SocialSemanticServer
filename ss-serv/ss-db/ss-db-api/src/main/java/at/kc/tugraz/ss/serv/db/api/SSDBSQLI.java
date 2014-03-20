@@ -32,11 +32,11 @@ public interface SSDBSQLI{
   public ResultSet selectCertainDistinctWhere(
     final String              tableName, 
     final List<String>        columnNames, 
-    final Map<String, String> whereParNamesWithValues) throws Exception;
+    final Map<String, String> where) throws Exception;
 
   public ResultSet selectAllWhere(
     final String              tableName, 
-    final Map<String, String> whereParNamesWithValues) throws Exception;
+    final Map<String, String> where) throws Exception;
   
   public void closeStmt(
     final ResultSet resultSet) throws Exception;
@@ -44,7 +44,7 @@ public interface SSDBSQLI{
   public ResultSet selectCertainWhere(
     final List<String>        tableNames, 
     final List<String>        columnNames, 
-    final Map<String, String> whereParNamesWithValues, 
+    final Map<String, String> where, 
     final String              whereFixedRestriction) throws Exception;
   
   public ResultSet selectCertainDistinctWhere(
@@ -63,7 +63,7 @@ public interface SSDBSQLI{
   
   public void insert(
     final String              tableName, 
-    final Map<String, String> inserPars) throws Exception;
+    final Map<String, String> insertPars) throws Exception;
   
   public void deleteWhere(
     final String              tableName, 

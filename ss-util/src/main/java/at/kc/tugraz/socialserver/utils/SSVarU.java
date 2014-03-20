@@ -19,6 +19,11 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String circleRights                                   = "circleRights";
+  public static final String circleUri                                      = "circleUri";
+  public static final String circleType                                     = "circleType";
+  public static final String userUris                                       = "userUris";
+  public static final String entityUris                                     = "entityUris";
   public static final String username                                       = "username";
   public static final String password                                       = "password";
   public static final String forUserUri                                     = "forUserUri";
@@ -160,6 +165,7 @@ public class SSVarU{
   public static final String write                                          = "write";
   public static final String uri                                            = "uri";
   public static final String entityUri                                      = "entityUri";
+  public static final String accessRight                                    = "accessRight";
   public static final String removeUserTags                                 = "removeUserTags";
   public static final String removeUserRatings                              = "removeUserRatings";
   public static final String removeFromUserColls                            = "removeFromUserColls";

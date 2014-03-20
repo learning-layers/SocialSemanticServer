@@ -25,7 +25,18 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.List;
 
 public interface SSEntityHandlerImplI{
+
+  //  public Boolean isUserAllowedTo(
+//    final SSEntityEnum              entityType, 
+//    final SSUri                     userUri, 
+//    final SSUri                     entityUri,
+//    final List<SSUri>               entityCircleUris,
+//    final SSAccessRightsRightTypeE  accessRight) throws Exception;   
+
   
+  //TODO dtheiler: do this
+//  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception;
+
   public SSEntityDescA getDescForEntity(
     final SSEntityEnum    entityType, 
     final SSUri           userUri, 

@@ -37,7 +37,9 @@ public class SSDiscServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityEnum.disc);
-    regServForManagingEntities(SSEntityEnum.discEntry);
+    
+    for(SSEntityEnum entityType : ((SSDiscImpl)inst.serv()).getSupportedEntityTypes()){
+      regServForManagingEntities(entityType);
+    }
   }
 }

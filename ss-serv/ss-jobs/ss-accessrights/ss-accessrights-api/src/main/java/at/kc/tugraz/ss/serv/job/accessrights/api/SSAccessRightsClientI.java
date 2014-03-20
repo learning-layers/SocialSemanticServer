@@ -15,6 +15,12 @@
  */
 package at.kc.tugraz.ss.serv.job.accessrights.api;
 
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+
 public interface SSAccessRightsClientI{
   
+  public void accessRightsUserCircleCreate        (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void accessRightsUserEntitiesToCircleAdd (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void accessRightsUserUsersToCircleAdd    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
 }

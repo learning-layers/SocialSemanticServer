@@ -51,6 +51,7 @@ import java.util.*;
 
 public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI {
 
+  protected final List<SSEntityEnum> supportedEntityTypes;
 //  private final SSDiscGraphFct graphFct;
   private final SSDiscSQLFct sqlFct;
 
@@ -60,9 +61,18 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
 //    graphFct = new SSDiscGraphFct (this);
     sqlFct = new SSDiscSQLFct(this);
+    
+    supportedEntityTypes = new ArrayList<SSEntityEnum>();
+    supportedEntityTypes.add(SSEntityEnum.disc);
+    supportedEntityTypes.add(SSEntityEnum.discEntry);
   }
 
   /* SSEntityHandlerImplI */
+  
+  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception{
+    return supportedEntityTypes;
+  }
+    
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,

@@ -44,9 +44,8 @@ public class SSUri extends SSEntityA{
     
     SSUri newUri = null;
     
-    if(
-      SSObjU.isNull  (uri)         ||
-      SSObjU.isNull  (append)){
+    //TODO dtheiler: check where this method is needed
+    if(SSObjU.isNull(uri, append)){
       return null;
     }
     
