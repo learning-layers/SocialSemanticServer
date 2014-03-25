@@ -43,7 +43,7 @@ entityConf:
 modelConf:
   use: true
   executeOpAtStartUp: false
-  initAtStartUp:
+  initAtStartUp: false #true, false
   op: 
   daysToRetrieveEvents: 60
 logConf:

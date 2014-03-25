@@ -66,25 +66,6 @@ public class SSDBGraphVirtuosoImpl extends SSServImplDBA implements SSDBGraphI{
   }
   
   @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    return new ArrayList<SSMethU>();
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSDBGraphI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
   public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
     throw new UnsupportedOperationException(SSStrU.empty);
   }
