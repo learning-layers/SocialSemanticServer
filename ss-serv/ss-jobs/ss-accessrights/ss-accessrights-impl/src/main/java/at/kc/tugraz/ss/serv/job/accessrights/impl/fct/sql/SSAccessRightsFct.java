@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
 import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;

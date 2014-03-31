@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.job.accessrights.datatypes;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;

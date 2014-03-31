@@ -21,7 +21,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import java.util.ArrayList;
 import java.util.List;
 

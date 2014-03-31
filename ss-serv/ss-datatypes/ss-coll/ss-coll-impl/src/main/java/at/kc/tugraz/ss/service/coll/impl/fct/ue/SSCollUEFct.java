@@ -17,7 +17,6 @@ package at.kc.tugraz.ss.service.coll.impl.fct.ue;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -116,80 +115,81 @@ public class SSCollUEFct {
 
   public static void collUserEntryAdd(final SSCollUserEntryAddPar par){
     
-    if(!par.saveUE){
-      return;
-    }
-        
-    try{
-      
-      if(par.addNewColl){
-
-        if(SSSpaceEnum.isPrivate(par.space)){
-          SSServCaller.ueAdd(
-          par.user,
-          par.collEntry,
-          SSUEEnum.createPrivateCollection,
-          SSStrU.empty,
-          par.shouldCommit);
-        }
-                
-        if(SSSpaceEnum.isShared(par.space)){
-        
-          SSServCaller.ueAdd(
-            par.user,
-            par.collEntry,
-            SSUEEnum.createSharedCollection,
-            SSStrU.empty,
-            par.shouldCommit);
-        }
-      }
-      
-      if(SSSpaceEnum.isFollow(par.space)){
-        
-        SSServCaller.ueAdd(
-          par.user,
-          par.collEntry,
-          SSUEEnum.subscribeCollection,
-          SSStrU.empty,
-          par.shouldCommit);
-      }
-      
-      if(SSSpaceEnum.isSharedOrFollow(par.space)){
-        
-        SSServCaller.ueAdd(
-          par.user,
-          par.collEntry,
-          SSUEEnum.addSharedCollectionItem,
-          SSUri.toStr(par.coll),
-          par.shouldCommit);
-        
-        SSServCaller.ueAdd(
-          par.user,
-          par.coll,
-          SSUEEnum.changeCollectionByAddSharedCollectionItem,
-          SSUri.toStr(par.collEntry),
-          par.shouldCommit);
-      }
-      
-      if(SSSpaceEnum.isPrivate(par.space)){
-        
-        SSServCaller.ueAdd(
-          par.user,
-          par.collEntry,
-          SSUEEnum.addPrivateCollectionItem,
-          SSUri.toStr(par.coll),
-          par.shouldCommit);
-        
-        SSServCaller.ueAdd(
-          par.user,
-          par.coll,
-          SSUEEnum.changeCollectionByAddPrivateCollectionItem,
-          SSUri.toStr(par.collEntry),
-          par.shouldCommit);
-      }
-      
-    }catch(Exception error){
-      SSLogU.warn("storing ue failed");
-    }
+    //TODO dtheiler: re-implement this
+//    if(!par.saveUE){
+//      return;
+//    }
+//        
+//    try{
+//      
+//      if(par.addNewColl){
+//
+//        if(SSSpaceEnum.isPrivate(par.space)){
+//          SSServCaller.ueAdd(
+//          par.user,
+//          par.collEntry,
+//          SSUEEnum.createPrivateCollection,
+//          SSStrU.empty,
+//          par.shouldCommit);
+//        }
+//                
+//        if(SSSpaceEnum.isShared(par.space)){
+//        
+//          SSServCaller.ueAdd(
+//            par.user,
+//            par.collEntry,
+//            SSUEEnum.createSharedCollection,
+//            SSStrU.empty,
+//            par.shouldCommit);
+//        }
+//      }
+//      
+//      if(SSSpaceEnum.isFollow(par.space)){
+//        
+//        SSServCaller.ueAdd(
+//          par.user,
+//          par.collEntry,
+//          SSUEEnum.subscribeCollection,
+//          SSStrU.empty,
+//          par.shouldCommit);
+//      }
+//      
+//      if(SSSpaceEnum.isSharedOrFollow(par.space)){
+//        
+//        SSServCaller.ueAdd(
+//          par.user,
+//          par.collEntry,
+//          SSUEEnum.addSharedCollectionItem,
+//          SSUri.toStr(par.coll),
+//          par.shouldCommit);
+//        
+//        SSServCaller.ueAdd(
+//          par.user,
+//          par.coll,
+//          SSUEEnum.changeCollectionByAddSharedCollectionItem,
+//          SSUri.toStr(par.collEntry),
+//          par.shouldCommit);
+//      }
+//      
+//      if(SSSpaceEnum.isPrivate(par.space)){
+//        
+//        SSServCaller.ueAdd(
+//          par.user,
+//          par.collEntry,
+//          SSUEEnum.addPrivateCollectionItem,
+//          SSUri.toStr(par.coll),
+//          par.shouldCommit);
+//        
+//        SSServCaller.ueAdd(
+//          par.user,
+//          par.coll,
+//          SSUEEnum.changeCollectionByAddPrivateCollectionItem,
+//          SSUri.toStr(par.collEntry),
+//          par.shouldCommit);
+//      }
+//      
+//    }catch(Exception error){
+//      SSLogU.warn("storing ue failed");
+//    }
   }
 }

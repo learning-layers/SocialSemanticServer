@@ -131,6 +131,7 @@ public class SSVarU{
   public static final String recentTopic                                    = "recentTopic";
   public static final String entries                                        = "entries";
   public static final String entryLabels                                    = "entryLabels";
+  public static final String circleUris                                     = "circleUris";
   public static final String entrySpaces                                    = "entrySpaces";
   public static final String timestamp                                      = "timestamp";
   public static final String updates                                        = "updates";

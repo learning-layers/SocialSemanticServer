@@ -205,6 +205,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri       collUri, 
     final SSSpaceEnum space) throws Exception{
     
+    
     if(SSObjU.isNull(userUri, collUri, space)){
       SSServErrReg.regErrThrow(new Exception("pars not okay"));
       return null;
@@ -354,10 +355,18 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri       user, 
     final SSUri       collParent, 
     final SSUri       collChild, 
-    final SSSpaceEnum collChildSpace) throws Exception{
+    final Boolean     wasAddedToCollInSharedCircle,
+    final Boolean     wasAddedToCollInSharedOrPublicCircleNewly) throws Exception{
     
-    if(SSObjU.isNull(user, collParent, collChild, collChildSpace)){
+    if(SSObjU.isNull(user, collParent, collChild, wasAddedToCollInSharedCircle, wasAddedToCollInSharedOrPublicCircleNewly)){
       SSServErrReg.regErrThrow(new Exception("pars not ok"));
+      return;
+    }
+    
+    if(
+      wasAddedToCollInSharedCircle &&
+      wasAddedToCollInSharedOrPublicCircleNewly){
+      SSServErrReg.regErrThrow(new Exception("cannot add to shared coll and add shared/public coll at the same time"));
       return;
     }
     
@@ -384,12 +393,11 @@ public class SSCollSQLFct extends SSDBSQLFct{
     insertPars.clear();
     insertPars.put(SSSQLVarU.userId,    user.toString());
     insertPars.put(SSSQLVarU.collId,    collChild.toString());
-    insertPars.put(SSSQLVarU.collSpace, collChildSpace.toString());
     
     dbSQL.insert(collUserTable, insertPars);
     
     //add currently added coll to other users as well
-    if(SSSpaceEnum.isShared(collChildSpace)){
+    if(wasAddedToCollInSharedCircle){
 
       insertPars.clear();
       insertPars.put(SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
@@ -408,7 +416,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
     
     //add sub colls of to be followed coll for this user as well
-    if(SSSpaceEnum.isFollow(collChildSpace)){
+    if(wasAddedToCollInSharedOrPublicCircleNewly){
       
       final List<String> subCollUris = new ArrayList<String>();
       
@@ -960,7 +968,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return SSUri.get(SSIDU.uniqueID(objColl().toString()));
   }
   
-  private SSUri objColl() throws Exception{
+  private static SSUri objColl() throws Exception{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.coll.toString());
   }  
   

@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -68,6 +70,8 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCummulatedTagsGetRet
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
+import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
+import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -77,13 +81,17 @@ import java.util.*;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI{
 
-  private final SSCollSQLFct sqlFct;
+  private final SSCollSQLFct         sqlFct;
+  private final SSCollEntryAddFct    collEntryAddFct;
+  private final SSCollEntryDeleteFct collEntryDeleteFct;
 
   public SSCollImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
 
     super(conf, dbGraph, dbSQL);
 
-    sqlFct = new SSCollSQLFct(dbSQL);
+    this.sqlFct              = new SSCollSQLFct          (dbSQL);
+    this.collEntryAddFct     = new SSCollEntryAddFct     (dbSQL);
+    this.collEntryDeleteFct  = new SSCollEntryDeleteFct  (dbSQL);
   }
   
   @Override
@@ -315,6 +323,15 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.createColl     (rootCollUri);
+      
+      SSServCaller.accessRightsUserCircleCreate(
+        par.user, 
+        rootCollUri,
+        null, 
+        SSAccessRightsCircleTypeE.priv, 
+        SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot), 
+        false);
+      
       sqlFct.addUserRootColl(rootCollUri, par.user);
 
       dbSQL.commit(par.shouldCommit);
@@ -331,91 +348,29 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
 
     final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
-    final SSColl                parentColl;
 
     try{
 
-      parentColl = sqlFct.getUserColl(par.user, par.coll);
-
-      if(
-        par.addNewColl &&
-        SSSpaceEnum.isFollow(par.space)){
-        SSServErrReg.regErrThrow(new Exception("cannot add a new coll and follow it the same time"));
-        return null;
+      if(sqlFct.containsEntry(par.coll, par.collEntry)){
+        return par.collEntry;
       }
       
-      if(
-        par.addNewColl || 
-        sqlFct.isColl(par.collEntry)){ //to add coll entry is coll itself
-        
-        if(
-          SSSpaceEnum.isSharedOrFollow  (parentColl.space) &&
-          SSSpaceEnum.isPrivate         (par.space)){
-          SSServErrReg.regErrThrow(new Exception("cannot add private to shared / followed collection"));
-          return null;
-        }
-        
-        if(SSSpaceEnum.isFollow(par.space)){
-          
-//TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
-          
-          if(SSSpaceEnum.isSharedOrFollow  (parentColl.space)){
-            SSServErrReg.regErrThrow(new Exception("cannot follow coll in shared / followed parent coll"));
-            return null;
-          }
-          
-          if(sqlFct.ownsUserColl(par.user, par.collEntry)){
-            SSServErrReg.regErrThrow(new Exception("coll is already followed by user"));
-            return null;
-          }
-          
-          if(sqlFct.ownsUserASubColl(par.user, par.collEntry)){
-            SSServErrReg.regErrThrow(new Exception("a sub coll is already followed"));
-            return null;
-          }
-        }
-        
-        if(par.addNewColl){
-          par.collEntry = sqlFct.createCollURI();
-        }
-        
-        SSServCaller.addEntity(
-          par.user,
-          par.collEntry,
-          par.collEntryLabel,
-          SSEntityEnum.coll);
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        if(par.addNewColl){
-          sqlFct.createColl(par.collEntry);
-        }
-
-        sqlFct.addCollToUserColl(par.user, par.coll, par.collEntry, par.space);
-        
-        dbSQL.commit(par.shouldCommit);
-        
-      }else{   //coll entry is NO collection
-
-        if(sqlFct.containsEntry(par.coll, par.collEntry)){
-          return par.collEntry;
-        }
-
-        SSServCaller.addEntity(
-          par.user,
-          par.collEntry,
-          par.collEntryLabel,
-          SSEntityEnum.entity);
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
-        
-        dbSQL.commit(par.shouldCommit);
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, null, SSAccessRightsRightTypeE.edit)){
+        throw new Exception("user cannot add to this coll");
       }
+      
+      if(par.addNewColl){
+        return collEntryAddFct.addNewColl(par);
+      }
+      
+      if(sqlFct.isColl(par.collEntry)){
+        return collEntryAddFct.addExistingColl(par);
+      }
+      
+      collEntryAddFct.addCollEntry(par);
       
       SSCollUEFct.collUserEntryAdd(par);
-
+      
       return par.collEntry;
     }catch(Exception error){
       dbSQL.rollBack(par.shouldCommit);
@@ -438,9 +393,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         SSServCaller.collUserEntryAdd(
           par.user,
           par.coll,
-          par.entries.get(counter),
-          par.entryLabels.get(counter),
-          par.entrySpaces.get(counter),
+          par.entries.get     (counter),
+          par.entryLabels.get (counter),
+          par.circleUris.get  (counter),
           -1,
           false,
           par.saveUE,
@@ -456,7 +411,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return null;
     }
   }
-
+  
   @Override
   public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
 
@@ -464,37 +419,29 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      sqlFct.getUserColl(par.user, par.coll);
-
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, null, SSAccessRightsRightTypeE.edit)){
+        throw new Exception("user cannot delete from this coll");
+      }
+      
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collEntry, null, SSAccessRightsRightTypeE.read)){
+        throw new Exception("user cannot delete this coll entry");
+      }
+      
       if(sqlFct.isColl(par.collEntry)){ //to remove coll entry is coll itself
-
-        if(
-          sqlFct.ownsUserColl(par.user, par.collEntry, SSSpaceEnum.sharedSpace) ||
-          sqlFct.ownsUserColl(par.user, par.collEntry, SSSpaceEnum.followSpace)){ //to remove coll is either shared or followed by user
-
-          dbSQL.startTrans(par.shouldCommit);
-
-          sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
-
-          dbSQL.commit(par.shouldCommit);
-          
-          SSCollUEFct.collUserUnSubscribeColl(par);
-          
-        }else{//to remove coll is private
-
-          dbSQL.startTrans(par.shouldCommit);
-
-          //remove the private coll and unlink sub colls
-          sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
-
-          dbSQL.commit(par.shouldCommit);
-          
-          SSCollUEFct.collUserDeleteColl(par);
-        }
+        return collEntryDeleteFct.removeColl(par);
       }else{ //to remove coll entry is NO collection
 
         dbSQL.startTrans(par.shouldCommit);
 
+        for(SSUri circleUri : SSServCaller.accessRightsEntityCirclesURIsGet(par.coll)){
+          
+          SSServCaller.accessRightsUserEntitiesFromCircleRemove(
+            par.user,
+            circleUri,
+            par.collEntry,
+            false);
+        }
+        
         sqlFct.removeEntryFromColl(par.coll, par.collEntry);
 
         dbSQL.commit(par.shouldCommit);
@@ -534,6 +481,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
+  //TODO dtheiler: re-implement this method
   @Override
   public Boolean collUserShare(final SSServPar parA) throws Exception{
 
@@ -570,14 +518,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
 
-    final SSCollUserEntryChangePosPar par = new SSCollUserEntryChangePosPar(parA);
-    final List<SSUri> collEntries = new ArrayList<SSUri>();
-    final List<Integer> order = new ArrayList<Integer>();
+    final SSCollUserEntryChangePosPar  par = new SSCollUserEntryChangePosPar(parA);
+    final List<SSUri>                  collEntries = new ArrayList<SSUri>();
+    final List<Integer>                order = new ArrayList<Integer>();
     Integer counter = 0;
 
     try{
 
-      sqlFct.getUserColl(par.user, par.coll);
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, null, SSAccessRightsRightTypeE.edit)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
 
       while(counter < par.order.size()){
         collEntries.add(SSUri.get(par.order.get(counter++)));
@@ -599,29 +549,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public List<SSColl> collSharedAll(SSServPar par) throws Exception{
-
-    final List<SSColl> sharedColls = new ArrayList<SSColl>();
-
-    try{
-
-      for(SSUri sharedCollUri : sqlFct.getAllSharedCollURIs()){
-        sharedColls.add(sqlFct.getColl(sharedCollUri, SSSpaceEnum.sharedSpace));
-      }
-
-      return sharedColls;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSColl collUserWithEntries(SSServPar parA) throws Exception{
+  public SSColl collUserWithEntries(final SSServPar parA) throws Exception{
 
     final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
 
     try{
+      
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, null, SSAccessRightsRightTypeE.read)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+                  
       return sqlFct.getUserCollWithEntries(par.user, par.coll, par.sort);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -654,6 +591,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
 
     try{
+      
       return sqlFct.getUserCollWithEntries(par.user, sqlFct.getUserRootCollURI(par.user), true);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -667,6 +605,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
 
     try{
+      
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, null, SSAccessRightsRightTypeE.read)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+            
       return sqlFct.getUserCollWithEntries(par.user, sqlFct.getUserDirectParentCollURI(par.user, par.coll), true);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -674,6 +617,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
+  //TODO dtheiler: rewrite this method
   @Override
   public SSSpaceEnum collUserSpaceGet(SSServPar parA) throws Exception{
 
@@ -698,8 +642,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     
     try{
       
-      sqlFct.getUserColl(par.user, par.collUri);
-      
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collUri, null, SSAccessRightsRightTypeE.read)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+            
       rootCollUri          = sqlFct.getUserRootCollURI         (par.user);
       directPartentCollUri = sqlFct.getUserDirectParentCollURI (par.user, par.collUri);
       
@@ -741,6 +687,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     String      tagLabel;
 
     try{
+      
+      if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collUri, null, SSAccessRightsRightTypeE.read)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+            
       coll = sqlFct.getUserCollWithEntries(par.user, par.collUri, false);
       
       for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, par.collUri, null, null)){
@@ -799,6 +750,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
+  //TODO dtheiler: check this method
   @Override
   public Boolean collEntityPrivateForUserIs(final SSServPar parA) throws Exception{
 
@@ -825,6 +777,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
+  //TODO dtheiler: check this method
   @Override
   public Boolean collEntitySharedOrFollowedForUserIs(final SSServPar parA) throws Exception{
 
@@ -851,6 +804,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
   
+  //TODO dtheiler: check this method
   @Override
   public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
     
@@ -875,6 +829,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
   
+  //TODO dtheiler: check this method
   @Override
   public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
    

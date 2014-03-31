@@ -129,9 +129,9 @@ public enum SSMethU{
   ratingsUserRemove                                   ,
   
   //scaff
-  scaffRecommTagsBasedOnUserEntityTag                 ,
-  scaffRecommTagsBasedOnUserEntityTagTime             ,
-  scaffRecommTagsBasedOnUserEntityTagCategory         ,
+  scaffRecommTagsBasedOnUserEntityTag                 , //cikm | 3Layers mit den Kategorien 
+  scaffRecommTagsBasedOnUserEntityTagTime             , //umap | 3LT (3Layers mit Zeit)
+  scaffRecommTagsBasedOnUserEntityTagCategory         , //wbsc | BaseLevelLearning und MostPopular/LanguageModel
   scaffRecommTagsBasedOnUserEntityTagCategoryTime     ,
   
   //model ue
@@ -211,7 +211,6 @@ public enum SSMethU{
   collUserEntriesDelete                               ,
   collUserSpaceGet                                    ,
   collsUserWithEntries                                ,
-  collSharedAll                                       ,
   collsUserEntityIsInGet                              ,
   collEntitySharedOrFollowedForUserIs                 ,
   collEntityPrivateForUserIs                          ,
@@ -235,11 +234,18 @@ public enum SSMethU{
   i5CloudFileDownload,
   
   //access rights
+  accessRightsCircleURIPublicGet,
+  accessRightsEntityCirclesURIsGet,
+  accessRightsUserCircleDelete,
   accessRightsUserAllowedIs,
   accessRightsUserCirclesGet,
   accessRightsUserCircleCreate,
   accessRightsUserEntitiesToCircleAdd,
-  accessRightsUserUsersToCircleAdd;
+  accessRightsUserEntitiesFromCircleRemove,
+  accessRightsUserUsersToCircleAdd, 
+  accessRightsEntityCirclesGet,
+  accessRightsEntityInSharedCircleIs,
+  accessRightsEntityMostOpenCircleTypeGet;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

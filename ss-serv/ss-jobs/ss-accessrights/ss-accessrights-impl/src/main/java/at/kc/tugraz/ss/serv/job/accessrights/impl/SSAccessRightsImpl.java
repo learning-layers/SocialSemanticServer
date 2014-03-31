@@ -198,6 +198,8 @@ public class SSAccessRightsImpl extends SSServImplWithDBA implements SSAccessRig
         sqlFct.addEntityToCircle(circleUri, entityUri);
       }
       
+      sqlFct.addUserToCircle(circleUri, par.user);
+      
       for(SSUri userUri : par.userUris){
         sqlFct.addUserToCircle(circleUri, userUri);
       }
@@ -291,26 +293,37 @@ public class SSAccessRightsImpl extends SSServImplWithDBA implements SSAccessRig
         return true;
       }
       
-      final List<SSUri> userCircleUris = sqlFct.getUserCircleURIs(par.user);
+      final List<SSUri>                    userCircleUris = sqlFct.getUserCircleURIs  (par.user);
       
       if(par.circleUri != null){
         
         if(
-          !SSUri.contains                   (entityCircleUris, par.circleUri) ||
-          !SSUri.contains                   (userCircleUris,   par.circleUri) ||
-          !SSAccessRightsRightTypeE.contains(sqlFct.getCircleRights(par.circleUri), par.accessRight)){
-          return false;
+          SSUri.contains                   (entityCircleUris, par.circleUri) &&
+          SSUri.contains                   (userCircleUris,   par.circleUri)){
+          
+          final List<SSAccessRightsRightTypeE> circleRights = sqlFct.getCircleRights(par.circleUri);
+          
+          if(
+            SSAccessRightsRightTypeE.contains(circleRights, SSAccessRightsRightTypeE.all) ||
+            SSAccessRightsRightTypeE.contains(circleRights, par.accessRight)){
+            return true;
+          }
         }
         
-        return true;
+        return false;
       }
       
       for(SSUri userCircleUri : userCircleUris){
         
-        if(
-          SSUri.contains                   (entityCircleUris, userCircleUri) &&
-          SSAccessRightsRightTypeE.contains(sqlFct.getCircleRights(userCircleUri), par.accessRight)){
-          return true;
+        if(SSUri.contains(entityCircleUris, userCircleUri)){
+          
+          final List<SSAccessRightsRightTypeE> userCircleRights = sqlFct.getCircleRights(userCircleUri);
+          
+          if(
+            SSAccessRightsRightTypeE.contains(userCircleRights, SSAccessRightsRightTypeE.all) ||
+            SSAccessRightsRightTypeE.contains(userCircleRights, par.accessRight)){
+            return true;
+          }
         }
       }
       
