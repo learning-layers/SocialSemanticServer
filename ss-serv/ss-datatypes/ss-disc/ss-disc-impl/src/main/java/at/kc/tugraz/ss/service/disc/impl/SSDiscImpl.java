@@ -46,7 +46,6 @@ import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.ue.SSDiscUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI {
@@ -114,45 +113,6 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     }
 
     return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
-  }
-
-  /* SSServRegisterableImplI */
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception {
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSDiscClientI.class.getMethods();
-
-    for (Method method : methods) {
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception {
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSDiscServerI.class.getMethods();
-
-    for (Method method : methods) {
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
-  }
-
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception {
-    SSDiscClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception {
-    return SSDiscServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 
   /* SSDiscClientI */

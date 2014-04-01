@@ -16,6 +16,8 @@
 package at.kc.tugraz.ss.serv.job.recomm.serv;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommClientI;
+import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.job.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdateTask;
@@ -28,9 +30,14 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSRecommServ extends SSServA{
   
-  public static final SSRecommServ inst = new SSRecommServ();
+  public static final SSRecommServ inst = new SSRecommServ(SSRecommClientI.class, SSRecommServerI.class);
   
-  private SSRecommServ(){}
+  protected SSRecommServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

@@ -22,9 +22,6 @@ import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
  public class SSVocImpl extends SSServImplMiscA implements SSVocI{
  
@@ -32,35 +29,6 @@ import java.util.List;
     super(conf);
   }
   
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    return new ArrayList<SSMethU>();
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSVocI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    throw new UnsupportedOperationException(SSStrU.empty);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSVocI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-
   @Override
   public SSUri vocURIPrefixGet(SSServPar parA) throws Exception{
     return SSUri.get(SSLinkU.prefixHttp + ((SSVocConf)conf).getSpaceAndApp());

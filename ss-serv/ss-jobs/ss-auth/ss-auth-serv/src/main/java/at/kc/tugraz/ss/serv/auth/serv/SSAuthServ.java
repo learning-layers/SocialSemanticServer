@@ -15,6 +15,8 @@
  */
 package at.kc.tugraz.ss.serv.auth.serv;
 
+import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
+import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -23,9 +25,14 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSAuthServ extends SSServA{
   
-  public static final SSServA inst = new SSAuthServ();
-  
-  private SSAuthServ(){}
+  public static final SSServA inst = new SSAuthServ(SSAuthClientI.class, SSAuthServerI.class);
+
+  protected SSAuthServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

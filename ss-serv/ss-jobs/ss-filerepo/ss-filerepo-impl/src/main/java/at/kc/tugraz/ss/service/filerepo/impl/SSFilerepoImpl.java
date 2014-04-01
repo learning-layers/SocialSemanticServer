@@ -50,7 +50,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI{
@@ -107,48 +106,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       overallRating,
       discUris,
       author);
-  }
-
-  /**
-   * ****
-   * SSServRegisterableImplI *****
-   */
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSFileRepoClientI.class.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSFileRepoServerI.class.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
-  }
-
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSFileRepoClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSFileRepoServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 
   /**

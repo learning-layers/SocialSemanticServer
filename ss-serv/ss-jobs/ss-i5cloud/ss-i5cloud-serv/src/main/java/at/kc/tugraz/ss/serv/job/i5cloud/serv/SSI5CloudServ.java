@@ -15,15 +15,22 @@
  */
 package at.kc.tugraz.ss.serv.job.i5cloud.serv;
 
+import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
+import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.SSI5CloudImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 
 public class SSI5CloudServ extends SSServA{
   
- public static final SSServA inst = new SSI5CloudServ();
+ public static final SSServA inst = new SSI5CloudServ(SSI5CloudClientI.class, SSI5CloudServerI.class);
   
-  private SSI5CloudServ(){}
+ protected SSI5CloudServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

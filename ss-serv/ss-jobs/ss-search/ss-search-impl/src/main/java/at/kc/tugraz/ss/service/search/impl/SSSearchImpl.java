@@ -17,7 +17,6 @@ package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
-import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
@@ -36,53 +35,12 @@ import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchMIsRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchSolrRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
   
   public SSSearchImpl(final SSServConfA conf) throws Exception{
     super(conf);
-  }
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSSearchClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSSearchServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSSearchClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSSearchServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /****** SSSearchClientI ******/

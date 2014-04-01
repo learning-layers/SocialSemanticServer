@@ -27,52 +27,11 @@ import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SSJSONLDServerI{
 
   public SSJSONLDImpl(final SSJSONLDConf conf) throws Exception{
     super(conf);
-  }
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSJSONLDClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSJSONLDServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSJSONLDClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSJSONLDServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   @Override

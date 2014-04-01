@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.datatypes.*;
 import at.kc.tugraz.ss.service.solr.impl.fct.SSSolrFct;
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.*;
 import org.apache.solr.client.solrj.*;
 import org.apache.solr.client.solrj.impl.*;
@@ -52,47 +51,6 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
     localWorkConf  = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
     
     SSLogU.info("connected to Solr server @ " + conf.getPath() + ".");
-  }
-  
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSSolrClientI.class.getMethods();
-    
-    for(Method method :methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSSolrServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSSolrClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSSolrServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /****** SSSolrServerI ******/

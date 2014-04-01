@@ -76,7 +76,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,46 +152,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     }
     
     return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
-  }
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSLearnEpClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSLearnEpServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSLearnEpClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSLearnEpServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /****** SSLearnEpClientI ******/

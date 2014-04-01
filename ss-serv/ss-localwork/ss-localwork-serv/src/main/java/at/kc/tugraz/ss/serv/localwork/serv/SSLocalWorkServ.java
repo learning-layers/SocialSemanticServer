@@ -21,9 +21,14 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 
 public class SSLocalWorkServ extends SSServA{
   
-  public static final SSLocalWorkServ inst            = new SSLocalWorkServ();
+  public static final SSLocalWorkServ inst            = new SSLocalWorkServ(null, null);
   
-  private SSLocalWorkServ(){}
+  protected SSLocalWorkServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

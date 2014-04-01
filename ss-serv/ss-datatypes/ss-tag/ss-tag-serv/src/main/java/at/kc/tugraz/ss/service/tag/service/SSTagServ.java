@@ -22,13 +22,20 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.tag.api.SSTagClientI;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
 
 public class SSTagServ extends SSServA{
   
-  public static final SSServA  inst = new SSTagServ();
+  public static final SSServA  inst = new SSTagServ(SSTagClientI.class, SSTagServerI.class);
   
-  private SSTagServ(){}
+  protected SSTagServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

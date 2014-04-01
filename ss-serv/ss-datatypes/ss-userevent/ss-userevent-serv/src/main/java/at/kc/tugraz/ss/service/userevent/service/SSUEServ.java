@@ -22,13 +22,20 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.userevent.api.SSUEClientI;
+import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.kc.tugraz.ss.service.userevent.impl.SSUEImpl;
 
 public class SSUEServ extends SSServA{
   
-  public static final SSServA  inst = new SSUEServ();
+  public static final SSServA  inst = new SSUEServ(SSUEClientI.class, SSUEServerI.class);
   
-  private SSUEServ(){}
+ protected SSUEServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

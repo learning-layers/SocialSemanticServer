@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserLoginPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserLoginRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI{
@@ -56,7 +55,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     sqlFct   = new SSUserSQLFct   (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
@@ -87,48 +86,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       overallRating,
       discUris,
       author);
-  }
-  
-  /****** SSServImplA ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSUserClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSUserServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSUserClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSUserServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /****** SSUserClientI ******/

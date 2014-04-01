@@ -16,6 +16,8 @@
 package at.kc.tugraz.ss.serv.modeling.ue.serv;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
+import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.impl.SSModelUEImpl;
 import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
@@ -30,9 +32,13 @@ import java.util.HashMap;
 public class SSModelUEServ extends SSServA{
   
   public static final HashMap<String, SSModelUEResource> resources = new HashMap<String, SSModelUEResource>();
-  public static final SSModelUEServ                      inst      = new SSModelUEServ();
+  public static final SSModelUEServ                      inst      = new SSModelUEServ(SSModelUEClientI.class, SSModelUEServerI.class);
    
-  private SSModelUEServ(){
+  protected SSModelUEServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
   @Override

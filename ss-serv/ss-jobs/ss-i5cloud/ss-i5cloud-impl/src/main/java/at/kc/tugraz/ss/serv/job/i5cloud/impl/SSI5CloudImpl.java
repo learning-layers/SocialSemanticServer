@@ -19,11 +19,9 @@ import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
@@ -35,7 +33,6 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -46,45 +43,6 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     super(conf);
   }
   
-  /* SSServRegisterableImplI */
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSI5CloudClientI.class.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSI5CloudServerI.class.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
-  }
-
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSI5CloudClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSI5CloudServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-
    /*  SSI5CloudServerI */
    
   @Override

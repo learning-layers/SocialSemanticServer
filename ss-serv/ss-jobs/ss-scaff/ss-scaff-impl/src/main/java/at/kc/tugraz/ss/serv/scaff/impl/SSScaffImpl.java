@@ -29,54 +29,12 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSScaffServerI{
   
   public SSScaffImpl(final SSServConfA conf) throws Exception{
     super(conf);
-  }
-  
-  /* SSServRegisterableImplI */
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSScaffClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSScaffServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSScaffClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSScaffServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /* SSScaffClientI */

@@ -22,13 +22,20 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.user.api.SSUserClientI;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.impl.*;
 
 public class SSUserServ extends SSServA{
   
-  public static final SSServA      inst            = new SSUserServ();
+  public static final SSServA inst = new SSUserServ(SSUserClientI.class, SSUserServerI.class);
     
-  private SSUserServ(){}
+  protected SSUserServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

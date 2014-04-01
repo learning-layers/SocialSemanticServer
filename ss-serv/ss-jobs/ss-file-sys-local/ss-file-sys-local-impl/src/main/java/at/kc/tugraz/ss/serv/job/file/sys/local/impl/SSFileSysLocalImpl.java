@@ -30,57 +30,14 @@ import at.kc.tugraz.ss.serv.job.file.sys.local.datatypes.pars.SSFileSysLocalForm
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SSFileSysLocalImpl extends SSServImplMiscA implements SSFileSysLocalClientI, SSFileSysLocalServerI{
   
   public SSFileSysLocalImpl(final SSServConfA conf) throws Exception{
     super(conf);
-  }
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSFileSysLocalClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSFileSysLocalServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSFileSysLocalClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSFileSysLocalServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   /****** SSFileSysLocalClientI ******/

@@ -15,6 +15,8 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.serv;
 
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -25,9 +27,14 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 
 public class SSDataImportServ extends SSServA{
   
-  public static final SSServA  inst = new SSDataImportServ();
+  public static final SSServA  inst = new SSDataImportServ(SSDataImportClientI.class, SSDataImportServerI.class);
   
-  private SSDataImportServ(){}
+  protected SSDataImportServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

@@ -17,15 +17,22 @@ package at.kc.tugraz.ss.serv.job.accessrights.serv;
 
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.kc.tugraz.ss.serv.job.accessrights.api.SSAccessRightsClientI;
+import at.kc.tugraz.ss.serv.job.accessrights.api.SSAccessRightsServerI;
 import at.kc.tugraz.ss.serv.job.accessrights.impl.SSAccessRightsImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 
 public class SSAccessRightsServ extends SSServA{
   
- public static final SSServA inst = new SSAccessRightsServ();
+ public static final SSServA inst = new SSAccessRightsServ(SSAccessRightsClientI.class,SSAccessRightsServerI.class);
   
-  private SSAccessRightsServ(){}
+    protected SSAccessRightsServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

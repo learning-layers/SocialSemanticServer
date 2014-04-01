@@ -26,8 +26,6 @@ import at.kc.tugraz.ss.serv.db.datatypes.graph.SSQueryResult;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSStatement;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 //import org.openrdf.query.BindingSet;
 //import org.openrdf.query.QueryLanguage;
@@ -63,16 +61,6 @@ public class SSDBGraphVirtuosoImpl extends SSServImplDBA implements SSDBGraphI{
   
   @Override
   protected void finalizeImpl() throws Exception{
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    throw new UnsupportedOperationException(SSStrU.empty);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSDBGraphI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
   
   @Override

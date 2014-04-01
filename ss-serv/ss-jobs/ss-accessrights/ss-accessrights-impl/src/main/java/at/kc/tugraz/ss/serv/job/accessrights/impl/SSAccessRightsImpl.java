@@ -39,7 +39,6 @@ import at.kc.tugraz.ss.serv.job.accessrights.impl.fct.sql.SSAccessRightsFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSAccessRightsImpl extends SSServImplWithDBA implements SSAccessRightsClientI, SSAccessRightsServerI{
@@ -53,45 +52,6 @@ public class SSAccessRightsImpl extends SSServImplWithDBA implements SSAccessRig
     sqlFct = new SSAccessRightsFct(dbSQL);
   }
   
-  /* SSServRegisterableImplI */
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSAccessRightsClientI.class.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSAccessRightsServerI.class.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
-  }
-
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSAccessRightsClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSAccessRightsServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-
   /* SSAccessRightsClientI */
   
   @Override

@@ -17,13 +17,20 @@
 
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
+import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
 
 public class SSSearchServ extends SSServA{
   
-  public static final SSServA  inst = new SSSearchServ();
+  public static final SSServA  inst = new SSSearchServ(SSSearchClientI.class, SSSearchServerI.class);
   
-  private SSSearchServ(){}
+  protected SSSearchServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

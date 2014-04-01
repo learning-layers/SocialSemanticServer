@@ -100,46 +100,6 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         author);
   }
   
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSRatingClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSRatingServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSRatingClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSRatingServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
   /****** SSRatingClientI ******/
   @Override
   public void ratingUserSet(SSSocketCon sSCon, SSServPar par) throws Exception {

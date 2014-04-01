@@ -29,22 +29,29 @@ public abstract class SSServImplDBA extends SSServImplA{
   }
   
   @Override
-  public List<SSMethU> publishClientOps() throws Exception{
+  public List<SSMethU> publishClientOps(final Class servImplClientInteraceClass) throws Exception{
     return new ArrayList<SSMethU>();
   }
 
   @Override
-  public List<SSMethU> publishServerOps() throws Exception{
+  public List<SSMethU> publishServerOps(final Class servImplServerInteraceClass) throws Exception{
     return new ArrayList<SSMethU>();    
   }
   
   @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void handleClientOp(
+    final Class       servImplClientInteraceClass, 
+    final SSSocketCon sSCon, 
+    final SSServPar   par) throws Exception{
+    
     throw new UnsupportedOperationException(SSStrU.empty);
   }
   
   @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
+  public Object handleServerOp(
+    final Class     servImplServerInteraceClass, 
+    final SSServPar par) throws Exception{
+    
     throw new UnsupportedOperationException(SSStrU.empty);
   }
 }

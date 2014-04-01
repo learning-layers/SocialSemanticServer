@@ -51,7 +51,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.SSTagFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI{
@@ -115,46 +114,6 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     }
   }
     
-  /****** SSRegisterableImplI ******/
-  
-   @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-       
-    Method[] methods = SSTagClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSTagServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSTagClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSTagServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
   /****** SSTagClientI ******/
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
