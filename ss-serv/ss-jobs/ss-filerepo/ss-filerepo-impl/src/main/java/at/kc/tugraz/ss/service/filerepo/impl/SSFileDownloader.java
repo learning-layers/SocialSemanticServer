@@ -18,7 +18,6 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -71,9 +70,11 @@ public class SSFileDownloader extends SSServImplStartA{
 
       fileReader = new DataInputStream (new FileInputStream(new File(((SSFileRepoConf)conf).getPath() + fileId)));
       
+      sSCon.readMsgFullFromClient();
+      
       while(true){
         
-        sSCon.readMsgFullFromClient();
+//        sSCon.readMsgFullFromClient();
         
         fileChunkLength = fileReader.read(chunk);
         
