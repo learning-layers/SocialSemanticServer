@@ -55,7 +55,7 @@ public class SSCollEntryAddFct{
       default:   isSharedOrPublicParentColl = true;
     }
     
-    for(SSUri circleUri : SSServCaller.accessRightsEntityCirclesURIsGet(par.coll)){
+    for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
       
       SSServCaller.accessRightsUserEntitiesToCircleAdd(
         par.user,
@@ -79,7 +79,7 @@ public class SSCollEntryAddFct{
     
     //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
     
-    if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collEntry, par.circleUri, SSAccessRightsRightTypeE.read)){
+    if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collEntry, SSAccessRightsRightTypeE.read)){
       throw new Exception("user cannot access to add coll");
     }
     
@@ -115,7 +115,7 @@ public class SSCollEntryAddFct{
     
     dbSQL.startTrans(par.shouldCommit);
     
-    for(SSUri circleUri : SSServCaller.accessRightsEntityCirclesURIsGet(par.coll)){
+    for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
       
       SSServCaller.accessRightsUserEntitiesToCircleAdd(
         par.user,

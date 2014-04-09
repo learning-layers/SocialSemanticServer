@@ -21,31 +21,35 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSCollEntry extends SSEntityA {
 
-  public  SSUri         uri        = null;
-  public  Integer       pos        = -1;
-  public  SSSpaceEnum   space      = null;
-  public  String        label      = null;
-  public  SSEntityEnum  entityType = null;
+  public  SSUri                           uri         = null;
+  public  Integer                         pos         = -1;
+  public  List<SSAccessRightsCircleTypeE> circleTypes = new ArrayList<SSAccessRightsCircleTypeE>();
+  public  String                          label       = null;
+  public  SSEntityEnum                    entityType  = null;
 
   public static SSCollEntry get(
     SSUri         uri,
-    String        label,
-    SSSpaceEnum   space,
+    String        label  ,
+    List<SSAccessRightsCircleTypeE> circleTypes,
     Integer       pos,
     SSEntityEnum  entityType){
     
-    return new SSCollEntry(uri, label, space, pos, entityType);
+    return new SSCollEntry(uri, label, circleTypes, pos, entityType);
   }
   
   private SSCollEntry(
     SSUri        uri,
     String       label,
-    SSSpaceEnum  space,
+    List<SSAccessRightsCircleTypeE> circleTypes,
     Integer      pos, 
     SSEntityEnum entityType){
 
@@ -53,9 +57,12 @@ public class SSCollEntry extends SSEntityA {
     
     this.uri        = uri;
     this.label      = label;
-    this.space      = space;
     this.pos        = pos;
     this.entityType = entityType;
+    
+    if(circleTypes != null){
+      this.circleTypes.addAll(circleTypes);
+    }
   }
   
   public SSCollEntry(){
@@ -65,7 +72,13 @@ public class SSCollEntry extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld             = new HashMap<String, Object>();
+    final Map<String, Object> circleTypesObj = new HashMap<String, Object>();
+    
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSAccessRightsCircleTypeE.class.getName());
+    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circleTypes, circleTypesObj);
     
     ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.pos,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
@@ -76,7 +89,7 @@ public class SSCollEntry extends SSEntityA {
     return ld;
   }
   
-  /*************** getters to allow for jason enconding ********************/
+  /* getters to allow for jason enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
@@ -85,8 +98,8 @@ public class SSCollEntry extends SSEntityA {
     return pos;
   }
 
-  public String getSpace(){
-    return SSSpaceEnum.toStr(space);
+  public List<SSAccessRightsCircleTypeE> getCircleTypes(){
+    return circleTypes;
   }
 
   public String getLabel(){

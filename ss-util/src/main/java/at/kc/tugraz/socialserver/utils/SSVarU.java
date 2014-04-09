@@ -178,6 +178,7 @@ public class SSVarU{
   public static final String writingMinutesLeft                             = "writingMinutesLeft";
   public static final String pos                                            = "pos";
   public static final String author                                         = "author";
+  public static final String circleTypes                                    = "circleTypes";
   public static final String id                                             = "id";
   public static final String location                                       = "location";
   public static final String pathFullWorkingDir                             = "pathFullWorkingDir";

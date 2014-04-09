@@ -15,11 +15,30 @@
  */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSCollUserRootGetPar extends SSServPar{
+public class SSCollUserSetPublicPar extends SSServPar{
 
-  public SSCollUserRootGetPar(SSServPar par) throws Exception{
+  public SSUri collUri         = null;
+  
+  public SSCollUserSetPublicPar(SSServPar par) throws Exception{
+    
     super(par);
+    
+    try{
+    
+      if(pars != null){
+        collUri       = (SSUri)       pars.get(SSVarU.collUri);
+      }
+      
+      if(clientPars != null){
+        collUri       = SSUri.get        ((String)clientPars.get(SSVarU.collUri));
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

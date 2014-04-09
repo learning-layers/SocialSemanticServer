@@ -21,10 +21,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.job.accessrights.conf.SSAccessRightsConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import java.util.List;
 
 public class SSAccessRightsUserAllowedIsTest extends SSServOpTestCaseA{
   
@@ -37,13 +35,12 @@ public class SSAccessRightsUserAllowedIsTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    final List<SSCircle> userCircles = SSServCaller.accessRightsUserCirclesGet(userUri);
+//    final List<SSCircle> userCircles = SSServCaller.accessRightsUserCirclesGet(userUri);
     
     final Boolean result = 
       SSServCaller.accessRightsUserAllowedIs(
         userUri, 
         SSUri.get("http://www.google.at"), 
-        userCircles.get(0).circleUri, 
         SSAccessRightsRightTypeE.all);
     
     SSLogU.info("end " + op + "Test");

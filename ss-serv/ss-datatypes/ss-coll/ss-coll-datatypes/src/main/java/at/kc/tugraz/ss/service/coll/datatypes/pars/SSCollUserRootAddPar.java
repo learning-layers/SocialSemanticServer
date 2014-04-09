@@ -16,18 +16,10 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserRootAddPar extends SSServPar{
 
   public SSCollUserRootAddPar(SSServPar par) throws Exception{
-    
     super(par);
-    
-    try{
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

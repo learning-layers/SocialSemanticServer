@@ -22,6 +22,7 @@ import at.kc.tugraz.ss.serv.job.accessrights.api.SSAccessRightsServerI;
 import at.kc.tugraz.ss.serv.job.accessrights.impl.SSAccessRightsImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSAccessRightsServ extends SSServA{
   
@@ -41,5 +42,6 @@ public class SSAccessRightsServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    SSServCaller.accessRightsCirclePublicAdd();
   }
 }

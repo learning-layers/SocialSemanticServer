@@ -19,27 +19,23 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
 
-public class SSAccessRightsUserAllowedIsPar extends SSServPar{
+public class SSAccessRightsCircleUserAddPar extends SSServPar{
 
-  public SSUri                     entityUri    = null;
-  public SSAccessRightsRightTypeE  accessRight  = null;
+  public SSUri circleUri    = null;
   
-  public SSAccessRightsUserAllowedIsPar(final SSServPar par) throws Exception{
+  public SSAccessRightsCircleUserAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
     
       if(pars != null){
-        entityUri       = (SSUri)                     pars.get(SSVarU.entityUri);
-        accessRight     = (SSAccessRightsRightTypeE)  pars.get(SSVarU.accessRight);
+        circleUri       = (SSUri)        pars.get(SSVarU.circleUri);
       }
       
       if(clientPars != null){
-        entityUri       = SSUri.get                    (clientPars.get(SSVarU.entityUri));
-        accessRight     = SSAccessRightsRightTypeE.get (clientPars.get(SSVarU.accessRight));
+        circleUri       = SSUri.get      (clientPars.get(SSVarU.circleUri));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

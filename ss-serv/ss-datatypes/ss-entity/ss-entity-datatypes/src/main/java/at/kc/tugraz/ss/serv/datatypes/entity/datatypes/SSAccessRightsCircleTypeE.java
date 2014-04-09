@@ -16,7 +16,9 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import java.util.List;
 
 public enum SSAccessRightsCircleTypeE implements SSJSONLDPropI{
   
@@ -33,6 +35,24 @@ public enum SSAccessRightsCircleTypeE implements SSJSONLDPropI{
   
   public static String toStr(final SSAccessRightsCircleTypeE circleType){
     return SSStrU.toString(circleType);
+  }
+  
+  public static Boolean contains(
+    final List<SSAccessRightsCircleTypeE> circleTypes, 
+    final SSAccessRightsCircleTypeE       toContainCircleType) throws Exception{
+
+    if(circleTypes == null){
+      SSServErrReg.regErrThrow(new Exception("pars null"));
+      return null;
+    }
+    
+    for(SSAccessRightsCircleTypeE circleType : circleTypes){
+      if(SSStrU.equals(toStr(circleType), toStr(toContainCircleType))){
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   private SSAccessRightsCircleTypeE(){}

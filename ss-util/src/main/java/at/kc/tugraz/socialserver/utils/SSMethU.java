@@ -210,6 +210,7 @@ public enum SSMethU{
   collUserEntriesAdd                                  ,
   collUserEntriesDelete                               ,
   collUserSpaceGet                                    ,
+  collUserSetPublic                                   ,
   collsUserWithEntries                                ,
   collsUserEntityIsInGet                              ,
   collEntitySharedOrFollowedForUserIs                 ,
@@ -234,18 +235,22 @@ public enum SSMethU{
   i5CloudFileDownload,
   
   //access rights
+  accessRightsCirclePublicAdd,
   accessRightsCircleURIPublicGet,
-  accessRightsEntityCirclesURIsGet,
+  accessRightsEntityCircleURIsGet,
   accessRightsUserCircleDelete,
+  accessRightsCircleUserAdd,
   accessRightsUserAllowedIs,
   accessRightsUserCirclesGet,
   accessRightsUserCircleCreate,
   accessRightsUserEntitiesToCircleAdd,
   accessRightsUserEntitiesFromCircleRemove,
+  accessRightsUserEntityCirclesGet,
   accessRightsUserUsersToCircleAdd, 
   accessRightsEntityCirclesGet,
   accessRightsEntityInSharedCircleIs,
-  accessRightsEntityMostOpenCircleTypeGet;
+  accessRightsEntityMostOpenCircleTypeGet,
+  accessRightsUserCircleTypesForEntityGet;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

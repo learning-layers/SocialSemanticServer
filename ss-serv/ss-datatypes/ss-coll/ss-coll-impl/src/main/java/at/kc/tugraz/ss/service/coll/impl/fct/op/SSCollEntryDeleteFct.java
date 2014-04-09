@@ -18,6 +18,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -42,10 +43,8 @@ public class SSCollEntryDeleteFct{
         
         dbSQL.startTrans(par.shouldCommit);
         
-        //remove the circle of the private coll
-        for(SSUri privateCircleUri : SSServCaller.accessRightsEntityCirclesURIsGet(par.collEntry)){
-          SSServCaller.accessRightsUserCircleDelete(par.user, privateCircleUri);
-        }
+        //TODO dtheiler: maybe to remove private (sub) coll(s) from private circle
+//        SSServCaller.accessRightsUserEntityFromCircleRemove(par.collEntry);
         
         //remove the private coll and unlink sub colls
         sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
@@ -70,5 +69,29 @@ public class SSCollEntryDeleteFct{
     }
     
     return true;
+  }
+
+  public void removeCollEntry(SSCollUserEntryDeletePar par) throws Exception{
+    
+    dbSQL.startTrans(par.shouldCommit);
+    
+    for(SSCircle userEntityCircle : SSServCaller.accessRightsUserEntityCirclesGet(par.user, par.coll)){
+      
+      switch(userEntityCircle.circleType){
+        case priv:
+        case pub: break;
+        default:{
+          SSServCaller.accessRightsUserEntitiesFromCircleRemove(
+            par.user,
+            userEntityCircle.circleUri,
+            par.collEntry,
+            false);
+        }
+      }
+    }
+    
+    sqlFct.removeEntryFromColl(par.coll, par.collEntry);
+    
+    dbSQL.commit(par.shouldCommit);
   }
 }

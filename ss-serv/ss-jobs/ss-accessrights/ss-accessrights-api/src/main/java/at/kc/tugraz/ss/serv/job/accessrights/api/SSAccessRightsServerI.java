@@ -17,14 +17,22 @@ package at.kc.tugraz.ss.serv.job.accessrights.api;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
 import java.util.List;
 
 public interface SSAccessRightsServerI{
   
-  public SSUri          accessRightsUserCircleCreate        (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserEntitiesToCircleAdd (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserUsersToCircleAdd    (final SSServPar parA) throws Exception;
-  public List<SSCircle> accessRightsUserCirclesGet          (final SSServPar parA) throws Exception;
-  public Boolean        accessRightsUserAllowedIs           (final SSServPar parA) throws Exception;
+  public SSUri                           accessRightsCirclePublicAdd             (final SSServPar parA) throws Exception;
+  public SSUri                           accessRightsCircleURIPublicGet          (final SSServPar parA) throws Exception;
+  public SSUri                           accessRightsUserCircleCreate            (final SSServPar parA) throws Exception;
+  public SSAccessRightsCircleTypeE       accessRightsEntityMostOpenCircleTypeGet (final SSServPar parA) throws Exception;
+  public void                            accessRightsCircleUserAdd               (final SSServPar parA) throws Exception;
+  public List<SSAccessRightsCircleTypeE> accessRightsUserCircleTypesForEntityGet (final SSServPar parA) throws Exception;
+  public Boolean                         accessRightsUserEntitiesToCircleAdd     (final SSServPar parA) throws Exception;
+  public List<SSCircle>                  accessRightsUserEntityCirclesGet        (final SSServPar parA) throws Exception;
+  public Boolean                         accessRightsUserUsersToCircleAdd        (final SSServPar parA) throws Exception;
+  public List<SSCircle>                  accessRightsUserCirclesGet              (final SSServPar parA) throws Exception;
+  public List<SSUri>                     accessRightsEntityCircleURIsGet         (final SSServPar parA) throws Exception;
+  public Boolean                         accessRightsUserAllowedIs               (final SSServPar parA) throws Exception;
 }

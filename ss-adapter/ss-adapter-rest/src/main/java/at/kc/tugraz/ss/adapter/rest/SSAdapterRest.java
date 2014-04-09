@@ -56,7 +56,7 @@ public class SSAdapterRest{
   public SSAdapterRest() throws Exception{
     
 //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf_newer.yaml"); //"ss-adapter-rest-conf_domi.yaml" //"ss-adapter-rest-conf_newer.yaml"
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf.yaml"); //"ss-adapter-rest-conf_domi.yaml" //"ss-adapter-rest-conf_newer.yaml"
     
     /**** utils ****/
     SSMimeTypeU.init();
@@ -171,6 +171,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "collUserSetPublic")
+  public String collUserSetPublic(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserSetPublic);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collsUserEntityIsInGet")
   public String collsUserEntityIsInGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsUserEntityIsInGet);
@@ -240,13 +248,13 @@ public class SSAdapterRest{
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntriesDelete);
   }
   
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserShare")
-  public String collUserShare(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserShare);
-  }
+//  @POST
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path    (SSStrU.slash + "collUserShare")
+//  public String collUserShare(String jsonRequ){
+//    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserShare);
+//  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

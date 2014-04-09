@@ -106,6 +106,8 @@ public class SSAccessRightsFct extends SSDBSQLFct{
           where, 
           SSSQLVarU.circleId + SSStrU.equal + SSSQLVarU.id);
       
+      resultSet.first();
+      
       return SSCircle.get(
         bindingStrToUri   (resultSet, SSSQLVarU.circleId),
         bindingStrToLabel (resultSet, SSSQLVarU.label),
@@ -145,6 +147,39 @@ public class SSAccessRightsFct extends SSDBSQLFct{
     }
   }
   
+  public SSUri addPublicCircle() throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> where = new HashMap<String, String>();
+
+      where.put(SSSQLVarU.circleType, SSAccessRightsCircleTypeE.pub.toString());
+
+      resultSet = dbSQL.selectAllWhere(circleTable, where);
+
+      if(resultSet.first()){
+        return bindingStrToUri(resultSet, SSSQLVarU.circleId);
+      }
+
+      final Map<String, String> insert    = new HashMap<String, String>();
+      final SSUri               circleUri = createCircleURI();
+
+      insert.put(SSSQLVarU.circleId,   SSUri.toStr(circleUri));
+      insert.put(SSSQLVarU.circleType, SSAccessRightsCircleTypeE.pub.toString());
+
+      dbSQL.insert(circleTable, insert);
+
+      return circleUri;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  
   public Boolean hasCircleRight(
     final SSUri                    circleUri,
     final SSAccessRightsRightTypeE accessRight) throws Exception{
@@ -160,6 +195,14 @@ public class SSAccessRightsFct extends SSDBSQLFct{
       final Map<String, String> where = new HashMap<String, String>();
       
       where.put(SSSQLVarU.circleId,    SSUri.toStr(circleUri));
+      where.put(SSSQLVarU.accessRight, SSAccessRightsRightTypeE.all.toString());
+      
+      resultSet = dbSQL.selectAllWhere(circleRightsTable, where);
+      
+      if(resultSet.first()){
+        return true;
+      }
+      
       where.put(SSSQLVarU.accessRight, SSAccessRightsRightTypeE.toStr(accessRight));
       
       resultSet = dbSQL.selectAllWhere(circleRightsTable, where);
@@ -182,9 +225,13 @@ public class SSAccessRightsFct extends SSDBSQLFct{
         throw new Exception("pars not ok");
       }
       
+      if(hasCircleRight(circleUri, accessRight)){
+        return;
+      }
+      
       final Map<String, String> insertPars = new HashMap<String, String>();
       
-      insertPars.put(SSSQLVarU.circleId,      SSUri.toStr(circleUri));
+      insertPars.put(SSSQLVarU.circleId,    SSUri.toStr(circleUri));
       insertPars.put(SSSQLVarU.accessRight, SSAccessRightsRightTypeE.toStr(accessRight));
       
       dbSQL.insert(circleRightsTable, insertPars);
@@ -207,7 +254,7 @@ public class SSAccessRightsFct extends SSDBSQLFct{
       final Map<String, String> insertPars = new HashMap<String, String>();
       
       insertPars.put(SSSQLVarU.circleId,      SSUri.toStr(circleUri));
-      insertPars.put(SSSQLVarU.entityId,      SSUri.toStr(userUri));
+      insertPars.put(SSSQLVarU.userId,        SSUri.toStr(userUri));
       
       dbSQL.insert(circleUsersTable, insertPars);
       
@@ -226,6 +273,10 @@ public class SSAccessRightsFct extends SSDBSQLFct{
         throw new Exception("pars not ok");
       }
       
+      if(hasCircleEntity(circleUri, entityUri)){
+        return;
+      }
+      
       final Map<String, String> insertPars = new HashMap<String, String>();
       
       insertPars.put(SSSQLVarU.circleId,      SSUri.toStr(circleUri));
@@ -237,6 +288,35 @@ public class SSAccessRightsFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  private Boolean hasCircleEntity(
+    final SSUri circleUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(circleUri, entityUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.circleId, SSUri.toStr(circleUri));
+      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
+      
+      resultSet = dbSQL.selectAllWhere(circleEntitiesTable, where);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   
   public SSUri createCircleURI() throws Exception{
     return SSUri.get(SSIDU.uniqueID(objCircle().toString()));

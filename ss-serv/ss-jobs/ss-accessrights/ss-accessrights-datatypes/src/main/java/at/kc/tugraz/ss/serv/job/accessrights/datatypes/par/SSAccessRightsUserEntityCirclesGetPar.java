@@ -21,12 +21,11 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
 
-public class SSAccessRightsUserAllowedIsPar extends SSServPar{
+public class SSAccessRightsUserEntityCirclesGetPar extends SSServPar{
 
   public SSUri                     entityUri    = null;
-  public SSAccessRightsRightTypeE  accessRight  = null;
   
-  public SSAccessRightsUserAllowedIsPar(final SSServPar par) throws Exception{
+  public SSAccessRightsUserEntityCirclesGetPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -34,12 +33,10 @@ public class SSAccessRightsUserAllowedIsPar extends SSServPar{
     
       if(pars != null){
         entityUri       = (SSUri)                     pars.get(SSVarU.entityUri);
-        accessRight     = (SSAccessRightsRightTypeE)  pars.get(SSVarU.accessRight);
       }
       
       if(clientPars != null){
         entityUri       = SSUri.get                    (clientPars.get(SSVarU.entityUri));
-        accessRight     = SSAccessRightsRightTypeE.get (clientPars.get(SSVarU.accessRight));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
