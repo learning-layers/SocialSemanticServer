@@ -23,7 +23,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -198,7 +198,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       columnNames.add             (circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
       columnNames.add             (SSSQLVarU.circleType);
       
-      where.put                   (SSSQLVarU.circleType, SSAccessRightsCircleTypeE.toStr(SSAccessRightsCircleTypeE.pub));
+      where.put                   (SSSQLVarU.circleType, SSEntityCircleTypeE.toStr(SSEntityCircleTypeE.pub));
         
       whereFixed.add(SSSQLVarU.id                                              + SSStrU.equal + SSSQLVarU.collId);
       whereFixed.add(SSSQLVarU.collId                                          + SSStrU.equal + SSSQLVarU.entityId);
@@ -651,7 +651,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   public SSColl getUserColl(
     final SSUri userUri, 
     final SSUri collUri, 
-    final List<SSAccessRightsCircleTypeE> circleTypes) throws Exception{
+    final List<SSEntityCircleTypeE> circleTypes) throws Exception{
    
     if(SSObjU.isNull(userUri, collUri)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -705,7 +705,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   public SSColl getUserCollWithEntries(
     final SSUri                           userUri, 
     final SSUri                           collUri,
-    final List<SSAccessRightsCircleTypeE> circleTypes, 
+    final List<SSEntityCircleTypeE> circleTypes, 
     final Boolean                         sort) throws Exception{
 
     if(SSObjU.isNull(userUri, collUri, circleTypes, sort)){
@@ -748,7 +748,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
           SSCollEntry.get(
             bindingStrToUri        (resultSet, SSSQLVarU.entryId),
             bindingStr             (resultSet, SSSQLVarU.label),
-            new ArrayList<SSAccessRightsCircleTypeE>(),
+            new ArrayList<SSEntityCircleTypeE>(),
             bindingStrToInteger    (resultSet, SSSQLVarU.pos),
             bindingStrToEntityType (resultSet, SSSQLVarU.type));
         

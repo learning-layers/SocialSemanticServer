@@ -33,14 +33,14 @@ public class SSCollMiscFct{
       sqlFct.getUserCollWithEntries(
         userUri,
         collUri,
-        SSServCaller.accessRightsUserCircleTypesForEntityGet(userUri, collUri),
+        SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri),
         true);
     
     for(SSCollEntry entry : coll.entries){
       
       if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
         entry.circleTypes.clear();
-        entry.circleTypes.addAll(SSServCaller.accessRightsUserCircleTypesForEntityGet(userUri, entry.uri));
+        entry.circleTypes.addAll(SSServCaller.entityUserCircleTypesForEntityGet(userUri, entry.uri));
       }
     }
     

@@ -16,7 +16,7 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -35,7 +35,7 @@ public class SSCollEntryDeleteFct{
   
   public Boolean removeColl(final SSCollUserEntryDeletePar par) throws Exception{
     
-    switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.collEntry)){
+    switch(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry)){
       
       case priv:{
         
@@ -73,13 +73,13 @@ public class SSCollEntryDeleteFct{
     
     dbSQL.startTrans(par.shouldCommit);
     
-    for(SSCircle userEntityCircle : SSServCaller.accessRightsUserEntityCirclesGet(par.user, par.coll)){
+    for(SSCircle userEntityCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       switch(userEntityCircle.circleType){
         case priv:
         case pub: break;
         default:{
-          SSServCaller.accessRightsUserEntitiesFromCircleRemove(
+          SSServCaller.entityUserEntitiesFromCircleRemove(
             par.user,
             userEntityCircle.circleUri,
             par.collEntry,

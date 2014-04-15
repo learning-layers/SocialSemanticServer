@@ -22,7 +22,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -44,7 +44,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     super(conf);
   }
   
-  /****** SSSearchClientI ******/
+  /* SSSearchClientI */
   
   @Override
   public void searchTags(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -145,13 +145,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           entityUri = SSServCaller.fileUriFromID(par.user, entityId);
 
           if(
-            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSAccessRightsCircleTypeE.pub)   ||
-            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSAccessRightsCircleTypeE.group)){
+            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSEntityCircleTypeE.pub)   ||
+            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSEntityCircleTypeE.group)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
             continue;
           }
           
-          if((Boolean)SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.priv)){
+          if((Boolean)SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.priv)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
             continue;
           }
@@ -186,13 +186,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
           
           if(
-            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.pub) ||
-            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.group)){
+            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.pub) ||
+            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.group)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
             continue;
           }
           
-          if(SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.priv)){
+          if(SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.priv)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
             continue;
           }

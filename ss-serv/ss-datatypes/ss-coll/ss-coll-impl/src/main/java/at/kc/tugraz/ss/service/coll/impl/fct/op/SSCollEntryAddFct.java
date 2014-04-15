@@ -17,7 +17,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
@@ -40,7 +40,7 @@ public class SSCollEntryAddFct{
     
     final Boolean isParentCollSharedOrPublic;
     
-    switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.coll)){
+    switch(SSServCaller.entityMostOpenCircleTypeGet(par.coll)){
       case priv: isParentCollSharedOrPublic = false; break;
       default:   isParentCollSharedOrPublic = true;
     }
@@ -66,9 +66,9 @@ public class SSCollEntryAddFct{
     
     dbSQL.commit(par.shouldCommit);
     
-    for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
+    for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
       
-      SSServCaller.accessRightsUserEntitiesToCircleAdd(
+      SSServCaller.entityUserEntitiesToCircleAdd(
         par.user,
         circleUri,
         par.collEntry,
@@ -80,13 +80,13 @@ public class SSCollEntryAddFct{
   
   public SSUri addExistingColl(final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collEntry, SSAccessRightsRightTypeE.read)){
+    if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
       throw new Exception("user cannot access to add coll");
     }
     
     //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
     
-    switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.coll)){
+    switch(SSServCaller.entityMostOpenCircleTypeGet(par.coll)){
       case priv: break;
       default:   throw new Exception("cannot add shared or public coll to shared / public parent coll");
     }
@@ -127,9 +127,9 @@ public class SSCollEntryAddFct{
     
     dbSQL.commit(par.shouldCommit);
     
-    for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
+    for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
       
-      SSServCaller.accessRightsUserEntitiesToCircleAdd(
+      SSServCaller.entityUserEntitiesToCircleAdd(
         par.user,
         circleUri,
         par.collEntry,

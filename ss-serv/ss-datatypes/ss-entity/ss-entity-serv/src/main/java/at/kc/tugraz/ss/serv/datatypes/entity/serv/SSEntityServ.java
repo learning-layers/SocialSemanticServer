@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSEntityServ extends SSServA{
   
@@ -43,5 +44,6 @@ public class SSEntityServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    SSServCaller.entityCirclePublicAdd();
   }
 }

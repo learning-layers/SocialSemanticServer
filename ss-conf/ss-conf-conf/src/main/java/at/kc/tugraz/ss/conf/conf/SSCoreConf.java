@@ -64,7 +64,6 @@ public class SSCoreConf extends SSCoreConfA{
   private SSRecommConf        recommConf         = null;
   private SSFileSysLocalConf  fileSysLocalConf   = null;
   private SSEvernoteConf      evernoteConf       = null;
-  private SSAccessRightsConf  accessRightsConf   = null;
   private SSI5CloudConf       i5CloudConf        = null;
   private SSAuthConf          authConf           = null;
   private SSScaffConf         scaffConf          = null;
@@ -197,14 +196,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   public SSEvernoteConf getEvernoteConf(){
     return this.evernoteConf;
-  }
-  
-  public void setAccessRightsConf(final SSAccessRightsConf accessRightsConf){
-    this.accessRightsConf = accessRightsConf;
-  }
-  
-  public SSAccessRightsConf getAccessRightsConf(){
-    return this.accessRightsConf;
   }
   
   public void setI5CloudConf(final SSI5CloudConf i5CloudConf){

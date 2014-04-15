@@ -20,6 +20,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import java.util.List;
 
 public interface SSEntityServerI {
   
@@ -34,4 +37,17 @@ public interface SSEntityServerI {
   public SSLabelStr    entityLabelGet                           (final SSServPar parA) throws Exception;
   public SSUri         entityAuthorGet                          (final SSServPar parA) throws Exception;
   public SSUri         entityLabelSet                           (final SSServPar parA) throws Exception;
+  
+  public List<SSUri>                     entityCircleURIsGet                  (final SSServPar parA) throws Exception;
+  public SSUri                           entityCirclePublicAdd                (final SSServPar parA) throws Exception;
+  public SSUri                           entityCircleURIPublicGet             (final SSServPar parA) throws Exception;
+  public List<SSCircle>                  entityUserCirclesGet                 (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserCircleCreate               (final SSServPar parA) throws Exception;
+  public void                            entityCircleUserAdd                  (final SSServPar parA) throws Exception;
+  public SSEntityCircleTypeE             entityMostOpenCircleTypeGet          (final SSServPar parA) throws Exception;
+  public List<SSEntityCircleTypeE>       entityUserCircleTypesForEntityGet    (final SSServPar parA) throws Exception;
+  public List<SSCircle>                  entityUserEntityCirclesGet           (final SSServPar parA) throws Exception;
+  public Boolean                         entityUserEntitiesToCircleAdd        (final SSServPar parA) throws Exception;
+  public Boolean                         entityUserUsersToCircleAdd           (final SSServPar parA) throws Exception;
+  public Boolean                         entityUserAllowedIs                  (final SSServPar parA) throws Exception;
 }

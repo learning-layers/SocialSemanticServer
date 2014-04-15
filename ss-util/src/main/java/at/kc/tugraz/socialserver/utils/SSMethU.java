@@ -57,6 +57,22 @@ public enum SSMethU{
   entityLabelGet                                      ,
   entityLabelSet                                      ,
   entityAuthorGet                                     ,
+  entityCirclePublicAdd,
+  entityCircleURIPublicGet,
+  entityCircleURIsGet,
+  entityUserCircleDelete,
+  entityCircleUserAdd,
+  entityUserAllowedIs,
+  entityUserCirclesGet,
+  entityUserCircleCreate,
+  entityUserEntitiesToCircleAdd,
+  entityUserEntitiesFromCircleRemove,
+  entityUserEntityCirclesGet,
+  entityUserUsersToCircleAdd, 
+  entityCirclesGet,
+  entityInSharedCircleIs,
+  entityMostOpenCircleTypeGet,
+  entityUserCircleTypesForEntityGet,
   
   //learn ep
   learnEpsGet                                         ,
@@ -230,25 +246,7 @@ public enum SSMethU{
   //i5cloud
   i5CloudAuth,
   i5CloudFileUpload,
-  i5CloudFileDownload,
-  
-  //access rights
-  accessRightsCirclePublicAdd,
-  accessRightsCircleURIPublicGet,
-  accessRightsEntityCircleURIsGet,
-  accessRightsUserCircleDelete,
-  accessRightsCircleUserAdd,
-  accessRightsUserAllowedIs,
-  accessRightsUserCirclesGet,
-  accessRightsUserCircleCreate,
-  accessRightsUserEntitiesToCircleAdd,
-  accessRightsUserEntitiesFromCircleRemove,
-  accessRightsUserEntityCirclesGet,
-  accessRightsUserUsersToCircleAdd, 
-  accessRightsEntityCirclesGet,
-  accessRightsEntityInSharedCircleIs,
-  accessRightsEntityMostOpenCircleTypeGet,
-  accessRightsUserCircleTypesForEntityGet;
+  i5CloudFileDownload;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

@@ -18,13 +18,13 @@
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollEntityInCircleTypeForUserIsPar extends SSServPar{
   
   public SSUri                     entityUri  = null;
-  public SSAccessRightsCircleTypeE circleType = null;
+  public SSEntityCircleTypeE circleType = null;
    
   public SSCollEntityInCircleTypeForUserIsPar(final SSServPar par) throws Exception{
     
@@ -34,12 +34,12 @@ public class SSCollEntityInCircleTypeForUserIsPar extends SSServPar{
        
        if(pars != null){
          this.entityUri  = (SSUri)                     pars.get(SSVarU.entityUri);
-         this.circleType = (SSAccessRightsCircleTypeE) pars.get(SSVarU.circleType);
+         this.circleType = (SSEntityCircleTypeE) pars.get(SSVarU.circleType);
        }
        
        if(clientPars != null){
          this.entityUri  = SSUri.get                    (clientPars.get(SSVarU.entityUri));
-         this.circleType = SSAccessRightsCircleTypeE.get(clientPars.get(SSVarU.circleType));
+         this.circleType = SSEntityCircleTypeE.get(clientPars.get(SSVarU.circleType));
        }
     }catch(Exception error){
        SSServErrReg.regErrThrow(error);

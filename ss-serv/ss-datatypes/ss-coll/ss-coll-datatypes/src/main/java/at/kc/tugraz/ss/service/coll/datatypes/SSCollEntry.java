@@ -21,7 +21,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,14 +32,14 @@ public class SSCollEntry extends SSEntityA {
 
   public  SSUri                           uri         = null;
   public  Integer                         pos         = -1;
-  public  List<SSAccessRightsCircleTypeE> circleTypes = new ArrayList<SSAccessRightsCircleTypeE>();
+  public  List<SSEntityCircleTypeE> circleTypes = new ArrayList<SSEntityCircleTypeE>();
   public  String                          label       = null;
   public  SSEntityEnum                    entityType  = null;
 
   public static SSCollEntry get(
     SSUri         uri,
     String        label  ,
-    List<SSAccessRightsCircleTypeE> circleTypes,
+    List<SSEntityCircleTypeE> circleTypes,
     Integer       pos,
     SSEntityEnum  entityType){
     
@@ -49,7 +49,7 @@ public class SSCollEntry extends SSEntityA {
   private SSCollEntry(
     SSUri        uri,
     String       label,
-    List<SSAccessRightsCircleTypeE> circleTypes,
+    List<SSEntityCircleTypeE> circleTypes,
     Integer      pos, 
     SSEntityEnum entityType){
 
@@ -75,7 +75,7 @@ public class SSCollEntry extends SSEntityA {
     final Map<String, Object> ld             = new HashMap<String, Object>();
     final Map<String, Object> circleTypesObj = new HashMap<String, Object>();
     
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSAccessRightsCircleTypeE.class.getName());
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircleTypeE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
@@ -98,7 +98,7 @@ public class SSCollEntry extends SSEntityA {
     return pos;
   }
 
-  public List<SSAccessRightsCircleTypeE> getCircleTypes(){
+  public List<SSEntityCircleTypeE> getCircleTypes(){
     return circleTypes;
   }
 

@@ -14,10 +14,6 @@ i5CloudConf:
   uri: 
   userLabel: 
   pass:
-accessRightsConf:
-  use: true
-  executeOpAtStartUp: false
-  op: #accessRightsUserCircleCreate, accessRightsUserEntitiesToCircleAdd, accessRightsUserUsersToCircleAdd, accessRightsUserAllowedIsaccessRightsUserAllowedIs
 dbGraphConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
   use: true
   executeOpAtStartUp: false
