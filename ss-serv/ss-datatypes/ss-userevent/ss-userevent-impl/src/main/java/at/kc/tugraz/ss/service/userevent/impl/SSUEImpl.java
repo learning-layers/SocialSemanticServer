@@ -16,7 +16,6 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -66,6 +65,17 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   }
   
   /* SSEntityHandlerImplI */
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,

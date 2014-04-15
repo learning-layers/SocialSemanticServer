@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -92,11 +91,21 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     sqlFct    = new SSLearnEpSQLFct   (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
     final Boolean                                       shouldCommit) throws Exception{
+  }
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
   }
   
   @Override

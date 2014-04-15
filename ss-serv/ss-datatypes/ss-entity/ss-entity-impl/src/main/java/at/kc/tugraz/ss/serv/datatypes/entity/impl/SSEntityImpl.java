@@ -58,9 +58,11 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleTyp
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCreateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -149,6 +151,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSEntityUserUsersToCircleAddRet.get(entityUserUsersToCircleAdd(par), par.op));
+  }
+  
+  @Override
+  public void entityUserPublicSet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+
+    SSServCaller.checkKey(par);
+
+    sSCon.writeRetFullToClient(SSEntityUserPublicSetRet.get(entityUserPublicSet(par), par.op));
   }
   
   /* SSEntityServerI */
@@ -818,6 +828,46 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return false;
 
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override 
+  public SSUri entityUserPublicSet(final SSServPar parA) throws Exception{
+    
+    final SSEntityUserPublicSetPar par = new SSEntityUserPublicSetPar(parA);
+    Boolean result;
+    
+    try{
+      final SSEntityEnum entityType = SSServCaller.entityTypeGet(par.entityUri);
+      
+      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+      
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sqlFct.addEntityToCircle(publicCircleUri, par.entityUri);
+        
+        dbSQL.commit(par.shouldCommit);
+        
+        return par.entityUri;
+      }
+      
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        
+        result = ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
+          par.user,
+          par.entityUri,
+          entityType);
+        
+        if(result){
+          return par.entityUri;
+        }
+      }
+      
+      throw new Exception("entity couldnt be set to be public");
+    }catch(Exception error){
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -73,6 +73,7 @@ public enum SSMethU{
   entityInSharedCircleIs,
   entityMostOpenCircleTypeGet,
   entityUserCircleTypesForEntityGet,
+  entityUserPublicSet,
   
   //learn ep
   learnEpsGet                                         ,

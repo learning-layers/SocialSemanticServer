@@ -15,7 +15,6 @@
  */
  package at.kc.tugraz.ss.service.rating.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -43,8 +42,6 @@ import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingDesc;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI{
@@ -60,7 +57,8 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
 //    graphFct = new SSRatingGraphFct (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
@@ -75,6 +73,15 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
   }
     
   @Override

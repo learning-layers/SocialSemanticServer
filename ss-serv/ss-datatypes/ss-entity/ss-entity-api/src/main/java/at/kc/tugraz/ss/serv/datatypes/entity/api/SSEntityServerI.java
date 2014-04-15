@@ -50,4 +50,5 @@ public interface SSEntityServerI {
   public Boolean                         entityUserEntitiesToCircleAdd        (final SSServPar parA) throws Exception;
   public Boolean                         entityUserUsersToCircleAdd           (final SSServPar parA) throws Exception;
   public Boolean                         entityUserAllowedIs                  (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserPublicSet                  (final SSServPar parA) throws Exception;
 }

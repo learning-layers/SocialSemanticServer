@@ -13,42 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.coll.datatypes.ret;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCollUserSetPublicRet extends SSServRetI{
+public class SSEntityUserPublicSetRet extends SSServRetI{
 
-  public SSUri collUri = null;
+  public SSUri entityUri = null;
 
-  public static SSCollUserSetPublicRet get(final SSUri collUri, final SSMethU op){
-    return new SSCollUserSetPublicRet(collUri, op);
+  public static SSEntityUserPublicSetRet get(
+    final SSUri entityUri, 
+    final SSMethU op){
+    
+    return new SSEntityUserPublicSetRet(entityUri, op);
   }
   
-  private SSCollUserSetPublicRet(final SSUri collUri, final SSMethU op) {
-
+  private SSEntityUserPublicSetRet(
+    final SSUri entityUri,
+    final SSMethU op){
+    
     super(op);
     
-    this.collUri = collUri;
+    this.entityUri = entityUri;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.collUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entityUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getCollUri() {
-    return SSUri.toStrWithoutSlash(collUri);
+  public String getEntityUri() throws Exception {
+    return SSUri.toStrWithoutSlash(entityUri);
   }
 }

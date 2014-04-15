@@ -66,7 +66,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetP
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCummulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserSetPublicRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
@@ -93,6 +92,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     this.collEntryDeleteFct  = new SSCollEntryDeleteFct  (dbSQL);
   }
   
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+      return false;
+    }
+
+    SSServCaller.collUserSetPublic(userUri, entityUri);
+    return true;
+  }
+    
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
@@ -152,14 +165,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
   }
   
-  @Override
-  public void collUserSetPublic(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCaller.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserSetPublicRet.get(collUserSetPublic(parA), parA.op));
-  }
-
   @Override
   public void collUserRootGet(SSSocketCon sSCon, SSServPar par) throws Exception{
 

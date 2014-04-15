@@ -15,8 +15,6 @@
  */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -53,7 +51,6 @@ import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +60,16 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
     super(conf);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,

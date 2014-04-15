@@ -171,9 +171,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserSetPublic")
-  public String collUserSetPublic(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserSetPublic);
+  @Path    (SSStrU.slash + "entityUserPublicSet")
+  public String entityUserPublicSet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserPublicSet);
   }
   
   @POST

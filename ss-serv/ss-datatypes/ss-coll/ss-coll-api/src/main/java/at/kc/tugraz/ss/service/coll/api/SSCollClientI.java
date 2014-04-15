@@ -21,7 +21,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 public interface SSCollClientI{
   
   public void collUserParentGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserSetPublic         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntryDelete       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

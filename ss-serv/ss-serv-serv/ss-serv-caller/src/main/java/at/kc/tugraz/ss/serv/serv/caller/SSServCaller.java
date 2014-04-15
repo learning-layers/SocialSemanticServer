@@ -1333,6 +1333,20 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleUserAdd, opPars));
   }
   
+  public static SSUri entityUserPublicSet(
+    final SSUri   userUri,
+    final SSUri   entityUri,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.entityUri,    entityUri);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserPublicSet, opPars));
+  }
+  
   /* user event */
   
   public static void ueAdd(

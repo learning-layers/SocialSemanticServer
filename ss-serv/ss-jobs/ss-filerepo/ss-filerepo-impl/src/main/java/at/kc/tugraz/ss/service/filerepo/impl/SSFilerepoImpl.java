@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
@@ -73,8 +72,18 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     
     this.fct = new SSFilerepoFct();
   }
-
+  
   /* SSEntityHandlerImplI */
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,

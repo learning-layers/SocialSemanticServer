@@ -52,4 +52,9 @@ public interface SSEntityHandlerImplI{
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
     final Boolean                                       shouldCommit) throws Exception;
+
+  public Boolean setEntityPublic(
+    final SSUri        userUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception;
 }

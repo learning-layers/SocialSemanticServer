@@ -19,7 +19,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -70,6 +69,15 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   
   public List<SSEntityEnum> getSupportedEntityTypes() throws Exception{
     return supportedEntityTypes;
+  }
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
   }
     
   @Override

@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.service.tag.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
@@ -67,6 +66,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   /* SSEntityHandlerImplI */
+  
+  @Override
+  public Boolean setEntityPublic(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
