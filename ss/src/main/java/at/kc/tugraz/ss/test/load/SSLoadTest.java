@@ -17,7 +17,6 @@ package at.kc.tugraz.ss.test.load;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServLoadTestCaseA;
@@ -39,7 +38,7 @@ public class SSLoadTest extends SSServLoadTestCaseA{
     SSLogU.info(SSLoadTest.class.getName() + " start");
     
     rootCollUri  = SSServCaller.collUserRootGet   (userUri).uri;
-    collUri      = SSServCaller.collUserEntryAdd  (userUri, rootCollUri, null, SSLabelStr.get("firstColl"), null, -1, true, false, true);
+    collUri      = SSServCaller.collUserEntryAdd  (userUri, rootCollUri, null, SSLabelStr.get("firstColl"), -1, true, false, true);
     
     for(threadCounter = 0; threadCounter < maxThreads; threadCounter++){
       new Thread(new SSLoadTestUEAdder     (null, userUri)).start();

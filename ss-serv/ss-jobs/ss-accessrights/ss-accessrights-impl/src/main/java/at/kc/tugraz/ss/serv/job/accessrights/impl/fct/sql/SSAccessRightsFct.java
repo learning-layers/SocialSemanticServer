@@ -36,11 +36,6 @@ import java.util.Map;
 
 public class SSAccessRightsFct extends SSDBSQLFct{
   
-  protected static final String circleTable           = "circle";
-  protected static final String circleRightsTable     = "circleRights";
-  protected static final String circleUsersTable      = "circleUsers";
-  protected static final String circleEntitiesTable   = "circleEntities";
-  
   public SSAccessRightsFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
   }

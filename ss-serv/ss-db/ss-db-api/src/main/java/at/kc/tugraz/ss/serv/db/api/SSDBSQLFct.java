@@ -23,13 +23,17 @@ import java.sql.ResultSet;
 
 public class SSDBSQLFct extends SSDBFct{
 
-  protected final SSDBSQLI dbSQL;
-  protected static final String   entityTable                         = "entity";
+  protected        final SSDBSQLI dbSQL;
+  protected static final String   circleTable                         = "circle";
+  protected static final String   circleRightsTable                   = "circleRights";
+  protected static final String   circleUsersTable                    = "circleUsers";
+  protected static final String   circleEntitiesTable                 = "circleEntities";
   protected static final String   collTable                           = "coll";
   protected static final String   collRootTable                       = "collroot";
   protected static final String   collEntryPosTable                   = "collentrypos";
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";
+  protected static final String   entityTable                         = "entity";
 
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

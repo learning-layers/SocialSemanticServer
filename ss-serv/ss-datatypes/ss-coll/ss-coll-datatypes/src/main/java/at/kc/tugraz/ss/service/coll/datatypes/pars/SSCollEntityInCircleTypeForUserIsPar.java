@@ -13,32 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.coll.datatypes.pars;
+ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSCollUserSpaceGetPar extends SSServPar{
+public class SSCollEntityInCircleTypeForUserIsPar extends SSServPar{
   
-  public SSUri collUri = null;
-  
-  public SSCollUserSpaceGetPar(SSServPar par) throws Exception{
+  public SSUri                     entityUri  = null;
+  public SSAccessRightsCircleTypeE circleType = null;
+   
+  public SSCollEntityInCircleTypeForUserIsPar(final SSServPar par) throws Exception{
     
     super(par);
     
-    try{
-      
-      if(pars != null){
-        this.collUri = (SSUri) pars.get(SSVarU.collUri);
-      }
-      
-      if(clientPars != null){
-        this.collUri = SSUri.get((String)clientPars.get(SSVarU.collUri));
-      }
+     try{
+       
+       if(pars != null){
+         this.entityUri  = (SSUri)                     pars.get(SSVarU.entityUri);
+         this.circleType = (SSAccessRightsCircleTypeE) pars.get(SSVarU.circleType);
+       }
+       
+       if(clientPars != null){
+         this.entityUri  = SSUri.get                    (clientPars.get(SSVarU.entityUri));
+         this.circleType = SSAccessRightsCircleTypeE.get(clientPars.get(SSVarU.circleType));
+       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+       SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -39,7 +39,6 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
     
     final List<SSUri>       entries      = new ArrayList<SSUri>(); 
     final List<SSLabelStr>  entryLabels  = new ArrayList<SSLabelStr>(); 
-    final List<SSUri>       circleUris   = new ArrayList<SSUri>();
     final SSColl            rootColl     = SSServCaller.collUserRootGet      (userUri);
     final SSColl            rootCollAfterAddingEntries;
     
@@ -51,11 +50,7 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
     entryLabels.add(SSLabelStr.get("second entry"));
     entryLabels.add(SSLabelStr.get("third entry"));
         
-    circleUris.add(null);
-    circleUris.add(null);
-    circleUris.add(null);
-    
-    SSServCaller.collUserEntriesAdd(userUri, rootColl.uri, entries, entryLabels, circleUris, false, true);
+    SSServCaller.collUserEntriesAdd(userUri, rootColl.uri, entries, entryLabels, false, true);
     
     rootCollAfterAddingEntries = SSServCaller.collUserRootGet      (userUri);
     
@@ -75,7 +70,6 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
         serverServPar.coll,
         serverServPar.entries,
         serverServPar.entryLabels,
-        serverServPar.circleUris,
         true,
         true);
     

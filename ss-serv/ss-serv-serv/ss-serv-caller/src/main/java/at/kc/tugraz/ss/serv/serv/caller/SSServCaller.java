@@ -705,6 +705,18 @@ public class SSServCaller {
   }
   
   /* colls */
+  public static SSColl collUserWithEntries(
+    final SSUri userUri, 
+    final SSUri collUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user, userUri);
+    opPars.put(SSVarU.coll, collUri);
+    
+    return (SSColl) SSServA.callServViaServer(new SSServPar(SSMethU.collUserWithEntries, opPars));
+  }
+  
   public static SSUri collUserSetPublic(
     final SSUri userUri,
     final SSUri collUri) throws Exception{
@@ -715,18 +727,6 @@ public class SSServCaller {
     opPars.put(SSVarU.collUri, collUri);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserSetPublic, opPars));
-  }
-  
-  public static SSSpaceEnum collUserSpaceGet(
-    final SSUri userUri, 
-    final SSUri collUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,    userUri);
-    opPars.put(SSVarU.collUri, collUri);
-    
-    return (SSSpaceEnum) SSServA.callServViaServer(new SSServPar(SSMethU.collUserSpaceGet, opPars));
   }
   
   public static SSColl collUserRootGet(final SSUri userUri) throws Exception{
@@ -770,7 +770,6 @@ public class SSServCaller {
     final SSUri        coll,
     final SSUri        collEntry,
     final SSLabelStr   label,
-    final SSUri        circleUri,
     final Integer      collEntryPos,
     final Boolean      addNewColl,
     final Boolean      saveUE,
@@ -783,7 +782,6 @@ public class SSServCaller {
     opPars.put(SSVarU.saveUE,            saveUE);
     opPars.put(SSVarU.coll,              coll);
     opPars.put(SSVarU.collEntry,         collEntry);
-    opPars.put(SSVarU.circleUri,         circleUri);
     opPars.put(SSVarU.collEntryLabel,    label);
     opPars.put(SSVarU.collEntryPosition, collEntryPos);
     opPars.put(SSVarU.addNewColl,        addNewColl);
@@ -796,7 +794,6 @@ public class SSServCaller {
     final SSUri             collUri,
     final List<SSUri>       collEntries,
     final List<SSLabelStr>  collEntryLabels,
-    final List<SSUri>       circleUris,
     final Boolean           saveUE,
     final Boolean           shouldCommit) throws Exception{
     
@@ -808,7 +805,6 @@ public class SSServCaller {
     opPars.put(SSVarU.coll,         collUri);
     opPars.put(SSVarU.entries,      collEntries);
     opPars.put(SSVarU.entryLabels,  collEntryLabels);
-    opPars.put(SSVarU.circleUris,   circleUris);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collUserEntriesAdd, opPars));
   }
@@ -825,28 +821,18 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.collUserRootAdd, opPars));
   }
   
-  public static Boolean collEntitySharedOrFollowedForUserIs(
-    final SSUri userUri,
-    final SSUri entityUri) throws Exception{
+  public static Boolean collEntityInCircleTypeForUserIs(
+    final SSUri                     userUri, 
+    final SSUri                     entityUri, 
+    final SSAccessRightsCircleTypeE circleType) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.user,      userUri);
-    opPars.put(SSVarU.entityUri, entityUri);
+    opPars.put(SSVarU.user,       userUri);
+    opPars.put(SSVarU.entityUri,  entityUri);
+    opPars.put(SSVarU.circleType, circleType);
     
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntitySharedOrFollowedForUserIs, opPars));
-  }
-  
-  public static Boolean collEntityPrivateForUserIs(
-    final SSUri userUri, 
-    final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,      userUri);
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntityPrivateForUserIs, opPars));
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntityInCircleTypeForUserIs, opPars));
   }
   
   public static List<SSColl> collUserHierarchyGet(

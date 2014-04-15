@@ -22,7 +22,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -175,6 +174,64 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return collEntryCount;
   }
   
+  public List<SSColl> getAllPublicColls() throws Exception{
+    
+    final List<String>        tableNames    = new ArrayList<String>();
+    final List<String>        columnNames   = new ArrayList<String>();
+    final Map<String, String> where         = new HashMap<String, String>();
+    final List<String>        whereFixed    = new ArrayList<String>();
+    ResultSet                 resultSet     = null;
+    final List<SSColl>        publicColls   = new ArrayList<SSColl>();
+    
+    try{
+      tableNames.add              (collTable);
+      tableNames.add              (entityTable);
+      tableNames.add              (circleTable);
+      tableNames.add              (circleEntitiesTable);
+      
+      columnNames.add             (SSSQLVarU.id);
+      columnNames.add             (SSSQLVarU.collId);
+      columnNames.add             (SSSQLVarU.author);
+      columnNames.add             (SSSQLVarU.label);
+      columnNames.add             (SSSQLVarU.entityId);
+      columnNames.add             (circleTable         + SSStrU.dot + SSSQLVarU.circleId);
+      columnNames.add             (circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
+      columnNames.add             (SSSQLVarU.circleType);
+      
+      where.put                   (SSSQLVarU.circleType, SSAccessRightsCircleTypeE.toStr(SSAccessRightsCircleTypeE.pub));
+        
+      whereFixed.add(SSSQLVarU.id                                              + SSStrU.equal + SSSQLVarU.collId);
+      whereFixed.add(SSSQLVarU.collId                                          + SSStrU.equal + SSSQLVarU.entityId);
+      whereFixed.add(circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId     + SSStrU.equal + circleTable + SSStrU.dot + SSSQLVarU.circleId);
+      
+      resultSet =
+        dbSQL.selectCertainDistinctWhere(
+        tableNames,
+        columnNames,
+        where,
+        whereFixed);
+      
+      while(resultSet.next()){
+        
+        publicColls.add(
+          SSColl.get(
+            bindingStrToUri(resultSet, SSSQLVarU.id), 
+            null, 
+            bindingStrToUri(resultSet, SSSQLVarU.author),
+            bindingStr     (resultSet, SSSQLVarU.label),
+            null));
+      }
+      
+      return publicColls;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  } 
+  
   public List<String> getAllUserCollURIs(final SSUri userUri) throws Exception{
      
     ResultSet resultSet = null;
@@ -201,40 +258,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }  
   
   public Boolean ownsUserColl(
-    final SSUri       userUri, 
-    final SSUri       collUri, 
-    final SSSpaceEnum space) throws Exception{
-    
-    
-    if(SSObjU.isNull(userUri, collUri, space)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-    
-    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
-    ResultSet                 resultSet                = null;
-    
-    try{
-      whereParNamesWithValues.put(SSSQLVarU.userId,    userUri.toString());
-      whereParNamesWithValues.put(SSSQLVarU.collId,    collUri.toString());
-      whereParNamesWithValues.put(SSSQLVarU.collSpace, space.toString());
-      
-      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
-      
-      return resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    //select * from entity, circleUser, circleEntity, cirlce where 
-    //id = entityUri, circleUser = userUri, circleType = private and id=entityId, circle.circleId=circlecircleId
-    //select * from entity, circleUser, circleEntity, cirlce where id = entityUri, circleUser = userUri, circleType != private;
-  }
-  
-  public Boolean ownsUserColl(
     final SSUri userUri, 
     final SSUri collUri) throws Exception {
     
@@ -258,30 +281,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }  
   
   public Boolean ownsUserASubColl(
-    final SSUri       userUri, 
-    final SSUri       collUri,
-    final SSSpaceEnum space) throws Exception{
-    
-    if(SSObjU.isNull(userUri, collUri, space)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-        
-    final List<String> subCollUris    = new ArrayList<String>();
-    
-    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
-    
-    for(String subCollUri : subCollUris){
-      
-      if(ownsUserColl(userUri, SSUri.get(subCollUri), space)){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  public Boolean ownsUserASubColl(
     final SSUri userUri, 
     final SSUri collUri) throws Exception{
     
@@ -297,53 +296,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     for(String subCollUri : subCollUris){
       
       if(ownsUserColl(userUri, SSUri.get(subCollUri))){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  public Boolean ownsUserASuperColl(
-    final SSUri       userUri, 
-    final SSUri       collUri,
-    final SSSpaceEnum space) throws Exception{
-    
-    if(SSObjU.isNull(userUri, collUri, space)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-        
-    final List<String> superCollUris = new ArrayList<String>();
-    
-    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
-    
-    for(String parentCollUri : superCollUris){
-      
-      if(ownsUserColl(userUri, SSUri.get(parentCollUri), space)){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  public Boolean ownsUserASuperColl(
-    final SSUri userUri, 
-    final SSUri collUri) throws Exception{
-    
-    if(SSObjU.isNull(userUri, collUri)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-        
-    final List<String> superCollUris = new ArrayList<String>();
-    
-    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
-    
-    for(String parentCollUri : superCollUris){
-      
-      if(ownsUserColl(userUri, SSUri.get(parentCollUri))){
         return true;
       }
     }
@@ -400,7 +352,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     if(wasAddedToCollInSharedCircle){
 
       insertPars.clear();
-      insertPars.put(SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
       insertPars.put(SSSQLVarU.collId,    collChild.toString());
         
       for(SSUri coUserUri : getCollUsers(collParent)){
@@ -415,7 +366,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       }
     }
     
-    //add sub colls of to be followed coll for this user as well
+    //add sub colls of shared / pub coll for this user as well
     if(wasAddedToCollInSharedOrPublicCircleNewly){
       
       final List<String> subCollUris = new ArrayList<String>();
@@ -424,7 +375,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       insertPars.clear();
       insertPars.put(SSSQLVarU.userId,    user.toString());
-      insertPars.put(SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
       
       for(String subCollUri : subCollUris){
         
@@ -621,68 +571,13 @@ public class SSCollSQLFct extends SSDBSQLFct{
     dbSQL.deleteWhere(collEntryPosTable, deletePars);
   }
 
-  public List<SSUri> getAllSharedCollURIs() throws Exception{
-    
-    final List<SSUri>         sharedCollURIs          = new ArrayList<SSUri>();
-    final List<String>        columnNames             = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    //get all colls from user table where space is shared (distinct)
-    columnNames.add             (SSSQLVarU.collId);
-    whereParNamesWithValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
-    
-    try{
-      resultSet = dbSQL.selectCertainDistinctWhere(collUserTable, columnNames, whereParNamesWithValues);
-
-      while(resultSet.next()){
-        sharedCollURIs.add(bindingStrToUri(resultSet, SSSQLVarU.collId));
-      }
-      
-      return sharedCollURIs;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-
-  public void shareCollAndSubColls(
-    final SSUri collUri) throws Exception{
-    
-    if(SSObjU.isNull(collUri)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return;
-    }
-  
-    final Map<String, String> updatePars = new HashMap<String, String>();
-    final Map<String, String> newValues  = new HashMap<String, String>();
-    final List<String>        subCollUris = new ArrayList<String>();
-    
-    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
-    
-    //set space in user coll table for each sub coll to shared
-    for(String subCollUri : subCollUris){
-      
-      updatePars.put(SSSQLVarU.collId,    subCollUri.toString());
-      newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
-      
-      dbSQL.updateWhere(collUserTable, updatePars, newValues);
-    }
-    
-    //set space in user coll table for coll to shared
-    updatePars.put(SSSQLVarU.collId,    collUri.toString());
-    newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
-    
-    dbSQL.updateWhere(collUserTable, updatePars, newValues);
-  }
-
-  public void changeCollEntriesPos(final SSUri coll, final List<SSUri> collEntries, final List<Integer> order) throws Exception{
+  public void changeCollEntriesPos(
+    final SSUri         collUri, 
+    final List<SSUri>   collEntries, 
+    final List<Integer> order) throws Exception{
   
     if(
-      SSObjU.isNull(collEntries, order) ||
+      SSObjU.isNull(collUri, collEntries, order) ||
       collEntries.size() != order.size()){
       SSServErrReg.regErrThrow(new Exception("pars not okay"));
       return;
@@ -692,7 +587,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final Map<String, String> newValues  = new HashMap<String, String>();
     Integer                   counter    = 0;
     
-    updatePars.put(SSSQLVarU.collId,  coll.toString());
+    updatePars.put(SSSQLVarU.collId,  SSUri.toStr(collUri));
     
     while(counter < collEntries.size()){
       
@@ -705,55 +600,53 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  //TODO dtheiler: check this method
-//  public SSColl getColl(
-//    final SSUri       collUri, 
-//    final SSSpaceEnum collSpace) throws Exception{
-//   
-//    if(SSObjU.isNull(collUri, collSpace)){
-//      SSServErrReg.regErrThrow(new Exception("pars null"));
-//      return null;
-//    }
-//    
-//    final List<String>        tableNames              = new ArrayList<String>();
-//    final List<String>        columnNames             = new ArrayList<String>();
-//    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-//    SSColl                    coll                    = null;
-//    ResultSet                 resultSet               = null;
-//    
-//    try{
-//      tableNames.add              (collTable);
-//      tableNames.add              (entityTable);
-//      columnNames.add             (SSSQLVarU.collId);
-//      columnNames.add             (SSSQLVarU.author);
-//      columnNames.add             (SSSQLVarU.label);
-//      whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
-//      
-//      resultSet =
-//        dbSQL.selectCertainWhere(
-//        tableNames,
-//        columnNames,
-//        whereParNamesWithValues,
-//        SSSQLVarU.collId + SSStrU.equal + SSSQLVarU.id);
-//      
-//      resultSet.first();
-//      
-//      coll = 
-//        SSColl.get(
-//        collUri, 
-//        null, 
-//        bindingStrToUri  (resultSet, SSSQLVarU.author), 
-//        bindingStr       (resultSet, SSSQLVarU.label), 
-//        collSpace);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }finally{
-//      dbSQL.closeStmt(resultSet);
-//    }
-//    
-//    return coll;
-//  }
+  public SSColl getColl(
+    final SSUri collUri) throws Exception{
+   
+    if(SSObjU.isNull(collUri)){
+      SSServErrReg.regErrThrow(new Exception("pars null"));
+      return null;
+    }
+    
+    final List<String>        tableNames              = new ArrayList<String>();
+    final List<String>        columnNames             = new ArrayList<String>();
+    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+    SSColl                    coll                    = null;
+    ResultSet                 resultSet               = null;
+    
+    try{
+      tableNames.add              (collTable);
+      tableNames.add              (entityTable);
+      columnNames.add             (SSSQLVarU.collId);
+      columnNames.add             (SSSQLVarU.author);
+      columnNames.add             (SSSQLVarU.label);
+      whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
+      
+      resultSet =
+        dbSQL.selectCertainWhere(
+        tableNames,
+        columnNames,
+        whereParNamesWithValues,
+        SSSQLVarU.collId + SSStrU.equal + SSSQLVarU.id);
+      
+      resultSet.first();
+      
+      coll = 
+        SSColl.get(
+        collUri,
+        null, 
+        bindingStrToUri  (resultSet, SSSQLVarU.author), 
+        bindingStr       (resultSet, SSSQLVarU.label), 
+        null);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+    
+    return coll;
+  }
   
   public SSColl getUserColl(
     final SSUri userUri, 
@@ -975,7 +868,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.coll.toString());
   }  
   
-  private List<SSUri> getCollUsers(
+  public List<SSUri> getCollUsers(
     final SSUri collUri) throws Exception{
 
     if(SSObjU.isNull(collUri)){
@@ -1409,4 +1302,166 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //    }
+//  }
+
+//  public Boolean ownsUserASubColl(
+//    final SSUri       userUri, 
+//    final SSUri       collUri,
+//    final SSSpaceEnum space) throws Exception{
+//    
+//    if(SSObjU.isNull(userUri, collUri, space)){
+//      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+//      return null;
+//    }
+//        
+//    final List<String> subCollUris    = new ArrayList<String>();
+//    
+//    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
+//    
+//    for(String subCollUri : subCollUris){
+//      
+//      if(ownsUserColl(userUri, SSUri.get(subCollUri), space)){
+//        return true;
+//      }
+//    }
+//    
+//    return false;
+//  }
+  
+  //  public Boolean ownsUserASuperColl(
+//    final SSUri       userUri, 
+//    final SSUri       collUri,
+//    final SSSpaceEnum space) throws Exception{
+//    
+//    if(SSObjU.isNull(userUri, collUri, space)){
+//      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+//      return null;
+//    }
+//        
+//    final List<String> superCollUris = new ArrayList<String>();
+//    
+//    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
+//    
+//    for(String parentCollUri : superCollUris){
+//      
+//      if(ownsUserColl(userUri, SSUri.get(parentCollUri), space)){
+//        return true;
+//      }
+//    }
+//    
+//    return false;
+//  }
+  
+//  public Boolean ownsUserASuperColl(
+//    final SSUri userUri, 
+//    final SSUri collUri) throws Exception{
+//    
+//    if(SSObjU.isNull(userUri, collUri)){
+//      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+//      return null;
+//    }
+//        
+//    final List<String> superCollUris = new ArrayList<String>();
+//    
+//    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
+//    
+//    for(String parentCollUri : superCollUris){
+//      
+//      if(ownsUserColl(userUri, SSUri.get(parentCollUri))){
+//        return true;
+//      }
+//    }
+//    
+//    return false;
+//  }
+
+//  private Boolean ownsUserColl(
+//    final SSUri       userUri, 
+//    final SSUri       collUri, 
+//    final SSSpaceEnum space) throws Exception{
+//    
+//    
+//    if(SSObjU.isNull(userUri, collUri, space)){
+//      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+//      return null;
+//    }
+//    
+//    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
+//    ResultSet                 resultSet                = null;
+//    
+//    try{
+//      whereParNamesWithValues.put(SSSQLVarU.userId,    userUri.toString());
+//      whereParNamesWithValues.put(SSSQLVarU.collId,    collUri.toString());
+//      whereParNamesWithValues.put(SSSQLVarU.collSpace, space.toString());
+//      
+//      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+//      
+//      return resultSet.first();
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    //select * from entity, circleUser, circleEntity, cirlce where 
+//    //id = entityUri, circleUser = userUri, circleType = private and id=entityId, circle.circleId=circlecircleId
+//    //select * from entity, circleUser, circleEntity, cirlce where id = entityUri, circleUser = userUri, circleType != private;
+//  }
+//  public List<SSUri> getAllSharedCollURIs() throws Exception{
+//    
+//    final List<SSUri>         sharedCollURIs          = new ArrayList<SSUri>();
+//    final List<String>        columnNames             = new ArrayList<String>();
+//    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+//    ResultSet                 resultSet               = null;
+//    
+//    //get all colls from user table where space is shared (distinct)
+//    columnNames.add             (SSSQLVarU.collId);
+//    whereParNamesWithValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
+//    
+//    try{
+//      resultSet = dbSQL.selectCertainDistinctWhere(collUserTable, columnNames, whereParNamesWithValues);
+//
+//      while(resultSet.next()){
+//        sharedCollURIs.add(bindingStrToUri(resultSet, SSSQLVarU.collId));
+//      }
+//      
+//      return sharedCollURIs;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
+
+//  public void shareCollAndSubColls(
+//    final SSUri collUri) throws Exception{
+//    
+//    if(SSObjU.isNull(collUri)){
+//      SSServErrReg.regErrThrow(new Exception("pars not okay"));
+//      return;
+//    }
+//  
+//    final Map<String, String> updatePars = new HashMap<String, String>();
+//    final Map<String, String> newValues  = new HashMap<String, String>();
+//    final List<String>        subCollUris = new ArrayList<String>();
+//    
+//    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
+//    
+//    //set space in user coll table for each sub coll to shared
+//    for(String subCollUri : subCollUris){
+//      
+//      updatePars.put(SSSQLVarU.collId,    subCollUri.toString());
+//      newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
+//      
+//      dbSQL.updateWhere(collUserTable, updatePars, newValues);
+//    }
+//    
+//    //set space in user coll table for coll to shared
+//    updatePars.put(SSSQLVarU.collId,    collUri.toString());
+//    newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
+//    
+//    dbSQL.updateWhere(collUserTable, updatePars, newValues);
 //  }

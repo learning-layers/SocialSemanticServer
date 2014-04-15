@@ -37,9 +37,7 @@ public interface SSCollServerI{
   public List<SSColl>               collUserHierarchyGet                          (final SSServPar parA) throws Exception;
   public SSUri                      collUserEntryAdd                              (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesAdd                            (final SSServPar parA) throws Exception;
-  public Boolean                    collEntityPrivateForUserIs                    (final SSServPar parA) throws Exception;
-  public Boolean                    collEntitySharedOrFollowedForUserIs           (final SSServPar parA) throws Exception;
-  public SSSpaceEnum                collUserSpaceGet                              (final SSServPar parA) throws Exception;
+  public Boolean                    collEntityInCircleTypeForUserIs               (final SSServPar parA) throws Exception;
   public List<SSTagFrequ>           collUserCumulatedTagsGet                      (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserEntityIsInGet                        (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserCouldSubscribeGet                    (final SSServPar parA) throws Exception;

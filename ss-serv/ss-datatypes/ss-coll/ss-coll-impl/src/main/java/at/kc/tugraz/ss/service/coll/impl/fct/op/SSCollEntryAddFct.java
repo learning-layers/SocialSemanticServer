@@ -22,6 +22,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
 public class SSCollEntryAddFct{
   
@@ -34,9 +35,15 @@ public class SSCollEntryAddFct{
     this.sqlFct = new SSCollSQLFct(dbSQL);
   }
   
-  public SSUri addNewColl(final SSCollUserEntryAddPar par) throws Exception{
+  public SSUri addNewColl(
+    final SSCollUserEntryAddPar par) throws Exception{
     
-    final Boolean isSharedOrPublicParentColl;
+    final Boolean isParentCollSharedOrPublic;
+    
+    switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.coll)){
+      case priv: isParentCollSharedOrPublic = false; break;
+      default:   isParentCollSharedOrPublic = true;
+    }
     
     par.collEntry = sqlFct.createCollURI();
     
@@ -50,10 +57,14 @@ public class SSCollEntryAddFct{
     
     sqlFct.createColl(par.collEntry);
     
-    switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.coll)){
-      case priv: isSharedOrPublicParentColl = false; break;
-      default:   isSharedOrPublicParentColl = true;
-    }
+    sqlFct.addCollToUserColl(
+      par.user, 
+      par.coll, 
+      par.collEntry, 
+      isParentCollSharedOrPublic, 
+      false);
+    
+    dbSQL.commit(par.shouldCommit);
     
     for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
       
@@ -61,27 +72,19 @@ public class SSCollEntryAddFct{
         par.user,
         circleUri,
         par.collEntry,
-        false);
+        true);
     }
-    
-    sqlFct.addCollToUserColl(par.user, par.coll, par.collEntry, isSharedOrPublicParentColl, false);
-    
-    dbSQL.commit(par.shouldCommit);
     
     return par.collEntry;
   }
   
   public SSUri addExistingColl(final SSCollUserEntryAddPar par) throws Exception{
     
-    if(par.circleUri == null){
-      throw new Exception("circle uri missing");
-    }
-    
-    //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
-    
     if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.collEntry, SSAccessRightsRightTypeE.read)){
       throw new Exception("user cannot access to add coll");
     }
+    
+    //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
     
     switch(SSServCaller.accessRightsEntityMostOpenCircleTypeGet(par.coll)){
       case priv: break;
@@ -98,15 +101,20 @@ public class SSCollEntryAddFct{
     
     dbSQL.startTrans(par.shouldCommit);
     
-    sqlFct.addCollToUserColl(par.user, par.coll, par.collEntry, false, true);
+    sqlFct.addCollToUserColl(
+      par.user, 
+      par.coll, 
+      par.collEntry, 
+      false,
+      true);
     
     dbSQL.commit(par.shouldCommit);
     
     return par.collEntry;
   }
   
-  public void addCollEntry(final SSCollUserEntryAddPar par) throws Exception{
-    
+  public SSUri addCollEntry(final SSCollUserEntryAddPar par) throws Exception{
+  
     SSServCaller.addEntity(
       par.user,
       par.collEntry,
@@ -115,17 +123,21 @@ public class SSCollEntryAddFct{
     
     dbSQL.startTrans(par.shouldCommit);
     
+    sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
+    
+    dbSQL.commit(par.shouldCommit);
+    
     for(SSUri circleUri : SSServCaller.accessRightsEntityCircleURIsGet(par.coll)){
       
       SSServCaller.accessRightsUserEntitiesToCircleAdd(
         par.user,
         circleUri,
         par.collEntry,
-        false);
+        true);
     }
     
-    sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
+    SSCollUEFct.collUserEntryAdd(par);
     
-    dbSQL.commit(par.shouldCommit);
+    return par.collEntry;
   }
 }

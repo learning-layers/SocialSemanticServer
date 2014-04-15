@@ -13,10 +13,8 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -43,10 +41,8 @@ public class SSCollEntryDeleteFct{
         
         dbSQL.startTrans(par.shouldCommit);
         
-        //TODO dtheiler: maybe to remove private (sub) coll(s) from private circle
-//        SSServCaller.accessRightsUserEntityFromCircleRemove(par.collEntry);
+        //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
         
-        //remove the private coll and unlink sub colls
         sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
         
         dbSQL.commit(par.shouldCommit);
@@ -58,6 +54,8 @@ public class SSCollEntryDeleteFct{
       
       default:{
         
+        //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+          
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
@@ -71,7 +69,7 @@ public class SSCollEntryDeleteFct{
     return true;
   }
 
-  public void removeCollEntry(SSCollUserEntryDeletePar par) throws Exception{
+  public void removeCollEntry(final SSCollUserEntryDeletePar par) throws Exception{
     
     dbSQL.startTrans(par.shouldCommit);
     

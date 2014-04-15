@@ -22,6 +22,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsCircleTypeE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -143,12 +144,14 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
 
           entityUri = SSServCaller.fileUriFromID(par.user, entityId);
 
-          if((Boolean)SSServCaller.collEntitySharedOrFollowedForUserIs(par.user, entityUri)){
+          if(
+            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSAccessRightsCircleTypeE.pub)   ||
+            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSAccessRightsCircleTypeE.group)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
             continue;
           }
           
-          if((Boolean)SSServCaller.collEntityPrivateForUserIs(par.user, entityUri)){
+          if((Boolean)SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.priv)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
             continue;
           }
@@ -182,12 +185,14 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
           
-          if((Boolean)SSServCaller.collEntitySharedOrFollowedForUserIs(par.user, entityUri)){
+          if(
+            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.pub) ||
+            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.group)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
             continue;
           }
           
-          if((Boolean)SSServCaller.collEntityPrivateForUserIs(par.user, entityUri)){
+          if(SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSAccessRightsCircleTypeE.priv)){
             searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
             continue;
           }

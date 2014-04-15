@@ -16,7 +16,6 @@
 package at.kc.tugraz.ss.service.coll.impl;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
@@ -59,18 +58,18 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntityPrivateForUserIsPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntitySharedOrFollowedForUserIsPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntityInCircleTypeForUserIsPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSetPublicPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSpaceGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCummulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserSetPublicRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
+import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
@@ -321,39 +320,32 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
 
-    final SSCollUserEntryAddPar par            = new SSCollUserEntryAddPar(parA);
-    final List<SSUri>           collCircleUris = new ArrayList<SSUri>();
+    final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
 
     try{
-      
-      if(!par.addNewColl){
-        
-        if(par.collEntry == null){
-          throw new Exception("no coll entry proviced");
-        }
-      
-        if(sqlFct.containsEntry(par.coll, par.collEntry)){
-          return par.collEntry;
-        }
-      }
-      
+
       if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, SSAccessRightsRightTypeE.edit)){
         throw new Exception("user cannot add to this coll");
       }
-      
+            
       if(par.addNewColl){
         return collEntryAddFct.addNewColl(par);
+      }
+      
+      if(par.collEntry == null){
+        throw new Exception("no coll entry provided");
+      }
+      
+      if(sqlFct.containsEntry(par.coll, par.collEntry)){
+        return par.collEntry;
       }
       
       if(sqlFct.isColl(par.collEntry)){
         return collEntryAddFct.addExistingColl(par);
       }
       
-      collEntryAddFct.addCollEntry(par);
+      return collEntryAddFct.addCollEntry(par);
       
-      SSCollUEFct.collUserEntryAdd(par);
-      
-      return par.collEntry;
     }catch(Exception error){
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
@@ -377,7 +369,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           par.coll,
           par.entries.get     (counter),
           par.entryLabels.get (counter),
-          par.circleUris.get  (counter),
           -1,
           false,
           par.saveUE,
@@ -409,9 +400,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot delete this coll entry");
       }
       
-      if(sqlFct.isColl(par.collEntry)){ //to remove coll entry is coll itself
+      if(sqlFct.isColl(par.collEntry)){
         collEntryDeleteFct.removeColl(par);
-      }else{ //to remove coll entry is NO collection
+      }else{
         collEntryDeleteFct.removeCollEntry(par);
       }
 
@@ -454,7 +445,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     
     final SSCollUserSetPublicPar          par             = new SSCollUserSetPublicPar(parA);
     final List<String>                    subCollUris     = new ArrayList<String>();
-    final List<SSAccessRightsCircleTypeE> circleTypes     = new ArrayList<SSAccessRightsCircleTypeE>();
     final SSUri                           publicCircleUri;
     SSColl                                coll;
     
@@ -466,11 +456,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       publicCircleUri = SSServCaller.accessRightsCircleURIPublicGet();
       
-      coll = 
-        sqlFct.getUserColl(
-          par.user, 
-          par.collUri, 
-          circleTypes);
+      coll = SSServCaller.collUserWithEntries(par.user, par.collUri);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -493,11 +479,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       for(String subCollUri : subCollUris){
         
-        coll    =
-          sqlFct.getUserColl(
-            par.user,
-            SSUri.get(subCollUri),
-            circleTypes);
+        coll = SSServCaller.collUserWithEntries(par.user, SSUri.get(subCollUri));
         
         for(SSCollEntry collEntry : coll.entries){
           
@@ -597,23 +579,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       if(!SSServCaller.accessRightsUserAllowedIs(par.user, par.coll, SSAccessRightsRightTypeE.read)){
         throw new Exception("user cannot change the order of entities in this coll");
       }
-                  
-      final SSColl coll = 
-        sqlFct.getUserCollWithEntries(
-          par.user, 
-          par.coll, 
-          SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, par.coll),
-          par.sort);
-      
-      for(SSCollEntry entry : coll.entries){
         
-        if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-          entry.circleTypes.clear();
-          entry.circleTypes.addAll(SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, entry.uri));
-        }
-      }
-
-      return coll;
+      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -625,28 +592,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
     final List<SSColl>              userCollsWithEntries = new ArrayList<SSColl>();
-    SSColl                          coll;
 
     try{
 
       for(String collUri : sqlFct.getAllUserCollURIs(par.user)){
         
-        coll = 
-          sqlFct.getUserCollWithEntries(
+        userCollsWithEntries.add(
+          SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(
+            sqlFct, 
             par.user, 
-            SSUri.get(collUri), 
-            SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, SSUri.get(collUri)), 
-            true);
-        
-        for(SSCollEntry entry : coll.entries){
-          
-          if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-            entry.circleTypes.clear();
-            entry.circleTypes.addAll(SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, entry.uri));
-          }
-        }
-        
-        userCollsWithEntries.add(coll);
+            SSUri.get(collUri)));
       }
 
       return userCollsWithEntries;
@@ -659,30 +614,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public SSColl collUserRootGet(final SSServPar parA) throws Exception{
 
-    final SSCollUserRootGetPar            par = new SSCollUserRootGetPar(parA);
-    final List<SSAccessRightsCircleTypeE> circleTypes = new ArrayList<SSAccessRightsCircleTypeE>();
+    final SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
     
     try{
-      
-      circleTypes.add(SSAccessRightsCircleTypeE.priv);
-      
-      final SSColl coll = 
-        sqlFct.getUserCollWithEntries(
-          par.user,
-          sqlFct.getUserRootCollURI(par.user),
-          circleTypes,
-          true);
-      
-      for(SSCollEntry entry : coll.entries){
-        
-        if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-          entry.circleTypes.clear();
-          entry.circleTypes.addAll(SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, entry.uri));
-        }
-      }
-      
-      return coll;
-      
+      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, sqlFct.getUserRootCollURI(par.user));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -692,7 +627,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public SSColl collUserParentGet(SSServPar parA) throws Exception{
 
-    SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
+    final SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
 
     try{
       
@@ -700,46 +635,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot change the order of entities in this coll");
       }
             
-      final SSColl coll = 
-        sqlFct.getUserCollWithEntries(
-          par.user, 
-          sqlFct.getUserDirectParentCollURI(par.user, par.coll), 
-          SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, par.coll), 
-          true);
+      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, sqlFct.getUserDirectParentCollURI(par.user, par.coll));
       
-      for(SSCollEntry entry : coll.entries){
-        
-        if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-          entry.circleTypes.clear();
-          entry.circleTypes.addAll(SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, entry.uri));
-        }
-      }
-      
-      return coll;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 
-  //TODO dtheiler: rewrite this method
   @Override
-  public SSSpaceEnum collUserSpaceGet(SSServPar parA) throws Exception{
-
-    SSCollUserSpaceGetPar par = new SSCollUserSpaceGetPar(parA);
-
-//    try{
-//      return sqlFct.getUserColl(par.user, par.collUri).space;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-    
-    return null;
-  }
-  
-  @Override
-  public List<SSColl> collUserHierarchyGet(SSServPar parA) throws Exception{
+  public List<SSColl> collUserHierarchyGet(final SSServPar parA) throws Exception{
 
     final SSCollUserHierarchyGetPar par           = new SSCollUserHierarchyGetPar(parA);
     final List<SSUri>               hierarchy     = new ArrayList<SSUri>();
@@ -791,7 +696,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final Map<String, Integer>           tagLabelFrequs = new HashMap<String, Integer>();
     final List<SSTagFrequ>               tagFrequs      = new ArrayList<SSTagFrequ>();
     SSColl                               coll;
-    String      tagLabel;
+    String                               tagLabel;
 
     try{
       
@@ -857,65 +762,37 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
-  //TODO dtheiler: check this method
   @Override
-  public Boolean collEntityPrivateForUserIs(final SSServPar parA) throws Exception{
+  public Boolean collEntityInCircleTypeForUserIs(final SSServPar parA) throws Exception{
 
-    final SSCollEntityPrivateForUserIsPar          par = new SSCollEntityPrivateForUserIsPar(parA);
+    final SSCollEntityInCircleTypeForUserIsPar     par = new SSCollEntityInCircleTypeForUserIsPar(parA);
     final List<String>                             collUris;
     final List<String>                             userCollUris;
     
-//    try{
-//      
-//      userCollUris = sqlFct.getAllUserCollURIs          (par.user);
-//      collUris     = sqlFct.getCollUrisContainingEntity (par.entityUri);
-//        
-//      for(String collUri : SSStrU.retainAll(collUris, userCollUris)){
-//
-//        if(SSSpaceEnum.isPrivate(sqlFct.getUserColl(par.user, SSUri.get(collUri)).space)){
-//          return true;
-//        }
-//      }
-//      
-//      return false;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-    
-    return null;
+    try{
+      
+      userCollUris = sqlFct.getAllUserCollURIs          (par.user);
+      collUris     = sqlFct.getCollUrisContainingEntity (par.entityUri);
+        
+      for(String collUri : SSStrU.retainAll(collUris, userCollUris)){
+
+        if(
+          SSAccessRightsCircleTypeE.contains(
+            SSServCaller.accessRightsUserCircleTypesForEntityGet(
+              par.user, 
+              SSUri.get(collUri)), par.circleType)){
+          
+          return true;
+        }
+      }
+      
+      return false;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
-  //TODO dtheiler: check this method
-  @Override
-  public Boolean collEntitySharedOrFollowedForUserIs(final SSServPar parA) throws Exception{
-
-    final SSCollEntitySharedOrFollowedForUserIsPar par = new SSCollEntitySharedOrFollowedForUserIsPar(parA);
-    final List<String>                             collUris;
-    final List<String>                             userCollUris;
-    
-//    try{
-//      
-//      userCollUris = sqlFct.getAllUserCollURIs          (par.user);
-//      collUris     = sqlFct.getCollUrisContainingEntity (par.entityUri);
-//      
-//      for(String collUri : SSStrU.retainAll(collUris, userCollUris)){
-//
-//        if(SSSpaceEnum.isSharedOrFollow(sqlFct.getUserColl(par.user, SSUri.get(collUri)).space)){
-//          return true;
-//        }
-//      }
-//        
-//      return false;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-    
-    return null;
-  }
-  
-  //TODO dtheiler: check this method
   @Override
   public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
     
@@ -923,7 +800,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final List<SSColl>                colls    = new ArrayList<SSColl>();
     final List<String>                collUris;
     final List<String>                userCollUris;
-    SSUri                             collUri;
     
     try{
       
@@ -932,13 +808,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
        
       for(String coll : SSStrU.retainAll(collUris, userCollUris)){
         
-        collUri = SSUri.get(coll);
-        
         colls.add(
-          sqlFct.getUserColl(
+          SSServCaller.collUserWithEntries(
             par.user, 
-            collUri, 
-            SSServCaller.accessRightsUserCircleTypesForEntityGet(par.user, collUri)));
+            SSUri.get(coll)));
       }
       
       return colls;
@@ -948,36 +821,26 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
   
-  //TODO dtheiler: check this method
   @Override
   public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
    
-//    try{
-//      final SSCollsUserCouldSubscribeGetPar par               = new SSCollsUserCouldSubscribeGetPar(parA);
-//      final List<SSColl>                    colls             = new ArrayList<SSColl>();
-//      final List<SSUri>                     sharedCollURIs    = sqlFct.getAllSharedCollURIs();
-//      final List<String>                    userCollURIs      = sqlFct.getAllUserCollURIs(par.user);
-//      
-//      for(SSUri sharedCollURI : sharedCollURIs){
-//        
-//        if(
-//          userCollURIs.contains  (SSUri.toStr(sharedCollURI)) ||
-//          sqlFct.ownsUserASubColl(par.user, sharedCollURI)){
-//          continue;
-//        }
-//        
-//        colls.add(
-//          sqlFct.getColl(
-//            sharedCollURI,
-//            SSSpaceEnum.sharedSpace));
-//      }
-//      
-//      return colls;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-    
-    return null;
+    try{
+      final SSCollsUserCouldSubscribeGetPar par               = new SSCollsUserCouldSubscribeGetPar(parA);
+      final List<String>                    userCollUris      = sqlFct.getAllUserCollURIs (par.user);
+      final List<SSColl>                    publicColls  = new ArrayList<SSColl>();
+      
+      for(SSColl publicColl : sqlFct.getAllPublicColls()){
+        
+        if(!userCollUris.contains(SSUri.toStr(publicColl.uri))){
+          publicColls.add(publicColl);
+        }
+      }
+      
+      return publicColls;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
