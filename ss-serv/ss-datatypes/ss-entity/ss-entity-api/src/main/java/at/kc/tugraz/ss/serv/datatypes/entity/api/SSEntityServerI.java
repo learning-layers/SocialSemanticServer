@@ -38,17 +38,20 @@ public interface SSEntityServerI {
   public SSUri         entityAuthorGet                          (final SSServPar parA) throws Exception;
   public SSUri         entityLabelSet                           (final SSServPar parA) throws Exception;
   
-  public List<SSUri>                     entityCircleURIsGet                  (final SSServPar parA) throws Exception;
+  public Boolean                         entityUserAllowedIs                  (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserPublicSet                  (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserCircleCreate               (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserUsersToCircleAdd           (final SSServPar parA) throws Exception;
   public SSUri                           entityCirclePublicAdd                (final SSServPar parA) throws Exception;
+  public SSEntityCircleTypeE             entityMostOpenCircleTypeGet          (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserShare                      (final SSServPar parA) throws Exception;
+  
+  
+  public List<SSUri>                     entityCircleURIsGet                  (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleURIPublicGet             (final SSServPar parA) throws Exception;
   public List<SSCircle>                  entityUserCirclesGet                 (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserCircleCreate               (final SSServPar parA) throws Exception;
   public void                            entityCircleUserAdd                  (final SSServPar parA) throws Exception;
-  public SSEntityCircleTypeE             entityMostOpenCircleTypeGet          (final SSServPar parA) throws Exception;
   public List<SSEntityCircleTypeE>       entityUserCircleTypesForEntityGet    (final SSServPar parA) throws Exception;
   public List<SSCircle>                  entityUserEntityCirclesGet           (final SSServPar parA) throws Exception;
   public Boolean                         entityUserEntitiesToCircleAdd        (final SSServPar parA) throws Exception;
-  public Boolean                         entityUserUsersToCircleAdd           (final SSServPar parA) throws Exception;
-  public Boolean                         entityUserAllowedIs                  (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserPublicSet                  (final SSServPar parA) throws Exception;
 }

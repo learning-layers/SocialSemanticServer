@@ -74,6 +74,7 @@ public enum SSMethU{
   entityMostOpenCircleTypeGet,
   entityUserCircleTypesForEntityGet,
   entityUserPublicSet,
+  entityUserShare,
   
   //learn ep
   learnEpsGet                                         ,
@@ -220,7 +221,6 @@ public enum SSMethU{
   collUserParentGet                                   ,
   collUserEntryAdd                                    ,
   collUserWithEntries                                 ,
-  collUserShare                                       ,
   collUserRootAdd                                     ,
   collUserEntryDelete                                 ,
   collUserEntryChangePos                              ,

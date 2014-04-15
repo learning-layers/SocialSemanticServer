@@ -23,6 +23,7 @@ public class SSVarU{
   public static final String circleUri                                      = "circleUri";
   public static final String circleType                                     = "circleType";
   public static final String userUris                                       = "userUris";
+  public static final String entityCircleUri                                = "entityCircleUri";
   public static final String entityUris                                     = "entityUris";
   public static final String username                                       = "username";
   public static final String password                                       = "password";

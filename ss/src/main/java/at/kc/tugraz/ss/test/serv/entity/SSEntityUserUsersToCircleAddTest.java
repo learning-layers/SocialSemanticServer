@@ -42,7 +42,7 @@ public class SSEntityUserUsersToCircleAddTest extends SSServOpTestCaseA{
     userUris.add   (SSUri.get("http://test.dt/user/dk/"));
     
     final List<SSCircle> userCircles = SSServCaller.entityUserCirclesGet(userUri);
-    final Boolean        result      = SSServCaller.entityUserUsersToCircleAdd(userUri, userCircles.get(0).circleUri, userUris, true);
+    final SSUri          circleUri   = SSServCaller.entityUserUsersToCircleAdd(userUri, userCircles.get(0).circleUri, userUris, true);
     
     SSLogU.info("end " + op + "Test");
   }

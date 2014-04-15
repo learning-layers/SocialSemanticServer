@@ -36,8 +36,8 @@ public class SSCollOverallTest extends SSServOverallTestCaseA{
     SSLogU.info("SSCollOverallTest start");
     
     SSColl       rootColl      = SSServCaller.collUserRootGet      (userUri);
-    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd     (userUri, rootColl.uri, null, SSLabelStr.get("firstColl"),  -1, true, false, true);
-    SSUri        collSecondUri = SSServCaller.collUserEntryAdd     (userUri, collFirstUri, null, SSLabelStr.get("secondColl"), -1, true, false, true);
+    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd     (userUri, rootColl.uri, null, SSLabelStr.get("firstColl"),  true, false, true);
+    SSUri        collSecondUri = SSServCaller.collUserEntryAdd     (userUri, collFirstUri, null, SSLabelStr.get("secondColl"), true, false, true);
     List<SSColl> collHierarchy = SSServCaller.collUserHierarchyGet (userUri, collSecondUri);
     
     SSLogU.info(SSCollOverallTest.class.getName() + " end");

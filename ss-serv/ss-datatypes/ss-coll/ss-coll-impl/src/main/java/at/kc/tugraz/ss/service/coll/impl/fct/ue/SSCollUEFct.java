@@ -22,7 +22,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSharePar;
 
 public class SSCollUEFct {
   
@@ -93,25 +92,25 @@ public class SSCollUEFct {
     }
   }
   
-  public static void collUserShareColl(final SSCollUserSharePar par){
-    
-    if(!par.saveUE){
-      return;
-    }
-        
-    try{
-      
-      SSServCaller.ueAdd(
-        par.user,
-        par.coll,
-        SSUEEnum.shareCollection,
-        SSStrU.empty,
-        par.shouldCommit);
-      
-    }catch(Exception error){
-      SSLogU.warn("storing ue failed");
-    }    
-  }
+//  public static void collUserShareColl(final SSCollUserSharePar par){
+//    
+//    if(!par.saveUE){
+//      return;
+//    }
+//        
+//    try{
+//      
+//      SSServCaller.ueAdd(
+//        par.user,
+//        par.coll,
+//        SSUEEnum.shareCollection,
+//        SSStrU.empty,
+//        par.shouldCommit);
+//      
+//    }catch(Exception error){
+//      SSLogU.warn("storing ue failed");
+//    }    
+//  }
 
   public static void collUserEntryAdd(final SSCollUserEntryAddPar par){
     

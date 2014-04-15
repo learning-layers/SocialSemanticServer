@@ -19,7 +19,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSharePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
@@ -40,6 +39,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
@@ -48,7 +49,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryChangePosRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryDeleteRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserParentGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserShareRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -93,19 +93,42 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public Boolean setEntityPublic(
-    final SSUri        userUri, 
-    final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+  public Boolean setUserEntityPublic(
+    final SSEntityUserPublicSetPar par, 
+    final SSEntityEnum             entityType) throws Exception{
     
     if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
       return false;
     }
 
-    SSServCaller.collUserSetPublic(userUri, entityUri);
+    SSServCaller.collUserSetPublic(par.user, par.entityUri, par.shouldCommit);
     return true;
   }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSEntityUserSharePar par,
+    final SSEntityEnum         entityType) throws Exception{
     
+    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+      return false;
+    }
+    
+    for(SSUri userUri : par.userUris){
+      
+      SSServCaller.collUserEntryAdd(
+        userUri, 
+        SSServCaller.collUserRootGet(userUri).uri, 
+        par.entityUri, 
+        SSServCaller.entityLabelGet(par.entityUri), 
+        false, 
+        true, 
+        par.shouldCommit);
+    }
+    
+    return true;
+  }
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
@@ -197,14 +220,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(par), par.op));
-  }
-
-  @Override
-  public void collUserShare(SSSocketCon sSCon, SSServPar par) throws Exception{
-
-    SSServCaller.checkKey(par);
-
-    sSCon.writeRetFullToClient(SSCollUserShareRet.get(collUserShare(par), par.op));
   }
 
   @Override
@@ -300,7 +315,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       SSServCaller.entityUserCircleCreate(
         par.user, 
         rootCollUri,
-        null, 
+        new ArrayList<SSUri>(), 
         SSEntityCircleTypeE.priv, 
         SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot), 
         false);
@@ -374,7 +389,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           par.coll,
           par.entries.get     (counter),
           par.entryLabels.get (counter),
-          -1,
           false,
           par.saveUE,
           false);
@@ -506,41 +520,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
   
-  //TODO dtheiler: re-implement this method
-  @Override
-  public Boolean collUserShare(final SSServPar parA) throws Exception{
-
-    final SSCollUserSharePar par         = new SSCollUserSharePar(parA);
-
-    throw new UnsupportedOperationException();
-//    try{
-//      final SSColl userColl = sqlFct.getUserColl(par.user, par.coll);
-//
-//      if(SSSpaceEnum.isSharedOrFollow(userColl.space)){
-//        throw new Exception("coll already shared / followed");
-//      }
-//    
-//      if(
-//        sqlFct.ownsUserASubColl(par.user, par.coll, SSSpaceEnum.sharedSpace) ||
-//        sqlFct.ownsUserASubColl(par.user, par.coll, SSSpaceEnum.followSpace)){
-//        throw new Exception("a sub coll is already shared / followed");
-//      }
-//      
-//      dbSQL.startTrans(par.shouldCommit);
-//
-//      sqlFct.shareCollAndSubColls(par.coll);
-//
-//      dbSQL.commit(par.shouldCommit);
-//      
-//      SSCollUEFct.collUserShareColl(par);
-//      return true;
-//    }catch(Exception error){
-//      dbSQL.rollBack(par.shouldCommit);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-  }
-
   @Override
   public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
 

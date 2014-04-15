@@ -32,6 +32,8 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -72,10 +74,17 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
   
   @Override
-  public Boolean setEntityPublic(
-    final SSUri        userUri, 
-    final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+  public Boolean setUserEntityPublic(
+    final SSEntityUserPublicSetPar par, 
+    final SSEntityEnum             entityType) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSEntityUserSharePar par,
+    final SSEntityEnum         entityType) throws Exception{
     
     return false;
   }

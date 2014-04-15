@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,35 +19,41 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserUsersToCircleAddRet extends SSServRetI{
+public class SSEntityUserShareRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public SSUri circleUri = null;
 
-  public static SSEntityUserUsersToCircleAddRet get(final Boolean worked, final SSMethU op){
-    return new SSEntityUserUsersToCircleAddRet(worked, op);
+  public static SSEntityUserShareRet get(
+    final SSUri   circleUri, 
+    final SSMethU op){
+    
+    return new SSEntityUserShareRet(circleUri, op);
   }
   
-  private SSEntityUserUsersToCircleAddRet(final Boolean worked, final SSMethU op){
-
+  private SSEntityUserShareRet(
+    final SSUri   circleUri,
+    final SSMethU op){
+    
     super(op);
     
-    this.worked = worked;
+    this.circleUri = circleUri;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.circleUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public boolean getWorked() {
-    return worked;
+  public String getCircleUri() throws Exception {
+    return SSUri.toStrWithoutSlash(circleUri);
   }
 }

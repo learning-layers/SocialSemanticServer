@@ -248,13 +248,13 @@ public class SSAdapterRest{
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntriesDelete);
   }
   
-//  @POST
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path    (SSStrU.slash + "collUserShare")
-//  public String collUserShare(String jsonRequ){
-//    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserShare);
-//  }
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserShare")
+  public String entityUserShare(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserShare);
+  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

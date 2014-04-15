@@ -15,7 +15,6 @@
  */
  package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -26,7 +25,6 @@ public interface SSCollServerI{
   
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
-  public Boolean                    collUserShare                                 (final SSServPar parA) throws Exception;
   public SSUri                      collUserSetPublic                             (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryChangePos                        (final SSServPar parA) throws Exception;
   public SSColl                     collUserWithEntries                           (final SSServPar parA) throws Exception;

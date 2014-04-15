@@ -307,17 +307,17 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri       user, 
     final SSUri       collParent, 
     final SSUri       collChild, 
-    final Boolean     wasAddedToCollInSharedCircle,
-    final Boolean     wasAddedToCollInSharedOrPublicCircleNewly) throws Exception{
+    final Boolean     wasCreatedInSharedOrPublicCircle,
+    final Boolean     wasAddedToCollInSharedOrPublicCircle) throws Exception{
     
-    if(SSObjU.isNull(user, collParent, collChild, wasAddedToCollInSharedCircle, wasAddedToCollInSharedOrPublicCircleNewly)){
+    if(SSObjU.isNull(user, collParent, collChild, wasCreatedInSharedOrPublicCircle, wasAddedToCollInSharedOrPublicCircle)){
       SSServErrReg.regErrThrow(new Exception("pars not ok"));
       return;
     }
     
     if(
-      wasAddedToCollInSharedCircle &&
-      wasAddedToCollInSharedOrPublicCircleNewly){
+      wasCreatedInSharedOrPublicCircle &&
+      wasAddedToCollInSharedOrPublicCircle){
       SSServErrReg.regErrThrow(new Exception("cannot add to shared coll and add shared/public coll at the same time"));
       return;
     }
@@ -349,7 +349,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     dbSQL.insert(collUserTable, insertPars);
     
     //add currently added coll to other users as well
-    if(wasAddedToCollInSharedCircle){
+    if(wasCreatedInSharedOrPublicCircle){
 
       insertPars.clear();
       insertPars.put(SSSQLVarU.collId,    collChild.toString());
@@ -367,7 +367,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
     
     //add sub colls of shared / pub coll for this user as well
-    if(wasAddedToCollInSharedOrPublicCircleNewly){
+    if(wasAddedToCollInSharedOrPublicCircle){
       
       final List<String> subCollUris = new ArrayList<String>();
       

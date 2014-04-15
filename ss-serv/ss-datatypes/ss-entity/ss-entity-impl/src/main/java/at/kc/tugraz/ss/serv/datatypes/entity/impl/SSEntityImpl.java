@@ -59,11 +59,12 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGe
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCreateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -95,6 +96,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(par);
     
     sSCon.writeRetFullToClient(SSEntityTypeGetRet.get(entityTypeGet(par), par.op));
+  }
+  
+  @Override
+  public void entityUserShare(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUserShare(par), par.op));
   }
   
   @Override
@@ -143,14 +152,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSEntityUserEntitiesToCircleAddRet.get(entityUserEntitiesToCircleAdd(par), par.op));
-  }
-  
-  @Override
-  public void entityUserUsersToCircleAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
-
-    SSServCaller.checkKey(par);
-
-    sSCon.writeRetFullToClient(SSEntityUserUsersToCircleAddRet.get(entityUserUsersToCircleAdd(par), par.op));
   }
   
   @Override
@@ -609,6 +610,33 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
+  public SSUri entityUserUsersToCircleAdd(final SSServPar parA) throws Exception{
+    
+    final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
+    
+    try{
+      
+      if(!sqlFct.hasCircleRight(par.circleUri, SSEntityRightTypeE.addUserToCircle)){
+        throw new Exception("circle has not enough rights to add user to it");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri userUri : par.userUris){
+        sqlFct.addUserToCircle(par.circleUri, userUri);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.circleUri;
+    }catch(Exception error){
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void entityCircleUserAdd(final SSServPar parA) throws Exception{
     
     final SSEntityCircleUserAddPar par = new SSEntityCircleUserAddPar(parA);
@@ -772,33 +800,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public Boolean entityUserUsersToCircleAdd(final SSServPar parA) throws Exception{
-    
-    final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
-    
-    try{
-      
-      if(!sqlFct.hasCircleRight(par.circleUri, SSEntityRightTypeE.addUserToCircle)){
-        throw new Exception("circle has not enough rights to add user to it");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(SSUri userUri : par.userUris){
-        sqlFct.addUserToCircle(par.circleUri, userUri);
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public Boolean entityUserAllowedIs(final SSServPar parA) throws Exception{
    
     final SSEntityUserAllowedIsPar par = new SSEntityUserAllowedIsPar(parA);
@@ -855,9 +856,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
-        result = ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-          par.user,
-          par.entityUri,
+        result = ((SSEntityHandlerImplI) serv.serv()).setUserEntityPublic(
+          par,
           entityType);
         
         if(result){
@@ -866,6 +866,75 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       throw new Exception("entity couldnt be set to be public");
+    }catch(Exception error){
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override 
+  public SSUri entityUserShare(final SSServPar parA) throws Exception{
+    
+    final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
+    final SSUri                circleUri;
+    Boolean result;
+    
+    try{
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.entityCircleUri == null){
+        
+        if(par.circleUris.isEmpty()){
+         
+          circleUri =
+            SSServCaller.entityUserCircleCreate(
+              par.user,
+              par.entityUri,
+              par.userUris,
+              SSEntityCircleTypeE.group,
+              SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
+              false);
+        }else{
+          throw new Exception("currenlty sharing with circles not possible");
+        }
+      }else{
+        
+        if(par.circleUris.isEmpty()){
+          
+          circleUri =
+            SSServCaller.entityUserUsersToCircleAdd(
+              par.user,
+              par.entityCircleUri,
+              par.userUris,
+              false);
+          
+        }else{
+          throw new Exception("currenlty sharing with circles not possible");
+        }
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      final SSEntityEnum entityType = SSServCaller.entityTypeGet(par.entityUri);
+            
+      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+        return circleUri;
+      }
+      
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        
+        result = ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(
+          par,
+          entityType);
+        
+        if(result){
+          return circleUri;
+        }
+      }
+      
+      throw new Exception("entity couldnt be shared");
     }catch(Exception error){
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);

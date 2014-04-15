@@ -15,8 +15,6 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;

@@ -26,7 +26,6 @@ public class SSCollUserEntryAddPar extends SSServPar{
   public SSUri        coll               = null;
   public SSUri        collEntry          = null;
   public SSLabelStr   collEntryLabel     = null;
-  public Integer      collEntryPosition  = -1;
   public Boolean      addNewColl         = null;
   
   public SSCollUserEntryAddPar(SSServPar par) throws Exception{
