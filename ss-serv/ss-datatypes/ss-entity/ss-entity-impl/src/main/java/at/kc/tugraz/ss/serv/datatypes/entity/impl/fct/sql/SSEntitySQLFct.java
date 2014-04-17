@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.graph;
+package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
@@ -44,28 +44,31 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
 
-  public SSEntity getEntity(final SSUri entityUri) throws Exception{
+  public SSEntity getEntity(
+    final SSUri entityUri) throws Exception{
     
     if(entityUri == null){
       SSServErrReg.regErrThrow(new Exception("entityUri null"));
       return null;
     }
     
-    final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
-    ResultSet                 resultSet                 = null;
+    final Map<String, String> where      = new HashMap<String, String>();
+    ResultSet                 resultSet  = null;
 
-    whereParNamesWithValues.put(SSSQLVarU.id, entityUri.toString());
+    where.put(SSSQLVarU.id, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
       
-      resultSet.first();
+      if(!resultSet.first()){
+        throw new Exception("entity doesnt exist");
+      }
       
       return SSEntity.get(
-        entityUri, 
-        bindingStrToLabel(resultSet, SSSQLVarU.label), 
-        bindingStrToLong(resultSet, SSSQLVarU.creationTime), 
-        bindingStrToEntityType(resultSet, SSSQLVarU.type), 
+        entityUri,
+        bindingStrToLabel(resultSet, SSSQLVarU.label),
+        bindingStrToLong(resultSet, SSSQLVarU.creationTime),
+        bindingStrToEntityType(resultSet, SSSQLVarU.type),
         bindingStrToUri(resultSet, SSSQLVarU.author));
       
     }catch(Exception error){
@@ -83,57 +86,29 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return null;
     }
     
-    //    return ((SSEntityHandlerImplI) SSServReg.servForEntityType(entityType).serv()).entityCreationTimeGet(entityUri);
+    final Map<String, String> where            = new HashMap<String, String>();
+    ResultSet                 resultSet        = null;
     
-    final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
-    ResultSet                 resultSet                 = null;
-    Long                      creationTime              = 0L;
-    
-    whereParNamesWithValues.put(SSSQLVarU.id, entityUri.toString());
+    where.put(SSSQLVarU.id, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
       
-      resultSet.first();
-      
-      creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+      if(resultSet.first()){
+        return bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+      }else{
+        return 0L;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return creationTime;
-  }
-  
-  public Boolean existsEntity(SSUri entityUri) throws Exception{
-    
-    if(entityUri == null){
-      SSServErrReg.regErrThrow(new Exception("entity null"));
       return null;
-    }
-    
-    final Map<String, String> selectPars = new HashMap<String, String>();
-    ResultSet                 resultSet  = null;
-    Boolean                   exists     = false;
-    
-    selectPars.put(SSSQLVarU.id, entityUri.toString());
-    
-    try{
-      resultSet = dbSQL.selectAllWhere(entityTable, selectPars);
-      exists    = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return exists;
   }
   
-  public void addEntityAtCreationTime(
+  public void addEntityAtCreationTimeIfNotExists(
     final SSUri        entityUri, 
     final SSEntityA    label, 
     final Long         creationTime, 
@@ -146,9 +121,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
     
     final Map<String, String> insertPars = new HashMap<String, String>();
+    final Map<String, String> uniqueKey  = new HashMap<String, String>();
     
-    insertPars.put(SSSQLVarU.id,              entityUri.toString());
-    insertPars.put(SSSQLVarU.creationTime,    SSStrU.toString(creationTime));    
+    uniqueKey.put (SSSQLVarU.id,              SSUri.toStr(entityUri));
+    insertPars.put(SSSQLVarU.id,              SSUri.toStr(entityUri));
+    insertPars.put(SSSQLVarU.creationTime,    SSStrU.toString(creationTime));
     
     if(label == null){
       insertPars.put(SSSQLVarU.label,         SSStrU.empty);
@@ -168,164 +145,170 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       insertPars.put(SSSQLVarU.author,         authorUri.toString());
     }
     
-    dbSQL.insert(entityTable, insertPars);
+    dbSQL.insertWhereNotExists(entityTable, insertPars, uniqueKey);
   }
   
-  public void addEntity(
-    SSUri        entityUri, 
-    SSEntityA    label, 
+  public void addEntityIfNotExists(
+    SSUri        entityUri,
+    SSEntityA    label,
     SSEntityEnum entityType,
     SSUri        authorUri) throws Exception{
+    
+    if(entityUri == null){
+      throw new Exception("pars null");
+    }
+    
+    final Map<String, String> insert    = new HashMap<String, String>();
+    final Map<String, String> uniqueKey = new HashMap<String, String>();
+    
+    uniqueKey.put(SSSQLVarU.id,             SSUri.toStr(entityUri));
+    insert.put   (SSSQLVarU.id,             SSUri.toStr(entityUri));
+    insert.put   (SSSQLVarU.creationTime,   SSDateU.dateAsLong().toString());
+    
+    if(label == null){
+      insert.put(SSSQLVarU.label,         SSStrU.empty);
+    }else{
+      insert.put(SSSQLVarU.label,         label.toString());
+    }
+    
+    if(entityType == null){
+      insert.put(SSSQLVarU.type,          SSEntityEnum.entity.toString());
+    }else{
+      insert.put(SSSQLVarU.type,          entityType.toString());
+    }
+    
+    if(authorUri == null){
+      insert.put(SSSQLVarU.author,        SSStrU.empty);
+    }else{
+      insert.put(SSSQLVarU.author,        SSUri.toStr(authorUri));
+    }
+    
+    dbSQL.insertWhereNotExists(entityTable, insert, uniqueKey);
+  }
+  
+  public SSLabelStr entityLabelGet(
+    final SSUri entityUri) throws Exception {
    
+    final Map<String, String> where      = new HashMap<String, String>();
+    ResultSet                 resultSet  = null;
+    
+    where.put(SSSQLVarU.id, entityUri.toString());
+    
+    try{
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      
+      if(resultSet.first()){
+        return bindingStrToLabel(resultSet, SSSQLVarU.label);
+      }else{
+        return SSLabelStr.get(SSStrU.empty);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public SSUri getEntityAuthor(
+    final SSUri entityUri) throws Exception{
+    
     if(entityUri == null){
       SSServErrReg.regErrThrow(new Exception("entityUri null"));
-      return;
+      return null;
     }
-     
-    final Map<String, String> insertPars = new HashMap<String, String>();
+    
+    final Map<String, String> where      = new HashMap<String, String>();
+    ResultSet                 resultSet  = null;
 
-    insertPars.put(SSSQLVarU.id,             entityUri.toString());
-    insertPars.put(SSSQLVarU.creationTime,   SSDateU.dateAsLong().toString());
-    
-    if(label == null){
-      insertPars.put(SSSQLVarU.label,         SSStrU.empty);
-    }else{
-      insertPars.put(SSSQLVarU.label,         label.toString());
-    }
-    
-    if(entityType == null){    
-      insertPars.put(SSSQLVarU.type,          SSEntityEnum.entity.toString());
-    }else{
-      insertPars.put(SSSQLVarU.type,          entityType.toString());
-    }
-    
-    if(authorUri == null){    
-      insertPars.put(SSSQLVarU.author,        SSStrU.empty);
-    }else{
-      insertPars.put(SSSQLVarU.author,        authorUri.toString());
-    }
-    
-    dbSQL.insert(entityTable, insertPars);
-  }
-  
-  public SSLabelStr entityLabelGet(SSUri entityUri) throws Exception {
-   
-    final Map<String, String> selectPars = new HashMap<String, String>();
-    ResultSet                 resultSet  = null;
-    SSLabelStr                label      = null;
-    
-    selectPars.put(SSSQLVarU.id, entityUri.toString());
+    where.put(SSSQLVarU.id, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(entityTable, selectPars);
       
-      resultSet.first();
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
       
-      label = bindingStrToLabel(resultSet, SSSQLVarU.label);
+      if(resultSet.first()){
+        return bindingStrToUri(resultSet, SSSQLVarU.author);
+      }else{
+        return null;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return label;
   }
   
-  public SSUri getEntityAuthor(SSUri entityUri) throws Exception{
+  public SSEntityEnum getEntityType(
+    final SSUri entityUri) throws Exception{
     
     if(entityUri == null){
       SSServErrReg.regErrThrow(new Exception("entityUri null"));
       return null;
     }
     
-    final Map<String, String> selectPars = new HashMap<String, String>();
+    final Map<String, String> where = new HashMap<String, String>();
     ResultSet                 resultSet  = null;
-    SSUri                     authorUri  = null;
-    
-    
-    selectPars.put(SSSQLVarU.id, entityUri.toString());
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(entityTable, selectPars);
+      where.put(SSSQLVarU.id, entityUri.toString());
       
-      resultSet.first();
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
       
-      authorUri = bindingStrToUri(resultSet, SSSQLVarU.author);
+      if(resultSet.first()){
+        return bindingStrToEntityType(resultSet, SSSQLVarU.type);
+      }else{
+        return null;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-   
-    return authorUri;
-  }
-  
-  public SSEntityEnum getEntityType(SSUri entityUri) throws Exception{
-    
-    if(entityUri == null){
-      SSServErrReg.regErrThrow(new Exception("entityUri null"));
       return null;
-    }
-    
-    final Map<String, String> selectPars = new HashMap<String, String>();
-    ResultSet                 resultSet  = null;
-    SSEntityEnum              entityType = null;
-    
-    selectPars.put(SSSQLVarU.id, entityUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.selectAllWhere(entityTable, selectPars);
-      
-      resultSet.first();
-      
-      entityType = bindingStrToEntityType(resultSet, SSSQLVarU.type);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-   
-    return entityType;
   }
     
-  public void entityLabelSet(SSUri entityUri, SSLabelStr label) throws Exception {
+  public void entityLabelSet(
+    final SSUri      entityUri,
+    final SSLabelStr label) throws Exception {
     
     if(entityUri == null){
       SSServErrReg.regErrThrow(new Exception("entityUri null"));
       return;
     }
    
-    final Map<String, String>  updatePars = new HashMap<String, String>();
-    final Map<String, String>  newValues  = new HashMap<String, String>();
+    final Map<String, String>  where   = new HashMap<String, String>();
+    final Map<String, String>  values  = new HashMap<String, String>();
     
-    updatePars.put (SSSQLVarU.id,       entityUri.toString());
+    where.put (SSSQLVarU.id,       entityUri.toString());
     
     if(label == null){
-      newValues.put  (SSSQLVarU.label   , SSStrU.empty);
+      values.put  (SSSQLVarU.label   , SSStrU.empty);
     }else{
-      newValues.put  (SSSQLVarU.label   , label.toString());
+      values.put  (SSSQLVarU.label   , SSLabelStr.toStr(label));
     }
     
-    dbSQL.updateWhere(entityTable, updatePars, newValues);
+    dbSQL.updateWhereIgnore(entityTable, where, values);
   }
   
-  public void entityRemove(SSUri entityUri) throws Exception{
+  public void entityDeleteIgnore(
+    final SSUri entityUri) throws Exception{
     
     if(entityUri == null){
       SSServErrReg.regErrThrow(new Exception("entityUri null"));
       return;
     }
       
-    final Map<String, String> deletePars = new HashMap<String, String>();
+    final Map<String, String> delete = new HashMap<String, String>();
     
-    deletePars.put(SSSQLVarU.id, entityUri.toString());
+    delete.put(SSSQLVarU.id, SSUri.toStr(entityUri));
     
-    dbSQL.deleteWhere(entityTable, deletePars);
+    dbSQL.deleteWhereIgnore(entityTable, delete);
   }
 
   public void removeAllEntities() throws Exception {
@@ -376,7 +359,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       final List<String>        tableNames            = new ArrayList<String>();
       final List<String>        columnNames           = new ArrayList<String>();
-      final Map<String, String> where                 =  new HashMap<String, String>();
+      final Map<String, String> where                 = new HashMap<String, String>();
       
       tableNames.add  (circleTable);
       tableNames.add  (entityTable);
@@ -386,11 +369,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where.put(SSSQLVarU.circleId, SSUri.toStr(circleUri));
       
-      resultSet = 
+      resultSet =
         dbSQL.selectCertainWhere(
-          tableNames, 
-          columnNames, 
-          where, 
+          tableNames,
+          columnNames,
+          where,
           SSSQLVarU.circleId + SSStrU.equal + SSSQLVarU.id);
       
       resultSet.first();
@@ -502,7 +485,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public void addCircleRight(
-    final SSUri                    circleUri, 
+    final SSUri              circleUri, 
     final SSEntityRightTypeE accessRight) throws Exception{
     
     try{
@@ -535,6 +518,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       if(SSObjU.isNull(circleUri, userUri)){
         throw new Exception("pars not ok");
+      }
+      
+      if(hasCircleUser(circleUri, userUri)){
+        return;
       }
       
       final Map<String, String> insertPars = new HashMap<String, String>();
@@ -593,6 +580,34 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
       
       resultSet = dbSQL.selectAllWhere(circleEntitiesTable, where);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private Boolean hasCircleUser(
+    final SSUri circleUri,
+    final SSUri userUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(circleUri, userUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.circleId, SSUri.toStr(circleUri));
+      where.put(SSSQLVarU.userId,   SSUri.toStr(userUri));
+      
+      resultSet = dbSQL.selectAllWhere(circleUsersTable, where);
       
       return resultSet.first();
       
@@ -788,5 +803,32 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 //      parNamesAndValues.put(SSSQLVarU.creationTime,  SSDateU.dateAsNano().toString());
 //      
 //      dbSQL.dbSQLInsert(entityTable, parNamesAndValues);
+//    }
+//  }
+
+//  public Boolean existsEntity(SSUri entityUri) throws Exception{
+//    
+//    if(entityUri == null){
+//      SSServErrReg.regErrThrow(new Exception("entity null"));
+//      return null;
+//    }
+//    
+//    final Map<String, String> where      = new HashMap<String, String>();
+//    final List<String>        columns    = new ArrayList<String>();
+//    ResultSet                 resultSet  = null;
+//    
+//    columns.add (SSSQLVarU.id);
+//    where.put   (SSSQLVarU.id, entityUri.toString());
+//    
+//    try{
+//      resultSet = dbSQL.selectCertainDistinctWhere(entityTable, columns, where);
+//      
+//      return resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
 //    }
 //  }

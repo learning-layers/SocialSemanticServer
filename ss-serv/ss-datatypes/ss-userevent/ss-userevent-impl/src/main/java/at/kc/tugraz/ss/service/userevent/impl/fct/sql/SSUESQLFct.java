@@ -170,16 +170,16 @@ public class SSUESQLFct extends SSDBSQLFct{
       return;
     }
     
-    final Map<String, String> insertPars = new HashMap<String, String>();
+    final Map<String, String> insert = new HashMap<String, String>();
     
     try{
-      insertPars.put(SSSQLVarU.userEventId,   ueUri.toString());
-      insertPars.put(SSSQLVarU.userId,        userUri.toString());
-      insertPars.put(SSSQLVarU.entityId,      entityUri.toString());
-      insertPars.put(SSSQLVarU.eventType,     eventType.toString());
-      insertPars.put(SSSQLVarU.content,       content);
+      insert.put(SSSQLVarU.userEventId,   ueUri.toString());
+      insert.put(SSSQLVarU.userId,        userUri.toString());
+      insert.put(SSSQLVarU.entityId,      entityUri.toString());
+      insert.put(SSSQLVarU.eventType,     eventType.toString());
+      insert.put(SSSQLVarU.content,       content);
 
-      dbSQL.insert(uesTable, insertPars);
+      dbSQL.insert(uesTable, insert);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

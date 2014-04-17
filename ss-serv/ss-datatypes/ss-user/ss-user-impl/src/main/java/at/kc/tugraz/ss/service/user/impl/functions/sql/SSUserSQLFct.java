@@ -64,6 +64,27 @@ public class SSUserSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+  public Boolean existsUser(final SSUri userUri) throws Exception{
+    
+    final Map<String, String> where      = new HashMap<String, String>();
+    ResultSet                 resultSet  = null;
+    
+    try{
+      
+      where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
+      where.put(SSSQLVarU.type, SSEntityEnum.user.toString());
+      
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 
   public SSUri userSystem() throws Exception{
     return SSUri.get(objUser() + SSUserGlobals.systemUserLabel);

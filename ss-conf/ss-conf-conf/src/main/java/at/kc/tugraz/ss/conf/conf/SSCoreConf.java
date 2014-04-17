@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.location.conf.SSLocationConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.conf.SSAccessRightsConf;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;

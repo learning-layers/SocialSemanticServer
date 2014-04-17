@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationsUserRemo
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationAddRet;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.sql.SSLocationSQLFct;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -117,7 +118,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
         author);
   }
   
-  /****** SSLocationClientI ******/
+  /* SSLocationClientI */
   
   @Override
   public void locationAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -135,13 +136,13 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     sSCon.writeRetFullToClient(SSLocationsGetRet.get(locationsGet(par), par.op));
   }
   
-  /****** SSLabelServerI ******/
+  /* SSLabelServerI */
   @Override
   public Boolean locationsUserRemove(final SSServPar parA) throws Exception{
     
-    final SSLocationsUserRemovePar par = new SSLocationsUserRemovePar(parA);
-    
     try{
+      
+      final SSLocationsUserRemovePar par = new SSLocationsUserRemovePar(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -154,38 +155,46 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return locationsUserRemove(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
   
   @Override
-  public SSUri locationAdd(SSServPar parI) throws Exception {
-    
-    SSLocationAddPar par            = new SSLocationAddPar(parI);
-    Boolean          existsLocation;
-    SSUri            locationUri;
+  public SSUri locationAdd(final SSServPar parA) throws Exception {
     
     try{
+      final SSLocationAddPar par               = new SSLocationAddPar(parA);
+      final Boolean          existsLocation    = sqlFct.existsLocationString   (par.location);
+      final SSUri            locationUri       = sqlFct.getOrCreateLocationUri (existsLocation, par.location);
       
-      existsLocation = sqlFct.existsLocationString   (par.location);
-      locationUri    = sqlFct.getOrCreateLocationUri (existsLocation, par.location);
+      dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         locationUri,
         SSLabelStr.get(par.location),
-        SSEntityEnum.location);
+        SSEntityEnum.location,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.entityUri,
         SSLabelStr.get(SSStrU.empty),
-        SSEntityEnum.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.entity,
+        false);
       
       if(!existsLocation){
         sqlFct.addLocation(locationUri);
@@ -198,17 +207,27 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       dbSQL.commit(par.shouldCommit);
       
       return par.entityUri;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }    
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return locationAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
+    }
   }
   
   @Override
   public List<String> locationsGet(SSServPar parI) throws Exception {
     
-    SSLocationsGetPar par    = new SSLocationsGetPar(parI);
+    SSLocationsGetPar par = new SSLocationsGetPar(parI);
     
     try{
       return sqlFct.getLocationAsss(null, par.entityUri, null);

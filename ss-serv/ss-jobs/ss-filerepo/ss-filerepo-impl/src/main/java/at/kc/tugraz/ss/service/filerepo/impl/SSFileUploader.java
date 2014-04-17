@@ -21,7 +21,6 @@ import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -52,7 +51,7 @@ public class SSFileUploader extends SSServImplStartA{
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
     final SSSocketCon        sSCon, 
-    final SSServPar         par) throws Exception{
+    final SSServPar          par) throws Exception{
     
     super(fileRepoConf);
     
@@ -207,6 +206,12 @@ public class SSFileUploader extends SSServImplStartA{
   }
 
   private void addFileEntity() throws Exception{
-    SSServCaller.addEntity(par.user, uri, par.fileName, SSEntityEnum.file);
+    
+    SSServCaller.entityAdd(
+      par.user, 
+      uri, 
+      par.fileName, 
+      SSEntityEnum.file, 
+      true);
   }
 }

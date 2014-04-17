@@ -32,8 +32,7 @@ public class SSEvernoteUEHelper {
   public void addUEsForNormalNotebook(
     SSUri userUri,
     SSUri notebookUri,
-    Notebook notebook,
-    Boolean shouldCommit) throws Exception {
+    Notebook notebook) throws Exception {
     
     SSServCaller.addUEAtCreationTime(
       userUri,
@@ -41,7 +40,7 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteNotebookCreate,
       SSStrU.empty,
       notebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
-      shouldCommit);
+      false);
     
     SSServCaller.addUEAtCreationTime(
       userUri,
@@ -49,7 +48,7 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteNotebookUpdate,
       SSStrU.empty,
       notebook.getServiceUpdated()  + SSEvernoteTimestampCounter.get(),
-      shouldCommit);
+      false);
   }
   
   public void addUEsForSharedNotebook(
@@ -57,8 +56,7 @@ public class SSEvernoteUEHelper {
     SSUri userUri,
     Notebook notebook,
     SSUri notebookUri,
-    List<SharedNotebook> sharedNotebooks,
-    Boolean shouldCommit) throws Exception {
+    List<SharedNotebook> sharedNotebooks) throws Exception {
     
     if(!isSharedNotebook){
       return;
@@ -74,7 +72,7 @@ public class SSEvernoteUEHelper {
           SSUEEnum.evernoteNotebookShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
-          shouldCommit);
+          false);
       }
     }
   }
@@ -82,8 +80,7 @@ public class SSEvernoteUEHelper {
   public void addUEsAndTagsForNormalNote(
     SSUri userUri,
     Note note,
-    SSUri noteUri,
-    Boolean shouldCommit) throws Exception {
+    SSUri noteUri) throws Exception {
     
     if(note == null){
       return;
@@ -95,7 +92,7 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteNoteCreate,
       SSStrU.empty,
       note.getCreated() + SSEvernoteTimestampCounter.get(),
-      shouldCommit);
+      false);
     
     SSServCaller.addUEAtCreationTime(
       userUri,
@@ -103,7 +100,7 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteNoteUpdate,
       SSStrU.empty,
       note.getUpdated() + SSEvernoteTimestampCounter.get(),
-      shouldCommit);
+      false);
     
     if(note.getDeleted() != 0L){
       
@@ -113,7 +110,7 @@ public class SSEvernoteUEHelper {
         SSUEEnum.evernoteNoteDelete,
         SSStrU.empty,
         note.getDeleted() + SSEvernoteTimestampCounter.get(),
-        shouldCommit);
+        false);
     }
     
     if(
@@ -126,7 +123,7 @@ public class SSEvernoteUEHelper {
         SSTagLabel.getDistinct(note.getTagNames()),
         SSSpaceEnum.privateSpace,
         note.getUpdated() + SSEvernoteTimestampCounter.get(),
-        shouldCommit);
+        false);
       
       for(String tagName : note.getTagNames()){
         
@@ -136,7 +133,7 @@ public class SSEvernoteUEHelper {
           SSUEEnum.addPrivateTag,
           tagName,
           note.getUpdated() + SSEvernoteTimestampCounter.get(),
-          shouldCommit);
+          false);
       }
     }
   }
@@ -146,8 +143,7 @@ public class SSEvernoteUEHelper {
     SSUri userUri,
     Notebook notebook,
     SSUri noteUri,
-    List<SharedNotebook> sharedNotebooks,
-    Boolean shouldCommit) throws Exception {
+    List<SharedNotebook> sharedNotebooks) throws Exception {
     
     if(
       !isSharedNotebook ||
@@ -165,7 +161,7 @@ public class SSEvernoteUEHelper {
           SSUEEnum.evernoteNoteShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
-          shouldCommit);
+          false);
       }
     }
   }
@@ -173,8 +169,7 @@ public class SSEvernoteUEHelper {
   public void addUEsForNoteAttrs(
     SSUri userUri,
     Note note,
-    SSUri noteUri,
-    Boolean shouldCommit) throws Exception {
+    SSUri noteUri) throws Exception {
     
     NoteAttributes noteAttr;
     
@@ -198,7 +193,7 @@ public class SSEvernoteUEHelper {
         SSUEEnum.evernoteNoteShare,
         SSStrU.empty,
         noteAttr.getShareDate(),
-        shouldCommit);
+        false);
     }
     
     if(noteAttr.getReminderDoneTime() != 0L){
@@ -209,7 +204,7 @@ public class SSEvernoteUEHelper {
         SSUEEnum.evernoteReminderDone,
         SSStrU.empty,
         noteAttr.getReminderDoneTime(),
-        shouldCommit);
+        false);
     }
     
     if(noteAttr.getReminderTime() != 0L){
@@ -220,15 +215,14 @@ public class SSEvernoteUEHelper {
         SSUEEnum.evernoteReminderCreate,
         SSStrU.empty,
         noteAttr.getReminderTime(),
-        shouldCommit);
+        false);
     }
   }
   
   public void addUEsForResource(
     SSUri userUri,
     SSUri resourceUri,
-    Note note,
-    Boolean shouldCommit) throws Exception{
+    Note note) throws Exception{
     
     if(
       resourceUri == null ||
@@ -242,7 +236,7 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteResourceAdd,
       SSStrU.empty,
       note.getUpdated(),
-      shouldCommit);
+      false);
   }
   
   public void addUEsForSharedResource(
@@ -250,8 +244,7 @@ public class SSEvernoteUEHelper {
     SSUri resourceUri,
     Notebook notebook,
     List<SharedNotebook> sharedNotebooks,
-    Boolean isSharedNotebook,
-    Boolean shouldCommit) throws Exception{
+    Boolean isSharedNotebook) throws Exception{
     
     if(
       !isSharedNotebook ||
@@ -270,7 +263,7 @@ public class SSEvernoteUEHelper {
           SSUEEnum.evernoteResourceShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated(),
-          shouldCommit);
+          false);
       }
     }
   }
@@ -278,8 +271,7 @@ public class SSEvernoteUEHelper {
   public void addUEsForLinkedNotebook(
     SSUri userUri,
     SSUri notebookUri,
-    Long creationTimeForLinkedNotebook,
-    Boolean shouldCommit) throws Exception {
+    Long creationTimeForLinkedNotebook) throws Exception {
     
     SSServCaller.addUEAtCreationTime(
       userUri,
@@ -287,6 +279,6 @@ public class SSEvernoteUEHelper {
       SSUEEnum.evernoteNotebookFollow,
       SSStrU.empty,
       creationTimeForLinkedNotebook,
-      shouldCommit);
+      false);
   }
 }

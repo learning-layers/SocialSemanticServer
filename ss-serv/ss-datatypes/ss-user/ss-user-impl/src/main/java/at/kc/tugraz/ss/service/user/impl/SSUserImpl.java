@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -37,6 +38,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserLoginPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserLoginRet;
@@ -107,7 +109,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       author);
   }
   
-  /****** SSUserClientI ******/
+  /* SSUserClientI  */
   @Override
   public void userLogin(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -131,23 +133,48 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //      }
   }
 
-  /****** SSUserServerI ******/
-  /***************************/
+  /* SSUserServerI */
   @Override
-  public SSUri userLogin(SSServPar parI) throws Exception{
-    
-    SSUserLoginPar      par     = new SSUserLoginPar (parI);
-    SSUri               user    = createUserURI (par.userLabel);
+  public SSUri userLogin(final SSServPar parA) throws Exception{
     
     try{
+      final SSUserLoginPar      par     = new SSUserLoginPar (parA);
+      final SSUri               user    = createUserURI (par.userLabel);
+      
       SSServCaller.addUser         (user, par.userLabel, par.shouldCommit);
       SSServCaller.collUserRootAdd (user, par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+      
+      return user;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return userLogin(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
+  }
+  
+  @Override
+  public Boolean userExists(final SSServPar parA) throws Exception{
     
-    return user;
+    final SSUserExistsPar par = new SSUserExistsPar (parA);
+    
+    try{
+
+      return sqlFct.existsUser(par.user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -157,15 +184,29 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         SSUri.get(SSUserGlobals.systemUserURI),
         par.userUri,
         par.userLabel,
-        SSEntityEnum.user);
+        SSEntityEnum.user,
+        false);
       
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+      dbSQL.commit(par.shouldCommit);
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          userAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
     }
   }
   

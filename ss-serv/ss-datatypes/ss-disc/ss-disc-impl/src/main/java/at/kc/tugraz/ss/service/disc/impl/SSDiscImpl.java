@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -189,12 +190,22 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       sqlFct.deleteDisc(par.discUri);
 
       dbSQL.commit(par.shouldCommit);
-
+      
       return par.discUri;
-    } catch (Exception error) {
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return discUserRemove(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 
@@ -206,70 +217,83 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     SSLabelStr                  discLabel     = null;
     SSUri                       discUri;
 
-    try {
+    try{
 
       discUri = par.disc;
-
-      if (
-        !par.addNewDisc && 
+      
+      if(
+        !par.addNewDisc &&
         par.content == null){
         throw new Exception("pars not valid");
       }
-
-      if (par.addNewDisc) {
-
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.addNewDisc){
+        
         discUri = sqlFct.createDiscUri();
-
-        SSServCaller.addEntity(
+        
+        SSServCaller.entityAdd(
           par.user,
           par.target,
           SSLabelStr.get(par.target.toString()),
-          SSEntityEnum.entity);
-
+          SSEntityEnum.entity,
+          false);
+        
         discLabel = SSServCaller.entityLabelGet(par.target);
-
-        SSServCaller.addEntity(
+        
+        SSServCaller.entityAdd(
           par.user,
           discUri,
           discLabel,
-          SSEntityEnum.disc);
+          SSEntityEnum.disc,
+          false);
       }
 
       if (par.content != null) {
 
         discEntryUri = sqlFct.createDiscEntryUri();
 
-        SSServCaller.addEntity(
+        SSServCaller.entityAdd(
           par.user,
           discEntryUri,
           SSLabelStr.get(discEntryUri.toString()),
-          SSEntityEnum.discEntry);
+          SSEntityEnum.discEntry,
+          false);
       }
 
-      dbSQL.startTrans(par.shouldCommit);
-
-      if (par.addNewDisc) {
+      if(par.addNewDisc){
         sqlFct.createDisc(discUri, par.user, par.target, discLabel);
       }
 
-      if (par.content != null) {
+      if(par.content != null){
         sqlFct.addDiscEntry(discEntryUri, par.user, discUri, par.content);
       }
 
-      dbSQL.commit(par.shouldCommit);
-
 //      SSServCaller.broadCastUpdate(par.user, disc, SSBroadcastEnum.suDiscssion, true);    
-      if (par.addNewDisc) {
-        SSDiscUEFct.discCreate(par, discUri);
+      if(par.addNewDisc){
+        SSDiscUEFct.discCreate    (par, discUri);
       } else {
-        SSDiscUEFct.discEntryAdd(par, discEntryUri);
+        SSDiscUEFct.discEntryAdd  (par, discEntryUri);
       }
-
+      
+      dbSQL.commit(par.shouldCommit);
+      
       return SSDiscUserEntryAddRet.get(discUri, discEntryUri, par.op);
-    } catch (Exception error) {
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return discUserEntryAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 

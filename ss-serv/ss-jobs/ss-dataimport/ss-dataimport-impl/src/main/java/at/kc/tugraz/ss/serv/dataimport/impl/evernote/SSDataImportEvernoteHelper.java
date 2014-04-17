@@ -60,11 +60,11 @@ public class SSDataImportEvernoteHelper {
   
   private final SSEvernoteHelper evernoteHelper = new SSEvernoteHelper();
   
-  public void setBasicEvernoteInfo(SSDataImportEvernotePar par) throws Exception{
+  public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
     this.evernoteInfo    = SSServCaller.getEvernoteInfo (par.user, par.authToken);
-    this.userName        = evernoteHelper.getUserName  (evernoteInfo);
-    this.userUri         = SSServCaller.logUserIn       (userName, par.shouldCommit);
+    this.userName        = evernoteHelper.getUserName   (evernoteInfo);
+    this.userUri         = SSServCaller.logUserIn       (userName, false);
   }
   
   public void handleSharedNotebooks() throws Exception{
@@ -84,26 +84,26 @@ public class SSDataImportEvernoteHelper {
       isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
       notebookLabel    = evernoteHelper.labelHelper.getNormalOrSharedNotebookLabel  (notebookUri, notebook);
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         userUri,
         notebookUri,
         notebookLabel,
         notebook.getServiceCreated(),
-        SSEntityEnum.evernoteNotebook);
+        SSEntityEnum.evernoteNotebook,
+        false);
       
-      evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook, par.shouldCommit);
-      evernoteHelper.ueHelper.addUEsForSharedNotebook (isSharedNotebook, userUri,     notebook, notebookUri, sharedNotebooks, par.shouldCommit);
+      evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
+      evernoteHelper.ueHelper.addUEsForSharedNotebook (isSharedNotebook, userUri,     notebook, notebookUri, sharedNotebooks);
       
       handleEvernoteNotes(
         userUri,
         evernoteInfo,
         notebook,
-        isSharedNotebook,
-        par.shouldCommit);
+        isSharedNotebook);
     }
   }
   
-  public void handleLinkedNotebooks(Boolean shouldCommit) throws Exception{
+  public void handleLinkedNotebooks() throws Exception{
 
     int                     timeCounter = 1;
     SSUri                   notebookUri;
@@ -122,18 +122,18 @@ public class SSDataImportEvernoteHelper {
       creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
       timeCounter++;
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         userUri,
         notebookUri,
         notebookLabel,
         creationTimeForLinkedNotebook,
-        SSEntityEnum.evernoteNotebook);
+        SSEntityEnum.evernoteNotebook,
+        false);
       
       evernoteHelper.ueHelper.addUEsForLinkedNotebook(
         userUri,
         notebookUri,
-        creationTimeForLinkedNotebook,
-        shouldCommit);
+        creationTimeForLinkedNotebook);
       
 //      for(Note note : SSServCaller.getEvernoteLinkedNotes(evernoteInfo.noteStore, linkedNotebook)){
 //        
@@ -186,8 +186,7 @@ public class SSDataImportEvernoteHelper {
     SSUri                userUri,
     SSEvernoteInfo       evernoteInfo,
     Notebook             notebook,
-    Boolean              isSharedNotebook,
-    Boolean              shouldCommit) throws Exception{
+    Boolean              isSharedNotebook) throws Exception{
     
     SSUri      noteUri;
     SSLabelStr noteLabel;
@@ -197,19 +196,20 @@ public class SSDataImportEvernoteHelper {
       noteUri   = evernoteHelper.uriHelper.getNormalOrSharedNoteUri   (evernoteInfo, note);
       noteLabel = evernoteHelper.labelHelper.getNoteLabel             (note,         noteUri);
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         userUri,
         noteUri,
         noteLabel,
         note.getCreated(),
-        SSEntityEnum.evernoteNote);
+        SSEntityEnum.evernoteNote,
+        false);
       
-      evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri, shouldCommit);
-      evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks, shouldCommit);
-      evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri, shouldCommit);
+      evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
+      evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
+      evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
       
       handleEvernoteNoteContent (note);
-      handleEvernoteResources   (userUri, notebook, evernoteInfo, note, isSharedNotebook, sharedNotebooks, shouldCommit);
+      handleEvernoteResources   (userUri, notebook, evernoteInfo, note, isSharedNotebook, sharedNotebooks);
     }
   }
   
@@ -219,8 +219,7 @@ public class SSDataImportEvernoteHelper {
     SSEvernoteInfo       evernoteInfo,
     Note                 note,
     Boolean              isSharedNotebook,
-    List<SharedNotebook> sharedNotebooks,
-    Boolean              shouldCommit) throws Exception{
+    List<SharedNotebook> sharedNotebooks) throws Exception{
     
     SSUri      resourceUri;
     SSLabelStr resourceLabel;
@@ -236,15 +235,16 @@ public class SSDataImportEvernoteHelper {
       resourceUri   = evernoteHelper.uriHelper.getResourceUri     (evernoteInfo, resource);
       resourceLabel = evernoteHelper.labelHelper.getResourceLabel (resource,     resourceUri);
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         userUri,
         resourceUri,
         resourceLabel,
         note.getUpdated(),
-        SSEntityEnum.evernoteResource);
+        SSEntityEnum.evernoteResource,
+        false);
       
-      evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note,     shouldCommit);
-      evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook, shouldCommit);
+      evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
+      evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook);
     }
   }
   

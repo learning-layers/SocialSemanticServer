@@ -17,11 +17,9 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -38,6 +36,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCS
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -101,14 +100,27 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     try{
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
-      dataImpEvernoteHelper.handleLinkedNotebooks (par.shouldCommit);
+      dataImpEvernoteHelper.handleLinkedNotebooks ();
       dataImpEvernoteHelper.handleSharedNotebooks ();
       dataImpEvernoteHelper.handleNotebooks       (par);
       
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+      dbSQL.commit(par.shouldCommit);
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          dataImportEvernote(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
     }
   }
   
@@ -154,9 +166,18 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       }
       
       dbSQL.commit(par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          dataImportMediaWikiUser(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
     }
   }
   
@@ -230,10 +251,20 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
       return true;
 
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return dataImportUserResourceTagFromWikipedia(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }finally{
       
       if(lineReader != null){

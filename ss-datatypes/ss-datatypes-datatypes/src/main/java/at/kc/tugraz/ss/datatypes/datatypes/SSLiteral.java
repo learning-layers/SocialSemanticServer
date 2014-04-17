@@ -15,7 +15,6 @@
  */
  package at.kc.tugraz.ss.datatypes.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 

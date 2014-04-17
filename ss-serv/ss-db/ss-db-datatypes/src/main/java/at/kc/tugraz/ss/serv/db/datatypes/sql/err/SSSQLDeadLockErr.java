@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql;
+package at.kc.tugraz.ss.serv.db.datatypes.sql.err;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-
-public class SSEntityGraphFct extends SSDBGraphFct{
-
-  public SSEntityGraphFct(SSServImplWithDBA serv) throws Exception{
-    super(serv.dbGraph);
+public class SSSQLDeadLockErr extends Exception{
+  
+  public SSSQLDeadLockErr(final String message){
+    super(message);
   }
 }

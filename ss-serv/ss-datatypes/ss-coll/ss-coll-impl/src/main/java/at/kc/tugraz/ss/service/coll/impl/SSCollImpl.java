@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
@@ -80,16 +81,12 @@ import java.util.*;
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI{
 
   private final SSCollSQLFct         sqlFct;
-  private final SSCollEntryAddFct    collEntryAddFct;
-  private final SSCollEntryDeleteFct collEntryDeleteFct;
 
   public SSCollImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
 
     super(conf, dbGraph, dbSQL);
 
-    this.sqlFct              = new SSCollSQLFct          (dbSQL);
-    this.collEntryAddFct     = new SSCollEntryAddFct     (dbSQL);
-    this.collEntryDeleteFct  = new SSCollEntryDeleteFct  (dbSQL);
+    this.sqlFct = new SSCollSQLFct (dbSQL);
   }
   
   @Override
@@ -101,7 +98,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return false;
     }
 
-    SSServCaller.collUserSetPublic(par.user, par.entityUri, par.shouldCommit);
+    SSServCaller.collUserSetPublic(
+      par.user, 
+      par.entityUri, 
+      false);
+    
     return true;
   }
   
@@ -114,6 +115,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return false;
     }
     
+    //TODO: dtheiler assign all circles from parent coll to sub colls as well
+    //make new op collUserShare 
+    
     for(SSUri userUri : par.userUris){
       
       SSServCaller.collUserEntryAdd(
@@ -123,7 +127,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         SSServCaller.entityLabelGet(par.entityUri), 
         false, 
         true, 
-        par.shouldCommit);
+        false);
     }
     
     return true;
@@ -193,9 +197,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCaller.checkKey(par);
 
-    SSColl collRoot = collUserRootGet(par);
-
-    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collRoot, par.op));
+    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(par), par.op));
   }
 
   @Override
@@ -299,16 +301,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       if(sqlFct.existsUserRootColl(par.user)){
         return true;
       }
+      
+      dbSQL.startTrans(par.shouldCommit);
 
       rootCollUri = sqlFct.createCollURI();
 
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         rootCollUri,
         SSLabelStr.get(SSStrU.valueRoot),
-        SSEntityEnum.coll);
-
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.coll,
+        false);
 
       sqlFct.createColl     (rootCollUri);
       
@@ -330,10 +333,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserRootAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 
@@ -349,7 +362,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
             
       if(par.addNewColl){
-        return collEntryAddFct.addNewColl(par);
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSCollEntryAddFct.addNewColl(sqlFct, par);
+
+        dbSQL.commit(par.shouldCommit);
+        
+        return par.collEntry;
       }
       
       if(par.collEntry == null){
@@ -361,15 +381,38 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
       
       if(sqlFct.isColl(par.collEntry)){
-        return collEntryAddFct.addExistingColl(par);
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSCollEntryAddFct.addExistingColl(sqlFct, par);
+        
+        dbSQL.commit(par.shouldCommit);
+        
+        return par.collEntry;
       }
       
-      return collEntryAddFct.addCollEntry(par);
+      dbSQL.startTrans(par.shouldCommit);
       
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+      SSCollEntryAddFct.addCollEntry(sqlFct, par);
+      
+      dbSQL.commit(par.shouldCommit);
+        
+      return par.collEntry;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 
@@ -380,9 +423,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
+      dbSQL.startTrans(par.shouldCommit);
+      
       for(int counter = 0; counter < par.entries.size(); counter++){
-
-        dbSQL.startTrans(par.shouldCommit);
 
         SSServCaller.collUserEntryAdd(
           par.user,
@@ -392,15 +435,25 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           false,
           par.saveUE,
           false);
-
-        dbSQL.commit(par.shouldCommit);
       }
+      
+      dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntriesAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
   
@@ -418,20 +471,34 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
         throw new Exception("user cannot delete this coll entry");
       }
+
+      dbSQL.startTrans(par.shouldCommit);
       
       if(sqlFct.isColl(par.collEntry)){
-        collEntryDeleteFct.removeColl(par);
+        SSCollEntryDeleteFct.removeColl     (sqlFct, par);
       }else{
-        collEntryDeleteFct.removeCollEntry(par);
+        SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
       }
 
       SSCollUEFct.collUserEntryDelete(par);
       
+      dbSQL.commit(par.shouldCommit);
+      
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryDelete(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
   
@@ -442,20 +509,29 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
+      dbSQL.startTrans(par.shouldCommit);
+      
       for(SSUri collEntryUri : par.collEntries){
-
-        dbSQL.startTrans(par.shouldCommit);
-
         SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
-
-        dbSQL.commit(par.shouldCommit);
       }
       
+      dbSQL.commit(par.shouldCommit);
+      
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntriesDelete(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 
@@ -474,16 +550,15 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
       
       publicCircleUri = SSServCaller.accessRightsCircleURIPublicGet();
-      
-      coll = SSServCaller.collUserWithEntries(par.user, par.collUri);
+      coll            = SSServCaller.collUserWithEntries(par.user, par.collUri);
       
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityUserEntitiesToCircleAdd(
-          par.user,
-          publicCircleUri,
-          coll.uri,
-          false);
+        par.user,
+        publicCircleUri,
+        coll.uri,
+        false);
       
       for(SSCollEntry collEntry : coll.entries){
         
@@ -513,20 +588,30 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
       
       return par.collUri;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserSetPublic(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
   
   @Override
   public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
 
-    final SSCollUserEntryChangePosPar  par = new SSCollUserEntryChangePosPar(parA);
+    final SSCollUserEntryChangePosPar  par         = new SSCollUserEntryChangePosPar(parA);
     final List<SSUri>                  collEntries = new ArrayList<SSUri>();
-    final List<Integer>                order = new ArrayList<Integer>();
-    Integer counter = 0;
+    final List<Integer>                order       = new ArrayList<Integer>();
+    Integer                            counter     = 0;
 
     try{
 
@@ -535,8 +620,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
 
       while(counter < par.order.size()){
-        collEntries.add(SSUri.get(par.order.get(counter++)));
-        order.add(Integer.valueOf(par.order.get(counter++)));
+        collEntries.add (SSUri.get       (par.order.get(counter++)));
+        order.add       (Integer.valueOf (par.order.get(counter++)));
       }
 
       dbSQL.startTrans(par.shouldCommit);
@@ -546,10 +631,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryChangePos(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 
@@ -561,7 +656,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       if(!SSServCaller.entityUserAllowedIs(par.user, par.coll, SSEntityRightTypeE.read)){
-        throw new Exception("user cannot change the order of entities in this coll");
+        throw new Exception("user cannot access this collection");
       }
         
       return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
@@ -601,7 +696,12 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
     
     try{
-      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, sqlFct.getUserRootCollURI(par.user));
+      
+      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(
+        sqlFct, 
+        par.user, 
+        sqlFct.getUserRootCollURI(par.user));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -619,7 +719,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot change the order of entities in this coll");
       }
             
-      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(sqlFct, par.user, sqlFct.getUserDirectParentCollURI(par.user, par.coll));
+      return SSCollMiscFct.getUserCollWithEntriesWithCircleTypes(
+        sqlFct, 
+        par.user,
+        sqlFct.getUserDirectParentCollURI(par.user, par.coll));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -639,7 +742,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       if(!SSServCaller.entityUserAllowedIs(par.user, par.collUri, SSEntityRightTypeE.read)){
-        throw new Exception("user cannot change the order of entities in this coll");
+        throw new Exception("user access this collection");
       }
             
       rootCollUri          = sqlFct.getUserRootCollURI         (par.user);
@@ -685,7 +788,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       if(!SSServCaller.entityUserAllowedIs(par.user, par.collUri, SSEntityRightTypeE.read)){
-        throw new Exception("user cannot change the order of entities in this coll");
+        throw new Exception("user cannot access this collection");
       }
             
       coll = sqlFct.getUserCollWithEntries(par.user, par.collUri, new ArrayList<SSEntityCircleTypeE>(), false);
@@ -754,6 +857,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final List<String>                             userCollUris;
     
     try{
+
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.entityUri, SSEntityRightTypeE.read)){
+        throw new Exception("user cannot access entity");
+      }
       
       userCollUris = sqlFct.getAllUserCollURIs          (par.user);
       collUris     = sqlFct.getCollUrisContainingEntity (par.entityUri);
@@ -787,6 +894,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     
     try{
       
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.entityUri, SSEntityRightTypeE.read)){
+        throw new Exception("user cannot access entity");
+      }
+      
       userCollUris = sqlFct.getAllUserCollURIs          (par.user);
       collUris     = sqlFct.getCollUrisContainingEntity (par.entityUri);
        
@@ -811,7 +922,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollsUserCouldSubscribeGetPar par               = new SSCollsUserCouldSubscribeGetPar(parA);
       final List<String>                    userCollUris      = sqlFct.getAllUserCollURIs (par.user);
-      final List<SSColl>                    publicColls  = new ArrayList<SSColl>();
+      final List<SSColl>                    publicColls       = new ArrayList<SSColl>();
       
       for(SSColl publicColl : sqlFct.getAllPublicColls()){
         

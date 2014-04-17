@@ -44,6 +44,6 @@ public class SSEntityServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    SSServCaller.entityCirclePublicAdd();
+    SSServCaller.entityCirclePublicAdd(true);
   }
 }

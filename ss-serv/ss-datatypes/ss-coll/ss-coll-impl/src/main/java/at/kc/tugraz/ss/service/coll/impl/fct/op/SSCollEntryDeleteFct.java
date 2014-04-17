@@ -15,7 +15,6 @@
   */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
@@ -24,28 +23,17 @@ import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
 public class SSCollEntryDeleteFct{
   
-  private final SSDBSQLI     dbSQL;
-  private final SSCollSQLFct sqlFct;
-  
-  public SSCollEntryDeleteFct(final SSDBSQLI dbSQL) throws Exception{
-    
-    this.dbSQL  = dbSQL;
-    this.sqlFct = new SSCollSQLFct(dbSQL);
-  }
-  
-  public Boolean removeColl(final SSCollUserEntryDeletePar par) throws Exception{
+  public static Boolean removeColl(
+    final SSCollSQLFct             sqlFct, 
+    final SSCollUserEntryDeletePar par) throws Exception{
     
     switch(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry)){
       
       case priv:{
         
-        dbSQL.startTrans(par.shouldCommit);
-        
         //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
         
         sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
-        
-        dbSQL.commit(par.shouldCommit);
         
         SSCollUEFct.collUserDeleteColl(par);
         
@@ -56,11 +44,7 @@ public class SSCollEntryDeleteFct{
         
         //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
           
-        dbSQL.startTrans(par.shouldCommit);
-        
         sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
-        
-        dbSQL.commit(par.shouldCommit);
         
         SSCollUEFct.collUserUnSubscribeColl(par);
       }
@@ -69,9 +53,9 @@ public class SSCollEntryDeleteFct{
     return true;
   }
 
-  public void removeCollEntry(final SSCollUserEntryDeletePar par) throws Exception{
-    
-    dbSQL.startTrans(par.shouldCommit);
+  public static void removeCollEntry(
+    final SSCollSQLFct             sqlFct, 
+    final SSCollUserEntryDeletePar par) throws Exception{
     
     for(SSCircle userEntityCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
@@ -89,7 +73,5 @@ public class SSCollEntryDeleteFct{
     }
     
     sqlFct.removeEntryFromColl(par.coll, par.collEntry);
-    
-    dbSQL.commit(par.shouldCommit);
   }
 }

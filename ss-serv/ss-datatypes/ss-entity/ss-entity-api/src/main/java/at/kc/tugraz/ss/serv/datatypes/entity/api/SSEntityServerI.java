@@ -33,7 +33,6 @@ public interface SSEntityServerI {
   public Long          entityCreationTimeGet                    (final SSServPar parA) throws Exception;
   public SSUri         entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri         entityRemove                             (final SSServPar parA) throws Exception;
-  public void          entityRemoveAll                          (final SSServPar parA) throws Exception;
   public SSLabelStr    entityLabelGet                           (final SSServPar parA) throws Exception;
   public SSUri         entityAuthorGet                          (final SSServPar parA) throws Exception;
   public SSUri         entityLabelSet                           (final SSServPar parA) throws Exception;

@@ -37,14 +37,14 @@ public class SSDiscUEFct {
         par.target,
         SSUEEnum.discussEntity,
         SSUri.toStr(discUri),
-        par.shouldCommit);
+        false);
       
       SSServCaller.ueAdd(
         par.user,
         discUri,
         SSUEEnum.newDiscussionByDiscussEntity,
         SSUri.toStr(par.target),
-        par.shouldCommit);
+        false);
       
     }catch(Exception error){
       SSLogU.warn("storing ue failed");
@@ -64,7 +64,7 @@ public class SSDiscUEFct {
         par.disc,
         SSUEEnum.addDiscussionComment,
         SSStrU.empty,
-        par.shouldCommit);
+        false);
       
     }catch(Exception error){
       SSLogU.warn("storing ue failed");

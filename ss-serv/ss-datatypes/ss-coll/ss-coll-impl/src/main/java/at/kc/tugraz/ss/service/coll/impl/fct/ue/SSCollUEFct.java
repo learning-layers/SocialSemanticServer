@@ -38,14 +38,14 @@ public class SSCollUEFct {
         par.collEntry,
         SSUEEnum.removeCollectionItem,
         SSUri.toStr(par.coll),
-        par.shouldCommit);
+        false);
       
       SSServCaller.ueAdd(
         par.user,
         par.coll,
         SSUEEnum.changeCollectionByRemoveCollectionItem,
         SSUri.toStr(par.collEntry),
-        par.shouldCommit);
+        false);
       
     }catch(Exception error){
       SSLogU.warn("storing ue failed");
@@ -65,7 +65,7 @@ public class SSCollUEFct {
         par.collEntry,
         SSUEEnum.unSubscribeCollection,
         SSStrU.empty,
-        par.shouldCommit);
+        false);
       
     }catch(Exception error){
       SSLogU.warn("storing ue failed");
@@ -85,7 +85,7 @@ public class SSCollUEFct {
         par.collEntry,
         SSUEEnum.removeCollection,
         SSStrU.empty,
-        par.shouldCommit);
+        false);
       
     }catch(Exception error){
       SSLogU.warn("storing ue failed");

@@ -34,6 +34,7 @@ public class SSServPar{
   public        String               key          = null;
   public        Boolean              shouldCommit = true;
   public        Boolean              saveUE       = true;
+  public        Boolean              tryAgain     = true;
   
   public SSServPar(final String jsonRequ) throws Exception{
     
@@ -132,6 +133,10 @@ public class SSServPar{
 
     if(par.shouldCommit != null){
       this.shouldCommit = par.shouldCommit;
+    }
+    
+    if(par.tryAgain != null){
+      this.tryAgain = par.tryAgain;
     }
     
     if(par.saveUE != null){

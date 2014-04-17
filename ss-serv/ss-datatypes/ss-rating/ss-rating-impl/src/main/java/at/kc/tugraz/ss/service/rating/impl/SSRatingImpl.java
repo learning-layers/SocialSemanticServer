@@ -33,6 +33,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -116,7 +117,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         author);
   }
   
-  /****** SSRatingClientI ******/
+  /* SSRatingClientI */
   @Override
   public void ratingUserSet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -143,13 +144,13 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par), par.op));
   }
   
-  /****** SSRatingServerI ******/
+  /* SSRatingServerI */
   @Override
   public Boolean ratingsUserRemove(final SSServPar parA) throws Exception{
     
-    final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
-    
     try{
+      
+      final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -162,50 +163,70 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return ratingsUserRemove(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
   
   @Override
   public Boolean ratingUserSet(SSServPar parA) throws Exception {
     
-    final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
-    final SSUri              ratingUri;
-    
     try{
-      
+      final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
+    
       if(sqlFct.hasUserRatedEntity(par.user, par.resource)){
         return true;
       }
       
-      ratingUri = sqlFct.createRatingUri();
+      final SSUri ratingUri = sqlFct.createRatingUri();
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         par.user,
         ratingUri,
         SSLabelStr.get(ratingUri.toString()),
-        SSEntityEnum.rating);
+        SSEntityEnum.rating,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.resource,
         SSLabelStr.get(SSUri.toStr(par.resource)),
-        SSEntityEnum.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.entity,
+        false);
       
       sqlFct.rateEntityByUser (ratingUri, par.user, par.resource, par.value);
       
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return ratingUserSet(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+        return null;
+      }
     }
   }
 

@@ -53,7 +53,6 @@ public enum SSMethU{
   entityCreationTimeGet                               ,
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityRemoveAll                                     ,
   entityLabelGet                                      ,
   entityLabelSet                                      ,
   entityAuthorGet                                     ,
@@ -111,6 +110,7 @@ public enum SSMethU{
   userLogin                                           ,
   userAll                                             ,
   userAdd                                             ,
+  userExists                                          ,
   
   //user event
   uEsGet                                              ,

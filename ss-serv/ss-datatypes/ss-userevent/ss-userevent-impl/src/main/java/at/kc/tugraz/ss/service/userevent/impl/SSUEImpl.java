@@ -30,13 +30,13 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
@@ -114,7 +114,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         author);
   }
   
-  /****** SSUserEventClientI ******/
+  /* SSUserEventClientI  */
   
   @Override
   public void uEGet(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -140,44 +140,53 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(par), par.op));
   }
   
-  /****** SSUserEventServerI ******/
-  /********************************/
+  /* SSUserEventServerI */
   @Override
-  public boolean uEAddAtCreationTime(SSServPar parI) throws Exception{
+  public boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
     
-    SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parI);
+    SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
     SSUri                    ueUri;
     
     try{
       ueUri = SSUEMiscFct.createUEUri();
       
-      SSServCaller.addEntity(
-        SSUri.get(SSUserGlobals.systemUserURI),
-        par.user,
-        SSLabelStr.get(par.user.toString()),
-        SSEntityEnum.user);
+      dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         par.user,
         ueUri,
         SSLabelStr.get(ueUri.toString()),
         par.creationTime,
-        SSEntityEnum.userEvent);
+        SSEntityEnum.userEvent,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.resource,
         SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity);
+        SSEntityEnum.entity,
+        false);
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addUE(ueUri, par.user, par.resource, par.eventType, par.content);
+      sqlFct.addUE(
+        ueUri, 
+        par.user, 
+        par.resource, 
+        par.eventType, 
+        par.content);
       
       dbSQL.commit(par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return uEAddAtCreationTime(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
     }
     
     return true;
@@ -198,33 +207,44 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.content = SSStrU.empty;
       }
       
-      ueUri = fct.createUEUri();
+      ueUri = SSUEMiscFct.createUEUri();
       
-      SSServCaller.addUser(
-        par.user,
-        null,
-        par.shouldCommit);
-      
-      SSServCaller.addEntity(
-        par.user,
-        ueUri,        
-        SSLabelStr.get(ueUri.toString()),        
-        SSEntityEnum.userEvent);
-
-      SSServCaller.addEntity(
-        par.user,
-        par.resource,
-        SSLabelStr.get(par.resource.toString()), 
-        SSEntityEnum.entity);
-
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.addUE(ueUri, par.user, par.resource, par.eventType, par.content);
+      SSServCaller.entityAdd(
+        par.user,
+        par.resource,
+        SSLabelStr.get(par.resource.toString()),
+        SSEntityEnum.entity,
+        false);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        ueUri,
+        SSLabelStr.get(ueUri.toString()),
+        SSEntityEnum.userEvent,
+        false);
+      
+      sqlFct.addUE(
+        ueUri,
+        par.user,
+        par.resource,
+        par.eventType,
+        par.content);
       
       dbSQL.commit(par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      try{
+        
+        if(dbSQL.rollBack(parA)){
+          return uEAdd(parA);
+        }
+        
+        SSServErrReg.regErrThrow(deadLockErr);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
     }
 
     return true;

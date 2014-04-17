@@ -18,7 +18,6 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -26,16 +25,8 @@ import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
 public class SSCollEntryAddFct{
   
-  private final SSDBSQLI     dbSQL;
-  private final SSCollSQLFct sqlFct;
-  
-  public SSCollEntryAddFct(final SSDBSQLI dbSQL) throws Exception{
-   
-    this.dbSQL  = dbSQL;
-    this.sqlFct = new SSCollSQLFct(dbSQL);
-  }
-  
-  public SSUri addNewColl(
+  public static SSUri addNewColl(
+    final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
     final Boolean isParentCollSharedOrPublic;
@@ -47,13 +38,12 @@ public class SSCollEntryAddFct{
     
     par.collEntry = sqlFct.createCollURI();
     
-    SSServCaller.addEntity(
+    SSServCaller.entityAdd(
       par.user,
       par.collEntry,
       par.collEntryLabel,
-      SSEntityEnum.coll);
-    
-    dbSQL.startTrans(par.shouldCommit);
+      SSEntityEnum.coll, 
+      false);
     
     sqlFct.createColl(par.collEntry);
     
@@ -64,21 +54,21 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    dbSQL.commit(par.shouldCommit);
-    
     for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
       
       SSServCaller.entityUserEntitiesToCircleAdd(
         par.user,
         circleUri,
         par.collEntry,
-        true);
+        false);
     }
     
     return par.collEntry;
   }
   
-  public SSUri addExistingColl(final SSCollUserEntryAddPar par) throws Exception{
+  public static SSUri addExistingColl(
+    final SSCollSQLFct          sqlFct,
+    final SSCollUserEntryAddPar par) throws Exception{
     
     if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
       throw new Exception("user cannot access to add coll");
@@ -99,8 +89,6 @@ public class SSCollEntryAddFct{
       throw new Exception("a sub coll is already followed");
     }
     
-    dbSQL.startTrans(par.shouldCommit);
-    
     sqlFct.addCollToUserColl(
       par.user, 
       par.coll, 
@@ -108,24 +96,21 @@ public class SSCollEntryAddFct{
       false,
       true);
     
-    dbSQL.commit(par.shouldCommit);
-    
     return par.collEntry;
   }
   
-  public SSUri addCollEntry(final SSCollUserEntryAddPar par) throws Exception{
+  public static SSUri addCollEntry(
+    final SSCollSQLFct          sqlFct, 
+    final SSCollUserEntryAddPar par) throws Exception{
   
-    SSServCaller.addEntity(
+    SSServCaller.entityAdd(
       par.user,
       par.collEntry,
       par.collEntryLabel,
-      SSEntityEnum.entity);
-    
-    dbSQL.startTrans(par.shouldCommit);
+      SSEntityEnum.entity,
+      false);
     
     sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
-    
-    dbSQL.commit(par.shouldCommit);
     
     for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
       
@@ -133,7 +118,7 @@ public class SSCollEntryAddFct{
         par.user,
         circleUri,
         par.collEntry,
-        true);
+        false);
     }
     
     SSCollUEFct.collUserEntryAdd(par);

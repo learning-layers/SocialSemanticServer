@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.serv.db.api;
 
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.List;
@@ -26,16 +27,16 @@ public interface SSDBSQLI{
   
   public void       closeCon  () throws Exception;
   
-  public void       rollBack(
-    final Boolean shouldCommit);
+  public Boolean rollBack(
+    final SSServPar parA);
 
   public ResultSet selectCertainDistinctWhere(
     final String              tableName, 
-    final List<String>        columnNames, 
+    final List<String>        columns, 
     final Map<String, String> where) throws Exception;
 
   public ResultSet selectAllWhere(
-    final String              tableName, 
+    final String              table, 
     final Map<String, String> where) throws Exception;
   
   public void closeStmt(
@@ -66,13 +67,22 @@ public interface SSDBSQLI{
     final Map<String, String> insertPars) throws Exception;
   
   public void deleteWhere(
-    final String              tableName, 
-    final Map<String, String> whereParNamesWithValues) throws Exception;
+    final String              table, 
+    final Map<String, String> where) throws Exception;
+  
+  public void deleteWhereIgnore(
+    final String              table, 
+    final Map<String, String> where) throws Exception;
   
   public void updateWhere(
-    final String              tableName, 
-    final Map<String, String> whereNamesAndValues, 
-    final Map<String, String> newValues) throws Exception;
+    final String              table, 
+    final Map<String, String> where, 
+    final Map<String, String> values) throws Exception;
+  
+   public void updateWhereIgnore(
+    final String              table, 
+    final Map<String, String> where, 
+    final Map<String, String> values) throws Exception;
   
   public void deleteAll(
     final String tableName) throws Exception;
@@ -91,6 +101,11 @@ public interface SSDBSQLI{
   
   public void commit(
     final Boolean shouldCommit) throws Exception;
+
+  public void insertWhereNotExists(
+    final String              table, 
+    final Map<String, String> insert,
+    final Map<String, String> uniqueKey) throws Exception;
 }
 
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;
