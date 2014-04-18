@@ -79,7 +79,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
     
     try{
-      connector.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+      connector.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
       connector.setAutoCommit(false);
     }catch(SQLException error){
       SSServErrReg.regErrThrow(error);
@@ -472,7 +472,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
     
     //    UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
-    String                              query   = "UPDATE IGNORE" + table + " SET ";
+    String                              query   = "UPDATE IGNORE " + table + " SET ";
     int                                 counter = 1;
     PreparedStatement                   stmt    = null;
     Iterator<Map.Entry<String, String>> iterator;

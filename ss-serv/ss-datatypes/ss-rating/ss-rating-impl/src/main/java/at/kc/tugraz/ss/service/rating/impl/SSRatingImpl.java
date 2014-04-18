@@ -165,18 +165,17 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return ratingsUserRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return ratingsUserRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -215,18 +214,17 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return ratingUserSet(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return ratingUserSet(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

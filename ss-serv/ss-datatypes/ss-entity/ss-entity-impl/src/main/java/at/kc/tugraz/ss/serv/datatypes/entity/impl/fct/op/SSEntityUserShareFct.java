@@ -49,6 +49,12 @@ public class SSEntityUserShareFct{
         throw new UnsupportedOperationException("currenlty sharing with circles not possible");
       }
       
+      SSServCaller.entityUserEntitiesToCircleAdd(
+        par.user, 
+        par.entityCircleUri, 
+        par.entityUri, 
+        false);
+      
       return SSServCaller.entityUserUsersToCircleAdd(
         par.user,
         par.entityCircleUri,

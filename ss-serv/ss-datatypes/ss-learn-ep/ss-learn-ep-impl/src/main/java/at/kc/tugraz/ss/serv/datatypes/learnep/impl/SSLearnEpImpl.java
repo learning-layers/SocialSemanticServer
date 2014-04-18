@@ -311,18 +311,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return par.learnEpVersionUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionCurrentSet(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionCurrentSet(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
    
@@ -354,18 +353,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
        return learnEpTimelineStateUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionSetTimelineState(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionSetTimelineState(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -385,18 +383,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionRemoveCircle(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveCircle(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -416,18 +413,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionRemoveEntity(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveEntity(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -460,18 +456,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionUpdateCircle(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateCircle(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -498,18 +493,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionUpdateEntity(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateEntity(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -536,18 +530,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return learnEpUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpCreate(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpCreate(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -574,18 +567,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return learnEpVersionUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionCreate(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionCreate(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -621,18 +613,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       return circleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionAddCircle(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionAddCircle(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -672,18 +663,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpVersionAddEntity(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionAddEntity(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

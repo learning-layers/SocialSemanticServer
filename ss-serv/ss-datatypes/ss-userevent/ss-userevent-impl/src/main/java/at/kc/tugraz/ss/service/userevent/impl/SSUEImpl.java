@@ -142,7 +142,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   
   /* SSUserEventServerI */
   @Override
-  public boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
+  public Boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
     
     SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
     SSUri                    ueUri;
@@ -175,25 +175,26 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.content);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return uEAddAtCreationTime(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return uEAddAtCreationTime(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
+        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public boolean uEAdd(final SSServPar parA) throws Exception{
+  public Boolean uEAdd(final SSServPar parA) throws Exception{
     
     final SSUEAddPar par   = new SSUEAddPar(parA);
     SSUri            ueUri;
@@ -233,21 +234,22 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.content);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return uEAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return uEAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
+        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-
-    return true;
   }
   
   @Override

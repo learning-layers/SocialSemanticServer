@@ -157,18 +157,17 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return locationsUserRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return locationsUserRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -209,18 +208,17 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return locationAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return locationAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

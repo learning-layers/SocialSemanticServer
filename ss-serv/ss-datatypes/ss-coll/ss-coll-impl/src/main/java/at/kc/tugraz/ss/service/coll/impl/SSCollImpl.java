@@ -63,6 +63,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntityInCircleTypeForUs
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSetPublicPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserShareWithUserPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCummulatedTagsGetRet;
@@ -72,6 +73,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
+import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollUserShareWithUserFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -120,13 +122,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     
     for(SSUri userUri : par.userUris){
       
-      SSServCaller.collUserEntryAdd(
-        userUri, 
-        SSServCaller.collUserRootGet(userUri).uri, 
-        par.entityUri, 
-        SSServCaller.entityLabelGet(par.entityUri), 
-        false, 
-        true, 
+      SSServCaller.collUserShareWithUser(
+        par.user,
+        userUri,
+        par.entityUri,
+        par.entityCircleUri,
         false);
     }
     
@@ -335,21 +335,136 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserRootAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return collUserRootAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
+  @Override
+  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
+
+    try{
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(int counter = 0; counter < par.entries.size(); counter++){
+
+        SSServCaller.collUserEntryAdd(
+          par.user,
+          par.coll,
+          par.entries.get     (counter),
+          par.entryLabels.get (counter),
+          false,
+          par.saveUE,
+          false);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return collUserEntriesAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
+
+    try{
+
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.coll, SSEntityRightTypeE.edit)){
+        throw new Exception("user cannot delete from this coll");
+      }
+      
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
+        throw new Exception("user cannot delete this coll entry");
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(sqlFct.isColl(par.collEntry)){
+        SSCollEntryDeleteFct.removeColl     (sqlFct, par);
+      }else{
+        SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
+      }
+
+      SSCollUEFct.collUserEntryDelete(par);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryDelete(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean collUserEntriesDelete(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntriesDeletePar par = new SSCollUserEntriesDeletePar(parA);
+
+    try{
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri collEntryUri : par.collEntries){
+        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return collUserEntriesDelete(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
 
@@ -384,7 +499,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         dbSQL.startTrans(par.shouldCommit);
         
-        SSCollEntryAddFct.addExistingColl(sqlFct, par);
+        SSCollEntryAddFct.addPublicColl(sqlFct, par);
         
         dbSQL.commit(par.shouldCommit);
         
@@ -401,137 +516,74 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserEntryAdd(parA);
-        }
-        
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
-      }
-    }
-  }
-
-  @Override
-  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
-
-    try{
-
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(int counter = 0; counter < par.entries.size(); counter++){
-
-        SSServCaller.collUserEntryAdd(
-          par.user,
-          par.coll,
-          par.entries.get     (counter),
-          par.entryLabels.get (counter),
-          false,
-          par.saveUE,
-          false);
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserEntriesAdd(parA);
-        }
-        
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
-      }
-    }
-  }
-  
-  @Override
-  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
-
-    try{
-
-      if(!SSServCaller.entityUserAllowedIs(par.user, par.coll, SSEntityRightTypeE.edit)){
-        throw new Exception("user cannot delete from this coll");
-      }
-      
-      if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
-        throw new Exception("user cannot delete this coll entry");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-      
-      if(sqlFct.isColl(par.collEntry)){
-        SSCollEntryDeleteFct.removeColl     (sqlFct, par);
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryAdd(parA);
       }else{
-        SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
-      }
-
-      SSCollUEFct.collUserEntryDelete(par);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserEntryDelete(parA);
-        }
-        
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
   @Override
-  public Boolean collUserEntriesDelete(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntriesDeletePar par = new SSCollUserEntriesDeletePar(parA);
-
+  public SSUri collUserShareWithUser(final SSServPar parA) throws Exception{
+    
     try{
-
+      final SSCollUserShareWithUserPar par = new SSCollUserShareWithUserPar(parA);
+      
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.collUri, SSEntityRightTypeE.edit)){
+        throw new Exception("user cannot share this coll");
+      }
+      
+      final SSUri rootCollUri = SSServCaller.collUserRootGet(par.userUriToShareWith).uri;
+      
+      if(rootCollUri == null){
+        throw new Exception("user to share coll with doesnt exist");
+      }
+        
+      if(!sqlFct.isColl(par.collUri)){
+        throw new Exception("to share coll isnt a coll");
+      }
+      
+      if(sqlFct.containsEntry(rootCollUri, par.collUri)){
+        return par.collUri;
+      }
+      
+      if(sqlFct.ownsUserColl(par.userUriToShareWith, par.collUri)){
+        throw new Exception("coll is already shared with user");
+      }
+      
+      if(sqlFct.ownsUserASubColl(par.userUriToShareWith, par.collUri)){
+        throw new Exception("a sub coll is already shared with user");
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri collEntryUri : par.collEntries){
-        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
-      }
+      SSCollUserShareWithUserFct.addCollToRootColl                   (sqlFct, par, rootCollUri);
+      SSCollUserShareWithUserFct.addSubCollsWithEntriesToSharedCircle(sqlFct, par);
       
       dbSQL.commit(par.shouldCommit);
       
-      return true;
+      return par.collUri;
+    
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserEntriesDelete(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return collUserShareWithUser(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
@@ -590,18 +642,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return par.collUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserSetPublic(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return collUserSetPublic(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -633,18 +684,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserEntryChangePos(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryChangePos(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

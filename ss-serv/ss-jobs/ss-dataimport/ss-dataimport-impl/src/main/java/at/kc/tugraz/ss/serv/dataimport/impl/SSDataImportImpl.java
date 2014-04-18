@@ -111,16 +111,15 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          dataImportEvernote(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        dataImportEvernote(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -168,16 +167,15 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       dbSQL.commit(par.shouldCommit);
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          dataImportMediaWikiUser(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        dataImportMediaWikiUser(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -253,18 +251,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return dataImportUserResourceTagFromWikipedia(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return dataImportUserResourceTagFromWikipedia(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       
       if(lineReader != null){

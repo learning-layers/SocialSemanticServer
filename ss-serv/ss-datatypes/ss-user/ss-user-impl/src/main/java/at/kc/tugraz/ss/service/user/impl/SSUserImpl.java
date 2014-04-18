@@ -147,18 +147,17 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       return user;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return userLogin(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return userLogin(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -197,16 +196,15 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          userAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        userAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
     }
   }
   

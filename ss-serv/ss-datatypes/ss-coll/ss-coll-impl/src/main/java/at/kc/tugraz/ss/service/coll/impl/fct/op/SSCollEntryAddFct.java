@@ -17,6 +17,8 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
@@ -54,11 +56,11 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
+    for(SSCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       SSServCaller.entityUserEntitiesToCircleAdd(
         par.user,
-        circleUri,
+        entityUserCircle.circleUri,
         par.collEntry,
         false);
     }
@@ -66,12 +68,12 @@ public class SSCollEntryAddFct{
     return par.collEntry;
   }
   
-  public static SSUri addExistingColl(
+  public static SSUri addPublicColl(
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSServCaller.entityUserAllowedIs(par.user, par.collEntry, SSEntityRightTypeE.read)){
-      throw new Exception("user cannot access to add coll");
+    if(!SSEntityCircleTypeE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry), SSEntityCircleTypeE.pub)){
+      throw new Exception("coll to add is not public");
     }
     
     //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
@@ -112,11 +114,11 @@ public class SSCollEntryAddFct{
     
     sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
     
-    for(SSUri circleUri : SSServCaller.entityCircleURIsGet(par.coll)){
+    for(SSCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       SSServCaller.entityUserEntitiesToCircleAdd(
         par.user,
-        circleUri,
+        circle.circleUri,
         par.collEntry,
         false);
     }

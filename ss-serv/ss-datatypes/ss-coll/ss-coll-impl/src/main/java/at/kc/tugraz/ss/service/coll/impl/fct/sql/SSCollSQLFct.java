@@ -307,17 +307,17 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri       user, 
     final SSUri       collParent, 
     final SSUri       collChild, 
-    final Boolean     wasCreatedInSharedOrPublicCircle,
-    final Boolean     wasAddedToCollInSharedOrPublicCircle) throws Exception{
+    final Boolean     createdCollIsInSharedOrPublicCircle,
+    final Boolean     addedCollIsSharedOrPublic) throws Exception{
     
-    if(SSObjU.isNull(user, collParent, collChild, wasCreatedInSharedOrPublicCircle, wasAddedToCollInSharedOrPublicCircle)){
+    if(SSObjU.isNull(user, collParent, collChild, createdCollIsInSharedOrPublicCircle, addedCollIsSharedOrPublic)){
       SSServErrReg.regErrThrow(new Exception("pars not ok"));
       return;
     }
     
     if(
-      wasCreatedInSharedOrPublicCircle &&
-      wasAddedToCollInSharedOrPublicCircle){
+      createdCollIsInSharedOrPublicCircle &&
+      addedCollIsSharedOrPublic){
       SSServErrReg.regErrThrow(new Exception("cannot add to shared coll and add shared/public coll at the same time"));
       return;
     }
@@ -349,7 +349,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     dbSQL.insert(collUserTable, insertPars);
     
     //add currently added coll to other users as well
-    if(wasCreatedInSharedOrPublicCircle){
+    if(createdCollIsInSharedOrPublicCircle){
 
       insertPars.clear();
       insertPars.put(SSSQLVarU.collId,    collChild.toString());
@@ -367,7 +367,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
     
     //add sub colls of shared / pub coll for this user as well
-    if(wasAddedToCollInSharedOrPublicCircle){
+    if(addedCollIsSharedOrPublic){
       
       final List<String> subCollUris = new ArrayList<String>();
       
@@ -780,9 +780,11 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.selectAllWhere(collRootTable, selectPars);
 
-      resultSet.first();
-
-      return bindingStrToUri(resultSet, SSSQLVarU.collId);
+      if(resultSet.first()){
+        return bindingStrToUri(resultSet, SSSQLVarU.collId);
+      }
+      
+      throw new Exception("user root coll doesnt exist");
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

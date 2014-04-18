@@ -26,6 +26,7 @@ public interface SSCollServerI{
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
   public SSUri                      collUserSetPublic                             (final SSServPar parA) throws Exception;
+  public SSUri                      collUserShareWithUser                         (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryChangePos                        (final SSServPar parA) throws Exception;
   public SSColl                     collUserWithEntries                           (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserWithEntries                          (final SSServPar parA) throws Exception;

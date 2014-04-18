@@ -49,7 +49,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleUserAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
@@ -74,6 +73,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -256,18 +256,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserDirectlyAdjoinedEntitiesRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserDirectlyAdjoinedEntitiesRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -283,18 +282,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityLabelSet(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityLabelSet(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -314,18 +312,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -346,18 +343,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityAddAtCreationTime(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityAddAtCreationTime(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -373,18 +369,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.entityUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -445,21 +440,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSUri> entityCircleURIsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityCircleURIsGetPar par = new SSEntityCircleURIsGetPar(parA);
-      
-      return sqlFct.getEntityCircleURIs(par.entityUri);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public SSUri entityCirclePublicAdd(final SSServPar parA) throws Exception{
     
     try{
@@ -467,6 +447,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       dbSQL.startTrans(parA.shouldCommit);
       
       publicCircleUri = sqlFct.addPublicCircle();
+      
+      SSServCaller.entityAdd(
+        SSUri.get(SSUserGlobals.systemUserURI), 
+        publicCircleUri, 
+        SSLabelStr.get(publicCircleUri.toString()),
+        SSEntityEnum.circle, 
+        false);
       
       sqlFct.addCircleRight(publicCircleUri, SSEntityRightTypeE.read);
       sqlFct.addCircleRight(publicCircleUri, SSEntityRightTypeE.addMetadata);
@@ -477,18 +464,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return publicCircleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityCirclePublicAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityCirclePublicAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -558,18 +544,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return circleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserCircleCreate(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserCircleCreate(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -595,18 +580,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return par.circleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserUsersToCircleAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserUsersToCircleAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -619,16 +603,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       sqlFct.addUserToCircle(par.circleUri, par.user);
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          entityCircleUserAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        entityCircleUserAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -772,18 +755,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserEntitiesToCircleAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserEntitiesToCircleAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -840,18 +822,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserPublicSet(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserPublicSet(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -859,7 +840,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   public SSUri entityUserShare(final SSServPar parA) throws Exception{
     
     final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
-    final SSUri                circleUri;
     
     try{
       
@@ -873,30 +853,29 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       dbSQL.startTrans(par.shouldCommit);
       
       if(par.entityCircleUri == null){
-        circleUri = SSEntityUserShareFct.createNewCircleAndShare(par);
+        par.entityCircleUri = SSEntityUserShareFct.createNewCircleAndShare(par);
       }else{
-        circleUri = SSEntityUserShareFct.useCircleAndShare(par);
+        SSEntityUserShareFct.useCircleAndShare(par);
       }
       
       SSEntityUserShareFct.shareByEntityHandlers(par);
       
       dbSQL.commit(par.shouldCommit);
       
-      return circleUri;
+      return par.entityCircleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserShare(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return entityUserShare(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

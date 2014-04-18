@@ -686,6 +686,24 @@ public class SSServCaller {
   
   /* colls */
   
+  public static SSUri collUserShareWithUser(
+    final SSUri    userUri, 
+    final SSUri    userUriToShareWith, 
+    final SSUri    entityUri, 
+    final SSUri    collCircleUri, 
+    final Boolean  shouldCommit) throws Exception{
+  
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,               userUri);
+    opPars.put(SSVarU.userUriToShareWith, userUriToShareWith);
+    opPars.put(SSVarU.collUri,            entityUri);
+    opPars.put(SSVarU.collCircleUri,      collCircleUri);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserShareWithUser, opPars)); 
+  }
+  
   public static SSColl collUserWithEntries(
     final SSUri userUri, 
     final SSUri collUri) throws Exception{
@@ -1228,7 +1246,7 @@ public class SSServCaller {
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntitiesToCircleAdd, opPars));
   }
-    
+  
   public static Boolean entityUserEntitiesToCircleAdd(
     final SSUri       userUri,
     final SSUri       circleUri, 
@@ -1308,17 +1326,7 @@ public class SSServCaller {
     
     return (SSEntityCircleTypeE) SSServA.callServViaServer(new SSServPar(SSMethU.entityMostOpenCircleTypeGet, opPars));
   }
-
-  public static List<SSUri> entityCircleURIsGet(
-    final SSUri entityUri) throws Exception{
-     
-    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleURIsGet, opPars));
-  }
-  
   public static Boolean entityUserCircleDelete(
     final SSUri entityUri,
     final SSUri circleUri) throws Exception{
@@ -1963,7 +1971,7 @@ public class SSServCaller {
     opPars.put(SSVarU.xAuthToken, xAuthToken);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileDownload, opPars));
-  }
+  } 
 }
 
 

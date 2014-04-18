@@ -199,18 +199,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -247,18 +246,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagAddAtCreationTime(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagAddAtCreationTime(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -276,18 +274,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagsAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagsAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -315,18 +312,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagsAddAtCreationTime(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagsAddAtCreationTime(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -350,18 +346,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagsRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagsRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -430,18 +425,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return tagsUserRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return tagsUserRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

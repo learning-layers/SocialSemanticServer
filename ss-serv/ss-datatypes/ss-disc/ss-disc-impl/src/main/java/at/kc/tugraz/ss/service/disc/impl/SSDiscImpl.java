@@ -194,18 +194,17 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       return par.discUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return discUserRemove(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return discUserRemove(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
@@ -282,18 +281,17 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       return SSDiscUserEntryAddRet.get(discUri, discEntryUri, par.op);
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      try{
-        
-        if(dbSQL.rollBack(parA)){
-          return discUserEntryAdd(parA);
-        }
-        
+      if(dbSQL.rollBack(parA)){
+        return discUserEntryAdd(parA);
+      }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
       }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 
-public class SSEntityCircleURIsGetPar extends SSServPar{
-
-  public SSUri                     entityUri    = null;
+public class SSCollUserShareWithUserPar extends SSServPar{
   
-  public SSEntityCircleURIsGetPar(final SSServPar par) throws Exception{
+  public SSUri userUriToShareWith = null;
+  public SSUri collUri            = null;
+  public SSUri collCircleUri      = null;
+      
+  public SSCollUserShareWithUserPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
-    
-      if(pars != null){
-        entityUri       = (SSUri)                     pars.get(SSVarU.entityUri);
-      }
       
-      if(clientPars != null){
-        entityUri       = SSUri.get                    (clientPars.get(SSVarU.entityUri));
+      if(pars != null){
+        collUri             = (SSUri)       pars.get(SSVarU.collUri);
+        userUriToShareWith  = (SSUri)       pars.get(SSVarU.userUriToShareWith);
+        collCircleUri       = (SSUri)       pars.get(SSVarU.collCircleUri);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
@@ -35,6 +36,17 @@ public enum SSEntityCircleTypeE implements SSJSONLDPropI{
   
   public static String toStr(final SSEntityCircleTypeE circleType){
     return SSStrU.toString(circleType);
+  }
+  
+  public static Boolean equals(
+    final SSEntityCircleTypeE circleType1, 
+    final SSEntityCircleTypeE circleType2) throws Exception{
+
+    if(SSObjU.isNull(circleType1, circleType2)){
+      return false;
+    }
+    
+    return circleType1.toString().equals(circleType2.toStr(circleType2));
   }
   
   public static Boolean contains(
