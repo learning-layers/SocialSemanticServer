@@ -117,9 +117,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return false;
     }
     
-    //TODO: dtheiler assign all circles from parent coll to sub colls as well
-    //make new op collUserShare 
-    
     for(SSUri userUri : par.userUris){
       
       SSServCaller.collUserShareWithUser(
@@ -566,6 +563,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       SSCollUserShareWithUserFct.addCollToRootColl                   (sqlFct, par, rootCollUri);
       SSCollUserShareWithUserFct.addSubCollsWithEntriesToSharedCircle(sqlFct, par);
+      SSCollUserShareWithUserFct.addCollUsersToSharedCircle          (sqlFct, par);
       
       dbSQL.commit(par.shouldCommit);
       

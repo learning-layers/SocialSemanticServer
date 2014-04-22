@@ -79,7 +79,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
     
     try{
-      connector.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+      connector.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
       connector.setAutoCommit(false);
     }catch(SQLException error){
       SSServErrReg.regErrThrow(error);
