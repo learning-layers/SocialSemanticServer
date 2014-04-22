@@ -78,6 +78,7 @@ import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.*;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI{
@@ -312,19 +313,21 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       sqlFct.createColl     (rootCollUri);
       
-      SSServCaller.entityUserCircleCreate(
-        par.user, 
+      SSServCaller.entityCircleCreate(
+        par.user,
         rootCollUri,
         new ArrayList<SSUri>(), 
         SSEntityCircleTypeE.priv, 
         SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot), 
+        SSUri.get(SSUserGlobals.systemUserURI),
         false);
       
-      SSServCaller.entityCircleUserAdd(
+      SSServCaller.entityUsersToCircleAdd(
         par.user, 
-        SSServCaller.accessRightsCircleURIPublicGet(), 
+        SSServCaller.entityCircleURIPublicGet(), 
+        par.user, 
         false);
-      
+        
       sqlFct.addUserRootColl(rootCollUri, par.user);
 
       dbSQL.commit(par.shouldCommit);
@@ -599,12 +602,12 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user is not allowed to set coll public");
       }
       
-      publicCircleUri = SSServCaller.accessRightsCircleURIPublicGet();
+      publicCircleUri = SSServCaller.entityCircleURIPublicGet();
       coll            = SSServCaller.collUserWithEntries(par.user, par.collUri);
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityUserEntitiesToCircleAdd(
+      SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         publicCircleUri,
         coll.uri,
@@ -612,7 +615,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       for(SSCollEntry collEntry : coll.entries){
         
-        SSServCaller.entityUserEntitiesToCircleAdd(
+        SSServCaller.entityEntitiesToCircleAdd(
           par.user,
           publicCircleUri,
           collEntry.uri,
@@ -627,7 +630,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         for(SSCollEntry collEntry : coll.entries){
           
-          SSServCaller.entityUserEntitiesToCircleAdd(
+          SSServCaller.entityEntitiesToCircleAdd(
             par.user,
             publicCircleUri,
             collEntry.uri,
@@ -796,7 +799,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       rootCollUri          = sqlFct.getUserRootCollURI         (par.user);
       directPartentCollUri = sqlFct.getUserDirectParentCollURI (par.user, par.collUri);
       
-      while(SSUri.isNotSame(rootCollUri, directPartentCollUri)){
+      while(!SSUri.isSame(rootCollUri, directPartentCollUri)){
         
         hierarchy.add(directPartentCollUri);
         
@@ -839,7 +842,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot access this collection");
       }
             
-      coll = sqlFct.getUserCollWithEntries(par.user, par.collUri, new ArrayList<SSEntityCircleTypeE>(), false);
+      coll = sqlFct.getUserCollWithEntries(par.user, par.collUri, new ArrayList<SSEntityCircleTypeE>());
       
       for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, par.collUri, null, null)){
         
@@ -897,6 +900,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
+  //TODO dtheiler: implement this method in entity service based on circles, not colls anymore
   @Override
   public Boolean collEntityInCircleTypeForUserIs(final SSServPar parA) throws Exception{
 

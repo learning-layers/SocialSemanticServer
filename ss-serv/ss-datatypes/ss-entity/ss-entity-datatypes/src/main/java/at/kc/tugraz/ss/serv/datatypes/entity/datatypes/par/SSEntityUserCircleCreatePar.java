@@ -29,7 +29,7 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
 
   public List<SSUri>               entityUris  = new ArrayList<SSUri>();
   public List<SSUri>               userUris    = new ArrayList<SSUri>();
-  public SSEntityCircleTypeE circleType  = null;
+  public SSEntityCircleTypeE       circleType  = null;
   public SSLabelStr                label       = null;
   
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
@@ -39,14 +39,14 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     try{
     
       if(pars != null){
-        circleType       = (SSEntityCircleTypeE) pars.get(SSVarU.circleType);
+        circleType       = (SSEntityCircleTypeE)       pars.get(SSVarU.circleType);
         label            = (SSLabelStr)                pars.get(SSVarU.label);
         entityUris       = (List<SSUri>)               pars.get(SSVarU.entityUris);
         userUris         = (List<SSUri>)               pars.get(SSVarU.userUris);
       }
       
       if(clientPars != null){
-        circleType       = SSEntityCircleTypeE.get (clientPars.get(SSVarU.circleType));
+        circleType       = SSEntityCircleTypeE.get       (clientPars.get(SSVarU.circleType));
         label            = SSLabelStr.get                (clientPars.get(SSVarU.label));
         
         try{

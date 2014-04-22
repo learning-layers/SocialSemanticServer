@@ -23,13 +23,14 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEntityUserCircleCreateTest extends SSServOpTestCaseA{
+public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
   
-  public SSEntityUserCircleCreateTest(SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityUserCircleCreate);
+  public SSEntityCircleCreateTest(SSEntityConf entityConf){
+    super(entityConf, SSMethU.entityCircleCreate);
   }
   
   @Override
@@ -37,19 +38,18 @@ public class SSEntityUserCircleCreateTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    final List<SSUri> entityUris = new ArrayList<SSUri>();
     final List<SSUri> userUris   = new ArrayList<SSUri>();
     
-    entityUris.add (SSUri.get("http://www.google.at"));
     userUris.add   (SSUri.get("http://test.dt/user/dk/"));
     
-    final Boolean result = 
-      SSServCaller.entityUserCircleCreate(
+    final SSUri circleUri = 
+      SSServCaller.entityCircleCreate(
         userUri, 
-        entityUris, 
+        SSUri.get("http://www.google.at"), 
         userUris, 
-        SSEntityCircleTypeE.priv, 
+        SSEntityCircleTypeE.priv,
         SSLabelStr.get("dieter priv circle"),
+        SSUri.get(SSUserGlobals.systemUserURI),
         true);
     
     SSLogU.info("end " + op + "Test");

@@ -30,8 +30,8 @@ public class SSCircle extends SSEntityA{
  
   public SSUri                          circleUri    = null;
   public SSLabelStr                     label        = null;
-  public SSEntityCircleTypeE      circleType   = null;
-  public List<SSEntityRightTypeE> circleRights = new ArrayList<SSEntityRightTypeE>();
+  public SSEntityCircleTypeE            circleType   = null;
+  public List<SSEntityRightTypeE>       circleRights = new ArrayList<SSEntityRightTypeE>();
   public List<SSUri>                    userUris     = new ArrayList<SSUri>();
   public List<SSUri>                    entityUris   = new ArrayList<SSUri>();
   

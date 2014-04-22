@@ -69,7 +69,7 @@ public class SSCollUserShareWithUserFct{
         }
       }
       
-      SSServCaller.entityUserEntitiesToCircleAdd(
+      SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         par.collCircleUri,
         collAndCollEntryUris,
@@ -81,15 +81,15 @@ public class SSCollUserShareWithUserFct{
   }
 
   public static void addCollUsersToSharedCircle(
-    final SSCollSQLFct               sqlFct, 
+    final SSCollSQLFct               sqlFct,
     final SSCollUserShareWithUserPar par) throws Exception{
     
     try{
       SSServCaller.entityUserUsersToCircleAdd(
-          par.user,
-          par.collCircleUri,
-          sqlFct.getCollUsers(par.collUri),
-          false);
+        par.user,
+        par.collCircleUri,
+        sqlFct.getCollUsers(par.collUri),
+        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

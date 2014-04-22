@@ -152,14 +152,6 @@ public class SSAdapterRest{
     // return Response.ok(new ByteArrayInputStream(imageData)).build();
   }
   
-//  @POST
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path    (SSStrU.slash + "authCheckCred")
-//  public String authCheckCred(String jsonRequ){
-//    return handleStandardJSONRESTCall(jsonRequ, SSMethU.authCheckCred);
-//  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -174,6 +166,38 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityUserPublicSet")
   public String entityUserPublicSet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserPublicSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserCircleCreate")
+  public String entityUserCircleCreate(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCircleCreate);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserUsersToCircleAdd")
+  public String entityUserUsersToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserUsersToCircleAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserEntitiesToCircleAdd")
+  public String entityUserEntitiesToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserEntitiesToCircleAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserCirclesGet")
+  public String entityUserCirclesGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCirclesGet);
   }
   
   @POST

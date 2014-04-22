@@ -20,12 +20,13 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
 
   public SSUri       circleUri  = null;
-  public List<SSUri> entityUris = null;
+  public List<SSUri> entityUris = new ArrayList<SSUri>();
   
   public SSEntityUserEntitiesToCircleAddPar(final SSServPar par) throws Exception{
     

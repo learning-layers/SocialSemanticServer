@@ -705,10 +705,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
   public SSColl getUserCollWithEntries(
     final SSUri                           userUri, 
     final SSUri                           collUri,
-    final List<SSEntityCircleTypeE> circleTypes, 
-    final Boolean                         sort) throws Exception{
+    final List<SSEntityCircleTypeE>       circleTypes) throws Exception{
 
-    if(SSObjU.isNull(userUri, collUri, circleTypes, sort)){
+    if(SSObjU.isNull(userUri, collUri, circleTypes)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return null;
     }

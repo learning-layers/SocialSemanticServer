@@ -18,42 +18,51 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSEntityUserEntitiesToCircleAddRet extends SSServRetI{
+public class SSEntityUserCirclesGetRet extends SSServRetI{
 
-  public SSUri circleUri = null;
+  public List<SSCircle> circles = new ArrayList<SSCircle>();
 
-  public static SSEntityUserEntitiesToCircleAddRet get(
-    final SSUri circleUri, 
-    final SSMethU op){
+  public static SSEntityUserCirclesGetRet get(
+    final List<SSCircle> circles, 
+    final SSMethU        op){
     
-    return new SSEntityUserEntitiesToCircleAddRet(circleUri, op);
+    return new SSEntityUserCirclesGetRet(circles, op);
   }
   
-  private SSEntityUserEntitiesToCircleAddRet(
-    final SSUri   circleUri, 
-    final SSMethU op){
+  private SSEntityUserCirclesGetRet(
+    final List<SSCircle> circles, 
+    final SSMethU        op){
 
     super(op);
     
-    this.circleUri = circleUri;
+    if(circles != null){
+      this.circles.addAll(circles);
+    }
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld           = new HashMap<String, Object>();
+    final Map<String, Object> circlesObj   = new HashMap<String, Object>();
     
-    ld.put(SSVarU.circleUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircle.class.getName());
+    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circles, circlesObj);
     
     return ld;
   }
   
-  public String getCircleUri() {
-    return SSUri.toStrWithoutSlash(circleUri);
+  public List<SSCircle> getCircles() {
+    return circles;
   }
 }

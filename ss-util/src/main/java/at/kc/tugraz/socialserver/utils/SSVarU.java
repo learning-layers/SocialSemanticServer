@@ -202,6 +202,7 @@ public class SSVarU{
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String target                                         = "target";
   public static final String label                                          = "label";
+  public static final String circleAuthor                                   = "circleAuthor";
   public static final String creationTime                                   = "creationTime";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";

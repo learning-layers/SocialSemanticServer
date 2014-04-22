@@ -64,7 +64,7 @@ public class SSSearchFct {
               
               for(SSSearchResult innerSearchResult : innerSearchResultForOneKeyword) {
                 
-                if(SSUri.isNotSame(innerSearchResult.uri, outerSearchResult.uri)) {
+                if(!SSUri.isSame(innerSearchResult.uri, outerSearchResult.uri)) {
                   resourceExistsForEachTag = false;
                   break;
                 }

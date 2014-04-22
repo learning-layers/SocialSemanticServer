@@ -16,6 +16,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSEntityUserShareFct{
 
@@ -27,12 +28,13 @@ public class SSEntityUserShareFct{
         throw new UnsupportedOperationException("currenlty sharing with circles not possible");
       }
       
-      return SSServCaller.entityUserCircleCreate(
+      return SSServCaller.entityCircleCreate(
         par.user,
         par.entityUri,
         par.userUris,
         SSEntityCircleTypeE.group,
         SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
+        SSUri.get(SSUserGlobals.systemUserURI),
         false);
       
     }catch(Exception error){
@@ -47,6 +49,10 @@ public class SSEntityUserShareFct{
       
       if(!par.circleUris.isEmpty()){
         throw new UnsupportedOperationException("currenlty sharing with circles not possible");
+      }
+      
+      if(SSUri.equals(SSServCaller.entityAuthorGet(par.user, par.entityCircleUri), SSUri.get(SSUserGlobals.systemUserURI))){
+        throw new Exception("user cannot share through a system generated circle");
       }
       
       SSServCaller.entityUserEntitiesToCircleAdd(

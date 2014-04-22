@@ -16,22 +16,34 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSEntityUserCircleTypesForEntityGetPar extends SSServPar{
+public class SSEntityCircleCreatePar extends SSServPar{
 
-  public SSUri entityUri = null;
+  public List<SSUri>               entityUris   = new ArrayList<SSUri>();
+  public List<SSUri>               userUris     = new ArrayList<SSUri>();
+  public SSEntityCircleTypeE       circleType   = null;
+  public SSLabelStr                label        = null;
+  public SSUri                     circleAuthor = null;
   
-  public SSEntityUserCircleTypesForEntityGetPar(final SSServPar par) throws Exception{
+  public SSEntityCircleCreatePar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
     
       if(pars != null){
-        entityUri        = (SSUri)         pars.get(SSVarU.entityUri);
+        circleType       = (SSEntityCircleTypeE)       pars.get(SSVarU.circleType);
+        label            = (SSLabelStr)                pars.get(SSVarU.label);
+        entityUris       = (List<SSUri>)               pars.get(SSVarU.entityUris);
+        userUris         = (List<SSUri>)               pars.get(SSVarU.userUris);
+        circleAuthor     = (SSUri)                     pars.get(SSVarU.circleAuthor);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

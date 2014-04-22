@@ -19,7 +19,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -58,7 +57,7 @@ public class SSCollEntryAddFct{
     
     for(SSCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
-      SSServCaller.entityUserEntitiesToCircleAdd(
+      SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         entityUserCircle.circleUri,
         par.collEntry,
@@ -116,7 +115,7 @@ public class SSCollEntryAddFct{
     
     for(SSCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
-      SSServCaller.entityUserEntitiesToCircleAdd(
+      SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         circle.circleUri,
         par.collEntry,

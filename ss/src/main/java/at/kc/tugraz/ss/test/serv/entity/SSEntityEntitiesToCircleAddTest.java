@@ -26,10 +26,10 @@ import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEntityUserEntitiesToCircleAddTest extends SSServOpTestCaseA{
+public class SSEntityEntitiesToCircleAddTest extends SSServOpTestCaseA{
   
-  public SSEntityUserEntitiesToCircleAddTest(SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityUserEntitiesToCircleAdd);
+  public SSEntityEntitiesToCircleAddTest(SSEntityConf entityConf){
+    super(entityConf, SSMethU.entityEntitiesToCircleAdd);
   }
   
   @Override
@@ -41,8 +41,8 @@ public class SSEntityUserEntitiesToCircleAddTest extends SSServOpTestCaseA{
     
     entityUris.add (SSUri.get("http://www.google.at"));
     
-    final List<SSCircle> userCircles = SSServCaller.entityUserCirclesGet(userUri);
-    final Boolean        result      = SSServCaller.entityUserEntitiesToCircleAdd(userUri, userCircles.get(0).circleUri, entityUris, true);
+    final List<SSCircle> userCircles = SSServCaller.entityUserCirclesGet     (userUri);
+    final SSUri          circleUri   = SSServCaller.entityEntitiesToCircleAdd(userUri, userCircles.get(0).circleUri, entityUris, true);
     
     SSLogU.info("end " + op + "Test");
   }

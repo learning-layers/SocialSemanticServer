@@ -240,7 +240,7 @@ public class SSModelUEPersonPropertySetter {
       for(SSUri personUrl : resources.get(SSStrU.toString(relatedResourceUrl)).relatedPersons){
         
         if (
-          SSUri.isNotSame   (personUrl, resource.resourceUrl) &&
+          !SSUri.isSame   (personUrl, resource.resourceUrl) &&
           SSUri.containsNot (resource.personsRelatedPersons, personUrl)){
           
           resource.personsRelatedPersons.add(personUrl);

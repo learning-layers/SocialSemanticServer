@@ -57,21 +57,6 @@ public class SSCollEntryDeleteFct{
     final SSCollSQLFct             sqlFct, 
     final SSCollUserEntryDeletePar par) throws Exception{
     
-    for(SSCircle userEntityCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
-      
-      switch(userEntityCircle.circleType){
-        case priv:
-        case pub: break;
-        default:{
-          SSServCaller.entityUserEntitiesFromCircleRemove(
-            par.user,
-            userEntityCircle.circleUri,
-            par.collEntry,
-            false);
-        }
-      }
-    }
-    
     sqlFct.removeEntryFromColl(par.coll, par.collEntry);
   }
 }

@@ -33,8 +33,7 @@ public class SSCollMiscFct{
       sqlFct.getUserCollWithEntries(
         userUri,
         collUri,
-        SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri),
-        true);
+        SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri));
     
     for(SSCollEntry entry : coll.entries){
       
