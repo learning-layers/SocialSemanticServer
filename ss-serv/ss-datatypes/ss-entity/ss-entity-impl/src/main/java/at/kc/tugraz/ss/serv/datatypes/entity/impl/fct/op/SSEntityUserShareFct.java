@@ -73,7 +73,8 @@ public class SSEntityUserShareFct{
     }
   }
 
-  public static void shareByEntityHandlers(final SSEntityUserSharePar par) throws Exception{
+  public static void shareByEntityHandlers(
+    final SSEntityUserSharePar par) throws Exception{
     
     try{
       final SSEntityEnum entityType = SSServCaller.entityTypeGet(par.entityUri);

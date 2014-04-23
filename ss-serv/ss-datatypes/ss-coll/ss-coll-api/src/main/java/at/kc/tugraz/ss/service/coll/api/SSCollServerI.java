@@ -23,6 +23,8 @@ import java.util.List;
 
 public interface SSCollServerI{
   
+  public SSUri                      collToCircleAdd                               (final SSServPar parA) throws Exception;
+  public Boolean                    collEntityInCircleTypeForUserIs               (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
   public SSUri                      collUserSetPublic                             (final SSServPar parA) throws Exception;
@@ -36,7 +38,6 @@ public interface SSCollServerI{
   public List<SSColl>               collUserHierarchyGet                          (final SSServPar parA) throws Exception;
   public SSUri                      collUserEntryAdd                              (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesAdd                            (final SSServPar parA) throws Exception;
-  public Boolean                    collEntityInCircleTypeForUserIs               (final SSServPar parA) throws Exception;
   public List<SSTagFrequ>           collUserCumulatedTagsGet                      (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserEntityIsInGet                        (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserCouldSubscribeGet                    (final SSServPar parA) throws Exception;

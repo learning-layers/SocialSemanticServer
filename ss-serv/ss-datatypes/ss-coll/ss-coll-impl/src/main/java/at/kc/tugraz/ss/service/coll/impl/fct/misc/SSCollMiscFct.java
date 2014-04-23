@@ -17,32 +17,89 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSCollMiscFct{
   
-  public static SSColl getUserCollWithEntriesWithCircleTypes(
-    final SSCollSQLFct sqlFct, 
-    final SSUri        userUri, 
+  public static SSColl getCollWithEntriesWithCircleTypes(
+    final SSCollSQLFct sqlFct,
+    final SSUri        userUri,
     final SSUri        collUri) throws Exception{
     
-    final SSColl coll =
-      sqlFct.getUserCollWithEntries(
-        userUri,
-        collUri,
-        SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri));
-    
-    for(SSCollEntry entry : coll.entries){
+    try{
       
-      if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-        entry.circleTypes.clear();
-        entry.circleTypes.addAll(SSServCaller.entityUserCircleTypesForEntityGet(userUri, entry.uri));
+      final SSColl coll =
+        sqlFct.getCollWithEntries(
+          collUri,
+          SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri));
+      
+      for(SSCollEntry entry : coll.entries){
+        
+        if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
+          entry.circleTypes.clear();
+          entry.circleTypes.addAll(SSServCaller.entityUserCircleTypesForEntityGet(userUri, entry.uri));
+        }
       }
+      
+      return coll;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
+  }
+  
+  public static void addCollSubEntitiesToCircle(
+    final SSCollSQLFct sqlFct,
+    final SSUri        userUri,
+    final SSColl       coll,
+    final SSUri        circleUri) throws Exception{
     
-    return coll;
+    try{
+    
+      final List<String> subCollUris = new ArrayList<String>();
+      SSColl             subColl;
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri,
+        circleUri,
+        coll.uri,
+        false);
+      
+      for(SSCollEntry collEntry : coll.entries){
+        
+        SSServCaller.entityEntitiesToCircleAdd(
+          userUri,
+          circleUri,
+          collEntry.uri,
+          false);
+      }
+      
+      sqlFct.getAllChildCollURIs(SSUri.toStr(coll.uri), SSUri.toStr(coll.uri), subCollUris);
+      
+      for(String subCollUri : subCollUris){
+        
+        subColl = sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSEntityCircleTypeE>());
+        
+        for(SSCollEntry collEntry : subColl.entries){
+          
+          SSServCaller.entityEntitiesToCircleAdd(
+            userUri,
+            circleUri,
+            collEntry.uri,
+            false);
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

@@ -88,7 +88,7 @@ public class SSEntityCircleCreateFct{
 
   public static void addEntitiesToCircle(
     final SSEntitySQLFct              sqlFct, 
-    final SSEntityCircleCreatePar par, 
+    final SSEntityCircleCreatePar     par, 
     final SSUri                       circleUri) throws Exception{
   
     if(SSObjU.isNull(par, par.entityUris, circleUri)){
@@ -107,7 +107,7 @@ public class SSEntityCircleCreateFct{
 
   public static void addUsersToCircle(
     final SSEntitySQLFct              sqlFct, 
-    final SSEntityCircleCreatePar par, 
+    final SSEntityCircleCreatePar     par, 
     final SSUri                       circleUri) throws Exception{
     
     if(SSObjU.isNull(par, par.userUris, circleUri)){

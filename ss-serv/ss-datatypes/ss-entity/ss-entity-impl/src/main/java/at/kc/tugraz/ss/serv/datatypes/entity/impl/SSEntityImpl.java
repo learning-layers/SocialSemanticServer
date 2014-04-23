@@ -68,6 +68,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSet
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityCircleCreateFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityUserPublicSetFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityUserShareFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -526,6 +527,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSCircle             circle;
       
       for(SSUri circleUri : circleUris){
+
+        if(
+          !par.withSystemGeneratedCircles &&
+          SSUri.equals(SSServCaller.entityAuthorGet(par.user, circleUri), SSUri.get(SSUserGlobals.systemUserURI))){
+          continue;
+        }
         
         circle              = sqlFct.getCircle            (circleUri);
         circle.circleRights = sqlFct.getCircleRights      (circleUri);
@@ -554,6 +561,20 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         throw new Exception("cannot create other circle type than group");
       }
       
+      for(SSUri userUri: par.userUris){
+        
+        if(!SSServCaller.userExists(userUri)){
+          throw new Exception("cannot share with unknown user");
+        }
+      }
+      
+      for(SSUri entityUri: par.entityUris){
+        
+        if(!SSServCaller.entityUserAllowedIs(par.user, entityUri, SSEntityRightTypeE.addEntityToCircle)){
+          throw new Exception("user cannot access entity to add it to circle");
+        }
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
       final SSUri circleUri =
@@ -565,6 +586,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.label,
           par.user,
           false);
+      
+      SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
+        par.user,
+        par.entityUris,
+        circleUri);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -598,8 +624,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSUri circleUri = SSEntityCircleCreateFct.createCircleWithRights(sqlFct, par);
       
-      SSEntityCircleCreateFct.addEntitiesToCircle(sqlFct, par, circleUri);
-      SSEntityCircleCreateFct.addUsersToCircle   (sqlFct, par, circleUri);
+      SSEntityCircleCreateFct.addEntitiesToCircle         (sqlFct, par, circleUri);
+      SSEntityCircleCreateFct.addUsersToCircle            (sqlFct, par, circleUri);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -626,10 +652,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     final SSEntityUsersToCircleAddPar par = new SSEntityUsersToCircleAddPar(parA);
     
     try{
-      
-      if(!sqlFct.hasCircleRight(par.circleUri, SSEntityRightTypeE.addUserToCircle)){
-        throw new Exception("circle has not enough rights to add user to it");
-      }
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -660,9 +682,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public SSUri entityUserUsersToCircleAdd(final SSServPar parA) throws Exception{
     
-    final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
-    
     try{
+      
+      final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
       
       if(SSUri.equals(SSServCaller.entityAuthorGet(par.user, par.circleUri), SSUri.get(SSUserGlobals.systemUserURI))){
         throw new Exception("user cannot add a user to system generated circle");
@@ -680,9 +702,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri userUri : par.userUris){
-        sqlFct.addUserToCircle(par.circleUri, userUri);
-      }
+      SSServCaller.entityUsersToCircleAdd(
+        par.user, 
+        par.circleUri, 
+        par.userUris, 
+        false);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -866,6 +890,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         throw new Exception("user doesnt have access to circle");
       }
       
+      if(!sqlFct.hasCircleRight(par.circleUri, SSEntityRightTypeE.addEntityToCircle)){
+        throw new Exception("circle has not enough rights to add entity to it");
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityEntitiesToCircleAdd(
@@ -873,6 +901,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.circleUri, 
         par.entityUris, 
         false);
+      
+      SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
+        par.user, 
+        par.entityUris,
+        par.circleUri);
       
       dbSQL.commit(par.shouldCommit);
       

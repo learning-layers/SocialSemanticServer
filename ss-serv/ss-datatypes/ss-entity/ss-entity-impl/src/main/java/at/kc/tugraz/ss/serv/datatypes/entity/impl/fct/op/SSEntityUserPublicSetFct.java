@@ -29,7 +29,8 @@ public class SSEntityUserPublicSetFct{
     }
   }
 
-  public static void setPublicByEntityHandlers(final SSEntityUserPublicSetPar par) throws Exception{
+  public static void setPublicByEntityHandlers(
+    final SSEntityUserPublicSetPar par) throws Exception{
     
     try{
       final SSEntityEnum entityType = SSServCaller.entityTypeGet(par.entityUri);

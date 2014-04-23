@@ -217,6 +217,7 @@ public enum SSMethU{
   
   
   //coll
+  collToCircleAdd                                     ,
   collUserRootGet                                     ,
   collUserParentGet                                   ,
   collUserEntryAdd                                    ,

@@ -85,7 +85,7 @@ public class SSCollUserShareWithUserFct{
     final SSCollUserShareWithUserPar par) throws Exception{
     
     try{
-      SSServCaller.entityUserUsersToCircleAdd(
+      SSServCaller.entityUsersToCircleAdd(
         par.user,
         par.collCircleUri,
         sqlFct.getCollUsers(par.collUri),

@@ -19,6 +19,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
   public static final String collCircleUri                                  = "collCircleUri";
   public static final String userUriToShareWith                             = "userUriToShareWith";
   public static final String circleRights                                   = "circleRights";

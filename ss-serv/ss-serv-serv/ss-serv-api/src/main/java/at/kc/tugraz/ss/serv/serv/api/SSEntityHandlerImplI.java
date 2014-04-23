@@ -28,14 +28,6 @@ import java.util.List;
 
 public interface SSEntityHandlerImplI{
 
-  //  public Boolean isUserAllowedTo(
-//    final SSEntityEnum              entityType, 
-//    final SSUri                     userUri, 
-//    final SSUri                     entityUri,
-//    final List<SSUri>               entityCircleUris,
-//    final SSAccessRightsRightTypeE  accessRight) throws Exception;   
-
-  
   //TODO dtheiler: do this
 //  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception;
 
@@ -62,4 +54,10 @@ public interface SSEntityHandlerImplI{
   public Boolean shareUserEntity(
     final SSEntityUserSharePar par, 
     final SSEntityEnum         entityType) throws Exception;
+
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception;
 }

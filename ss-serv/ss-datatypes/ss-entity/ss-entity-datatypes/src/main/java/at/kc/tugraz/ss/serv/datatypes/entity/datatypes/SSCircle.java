@@ -38,8 +38,8 @@ public class SSCircle extends SSEntityA{
   public static SSCircle get(
     final SSUri                          circleUri,
     final SSLabelStr                     label, 
-    final SSEntityCircleTypeE      circleType, 
-    final List<SSEntityRightTypeE> circleRights,
+    final SSEntityCircleTypeE            circleType, 
+    final List<SSEntityRightTypeE>       circleRights,
     final List<SSUri>                    userUris,
     final List<SSUri>                    entityUris){
     
@@ -49,8 +49,8 @@ public class SSCircle extends SSEntityA{
   protected SSCircle(
     final SSUri                          circleUri,
     final SSLabelStr                     label,
-    final SSEntityCircleTypeE      circleType, 
-    final List<SSEntityRightTypeE> circleRights,
+    final SSEntityCircleTypeE            circleType, 
+    final List<SSEntityRightTypeE>       circleRights,
     final List<SSUri>                    userUris,
     final List<SSUri>                    entityUris){
     
@@ -100,5 +100,29 @@ public class SSCircle extends SSEntityA{
     ld.put(SSVarU.entityUris, entityUrisObj);
     
     return ld;
+  }
+
+  public String getCircleUri(){
+    return SSUri.toStrWithoutSlash(circleUri);
+  }
+
+  public String getLabel(){
+    return SSLabelStr.toStr(label);
+  }
+
+  public SSEntityCircleTypeE getCircleType(){
+    return circleType;
+  }
+
+  public List<SSEntityRightTypeE> getCircleRights(){
+    return circleRights;
+  }
+
+  public List<String> getUserUris(){
+    return SSUri.toStrWithoutSlash(userUris);
+  }
+
+  public List<String> getEntityUris(){
+    return SSUri.toStrWithoutSlash(entityUris);
   }
 }

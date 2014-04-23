@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityUserCirclesGetPar extends SSServPar{
+public class SSCollToCircleAddPar extends SSServPar{
 
-  public Boolean withSystemGeneratedCircles = false;
-    
-  public SSEntityUserCirclesGetPar(final SSServPar par) throws Exception{
+  public SSUri collUri         = null;
+  public SSUri collCircleUri   = null;
+  
+  public SSCollToCircleAddPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
-      
+    
       if(pars != null){
-        withSystemGeneratedCircles = (Boolean) pars.get(SSVarU.withSystemGeneratedCircles);
-      }
-      
-      if(clientPars != null){
-        withSystemGeneratedCircles = false;
+        collUri       = (SSUri)       pars.get(SSVarU.collUri);
+        collCircleUri = (SSUri)       pars.get(SSVarU.collCircleUri);
       }
       
     }catch(Exception error){

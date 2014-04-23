@@ -93,6 +93,16 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     
     return false;
   }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }
     
   @Override
   public SSEntityDescA getDescForEntity(

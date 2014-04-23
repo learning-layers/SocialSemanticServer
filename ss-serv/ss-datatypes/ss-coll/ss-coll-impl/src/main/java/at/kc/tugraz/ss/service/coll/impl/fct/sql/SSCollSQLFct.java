@@ -600,18 +600,23 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSColl getColl(
-    final SSUri collUri) throws Exception{
+  private SSColl getColl(
+    final SSUri                     collUri, 
+    final List<SSEntityCircleTypeE> circleTypes) throws Exception{
    
-    if(SSObjU.isNull(collUri)){
+    if(SSObjU.isNull(collUri, circleTypes)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return null;
     }
     
+//    if(!ownsUserColl(userUri, collUri)){
+//      SSServErrReg.regErrThrow(new Exception("user doesnt have access to coll"));
+//      return null;
+//    }
+    
     final List<String>        tableNames              = new ArrayList<String>();
     final List<String>        columnNames             = new ArrayList<String>();
     final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    SSColl                    coll                    = null;
     ResultSet                 resultSet               = null;
     
     try{
@@ -620,62 +625,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
       columnNames.add             (SSSQLVarU.collId);
       columnNames.add             (SSSQLVarU.author);
       columnNames.add             (SSSQLVarU.label);
-      whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
-      
-      resultSet =
-        dbSQL.selectCertainWhere(
-        tableNames,
-        columnNames,
-        whereParNamesWithValues,
-        SSSQLVarU.collId + SSStrU.equal + SSSQLVarU.id);
-      
-      resultSet.first();
-      
-      coll = 
-        SSColl.get(
-        collUri,
-        null, 
-        bindingStrToUri  (resultSet, SSSQLVarU.author), 
-        bindingStr       (resultSet, SSSQLVarU.label), 
-        null);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return coll;
-  }
-  
-  public SSColl getUserColl(
-    final SSUri userUri, 
-    final SSUri collUri, 
-    final List<SSEntityCircleTypeE> circleTypes) throws Exception{
-   
-    if(SSObjU.isNull(userUri, collUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-    
-    if(!ownsUserColl(userUri, collUri)){
-      SSServErrReg.regErrThrow(new Exception("user doesnt have access to coll"));
-      return null;
-    }
-    
-    final List<String>        tableNames              = new ArrayList<String>();
-    final List<String>        columnNames             = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    try{
-      tableNames.add              (collUserTable);
-      tableNames.add              (entityTable);
-      columnNames.add             (SSSQLVarU.userId);
-      columnNames.add             (SSSQLVarU.collId);
-      columnNames.add             (SSSQLVarU.author);
-      columnNames.add             (SSSQLVarU.label);
-      whereParNamesWithValues.put (SSSQLVarU.userId, userUri.toString());
       whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
       
       resultSet =
@@ -702,12 +651,11 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSColl getUserCollWithEntries(
-    final SSUri                           userUri, 
+  public SSColl getCollWithEntries(
     final SSUri                           collUri,
     final List<SSEntityCircleTypeE>       circleTypes) throws Exception{
 
-    if(SSObjU.isNull(userUri, collUri, circleTypes)){
+    if(SSObjU.isNull(collUri, circleTypes)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return null;
     }
@@ -721,7 +669,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      coll = getUserColl(userUri, collUri, circleTypes);
+      coll = getColl(collUri, circleTypes);
       
       tableNames.add              (collEntryPosTable); 
       tableNames.add              (entityTable);
@@ -1465,4 +1413,53 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //    newValues.put (SSSQLVarU.collSpace, SSSpaceEnum.sharedSpace.toString());
 //    
 //    dbSQL.updateWhere(collUserTable, updatePars, newValues);
+//  }
+
+
+//public SSColl getColl(
+//    final SSUri collUri) throws Exception{
+//   
+//    if(SSObjU.isNull(collUri)){
+//      SSServErrReg.regErrThrow(new Exception("pars null"));
+//      return null;
+//    }
+//    
+//    final List<String>        tableNames              = new ArrayList<String>();
+//    final List<String>        columnNames             = new ArrayList<String>();
+//    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+//    SSColl                    coll                    = null;
+//    ResultSet                 resultSet               = null;
+//    
+//    try{
+//      tableNames.add              (collTable);
+//      tableNames.add              (entityTable);
+//      columnNames.add             (SSSQLVarU.collId);
+//      columnNames.add             (SSSQLVarU.author);
+//      columnNames.add             (SSSQLVarU.label);
+//      whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
+//      
+//      resultSet =
+//        dbSQL.selectCertainWhere(
+//        tableNames,
+//        columnNames,
+//        whereParNamesWithValues,
+//        SSSQLVarU.collId + SSStrU.equal + SSSQLVarU.id);
+//      
+//      resultSet.first();
+//      
+//      coll = 
+//        SSColl.get(
+//        collUri,
+//        null, 
+//        bindingStrToUri  (resultSet, SSSQLVarU.author), 
+//        bindingStr       (resultSet, SSSQLVarU.label), 
+//        null);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return coll;
 //  }
