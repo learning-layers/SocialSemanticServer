@@ -36,7 +36,7 @@ public interface SSEntityServerI {
   public SSUri                           entityUserPublicSet                      (final SSServPar parA) throws Exception;
   public SSUri                           entityUserShare                          (final SSServPar parA) throws Exception;
   public List<SSCircle>                  entityUserCirclesGet                     (final SSServPar parA) throws Exception;
-  public List<SSEntityCircleTypeE>       entityUserCircleTypesForEntityGet        (final SSServPar parA) throws Exception;
+  public List<SSEntityCircleTypeE>       entityUserEntityCircleTypesGet           (final SSServPar parA) throws Exception;
   public List<SSCircle>                  entityUserEntityCirclesGet               (final SSServPar parA) throws Exception; 
   
   public SSUri                           entityCircleURIPublicGet                 (final SSServPar parA) throws Exception;

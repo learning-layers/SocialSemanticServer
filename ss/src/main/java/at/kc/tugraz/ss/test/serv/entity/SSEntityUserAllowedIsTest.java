@@ -19,7 +19,6 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
@@ -38,10 +37,9 @@ public class SSEntityUserAllowedIsTest extends SSServOpTestCaseA{
 //    final List<SSCircle> userCircles = SSServCaller.accessRightsUserCirclesGet(userUri);
     
     final Boolean result = 
-      SSServCaller.entityUserAllowedIs(
+      SSServCaller.entityUserCanAll(
         userUri, 
-        SSUri.get("http://www.google.at"), 
-        SSEntityRightTypeE.all);
+        SSUri.get("http://www.google.at"));
     
     SSLogU.info("end " + op + "Test");
   }

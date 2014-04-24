@@ -28,8 +28,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -70,16 +68,21 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   
   @Override
   public Boolean setUserEntityPublic(
-    final SSEntityUserPublicSetPar par, 
-    final SSEntityEnum             entityType) throws Exception{
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
 
     return false;
   }
   
   @Override
   public Boolean shareUserEntity(
-    final SSEntityUserSharePar par,
-    final SSEntityEnum         entityType) throws Exception{
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
     
     return false;
   }
@@ -97,8 +100,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
   @Override

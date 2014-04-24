@@ -18,11 +18,8 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserShareWithUserPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SSCollUserShareWithUserFct{
 
@@ -39,41 +36,6 @@ public class SSCollUserShareWithUserFct{
         par.collUri,
         false,
         true);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void addSubCollsWithEntriesToSharedCircle(
-    final SSCollSQLFct               sqlFct, 
-    final SSCollUserShareWithUserPar par) throws Exception{
-    
-    try{
-      final List<String>  subCollUris          = new ArrayList<String>();
-      final List<SSUri>   collAndCollEntryUris = new ArrayList<SSUri>();
-      
-      sqlFct.getAllChildCollURIs(SSUri.toStr(par.collUri), SSUri.toStr(par.collUri), subCollUris);
-      
-      for(String subCollUri : subCollUris){
-        
-        if(!SSUri.contains(collAndCollEntryUris, SSUri.get(subCollUri))){
-          collAndCollEntryUris.add(SSUri.get(subCollUri));
-        }
-        
-        for(SSCollEntry collEntry : SSServCaller.collUserWithEntries(par.user, SSUri.get(subCollUri)).entries){
-          
-          if(!SSUri.contains(collAndCollEntryUris, collEntry.uri)){
-            collAndCollEntryUris.add(collEntry.uri);
-          }
-        }
-      }
-      
-      SSServCaller.entityEntitiesToCircleAdd(
-        par.user,
-        par.collCircleUri,
-        collAndCollEntryUris,
-        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

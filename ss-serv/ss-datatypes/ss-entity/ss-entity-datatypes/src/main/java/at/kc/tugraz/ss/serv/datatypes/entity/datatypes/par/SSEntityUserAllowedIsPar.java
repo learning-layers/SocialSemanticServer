@@ -23,7 +23,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 
 public class SSEntityUserAllowedIsPar extends SSServPar{
 
-  public SSUri                     entityUri    = null;
+  public SSUri               entityUri    = null;
   public SSEntityRightTypeE  accessRight  = null;
   
   public SSEntityUserAllowedIsPar(final SSServPar par) throws Exception{
@@ -33,12 +33,12 @@ public class SSEntityUserAllowedIsPar extends SSServPar{
     try{
     
       if(pars != null){
-        entityUri       = (SSUri)                     pars.get(SSVarU.entityUri);
+        entityUri       = (SSUri)               pars.get(SSVarU.entityUri);
         accessRight     = (SSEntityRightTypeE)  pars.get(SSVarU.accessRight);
       }
       
       if(clientPars != null){
-        entityUri       = SSUri.get                    (clientPars.get(SSVarU.entityUri));
+        entityUri       = SSUri.get              (clientPars.get(SSVarU.entityUri));
         accessRight     = SSEntityRightTypeE.get (clientPars.get(SSVarU.accessRight));
       }
     }catch(Exception error){

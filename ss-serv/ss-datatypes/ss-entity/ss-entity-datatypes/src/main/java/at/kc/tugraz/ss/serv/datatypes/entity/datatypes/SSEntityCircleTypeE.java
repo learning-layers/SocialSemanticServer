@@ -40,13 +40,13 @@ public enum SSEntityCircleTypeE implements SSJSONLDPropI{
   
   public static Boolean equals(
     final SSEntityCircleTypeE circleType1, 
-    final SSEntityCircleTypeE circleType2) throws Exception{
+    final SSEntityCircleTypeE circleType2){
 
     if(SSObjU.isNull(circleType1, circleType2)){
       return false;
     }
     
-    return circleType1.toString().equals(circleType2.toStr(circleType2));
+    return circleType1.toString().equals(circleType2.toString());
   }
   
   public static Boolean contains(

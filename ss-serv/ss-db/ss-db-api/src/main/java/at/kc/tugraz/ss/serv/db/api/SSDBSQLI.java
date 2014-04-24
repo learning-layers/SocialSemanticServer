@@ -51,8 +51,8 @@ public interface SSDBSQLI{
   public ResultSet selectCertainDistinctWhere(
     final List<String>        tableNames, 
     final List<String>        columnNames, 
-    final Map<String, String> whereParNamesWithValues, 
-    final List<String>        whereFixedRestrictions) throws Exception;
+    final Map<String, String> where, 
+    final List<String>        whereFixed) throws Exception;
   
   public ResultSet selectCertainWhereOrderBy(
     final List<String>        tableNames, 

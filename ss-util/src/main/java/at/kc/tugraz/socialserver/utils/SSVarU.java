@@ -192,6 +192,7 @@ public class SSVarU{
   public static final String pass                                           = "pass";
   public static final String user                                           = "user";
   public static final String collUri                                        = "collUri";
+  public static final String publicCircleUri                                = "publicCircleUri";
   public static final String file                                           = "file";
   public static final String op                                             = "op";
   public static final String error                                          = "error";

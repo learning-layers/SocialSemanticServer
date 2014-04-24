@@ -57,24 +57,25 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return collUri;
   }
   
-  public void addUserRootColl(final SSUri rootCollUri, final SSUri userUri) throws Exception{
+  public void addUserRootColl(
+    final SSUri rootCollUri, 
+    final SSUri userUri) throws Exception{
     
     if(SSObjU.isNull(rootCollUri, userUri)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return;
     }
     
-    Map<String, String> insertPars;
+    final Map<String, String> insertPars = new HashMap<String, String>();
         
     //add coll to coll root table
-    insertPars = new HashMap<String, String>();
     insertPars.put(SSSQLVarU.userId, userUri.toString());
     insertPars.put(SSSQLVarU.collId, rootCollUri.toString());
     
     dbSQL.insert(collRootTable, insertPars);
     
     //add coll to user coll table
-    insertPars = new HashMap<String, String>();
+    insertPars.clear();
     insertPars.put(SSSQLVarU.userId,    userUri.toString());
     insertPars.put(SSSQLVarU.collId,    rootCollUri.toString());
     
@@ -232,7 +233,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   } 
   
-  public List<String> getAllUserCollURIs(final SSUri userUri) throws Exception{
+  public List<String> getAllUserCollURIs(
+    final SSUri userUri) throws Exception{
      
     ResultSet resultSet = null;
     
@@ -261,15 +263,16 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri userUri, 
     final SSUri collUri) throws Exception {
     
-    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
-    ResultSet                 resultSet                = null;
+    ResultSet resultSet = null;
     
     try{
 
-      whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
-      whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.userId, userUri.toString());
+      where.put(SSSQLVarU.collId, collUri.toString());
     
-      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+      resultSet = dbSQL.selectAllWhere(collUserTable, where);
 
       return resultSet.first();
     }catch(Exception error){
@@ -740,7 +743,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSUri getUserDirectParentCollURI(final SSUri userUri, final SSUri childColl) throws Exception{
+  public SSUri getUserDirectParentCollURI(
+    final SSUri userUri, 
+    final SSUri childColl) throws Exception{
     
     if(isRootColl(childColl)){
       return childColl;
@@ -825,14 +830,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
       return null;
     }
     
-    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
-    final List<SSUri>         users                    = new ArrayList<SSUri>();
-    ResultSet                 resultSet                = null;
+    final Map<String, String> where       = new HashMap<String, String>();
+    final List<SSUri>         users       = new ArrayList<SSUri>();
+    ResultSet                 resultSet   = null;
     
     try{
-      whereParNamesWithValues.put(SSSQLVarU.collId, collUri.toString());
+      where.put(SSSQLVarU.collId, collUri.toString());
       
-      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+      resultSet = dbSQL.selectAllWhere(collUserTable, where);
       
       while(resultSet.next()){
         users.add(bindingStrToUri(resultSet, SSSQLVarU.userId));

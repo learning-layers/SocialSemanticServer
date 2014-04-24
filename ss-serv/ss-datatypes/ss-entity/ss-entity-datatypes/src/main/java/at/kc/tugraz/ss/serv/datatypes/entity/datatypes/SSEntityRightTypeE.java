@@ -24,12 +24,7 @@ public enum SSEntityRightTypeE implements SSJSONLDPropI{
 
   all,
   read,
-  edit,
-  addMetadata,
-  addUserToCircle,
-  addEntityToCircle,
-  removeEntity,
-  removeUser;
+  edit;
   
   public static SSEntityRightTypeE get(final String value) throws Exception{
     return SSEntityRightTypeE.valueOf(value);
@@ -38,7 +33,18 @@ public enum SSEntityRightTypeE implements SSJSONLDPropI{
   public static String toStr(final SSEntityRightTypeE accessRight){
     return SSStrU.toString(accessRight);
   }
-
+  
+  public static Boolean equals(
+    final SSEntityRightTypeE right1,
+    final SSEntityRightTypeE right2){
+    
+    if(SSObjU.isNull(right1, right2)){
+      return false;
+    }
+    
+    return right1.toString().equals(right2.toString());
+  }
+  
   public static Boolean contains(
     final List<SSEntityRightTypeE> rights, 
     final SSEntityRightTypeE       certainRight){
@@ -49,7 +55,7 @@ public enum SSEntityRightTypeE implements SSJSONLDPropI{
     
     for(SSEntityRightTypeE right : rights){
       
-      if(SSStrU.equals(toStr(right), toStr(certainRight))){
+      if(equals(right, certainRight)){
         return true;
       }
     } 

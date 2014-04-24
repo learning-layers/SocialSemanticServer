@@ -20,11 +20,11 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityUserCircleTypesForEntityGetPar extends SSServPar{
+public class SSEntityUserEntityCircleTypesGetPar extends SSServPar{
 
   public SSUri entityUri = null;
   
-  public SSEntityUserCircleTypesForEntityGetPar(final SSServPar par) throws Exception{
+  public SSEntityUserEntityCircleTypesGetPar(final SSServPar par) throws Exception{
     
     super(par);
     

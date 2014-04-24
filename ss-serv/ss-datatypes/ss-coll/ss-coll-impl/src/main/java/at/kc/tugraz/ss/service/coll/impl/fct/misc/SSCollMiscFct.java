@@ -38,13 +38,13 @@ public class SSCollMiscFct{
       final SSColl coll =
         sqlFct.getCollWithEntries(
           collUri,
-          SSServCaller.entityUserCircleTypesForEntityGet(userUri, collUri));
+          SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
       
       for(SSCollEntry entry : coll.entries){
         
         if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
           entry.circleTypes.clear();
-          entry.circleTypes.addAll(SSServCaller.entityUserCircleTypesForEntityGet(userUri, entry.uri));
+          entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.uri));
         }
       }
       
@@ -56,50 +56,95 @@ public class SSCollMiscFct{
     }
   }
   
-  public static void addCollSubEntitiesToCircle(
-    final SSCollSQLFct sqlFct,
-    final SSUri        userUri,
-    final SSColl       coll,
-    final SSUri        circleUri) throws Exception{
+  public static void addCollAndSubCollsWithEntriesToCircle(
+    final SSCollSQLFct               sqlFct,
+    final SSUri                      userUri,
+    final SSColl                     startColl,
+    final SSUri                      circleUri) throws Exception{
     
     try{
-    
-      final List<String> subCollUris = new ArrayList<String>();
-      SSColl             subColl;
+      final List<String>  subCollUris          = new ArrayList<String>();
+      final List<SSUri>   collAndCollEntryUris = new ArrayList<SSUri>();
+      
+      //add coll and coll direct entry uris
+      collAndCollEntryUris.add(startColl.uri);
+      
+      for(SSCollEntry collEntry : startColl.entries){
+        collAndCollEntryUris.add(collEntry.uri);
+      }
+      
+      //add all coll sub coll und entry uris
+      sqlFct.getAllChildCollURIs(SSUri.toStr(startColl.uri), SSUri.toStr(startColl.uri), subCollUris);
+      
+      for(String subCollUri : subCollUris){
+        
+        if(!SSUri.contains(collAndCollEntryUris, SSUri.get(subCollUri))){
+          collAndCollEntryUris.add(SSUri.get(subCollUri));
+        }
+        
+        for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSEntityCircleTypeE>()).entries){
+          
+          if(!SSUri.contains(collAndCollEntryUris, collEntry.uri)){
+            collAndCollEntryUris.add(collEntry.uri);
+          }
+        }
+      }
       
       SSServCaller.entityEntitiesToCircleAdd(
         userUri,
         circleUri,
-        coll.uri,
+        collAndCollEntryUris,
         false);
-      
-      for(SSCollEntry collEntry : coll.entries){
-        
-        SSServCaller.entityEntitiesToCircleAdd(
-          userUri,
-          circleUri,
-          collEntry.uri,
-          false);
-      }
-      
-      sqlFct.getAllChildCollURIs(SSUri.toStr(coll.uri), SSUri.toStr(coll.uri), subCollUris);
-      
-      for(String subCollUri : subCollUris){
-        
-        subColl = sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSEntityCircleTypeE>());
-        
-        for(SSCollEntry collEntry : subColl.entries){
-          
-          SSServCaller.entityEntitiesToCircleAdd(
-            userUri,
-            circleUri,
-            collEntry.uri,
-            false);
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 }
+
+//  public static void addCollAndSubEntitiesToCircle(
+//    final SSCollSQLFct sqlFct,
+//    final SSUri        userUri,
+//    final SSColl       coll,
+//    final SSUri        circleUri) throws Exception{
+//
+//    try{
+//
+//      final List<String> subCollUris = new ArrayList<String>();
+//      SSColl             subColl;
+//
+//      SSServCaller.entityEntitiesToCircleAdd(
+//        userUri,
+//        circleUri,
+//        coll.uri,
+//        false);
+//      
+//      for(SSCollEntry collEntry : coll.entries){
+//        
+//        SSServCaller.entityEntitiesToCircleAdd(
+//          userUri,
+//          circleUri,
+//          collEntry.uri,
+//          false);
+//      }
+//      
+//      sqlFct.getAllChildCollURIs(SSUri.toStr(coll.uri), SSUri.toStr(coll.uri), subCollUris);
+//      
+//      for(String subCollUri : subCollUris){
+//        
+//        subColl = sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSEntityCircleTypeE>());
+//        
+//        for(SSCollEntry collEntry : subColl.entries){
+//          
+//          SSServCaller.entityEntitiesToCircleAdd(
+//            userUri,
+//            circleUri,
+//            collEntry.uri,
+//            false);
+//        }
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }

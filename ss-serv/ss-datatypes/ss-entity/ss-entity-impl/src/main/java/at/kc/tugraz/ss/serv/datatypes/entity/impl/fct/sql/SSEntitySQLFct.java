@@ -346,53 +346,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSCircle getCircle(
-    final SSUri circleUri) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      if(SSObjU.isNull(circleUri)){
-        throw new Exception("pars not ok");
-      }
-      
-      final List<String>        tableNames            = new ArrayList<String>();
-      final List<String>        columnNames           = new ArrayList<String>();
-      final Map<String, String> where                 = new HashMap<String, String>();
-      
-      tableNames.add  (circleTable);
-      tableNames.add  (entityTable);
-      columnNames.add (SSSQLVarU.label);
-      columnNames.add (SSSQLVarU.circleId);
-      columnNames.add (SSSQLVarU.circleType);
-      
-      where.put(SSSQLVarU.circleId, SSUri.toStr(circleUri));
-      
-      resultSet =
-        dbSQL.selectCertainWhere(
-          tableNames,
-          columnNames,
-          where,
-          SSSQLVarU.circleId + SSStrU.equal + SSSQLVarU.id);
-      
-      resultSet.first();
-      
-      return SSCircle.get(
-        bindingStrToUri   (resultSet, SSSQLVarU.circleId),
-        bindingStrToLabel (resultSet, SSSQLVarU.label),
-        SSEntityCircleTypeE.get(bindingStr(resultSet, SSSQLVarU.circleType)),
-        null,
-        null,
-        null);
-      
-    }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   public SSUri addCircle(
     final SSUri                     circleUri, 
     final SSEntityCircleTypeE circleType) throws Exception{
@@ -450,7 +403,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public Boolean hasCircleRight(
-    final SSUri                    circleUri,
+    final SSUri              circleUri,
     final SSEntityRightTypeE accessRight) throws Exception{
     
     ResultSet resultSet = null;
@@ -638,7 +591,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         throw new Exception("pars not ok");
       }
       
-      final Map<String, String>             where  = new HashMap<String, String>();
+      final Map<String, String>       where  = new HashMap<String, String>();
       final List<SSEntityRightTypeE>  rights = new ArrayList<SSEntityRightTypeE>();
       
       where.put(SSSQLVarU.circleId,      SSUri.toStr(circleUri));
@@ -717,7 +670,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getEntityCircleURIs(
+  public List<SSEntityCircleTypeE> getEntityCircleTypes(
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -728,27 +681,238 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         throw new Exception("pars not ok");
       }
       
-      final Map<String, String>   where       = new HashMap<String, String>();
-      final List<String>          columnNames = new ArrayList<String>();
-      final List<SSUri>           circleUris  = new ArrayList<SSUri>();
+      final List<SSEntityCircleTypeE> circleTypes = new ArrayList<SSEntityCircleTypeE>();
+      final List<String>              tableNames  = new ArrayList<String>();
+      final Map<String, String>       where       = new HashMap<String, String>();
+      final List<String>              columnNames = new ArrayList<String>();
+      final List<String>              whereFixed  = new ArrayList<String>();
+      SSEntityCircleTypeE             circleType;
+        
+      tableNames.add(circleEntitiesTable);
+      tableNames.add(circleTable);
+
+      columnNames.add(SSSQLVarU.circleType);
       
       where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
       
-      columnNames.add(SSSQLVarU.circleId);
-
-      resultSet = dbSQL.selectCertainDistinctWhere(circleEntitiesTable, columnNames, where);
+      whereFixed.add(circleTable + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal + circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
+      
+      resultSet = dbSQL.selectCertainDistinctWhere(
+        tableNames, 
+        columnNames, 
+        where, 
+        whereFixed);
       
       while(resultSet.next()){
-        circleUris.add(bindingStrToUri(resultSet, SSSQLVarU.circleId));
+        
+        circleType = SSEntityCircleTypeE.get(bindingStr(resultSet, SSSQLVarU.circleType));
+        
+        if(!SSEntityCircleTypeE.contains(circleTypes, circleType)){
+          circleTypes.add(circleType);
+        }
       }
       
-      return circleUris;
+      return circleTypes;
     }catch(Exception error){
       dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
+  
+  public List<SSEntityCircleTypeE> getUserEntityCircleTypes(
+    final SSUri userUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entityUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final List<SSEntityCircleTypeE> circleTypes = new ArrayList<SSEntityCircleTypeE>();
+      final List<String>              tableNames  = new ArrayList<String>();
+      final Map<String, String>       where       = new HashMap<String, String>();
+      final List<String>              columnNames = new ArrayList<String>();
+      final List<String>              whereFixed  = new ArrayList<String>();
+      SSEntityCircleTypeE             circleType;
+      
+      tableNames.add(circleUsersTable);
+      tableNames.add(circleEntitiesTable);
+      tableNames.add(circleTable);
+
+      columnNames.add(SSSQLVarU.circleType);
+      
+      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
+      where.put(SSSQLVarU.userId,   SSUri.toStr(userUri));
+      
+      whereFixed.add(circleTable      + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal + circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
+      whereFixed.add(circleTable      + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal + circleUsersTable    + SSStrU.dot + SSSQLVarU.circleId);
+      
+      resultSet = dbSQL.selectCertainDistinctWhere(
+        tableNames, 
+        columnNames, 
+        where, 
+        whereFixed);
+      
+      while(resultSet.next()){
+        
+        circleType = SSEntityCircleTypeE.get(bindingStr(resultSet, SSSQLVarU.circleType));
+        
+        if(!SSEntityCircleTypeE.contains(circleTypes, circleType)){
+          circleTypes.add(circleType);
+        }
+      }
+      
+      return circleTypes;
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSCircle> getUserEntityCircles(
+    final SSUri userUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entityUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final List<SSCircle>            circles     = new ArrayList<SSCircle>();
+      final List<String>              tableNames  = new ArrayList<String>();
+      final Map<String, String>       where       = new HashMap<String, String>();
+      final List<String>              columnNames = new ArrayList<String>();
+      final List<String>              whereFixed  = new ArrayList<String>();
+      
+      tableNames.add(circleUsersTable);
+      tableNames.add(circleEntitiesTable);
+      tableNames.add(circleTable);
+      tableNames.add(entityTable);
+      
+      columnNames.add(SSSQLVarU.circleId);
+      columnNames.add(SSSQLVarU.label);
+      columnNames.add(SSSQLVarU.circleType);
+      
+      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
+      where.put(SSSQLVarU.userId,   SSUri.toStr(userUri));
+      
+      whereFixed.add(circleTable      + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal + circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
+      whereFixed.add(circleTable      + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal + circleUsersTable    + SSStrU.dot + SSSQLVarU.circleId);
+      whereFixed.add(circleTable      + SSStrU.dot + SSSQLVarU.circleId + SSStrU.equal +                                    SSSQLVarU.id);
+      
+      resultSet = dbSQL.selectCertainDistinctWhere(
+        tableNames, 
+        columnNames, 
+        where, 
+        whereFixed);
+      
+      while(resultSet.next()){
+        
+        circles.add(
+          SSCircle.get(
+            bindingStrToUri         (resultSet, SSSQLVarU.circleId),
+            bindingStrToLabel       (resultSet, SSSQLVarU.label),
+            SSEntityCircleTypeE.get (bindingStr(resultSet, SSSQLVarU.circleType)),
+            null, 
+            null, 
+            null));
+      }
+      
+      return circles;
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
+  public SSCircle getCircle(
+    final SSUri circleUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(circleUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final List<String>        tableNames            = new ArrayList<String>();
+      final List<String>        columnNames           = new ArrayList<String>();
+      final Map<String, String> where                 = new HashMap<String, String>();
+      
+      tableNames.add  (circleTable);
+      tableNames.add  (entityTable);
+      columnNames.add (SSSQLVarU.label);
+      columnNames.add (SSSQLVarU.circleId);
+      columnNames.add (SSSQLVarU.circleType);
+      
+      where.put(SSSQLVarU.circleId, SSUri.toStr(circleUri));
+      
+      resultSet =
+        dbSQL.selectCertainWhere(
+          tableNames,
+          columnNames,
+          where,
+          SSSQLVarU.circleId + SSStrU.equal + SSSQLVarU.id);
+      
+      resultSet.first();
+      
+      return SSCircle.get(
+        bindingStrToUri   (resultSet, SSSQLVarU.circleId),
+        bindingStrToLabel (resultSet, SSSQLVarU.label),
+        SSEntityCircleTypeE.get(bindingStr(resultSet, SSSQLVarU.circleType)),
+        null,
+        null,
+        null);
+      
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+//  public List<SSUri> getEntityCircleURIs(
+//    final SSUri entityUri) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      if(SSObjU.isNull(entityUri)){
+//        throw new Exception("pars not ok");
+//      }
+//      
+//      final Map<String, String>   where       = new HashMap<String, String>();
+//      final List<String>          columnNames = new ArrayList<String>();
+//      final List<SSUri>           circleUris  = new ArrayList<SSUri>();
+//      
+//      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
+//      
+//      columnNames.add(SSSQLVarU.circleId);
+//
+//      resultSet = dbSQL.selectCertainDistinctWhere(circleEntitiesTable, columnNames, where);
+//      
+//      while(resultSet.next()){
+//        circleUris.add(bindingStrToUri(resultSet, SSSQLVarU.circleId));
+//      }
+//      
+//      return circleUris;
+//    }catch(Exception error){
+//      dbSQL.closeStmt(resultSet);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
 
   public SSEntityCircleTypeE getCircleType(
     final SSUri circleUri) throws Exception{
@@ -777,6 +941,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return null;
     }
   }
+
+  
 }
 
 

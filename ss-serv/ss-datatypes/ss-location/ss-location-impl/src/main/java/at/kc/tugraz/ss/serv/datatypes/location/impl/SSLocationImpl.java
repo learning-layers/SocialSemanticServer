@@ -28,8 +28,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationServerI;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.desc.SSLocationDesc;
@@ -65,15 +63,19 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     if(!par.removeUserLocations){
       return;
     }
     
     try{
-      SSServCaller.locationsUserRemove(par.user, par.entityUri, shouldCommit);
+      
+      SSServCaller.locationsUserRemove(
+        par.user, 
+        par.entityUri, 
+        false);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -81,16 +83,21 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   
   @Override
   public Boolean setUserEntityPublic(
-    final SSEntityUserPublicSetPar par, 
-    final SSEntityEnum             entityType) throws Exception{
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
 
     return false;
   }
   
   @Override
   public Boolean shareUserEntity(
-    final SSEntityUserSharePar par,
-    final SSEntityEnum         entityType) throws Exception{
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
     
     return false;
   }

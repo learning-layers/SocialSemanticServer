@@ -26,9 +26,7 @@ import java.util.List;
 public class SSEntityUserSharePar extends SSServPar{
   
   public SSUri        entityUri       = null;
-  public SSUri        entityCircleUri = null;
   public List<SSUri>  userUris        = new ArrayList<SSUri>();
-  public List<SSUri>  circleUris      = new ArrayList<SSUri>();
 
   public SSEntityUserSharePar(SSServPar par) throws Exception{
       
@@ -39,21 +37,11 @@ public class SSEntityUserSharePar extends SSServPar{
       if(pars != null){
         entityUri       = (SSUri)        pars.get(SSVarU.entityUri);
         userUris        = (List<SSUri>)  pars.get(SSVarU.userUris);
-        entityCircleUri = (SSUri)        pars.get(SSVarU.entityCircleUri);
-        circleUris      = (List<SSUri>)  pars.get(SSVarU.circleUris);
       }
       
       if(clientPars != null){
         entityUri   = SSUri.get        (clientPars.get(SSVarU.entityUri));
         userUris    = SSUri.getDistinct(SSStrU.split(clientPars.get(SSVarU.userUris), SSStrU.comma));
-        
-        try{
-          entityCircleUri = SSUri.get        (clientPars.get(SSVarU.entityCircleUri));
-        }catch(Exception error){}
-        
-        try{
-          circleUris    = SSUri.getDistinct(SSStrU.split(clientPars.get(SSVarU.circleUris), SSStrU.comma));
-        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

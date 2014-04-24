@@ -271,8 +271,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final List<SSDiscEntry>   discEntries             = new ArrayList<SSDiscEntry>();
     final List<String>        tableNames              = new ArrayList<String>();
     final List<String>        columNames              = new ArrayList<String>();
-    final List<String>        whereFixedRestrictions  = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+    final List<String>        whereFixed              = new ArrayList<String>();
+    final Map<String, String> where                   = new HashMap<String, String>();
     final SSDisc              disc;
     ResultSet                 resultSet               = null;
     
@@ -289,15 +289,15 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       columNames.add(SSSQLVarU.pos);
       columNames.add(SSSQLVarU.creationTime);
       
-      whereParNamesWithValues.put (SSSQLVarU.discId, discUri.toString());
-      whereFixedRestrictions.add  (discEntriesTable + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
-      whereFixedRestrictions.add  (discEntryTable   + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
+      where.put       (SSSQLVarU.discId, discUri.toString());
+      whereFixed.add  (discEntriesTable + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
+      whereFixed.add  (discEntryTable   + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
       
       resultSet = dbSQL.selectCertainDistinctWhere(
         tableNames,
         columNames,
-        whereParNamesWithValues,
-        whereFixedRestrictions);
+        where,
+        whereFixed);
       
       while(resultSet.next()){
         

@@ -735,13 +735,15 @@ public class SSServCaller {
   public static SSUri collUserSetPublic(
     final SSUri   userUri,
     final SSUri   collUri,
+    final SSUri   publicCircleUri,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.user,         userUri);
-    opPars.put(SSVarU.collUri,      collUri);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,            userUri);
+    opPars.put(SSVarU.collUri,         collUri);
+    opPars.put(SSVarU.publicCircleUri, publicCircleUri);
+    opPars.put(SSVarU.shouldCommit,    shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserSetPublic, opPars));
   }
@@ -1141,7 +1143,7 @@ public class SSServCaller {
   public static Boolean entityUserAllowedIs(
     final SSUri                    userUri,
     final SSUri                    entityUri, 
-    final SSEntityRightTypeE accessRight) throws Exception{
+    final SSEntityRightTypeE       accessRight) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -1150,6 +1152,27 @@ public class SSServCaller {
     opPars.put(SSVarU.accessRight, accessRight);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserAllowedIs, opPars));
+  }
+  
+  public static Boolean entityUserCanEdit(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.edit);
+  }
+  
+  public static Boolean entityUserCanRead(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.read);
+  }
+  
+  public static Boolean entityUserCanAll(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.all);
   }
   
   public static SSUri entityCirclePublicAdd(
@@ -1370,7 +1393,7 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleURIPublicGet, new HashMap<String, Object>()));
   }
   
-  public static List<SSEntityCircleTypeE> entityUserCircleTypesForEntityGet(
+  public static List<SSEntityCircleTypeE> entityUserEntityCircleTypesGet(
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
@@ -1379,7 +1402,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,           userUri);
     opPars.put(SSVarU.entityUri,      entityUri);
     
-    return (List<SSEntityCircleTypeE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCircleTypesForEntityGet, opPars));
+    return (List<SSEntityCircleTypeE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCircleTypesGet, opPars));
   }
 
   public static SSEntityCircleTypeE entityMostOpenCircleTypeGet(
