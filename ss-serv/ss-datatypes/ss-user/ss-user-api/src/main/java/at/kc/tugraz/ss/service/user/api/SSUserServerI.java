@@ -25,9 +25,10 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
 
 public interface SSUserServerI {
-  
-  public SSUri          userLogin            (SSServPar par)     throws Exception;
-  public void           userAdd              (SSServPar par)     throws Exception;
-  public List<SSUri>    userAll              (SSServPar par)     throws Exception;
-  public SSUri          userSystemGet        (SSServPar par)     throws Exception;
+
+  public Boolean        userExists           (final SSServPar parA)     throws Exception;
+  public SSUri          userLogin            (final SSServPar parA)     throws Exception;
+  public void           userAdd              (final SSServPar parA)     throws Exception;
+  public List<SSUri>    userAll              (final SSServPar parA)     throws Exception;
+  public SSUri          userSystemGet        (final SSServPar parA)     throws Exception;
 }

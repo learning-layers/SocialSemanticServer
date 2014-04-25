@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSCollUserWithEntriesPar extends SSServPar{
   
   public SSUri   coll = null;
-  public Boolean sort = true;
       
   public SSCollUserWithEntriesPar(SSServPar par) throws Exception{
     
@@ -38,12 +37,10 @@ public class SSCollUserWithEntriesPar extends SSServPar{
       
       if(pars != null){
         coll       = (SSUri)   pars.get(SSVarU.coll);
-        sort       = (Boolean) pars.get(SSVarU.sort);
       }
       
       if(clientPars != null){
         coll       = SSUri.get       ((String)clientPars.get(SSVarU.coll));
-        sort       = Boolean.valueOf ((String)clientPars.get(SSVarU.sort));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

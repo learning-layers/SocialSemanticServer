@@ -58,10 +58,27 @@ public enum SSMethU{
   entityCreationTimeGet                               ,
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityRemoveAll                                     ,
   entityLabelGet                                      ,
   entityLabelSet                                      ,
   entityAuthorGet                                     ,
+  entityCirclePublicAdd,
+  entityCircleURIPublicGet,
+  entityUserCircleDelete,
+  entityCircleCreate,
+  entityEntitiesToCircleAdd,
+  entityUsersToCircleAdd,
+  entityUserCircleCreate,
+  entityUserAllowedIs,
+  entityUserCirclesGet,
+  entityUserEntityCirclesGet,
+  entityUserUsersToCircleAdd, 
+  entityUserEntitiesToCircleAdd,
+  entityCirclesGet,
+  entityInSharedCircleIs,
+  entityMostOpenCircleTypeGet,
+  entityUserEntityCircleTypesGet,
+  entityUserPublicSet,
+  entityUserShare,
   
   //learn ep
   learnEpsGet                                         ,
@@ -98,6 +115,7 @@ public enum SSMethU{
   userLogin                                           ,
   userAll                                             ,
   userAdd                                             ,
+  userExists                                          ,
   
   //user event
   uEsGet                                              ,
@@ -134,9 +152,9 @@ public enum SSMethU{
   ratingsUserRemove                                   ,
   
   //scaff
-  scaffRecommTagsBasedOnUserEntityTag                 ,
-  scaffRecommTagsBasedOnUserEntityTagTime             ,
-  scaffRecommTagsBasedOnUserEntityTagCategory         ,
+  scaffRecommTagsBasedOnUserEntityTag                 , //cikm | 3Layers mit den Kategorien 
+  scaffRecommTagsBasedOnUserEntityTagTime             , //umap | 3LT (3Layers mit Zeit)
+  scaffRecommTagsBasedOnUserEntityTagCategory         , //wbsc | BaseLevelLearning und MostPopular/LanguageModel
   scaffRecommTagsBasedOnUserEntityTagCategoryTime     ,
   
   //model ue
@@ -204,22 +222,20 @@ public enum SSMethU{
   
   
   //coll
+  collToCircleAdd                                     ,
   collUserRootGet                                     ,
   collUserParentGet                                   ,
   collUserEntryAdd                                    ,
   collUserWithEntries                                 ,
-  collUserShare                                       ,
+  collUserShareWithUser                               ,
   collUserRootAdd                                     ,
   collUserEntryDelete                                 ,
   collUserEntryChangePos                              ,
   collUserEntriesAdd                                  ,
   collUserEntriesDelete                               ,
-  collUserSpaceGet                                    ,
+  collUserSetPublic                                   ,
   collsUserWithEntries                                ,
-  collSharedAll                                       ,
   collsUserEntityIsInGet                              ,
-  collEntitySharedOrFollowedForUserIs                 ,
-  collEntityPrivateForUserIs                          ,
   collUserHierarchyGet                                ,
   collUserCumulatedTagsGet                            ,
   collsUserCouldSubscribeGet                          ,
@@ -237,14 +253,7 @@ public enum SSMethU{
   //i5cloud
   i5CloudAuth,
   i5CloudFileUpload,
-  i5CloudFileDownload,
-  
-  //access rights
-  accessRightsUserAllowedIs,
-  accessRightsUserCirclesGet,
-  accessRightsUserCircleCreate,
-  accessRightsUserEntitiesToCircleAdd,
-  accessRightsUserUsersToCircleAdd;
+  i5CloudFileDownload;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

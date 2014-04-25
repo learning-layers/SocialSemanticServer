@@ -21,7 +21,6 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -34,13 +33,13 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
@@ -53,7 +52,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI{
@@ -71,11 +69,43 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     this.fct      = new SSUEMiscFct ();
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }  
+  
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
   @Override
@@ -101,46 +131,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         author);
   }
   
-  /****** SSServRegisterableImplI ******/
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSUEClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSUEServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSUEClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSUEServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
-  /****** SSUserEventClientI ******/
+  /* SSUserEventClientI  */
   
   @Override
   public void uEGet(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -166,51 +157,61 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(par), par.op));
   }
   
-  /****** SSUserEventServerI ******/
-  /********************************/
+  /* SSUserEventServerI */
   @Override
-  public boolean uEAddAtCreationTime(SSServPar parI) throws Exception{
+  public Boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
     
-    SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parI);
+    SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
     SSUri                    ueUri;
     
     try{
       ueUri = SSUEMiscFct.createUEUri();
       
-      SSServCaller.addEntity(
-        SSUri.get(SSUserGlobals.systemUserURI),
-        par.user,
-        SSLabelStr.get(par.user.toString()),
-        SSEntityEnum.user);
+      dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.addEntityAtCreationTime(
+      SSServCaller.entityAddAtCreationTime(
         par.user,
         ueUri,
         SSLabelStr.get(ueUri.toString()),
         par.creationTime,
-        SSEntityEnum.userEvent);
+        SSEntityEnum.userEvent,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.resource,
         SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity);
+        SSEntityEnum.entity,
+        false);
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addUE(ueUri, par.user, par.resource, par.eventType, par.content);
+      sqlFct.addUE(
+        ueUri, 
+        par.user, 
+        par.resource, 
+        par.eventType, 
+        par.content);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return uEAddAtCreationTime(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public boolean uEAdd(final SSServPar parA) throws Exception{
+  public Boolean uEAdd(final SSServPar parA) throws Exception{
     
     final SSUEAddPar par   = new SSUEAddPar(parA);
     SSUri            ueUri;
@@ -224,36 +225,48 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.content = SSStrU.empty;
       }
       
-      ueUri = fct.createUEUri();
+      ueUri = SSUEMiscFct.createUEUri();
       
-      SSServCaller.addUser(
-        par.user,
-        null,
-        par.shouldCommit);
-      
-      SSServCaller.addEntity(
-        par.user,
-        ueUri,        
-        SSLabelStr.get(ueUri.toString()),        
-        SSEntityEnum.userEvent);
-
-      SSServCaller.addEntity(
-        par.user,
-        par.resource,
-        SSLabelStr.get(par.resource.toString()), 
-        SSEntityEnum.entity);
-
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.addUE(ueUri, par.user, par.resource, par.eventType, par.content);
+      SSServCaller.entityAdd(
+        par.user,
+        par.resource,
+        SSLabelStr.get(par.resource.toString()),
+        SSEntityEnum.entity,
+        false);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        ueUri,
+        SSLabelStr.get(ueUri.toString()),
+        SSEntityEnum.userEvent,
+        false);
+      
+      sqlFct.addUE(
+        ueUri,
+        par.user,
+        par.resource,
+        par.eventType,
+        par.content);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return uEAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-
-    return true;
   }
   
   @Override

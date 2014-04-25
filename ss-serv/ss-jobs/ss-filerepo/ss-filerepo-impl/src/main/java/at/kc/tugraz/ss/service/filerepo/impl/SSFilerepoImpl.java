@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
@@ -55,7 +54,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI{
@@ -79,13 +77,43 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     
     this.fct = new SSFilerepoFct();
   }
-
+  
   /* SSEntityHandlerImplI */
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }  
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
   @Override
@@ -112,48 +140,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       overallRating,
       discUris,
       author);
-  }
-
-  /**
-   * ****
-   * SSServRegisterableImplI *****
-   */
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSFileRepoClientI.class.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = SSFileRepoServerI.class.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
-  }
-
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSFileRepoClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSFileRepoServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 
   /**

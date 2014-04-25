@@ -18,6 +18,77 @@ USE `sss`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `circle`
+--
+
+DROP TABLE IF EXISTS `circle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `circle` (
+  `circleId` varchar(100) NOT NULL,
+  `circleType` varchar(100) NOT NULL,
+  PRIMARY KEY (`circleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `circle`
+--
+
+LOCK TABLES `circle` WRITE;
+/*!40000 ALTER TABLE `circle` DISABLE KEYS */;
+/*!40000 ALTER TABLE `circle` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `circleentities`
+--
+
+DROP TABLE IF EXISTS `circleentities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `circleentities` (
+  `circleId` varchar(100) NOT NULL,
+  `entityId` varchar(100) NOT NULL,
+  PRIMARY KEY (`circleId`,`entityId`),
+  CONSTRAINT `circleIdFKcircleentities` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `circleentities`
+--
+
+LOCK TABLES `circleentities` WRITE;
+/*!40000 ALTER TABLE `circleentities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `circleentities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `circleusers`
+--
+
+DROP TABLE IF EXISTS `circleusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `circleusers` (
+  `circleId` varchar(100) NOT NULL,
+  `userId` varchar(100) NOT NULL,
+  PRIMARY KEY (`circleId`,`userId`),
+  CONSTRAINT `circleIdFKcircleusers` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `circleusers`
+--
+
+LOCK TABLES `circleusers` WRITE;
+/*!40000 ALTER TABLE `circleusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `circleusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `coll`
 --
 
@@ -128,12 +199,9 @@ DROP TABLE IF EXISTS `colluser`;
 CREATE TABLE `colluser` (
   `userId` varchar(200) NOT NULL,
   `collId` varchar(200) NOT NULL,
-  `collSpace` varchar(200) NOT NULL,
-  PRIMARY KEY (`userId`,`collId`,`collSpace`),
+  PRIMARY KEY (`userId`,`collId`),
   KEY `collIdFKusercoll_idx` (`collId`),
-  KEY `collSpaceFKusercoll_idx` (`collSpace`),
-  CONSTRAINT `collIdFKcolluser` FOREIGN KEY (`collId`) REFERENCES `coll` (`collId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `collSpaceFKcolluser` FOREIGN KEY (`collSpace`) REFERENCES `space` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `collIdFKcolluser` FOREIGN KEY (`collId`) REFERENCES `coll` (`collId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -664,6 +732,7 @@ CREATE TABLE `ues` (
   `entityId` varchar(200) NOT NULL,
   `eventType` varchar(200) NOT NULL,
   `content` varchar(200) NOT NULL,
+  PRIMARY KEY (`userEventId`),
   KEY `userIdFKues_idx` (`userId`),
   KEY `entityId_idx` (`entityId`),
   KEY `userEventIdFKues_idx` (`userEventId`)
@@ -688,4 +757,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-02-19 13:53:12
+-- Dump completed on 2014-04-25 14:43:27

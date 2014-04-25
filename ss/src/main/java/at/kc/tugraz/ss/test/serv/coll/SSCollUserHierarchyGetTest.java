@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.test.serv.coll;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -40,8 +39,8 @@ public class SSCollUserHierarchyGetTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     SSColl       rootColl      = SSServCaller.collUserRootGet       (userUri);
-    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd      (userUri, rootColl.uri, null, SSLabelStr.get("firstColl"),  SSSpaceEnum.privateSpace, -1, true, false, true);
-    SSUri        collSecondUri = SSServCaller.collUserEntryAdd      (userUri, collFirstUri, null, SSLabelStr.get("secondColl"), SSSpaceEnum.privateSpace, -1, true, false, true);
+    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd      (userUri, rootColl.uri, null, SSLabelStr.get("firstColl"),  true, false, true);
+    SSUri        collSecondUri = SSServCaller.collUserEntryAdd      (userUri, collFirstUri, null, SSLabelStr.get("secondColl"), true, false, true);
     List<SSColl> collHierarchy = SSServCaller.collUserHierarchyGet  (userUri, collSecondUri);
     
     System.out.println (op + " Test end");

@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.location.conf.SSLocationConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.conf.SSAccessRightsConf;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
@@ -69,7 +68,6 @@ public class SSCoreConf extends SSCoreConfA{
   private SSRecommConf        recommConf         = null;
   private SSFileSysLocalConf  fileSysLocalConf   = null;
   private SSEvernoteConf      evernoteConf       = null;
-  private SSAccessRightsConf  accessRightsConf   = null;
   private SSI5CloudConf       i5CloudConf        = null;
   private SSAuthConf          authConf           = null;
   private SSScaffConf         scaffConf          = null;
@@ -202,14 +200,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   public SSEvernoteConf getEvernoteConf(){
     return this.evernoteConf;
-  }
-  
-  public void setAccessRightsConf(final SSAccessRightsConf accessRightsConf){
-    this.accessRightsConf = accessRightsConf;
-  }
-  
-  public SSAccessRightsConf getAccessRightsConf(){
-    return this.accessRightsConf;
   }
   
   public void setI5CloudConf(final SSI5CloudConf i5CloudConf){

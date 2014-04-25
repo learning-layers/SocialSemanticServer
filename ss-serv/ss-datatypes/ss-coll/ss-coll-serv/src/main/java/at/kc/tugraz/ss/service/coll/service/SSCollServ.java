@@ -28,12 +28,19 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
+import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 
 public class SSCollServ extends SSServA{
   
- public static final SSServA  inst = new SSCollServ();
+ public static final SSServA  inst = new SSCollServ(SSCollClientI.class, SSCollServerI.class);
   
-  private SSCollServ(){}
+ protected SSCollServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

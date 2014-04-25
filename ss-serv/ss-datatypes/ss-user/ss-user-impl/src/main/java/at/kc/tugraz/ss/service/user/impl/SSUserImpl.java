@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -32,6 +31,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -41,11 +41,11 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserLoginPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserLoginRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI{
@@ -61,12 +61,44 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     sqlFct   = new SSUserSQLFct   (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
+  
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }  
   
   @Override
   public SSEntityDescA getDescForEntity(
@@ -94,49 +126,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       author);
   }
   
-  /****** SSServImplA ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSUserClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSUserServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSUserClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSUserServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
-  /****** SSUserClientI ******/
+  /* SSUserClientI  */
   @Override
   public void userLogin(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -160,23 +150,47 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //      }
   }
 
-  /****** SSUserServerI ******/
-  /***************************/
+  /* SSUserServerI */
   @Override
-  public SSUri userLogin(SSServPar parI) throws Exception{
-    
-    SSUserLoginPar      par     = new SSUserLoginPar (parI);
-    SSUri               user    = createUserURI (par.userLabel);
+  public SSUri userLogin(final SSServPar parA) throws Exception{
     
     try{
+      final SSUserLoginPar      par     = new SSUserLoginPar (parA);
+      final SSUri               user    = createUserURI (par.userLabel);
+      
       SSServCaller.addUser         (user, par.userLabel, par.shouldCommit);
       SSServCaller.collUserRootAdd (user, par.shouldCommit);
+      
+      return user;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return userLogin(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
+  }
+  
+  @Override
+  public Boolean userExists(final SSServPar parA) throws Exception{
     
-    return user;
+    final SSUserExistsPar par = new SSUserExistsPar (parA);
+    
+    try{
+
+      return sqlFct.existsUser(par.user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -186,14 +200,27 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         SSUri.get(SSUserGlobals.systemUserURI),
         par.userUri,
         par.userLabel,
-        SSEntityEnum.user);
+        SSEntityEnum.user,
+        false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        userAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+      }
       
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
     }
   }

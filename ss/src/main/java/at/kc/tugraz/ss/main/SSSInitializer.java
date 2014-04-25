@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.datatypes.location.serv.SSLocationServ;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.serv.SSAccessRightsServ;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
 import at.kc.tugraz.ss.serv.job.file.sys.local.serv.SSFileSysLocalServ;
 import at.kc.tugraz.ss.serv.job.i5cloud.serv.SSI5CloudServ;
@@ -109,7 +108,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSFileSysLocalServ.inst.initServ  (SSCoreConf.instGet().getFileSysLocalConf());
       SSFilerepoServ.inst.initServ      (SSCoreConf.instGet().getFilerepoConf());
       SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
-      SSAccessRightsServ.inst.initServ  (SSCoreConf.instGet().getAccessRightsConf());
       SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
 
       /**** scheduling task ****/

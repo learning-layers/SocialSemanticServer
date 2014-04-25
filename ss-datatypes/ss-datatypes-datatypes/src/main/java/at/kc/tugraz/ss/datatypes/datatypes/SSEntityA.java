@@ -72,7 +72,9 @@ public abstract class SSEntityA implements SSJSONLDPropI{
 //    return result;
 //  }
   
-  public static Boolean contains(List<? extends SSEntityA> entities, SSEntityA entityToContain) {
+  public static Boolean contains(
+    final List<? extends SSEntityA> entities, 
+    final SSEntityA                 entityToContain){
     
     for(SSEntityA entity : entities){
       if(isSame(entity, entityToContain)){
@@ -121,11 +123,9 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return result;
   }
   
-  public static Boolean isNotSame(final SSEntityA entity1, SSEntityA entity2){
-    return !isSame(entity1, entity2);
-  }
-  
-  public static Boolean isSame(final SSEntityA entity1, final SSEntityA entity2){
+  public static Boolean isSame(
+    final SSEntityA entity1, 
+    final SSEntityA entity2){
     
     if(SSObjU.isNull(entity1, entity2)){
       return false;

@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -75,13 +74,13 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,11 +97,42 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     sqlFct    = new SSLearnEpSQLFct   (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+  }
+  
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
   }
   
   @Override
@@ -160,47 +190,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
   }
   
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSLearnEpClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSLearnEpServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSLearnEpClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSLearnEpServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
-  /****** SSLearnEpClientI ******/
+  /* SSLearnEpClientI */
   @Override
   public void learnEpsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -321,263 +311,387 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(par), par.op));
   }
   
-  /****** SSLearnEpServerI *********************************************/
-  /*********************************************************************/
+  /* SSLearnEpServerI */
   @Override
-  public SSUri learnEpVersionCurrentSet(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionCurrentSetPar par = new SSLearnEpVersionCurrentSetPar(parI);
+  public SSUri learnEpVersionCurrentSet(final SSServPar parA) throws Exception {
     
     try{
+      
+      final SSLearnEpVersionCurrentSetPar par = new SSLearnEpVersionCurrentSetPar(parA);
+      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.setLearnEpCurrentVersion(par.user, par.learnEpVersionUri);
           
       dbSQL.commit(par.shouldCommit);
+      
+      return par.learnEpVersionUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionCurrentSet(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-
-    return par.learnEpVersionUri;
   }
    
   @Override
-  public SSUri learnEpVersionSetTimelineState(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionSetTimelineStatePar par                     = new SSLearnEpVersionSetTimelineStatePar(parI);
-    SSUri                               learnEpTimelineStateUri = null;
+  public SSUri learnEpVersionSetTimelineState(final SSServPar parA) throws Exception {
     
     try{
       
-      learnEpTimelineStateUri = sqlFct.createLearnEpTimelineStateUri();
-      
-      SSServCaller.addEntity(
-        par.user,
-        learnEpTimelineStateUri,
-        SSLabelStr.get(learnEpTimelineStateUri.toString()),
-        SSEntityEnum.learnEpTimelineState);
+      final SSLearnEpVersionSetTimelineStatePar par                     = new SSLearnEpVersionSetTimelineStatePar(parA);
+      final SSUri                               learnEpTimelineStateUri = sqlFct.createLearnEpTimelineStateUri();
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.setLearnEpVersionTimelineState(learnEpTimelineStateUri, par.learnEpVersionUri, par.startTime, par.endTime);
+      SSServCaller.entityAdd(
+        par.user,
+        learnEpTimelineStateUri,
+        SSLabelStr.get(learnEpTimelineStateUri.toString()),
+        SSEntityEnum.learnEpTimelineState,
+        false);
+      
+      sqlFct.setLearnEpVersionTimelineState(
+        learnEpTimelineStateUri, 
+        par.learnEpVersionUri, 
+        par.startTime, 
+        par.endTime);
       
       dbSQL.commit(par.shouldCommit);
+      
+       return learnEpTimelineStateUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionSetTimelineState(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return learnEpTimelineStateUri;
   }
   
   @Override
-  public Boolean learnEpVersionRemoveCircle(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parI);
+  public Boolean learnEpVersionRemoveCircle(final SSServPar parA) throws Exception {
     
     try{
+      
+      final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.removeCircle(par.learnEpCircleUri);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveCircle(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public Boolean learnEpVersionRemoveEntity(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parI);
+  public Boolean learnEpVersionRemoveEntity(final SSServPar parA) throws Exception {
     
     try{
+      
+      final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.removeEntity(par.learnEpEntityUri);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveEntity(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public Boolean learnEpVersionUpdateCircle(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parI);
+  public Boolean learnEpVersionUpdateCircle(final SSServPar parA) throws Exception {
     
     try{
-      SSServCaller.setEntityLabel(
+      
+      final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityLabelSet(
         par.learnEpCircleUri, 
         par.label, 
-        par.shouldCommit);
+        false);
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.updateCircle(par.learnEpCircleUri, par.label, par.xLabel, par.yLabel, par.xR, par.yR, par.xC, par.yC);
+      sqlFct.updateCircle(
+        par.learnEpCircleUri, 
+        par.label, 
+        par.xLabel,
+        par.yLabel,
+        par.xR, 
+        par.yR, 
+        par.xC, 
+        par.yC);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateCircle(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public Boolean learnEpVersionUpdateEntity(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parI);
+  public Boolean learnEpVersionUpdateEntity(SSServPar parA) throws Exception {
     
     try{
-      SSServCaller.addEntity(
-        par.user,
-        par.entityUri, 
-        SSLabelStr.get(SSStrU.toString(par.entityUri)), 
-        SSEntityEnum.entity);
+      
+      final SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        par.entityUri,
+        SSLabelStr.get(SSStrU.toString(par.entityUri)), 
+        SSEntityEnum.entity,
+        false);
       
       sqlFct.updateEntity(par.learnEpEntityUri, par.entityUri, par.x, par.y);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateEntity(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
   
   @Override
-  public SSUri learnEpCreate(SSServPar parI) throws Exception {
-    
-    SSLearnEpCreatePar  par        = new SSLearnEpCreatePar(parI);
-    SSUri               learnEpUri = null;
+  public SSUri learnEpCreate(final SSServPar parA) throws Exception {
     
     try{
-      learnEpUri = sqlFct.createLearnEpUri();
+      final SSLearnEpCreatePar  par        = new SSLearnEpCreatePar(parA);
+      final SSUri               learnEpUri = sqlFct.createLearnEpUri();
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         par.user,
         learnEpUri,
         par.label,
-        SSEntityEnum.learnEp);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.learnEp,
+        false);
       
       sqlFct.createLearnEp(learnEpUri, par.user, par.space);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return learnEpUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpCreate(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return learnEpUri;
   }
   
   @Override
-  public SSUri learnEpVersionCreate(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionCreatePar par               = new SSLearnEpVersionCreatePar(parI);
-    SSUri                     learnEpVersionUri = null;
+  public SSUri learnEpVersionCreate(final SSServPar parA) throws Exception {
     
     try{
+      final SSLearnEpVersionCreatePar par                = new SSLearnEpVersionCreatePar(parA);
+      final SSUri                     learnEpVersionUri  = sqlFct.createLearnEpVersionUri();
       
-      learnEpVersionUri = sqlFct.createLearnEpVersionUri();
+      dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         learnEpVersionUri,
         SSLabelStr.get(learnEpVersionUri.toString()),
-        SSEntityEnum.learnEpVersion);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.learnEpVersion,
+        false);
       
       sqlFct.createLearnEpVersion(learnEpVersionUri, par.learnEpUri);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return learnEpVersionUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionCreate(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return learnEpVersionUri;
   }
   
   @Override
-  public SSUri learnEpVersionAddCircle(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionAddCirclePar par       = new SSLearnEpVersionAddCirclePar(parI);
-    SSUri                        circleUri = null;
+  public SSUri learnEpVersionAddCircle(final SSServPar parA) throws Exception {
     
     try{
-      circleUri = sqlFct.createLearnEpCircleUri();
+      final SSLearnEpVersionAddCirclePar par        = new SSLearnEpVersionAddCirclePar(parA);
+      final SSUri                        circleUri  = sqlFct.createLearnEpCircleUri();
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         par.user,
         circleUri,
         par.label,
-        SSEntityEnum.learnEpCircle);
+        SSEntityEnum.learnEpCircle,
+        false);
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addCircleToLearnEpVersion(circleUri, par.learnEpVersionUri, par.label, par.xLabel, par.yLabel, par.xR, par.yR, par.xC, par.yC);
+      sqlFct.addCircleToLearnEpVersion(
+        circleUri,
+        par.learnEpVersionUri,
+        par.label,
+        par.xLabel,
+        par.yLabel,
+        par.xR,
+        par.yR,
+        par.xC,
+        par.yC);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return circleUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionAddCircle(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return circleUri;
   }
   
   @Override
-  public SSUri learnEpVersionAddEntity(SSServPar parI) throws Exception {
-    
-    SSLearnEpVersionAddEntityPar par              = new SSLearnEpVersionAddEntityPar(parI);
-    SSUri                        learnEpEntityUri = null;
+  public SSUri learnEpVersionAddEntity(SSServPar parA) throws Exception {
     
     try{
+      final SSLearnEpVersionAddEntityPar par               = new SSLearnEpVersionAddEntityPar(parA);
+      final SSUri                        learnEpEntityUri  = sqlFct.createLearnEpEntityUri();
+
+      dbSQL.startTrans(par.shouldCommit);
       
-      learnEpEntityUri = sqlFct.createLearnEpEntityUri();
-      
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         learnEpEntityUri,
         SSLabelStr.get(learnEpEntityUri.toString()),
-        SSEntityEnum.learnEpEntity);
+        SSEntityEnum.learnEpEntity,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.entityUri,
         SSLabelStr.get(par.entityUri.toString()),
-        SSEntityEnum.entity);
+        SSEntityEnum.entity,
+        false);
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addEntityToLearnEpVersion(learnEpEntityUri, par.learnEpVersionUri, par.entityUri, par.x, par.y);
+      sqlFct.addEntityToLearnEpVersion(
+        learnEpEntityUri, 
+        par.learnEpVersionUri, 
+        par.entityUri, 
+        par.x, 
+        par.y);
       
       dbSQL.commit(par.shouldCommit);
+      
+      return learnEpEntityUri;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionAddEntity(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return learnEpEntityUri;
   }
   
   @Override

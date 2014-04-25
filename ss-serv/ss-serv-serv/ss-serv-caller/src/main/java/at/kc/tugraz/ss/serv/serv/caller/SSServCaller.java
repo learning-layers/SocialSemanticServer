@@ -34,9 +34,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSAccessRightsCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSAccessRightsRightTypeE;
-import at.kc.tugraz.ss.serv.job.accessrights.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -53,6 +53,7 @@ import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,75 +215,56 @@ public class SSServCaller {
     return result;
   }
   
-  public static void addEntityAtCreationTime(
-    SSUri        userUri,
-    SSUri        uri,
-    SSLabelStr   label,
-    Long         creationTime,
-    SSEntityEnum type) throws Exception{
+  public static void entityAddAtCreationTime(
+    final SSUri        userUri,
+    final SSUri        uri,
+    final SSLabelStr   label,
+    final Long         creationTime,
+    final SSEntityEnum type,
+    final Boolean      shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.user,         userUri);
-      opPars.put(SSVarU.entityUri,    uri);
-      opPars.put(SSVarU.label,        label);
-      opPars.put(SSVarU.creationTime, creationTime);
-      opPars.put(SSVarU.entityType,   type);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.entityAddAtCreationTime, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.entityUri,    uri);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarU.entityType,   type);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityAddAtCreationTime, opPars));
   }
   
   public static void addUser(
-    SSUri      userUri,
-    SSLabelStr userLabel,
-    Boolean    shouldCommit) throws Exception{
+    final SSUri      userUri,
+    final SSLabelStr userLabel,
+    final Boolean    shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.shouldCommit, shouldCommit);
-      opPars.put(SSVarU.userUri,      userUri);
-      opPars.put(SSVarU.userLabel,    userLabel);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.userAdd, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.userUri,      userUri);
+    opPars.put(SSVarU.userLabel,    userLabel);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.userAdd, opPars));
   }
   
-  public static void addEntity(
-    SSUri        userUri,
-    SSUri        uri,
-    SSLabelStr   label,
-    SSEntityEnum type) throws Exception{
+  public static void entityAdd(
+    final SSUri        userUri,
+    final SSUri        uri,
+    final SSLabelStr   label,
+    final SSEntityEnum type,
+    final Boolean      shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.user,         userUri);
-      opPars.put(SSVarU.entityUri,    uri);
-      opPars.put(SSVarU.label,        label);
-      opPars.put(SSVarU.entityType,   type);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void removeAllEntities() throws Exception{
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.entityUri,    uri);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.entityType,   type);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    try{
-      SSServA.callServViaServer(new SSServPar(SSMethU.entityRemoveAll, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));
   }
   
   public static List<SSUE> getUEs(
@@ -433,21 +415,20 @@ public class SSServCaller {
     return result;
   }
   
-  public static void setEntityLabel(SSUri entityUri, SSLabelStr label, Boolean shouldCommit) throws Exception{
+  public static void entityLabelSet(
+    final SSUri      entityUri,
+    final SSLabelStr label,
+    final Boolean    shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.shouldCommit, shouldCommit);
-      opPars.put(SSVarU.entityUri,    entityUri);
-      opPars.put(SSVarU.label,        label);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.entityLabelSet, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.entityUri,    entityUri);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityLabelSet, opPars));
   }
-  
+    
   public static void importDataFromEvernote(SSUri userUri, String authToken, Boolean shouldCommit) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
@@ -709,16 +690,67 @@ public class SSServCaller {
   }
   
   /* colls */
-  public static SSSpaceEnum collUserSpaceGet(
+  
+  public static SSUri collToCircleAdd(
+    final SSUri   userUri, 
+    final SSUri   collCircleUri, 
+    final SSUri   collUri,
+    final Boolean shouldCommit) throws Exception{
+     
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,               userUri);
+    opPars.put(SSVarU.collUri,            collUri);
+    opPars.put(SSVarU.collCircleUri,      collCircleUri);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collToCircleAdd, opPars)); 
+  }
+    
+  public static SSUri collUserShareWithUser(
+    final SSUri    userUri, 
+    final SSUri    userUriToShareWith, 
+    final SSUri    collUri, 
+    final SSUri    collCircleUri, 
+    final Boolean  shouldCommit) throws Exception{
+  
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,               userUri);
+    opPars.put(SSVarU.userUriToShareWith, userUriToShareWith);
+    opPars.put(SSVarU.collUri,            collUri);
+    opPars.put(SSVarU.collCircleUri,      collCircleUri);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserShareWithUser, opPars)); 
+  }
+  
+  public static SSColl collUserWithEntries(
     final SSUri userUri, 
     final SSUri collUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.user,    userUri);
-    opPars.put(SSVarU.collUri, collUri);
+    opPars.put(SSVarU.user, userUri);
+    opPars.put(SSVarU.coll, collUri);
     
-    return (SSSpaceEnum) SSServA.callServViaServer(new SSServPar(SSMethU.collUserSpaceGet, opPars));
+    return (SSColl) SSServA.callServViaServer(new SSServPar(SSMethU.collUserWithEntries, opPars));
+  }
+  
+  public static SSUri collUserSetPublic(
+    final SSUri   userUri,
+    final SSUri   collUri,
+    final SSUri   publicCircleUri,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,            userUri);
+    opPars.put(SSVarU.collUri,         collUri);
+    opPars.put(SSVarU.publicCircleUri, publicCircleUri);
+    opPars.put(SSVarU.shouldCommit,    shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserSetPublic, opPars));
   }
   
   public static SSColl collUserRootGet(final SSUri userUri) throws Exception{
@@ -762,8 +794,6 @@ public class SSServCaller {
     final SSUri        coll,
     final SSUri        collEntry,
     final SSLabelStr   label,
-    final SSSpaceEnum  space,
-    final Integer      collEntryPos,
     final Boolean      addNewColl,
     final Boolean      saveUE,
     final Boolean      shouldCommit) throws Exception{
@@ -775,9 +805,7 @@ public class SSServCaller {
     opPars.put(SSVarU.saveUE,            saveUE);
     opPars.put(SSVarU.coll,              coll);
     opPars.put(SSVarU.collEntry,         collEntry);
-    opPars.put(SSVarU.space,             space);
     opPars.put(SSVarU.collEntryLabel,    label);
-    opPars.put(SSVarU.collEntryPosition, collEntryPos);
     opPars.put(SSVarU.addNewColl,        addNewColl);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserEntryAdd, opPars));
@@ -788,7 +816,6 @@ public class SSServCaller {
     final SSUri             collUri,
     final List<SSUri>       collEntries,
     final List<SSLabelStr>  collEntryLabels,
-    final List<SSSpaceEnum> collEntrySpaces,
     final Boolean           saveUE,
     final Boolean           shouldCommit) throws Exception{
     
@@ -800,7 +827,6 @@ public class SSServCaller {
     opPars.put(SSVarU.coll,         collUri);
     opPars.put(SSVarU.entries,      collEntries);
     opPars.put(SSVarU.entryLabels,  collEntryLabels);
-    opPars.put(SSVarU.entrySpaces,  collEntrySpaces);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collUserEntriesAdd, opPars));
   }
@@ -815,30 +841,6 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         userUri);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.collUserRootAdd, opPars));
-  }
-  
-  public static Boolean collEntitySharedOrFollowedForUserIs(
-    final SSUri userUri,
-    final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,      userUri);
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntitySharedOrFollowedForUserIs, opPars));
-  }
-  
-  public static Boolean collEntityPrivateForUserIs(
-    final SSUri userUri, 
-    final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,      userUri);
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntityPrivateForUserIs, opPars));
   }
   
   public static List<SSColl> collUserHierarchyGet(
@@ -1051,13 +1053,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.shouldCommit,          shouldCommit);
     opPars.put(SSVarU.user,                  userUri);
     opPars.put(SSVarU.entityUri,             entityUri);
     opPars.put(SSVarU.removeUserTags,        removeUserTags);
     opPars.put(SSVarU.removeUserRatings,     removeUserRatings);
     opPars.put(SSVarU.removeFromUserColls,   removeFromUserColls);
     opPars.put(SSVarU.removeUserLocations,   removeUserLocations);
+    opPars.put(SSVarU.shouldCommit,          shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
@@ -1108,13 +1110,326 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     try{
-      opPars.put(SSVarU.shouldCommit, shouldCommit);
       opPars.put(SSVarU.entityUri,    entityUri);
+      opPars.put(SSVarU.shouldCommit, shouldCommit);
       
       SSServA.callServViaServer(new SSServPar(SSMethU.entityRemove, opPars));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  public static List<SSCircle> entityUserEntityCirclesGet(
+    final SSUri userUri,
+    final SSUri entityUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,        userUri);
+    opPars.put(SSVarU.entityUri,   entityUri);
+    
+    return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
+  }
+  
+  public static Boolean entityUserAllowedIs(
+    final SSUri                    userUri,
+    final SSUri                    entityUri, 
+    final SSEntityRightTypeE       accessRight) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,        userUri);
+    opPars.put(SSVarU.entityUri,   entityUri);
+    opPars.put(SSVarU.accessRight, accessRight);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserAllowedIs, opPars));
+  }
+  
+  public static Boolean entityUserCanEdit(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.edit);
+  }
+  
+  public static Boolean entityUserCanRead(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.read);
+  }
+  
+  public static Boolean entityUserCanAll(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.all);
+  }
+  
+  public static SSUri entityCirclePublicAdd(
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCirclePublicAdd,  opPars));
+  }
+  
+  public static List<SSCircle> entityUserCirclesGet(
+    final SSUri   userUri,
+    final Boolean withSystemGeneratedCircles) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,                       userUri);
+    opPars.put(SSVarU.withSystemGeneratedCircles, withSystemGeneratedCircles);
+    
+    return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));
+  }
+  
+  public static SSUri entityCircleCreate(
+    final SSUri                     userUri,
+    final SSUri                     toAddEntityUri,
+    final List<SSUri>               toAddUserUris, 
+    final SSEntityCircleTypeE       circleType, 
+    final SSLabelStr                label, 
+    final SSUri                     circleAuthor,
+    final Boolean                   shouldCommit) throws Exception{
+    
+    final Map<String, Object>       opPars     = new HashMap<String, Object>();
+    final List<SSUri>               entityUris = new ArrayList<SSUri>();
+    
+    if(toAddEntityUri != null){
+      entityUris.add (toAddEntityUri);
+    }
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.userUris,       toAddUserUris);
+    opPars.put(SSVarU.circleType,     circleType);
+    opPars.put(SSVarU.label,          label);
+    opPars.put(SSVarU.circleAuthor,   circleAuthor);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleCreate, opPars));
+  }
+  
+  public static SSUri entityCircleCreate(
+    final SSUri                     userUri,
+    final SSUri                     toAddEntityUri,
+    final SSUri                     toAddUserUri, 
+    final SSEntityCircleTypeE       circleType, 
+    final SSLabelStr                label,
+    final SSUri                     circleAuthor,
+    final Boolean                   shouldCommit) throws Exception{
+    
+    final Map<String, Object>       opPars     = new HashMap<String, Object>();
+    final List<SSUri>               entityUris = new ArrayList<SSUri>();
+    final List<SSUri>               userUris   = new ArrayList<SSUri>();
+    
+    if(toAddEntityUri != null){
+      entityUris.add (toAddEntityUri);
+    }
+    
+    if(toAddUserUri != null){
+      userUris.add   (toAddUserUri);
+    }
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.userUris,       userUris);
+    opPars.put(SSVarU.circleType,     circleType);
+    opPars.put(SSVarU.label,          label);
+    opPars.put(SSVarU.circleAuthor,   circleAuthor);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleCreate, opPars));
+  }
+  
+  public static SSUri entityCircleCreate(
+    final SSUri                     userUri,
+    final List<SSUri>               entityUris,
+    final List<SSUri>               userUris, 
+    final SSEntityCircleTypeE       circleType, 
+    final SSLabelStr                label,
+    final SSUri                     circleAuthor,
+    final Boolean                   shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.userUris,       userUris);
+    opPars.put(SSVarU.circleType,     circleType);
+    opPars.put(SSVarU.label,          label);
+    opPars.put(SSVarU.circleAuthor,   circleAuthor);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleCreate, opPars));
+  }
+  
+  public static SSUri entityEntitiesToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri, 
+    final List<SSUri> entityUris,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntitiesToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityEntitiesToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri, 
+    final SSUri       entityUri,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    final List<SSUri> entityUris     = new ArrayList<SSUri>();
+    
+    if(entityUri != null){
+      entityUris.add(entityUri);
+    }
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntitiesToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityUserEntitiesToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri, 
+    final SSUri       entityUri,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    final List<SSUri> entityUris     = new ArrayList<SSUri>();
+    
+    if(entityUri != null){
+      entityUris.add(entityUri);
+    }
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUris,     entityUris);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntitiesToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityUsersToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri,
+    final SSUri       userUriToAdd, 
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars   = new HashMap<String, Object>();
+    final List<SSUri>         userUris = new ArrayList<SSUri>();
+    
+    if(userUriToAdd != null){
+      userUris.add(userUriToAdd);
+    }
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.userUris,       userUris);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);    
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUsersToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityUsersToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri,
+    final List<SSUri> userUrisToAdd,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars   = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.userUris,       userUrisToAdd);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);    
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUsersToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityUserUsersToCircleAdd(
+    final SSUri       userUri,
+    final SSUri       circleUri,
+    final List<SSUri> userUris, 
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.userUris,       userUris);
+    opPars.put(SSVarU.circleUri,      circleUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);    
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserUsersToCircleAdd, opPars));
+  }
+  
+  public static SSUri entityCircleURIPublicGet() throws Exception{
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleURIPublicGet, new HashMap<String, Object>()));
+  }
+  
+  public static List<SSEntityCircleTypeE> entityUserEntityCircleTypesGet(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.entityUri,      entityUri);
+    
+    return (List<SSEntityCircleTypeE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCircleTypesGet, opPars));
+  }
+
+  public static SSEntityCircleTypeE entityMostOpenCircleTypeGet(
+    final SSUri entityUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.entityUri,      entityUri);
+    
+    return (SSEntityCircleTypeE) SSServA.callServViaServer(new SSServPar(SSMethU.entityMostOpenCircleTypeGet, opPars));
+  }
+    
+  public static Boolean entityUserCircleDelete(
+    final SSUri entityUri,
+    final SSUri circleUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.entityUri, entityUri);
+    opPars.put(SSVarU.circleUri, circleUri);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCircleDelete, opPars));
+  }
+
+  public static SSUri entityUserPublicSet(
+    final SSUri   userUri,
+    final SSUri   entityUri,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.entityUri,    entityUri);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserPublicSet, opPars));
   }
   
   /* user event */
@@ -1135,6 +1450,17 @@ public class SSServCaller {
     opPars.put(SSVarU.content,      content);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.uEAdd, opPars));
+  }
+  
+  /* user */
+  public static Boolean userExists(
+    final SSUri userUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.userExists, opPars));
   }
   
   /* modeling user event */
@@ -1710,86 +2036,7 @@ public class SSServCaller {
     opPars.put(SSVarU.xAuthToken, xAuthToken);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileDownload, opPars));
-  }
-  
-  /* access rights */
-  public static Boolean accessRightsUserAllowedIs(
-    final SSUri                    userUri,
-    final SSUri                    entityUri, 
-    final SSUri                    circleUri, 
-    final SSAccessRightsRightTypeE accessRight) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,        userUri);
-    opPars.put(SSVarU.entityUri,   entityUri);
-    opPars.put(SSVarU.circleUri,   circleUri);
-    opPars.put(SSVarU.accessRight, accessRight);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.accessRightsUserAllowedIs, opPars));
-  }
-  
-  public static List<SSCircle> accessRightsUserCirclesGet(
-    final SSUri userUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user, userUri);
-    
-    return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.accessRightsUserCirclesGet, opPars));
-  }
-  
-  public static Boolean accessRightsUserCircleCreate(
-    final SSUri                     userUri,
-    final List<SSUri>               entityUris,
-    final List<SSUri>               userUris, 
-    final SSAccessRightsCircleTypeE circleType, 
-    final SSLabelStr                label, 
-    final Boolean                   shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.entityUris,     entityUris);
-    opPars.put(SSVarU.userUris,       userUris);
-    opPars.put(SSVarU.circleType,     circleType);
-    opPars.put(SSVarU.label,          label);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.accessRightsUserCircleCreate, opPars));
-  }
-  
-  public static Boolean accessRightsUserEntitiesToCircleAdd(
-    final SSUri       userUri,
-    final SSUri       circleUri, 
-    final List<SSUri> entityUris,
-    final Boolean     shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.entityUris,     entityUris);
-    opPars.put(SSVarU.circleUri,      circleUri);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.accessRightsUserEntitiesToCircleAdd, opPars));
-  }
-  
-  public static Boolean accessRightsUserUsersToCircleAdd(
-    final SSUri       userUri,
-    final SSUri       circleUri,
-    final List<SSUri> userUris, 
-    final Boolean     shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,           userUri);
-    opPars.put(SSVarU.userUris,       userUris);
-    opPars.put(SSVarU.circleUri,      circleUri);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);    
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.accessRightsUserUsersToCircleAdd, opPars));
-  }
+  } 
 }
 
 

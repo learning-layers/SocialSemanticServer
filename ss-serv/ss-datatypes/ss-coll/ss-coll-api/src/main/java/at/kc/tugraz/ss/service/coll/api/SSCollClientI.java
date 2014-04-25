@@ -29,7 +29,6 @@ public interface SSCollClientI{
   public void collUserRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntryDelete       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserShare             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collUserEntryChangePos    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

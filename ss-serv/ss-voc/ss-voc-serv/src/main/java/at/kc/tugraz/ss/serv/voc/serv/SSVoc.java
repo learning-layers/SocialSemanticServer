@@ -24,12 +24,18 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.voc.api.SSVocI;
 
 public class SSVoc extends SSServA{
   
-  public static final SSServA inst   = new SSVoc();
+  public static final SSServA inst   = new SSVoc(null, SSVocI.class);
   
-  private SSVoc(){}
+  protected SSVoc(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

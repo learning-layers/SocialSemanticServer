@@ -23,7 +23,6 @@
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
@@ -31,12 +30,11 @@ public class SSCollUserEntryAddPar extends SSServPar{
   
   public SSUri        coll               = null;
   public SSUri        collEntry          = null;
-  public SSSpaceEnum  space              = null;
   public SSLabelStr   collEntryLabel     = null;
-  public Integer      collEntryPosition  = -1;
   public Boolean      addNewColl         = null;
+  public SSUri        circleUri          = null;
   
-  public SSCollUserEntryAddPar(SSServPar par) throws Exception{
+  public SSCollUserEntryAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -45,14 +43,13 @@ public class SSCollUserEntryAddPar extends SSServPar{
       if(pars != null){
         coll           = (SSUri)       pars.get(SSVarU.coll);
         collEntry      = (SSUri)       pars.get(SSVarU.collEntry);
-        space          = (SSSpaceEnum) pars.get(SSVarU.space);
         collEntryLabel = (SSLabelStr)  pars.get(SSVarU.collEntryLabel);
         addNewColl     = (Boolean)     pars.get(SSVarU.addNewColl);
+        circleUri      = (SSUri)       pars.get(SSVarU.circleUri);
       }
       
       if(clientPars != null){
         coll           = SSUri.get       (clientPars.get(SSVarU.coll));
-        space          = SSSpaceEnum.get (clientPars.get(SSVarU.space));
         collEntryLabel = SSLabelStr.get  (clientPars.get(SSVarU.collEntryLabel));
         
         try{

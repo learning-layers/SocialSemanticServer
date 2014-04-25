@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.tag.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
@@ -36,6 +35,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -56,7 +56,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.SSTagFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI{
@@ -73,10 +72,42 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   /* SSEntityHandlerImplI */
+  
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
+  }  
+  
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     try{
       
@@ -84,7 +115,13 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         return;
       }
       
-      SSServCaller.tagsUserRemove(par.user, par.entityUri, null, null, shouldCommit);
+      SSServCaller.tagsUserRemove(
+        par.user, 
+        par.entityUri, 
+        null, 
+        null, 
+        false);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -120,47 +157,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     }
   }
     
-  /****** SSRegisterableImplI ******/
-  
-   @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-       
-    Method[] methods = SSTagClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSTagServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSTagClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSTagServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
-  /****** SSTagClientI ******/
+  /* SSTagClientI */
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -189,131 +186,198 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(par), par.op));
   }
   
-  /****** SSTagServerI ******/
-  /**************************/
+  /* SSTagServerI */
   @Override
-  public Boolean tagAdd(SSServPar parI) throws Exception {
-    
-    SSTagAddPar par       = new SSTagAddPar(parI);
-    Boolean     existsTag;
-    SSUri       tagUri;
+  public Boolean tagAdd(final SSServPar parA) throws Exception {
     
     try{
-      existsTag = sqlFct.existsTagLabel    (par.tagString);
-      tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString);
       
-      SSServCaller.addEntity(
+      final SSTagAddPar par       = new SSTagAddPar(parA);
+      final Boolean     existsTag = sqlFct.existsTagLabel    (par.tagString);
+      final SSUri       tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString);
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         par.user,
         tagUri,       
         SSLabelStr.get(SSTagLabel.toStr(par.tagString)), 
-        SSEntityEnum.tag);
+        SSEntityEnum.tag,
+        false);
 
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.resource, 
         SSLabelStr.get(SSUri.toStr(par.resource)),
-        SSEntityEnum.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.entity,
+        false);
       
       if(!sqlFct.existsTagAss(par.user, par.resource, tagUri, par.space)){
         sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
       }
       
       dbSQL.commit(par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    return true;
-  }
-  
-  @Override
-  public Boolean tagAddAtCreationTime(SSServPar parI) throws Exception {
-    
-    SSTagAddAtCreationTimePar par       = new SSTagAddAtCreationTimePar(parI);
-    Boolean                   existsTag;
-    SSUri                     tagUri;  
-   
-    try{
-      
-      existsTag = sqlFct.existsTagLabel   (par.tagString);
-      tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString);
-      
-      SSServCaller.addEntityAtCreationTime(
-        par.user,
-        tagUri,
-        SSLabelStr.get(SSStrU.toString(par.tagString)),
-        par.creationTime,
-        SSEntityEnum.tag);
-      
-      SSServCaller.addEntity(
-        par.user,
-        par.resource,
-        SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
-      
-      dbSQL.commit(par.shouldCommit);
-    }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    return true;
-  }
-  
-  @Override
-  public Boolean tagsAdd(SSServPar parI) throws Exception {
-    
-    SSTagsAddPar par    = new SSTagsAddPar(parI);
-    
-    try{
-      
-      for(SSTagLabel tagString : par.tagStrings) {
-        SSServCaller.tagAdd(par.user, par.resource, tagString, par.space, par.shouldCommit);
-      }
       
       return true;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Boolean tagsAddAtCreationTime(SSServPar parI) throws Exception {
-    
-    SSTagsAddAtCreationTimePar par    = new SSTagsAddAtCreationTimePar(parI);
+  public Boolean tagAddAtCreationTime(final SSServPar parA) throws Exception {
     
     try{
-      for(SSTagLabel tagString : par.tagStrings) {
-        SSServCaller.tagAddAtCreationTime(par.user, par.resource, tagString, par.space, par.creationTime, par.shouldCommit);
+      
+      final SSTagAddAtCreationTimePar par       = new SSTagAddAtCreationTimePar(parA);
+      final Boolean                   existsTag = sqlFct.existsTagLabel   (par.tagString);
+      final SSUri                     tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString); 
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAddAtCreationTime(
+        par.user,
+        tagUri,
+        SSLabelStr.get(SSStrU.toString(par.tagString)),
+        par.creationTime,
+        SSEntityEnum.tag,
+        false);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        par.resource,
+        SSLabelStr.get(par.resource.toString()),
+        SSEntityEnum.entity,
+        false);
+      
+      sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagAddAtCreationTime(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
       }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
+  }
+  
+  @Override
+  public Boolean tagsAdd(final SSServPar parA) throws Exception {
     
-    return true;
+    try{
+
+      final SSTagsAddPar par    = new SSTagsAddPar(parA);
+      
+      for(SSTagLabel tagString : par.tagStrings) {
+        SSServCaller.tagAdd(par.user, par.resource, tagString, par.space, par.shouldCommit);
+      }
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagsAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean tagsAddAtCreationTime(final SSServPar parA) throws Exception {
+    
+    try{
+
+      final SSTagsAddAtCreationTimePar par    = new SSTagsAddAtCreationTimePar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSTagLabel tagString : par.tagStrings) {
+        SSServCaller.tagAddAtCreationTime(
+          par.user, 
+          par.resource, 
+          tagString, 
+          par.space, 
+          par.creationTime, 
+          false);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagsAddAtCreationTime(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
   public Boolean tagsRemove(final SSServPar parA) throws Exception{
   
-    final SSTagsRemovePar par = new SSTagsRemovePar (parA);
-    
     try{
-      sqlFct.removeTagAsss (par.forUser, par.entityUri, par.tagLabel, par.space);
+      
+      final SSTagsRemovePar par = new SSTagsRemovePar (parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.removeTagAsss (
+        par.forUser, 
+        par.entityUri, 
+        par.tagLabel, 
+        par.space);
+      
+      dbSQL.commit(par.shouldCommit);
       
       return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagsRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -322,9 +386,9 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   @Override
   public Boolean tagsUserRemove(final SSServPar parA) throws Exception {
     
-    final SSTagsUserRemovePar par = new SSTagsUserRemovePar (parA);
-    
     try{
+      
+      final SSTagsUserRemovePar par = new SSTagsUserRemovePar (parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -382,8 +446,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       throw new Exception("reached not reachable code");
       
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagsUserRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

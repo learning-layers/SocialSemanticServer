@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -27,12 +29,18 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSEntityServ extends SSServA{
   
-  public static final SSServA  inst = new SSEntityServ();
+  public static final SSServA  inst = new SSEntityServ(SSEntityClientI.class, SSEntityServerI.class);
   
-  private SSEntityServ(){}
+  protected SSEntityServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
@@ -41,5 +49,6 @@ public class SSEntityServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    SSServCaller.entityCirclePublicAdd(true);
   }
 }

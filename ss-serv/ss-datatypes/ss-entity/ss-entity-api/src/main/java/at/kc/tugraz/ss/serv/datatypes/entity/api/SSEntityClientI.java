@@ -30,4 +30,10 @@ public interface SSEntityClientI {
   public void entityLabelGet                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityLabelSet                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUserDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserCircleCreate                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserEntitiesToCircleAdd            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserCirclesGet                     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

@@ -1,23 +1,18 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
@@ -61,7 +56,7 @@ public class SSAdapterRest{
   public SSAdapterRest() throws Exception{
     
 //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf-knowbrain2.0.yaml"); //"ss-adapter-rest-conf_domi.yaml" //"ss-adapter-rest-conf_newer.yaml"
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf.yaml"); //"ss-adapter-rest-conf_domi.yaml" //"ss-adapter-rest-conf_newer.yaml"
     
     /**** utils ****/
     SSMimeTypeU.init();
@@ -157,20 +152,52 @@ public class SSAdapterRest{
     // return Response.ok(new ByteArrayInputStream(imageData)).build();
   }
   
-//  @POST
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path    (SSStrU.slash + "authCheckCred")
-//  public String authCheckCred(String jsonRequ){
-//    return handleStandardJSONRESTCall(jsonRequ, SSMethU.authCheckCred);
-//  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "authCheckCred")
   public String authCheckCred(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.authCheckCred);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserPublicSet")
+  public String entityUserPublicSet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserPublicSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserCircleCreate")
+  public String entityUserCircleCreate(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCircleCreate);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserUsersToCircleAdd")
+  public String entityUserUsersToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserUsersToCircleAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserEntitiesToCircleAdd")
+  public String entityUserEntitiesToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserEntitiesToCircleAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserCirclesGet")
+  public String entityUserCirclesGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCirclesGet);
   }
   
   @POST
@@ -248,9 +275,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserShare")
-  public String collUserShare(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserShare);
+  @Path    (SSStrU.slash + "entityUserShare")
+  public String entityUserShare(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserShare);
   }
   
   @POST

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.serv.api;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -77,22 +78,29 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   }
   
   @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public void handleClientOp(
+    final Class       servImplClientInteraceClass, 
+    final SSSocketCon sSCon, 
+    final SSServPar   par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
+  }
+  
+  @Override
+  public Object handleServerOp(
+    final Class     servImplServerInteraceClass, 
+    final SSServPar par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
   }
 
   @Override
-  public Object handleServerOp(SSServPar parA) throws Exception{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
+  public List<SSMethU> publishClientOps(final Class clientInterfaceClass) throws Exception{
     return new ArrayList<SSMethU>();
   }
 
   @Override
-  public List<SSMethU> publishServerOps() throws Exception{
+  public List<SSMethU> publishServerOps(final Class serverInterfaceClass) throws Exception{
     return new ArrayList<SSMethU>();
   }
 }

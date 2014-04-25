@@ -28,12 +28,19 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.service.rating.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.rating.api.SSRatingClientI;
+import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 
 public class SSRatingServ extends SSServA{
   
-  public static final SSServA  inst = new SSRatingServ();
+  public static final SSServA  inst = new SSRatingServ(SSRatingClientI.class, SSRatingServerI.class);
   
-  private SSRatingServ(){}
+  protected SSRatingServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

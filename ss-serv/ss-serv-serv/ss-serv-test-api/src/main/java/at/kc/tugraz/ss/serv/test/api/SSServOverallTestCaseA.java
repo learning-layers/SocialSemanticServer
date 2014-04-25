@@ -21,17 +21,12 @@
 package at.kc.tugraz.ss.serv.test.api;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class SSServOverallTestCaseA extends SSServImplStartA{
   
@@ -45,15 +40,16 @@ public abstract class SSServOverallTestCaseA extends SSServImplStartA{
   
   protected void setUp() throws Exception{
     
-    SSServCaller.removeAllEntities();
+    //TODO dtheiler: fix this
+//    SSServCaller.removeAllEntities();
     
     userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
   }
   
   protected void tearDown() throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    SSServA.callServViaServer(new SSServPar(SSMethU.entityRemoveAll, opPars));
+    //TODO dtheiler: fix this
+    //    SSServCaller.removeAllEntities();
   }
   
   @Override

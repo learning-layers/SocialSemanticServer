@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.service.rating.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -37,6 +36,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -48,8 +48,6 @@ import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingDesc;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI{
@@ -65,21 +63,56 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
 //    graphFct = new SSRatingGraphFct (this);
   }
   
-  /****** SSEntityHandlerImplI ******/
+  /* SSEntityHandlerImplI */
+  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception{
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     if(!par.removeUserRatings){
       return;
     }
     
     try{
-      SSServCaller.ratingsUserRemove(par.user, par.entityUri, shouldCommit);
+      SSServCaller.ratingsUserRemove(
+        par.user, 
+        par.entityUri, 
+        false);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public Boolean setUserEntityPublic(
+    final SSUri          userUri,
+    final SSUri          entityUri, 
+    final SSEntityEnum   entityType,
+    final SSUri          publicCircleUri) throws Exception{
+
+    return false;
+  }
+  
+  @Override
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          entityCircleUri,
+    final SSEntityEnum   entityType) throws Exception{
+    
+    return false;
+  }
+  
+  @Override
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception{
+    
+    return false;
   }
     
   @Override
@@ -105,47 +138,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         author);
   }
   
-  /****** SSServRegisterableImplI ******/
-  
-  @Override
-  public List<SSMethU> publishClientOps() throws Exception{
-    
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-      
-    Method[] methods = SSRatingClientI.class.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() throws Exception{
-    
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    Method[] methods = SSRatingServerI.class.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-    
-    return serverOps;
-  }
-  
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception{
-    SSRatingClientI.class.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar par) throws Exception{
-    return SSRatingServerI.class.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
-  }
-  
-  /****** SSRatingClientI ******/
+  /* SSRatingClientI */
   @Override
   public void ratingUserSet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -172,13 +165,13 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par), par.op));
   }
   
-  /****** SSRatingServerI ******/
+  /* SSRatingServerI */
   @Override
   public Boolean ratingsUserRemove(final SSServPar parA) throws Exception{
     
-    final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
-    
     try{
+      
+      final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -191,8 +184,17 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       dbSQL.commit(par.shouldCommit);
       
       return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return ratingsUserRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -201,38 +203,47 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   @Override
   public Boolean ratingUserSet(SSServPar parA) throws Exception {
     
-    final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
-    final SSUri              ratingUri;
-    
     try{
-      
+      final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
+    
       if(sqlFct.hasUserRatedEntity(par.user, par.resource)){
         return true;
       }
       
-      ratingUri = sqlFct.createRatingUri();
+      final SSUri ratingUri = sqlFct.createRatingUri();
       
-      SSServCaller.addEntity(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAdd(
         par.user,
         ratingUri,
         SSLabelStr.get(ratingUri.toString()),
-        SSEntityEnum.rating);
+        SSEntityEnum.rating,
+        false);
       
-      SSServCaller.addEntity(
+      SSServCaller.entityAdd(
         par.user,
         par.resource,
         SSLabelStr.get(SSUri.toStr(par.resource)),
-        SSEntityEnum.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
+        SSEntityEnum.entity,
+        false);
       
       sqlFct.rateEntityByUser (ratingUri, par.user, par.resource, par.value);
       
       dbSQL.commit(par.shouldCommit);
       
       return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return ratingUserSet(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

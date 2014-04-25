@@ -24,10 +24,14 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
+  public static final String collCircleUri                                  = "collCircleUri";
+  public static final String userUriToShareWith                             = "userUriToShareWith";
   public static final String circleRights                                   = "circleRights";
   public static final String circleUri                                      = "circleUri";
   public static final String circleType                                     = "circleType";
   public static final String userUris                                       = "userUris";
+  public static final String entityCircleUri                                = "entityCircleUri";
   public static final String entityUris                                     = "entityUris";
   public static final String username                                       = "username";
   public static final String password                                       = "password";
@@ -136,6 +140,7 @@ public class SSVarU{
   public static final String recentTopic                                    = "recentTopic";
   public static final String entries                                        = "entries";
   public static final String entryLabels                                    = "entryLabels";
+  public static final String circleUris                                     = "circleUris";
   public static final String entrySpaces                                    = "entrySpaces";
   public static final String timestamp                                      = "timestamp";
   public static final String updates                                        = "updates";
@@ -182,6 +187,7 @@ public class SSVarU{
   public static final String writingMinutesLeft                             = "writingMinutesLeft";
   public static final String pos                                            = "pos";
   public static final String author                                         = "author";
+  public static final String circleTypes                                    = "circleTypes";
   public static final String id                                             = "id";
   public static final String location                                       = "location";
   public static final String pathFullWorkingDir                             = "pathFullWorkingDir";
@@ -191,6 +197,7 @@ public class SSVarU{
   public static final String pass                                           = "pass";
   public static final String user                                           = "user";
   public static final String collUri                                        = "collUri";
+  public static final String publicCircleUri                                = "publicCircleUri";
   public static final String file                                           = "file";
   public static final String op                                             = "op";
   public static final String error                                          = "error";
@@ -202,6 +209,7 @@ public class SSVarU{
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String target                                         = "target";
   public static final String label                                          = "label";
+  public static final String circleAuthor                                   = "circleAuthor";
   public static final String creationTime                                   = "creationTime";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";

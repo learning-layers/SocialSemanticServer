@@ -56,7 +56,7 @@ public class SSFileUploader extends SSServImplStartA{
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
     final SSSocketCon        sSCon, 
-    final SSServPar         par) throws Exception{
+    final SSServPar          par) throws Exception{
     
     super(fileRepoConf);
     
@@ -211,6 +211,12 @@ public class SSFileUploader extends SSServImplStartA{
   }
 
   private void addFileEntity() throws Exception{
-    SSServCaller.addEntity(par.user, uri, par.fileName, SSEntityEnum.file);
+    
+    SSServCaller.entityAdd(
+      par.user, 
+      uri, 
+      par.fileName, 
+      SSEntityEnum.file, 
+      true);
   }
 }

@@ -35,12 +35,22 @@ import java.util.Map;
 public abstract class SSServA{
 
   public    static final String                          policyFile                = "<policy-file-request/>";
-  public                 SSServConfA                         servConf                  = null;
+  public                 SSServConfA                     servConf                  = null;
+  protected        final Class                           servImplClientInteraceClass;
+  protected        final Class                           servImplServerInteraceClass;
   protected              Exception                       servImplCreationError     = null;
   private   static final Map<SSMethU, SSServA>           servsForClientCalls       = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
   private   static final Map<SSMethU, SSServA>           servsForServerCalls       = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
   private   static final Map<SSEntityEnum, SSServA>      servsForManagingEntities  = new EnumMap<SSEntityEnum, SSServA>(SSEntityEnum.class);
  
+  protected SSServA(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    this.servImplClientInteraceClass = servImplClientInteraceClass;
+    this.servImplServerInteraceClass = servImplServerInteraceClass;
+  }
+  
   private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
     
     @Override protected SSServImplA initialValue() {
@@ -68,7 +78,7 @@ public abstract class SSServA{
       
       synchronized(servsForServerCalls){
         
-        for(SSMethU op : servImpl.publishClientOps()){
+        for(SSMethU op : servImpl.publishClientOps(servImplClientInteraceClass)){
           
           if(servsForClientCalls.containsKey(op)){
             SSServErrReg.regErrThrow(new Exception("op for client service already registered"));
@@ -78,7 +88,7 @@ public abstract class SSServA{
           servsForClientCalls.put(op, this);
         }
         
-        for(SSMethU op : servImpl.publishServerOps()){
+        for(SSMethU op : servImpl.publishServerOps(servImplServerInteraceClass)){
           
           if(servsForServerCalls.containsKey(op)){
             SSServErrReg.regErrThrow(new Exception("op for server service already registered"));
@@ -138,7 +148,7 @@ public abstract class SSServA{
       if(!shallServBeUsed()){
         return null;
       }
-
+      
       regServOps           ();
       initServSpecificStuff();
 
@@ -187,7 +197,7 @@ public abstract class SSServA{
         return;
       }
 
-      serv.serv().handleClientOp(sSCon, par);
+      serv.serv().handleClientOp(serv.servImplClientInteraceClass, sSCon, par);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -207,7 +217,7 @@ public abstract class SSServA{
         return null;
       }
 
-      return serv.serv().handleServerOp(par);
+      return serv.serv().handleServerOp(serv.servImplServerInteraceClass, par);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

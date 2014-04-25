@@ -25,15 +25,22 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 
 public class SSLearnEpServ extends SSServA{
   
-  public static final SSServA  inst = new SSLearnEpServ();
+  public static final SSServA  inst = new SSLearnEpServ(SSLearnEpClientI.class, SSLearnEpServerI.class);
   
-  private SSLearnEpServ(){}
+  protected SSLearnEpServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

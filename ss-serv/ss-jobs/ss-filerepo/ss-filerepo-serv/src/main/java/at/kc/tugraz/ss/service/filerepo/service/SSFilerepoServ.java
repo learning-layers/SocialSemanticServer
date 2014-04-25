@@ -26,6 +26,8 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoClientI;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import at.kc.tugraz.ss.service.filerepo.service.task.SSFileRepoWritingMinutesUpdateTask;
 import java.util.HashMap;
@@ -33,10 +35,15 @@ import java.util.Map;
 
 public class SSFilerepoServ extends SSServA{
   
-  public  static final SSFilerepoServ                            inst            = new SSFilerepoServ();
+  public  static final SSFilerepoServ                            inst            = new SSFilerepoServ(SSFileRepoClientI.class, SSFileRepoServerI.class);
   private static final Map<String, SSFileRepoFileAccessProperty> fileAccessProps = new HashMap<String, SSFileRepoFileAccessProperty>();
   
-  private SSFilerepoServ(){}
+  protected SSFilerepoServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

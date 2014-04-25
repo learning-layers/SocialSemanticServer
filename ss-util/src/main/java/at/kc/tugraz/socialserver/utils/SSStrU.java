@@ -99,6 +99,7 @@ public class SSStrU{
   public  static final String        valueDouble                              = "double";
   public  static final String        valueDotDot                              = "..";
   public  static final String        valueRoot                                = "root";
+  public  static final String        valueCollRootCircle                      = "collRootCircle";
   
   public static int lastIndexOf(final String string, final String what){
     
@@ -568,6 +569,21 @@ public class SSStrU{
     return Arrays.asList(temp.toArray(new String[temp.size()]));
   }
   
+  public static List<String> removeAll(
+    final List<String> list, 
+    final List<String> toRemove){
+    
+    if(
+      list     == null ||
+      toRemove == null){
+      return new ArrayList<String>();
+    }
+    
+    list.removeAll(toRemove);
+
+    return list;
+  }
+  
   public static List<String> retainAll(
     final List<String> list, 
     final List<String> toRetain){
@@ -579,8 +595,8 @@ public class SSStrU{
     }
     
     list.retainAll(toRetain);
-    
     return list;
+    
   }
 }
 

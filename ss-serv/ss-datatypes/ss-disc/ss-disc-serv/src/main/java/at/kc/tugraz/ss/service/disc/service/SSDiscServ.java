@@ -28,12 +28,19 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.service.disc.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 
 public class SSDiscServ extends SSServA{
   
-  public static final SSServA  inst = new SSDiscServ();
+  public static final SSServA  inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
   
-  private SSDiscServ(){}
+  protected SSDiscServ(
+    final Class servImplClientInteraceClass, 
+    final Class servImplServerInteraceClass){
+    
+    super(servImplClientInteraceClass, servImplServerInteraceClass);
+  }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{

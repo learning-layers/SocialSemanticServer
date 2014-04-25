@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -29,10 +28,11 @@ import java.util.List;
 
 public interface SSCollServerI{
   
+  public SSUri                      collToCircleAdd                               (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
-  public List<SSColl>               collSharedAll                                 (final SSServPar parA) throws Exception;
-  public Boolean                    collUserShare                                 (final SSServPar parA) throws Exception;
+  public SSUri                      collUserSetPublic                             (final SSServPar parA) throws Exception;
+  public SSUri                      collUserShareWithUser                         (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryChangePos                        (final SSServPar parA) throws Exception;
   public SSColl                     collUserWithEntries                           (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserWithEntries                          (final SSServPar parA) throws Exception;
@@ -42,9 +42,6 @@ public interface SSCollServerI{
   public List<SSColl>               collUserHierarchyGet                          (final SSServPar parA) throws Exception;
   public SSUri                      collUserEntryAdd                              (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesAdd                            (final SSServPar parA) throws Exception;
-  public Boolean                    collEntityPrivateForUserIs                    (final SSServPar parA) throws Exception;
-  public Boolean                    collEntitySharedOrFollowedForUserIs           (final SSServPar parA) throws Exception;
-  public SSSpaceEnum                collUserSpaceGet                              (final SSServPar parA) throws Exception;
   public List<SSTagFrequ>           collUserCumulatedTagsGet                      (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserEntityIsInGet                        (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserCouldSubscribeGet                    (final SSServPar parA) throws Exception;

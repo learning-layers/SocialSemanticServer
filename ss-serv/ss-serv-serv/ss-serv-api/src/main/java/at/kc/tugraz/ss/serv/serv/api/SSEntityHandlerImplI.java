@@ -31,14 +31,6 @@ import java.util.List;
 
 public interface SSEntityHandlerImplI{
 
-  //  public Boolean isUserAllowedTo(
-//    final SSEntityEnum              entityType, 
-//    final SSUri                     userUri, 
-//    final SSUri                     entityUri,
-//    final List<SSUri>               entityCircleUris,
-//    final SSAccessRightsRightTypeE  accessRight) throws Exception;   
-
-  
   //TODO dtheiler: do this
 //  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception;
 
@@ -55,6 +47,24 @@ public interface SSEntityHandlerImplI{
   
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par,
-    final Boolean                                       shouldCommit) throws Exception;
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception;
+
+  public Boolean setUserEntityPublic(
+    final SSUri                    userUri, 
+    final SSUri                    entityUri, 
+    final SSEntityEnum             entityType,
+    final SSUri                    publicCircleUri) throws Exception;
+
+  public Boolean shareUserEntity(
+    final SSUri          userUri, 
+    final List<SSUri>    userUrisToShareWith,
+    final SSUri          entityUri, 
+    final SSUri          circleUri,
+    final SSEntityEnum   entityType) throws Exception;
+
+  public Boolean addEntityToCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityEnum entityType) throws Exception;
 }

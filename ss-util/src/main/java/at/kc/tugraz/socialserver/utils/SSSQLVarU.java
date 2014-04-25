@@ -64,7 +64,6 @@ public class SSSQLVarU{
   public static final String x                                              = "x";
   public static final String y                                              = "y";
   public static final String collId                                         = "collId";
-  public static final String collSpace                                      = "collSpace";
   public static final String entrySpace                                     = "entrySpace";
   public static final String entryId                                        = "entryId";
   public static final String entryPos                                       = "entryPos";

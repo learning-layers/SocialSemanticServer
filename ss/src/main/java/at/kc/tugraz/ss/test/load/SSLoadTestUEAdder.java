@@ -21,17 +21,13 @@
 package at.kc.tugraz.ss.test.load;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.List;
 
 public class SSLoadTestUEAdder extends SSServImplStartA{
   
@@ -59,26 +55,6 @@ public class SSLoadTestUEAdder extends SSServImplStartA{
     }
   }
   
-  @Override
-  public void handleClientOp(SSSocketCon sSCon, SSServPar par) throws Exception {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
-  public Object handleServerOp(SSServPar parA) throws Exception {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
-  public List<SSMethU> publishClientOps() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
   @Override
   protected void finalizeImpl() throws Exception{
     finalizeThread();
