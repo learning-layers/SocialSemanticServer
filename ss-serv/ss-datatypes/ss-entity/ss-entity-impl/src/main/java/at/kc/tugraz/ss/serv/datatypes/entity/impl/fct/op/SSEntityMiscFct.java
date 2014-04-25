@@ -15,6 +15,7 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
@@ -27,6 +28,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityMiscFct{
@@ -38,11 +40,16 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(
-        isSystemCircle  (sqlFct, circleUri) ||
-        !isGroupCircle  (sqlFct, circleUri) ||
-        !isUserInCircle (sqlFct, userUri, circleUri)){
-        
+      try{
+        if(
+          isSystemCircle  (sqlFct, circleUri) ||
+          !isGroupCircle  (sqlFct, circleUri) ||
+          !isUserInCircle (sqlFct, userUri, circleUri)){
+          
+          throw new Exception("user is not allowed to edit circle");
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
         throw new Exception("user is not allowed to edit circle");
       }
     }catch(Exception error){
@@ -256,16 +263,10 @@ public class SSEntityMiscFct{
         SSEntityEnum.circle,
         false);
       
-      sqlFct.addCircle(circleUri, circleType);
-      
       switch(circleType){
         case priv:
-          sqlFct.addCircleRight(circleUri, SSEntityRightTypeE.all);
-          break;
         case group:
-          sqlFct.addCircleRight(circleUri, SSEntityRightTypeE.edit);
-          sqlFct.addCircleRight(circleUri, SSEntityRightTypeE.read);
-          break;
+        case pub: sqlFct.addCircle(circleUri, circleType); break;
         default: throw new Exception("circle type " + circleType + "currently not supported");
       }
       
@@ -400,6 +401,30 @@ public class SSEntityMiscFct{
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static List<SSEntityRightTypeE> getCircleRights(
+    final SSEntityCircleTypeE circleType) throws Exception{
+    
+    try{
+      
+      final List<SSEntityRightTypeE> circleRights = new ArrayList<SSEntityRightTypeE>();
+      
+      if(SSObjU.isNull(circleType)){
+        throw new Exception("pars null");
+      }
+      
+      switch(circleType){
+        case priv: circleRights.add(SSEntityRightTypeE.all);  break;
+        case pub:  circleRights.add(SSEntityRightTypeE.read); break;
+        default:   circleRights.add(SSEntityRightTypeE.read); circleRights.add(SSEntityRightTypeE.edit);
+      }
+      
+      return circleRights;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

@@ -65,30 +65,6 @@ LOCK TABLES `circleentities` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `circlerights`
---
-
-DROP TABLE IF EXISTS `circlerights`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `circlerights` (
-  `circleId` varchar(100) NOT NULL,
-  `accessRight` varchar(100) NOT NULL,
-  PRIMARY KEY (`circleId`,`accessRight`),
-  CONSTRAINT `circleIdFKcirclerights` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `circlerights`
---
-
-LOCK TABLES `circlerights` WRITE;
-/*!40000 ALTER TABLE `circlerights` DISABLE KEYS */;
-/*!40000 ALTER TABLE `circlerights` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `circleusers`
 --
 
@@ -781,4 +757,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-23 15:09:59
+-- Dump completed on 2014-04-25 14:43:27

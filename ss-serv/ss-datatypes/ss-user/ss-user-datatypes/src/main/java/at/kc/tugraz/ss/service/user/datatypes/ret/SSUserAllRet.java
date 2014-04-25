@@ -21,23 +21,30 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSUserAllRet extends SSServRetI{
 
-  public List<SSUri> users = null;
+  public List<SSUri> users = new ArrayList<SSUri>();
 
-  public static SSUserAllRet get(List<SSUri> users, SSMethU op){
+  public static SSUserAllRet get(
+    final List<SSUri> users, 
+    final SSMethU     op){
     return new SSUserAllRet(users, op);
   }
   
-  private SSUserAllRet(List<SSUri> users, SSMethU op){
+  private SSUserAllRet(
+    final List<SSUri> users, 
+    final SSMethU     op){
     
     super(op);
-    
-    this.users = users;
+
+    if(users != null){
+      this.users.addAll(users);
+    }
   }
 
   @Override
@@ -54,8 +61,9 @@ public class SSUserAllRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public List<SSUri> getUsers(){
-    return users;
+  /* getters to allow for json enconding */
+  
+  public List<String> getUsers(){
+    return SSUri.toStrWithoutSlash(users);
   }
 }

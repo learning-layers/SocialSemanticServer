@@ -22,7 +22,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchMIsRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchSolrRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
+import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
 
 public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
@@ -72,7 +73,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     sSCon.writeRetFullToClient(SSSearchSolrRet.get(searchSolr(par), par.op));
   }
   
-  /****** SSSearchServerI ******/
+  /* SSSearchServerI */
   
   @Override
   public List<SSSearchResult> searchTags(final SSServPar parA) throws Exception {
@@ -128,41 +129,28 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   @Override
   public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
     
-    final SSSearchSolrPar                   par                      = new SSSearchSolrPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword  = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              result;
-    List<SSSearchResult>                    searchResultsForOneKeyword;
-    SSUri                                   entityUri;
+    final SSSearchSolrPar                   par                        = new SSSearchSolrPar(parA);
+    final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
+    final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
     
     try{
     
       for(SSSolrKeywordLabel keyword : par.keywords){
 
-        searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+        searchResultsForOneKeyword.clear();
         
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
 
-          entityUri = SSServCaller.fileUriFromID(par.user, entityId);
-
-          if(
-            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSEntityCircleTypeE.pub)   ||
-            SSServCaller.collEntityInCircleTypeForUserIs (par.user, entityUri, SSEntityCircleTypeE.group)){
-            searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
-            continue;
-          }
-          
-          if((Boolean)SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.priv)){
-            searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
-            continue;
-          }
+          SSSearchMiscFct.getPublicAndPrivateResults(
+            par.user, 
+            SSServCaller.fileUriFromID(par.user, entityId),
+            searchResultsForOneKeyword);
         }
 
         searchResultsPerKeyword.put(SSSolrKeywordLabel.toStr(keyword), searchResultsForOneKeyword);
       }
       
-      result = SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
-      
-      return result;
+      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -172,38 +160,28 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   @Override
   public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
     
-    final SSSearchMIsPar                    par                     = new SSSearchMIsPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              result;
-    List<SSSearchResult>                    searchResultsForOneKeyword;
+    final SSSearchMIsPar                    par                        = new SSSearchMIsPar(parA);
+    final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
+    final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
     
     try{
       
       for(SSModelUEMILabel mi : par.mIs){
         
-        searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+        searchResultsForOneKeyword.clear();
         
         for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
-          
-          if(
-            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.pub) ||
-            SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.group)){
-            searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.sharedSpace));
-            continue;
-          }
-          
-          if(SSServCaller.collEntityInCircleTypeForUserIs(par.user, entityUri, SSEntityCircleTypeE.priv)){
-            searchResultsForOneKeyword.add(new SSSearchResult(entityUri, SSSpaceEnum.privateSpace));
-            continue;
-          }
+         
+          SSSearchMiscFct.getPublicAndPrivateResults(
+            par.user,
+            entityUri,
+            searchResultsForOneKeyword);
         }
-        
+
         searchResultsPerKeyword.put(SSModelUEMILabel.toStr(mi), searchResultsForOneKeyword);
       }
       
-      result = SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
-      
-      return result;
+      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

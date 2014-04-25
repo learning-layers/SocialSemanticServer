@@ -838,20 +838,6 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.collUserRootAdd, opPars));
   }
   
-  public static Boolean collEntityInCircleTypeForUserIs(
-    final SSUri                     userUri, 
-    final SSUri                     entityUri, 
-    final SSEntityCircleTypeE circleType) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,       userUri);
-    opPars.put(SSVarU.entityUri,  entityUri);
-    opPars.put(SSVarU.circleType, circleType);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collEntityInCircleTypeForUserIs, opPars));
-  }
-  
   public static List<SSColl> collUserHierarchyGet(
     final SSUri userUri, 
     final SSUri collUri) throws Exception{
@@ -1191,8 +1177,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.user, userUri);
-    opPars.put(SSVarU.user, withSystemGeneratedCircles);
+    opPars.put(SSVarU.user,                       userUri);
+    opPars.put(SSVarU.withSystemGeneratedCircles, withSystemGeneratedCircles);
     
     return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));
   }

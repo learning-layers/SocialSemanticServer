@@ -50,7 +50,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollEntityInCircleTypeForUserIsPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -908,41 +907,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
 
       return tagFrequs;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  //TODO dtheiler: implement this method in entity service based on circles, not colls anymore
-  @Override
-  public Boolean collEntityInCircleTypeForUserIs(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollEntityInCircleTypeForUserIsPar par = new SSCollEntityInCircleTypeForUserIsPar(parA);
-      final List<String>                         collUris;
-      final List<String>                         userCollUris;
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.entityUri)){
-        throw new Exception("user cannot access entity");
-      }
-
-      userCollUris = sqlFct.getAllUserCollURIs(par.user);
-      collUris     = sqlFct.getCollUrisContainingEntity(par.entityUri);
-
-      for(String collUri : SSStrU.retainAll(collUris, userCollUris)){
-
-        if(SSEntityCircleTypeE.contains(
-          SSServCaller.entityUserEntityCircleTypesGet(
-            par.user,
-            SSUri.get(collUri)), par.circleType)){
-
-          return true;
-        }
-      }
-
-      return false;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

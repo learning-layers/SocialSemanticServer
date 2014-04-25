@@ -231,7 +231,6 @@ public enum SSMethU{
   collUserSetPublic                                   ,
   collsUserWithEntries                                ,
   collsUserEntityIsInGet                              ,
-  collEntityInCircleTypeForUserIs                     ,
   collUserHierarchyGet                                ,
   collUserCumulatedTagsGet                            ,
   collsUserCouldSubscribeGet                          ,

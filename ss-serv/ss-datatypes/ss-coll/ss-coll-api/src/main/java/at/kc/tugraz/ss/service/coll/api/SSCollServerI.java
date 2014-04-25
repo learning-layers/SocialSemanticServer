@@ -24,7 +24,6 @@ import java.util.List;
 public interface SSCollServerI{
   
   public SSUri                      collToCircleAdd                               (final SSServPar parA) throws Exception;
-  public Boolean                    collEntityInCircleTypeForUserIs               (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
   public SSUri                      collUserSetPublic                             (final SSServPar parA) throws Exception;

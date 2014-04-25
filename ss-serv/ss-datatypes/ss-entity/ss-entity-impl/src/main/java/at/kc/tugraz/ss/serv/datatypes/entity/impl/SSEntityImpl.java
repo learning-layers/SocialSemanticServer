@@ -473,8 +473,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         SSEntityEnum.circle, 
         false);
       
-      sqlFct.addCircleRight(publicCircleUri, SSEntityRightTypeE.read);
-      
       dbSQL.commit(parA.shouldCommit);
       
       return publicCircleUri;
@@ -528,10 +526,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           continue;
         }
         
-        circle              = sqlFct.getCircle            (circleUri);
-        circle.circleRights = sqlFct.getCircleRights      (circleUri);
-        circle.userUris     = sqlFct.getCircleUserUris    (circleUri);
-        circle.entityUris   = sqlFct.getCircleEntityUris  (circleUri);
+        circle              = sqlFct.getCircle                (circleUri);
+        circle.circleRights = SSEntityMiscFct.getCircleRights (circle.circleType);
+        circle.userUris     = sqlFct.getCircleUserUris        (circleUri);
+        circle.entityUris   = sqlFct.getCircleEntityUris      (circleUri);
           
         circles.add(circle);
       }
@@ -727,26 +725,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserEntityCircleTypesGetPar par         = new SSEntityUserEntityCircleTypesGetPar(parA);
       
       return sqlFct.getUserEntityCircleTypes(par.user, par.entityUri);
-//      final List<SSEntityCircleTypeE>              circleTypes = new ArrayList<SSEntityCircleTypeE>();
-//      SSEntityCircleTypeE                          circleType;
-//      
-//      final List<SSUri> entityCircleUris = sqlFct.getEntityCircleURIs(par.entityUri);
-//      final List<SSUri> userCircleUris   = sqlFct.getUserCircleURIs  (par.user);
-//      
-//      for(SSUri circleUri : entityCircleUris){
-//        
-//        if(!SSUri.contains(userCircleUris, circleUri)){
-//          continue;
-//        }
-//        
-//        circleType = sqlFct.getCircleType(circleUri);
-//        
-//        if(!SSEntityCircleTypeE.contains(circleTypes, circleType)){
-//          circleTypes.add(circleType);
-//        }
-//      }
-//      
-//      return circleTypes;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -762,19 +740,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserEntityCirclesGetPar par = new SSEntityUserEntityCirclesGetPar(parA);
       
       return sqlFct.getUserEntityCircles(par.user, par.entityUri);
-//      final List<SSUri> userCircleURIs   = sqlFct.getUserCircleURIs   (par.user);
-//      final List<SSUri> entityCircleURIs = sqlFct.getEntityCircleURIs (par.entityUri);
-//      
-//      for(SSUri entityCircleUri : entityCircleURIs){
-//        
-//        if(!SSUri.contains(userCircleURIs, entityCircleUri)){
-//          continue;
-//        }
-//        
-//        userEntityCircles.add(sqlFct.getCircle(entityCircleUri));
-//      }
-//
-//      return userEntityCircles;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -888,25 +853,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       return false;
       
-      
-//      final List<SSUri> entityCircleUris = sqlFct.getEntityCircleURIs(par.entityUri);
-//      
-//      if(entityCircleUris.isEmpty()){
-//        return true;
-//      }
-//      
-//      for(SSUri userCircleUri : sqlFct.getUserCircleURIs(par.user)){
-//        
-//        if(SSUri.contains(entityCircleUris, userCircleUri)){
-//          
-//          if(sqlFct.hasCircleRight(userCircleUri, par.accessRight)){
-//            return true;
-//          }
-//        }
-//      }
-//      
-//      return false;
-
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

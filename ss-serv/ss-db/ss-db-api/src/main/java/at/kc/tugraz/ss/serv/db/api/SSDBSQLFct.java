@@ -25,7 +25,6 @@ public class SSDBSQLFct extends SSDBFct{
 
   protected        final SSDBSQLI dbSQL;
   protected static final String   circleTable                         = "circle";
-  protected static final String   circleRightsTable                   = "circleRights";
   protected static final String   circleUsersTable                    = "circleUsers";
   protected static final String   circleEntitiesTable                 = "circleEntities";
   protected static final String   collTable                           = "coll";
