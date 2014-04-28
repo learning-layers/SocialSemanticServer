@@ -31,12 +31,12 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -796,38 +796,38 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-//  public List<SSUri> getEntityCircleURIs(
-//    final SSUri entityUri) throws Exception{
-//    
-//    ResultSet resultSet = null;
-//    
-//    try{
-//      
-//      if(SSObjU.isNull(entityUri)){
-//        throw new Exception("pars not ok");
-//      }
-//      
-//      final Map<String, String>   where       = new HashMap<String, String>();
-//      final List<String>          columnNames = new ArrayList<String>();
-//      final List<SSUri>           circleUris  = new ArrayList<SSUri>();
-//      
-//      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
-//      
-//      columnNames.add(SSSQLVarU.circleId);
-//
-//      resultSet = dbSQL.selectCertainDistinctWhere(circleEntitiesTable, columnNames, where);
-//      
-//      while(resultSet.next()){
-//        circleUris.add(bindingStrToUri(resultSet, SSSQLVarU.circleId));
-//      }
-//      
-//      return circleUris;
-//    }catch(Exception error){
-//      dbSQL.closeStmt(resultSet);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
+  public List<SSUri> getEntityCircleURIs(
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(entityUri)){
+        throw new Exception("pars not ok");
+      }
+      
+      final Map<String, String>   where       = new HashMap<String, String>();
+      final List<String>          columns     = new ArrayList<String>();
+      final List<SSUri>           circleUris  = new ArrayList<SSUri>();
+      
+      where.put(SSSQLVarU.entityId, SSUri.toStr(entityUri));
+      
+      columns.add(SSSQLVarU.circleId);
+
+      resultSet = dbSQL.selectCertainDistinctWhere(circleEntitiesTable, columns, where);
+      
+      while(resultSet.next()){
+        circleUris.add(bindingStrToUri(resultSet, SSSQLVarU.circleId));
+      }
+      
+      return circleUris;
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   public SSEntityCircleTypeE getCircleType(
     final SSUri circleUri) throws Exception{
@@ -856,8 +856,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return null;
     }
   }
-
-  
 }
 
 

@@ -39,10 +39,12 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.*;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserLoginPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserLoginRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
@@ -196,10 +198,10 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   @Override
   public void userAdd(final SSServPar parA) throws Exception{
     
-    final SSUserAddPar par = new SSUserAddPar (parA);
-    
     try{
       
+      final SSUserAddPar par = new SSUserAddPar (parA);
+        
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
@@ -226,17 +228,34 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public List<SSUri> userAll(SSServPar par) throws Exception {
+  public List<SSUri> userAll(final SSServPar parA) throws Exception {
     return sqlFct.userAll();
   }
 
   @Override
-  public SSUri userSystemGet(SSServPar par) throws Exception {
+  public SSUri userSystemGet(final SSServPar parA) throws Exception {
     return sqlFct.userSystem();
   }
 
-  private SSUri createUserURI(SSLabelStr userLabel) throws Exception {
+  @Override 
+  public List<SSUser> usersGet(final SSServPar parA) throws Exception{
     
+    try{
+      final SSUsersGetPar par   = new SSUsersGetPar(parA);
+      final List<SSUser>  users = new ArrayList<SSUser>();
+      
+      for(SSUri userUri : par.userUris){
+        users.add(sqlFct.getUser(userUri));
+      }
+      
+      return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private SSUri createUserURI(SSLabelStr userLabel) throws Exception {
     return sqlFct.createUserUri(userLabel);
   }
 }

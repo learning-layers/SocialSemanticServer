@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.LinkedNotebook;
@@ -488,29 +489,26 @@ public class SSServCaller {
   
   public static SSUri logUserIn(SSLabelStr userLabel, Boolean shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    SSUri               result = null;
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.shouldCommit, shouldCommit);
-      opPars.put(SSVarU.userLabel,    userLabel);
-      
-      result = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.userLabel,    userLabel);
     
-    return result;
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
   }
   
   public static List<SSUri> getAllUsers() throws Exception{
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
+  }
+  
+  public static List<SSUser> usersGet(
+    final List<SSUri> userUris) throws Exception{
     
-    try{
-      return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.userUris, userUris);
+    
+    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.usersGet, opPars));
   }
   
   public static SSLearnEpVersion getLearnEpVersion(SSUri userUri, SSUri learnEpCurrentVersionUri) throws Exception{

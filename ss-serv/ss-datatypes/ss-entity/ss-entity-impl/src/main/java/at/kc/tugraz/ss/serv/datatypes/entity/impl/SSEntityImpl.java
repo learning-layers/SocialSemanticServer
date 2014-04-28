@@ -63,6 +63,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCir
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityUsersGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
@@ -70,6 +71,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUsersToCircle
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCreateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
@@ -82,6 +84,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,6 +190,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSEntityUserPublicSetRet.get(entityUserPublicSet(par), par.op));
+  }
+  
+  @Override
+  public void entityUserEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
   }
   
   /* SSEntityServerI */
@@ -938,6 +949,52 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
     }catch(Exception error){
       dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUser> entityUserEntityUsersGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
+      final List<SSUri>                   userUris        = new ArrayList<SSUri>();
+      final List<SSUri>                   userCircleUris  = sqlFct.getUserCircleURIs   (par.user);
+      
+      for(SSUri entityCircleUri : sqlFct.getEntityCircleURIs (par.entityUri)){
+        
+        switch(sqlFct.getCircleType(entityCircleUri)){
+          
+          case pub:{
+            
+            for(SSUri circleUserUri : sqlFct.getCircleUserUris(entityCircleUri)){
+              
+              if(!SSUri.contains(userUris, circleUserUri)){
+                userUris.add(circleUserUri);
+              }
+            }
+          }
+          
+          case group:{
+            
+            if(!SSUri.contains(userCircleUris, entityCircleUri)){
+              continue;
+            }
+            
+            for(SSUri circleUserUri : sqlFct.getCircleUserUris(entityCircleUri)){
+              
+              if(!SSUri.contains(userUris, circleUserUri)){
+                userUris.add(circleUserUri);
+              }
+            }
+          }
+        }
+      }
+      
+      return SSServCaller.usersGet(userUris);
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

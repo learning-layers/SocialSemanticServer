@@ -79,6 +79,7 @@ public enum SSMethU{
   entityUserEntityCircleTypesGet,
   entityUserPublicSet,
   entityUserShare,
+  entityUserEntityUsersGet,
   
   //learn ep
   learnEpsGet                                         ,
@@ -116,6 +117,7 @@ public enum SSMethU{
   userAll                                             ,
   userAdd                                             ,
   userExists                                          ,
+  usersGet,                            
   
   //user event
   uEsGet                                              ,

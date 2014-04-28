@@ -273,14 +273,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   public ResultSet selectCertainDistinctWhere(
     List<String>        tableNames, 
     List<String>        columnNames, 
-    Map<String, String> whereParNamesWithValues, 
-    List<String>        whereFixedRestrictions) throws Exception{
+    Map<String, String> where, 
+    List<String>        whereFixed) throws Exception{
     
     if(
-      SSObjU.isNull(tableNames, columnNames, whereParNamesWithValues, whereFixedRestrictions) ||
+      SSObjU.isNull(tableNames, columnNames, where, whereFixed) ||
       tableNames.size()              <= 0    ||
       columnNames.size()             <= 0    ||
-      whereFixedRestrictions.size()  <= 0){
+      whereFixed.size()  <= 0){
       
       SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
       return null;
@@ -304,19 +304,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     query         = SSStrU.removeTrailingString(query, ",");
     query         += " WHERE ";
-    iterator      = whereParNamesWithValues.entrySet().iterator();
+    iterator      = where.entrySet().iterator();
     
     while(iterator.hasNext()){
       query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
     }
     
-    for(String whereFixedRestriction : whereFixedRestrictions){
+    for(String whereFixedRestriction : whereFixed){
       query         += whereFixedRestriction + " AND ";
     }
     
     query         = SSStrU.removeTrailingString(query, " AND ");
     stmt           = connector.prepareStatement(query);
-    iterator       = whereParNamesWithValues.entrySet().iterator();
+    iterator       = where.entrySet().iterator();
     
     while(iterator.hasNext()){
       stmt.setObject(counter++, iterator.next().getValue());

@@ -22,6 +22,7 @@
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import java.util.List;
 
 public interface SSUserServerI {
@@ -31,4 +32,5 @@ public interface SSUserServerI {
   public void           userAdd              (final SSServPar parA)     throws Exception;
   public List<SSUri>    userAll              (final SSServPar parA)     throws Exception;
   public SSUri          userSystemGet        (final SSServPar parA)     throws Exception;
+  public List<SSUser>   usersGet             (final SSServPar parA)     throws Exception;
 }
