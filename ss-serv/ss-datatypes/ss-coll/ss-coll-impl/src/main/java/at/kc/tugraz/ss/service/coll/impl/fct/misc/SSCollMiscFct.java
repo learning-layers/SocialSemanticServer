@@ -45,11 +45,8 @@ public class SSCollMiscFct{
           SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
       
       for(SSCollEntry entry : coll.entries){
-        
-        if(sqlFct.isColl(entry.uri)){ //coll entry is a coll itself
-          entry.circleTypes.clear();
-          entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.uri));
-        }
+        entry.circleTypes.clear();
+        entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.uri));
       }
       
       return coll;
