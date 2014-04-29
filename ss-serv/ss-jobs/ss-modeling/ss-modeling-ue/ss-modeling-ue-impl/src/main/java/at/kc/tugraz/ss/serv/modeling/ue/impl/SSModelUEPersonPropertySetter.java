@@ -245,8 +245,8 @@ public class SSModelUEPersonPropertySetter {
       for(SSUri personUrl : resources.get(SSStrU.toString(relatedResourceUrl)).relatedPersons){
         
         if (
-          !SSUri.isSame   (personUrl, resource.resourceUrl) &&
-          SSUri.containsNot (resource.personsRelatedPersons, personUrl)){
+          !SSUri.equals   (personUrl, resource.resourceUrl) &&
+          !SSUri.contains (resource.personsRelatedPersons, personUrl)){
           
           resource.personsRelatedPersons.add(personUrl);
         }
@@ -292,7 +292,7 @@ public class SSModelUEPersonPropertySetter {
 
 		if(
 				SSUEEnum.contains (SSModelUEU.relateResourceEventTypes, event.type) &&
-				SSUri.containsNot (resource.personsRelatedResources,    event.resource)){
+				!SSUri.contains (resource.personsRelatedResources,    event.resource)){
 			
 			resource.counters.put(
 					   SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString(),

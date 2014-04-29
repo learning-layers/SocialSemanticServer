@@ -45,7 +45,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      
 //      for(SSStatement stm : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
 //
-//        if(SSUri.isSame(coll, splitObject(stm.object).get(0))){
+//        if(SSUri.equals(coll, splitObject(stm.object).get(0))){
 //          db.remove(stm, namedGraphUri);
 //        }
 //      }
@@ -96,7 +96,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //   
 //    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
 //
-//      if(SSUri.isSame(collUri, splitObject(stm.object).get(0))){
+//      if(SSUri.equals(collUri, splitObject(stm.object).get(0))){
 //        db.remove(stm, namedGraphUri);
 //        changed = true;
 //      }
@@ -124,7 +124,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //    for(SSStatement state : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
 //
-//      if(SSUri.isSame(coll, splitObject(state.object).get(0))){
+//      if(SSUri.equals(coll, splitObject(state.object).get(0))){
 //        db.remove(state, namedGraphUri);
 //        return true;
 //      }
@@ -183,7 +183,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
 //
-//      if(SSUri.isSame(collUri, splitObject(stm.object).get(0))){
+//      if(SSUri.equals(collUri, splitObject(stm.object).get(0))){
 //        db.remove(stm, namedGraphUri);
 //      }
 //    }
@@ -428,7 +428,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      split = splitObject(state.object);
 //
-//      if(SSUri.isSame(collUri, split.get(0))){
+//      if(SSUri.equals(collUri, split.get(0))){
 //        result = Integer.parseInt(split.get(1));
 //      }
 //    }
@@ -446,7 +446,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      split = splitObject(state.object);
 //
-//      if(SSUri.isSame(collUri, split.get(0))){
+//      if(SSUri.equals(collUri, split.get(0))){
 //        return SSSpaceEnum.get(split.get(1));
 //      }
 //    }

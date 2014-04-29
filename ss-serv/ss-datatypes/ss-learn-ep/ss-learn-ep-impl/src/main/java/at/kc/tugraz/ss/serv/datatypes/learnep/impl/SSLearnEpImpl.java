@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
@@ -98,6 +99,16 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   /* SSEntityHandlerImplI */
+  @Override
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri,
+    final SSUri         entityUri,
+    final SSTagLabel    tag,
+    final SSEntityEnum  entityType) throws Exception{
+
+    return null;
+  }
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,

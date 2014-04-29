@@ -31,19 +31,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSSearchTagsRet extends SSServRetI{
+public class SSSearchTagsWithinEntityRet extends SSServRetI{
   
   public List<SSSearchResult> searchResults = new ArrayList<SSSearchResult>();
   
-  public static SSSearchTagsRet get(
-    final List<SSSearchResult> searchResults,
+  public static SSSearchTagsWithinEntityRet get(
+    final List<SSSearchResult> searchResults, 
     final SSMethU              op){
     
-    return new SSSearchTagsRet(searchResults, op);
+    return new SSSearchTagsWithinEntityRet(searchResults, op);
   }
   
-  private SSSearchTagsRet(
-    final List<SSSearchResult> searchResults,
+  private SSSearchTagsWithinEntityRet(
+    final List<SSSearchResult> searchResults, 
     final SSMethU              op){
     
     super(op);

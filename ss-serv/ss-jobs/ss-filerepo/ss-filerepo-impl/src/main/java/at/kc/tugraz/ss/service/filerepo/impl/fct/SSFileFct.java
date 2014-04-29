@@ -114,7 +114,7 @@ public class SSFileFct {
           continue;
         }
         
-        if(SSUri.isSame(fileAccessProperty.getWriter(), user)){
+        if(SSUri.equals(fileAccessProperty.getWriter(), user)){
           files.add(fileAccessProperty.file);
         }
       }

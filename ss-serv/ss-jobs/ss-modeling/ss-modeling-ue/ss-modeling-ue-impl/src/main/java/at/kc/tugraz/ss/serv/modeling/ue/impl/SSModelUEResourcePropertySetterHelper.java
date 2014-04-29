@@ -61,7 +61,7 @@ public class SSModelUEResourcePropertySetterHelper {
 					SSModelUEResourceCounterEnum.counterChange.toString(),
 					resource.counters.get(SSModelUEResourceCounterEnum.counterChange.toString()) + 1); 
 			
-			if(SSUri.containsNot(resource.personsChanged, event.user)){
+			if(!SSUri.contains(resource.personsChanged, event.user)){
 				
 				resource.personsChanged.add(event.user);
 				
@@ -121,7 +121,7 @@ public class SSModelUEResourcePropertySetterHelper {
 //		if(
 //				SSUEEnum.contains            (SSModelUEU.startDicussionEventTypes, event.type) &&
 //				SSUE.isContentCorrect  (event) &&
-//				SSUri.containsNot          (resource.parentDiscussions, SSUri.get(event.content))){
+//				!SSUri.contains          (resource.parentDiscussions, SSUri.get(event.content))){
 //			
 //			resource.counters.put(
 //					SSModelUEResourceCounterEnum.counterDiscussionAbout.toString(),
@@ -145,7 +145,7 @@ public class SSModelUEResourcePropertySetterHelper {
 					SSModelUEResourceCounterEnum.counterView.toString(),
 					resource.counters.get(SSModelUEResourceCounterEnum.counterView.toString()) + 1);
 			
-			if(SSUri.containsNot(resource.personsView, event.user)){
+			if(!SSUri.contains(resource.personsView, event.user)){
 
 				resource.counters.put(
 						SSModelUEResourceCounterEnum.counterViewPerson.toString(),
@@ -306,7 +306,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSUEEnum.contains(SSModelUEU.organizingInCollectionsEventTypes, event.type) || 
 			SSUEEnum.contains(SSModelUEU.taggingEventTypes,                 event.type)){
 			
-			if(SSUri.containsNot (resource.editors, event.user)){
+			if(!SSUri.contains (resource.editors, event.user)){
 
 				resource.editors.add(event.user);		
 			}
@@ -322,7 +322,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSUE event) {
 		
 		if(
-				SSUri.containsNot        (resource.relatedPersons,             event.user) &&
+				!SSUri.contains        (resource.relatedPersons,             event.user) &&
 				SSUEEnum.contains (SSModelUEU.personAssociationEventTypes, event.type)){
 			
 			resource.counters.put(
@@ -516,7 +516,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 				if(
 						SSUEEnum.contains(SSModelUEU.contributeToDiscussionEventTypes, otherResourceEvent.type) &&
-						SSUri.isSame(otherResourceEvent.user, resource.resourceUrl)){
+						SSUri.equals(otherResourceEvent.user, resource.resourceUrl)){
 
 					resource.counters.put(
 							SSModelUEResourceCounterEnum.counterContributedDiscussion.toString(),
@@ -557,7 +557,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 				if(
 						SSUEEnum.contains(SSModelUEU.participationEventTypes, otherResourceEvent.type) &&
-						SSUri.isSame(otherResourceEvent.user, resource.resourceUrl)){
+						SSUri.equals(otherResourceEvent.user, resource.resourceUrl)){
 
 					resource.counters.put(
 							SSModelUEResourceCounterEnum.counterParticipated.toString(),

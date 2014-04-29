@@ -73,6 +73,15 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   /* SSEntityHandlerImplI */
   
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri,
+    final SSUri         entityUri,
+    final SSTagLabel    tag,
+    final SSEntityEnum  entityType) throws Exception{
+    
+    return null;
+  }
+  
   @Override
   public Boolean setUserEntityPublic(
     final SSUri          userUri,

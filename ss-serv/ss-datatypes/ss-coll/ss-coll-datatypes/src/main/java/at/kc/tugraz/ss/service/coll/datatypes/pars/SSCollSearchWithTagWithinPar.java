@@ -18,28 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.db.datatypes.sql;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import java.util.Map;
 
-public class SSDBSQLInsertPar extends SSServPar{
+public class SSCollSearchWithTagWithinPar extends SSServPar{
+
+  public SSUri      collUri   = null;
+  public SSTagLabel tag       = null;
   
-  public String              tableName;
-  public Map<String, String> whereParNamesWithValues;
-  
-  public SSDBSQLInsertPar(SSServPar par) throws Exception{
+  public SSCollSearchWithTagWithinPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
-      
+    
       if(pars != null){
-        this.tableName                = (String) pars.get(SSVarU.tableName);
-        this.whereParNamesWithValues  = (Map<String, String>) pars.get(SSVarU.whereParNamesWithValues);
+        collUri    = (SSUri)       pars.get(SSVarU.collUri);
+        tag        = (SSTagLabel)  pars.get(SSVarU.tag);
       }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -18,31 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.db.datatypes.sql;
+ package at.kc.tugraz.ss.service.search.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class SSDBSQLSelectCertainWherePar extends SSServPar{
-
-  public List<String>        tableNames;
-  public List<String>        columnNames;
-  public Map<String, String> whereParNamesWithValues;
-  public String              whereFixedRestriction;
+public class SSSearchTagsWithinEntityPar extends SSServPar{
   
-  public SSDBSQLSelectCertainWherePar(SSServPar par) throws Exception{
-   
+  public SSUri             entityUri = null;
+  public List<SSTagLabel>  tags      = new ArrayList<SSTagLabel>();
+    
+  public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
+      
     super(par);
     
     try{
       if(pars != null){
-        this.tableNames              = (List<String>)        pars.get(SSVarU.tableNames);
-        this.columnNames             = (List<String>)        pars.get(SSVarU.columnNames);
-        this.whereParNamesWithValues = (Map<String, String>) pars.get(SSVarU.whereParNamesWithValues);
-        this.whereFixedRestriction   = (String)              pars.get(SSVarU.whereFixedRestriction);
+        entityUri        = (SSUri)            pars.get(SSVarU.entityUri);
+        tags             = (List<SSTagLabel>) pars.get(SSVarU.tags);
+      }
+      
+      if(clientPars != null){
+        entityUri        = SSUri.get             (clientPars.get(SSVarU.entityUri));
+        tags             = SSTagLabel.getDistinct(SSStrU.split(clientPars.get(SSVarU.tags), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

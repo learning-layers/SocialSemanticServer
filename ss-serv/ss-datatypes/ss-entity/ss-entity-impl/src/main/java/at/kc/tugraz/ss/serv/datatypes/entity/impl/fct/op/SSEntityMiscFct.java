@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
@@ -150,6 +151,24 @@ public class SSEntityMiscFct{
       
       if(!SSServCaller.entityUserCanEdit(userUri, entityUri)){
         throw new Exception("user cannot edit entity");
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void checkWhetherUserCanReadEntity(
+    final SSUri userUri, 
+    final SSUri entityUri) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entityUri)){
+        throw new Exception("pars null");
+      }
+      
+      if(!SSServCaller.entityUserCanRead(userUri, entityUri)){
+        throw new Exception("user cannot read");
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -427,6 +446,41 @@ public class SSEntityMiscFct{
       }
       
       return circleRights;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  public static List<SSUri> searchWithTagWithinByEntityHandlers(
+    final SSUri      userUri, 
+    final SSUri      entityUri, 
+    final SSTagLabel tag) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entityUri, tag)){
+        throw new Exception("pars null");
+      }
+      
+      final SSEntityEnum entityType = SSServCaller.entityTypeGet(entityUri);
+      List<SSUri>        entityUris;
+      
+      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+        return new ArrayList<SSUri>();
+      }
+      
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        
+        entityUris = ((SSEntityHandlerImplI) serv.serv()).searchWithTagWithin(userUri, entityUri, tag, entityType);
+        
+        if(!SSObjU.isNull(entityUris)){
+          return entityUris;
+        }
+      }
+      
+      throw new Exception("entity couldnt be searched within by entity handlers");
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

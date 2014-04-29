@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.service.search.impl.fct.misc;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
@@ -41,19 +42,18 @@ public class SSSearchMiscFct{
         switch(circle.circleType){
           case priv:{
             
-            if(!SSUri.contains(privateAddedUris, searchResultUri)){
-              privateAddedUris.add(searchResultUri);
+            if(!SSUri.contains(publicAddedUris, searchResultUri)){
+              SSUri.addDistinct(privateAddedUris, searchResultUri);
             }
-            
+
             break;
           }
           
           case pub:
           default:{
             
-            if(!SSUri.contains(publicAddedUris, searchResultUri)){
-              publicAddedUris.add(searchResultUri);
-            }
+            SSUri.remove      (privateAddedUris, searchResultUri);
+            SSUri.addDistinct (publicAddedUris,  searchResultUri);
           }
         }
       }

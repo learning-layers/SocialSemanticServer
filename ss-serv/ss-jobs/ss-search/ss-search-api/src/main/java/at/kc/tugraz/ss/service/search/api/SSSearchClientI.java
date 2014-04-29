@@ -25,7 +25,8 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSSearchClientI {
   
-  public void searchTags  (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void searchMIs   (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void searchSolr  (SSSocketCon sSCon, SSServPar par) throws Exception;
+  public void searchTags              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void searchMIs               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void searchSolr              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void searchTagsWithinEntity  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

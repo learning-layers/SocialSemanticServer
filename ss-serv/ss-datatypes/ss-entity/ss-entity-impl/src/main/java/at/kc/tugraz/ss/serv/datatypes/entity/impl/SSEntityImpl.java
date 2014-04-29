@@ -85,6 +85,8 @@ import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithTagWithinPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,12 +271,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSUri entityUserDirectlyAdjoinedEntitiesRemove(final SSServPar parA) throws Exception{
-    
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par = new SSEntityUserDirectlyAdjoinedEntitiesRemovePar(parA);
+  public SSEntity entityGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntity entity = sqlFct.getEntity(par.entityUri);
+      final SSEntityGetPar par = new SSEntityGetPar(parA);
+      
+      return sqlFct.getEntity(par.entityUri);
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityUserDirectlyAdjoinedEntitiesRemove(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par    = new SSEntityUserDirectlyAdjoinedEntitiesRemovePar(parA);
+      final SSEntity                                      entity = sqlFct.getEntity(par.entityUri);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -993,6 +1008,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       return SSServCaller.usersGet(userUris);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> entitySearchWithTagWithin(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntitySearchWithTagWithinPar par = new SSEntitySearchWithTagWithinPar(parA);
+      
+      SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entityUri);
+      
+      return SSEntityMiscFct.searchWithTagWithinByEntityHandlers(
+        par.user, 
+        par.entityUri, 
+        par.tag);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

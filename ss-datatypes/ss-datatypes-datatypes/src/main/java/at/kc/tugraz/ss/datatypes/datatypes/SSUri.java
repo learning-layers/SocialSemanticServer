@@ -87,28 +87,44 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
-  public static Boolean equals(
-    final SSUri  uri1, 
-    final SSUri  uri2) throws Exception{
+  public static List<SSUri> distinct(
+    final List<SSUri> uris) throws Exception{
     
-    if(SSObjU.isNull(uri1, uri2)) {
-      return false;
+    if(uris == null){
+      return uris;
     }
     
-    return SSStrU.equals(uri1.toString(), uri2.toString());
-  }
+    final List<String>     foundEntities = new ArrayList<String>();
+    final List<SSUri>      result        = new ArrayList<SSUri>();
     
-  public static Boolean equals(
-    final SSUri  uri1, 
-    final String uri2) throws Exception{
-    
-    if(SSObjU.isNull(uri1, uri2)) {
-      return false;
+    for(SSUri uri : uris){
+      
+      if(
+        uri == null ||
+        foundEntities.contains(uri.toString())) {
+        continue;
+      }
+      
+      result.add        (uri);
+      foundEntities.add (uri.toString());
     }
     
-    return SSStrU.equals(uri1.toString(), uri2);
+    return result;
   }
-
+  
+  public static void addDistinct(
+    final List<SSUri> uris, 
+    final SSUri       uriToAdd){
+    
+    if(
+      SSObjU.isNull(uris, uriToAdd) ||
+      contains     (uris, uriToAdd)){
+      return;
+    }
+    
+    uris.add(uriToAdd);
+  }
+  
   public static List<String> toStrWithoutSlash(final List<SSUri> uris){
 
     if(uris == null){
@@ -132,25 +148,7 @@ public class SSUri extends SSEntityA{
     
     return SSStrU.removeTrailingSlash(uri.toString());
   }
-  
-  public static List<SSUri> distinct(List<SSUri> uris) throws Exception{
-    
-    List<String>     foundEntities = new ArrayList<String>();
-    List<SSUri>      result        = new ArrayList<SSUri>();
-    
-    for (SSUri entity : uris){
-      
-      if(SSStrU.contains(foundEntities, entity.toString())) {
-        continue;
-      }
-      
-      result.add        (entity);
-      foundEntities.add (entity.toString());
-    }
-    
-    return result;
-  }
-  
+
   private SSUri(final String value){
     super(SSStrU.addTrailingSlash(value));
   }

@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -67,4 +68,10 @@ public interface SSEntityHandlerImplI{
     final SSUri        circleUri, 
     final SSUri        entityUri, 
     final SSEntityEnum entityType) throws Exception;
+
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri, 
+    final SSUri         entityUri, 
+    final SSTagLabel    tag, 
+    final SSEntityEnum  entityType) throws Exception;
 }

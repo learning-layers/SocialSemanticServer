@@ -18,26 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.db.datatypes.sql;
+ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import java.sql.ResultSet;
 
-public class SSDBSQLCloseStmt extends SSServPar{
+public class SSEntitySearchWithTagWithinPar extends SSServPar{
   
-  public ResultSet resultSet = null;
-  
-  public SSDBSQLCloseStmt(SSServPar par) throws Exception{
+  public SSUri          entityUri = null;
+  public SSTagLabel     tag       = null;
     
+  public SSEntitySearchWithTagWithinPar(SSServPar par) throws Exception{
+      
     super(par);
     
     try{
       
       if(pars != null){
-        this.resultSet = (ResultSet) pars.get(SSVarU.resultSet);
+        entityUri   = (SSUri)      pars.get(SSVarU.entityUri);
+        tag         = (SSTagLabel) pars.get(SSVarU.tag);
       }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

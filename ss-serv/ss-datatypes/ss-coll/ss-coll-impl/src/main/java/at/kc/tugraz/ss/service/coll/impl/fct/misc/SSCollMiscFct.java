@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -64,6 +65,27 @@ public class SSCollMiscFct{
     final SSUri                      circleUri) throws Exception{
     
     try{
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri,
+        circleUri,
+        getCollSubCollAndEntryURIs(sqlFct, startColl),
+        false);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static List<SSUri> getCollSubCollAndEntryURIs(
+    final SSCollSQLFct  sqlFct,
+    final SSColl        startColl) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(startColl)){
+        throw new Exception("pars null");
+      }
+      
       final List<String>  subCollUris          = new ArrayList<String>();
       final List<SSUri>   collAndCollEntryUris = new ArrayList<SSUri>();
       
@@ -91,14 +113,10 @@ public class SSCollMiscFct{
         }
       }
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        userUri,
-        circleUri,
-        collAndCollEntryUris,
-        false);
-      
+      return collAndCollEntryUris;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

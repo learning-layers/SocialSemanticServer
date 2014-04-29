@@ -56,6 +56,8 @@ public enum SSMethU{
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
   entityCreationTimeGet                               ,
+  entityGet                                           ,
+  entitySearchWithTagWithin                           ,                         
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityLabelGet                                      ,
@@ -146,6 +148,7 @@ public enum SSMethU{
   searchTags                                          ,
   searchSolr                                          ,
   searchMIs                                           ,
+  searchTagsWithinEntity                              ,
   
   //rating
   ratingUserSet                                       ,
@@ -224,6 +227,7 @@ public enum SSMethU{
   
   
   //coll
+  collSearchWithTagWithin                             , 
   collToCircleAdd                                     ,
   collUserRootGet                                     ,
   collUserParentGet                                   ,

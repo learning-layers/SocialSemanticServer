@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,17 +51,18 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   public SSEntity getEntity(
     final SSUri entityUri) throws Exception{
     
-    if(entityUri == null){
-      SSServErrReg.regErrThrow(new Exception("entityUri null"));
-      return null;
-    }
-    
-    final Map<String, String> where      = new HashMap<String, String>();
-    ResultSet                 resultSet  = null;
-
-    where.put(SSSQLVarU.id, entityUri.toString());
+    ResultSet resultSet  = null;
     
     try{
+      
+      if(SSObjU.isNull(entityUri)){
+        throw new Exception("pars null");
+      }
+      
+      final Map<String, String> where      = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.id, entityUri.toString());
+      
       resultSet = dbSQL.selectAllWhere(entityTable, where);
       
       if(!resultSet.first()){
@@ -71,10 +71,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       return SSEntity.get(
         entityUri,
-        bindingStrToLabel(resultSet, SSSQLVarU.label),
-        bindingStrToLong(resultSet, SSSQLVarU.creationTime),
-        bindingStrToEntityType(resultSet, SSSQLVarU.type),
-        bindingStrToUri(resultSet, SSSQLVarU.author));
+        bindingStrToLabel      (resultSet, SSSQLVarU.label),
+        bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
+        bindingStrToEntityType (resultSet, SSSQLVarU.type),
+        bindingStrToUri        (resultSet, SSSQLVarU.author));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

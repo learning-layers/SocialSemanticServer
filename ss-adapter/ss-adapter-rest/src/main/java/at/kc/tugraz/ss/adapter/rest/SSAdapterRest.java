@@ -624,6 +624,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "searchTagsWithinEntity")
+  public String searchTagsWithinEntity(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchTagsWithinEntity);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "searchMIs")
   public String searchMIs(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchMIs);

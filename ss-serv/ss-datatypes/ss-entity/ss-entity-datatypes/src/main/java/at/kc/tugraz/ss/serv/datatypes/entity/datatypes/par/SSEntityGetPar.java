@@ -18,13 +18,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.db.datatypes.sql;
+ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSDBSQLFinalizeImplPar extends SSServPar{
+public class SSEntityGetPar extends SSServPar{
   
-  public SSDBSQLFinalizeImplPar(SSServPar par) throws Exception{
+  public SSUri    entityUri         = null;
+    
+  public SSEntityGetPar(SSServPar par) throws Exception{
+      
     super(par);
+    
+    try{
+      
+      if(pars != null){
+        entityUri        = (SSUri)   pars.get(SSVarU.entityUri);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

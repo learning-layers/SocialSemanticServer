@@ -61,6 +61,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollSearchWithTagWithinPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -93,7 +94,25 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     this.sqlFct = new SSCollSQLFct(dbSQL);
   }
+  
+  /* SSEntityHandlerImplI */
 
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri,
+    final SSUri         entityUri,
+    final SSTagLabel    tag,
+    final SSEntityEnum  entityType) throws Exception{
+    
+    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+      return null;
+    }
+    
+    return SSServCaller.collSearchWithTagWithin(
+      userUri,
+      entityUri,
+      tag);
+  }
+      
   @Override
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
@@ -823,7 +842,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       rootCollUri          = sqlFct.getUserRootCollURI         (par.user);
       directPartentCollUri = sqlFct.getUserDirectParentCollURI (par.user, par.collUri);
 
-      while(!SSUri.isSame(rootCollUri, directPartentCollUri)){
+      while(!SSUri.equals(rootCollUri, directPartentCollUri)){
 
         hierarchy.add(directPartentCollUri);
 
@@ -1009,6 +1028,43 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     }catch(Exception error){
       dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> collSearchWithTagWithin(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSCollSearchWithTagWithinPar   par               = new SSCollSearchWithTagWithinPar(parA);
+      final List<SSUri>                    searchResultUris  = new ArrayList<SSUri>();
+      
+      if(!SSServCaller.entityUserCanRead(par.user, par.collUri)){
+        throw new Exception("user is not allowed to search within collection");
+      }
+      
+      final List<SSUri> collSubCollAndEntryUris =
+        SSCollMiscFct.getCollSubCollAndEntryURIs(
+          sqlFct,
+          sqlFct.getCollWithEntries(
+            par.collUri,
+            new ArrayList<SSEntityCircleTypeE>()));
+      
+      for(SSUri entityUri : collSubCollAndEntryUris){
+        
+        if(SSUri.contains(searchResultUris, entityUri)){
+          continue;
+        }
+        
+        if(!SSServCaller.tagsUserGet(par.user, entityUri, par.tag, null).isEmpty()){
+          searchResultUris.add(entityUri);
+        }
+      }
+      
+      return searchResultUris;
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

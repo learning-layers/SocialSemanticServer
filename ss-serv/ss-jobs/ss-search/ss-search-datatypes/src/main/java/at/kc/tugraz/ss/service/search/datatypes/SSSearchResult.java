@@ -59,7 +59,7 @@ public class SSSearchResult implements SSJSONLDPropI{
     return ld;
   }
 
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }

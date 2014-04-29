@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -48,6 +49,7 @@ import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingDesc;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI{
@@ -64,6 +66,16 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   }
   
   /* SSEntityHandlerImplI */
+  @Override
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri,
+    final SSUri         entityUri,
+    final SSTagLabel    tag,
+    final SSEntityEnum  entityType) throws Exception{
+
+    return null;
+  }
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSEntityEnum                                  entityType,

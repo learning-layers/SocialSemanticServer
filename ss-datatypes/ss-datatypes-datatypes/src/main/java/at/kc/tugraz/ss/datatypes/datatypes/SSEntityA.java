@@ -76,8 +76,13 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     final List<? extends SSEntityA> entities, 
     final SSEntityA                 entityToContain){
     
+    if(SSObjU.isNull(entities, entityToContain)){
+      return false;
+    }
+    
     for(SSEntityA entity : entities){
-      if(isSame(entity, entityToContain)){
+     
+      if(equals(entity, entityToContain)){
         return true;
       }
     }
@@ -85,15 +90,17 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return false;
   }
   
-  public static Boolean containsNot(List<? extends SSEntityA> entities, SSEntityA entityToContain) {
-    return !contains(entities, entityToContain);
-  }
-  
-  public static void remove(List<? extends SSEntityA> entities, SSEntityA entityToRemove) {
+  public static void remove(
+    final List<? extends SSEntityA> entities, 
+    final SSEntityA                 entityToRemove) {
+    
+    if(entities == null){
+      return;
+    }
     
     for(SSEntityA entity : entities) {
       
-      if(isSame(entity, entityToRemove)){
+      if(equals(entity, entityToRemove)){
         
         entities.remove (entity);
         remove          (entities, entityToRemove);
@@ -123,14 +130,25 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return result;
   }
   
-  public static Boolean isSame(
-    final SSEntityA entity1, 
-    final SSEntityA entity2){
+  public static Boolean equals(
+    final SSEntityA  entity1, 
+    final SSEntityA  entity2){
     
-    if(SSObjU.isNull(entity1, entity2)){
+    if(SSObjU.isNull(entity1, entity2)) {
       return false;
     }
     
     return entity1.toString().equals(entity2.toString());
+  }
+    
+  public static Boolean equals(
+    final SSEntityA  entity1, 
+    final String     entity2) throws Exception{
+    
+    if(SSObjU.isNull(entity1, entity2)) {
+      return false;
+    }
+    
+    return entity1.toString().equals(entity2);
   }
 }

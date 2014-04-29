@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
 import java.util.List;
@@ -46,6 +47,8 @@ public interface SSEntityServerI {
   public List<SSCircle>                  entityUserEntityCirclesGet               (final SSServPar parA) throws Exception; 
   public List<SSUser>                    entityUserEntityUsersGet                 (final SSServPar parA) throws Exception;
   
+  public SSEntity                        entityGet                                (final SSServPar parA) throws Exception;
+  public List<SSUri>                     entitySearchWithTagWithin                (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleURIPublicGet                 (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleCreate                       (final SSServPar parA) throws Exception;
   public SSUri                           entityCirclePublicAdd                    (final SSServPar parA) throws Exception;

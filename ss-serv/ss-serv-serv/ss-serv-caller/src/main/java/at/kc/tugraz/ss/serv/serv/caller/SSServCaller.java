@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -689,6 +690,20 @@ public class SSServCaller {
   
   /* colls */
   
+  public static List<SSUri> collSearchWithTagWithin(
+    final SSUri      userUri, 
+    final SSUri      collUri, 
+    final SSTagLabel tag) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,               userUri);
+    opPars.put(SSVarU.collUri,            collUri);
+    opPars.put(SSVarU.tag,                tag);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.collSearchWithTagWithin, opPars)); 
+  }
+    
   public static SSUri collToCircleAdd(
     final SSUri   userUri, 
     final SSUri   collCircleUri, 
@@ -1022,6 +1037,32 @@ public class SSServCaller {
   
   /* entity */
 
+  public static SSEntity entityGet(
+    final SSUri      userUri, 
+    final SSUri      entityUri) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,      userUri);
+    opPars.put(SSVarU.entityUri, entityUri);
+    
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
+  }
+  
+  public static List<SSUri> entitySearchWithTagWithin(
+    final SSUri      userUri, 
+    final SSUri      entityUri, 
+    final SSTagLabel tag) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,      userUri);
+    opPars.put(SSVarU.entityUri, entityUri);
+    opPars.put(SSVarU.tag,       tag);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySearchWithTagWithin, opPars));
+  }
+  
   public static Long entityCreationTimeGet(final SSUri entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();

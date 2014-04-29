@@ -60,7 +60,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 		}
 		
 		if(
-				SSUri.isSame(writer, user) &&
+				SSUri.equals(writer, user) &&
 				writingMinutesLeft > 0){
 			
 			return true;
@@ -75,7 +75,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 
 	public boolean addReader(SSUri user){
 		
-		if(SSUri.containsNot(readers, user)){
+		if(!SSUri.contains(readers, user)){
 			readers.add(user);
 		}
 		
@@ -86,7 +86,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 	
 	public boolean removeReader(SSUri user){
 		
-		if(SSUri.containsNot(readers, user)){
+		if(!SSUri.contains(readers, user)){
 			return true;
 		}
 		
@@ -130,7 +130,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 			return fileAccessPropertyMaxWritingMinutesCount;
 		}
 		
-		if(SSUri.isSame(writer, user)){
+		if(SSUri.equals(writer, user)){
 			return writingMinutesLeft;
 		}
 		

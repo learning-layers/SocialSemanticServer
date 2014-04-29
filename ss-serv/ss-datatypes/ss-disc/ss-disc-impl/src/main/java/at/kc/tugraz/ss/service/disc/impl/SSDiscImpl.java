@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -71,10 +72,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     supportedEntityTypes.add(SSEntityEnum.discEntry);
   }
 
-  /* SSEntityHandlerImplI */
-  
   public List<SSEntityEnum> getSupportedEntityTypes() throws Exception{
     return supportedEntityTypes;
+  }
+   
+  /* SSEntityHandlerImplI */
+  
+  @Override
+  public List<SSUri> searchWithTagWithin(
+    final SSUri         userUri,
+    final SSUri         entityUri,
+    final SSTagLabel    tag,
+    final SSEntityEnum  entityType) throws Exception{
+
+    return null;
   }
 
   @Override

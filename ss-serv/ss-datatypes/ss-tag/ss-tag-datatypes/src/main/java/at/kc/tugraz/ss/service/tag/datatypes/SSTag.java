@@ -84,7 +84,7 @@ public class SSTag extends SSEntityA {
 		
 		for(SSTag tag : tags){
 			
-			if(SSUri.containsNot(result, tag.resource)){
+			if(!SSUri.contains(result, tag.resource)){
 				result.add(tag.resource);
 			}
 		}

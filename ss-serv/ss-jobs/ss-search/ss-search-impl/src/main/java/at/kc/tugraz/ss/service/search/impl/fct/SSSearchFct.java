@@ -21,7 +21,10 @@
 package at.kc.tugraz.ss.service.search.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
 import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
 import java.util.ArrayList;
@@ -34,17 +37,28 @@ public class SSSearchFct {
     final SSUri                             userUri, 
     final String                            searchOp,
     final Map<String, List<SSSearchResult>> searchResultsPerKeyword) throws Exception{
-  
-    final List<SSSearchResult> searchResults = selectSearchResultsWithRegardToSearchOp(searchOp, searchResultsPerKeyword);
     
-    for(SSSearchResult searchResult : searchResults){
-      searchResult.type          = SSServCaller.entityTypeGet                 (searchResult.uri);
-      searchResult.label         = SSStrU.toString(SSServCaller.entityLabelGet(searchResult.uri));
+    try{
+      final List<SSSearchResult> searchResults = selectSearchResultsWithRegardToSearchOp(searchOp, searchResultsPerKeyword);
+      SSEntity                   entity;
+
+      for(SSSearchResult searchResult : searchResults){
+
+        entity = SSServCaller.entityGet(userUri, searchResult.uri);
+
+        searchResult.type          = entity.type;
+        searchResult.label         = SSLabelStr.toStr(entity.label);
+      }
+
+      return searchResults;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return searchResults;
   }
   
+  //TODO dtheiler: think about distinct search results for more than one keyword/tag/mi
   private static List<SSSearchResult> selectSearchResultsWithRegardToSearchOp(
     final String                            searchOp,
     final Map<String, List<SSSearchResult>> searchResultsPerKeyword){
@@ -59,7 +73,7 @@ public class SSSearchFct {
         
         for(SSSearchResult outerSearchResult : outerSearchResultForOneKeyword) {
           
-          if(SSUri.containsNot(checkEntityUris, outerSearchResult.uri)){
+          if(!SSUri.contains(checkEntityUris, outerSearchResult.uri)){
             
             checkEntityUris.add(outerSearchResult.uri);
             
@@ -69,7 +83,7 @@ public class SSSearchFct {
               
               for(SSSearchResult innerSearchResult : innerSearchResultForOneKeyword) {
                 
-                if(!SSUri.isSame(innerSearchResult.uri, outerSearchResult.uri)) {
+                if(!SSUri.equals(innerSearchResult.uri, outerSearchResult.uri)) {
                   resourceExistsForEachTag = false;
                   break;
                 }
