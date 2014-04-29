@@ -7,6 +7,8 @@ SocialSemanticServer
 The main goal of the Social Semantic Server is to establish an informal learning service framework for handling Social Semantic Network data. 
 By creating an infrastructure that allows for social negotiation of semantic meaning and enabling meaningful learning, it will enable situated and contextualized learning in turn.
 
+![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/master/desc.jpg)
+
 Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#references) if you use this software in one of your publications.
 
 ## Download
