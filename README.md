@@ -7,7 +7,7 @@ SocialSemanticServer
 The main goal of the Social Semantic Server is to establish an informal learning service framework for handling Social Semantic Network data. 
 By creating an infrastructure that allows for social negotiation of semantic meaning and enabling meaningful learning, it will enable situated and contextualized learning in turn.
 
-![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/master/desc.jpg)
+![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/bba6324551551b41f43e3b630e2376ecde83c807/desc.jpg)
 
 Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#references) if you use this software in one of your publications.
 
@@ -15,7 +15,34 @@ Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#
 The source-code can be directly checked-out through this repository. It contains a Maven project to edit and build it.
 
 ## How-to-use
-Please have a look at the [Learning Layers Open Developer Library](http://developer.learning-layers.eu/documentation/social-semantic-server/) for set up and REST API access.
+### Set-up
+Please have a look at the [Learning Layers Open Developer Library](http://developer.learning-layers.eu/documentation/social-semantic-server/) for set up and REST API access as well. In order to deploy and run your own server instance of the Social Semantic Server (SSS), please follow instructions below. 
+####Apache Maven
+install from http://maven.apache.org/download.cg check out the Maven installation guide at http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html 
+####Apache Solr
+install Solr following instructions at http://wiki.apache.org/solr/SolrInstall
+####MySQL database
+install MySQL from http://www.mysql.com/downloads/
+run SSS/ss/src/main/resources/conf/sss_schema.sql to setup MySQL database
+####SSS and REST adapter
+download the Social Semantic Server containing its REST adapter as well from github
+####Code import
+import the SSS project as Maven project into e.g. Netbeans or Eclipse
+####Logging
+modify log4j.properties SSS/ss/src/main/resources/conf/ for your needs
+customize log4j.properties in SSS/ss-adapter/ss-adapter-rest/src/main/resources
+####Configuration
+modify ss-conf.yaml in SSS/ss/src/main/resources/conf/ to your needs
+modify / provide ss-adapter-rest-conf.yaml in CatalinaBase/conf/ from SSS/ss-adapter/ss-adapter-rest/src/main/resources
+####Run
+run "mvn clean install" on project SSS/ss-root in order to get SSS/ss/target/ss-app/ss.jar and SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war and to install needed local jars provided in SSS/ss-3rdpartylibs/libs/
+copy directory SSS/ss/target/ss-app/ to where you plan to run the SSS
+for configuration and logging please see chapter Logging and Configuration
+run ss.jar with runinit.bat or .sh
+deploy ss-adapter-rest.war after renaming SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war to the webapps folder of Catalina Tomcat
+####SSS client-side libraries
+download the SSS client-side libraries from github
+link Javascript projects JSUtilities, SSClientInterfaceGlobals and SSSClientInterfaceREST in your application to have access to SSS server-side operations via its REST interface
 
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
