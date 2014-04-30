@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -25,8 +26,9 @@ import java.util.List;
 
 public class SSEntityUserSharePar extends SSServPar{
   
-  public SSUri        entityUri       = null;
-  public List<SSUri>  userUris        = new ArrayList<SSUri>();
+  public SSUri         entityUri       = null;
+  public List<SSUri>   userUris        = new ArrayList<SSUri>();
+  public SSTextComment comment         = null;
 
   public SSEntityUserSharePar(SSServPar par) throws Exception{
       
@@ -35,13 +37,21 @@ public class SSEntityUserSharePar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri       = (SSUri)        pars.get(SSVarU.entityUri);
-        userUris        = (List<SSUri>)  pars.get(SSVarU.userUris);
+        entityUri       = (SSUri)                   pars.get(SSVarU.entityUri);
+        userUris        = (List<SSUri>)             pars.get(SSVarU.userUris);
+        
+        try{
+          comment         = SSTextComment.get((String)pars.get(SSVarU.userUris));
+        }catch(Exception error){}
       }
       
       if(clientPars != null){
         entityUri   = SSUri.get        (clientPars.get(SSVarU.entityUri));
-        userUris    = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.userUris), SSStrU.comma));
+        userUris    = SSUri.get        (SSStrU.splitDistinct(clientPars.get(SSVarU.userUris), SSStrU.comma));
+        
+        try{
+          comment     = SSTextComment.get(clientPars.get(SSVarU.userUris));
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

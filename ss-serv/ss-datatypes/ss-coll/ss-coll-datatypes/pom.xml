@@ -36,12 +36,6 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-rating-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.datatypes.entity</groupId>
       <artifactId>ss-entity-datatypes</artifactId>
       <version>${project.version}</version>

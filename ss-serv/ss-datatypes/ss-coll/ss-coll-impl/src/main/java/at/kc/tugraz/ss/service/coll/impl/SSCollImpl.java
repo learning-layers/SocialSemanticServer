@@ -79,7 +79,6 @@ import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollUserShareWithUserFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.*;

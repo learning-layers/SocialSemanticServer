@@ -48,12 +48,6 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-rating-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-        <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
       <artifactId>ss-serv-datatypes</artifactId>
       <version>${project.version}</version>

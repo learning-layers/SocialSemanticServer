@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.util.List;
 
 public class SSEntityDesc extends SSEntityDescA{

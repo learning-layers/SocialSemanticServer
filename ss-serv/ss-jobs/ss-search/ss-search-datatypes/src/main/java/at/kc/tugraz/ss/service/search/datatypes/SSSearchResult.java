@@ -28,7 +28,6 @@ import static at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA.contains;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.service.rating.datatypes.*;
 import java.util.*;
 
 public class SSSearchResult extends SSEntityA{
@@ -57,12 +56,26 @@ public class SSSearchResult extends SSEntityA{
     ld.put(SSVarU.space,         SSVarU.sss + SSStrU.colon  + SSSpaceE.class.getName());
     ld.put(SSVarU.label,         SSVarU.xsd + SSStrU.colon  + SSStrU.valueString);
     ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon  + SSEntityE.class.getName());
-    ld.put(SSVarU.userRating,    SSVarU.xsd + SSStrU.colon  + SSStrU.valueInteger);
-    ld.put(SSVarU.overallRating, SSVarU.sss + SSStrU.colon  + SSRatingOverall.class.getName());
     
     return ld;
   }
 
+  public static void addDistinct(
+    final List<SSSearchResult> entities,
+    final List<SSSearchResult> toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSSearchResult entity : toAddEntities){
+
+      if(!contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
   /* getters to allow for json enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
@@ -78,21 +91,5 @@ public class SSSearchResult extends SSEntityA{
 
   public String getType(){
     return SSEntityE.toStr(type);
-  }
-  
-  public static void addDistinct(
-    final List<SSSearchResult> entities,
-    final List<SSSearchResult> toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSSearchResult entity : toAddEntities){
-
-      if(!contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
   }
 }

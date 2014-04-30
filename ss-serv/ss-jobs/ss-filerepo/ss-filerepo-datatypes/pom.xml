@@ -20,12 +20,6 @@
     
     <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-rating-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-serv-err-reg</artifactId>
       <version>${project.version}</version>
     </dependency>

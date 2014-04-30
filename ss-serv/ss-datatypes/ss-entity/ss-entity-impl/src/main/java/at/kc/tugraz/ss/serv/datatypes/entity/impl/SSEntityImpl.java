@@ -905,20 +905,24 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-        final SSUri circleUri =
-          SSServCaller.entityCircleCreate(
-            par.user,
-            par.entityUri,
-            par.userUris,
-            SSCircleE.group,
-            SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
-            SSUri.get(SSUserGlobals.systemUserURI),
-            false);
-        
+      final SSUri circleUri =
+        SSServCaller.entityCircleCreate(
+          par.user,
+          par.entityUri,
+          par.userUris,
+          SSCircleE.group,
+          SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
+          SSUri.get(SSUserGlobals.systemUserURI),
+          false);
+      
+      if(par.comment != null){
+        //TODO dtheiler: work on comment
+      }
+      
       SSEntityMiscFct.shareByEntityHandlers(
-        par.user, 
-        par.userUris, 
-        par.entityUri, 
+        par.user,
+        par.userUris,
+        par.entityUri,
         circleUri);
       
       dbSQL.commit(par.shouldCommit);
