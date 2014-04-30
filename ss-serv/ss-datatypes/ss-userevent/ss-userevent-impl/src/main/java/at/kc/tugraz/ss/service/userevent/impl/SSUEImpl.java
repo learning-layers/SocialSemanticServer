@@ -23,15 +23,15 @@
 import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
@@ -73,11 +72,11 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   /* SSEntityHandlerImplI */
   
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
@@ -86,7 +85,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -98,7 +97,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -108,38 +107,49 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }  
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType, 
+    final SSEntityE       entityType, 
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception{
     
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.userEvent)){
-      return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
-    }
-    
-    return SSUEDesc.get(
+    if(!SSEntityE.equals(entityType, SSEntityE.userEvent)){
+      
+      return SSEntityDesc.get(
         entityUri,
         label,
         creationTime,
+        tags,
+        overallRating,
+        discUris,
         author);
+    }
+    
+    return SSUEDesc.get(
+      entityUri,
+      label,
+      creationTime,
+      author,
+      overallRating,
+      tags,
+      discUris);
   }
   
   /* SSUserEventClientI  */
@@ -183,16 +193,16 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       SSServCaller.entityAddAtCreationTime(
         par.user,
         ueUri,
-        SSLabelStr.get(ueUri.toString()),
+        SSLabel.get(ueUri.toString()),
         par.creationTime,
-        SSEntityEnum.userEvent,
+        SSEntityE.userEvent,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         par.resource,
-        SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity,
+        SSLabel.get(par.resource.toString()),
+        SSEntityE.entity,
         false);
       
       sqlFct.addUE(
@@ -243,15 +253,15 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       SSServCaller.entityAdd(
         par.user,
         par.resource,
-        SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity,
+        SSLabel.get(par.resource.toString()),
+        SSEntityE.entity,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         ueUri,
-        SSLabelStr.get(ueUri.toString()),
-        SSEntityEnum.userEvent,
+        SSLabel.get(ueUri.toString()),
+        SSEntityE.userEvent,
         false);
       
       sqlFct.addUE(

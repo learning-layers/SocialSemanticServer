@@ -18,60 +18,49 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
+ package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
-import java.util.List;
 
-public enum SSEntityRightTypeE implements SSJSONLDPropI{
+public class SSLiteral extends SSEntityA{
 
-  all,
-  read,
-  edit;
+  public boolean isnumeric = false;
   
-  public static SSEntityRightTypeE get(final String value) throws Exception{
-    return SSEntityRightTypeE.valueOf(value);
-  }
-  
-  public static String toStr(final SSEntityRightTypeE accessRight){
-    return SSStrU.toString(accessRight);
-  }
-  
-  public static Boolean equals(
-    final SSEntityRightTypeE right1,
-    final SSEntityRightTypeE right2){
+  public static SSLiteral get(final String value) throws Exception{
     
-    if(SSObjU.isNull(right1, right2)){
-      return false;
+    if(SSStrU.isEmpty(value)){
+      return null;
     }
     
-    return right1.toString().equals(right2.toString());
+    return new SSLiteral(value);
   }
   
-  public static Boolean contains(
-    final List<SSEntityRightTypeE> rights, 
-    final SSEntityRightTypeE       certainRight){
+  public static SSLiteral get(final Long value) throws Exception{
     
-    if(SSObjU.isNull(rights)){
-      return false;
+    if(SSObjU.isNull(value)){
+      return null;
     }
     
-    for(SSEntityRightTypeE right : rights){
-      
-      if(equals(right, certainRight)){
-        return true;
-      }
-    } 
-    
-    return false;
+    return new SSLiteral(value);
   }
   
-  private SSEntityRightTypeE(){}
+  private SSLiteral(final String value) throws Exception{
+    
+    super(value);
+    
+    isnumeric = false;
+  }
+  
+  private SSLiteral(final Long value) throws Exception{
+    
+    super(String.valueOf(value.longValue()));
+    
+    isnumeric = true;
+  }
   
   @Override
   public Object jsonLDDesc(){
-    return SSStrU.valueString;
+    return "literal";
   }
 }

@@ -22,12 +22,12 @@
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUserCreateUriPar extends SSServPar{
   
-  public SSLabelStr userLabel = null;
+  public SSLabel userLabel = null;
   
   public SSUserCreateUriPar(SSServPar par) throws Exception{
    
@@ -36,11 +36,11 @@ public class SSUserCreateUriPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.userLabel = (SSLabelStr) pars.get(SSVarU.userLabel);
+        this.userLabel = (SSLabel) pars.get(SSVarU.userLabel);
       }
       
       if(clientPars != null){
-        this.userLabel = SSLabelStr.get(clientPars.get(SSVarU.userLabel));
+        this.userLabel = SSLabel.get(clientPars.get(SSVarU.userLabel));
       }
       
     }catch(Exception error){

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.lomextractor.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class SSLOMDesc extends SSEntityA{
   
   public SSLOMDesc(
     String label,
-    String lang){
+    String lang) throws Exception{
     
     super(label);
     
@@ -59,7 +59,7 @@ public class SSLOMDesc extends SSEntityA{
     return result;
   }
   
-  public SSLOMDesc descInLangWithDefault(List<SSLOMDesc> descs, String lang){
+  public SSLOMDesc descInLangWithDefault(List<SSLOMDesc> descs, String lang)throws Exception{
     
     for(SSLOMDesc desc : descs){
       
@@ -75,7 +75,7 @@ public class SSLOMDesc extends SSEntityA{
     return new SSLOMDesc(SSStrU.empty, SSStrU.empty);
   }
   
-  public SSLOMDesc descInLang(List<SSLOMDesc> descs, String lang){
+  public SSLOMDesc descInLang(List<SSLOMDesc> descs, String lang)throws Exception{
     
     for(SSLOMDesc desc : descs){
       

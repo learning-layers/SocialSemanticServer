@@ -22,15 +22,15 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
@@ -80,8 +80,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,18 +98,18 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   /* SSEntityHandlerImplI */
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
@@ -119,7 +117,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -131,7 +129,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -141,64 +139,84 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType,
+    final SSEntityE       entityType,
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception{
     
-    if(SSEntityEnum.equals(entityType, SSEntityEnum.learnEp)){
-      return SSLearnEpDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author);
+    switch(entityType){
+      case learnEp:
+        
+        return SSLearnEpDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          author,
+          overallRating,
+          tags,
+          discUris);
+        
+      case learnEpVersion:
+        return SSLearnEpVersionDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          author,
+          overallRating,
+          tags,
+          discUris);
+        
+      case learnEpCircle:
+        return SSLearnEpCircleDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          author,
+          overallRating,
+          tags,
+          discUris);
+        
+      case learnEpEntity:
+        return SSLearnEpEntityDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          author,
+          overallRating,
+          tags,
+          discUris);
+        
+      case learnEpTimelineState:
+        return SSLearnEpTimelineStateDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          author,
+          overallRating,
+          tags,
+          discUris);
+      default:
+        return SSEntityDesc.get(
+          entityUri,
+          label,
+          creationTime,
+          tags,
+          overallRating,
+          discUris,
+          author);
     }
-    
-    if(SSEntityEnum.equals(entityType, SSEntityEnum.learnEpVersion)){
-      return SSLearnEpVersionDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author);
-    }
-    
-    if(SSEntityEnum.equals(entityType, SSEntityEnum.learnEpCircle)){
-      return SSLearnEpCircleDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author);
-    }
-    
-    if(SSEntityEnum.equals(entityType, SSEntityEnum.learnEpEntity)){
-      return SSLearnEpEntityDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author);
-    }
-    
-    if(SSEntityEnum.equals(entityType, SSEntityEnum.learnEpTimelineState)){
-      return SSLearnEpTimelineStateDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author);
-    }
-    
-    return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
   }
   
   /* SSLearnEpClientI */
@@ -366,8 +384,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityAdd(
         par.user,
         learnEpTimelineStateUri,
-        SSLabelStr.get(learnEpTimelineStateUri.toString()),
-        SSEntityEnum.learnEpTimelineState,
+        SSLabel.get(learnEpTimelineStateUri.toString()),
+        SSEntityE.learnEpTimelineState,
         false);
       
       sqlFct.setLearnEpVersionTimelineState(
@@ -510,8 +528,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityAdd(
         par.user,
         par.entityUri,
-        SSLabelStr.get(SSStrU.toString(par.entityUri)), 
-        SSEntityEnum.entity,
+        SSLabel.get(SSStrU.toString(par.entityUri)), 
+        SSEntityE.entity,
         false);
       
       sqlFct.updateEntity(par.learnEpEntityUri, par.entityUri, par.x, par.y);
@@ -548,7 +566,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.user,
         learnEpUri,
         par.label,
-        SSEntityEnum.learnEp,
+        SSEntityE.learnEp,
         false);
       
       sqlFct.createLearnEp(learnEpUri, par.user, par.space);
@@ -584,8 +602,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityAdd(
         par.user,
         learnEpVersionUri,
-        SSLabelStr.get(learnEpVersionUri.toString()),
-        SSEntityEnum.learnEpVersion,
+        SSLabel.get(learnEpVersionUri.toString()),
+        SSEntityE.learnEpVersion,
         false);
       
       sqlFct.createLearnEpVersion(learnEpVersionUri, par.learnEpUri);
@@ -622,7 +640,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.user,
         circleUri,
         par.label,
-        SSEntityEnum.learnEpCircle,
+        SSEntityE.learnEpCircle,
         false);
       
       sqlFct.addCircleToLearnEpVersion(
@@ -667,15 +685,15 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityAdd(
         par.user,
         learnEpEntityUri,
-        SSLabelStr.get(learnEpEntityUri.toString()),
-        SSEntityEnum.learnEpEntity,
+        SSLabel.get(learnEpEntityUri.toString()),
+        SSEntityE.learnEpEntity,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         par.entityUri,
-        SSLabelStr.get(par.entityUri.toString()),
-        SSEntityEnum.entity,
+        SSLabel.get(par.entityUri.toString()),
+        SSEntityE.entity,
         false);
       
       sqlFct.addEntityToLearnEpVersion(

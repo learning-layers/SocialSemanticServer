@@ -20,25 +20,29 @@
 */
  package at.kc.tugraz.ss.service.search.datatypes;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import static at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA.contains;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.rating.datatypes.*;
 import java.util.*;
 
-public class SSSearchResult implements SSJSONLDPropI{
-  
-  public  SSUri                      uri                             = null;
-  public  SSSpaceEnum                space                           = null;
-  public  String                     label                           = null;
-  public  SSEntityEnum               type                            = null;
+public class SSSearchResult extends SSEntityA{
+
+  public  SSUri                   uri                             = null;
+  public  SSSpaceE                space                           = null;
+  public  String                  label                           = null;
+  public  SSEntityE               type                            = null;
 
   public SSSearchResult(
     SSUri       uri,
-    SSSpaceEnum space){
+    SSSpaceE    space) throws Exception{
+    
+    super(uri);
     
     this.uri    = uri;
     this.space  = space;
@@ -50,9 +54,9 @@ public class SSSearchResult implements SSJSONLDPropI{
     final Map<String, Object> ld = new HashMap<String, Object>();
     
     ld.put(SSVarU.uri,           SSVarU.sss + SSStrU.colon  + SSUri.class.getName());
-    ld.put(SSVarU.space,         SSVarU.sss + SSStrU.colon  + SSSpaceEnum.class.getName());
+    ld.put(SSVarU.space,         SSVarU.sss + SSStrU.colon  + SSSpaceE.class.getName());
     ld.put(SSVarU.label,         SSVarU.xsd + SSStrU.colon  + SSStrU.valueString);
-    ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon  + SSEntityEnum.class.getName());
+    ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon  + SSEntityE.class.getName());
     ld.put(SSVarU.userRating,    SSVarU.xsd + SSStrU.colon  + SSStrU.valueInteger);
     ld.put(SSVarU.overallRating, SSVarU.sss + SSStrU.colon  + SSRatingOverall.class.getName());
     
@@ -65,7 +69,7 @@ public class SSSearchResult implements SSJSONLDPropI{
   }
 
   public String getSpace(){
-    return SSSpaceEnum.toStr(space);
+    return SSSpaceE.toStr(space);
   }
 
   public String getLabel(){
@@ -73,6 +77,22 @@ public class SSSearchResult implements SSJSONLDPropI{
   }
 
   public String getType(){
-    return SSEntityEnum.toStr(type);
+    return SSEntityE.toStr(type);
+  }
+  
+  public static void addDistinct(
+    final List<SSSearchResult> entities,
+    final List<SSSearchResult> toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSSearchResult entity : toAddEntities){
+
+      if(!contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
   }
 }

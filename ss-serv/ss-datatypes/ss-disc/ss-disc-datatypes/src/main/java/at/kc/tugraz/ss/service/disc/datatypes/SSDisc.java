@@ -24,35 +24,35 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import java.util.*;
 
 public class SSDisc extends SSEntityA {
   
   public  SSUri             uri      = null;
-  public  SSLabelStr        label    = null;
+  public  SSLabel        label    = null;
   public  SSUri             author   = null;
   public  SSUri             target   = null;
   public  List<SSDiscEntry> entries  = new ArrayList<SSDiscEntry>();
 
   public static SSDisc get(
     SSUri             uri,
-    SSLabelStr        label,
+    SSLabel        label,
     SSUri             author,
     SSUri             target,
-    List<SSDiscEntry> entries){
+    List<SSDiscEntry> entries) throws Exception{
     
     return new SSDisc(uri, label, author, target, entries);
   }
 
   private SSDisc(
     SSUri             uri,
-    SSLabelStr        label,
+    SSLabel        label,
     SSUri             author,
     SSUri             target,
-    List<SSDiscEntry> entries){
+    List<SSDiscEntry> entries)throws Exception{
     
     super(uri);
     
@@ -81,18 +81,18 @@ public class SSDisc extends SSEntityA {
     
     ld.put(SSVarU.author,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.target,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSLabelStr.class.getName());
+    ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
     
     return ld;
   }
 
-  /*************** getters to allow for jason enconding ********************/
+  /* getters to allow for jason enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
 
   public String getLabel(){
-    return SSLabelStr.toStr(label);
+    return SSLabel.toStr(label);
   }
 
   public String getAuthor() throws Exception{

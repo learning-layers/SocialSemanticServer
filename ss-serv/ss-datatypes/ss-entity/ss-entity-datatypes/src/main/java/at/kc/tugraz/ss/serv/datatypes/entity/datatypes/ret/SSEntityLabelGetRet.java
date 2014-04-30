@@ -23,20 +23,20 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityLabelGetRet extends SSServRetI{
 
-  public SSLabelStr label = null;
+  public SSLabel label = null;
 
-  public static SSEntityLabelGetRet get(SSLabelStr label, SSMethU op){
+  public static SSEntityLabelGetRet get(SSLabel label, SSMethU op){
     return new SSEntityLabelGetRet(label, op);
   }
   
-  private SSEntityLabelGetRet(SSLabelStr label, SSMethU op){
+  private SSEntityLabelGetRet(SSLabel label, SSMethU op){
     
     super(op);
     this.label = label;
@@ -47,12 +47,12 @@ public class SSEntityLabelGetRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.label, SSVarU.sss + SSStrU.colon + SSLabelStr.class.getName());
+    ld.put(SSVarU.label, SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
     
     return ld;
   }
   
   public String getLabel() {
-    return SSLabelStr.toStr(label);
+    return SSLabel.toStr(label);
   }
 }

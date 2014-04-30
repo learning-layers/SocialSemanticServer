@@ -20,14 +20,13 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUERelationEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.*;
 
@@ -42,7 +41,7 @@ public class SSModelUEResource extends SSEntityA{
 	public final List<String>                        mIs                       = new ArrayList<String>();
 	public final Map<String,Integer>                 mIDayCounts               = new HashMap<String, Integer>();
 	public final List<SSUri>                         editors                   = new ArrayList<SSUri>();
-  public SSEntityEnum                              type;
+  public SSEntityE                              type;
 	
 	/*
 	 * user/user related properties
@@ -57,7 +56,7 @@ public class SSModelUEResource extends SSEntityA{
   public final  Map<String,List<SSUE>>             personsUsingTopicEvents            = new HashMap<String, List<SSUE>>();
   public final  Map<String,Double>                 personsRawTopicFrequencies         = new HashMap<String, Double>();
   public SSUri                                     personsRecentArtifact              = null;
-	public SSTagLabel                               personsRecentTopic                 = null;
+	public String                                    personsRecentTopic                 = null;
   
   /*
 	 * mi calculation helpers
@@ -199,7 +198,7 @@ public class SSModelUEResource extends SSEntityA{
 	public boolean mIChangeReputablePerson                    = false;
 //	public boolean mIChangeReputablePersonNumberOf            = false; [not available: cause currently there exists not threshold for]
   
-	public SSModelUEResource(final SSUri uri){
+	public SSModelUEResource(final SSUri uri) throws Exception{
 		
     super(uri);
     
@@ -329,7 +328,7 @@ public class SSModelUEResource extends SSEntityA{
           new SSModelUERelation(
           SSStrU.toString(resourceUrl),
           null,
-          topicScore.topic.toString(),
+          topicScore.topic,
           null,
           relationType));
       }

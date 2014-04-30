@@ -21,7 +21,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.List;
 
-public enum SSEntityCircleTypeE implements SSJSONLDPropI{
+public enum SSCircleE implements SSJSONLDPropI{
   
   priv,
   group,
@@ -30,17 +30,17 @@ public enum SSEntityCircleTypeE implements SSJSONLDPropI{
   clust,
   pub;
   
-  public static SSEntityCircleTypeE get(final String value) throws Exception{
-    return SSEntityCircleTypeE.valueOf(value);
+  public static SSCircleE get(final String value) throws Exception{
+    return SSCircleE.valueOf(value);
   }
   
-  public static String toStr(final SSEntityCircleTypeE circleType){
+  public static String toStr(final SSCircleE circleType){
     return SSStrU.toString(circleType);
   }
   
   public static Boolean equals(
-    final SSEntityCircleTypeE circleType1, 
-    final SSEntityCircleTypeE circleType2){
+    final SSCircleE circleType1, 
+    final SSCircleE circleType2){
 
     if(SSObjU.isNull(circleType1, circleType2)){
       return false;
@@ -50,15 +50,15 @@ public enum SSEntityCircleTypeE implements SSJSONLDPropI{
   }
   
   public static Boolean contains(
-    final List<SSEntityCircleTypeE> circleTypes, 
-    final SSEntityCircleTypeE       toContainCircleType) throws Exception{
+    final List<SSCircleE> circleTypes, 
+    final SSCircleE       toContainCircleType) throws Exception{
 
     if(circleTypes == null){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return null;
     }
     
-    for(SSEntityCircleTypeE circleType : circleTypes){
+    for(SSCircleE circleType : circleTypes){
       if(SSStrU.equals(toStr(circleType), toStr(toContainCircleType))){
         return true;
       }
@@ -67,7 +67,7 @@ public enum SSEntityCircleTypeE implements SSJSONLDPropI{
     return false;
   }
   
-  private SSEntityCircleTypeE(){}
+  private SSCircleE(){}
   
   @Override
   public Object jsonLDDesc(){

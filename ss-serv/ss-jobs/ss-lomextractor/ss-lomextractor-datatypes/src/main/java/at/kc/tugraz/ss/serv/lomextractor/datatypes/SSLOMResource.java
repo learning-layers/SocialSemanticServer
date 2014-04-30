@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.lomextractor.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class SSLOMResource extends SSEntityA{
     List<String>               contexts,
     List<SSLOMConceptRelation> conceptRelatios,
     List<SSLOMUser>            users,
-    List<SSLOMCoverage>        coverages){
+    List<SSLOMCoverage>        coverages)throws Exception{
     
     super(id);
     

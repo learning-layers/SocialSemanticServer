@@ -21,12 +21,11 @@
 package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
@@ -100,7 +99,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      for(SSTagLabel tagString : par.tags){
+      for(String tagLabel : par.tags){
         
         searchResultsForTagOneTag = new ArrayList<SSSearchResult>();
         
@@ -108,29 +107,29 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           SSServCaller.tagUserEntitiesForTagGet(
             par.user,
-            tagString,
-            SSSpaceEnum.sharedSpace)){
+            tagLabel,
+            SSSpaceE.sharedSpace)){
           
           searchResultsForTagOneTag.add(
             new SSSearchResult(
               foundEntity,
-              SSSpaceEnum.sharedSpace));
+              SSSpaceE.sharedSpace));
         }
         
         for(SSUri foundEntity :
           
           SSServCaller.tagUserEntitiesForTagGet(
             par.user,
-            tagString,
-            SSSpaceEnum.privateSpace)){
+            tagLabel,
+            SSSpaceE.privateSpace)){
           
           searchResultsForTagOneTag.add(
             new SSSearchResult(
               foundEntity,
-              SSSpaceEnum.privateSpace));
+              SSSpaceE.privateSpace));
         }
         
-        searchResultsPerTag.put(SSTagLabel.toStr(tagString), searchResultsForTagOneTag);
+        searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
       }
       
       result = SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerTag);
@@ -209,16 +208,16 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
     
     final SSSearchTagsWithinEntityPar       par                        = new SSSearchTagsWithinEntityPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
+    final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<String, List<SSSearchResult>>();
     final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
     
     try{
       
-      for(SSTagLabel tag : par.tags){
+      for(String tagLabel : par.tagLabels){
         
         searchResultsForOneKeyword.clear();
         
-        for(SSUri entityUri : SSServCaller.entitySearchWithTagWithin(par.user, par.entityUri, tag)){
+        for(SSUri entityUri : SSServCaller.entitySearchWithKeywordWithin(par.user, par.entityUri, tagLabel)){
          
           SSSearchMiscFct.getPublicAndPrivateResults(
             par.user,
@@ -226,10 +225,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             searchResultsForOneKeyword);
         }
 
-        searchResultsPerKeyword.put(SSTagLabel.toStr(tag), searchResultsForOneKeyword);
+        searchResultsPerTag.put(tagLabel, searchResultsForOneKeyword);
       }
       
-      return SSSearchFct.selectAndFillSearchResults(par.user, SSStrU.valueOr, searchResultsPerKeyword);
+      return SSSearchFct.selectAndFillSearchResults(par.user, SSStrU.valueOr, searchResultsPerTag);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

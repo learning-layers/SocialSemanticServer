@@ -24,8 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,11 +39,11 @@ public class SSLearnEpVersion extends SSEntityA {
   public List<SSLearnEpEntity> entities                   = new ArrayList<SSLearnEpEntity>();
   public List<SSLearnEpCircle> circles                    = new ArrayList<SSLearnEpCircle>();
 
-  public static SSLearnEpVersion get(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles){
+  public static SSLearnEpVersion get(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles)throws Exception{
     return new SSLearnEpVersion(learnEpVersionUri, learnEpUri, timestamp, entities, circles);
   }
   
-  private SSLearnEpVersion(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles){
+  private SSLearnEpVersion(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles)throws Exception{
     
     super(learnEpVersionUri);
     

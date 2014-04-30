@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.db.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSLiteral;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSLiteral;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSQueryResultItem;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.*;
@@ -112,7 +112,7 @@ public class SSDBGraphFct extends SSDBFct{
   
   protected SSLiteral objHasEntryType(
     SSUri       resource,
-    SSSpaceEnum space) throws Exception {
+    SSSpaceE space) throws Exception {
 
     if(
       SSObjU.isNull(resource) ||
@@ -174,7 +174,7 @@ public class SSDBGraphFct extends SSDBFct{
   }
   
   protected SSLiteral objSpace(
-    SSSpaceEnum value) throws Exception{
+    SSSpaceE value) throws Exception{
     
     return SSLiteral.get(SSStrU.toString(value));
   }

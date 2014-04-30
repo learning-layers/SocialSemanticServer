@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.test.serv.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -186,7 +186,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
 }
 

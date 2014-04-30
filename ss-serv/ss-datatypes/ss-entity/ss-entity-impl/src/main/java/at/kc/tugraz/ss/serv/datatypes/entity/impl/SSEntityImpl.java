@@ -22,20 +22,20 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddAtCreationTimePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAuthorGetPar;
@@ -53,7 +53,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityTypeGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
@@ -82,11 +82,10 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithTagWithinPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithKeywordWithinPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,10 +207,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   public SSEntityDescA entityDescGet(final SSServPar parA) throws Exception{
     
     final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
-    List<SSTag>               tags          = null;
+    List<String>              tags          = new ArrayList<String>();
     List<SSUri>               discUris      = null;
     SSRatingOverall           overallRating = null;
-    SSEntityDescA             result        = null;
     final SSEntity            entity;
     
     try{
@@ -219,50 +217,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       entity = sqlFct.getEntity(par.entityUri);
       
       if(par.getOverallRating){
-        overallRating     = SSServCaller.ratingOverallGet   (par.user, par.entityUri);
+        overallRating = SSServCaller.ratingOverallGet   (par.user, par.entityUri);
       }
       
       if(par.getDiscUris){
-        discUris          = SSServCaller.discUrisUserForTargetGet  (par.user, par.entityUri);
+        discUris = SSServCaller.discUrisUserForTargetGet  (par.user, par.entityUri);
       }
       
       if(par.getTags){
-        tags = SSServCaller.tagsUserGet(par.user,     par.entityUri, null, null);
+        tags = SSEntityA.toStr(SSServCaller.tagsUserGet(par.user, par.entityUri, null, null));
       }
       
-      if(SSEntityEnum.equals(entity.type, SSEntityEnum.entity)){
-        
-        result = SSEntityDesc.get(
-          par.entityUri,
-          entity.label,
-          entity.creationTime,
-          tags, 
-          overallRating,
-          discUris,
-          entity.author);
-        
-      }else{
-        
-        for(SSServA serv : SSServA.getServsManagingEntities()){
-        
-          result = ((SSEntityHandlerImplI) serv.serv()).getDescForEntity(
-            entity.type,
-            par.user, 
-            par.entityUri, 
-            entity.label, 
-            entity.creationTime, 
-            tags,
-            overallRating, 
-            discUris, 
-            entity.author);
-        
-          if(!SSEntityEnum.equals(result.entityDescType, SSEntityEnum.entityDesc)){
-            break;
-          }
-        }
-      }
-      
-      return result;
+      return SSEntityMiscFct.getDescForEntityByEntityHandlers(
+        par.user,
+        entity,
+        tags,
+        overallRating,
+        discUris);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -433,7 +404,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSLabelStr entityLabelGet(final SSServPar parA) throws Exception{
+  public SSLabel entityLabelGet(final SSServPar parA) throws Exception{
     
     try{
       final SSEntityLabelGetPar par = new SSEntityLabelGetPar(parA);
@@ -474,7 +445,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSEntityEnum entityTypeGet(final SSServPar parA) throws Exception{
+  public SSEntityE entityTypeGet(final SSServPar parA) throws Exception{
     
     try{
       
@@ -500,8 +471,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSServCaller.entityAdd(
         SSUri.get(SSUserGlobals.systemUserURI), 
         publicCircleUri, 
-        SSLabelStr.get(publicCircleUri.toString()),
-        SSEntityEnum.circle, 
+        SSLabel.get(publicCircleUri.toString()),
+        SSEntityE.circle, 
         false);
       
       dbSQL.commit(parA.shouldCommit);
@@ -541,13 +512,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSCircle> entityUserCirclesGet(final SSServPar parA) throws Exception{
+  public List<SSEntityCircle> entityUserCirclesGet(final SSServPar parA) throws Exception{
     
     try{
       
       final SSEntityUserCirclesGetPar par     = new SSEntityUserCirclesGetPar(parA);
-      final List<SSCircle>            circles = new ArrayList<SSCircle>();
-      SSCircle                        circle;
+      final List<SSEntityCircle>            circles = new ArrayList<SSEntityCircle>();
+      SSEntityCircle                        circle;
       
       for(SSUri circleUri : sqlFct.getUserCircleURIs(par.user)){
 
@@ -723,21 +694,21 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSEntityCircleTypeE entityMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
+  public SSCircleE entityMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
     
     try{
       
       final SSEntityMostOpenCircleTypeGetPar par                = new SSEntityMostOpenCircleTypeGetPar(parA);
-      SSEntityCircleTypeE                    mostOpenCircleType = SSEntityCircleTypeE.priv;
+      SSCircleE                    mostOpenCircleType = SSCircleE.priv;
       
       
-      for(SSEntityCircleTypeE circleType : sqlFct.getEntityCircleTypes(par.entityUri)){
+      for(SSCircleE circleType : sqlFct.getEntityCircleTypes(par.entityUri)){
         
         switch(circleType){
           
-          case pub:  return SSEntityCircleTypeE.pub;
+          case pub:  return SSCircleE.pub;
           case priv: continue;
-          default:   mostOpenCircleType = SSEntityCircleTypeE.group;
+          default:   mostOpenCircleType = SSCircleE.group;
         }
       }
       
@@ -750,7 +721,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSEntityCircleTypeE> entityUserEntityCircleTypesGet(final SSServPar parA) throws Exception{
+  public List<SSCircleE> entityUserEntityCircleTypesGet(final SSServPar parA) throws Exception{
     
     try{
       final SSEntityUserEntityCircleTypesGetPar par         = new SSEntityUserEntityCircleTypesGetPar(parA);
@@ -764,7 +735,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override 
-  public List<SSCircle> entityUserEntityCirclesGet(final SSServPar parA) throws Exception{
+  public List<SSEntityCircle> entityUserEntityCirclesGet(final SSServPar parA) throws Exception{
     
     try{
 
@@ -856,17 +827,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      if(SSEntityEnum.equals(SSServCaller.entityTypeGet(par.entityUri), SSEntityEnum.entity)){
+      if(SSEntityE.equals(SSServCaller.entityTypeGet(par.entityUri), SSEntityE.entity)){
         return true;
       }
       
-      for(SSEntityCircleTypeE circleType : sqlFct.getUserEntityCircleTypes(par.user, par.entityUri)){
+      for(SSCircleE circleType : sqlFct.getUserEntityCircleTypes(par.user, par.entityUri)){
        
         switch(circleType){
           case priv: return true;
           case pub:{
             
-            if(SSEntityRightTypeE.equals(par.accessRight, SSEntityRightTypeE.read)){ 
+            if(SSCircleRightE.equals(par.accessRight, SSCircleRightE.read)){ 
               return true;
             }
             
@@ -874,8 +845,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           }
           default:{
             if(
-              SSEntityRightTypeE.equals(par.accessRight, SSEntityRightTypeE.read) ||
-              SSEntityRightTypeE.equals(par.accessRight, SSEntityRightTypeE.edit)){ 
+              SSCircleRightE.equals(par.accessRight, SSCircleRightE.read) ||
+              SSCircleRightE.equals(par.accessRight, SSCircleRightE.edit)){ 
               return true;
             }
           }
@@ -939,8 +910,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             par.user,
             par.entityUri,
             par.userUris,
-            SSEntityCircleTypeE.group,
-            SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
+            SSCircleE.group,
+            SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
             SSUri.get(SSUserGlobals.systemUserURI),
             false);
         
@@ -1016,17 +987,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSUri> entitySearchWithTagWithin(final SSServPar parA) throws Exception{
+  public List<SSUri> entitySearchWithKeywordWithin(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntitySearchWithTagWithinPar par = new SSEntitySearchWithTagWithinPar(parA);
+      final SSEntitySearchWithKeywordWithinPar par = new SSEntitySearchWithKeywordWithinPar(parA);
       
       SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entityUri);
       
-      return SSEntityMiscFct.searchWithTagWithinByEntityHandlers(
+      return SSEntityMiscFct.searchWithKeywordWithinByEntityHandlers(
         par.user, 
         par.entityUri, 
-        par.tag);
+        par.keyword);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

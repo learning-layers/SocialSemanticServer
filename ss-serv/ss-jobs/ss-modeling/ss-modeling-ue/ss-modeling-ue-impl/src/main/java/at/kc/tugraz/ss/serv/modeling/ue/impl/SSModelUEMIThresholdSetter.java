@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
@@ -36,7 +36,7 @@ public class SSModelUEMIThresholdSetter {
   }
   
 	private int getThreshold(
-			SSEntityEnum                       resourceType,
+			SSEntityE                       resourceType,
 			SSModelUEResourceCounterEnum       counterId){
 		
 		List<Integer>       distinctFrequencies      = new ArrayList<Integer>();
@@ -46,11 +46,11 @@ public class SSModelUEMIThresholdSetter {
 		
 		for(SSModelUEResource resource : resources.values()){
 		
-			if(!SSEntityEnum.equals(resource.type, resourceType)){
+			if(!SSEntityE.equals(resource.type, resourceType)){
 				
 				if(
-						SSEntityEnum.isResourceOrFile(resourceType) &&
-						SSEntityEnum.isResourceOrFile(resource.type)){
+						SSEntityE.isResourceOrFile(resourceType) &&
+						SSEntityE.isResourceOrFile(resource.type)){
 				}else{
 					continue;
 				}
@@ -107,127 +107,127 @@ public class SSModelUEMIThresholdSetter {
 		/*
 		 * only available for a certain resource type
 		 */
-		double averageCollectionMadeOutOf                          = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterMadeOutOf); //devide(totalCollectionMadeOutOf,           resourceCount);
-		double averagePersonIsEditor                               = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterIsEditor); //devide(totalPersonIsEditor,                resourceCount);
-		double averagePersonContributedDiscussion                  = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterContributedDiscussion); //devide(totalPersonContributedDiscussion,   resourceCount);
-		double averagePersonParticipated                           = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterParticipated); //devide(totalPersonParticipated,            resourceCount);
+		double averageCollectionMadeOutOf                          = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterMadeOutOf); //devide(totalCollectionMadeOutOf,           resourceCount);
+		double averagePersonIsEditor                               = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterIsEditor); //devide(totalPersonIsEditor,                resourceCount);
+		double averagePersonContributedDiscussion                  = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterContributedDiscussion); //devide(totalPersonContributedDiscussion,   resourceCount);
+		double averagePersonParticipated                           = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterParticipated); //devide(totalPersonParticipated,            resourceCount);
 		
 		/*
 		 * available for more than one resource type
 		 */
-		double averageCollectionRateHigh                           = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterRateHigh);     //devide(totalCollectionRateHigh,            resourceCount);
-		double averageDiscussionRateHigh                           = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterRateHigh);     //devide(totalDiscussionRateHigh,            resourceCount);
-		double averageDigitalResourceRateHigh                      = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterRateHigh);//devide(totalDigitalResourceRateHigh,       resourceCount);
-		double averagePersonRateHigh                               = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterRateHigh);         //devide(totalPersonRateHigh,                resourceCount);
+		double averageCollectionRateHigh                           = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterRateHigh);     //devide(totalCollectionRateHigh,            resourceCount);
+		double averageDiscussionRateHigh                           = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterRateHigh);     //devide(totalDiscussionRateHigh,            resourceCount);
+		double averageDigitalResourceRateHigh                      = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterRateHigh);//devide(totalDigitalResourceRateHigh,       resourceCount);
+		double averagePersonRateHigh                               = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterRateHigh);         //devide(totalPersonRateHigh,                resourceCount);
 		
-		double averageCollectionOrganizeCollection                 = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalCollectionOrganizeCollection,       resourceCount);
-		double averageDiscussionOrganizeCollection                 = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalDiscussionOrganizeCollection,       resourceCount);
-		double averageDigitalResourceOrganizeCollection            = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalDigitalResourceOrganizeCollection,  resourceCount);
-		double averagePersonOrganizeCollection                     = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalPersonOrganizeCollection,           resourceCount);
+		double averageCollectionOrganizeCollection                 = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalCollectionOrganizeCollection,       resourceCount);
+		double averageDiscussionOrganizeCollection                 = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalDiscussionOrganizeCollection,       resourceCount);
+		double averageDigitalResourceOrganizeCollection            = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalDigitalResourceOrganizeCollection,  resourceCount);
+		double averagePersonOrganizeCollection                     = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterOrganizeCollection);//devide(totalPersonOrganizeCollection,           resourceCount);
 		
-		double averageCollectionEventCount                         = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterEvent); //devide(totalCollectionEventCount,          resourceCount);
-		double averageDiscussionEventCount                         = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterEvent); //devide(totalDiscussionEventCount,          resourceCount);
-		double averageDigitalResourceEventCount                    = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterEvent); //devide(totalDigitalResourceEventCount,     resourceCount);
-		double averagePersonEventCount                             = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterEvent); //devide(totalPersonEventCount,              resourceCount);
+		double averageCollectionEventCount                         = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterEvent); //devide(totalCollectionEventCount,          resourceCount);
+		double averageDiscussionEventCount                         = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterEvent); //devide(totalDiscussionEventCount,          resourceCount);
+		double averageDigitalResourceEventCount                    = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterEvent); //devide(totalDigitalResourceEventCount,     resourceCount);
+		double averagePersonEventCount                             = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterEvent); //devide(totalPersonEventCount,              resourceCount);
 		
-		double averageCollectionCollection                         = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterCollection);//devide(totalCollectionCollection,          resourceCount);
-		double averageDiscussionCollection                         = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterCollection);//devide(totalDiscussionCollection,          resourceCount);
-		double averageDigitalResourceCollection                    = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterCollection);//devide(totalDigitalResourceCollection,     resourceCount);
-		double averagePersonCollection                             = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterCollection);//devide(totalPersonCollection,              resourceCount);
+		double averageCollectionCollection                         = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterCollection);//devide(totalCollectionCollection,          resourceCount);
+		double averageDiscussionCollection                         = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterCollection);//devide(totalDiscussionCollection,          resourceCount);
+		double averageDigitalResourceCollection                    = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterCollection);//devide(totalDigitalResourceCollection,     resourceCount);
+		double averagePersonCollection                             = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterCollection);//devide(totalPersonCollection,              resourceCount);
 		
-		double averageCollectionAssociatePerson                    = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalCollectionAssociatePerson,     resourceCount);
-		double averageDiscussionAssociatePerson                    = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalDiscussionAssociatePerson,     resourceCount);
-		double averageDigitalResourceAssociatePerson               = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalDigitalResourceAssociatePerson,resourceCount);
+		double averageCollectionAssociatePerson                    = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalCollectionAssociatePerson,     resourceCount);
+		double averageDiscussionAssociatePerson                    = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalDiscussionAssociatePerson,     resourceCount);
+		double averageDigitalResourceAssociatePerson               = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterAssociatePerson); //devide(totalDigitalResourceAssociatePerson,resourceCount);
 		
-		double averageCollectionChange                             = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterChange); //devide(totalCollectionChange,              resourceCount);
-		double averageDiscussionChange                             = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterChange); //devide(totalDiscussionChange,              resourceCount);
-		double averageDigitalResourceChange                        = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterChange); //devide(totalDigitalResourceChange,         resourceCount);
-		double averagePersonAddAndDelete                           = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterChange); //devide(totalPersonAddAndDelete,            resourceCount);
+		double averageCollectionChange                             = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterChange); //devide(totalCollectionChange,              resourceCount);
+		double averageDiscussionChange                             = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterChange); //devide(totalDiscussionChange,              resourceCount);
+		double averageDigitalResourceChange                        = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterChange); //devide(totalDigitalResourceChange,         resourceCount);
+		double averagePersonAddAndDelete                           = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterChange); //devide(totalPersonAddAndDelete,            resourceCount);
 		
-		double averageCollectionChangePerson                       = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalCollectionChangePerson,        resourceCount);
-		double averageDiscussionChangePerson                       = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalDiscussionChangePerson,        resourceCount);
-		double averageDigitalResourceChangePerson                  = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalDigitalResourceChangePerson,   resourceCount);
+		double averageCollectionChangePerson                       = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalCollectionChangePerson,        resourceCount);
+		double averageDiscussionChangePerson                       = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalDiscussionChangePerson,        resourceCount);
+		double averageDigitalResourceChangePerson                  = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterChangePerson); //devide(totalDigitalResourceChangePerson,   resourceCount);
 		
-		double averageCollectionTag                                = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterTag); //devide(totalCollectionTag,                 resourceCount);
-		double averageDiscussionTag                                = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterTag); //devide(totalDiscussionTag,                 resourceCount);		
-		double averageDigitalResourceTag                           = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterTag); //devide(totalDigitalResourceTag,            resourceCount);
-		double averagePersonTag                                    = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterTag); //devide(totalPersonTag,                     resourceCount);
+		double averageCollectionTag                                = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterTag); //devide(totalCollectionTag,                 resourceCount);
+		double averageDiscussionTag                                = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterTag); //devide(totalDiscussionTag,                 resourceCount);		
+		double averageDigitalResourceTag                           = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterTag); //devide(totalDigitalResourceTag,            resourceCount);
+		double averagePersonTag                                    = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterTag); //devide(totalPersonTag,                     resourceCount);
 		
-		double averageCollectionViewPerson                         = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalCollectionViewPerson,          resourceCount);
-		double averageDiscussionViewPerson                         = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalDiscussionViewPerson,          resourceCount);
-		double averageDigitalResourceViewPerson                    = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalDigitalResourceViewPerson,     resourceCount);
-		double averagePersonViewPerson                             = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalPersonViewPerson,              resourceCount);
+		double averageCollectionViewPerson                         = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalCollectionViewPerson,          resourceCount);
+		double averageDiscussionViewPerson                         = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalDiscussionViewPerson,          resourceCount);
+		double averageDigitalResourceViewPerson                    = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalDigitalResourceViewPerson,     resourceCount);
+		double averagePersonViewPerson                             = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterViewPerson); //devide(totalPersonViewPerson,              resourceCount);
 		
-		double averageCollectionView                               = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterView); //devide(totalCollectionView,                resourceCount);
-		double averageDiscussionView                               = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterView); //devide(totalDiscussionView,                resourceCount);
-		double averageDigitalResourceView                          = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterView); //devide(totalDigitalResourceView,           resourceCount);
-		double averagePersonView                                   = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterView); //devide(totalPersonView,                    resourceCount);
+		double averageCollectionView                               = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterView); //devide(totalCollectionView,                resourceCount);
+		double averageDiscussionView                               = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterView); //devide(totalDiscussionView,                resourceCount);
+		double averageDigitalResourceView                          = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterView); //devide(totalDigitalResourceView,           resourceCount);
+		double averagePersonView                                   = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterView); //devide(totalPersonView,                    resourceCount);
 		
 //		double averageCollectionSearchResult                       = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterSearchResult); //devide(totalCollectionSearchResult,        resourceCount);
 //		double averageDiscussionSearchResult                       = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterSearchResult); //devide(totalDiscussionSearchResult,        resourceCount);
 //		double averageDigitalResourceSearchResult                  = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterSearchResult); //devide(totalDigitalResourceSearchResult,   resourceCount);
 //		double averagePersonSearchResult                           = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterSearchResult); //devide(totalPersonSearchResult,            resourceCount);
 		
-		double averageCollectionSelectFromOther                    = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalCollectionSelectFromOther,     resourceCount);
-		double averageDiscussionSelectFromOther                    = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalDiscussionSelectFromOther,     resourceCount);
-		double averageDigitalResourceSelectFromOther               = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalDigitalResourceSelectFromOther,resourceCount);
-		double averagePersonSelectFromOther                        = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalPersonSelectFromOther,         resourceCount);
+		double averageCollectionSelectFromOther                    = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalCollectionSelectFromOther,     resourceCount);
+		double averageDiscussionSelectFromOther                    = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalDiscussionSelectFromOther,     resourceCount);
+		double averageDigitalResourceSelectFromOther               = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalDigitalResourceSelectFromOther,resourceCount);
+		double averagePersonSelectFromOther                        = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterSelectFromOther); //devide(totalPersonSelectFromOther,         resourceCount);
 		
-		double averageCollectionCollaborateCollection              = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalCollectionCollaborateCollection,         resourceCount);
-		double averageDiscussionCollaborateCollection              = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalDiscussionCollaborateCollection,         resourceCount);
-		double averageDigitalResourceCollaborateCollection         = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalDigitalResourceCollaborateCollection,    resourceCount);
+		double averageCollectionCollaborateCollection              = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalCollectionCollaborateCollection,         resourceCount);
+		double averageDiscussionCollaborateCollection              = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalDiscussionCollaborateCollection,         resourceCount);
+		double averageDigitalResourceCollaborateCollection         = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterCollaborateCollection); //devide(totalDigitalResourceCollaborateCollection,    resourceCount);
 		
-		double averageCollectionCollaborateDiscussion              = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalCollectionCollaborateDiscussion,         resourceCount);
-		double averageDiscussionCollaborateDiscussion              = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalDiscussionCollaborateDiscussion,         resourceCount);
-		double averageDigitalResourceCollaborateDiscussion         = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalDigitalResourceCollaborateDiscussion,    resourceCount);
+		double averageCollectionCollaborateDiscussion              = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalCollectionCollaborateDiscussion,         resourceCount);
+		double averageDiscussionCollaborateDiscussion              = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalDiscussionCollaborateDiscussion,         resourceCount);
+		double averageDigitalResourceCollaborateDiscussion         = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterCollaborateDiscussion); //devide(totalDigitalResourceCollaborateDiscussion,    resourceCount);
 		
-		double averageCollectionAware                              = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterAware); //devide(totalCollectionAware,               resourceCount);		
-		double averageDiscussionAware                              = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterAware); //devide(totalDiscussionAware,               resourceCount);
-		double averageDigitalResourceAware                         = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterAware); //devide(totalDigitalResourceAware,          resourceCount);
-		double averagePersonAware                                  = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterAware); //devide(totalPersonAware,                   resourceCount);
+		double averageCollectionAware                              = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterAware); //devide(totalCollectionAware,               resourceCount);		
+		double averageDiscussionAware                              = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterAware); //devide(totalDiscussionAware,               resourceCount);
+		double averageDigitalResourceAware                         = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterAware); //devide(totalDigitalResourceAware,          resourceCount);
+		double averagePersonAware                                  = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterAware); //devide(totalPersonAware,                   resourceCount);
 		
-		double averageCollectionRecommend                          = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalCollectionRecommend,           resourceCount);
-		double averageDiscussionRecommend                          = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalDiscussionRecommend,           resourceCount);
-		double averageDigitalResourceRecommend                     = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalDigitalResourceRecommend,      resourceCount);
-		double averagePersonRecommend                              = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterRecommend); // devide(totalPersonRecommend,               resourceCount);
+		double averageCollectionRecommend                          = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalCollectionRecommend,           resourceCount);
+		double averageDiscussionRecommend                          = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalDiscussionRecommend,           resourceCount);
+		double averageDigitalResourceRecommend                     = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterRecommend); //devide(totalDigitalResourceRecommend,      resourceCount);
+		double averagePersonRecommend                              = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterRecommend); // devide(totalPersonRecommend,               resourceCount);
 		
-		double averageCollectionAddAndDelete                       = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalCollectionAddAndDelete,        resourceCount);
-		double averageDiscussionAddAndDelete                       = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalDiscussionAddAndDelete,        resourceCount);
-		double averageDigitalResourceAddAndDelete                  = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalDigitalResourceAddAndDelete,   resourceCount);
+		double averageCollectionAddAndDelete                       = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalCollectionAddAndDelete,        resourceCount);
+		double averageDiscussionAddAndDelete                       = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalDiscussionAddAndDelete,        resourceCount);
+		double averageDigitalResourceAddAndDelete                  = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterAddAndDelete); //devide(totalDigitalResourceAddAndDelete,   resourceCount);
 		
-		double averageCollectionShareCommunity                     = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalCollectionShareCommunity,      resourceCount);
-		double averageDiscussionShareCommunity                     = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalDiscussionShareCommunity,      resourceCount);
-		double averageDigitalResourceShareCommunity                = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalDigitalResourceShareCommunity, resourceCount);
-		double averagePersonShareCommunity                         = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalPersonShareCommunity,          resourceCount);
+		double averageCollectionShareCommunity                     = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalCollectionShareCommunity,      resourceCount);
+		double averageDiscussionShareCommunity                     = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalDiscussionShareCommunity,      resourceCount);
+		double averageDigitalResourceShareCommunity                = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalDigitalResourceShareCommunity, resourceCount);
+		double averagePersonShareCommunity                         = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterShareCommunity); //devide(totalPersonShareCommunity,          resourceCount);
 		
-		double averageCollectionCollectionSimilar                  = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalCollectionCollectionSimilar,      resourceCount);
-		double averageDiscussionCollectionSimilar                  = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalDiscussionCollectionSimilar,      resourceCount);
-		double averageDigitalResourceCollectionSimilar             = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalDigitalResourceCollectionSimilar, resourceCount);	
-		double averagePersonCollectionSimilar                      = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalPersonCollectionSimilar,          resourceCount);
+		double averageCollectionCollectionSimilar                  = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalCollectionCollectionSimilar,      resourceCount);
+		double averageDiscussionCollectionSimilar                  = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalDiscussionCollectionSimilar,      resourceCount);
+		double averageDigitalResourceCollectionSimilar             = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalDigitalResourceCollectionSimilar, resourceCount);	
+		double averagePersonCollectionSimilar                      = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterCollectSimilar); //devide(totalPersonCollectionSimilar,          resourceCount);
 		
-		double averageCollectionPresentAudience                    = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalCollectionPresentAudience,        resourceCount);
-		double averageDiscussionPresentAudience                    = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalDiscussionPresentAudience,        resourceCount);
-		double averageDigitalResourcePresentAudience               = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalDigitalResourcePresentAudience,   resourceCount);	
+		double averageCollectionPresentAudience                    = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalCollectionPresentAudience,        resourceCount);
+		double averageDiscussionPresentAudience                    = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalDiscussionPresentAudience,        resourceCount);
+		double averageDigitalResourcePresentAudience               = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterPresentAudience); //devide(totalDigitalResourcePresentAudience,   resourceCount);	
 
-		double averageCollectionAssess                             = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterAssess); //devide(totalCollectionAssess,                 resourceCount);
-		double averageDiscussionAssess                             = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterAssess); //devide(totalDiscussionAssess,                 resourceCount);
-		double averageDigitalResourceAssess                        = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterAssess); //devide(totalDigitalResourceAssess,            resourceCount);
-		double averagePersonAssess                                 = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterAssess); // devide(totalPersonAssess,                     resourceCount);
+		double averageCollectionAssess                             = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterAssess); //devide(totalCollectionAssess,                 resourceCount);
+		double averageDiscussionAssess                             = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterAssess); //devide(totalDiscussionAssess,                 resourceCount);
+		double averageDigitalResourceAssess                        = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterAssess); //devide(totalDigitalResourceAssess,            resourceCount);
+		double averagePersonAssess                                 = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterAssess); // devide(totalPersonAssess,                     resourceCount);
 		
-		double averageCollectionGotRated                           = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalCollectionGotRated,               resourceCount);
-		double averageDiscussionGotRated                           = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalDiscussionGotRated,               resourceCount);
-		double averageDigitalResourceGotRated                      = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalDigitalResourceGotRated,          resourceCount);
-		double averagePersonGotRated                               = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterGotRated); // devide(totalPersonGotRated,                   resourceCount);
+		double averageCollectionGotRated                           = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalCollectionGotRated,               resourceCount);
+		double averageDiscussionGotRated                           = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalDiscussionGotRated,               resourceCount);
+		double averageDigitalResourceGotRated                      = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterGotRated); //devide(totalDigitalResourceGotRated,          resourceCount);
+		double averagePersonGotRated                               = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterGotRated); // devide(totalPersonGotRated,                   resourceCount);
 		
-		double averageCollectionReferredBy                         = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalCollectionReferredBy,                 resourceCount);
-		double averageDiscussionReferredBy                         = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalDiscussionReferredBy,                 resourceCount);
-		double averageDigitalResourceReferredBy                    = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalDigitalResourceReferredBy,            resourceCount);
-		double averagePersonReferredBy                             = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalPersonReferredBy,                     resourceCount);
+		double averageCollectionReferredBy                         = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalCollectionReferredBy,                 resourceCount);
+		double averageDiscussionReferredBy                         = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalDiscussionReferredBy,                 resourceCount);
+		double averageDigitalResourceReferredBy                    = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalDigitalResourceReferredBy,            resourceCount);
+		double averagePersonReferredBy                             = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterReferredBy); //devide(totalPersonReferredBy,                     resourceCount);
 
-		double averageCollectionActivePeriod                       = getThreshold(SSEntityEnum.coll,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalCollectionActivePeriod,               resourceCount);
-		double averageDiscussionActivePeriod                       = getThreshold(SSEntityEnum.disc,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalDiscussionActivePeriod,               resourceCount);
-		double averageDigitalResourceActivePeriod                  = getThreshold(SSEntityEnum.entity,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalDigitalResourceActivePeriod,          resourceCount);
-		double averagePersonActivePeriod                           = getThreshold(SSEntityEnum.user,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalPersonActivePeriod,                   resourceCount);
+		double averageCollectionActivePeriod                       = getThreshold(SSEntityE.coll,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalCollectionActivePeriod,               resourceCount);
+		double averageDiscussionActivePeriod                       = getThreshold(SSEntityE.disc,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalDiscussionActivePeriod,               resourceCount);
+		double averageDigitalResourceActivePeriod                  = getThreshold(SSEntityE.entity,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalDigitalResourceActivePeriod,          resourceCount);
+		double averagePersonActivePeriod                           = getThreshold(SSEntityE.user,SSModelUEResourceCounterEnum.counterActivePeriod); //devide(totalPersonActivePeriod,                   resourceCount);
 		
 		/*
 		 * only available for a certain resource type

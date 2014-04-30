@@ -21,10 +21,10 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
@@ -42,7 +42,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       notebookUri,
-      SSUEEnum.evernoteNotebookCreate,
+      SSUEE.evernoteNotebookCreate,
       SSStrU.empty,
       notebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
       false);
@@ -50,7 +50,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       notebookUri,
-      SSUEEnum.evernoteNotebookUpdate,
+      SSUEE.evernoteNotebookUpdate,
       SSStrU.empty,
       notebook.getServiceUpdated()  + SSEvernoteTimestampCounter.get(),
       false);
@@ -74,7 +74,7 @@ public class SSEvernoteUEHelper {
         SSServCaller.addUEAtCreationTime(
           userUri,
           notebookUri,
-          SSUEEnum.evernoteNotebookShare,
+          SSUEE.evernoteNotebookShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
           false);
@@ -94,7 +94,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       noteUri,
-      SSUEEnum.evernoteNoteCreate,
+      SSUEE.evernoteNoteCreate,
       SSStrU.empty,
       note.getCreated() + SSEvernoteTimestampCounter.get(),
       false);
@@ -102,7 +102,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       noteUri,
-      SSUEEnum.evernoteNoteUpdate,
+      SSUEE.evernoteNoteUpdate,
       SSStrU.empty,
       note.getUpdated() + SSEvernoteTimestampCounter.get(),
       false);
@@ -112,7 +112,7 @@ public class SSEvernoteUEHelper {
       SSServCaller.addUEAtCreationTime(
         userUri,
         noteUri,
-        SSUEEnum.evernoteNoteDelete,
+        SSUEE.evernoteNoteDelete,
         SSStrU.empty,
         note.getDeleted() + SSEvernoteTimestampCounter.get(),
         false);
@@ -126,7 +126,7 @@ public class SSEvernoteUEHelper {
         userUri,
         noteUri,
         SSTagLabel.getDistinct(note.getTagNames()),
-        SSSpaceEnum.privateSpace,
+        SSSpaceE.privateSpace,
         note.getUpdated() + SSEvernoteTimestampCounter.get(),
         false);
       
@@ -135,7 +135,7 @@ public class SSEvernoteUEHelper {
         SSServCaller.addUEAtCreationTime(
           userUri,
           noteUri,
-          SSUEEnum.addPrivateTag,
+          SSUEE.addPrivateTag,
           tagName,
           note.getUpdated() + SSEvernoteTimestampCounter.get(),
           false);
@@ -163,7 +163,7 @@ public class SSEvernoteUEHelper {
         SSServCaller.addUEAtCreationTime(
           userUri,
           noteUri,
-          SSUEEnum.evernoteNoteShare,
+          SSUEE.evernoteNoteShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
           false);
@@ -195,7 +195,7 @@ public class SSEvernoteUEHelper {
       SSServCaller.addUEAtCreationTime(
         userUri,
         noteUri,
-        SSUEEnum.evernoteNoteShare,
+        SSUEE.evernoteNoteShare,
         SSStrU.empty,
         noteAttr.getShareDate(),
         false);
@@ -206,7 +206,7 @@ public class SSEvernoteUEHelper {
       SSServCaller.addUEAtCreationTime(
         userUri,
         noteUri,
-        SSUEEnum.evernoteReminderDone,
+        SSUEE.evernoteReminderDone,
         SSStrU.empty,
         noteAttr.getReminderDoneTime(),
         false);
@@ -217,7 +217,7 @@ public class SSEvernoteUEHelper {
       SSServCaller.addUEAtCreationTime(
         userUri,
         noteUri,
-        SSUEEnum.evernoteReminderCreate,
+        SSUEE.evernoteReminderCreate,
         SSStrU.empty,
         noteAttr.getReminderTime(),
         false);
@@ -238,7 +238,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       resourceUri,
-      SSUEEnum.evernoteResourceAdd,
+      SSUEE.evernoteResourceAdd,
       SSStrU.empty,
       note.getUpdated(),
       false);
@@ -265,7 +265,7 @@ public class SSEvernoteUEHelper {
         SSServCaller.addUEAtCreationTime(
           userUri,
           resourceUri,
-          SSUEEnum.evernoteResourceShare,
+          SSUEE.evernoteResourceShare,
           SSStrU.empty,
           sharedNotebook.getServiceCreated(),
           false);
@@ -281,7 +281,7 @@ public class SSEvernoteUEHelper {
     SSServCaller.addUEAtCreationTime(
       userUri,
       notebookUri,
-      SSUEEnum.evernoteNotebookFollow,
+      SSUEE.evernoteNotebookFollow,
       SSStrU.empty,
       creationTimeForLinkedNotebook,
       false);

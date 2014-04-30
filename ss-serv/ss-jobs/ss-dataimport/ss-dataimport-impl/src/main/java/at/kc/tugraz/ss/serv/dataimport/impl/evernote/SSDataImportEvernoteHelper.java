@@ -24,9 +24,9 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
@@ -58,7 +58,7 @@ public class SSDataImportEvernoteHelper {
   
   private final  SSFileRepoConf          localWorkConf          = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
   private        SSEvernoteInfo          evernoteInfo           = null;
-  private        SSLabelStr              userName               = null;
+  private        SSLabel              userName               = null;
   private        SSUri                   userUri                = null;
   private        List<SharedNotebook>    sharedNotebooks        = null;
   private        List<String>            sharedNotebookGuids    = null;
@@ -80,7 +80,7 @@ public class SSDataImportEvernoteHelper {
   public void handleNotebooks(SSDataImportEvernotePar par) throws Exception{
     
     SSUri       notebookUri;
-    SSLabelStr  notebookLabel;
+    SSLabel  notebookLabel;
     Boolean     isSharedNotebook;
     
     for(Notebook notebook : SSServCaller.getEvernoteNotebooks(evernoteInfo.noteStore)){
@@ -94,7 +94,7 @@ public class SSDataImportEvernoteHelper {
         notebookUri,
         notebookLabel,
         notebook.getServiceCreated(),
-        SSEntityEnum.evernoteNotebook,
+        SSEntityE.evernoteNotebook,
         false);
       
       evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
@@ -112,12 +112,12 @@ public class SSDataImportEvernoteHelper {
 
     int                     timeCounter = 1;
     SSUri                   notebookUri;
-    SSLabelStr              notebookLabel;
-    SSLabelStr              noteLabel;
+    SSLabel              notebookLabel;
+    SSLabel              noteLabel;
     Long                    creationTimeForLinkedNotebook;
     SSUri                   noteUri;
     SSUri                   resourceUri;
-    SSLabelStr              resourceLabel;
+    SSLabel              resourceLabel;
     
     for(LinkedNotebook linkedNotebook : SSServCaller.getEvernoteLinkedNotebooks(evernoteInfo.noteStore)){
       
@@ -132,7 +132,7 @@ public class SSDataImportEvernoteHelper {
         notebookUri,
         notebookLabel,
         creationTimeForLinkedNotebook,
-        SSEntityEnum.evernoteNotebook,
+        SSEntityE.evernoteNotebook,
         false);
       
       evernoteHelper.ueHelper.addUEsForLinkedNotebook(
@@ -194,7 +194,7 @@ public class SSDataImportEvernoteHelper {
     Boolean              isSharedNotebook) throws Exception{
     
     SSUri      noteUri;
-    SSLabelStr noteLabel;
+    SSLabel noteLabel;
     
     for(Note note : SSServCaller.getEvernoteNotes(evernoteInfo.noteStore, notebook.getGuid())){
       
@@ -206,7 +206,7 @@ public class SSDataImportEvernoteHelper {
         noteUri,
         noteLabel,
         note.getCreated(),
-        SSEntityEnum.evernoteNote,
+        SSEntityE.evernoteNote,
         false);
       
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
@@ -227,7 +227,7 @@ public class SSDataImportEvernoteHelper {
     List<SharedNotebook> sharedNotebooks) throws Exception{
     
     SSUri      resourceUri;
-    SSLabelStr resourceLabel;
+    SSLabel resourceLabel;
     
     if(
       note                == null ||
@@ -245,7 +245,7 @@ public class SSDataImportEvernoteHelper {
         resourceUri,
         resourceLabel,
         note.getUpdated(),
-        SSEntityEnum.evernoteResource,
+        SSEntityE.evernoteResource,
         false);
       
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
@@ -262,8 +262,8 @@ public class SSDataImportEvernoteHelper {
       fileUri = SSServCaller.fileCreateUri     (userUri, SSFileExtU.png);
       fileId  = SSServCaller.fileIDFromURI     (userUri, fileUri);
       
-      String           xhtmlFilePath    = localWorkConf.getPath() + SSEntityEnum.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
-      String           pdfFilePath      = localWorkConf.getPath() + SSEntityEnum.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
+      String           xhtmlFilePath    = localWorkConf.getPath() + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
+      String           pdfFilePath      = localWorkConf.getPath() + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
       String           pngFilePath      = localWorkConf.getPath() + fileId;
       
       evernoteNoteWriteHTML         (note,        xhtmlFilePath);

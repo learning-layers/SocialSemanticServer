@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +34,11 @@ public class SSLearnEpTimelineState extends SSEntityA {
   public Long  startTime               = null;
   public Long  endTime                 = null;
   
-  public static SSLearnEpTimelineState get(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime){
+  public static SSLearnEpTimelineState get(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime)throws Exception{
     return new SSLearnEpTimelineState(learnEpTimelineStateUri, learnEpVersionUri, startTime, endTime);
   }
   
-  private SSLearnEpTimelineState(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime){
+  private SSLearnEpTimelineState(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime)throws Exception{
     
     super(learnEpTimelineStateUri);
     

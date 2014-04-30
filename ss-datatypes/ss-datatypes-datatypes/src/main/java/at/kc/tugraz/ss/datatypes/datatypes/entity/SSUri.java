@@ -18,9 +18,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.datatypes.datatypes;
+package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -28,13 +29,13 @@ import java.util.*;
 
 public class SSUri extends SSEntityA{
   
-  public static String toStr(SSUri uri){
-    return SSStrU.toString(uri);
-  }
-  
   public static SSUri get(final String uri) throws Exception{
     
     //    new URL(uriString); //import java.net.URL;
+    if(uri == null){
+      SSLogU.warn("uri creation null");
+      return null;
+    }
     
     if(!java.net.URI.create(uri).isAbsolute()){
       throw new Exception("uri not java.net.URI conform");
@@ -49,8 +50,8 @@ public class SSUri extends SSEntityA{
     
     SSUri newUri = null;
     
-    //TODO dtheiler: check where this method is needed
     if(SSObjU.isNull(uri, append)){
+      SSLogU.warn("uri creation null");
       return null;
     }
     
@@ -69,18 +70,11 @@ public class SSUri extends SSEntityA{
 
     final List<SSUri> result = new ArrayList<SSUri>();
     
-    for(String string : strings){
-      result.add(get(string));
+    if(strings == null){
+      return result;
     }
     
-    return result;
-  }
-  
-  public static List<SSUri> getDistinct(final List<String> strings) throws Exception{
-
-    final List<SSUri> result = new ArrayList<SSUri>();
-    
-    for(String string : SSStrU.distinct(strings)){
+    for(String string : strings){
       result.add(get(string));
     }
     
@@ -113,7 +107,7 @@ public class SSUri extends SSEntityA{
   }
   
   public static void addDistinct(
-    final List<SSUri> uris, 
+    final List<SSUri> uris,
     final SSUri       uriToAdd){
     
     if(
@@ -149,7 +143,7 @@ public class SSUri extends SSEntityA{
     return SSStrU.removeTrailingSlash(uri.toString());
   }
 
-  private SSUri(final String value){
+  private SSUri(final String value) throws Exception{
     super(SSStrU.addTrailingSlash(value));
   }
   

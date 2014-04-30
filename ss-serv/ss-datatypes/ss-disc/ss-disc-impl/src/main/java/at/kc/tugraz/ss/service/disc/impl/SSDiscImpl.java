@@ -20,22 +20,22 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -50,13 +50,11 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.ue.SSDiscUEFct;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.*;
 
 public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI {
 
-  protected final List<SSEntityEnum> supportedEntityTypes;
+  protected final List<SSEntityE> supportedEntityTypes;
 //  private final SSDiscGraphFct graphFct;
   private final SSDiscSQLFct sqlFct;
 
@@ -67,23 +65,23 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 //    graphFct = new SSDiscGraphFct (this);
     sqlFct = new SSDiscSQLFct(this);
     
-    supportedEntityTypes = new ArrayList<SSEntityEnum>();
-    supportedEntityTypes.add(SSEntityEnum.disc);
-    supportedEntityTypes.add(SSEntityEnum.discEntry);
+    supportedEntityTypes = new ArrayList<SSEntityE>();
+    supportedEntityTypes.add(SSEntityE.disc);
+    supportedEntityTypes.add(SSEntityE.discEntry);
   }
 
-  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception{
+  public List<SSEntityE> getSupportedEntityTypes() throws Exception{
     return supportedEntityTypes;
   }
    
   /* SSEntityHandlerImplI */
   
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
@@ -92,7 +90,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -104,7 +102,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -114,31 +112,31 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }
     
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
   }
 
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum     entityType,
+    final SSEntityE        entityType,
     final SSUri            userUri,
     final SSUri            entityUri,
-    final SSLabelStr       label,
+    final SSLabel          label,
     final Long             creationTime,
-    final List<SSTag>      tags,
-    final SSRatingOverall  overallRating,
+    final List<String>     tags,
+    final SSEntityA        overallRating,
     final List<SSUri>      discUris,
     final SSUri            author) throws Exception {
 
-    if (SSEntityEnum.equals(entityType, SSEntityEnum.disc)) {
+    if (SSEntityE.equals(entityType, SSEntityE.disc)) {
 
       return SSDiscDesc.get(
         entityUri,
@@ -146,16 +144,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         creationTime,
         tags,
         overallRating,
-        author);
+        author, 
+        discUris);
     }
 
-    if (SSEntityEnum.equals(entityType, SSEntityEnum.discEntry)) {
+    if(SSEntityE.equals(entityType, SSEntityE.discEntry)) {
 
       return SSDiscEntryDesc.get(
         entityUri,
         label,
         creationTime,
-        author);
+        author, 
+        overallRating, 
+        tags, 
+        discUris);
     }
 
     return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
@@ -241,7 +243,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     final SSDiscUserEntryAddPar par           = new SSDiscUserEntryAddPar(parA);
     SSUri                       discEntryUri  = null;
-    SSLabelStr                  discLabel     = null;
+    SSLabel                  discLabel     = null;
     SSUri                       discUri;
 
     try{
@@ -263,8 +265,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         SSServCaller.entityAdd(
           par.user,
           par.target,
-          SSLabelStr.get(par.target.toString()),
-          SSEntityEnum.entity,
+          SSLabel.get(par.target.toString()),
+          SSEntityE.entity,
           false);
         
         discLabel = SSServCaller.entityLabelGet(par.target);
@@ -273,7 +275,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.user,
           discUri,
           discLabel,
-          SSEntityEnum.disc,
+          SSEntityE.disc,
           false);
       }
 
@@ -284,8 +286,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         SSServCaller.entityAdd(
           par.user,
           discEntryUri,
-          SSLabelStr.get(discEntryUri.toString()),
-          SSEntityEnum.discEntry,
+          SSLabel.get(discEntryUri.toString()),
+          SSEntityE.discEntry,
           false);
       }
 

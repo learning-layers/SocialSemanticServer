@@ -22,26 +22,28 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSRatingOverall implements SSJSONLDPropI{
+public class SSRatingOverall extends SSEntityA{
    
   public Double  score      = -1d;
   public Integer frequency  = -1;
 
   public static SSRatingOverall get(
-    double score,
-    int    frequency) { 
+    Double score,
+    int    frequency) throws Exception { 
     
     return new SSRatingOverall(score, frequency);
   }
   
   private SSRatingOverall(
-    double score,
-    int    frequency) {
+    Double score,
+    int    frequency) throws  Exception{
 
+    super(score);
+    
     this.score      = score;
     this.frequency  = frequency;
   }
@@ -57,7 +59,7 @@ public class SSRatingOverall implements SSJSONLDPropI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public double getScore() {
     return score;
   }

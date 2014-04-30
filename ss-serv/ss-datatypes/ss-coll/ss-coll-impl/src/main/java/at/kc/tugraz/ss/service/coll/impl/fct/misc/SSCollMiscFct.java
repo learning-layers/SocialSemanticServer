@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -105,7 +105,7 @@ public class SSCollMiscFct{
           collAndCollEntryUris.add(SSUri.get(subCollUri));
         }
         
-        for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSEntityCircleTypeE>()).entries){
+        for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSCircleE>()).entries){
           
           if(!SSUri.contains(collAndCollEntryUris, collEntry.uri)){
             collAndCollEntryUris.add(collEntry.uri);

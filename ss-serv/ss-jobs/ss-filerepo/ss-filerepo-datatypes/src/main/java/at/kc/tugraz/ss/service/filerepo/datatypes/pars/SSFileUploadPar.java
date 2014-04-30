@@ -21,14 +21,14 @@
  package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileUploadPar extends SSServPar{
 
   public String      mimeType  = null;
-  public SSLabelStr  fileName  = null;
+  public SSLabel  fileName  = null;
   
   public SSFileUploadPar(final SSServPar par) throws Exception{
      
@@ -38,12 +38,12 @@ public class SSFileUploadPar extends SSServPar{
       
       if(pars != null){
         mimeType   = (String)     pars.get(SSVarU.mimeType);
-        fileName   = (SSLabelStr) pars.get(SSVarU.fileName);
+        fileName   = (SSLabel) pars.get(SSVarU.fileName);
       }
       
       if(clientPars != null){
         mimeType =                 clientPars.get (SSVarU.mimeType);
-        fileName = SSLabelStr.get (clientPars.get (SSVarU.fileName));
+        fileName = SSLabel.get (clientPars.get (SSVarU.fileName));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

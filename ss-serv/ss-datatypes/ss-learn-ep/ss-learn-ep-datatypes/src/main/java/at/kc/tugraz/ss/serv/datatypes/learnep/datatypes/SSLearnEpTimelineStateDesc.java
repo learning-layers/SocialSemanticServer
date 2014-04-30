@@ -20,23 +20,36 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import java.util.List;
 
 public class SSLearnEpTimelineStateDesc extends SSEntityDescA{
   
-  public SSLearnEpTimelineStateDesc(SSUri entityUri, SSLabelStr entityLabel, Long creationTime, final SSUri           author){
-    super(entityUri, entityLabel, creationTime, SSEntityEnum.learnEpTimelineState, SSEntityEnum.learnEpTimelineStateDesc, author);
+  public SSLearnEpTimelineStateDesc(
+    final SSUri        entityUri,
+    final SSLabel      entityLabel, 
+    final Long         creationTime, 
+    final SSUri        author,
+    final SSEntityA    overallRating, 
+    final List<String> tags, 
+    final List<SSUri>  discs)throws Exception{
+    
+    super(entityUri, entityLabel, creationTime, SSEntityE.learnEpTimelineState, SSEntityE.learnEpTimelineStateDesc, author, overallRating, tags, discs);
   }
   
-  public static SSLearnEpTimelineStateDesc get(SSUri entityUri, SSLabelStr entityLabel, Long entityCreationTime, final SSUri           author){
-    return new SSLearnEpTimelineStateDesc(entityUri, entityLabel, entityCreationTime,author);
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return super.jsonLDDesc();
+  public static SSLearnEpTimelineStateDesc get(
+    final SSUri        entityUri,
+    final SSLabel      entityLabel, 
+    final Long         creationTime, 
+    final SSUri        author,
+    final SSEntityA    overallRating, 
+    final List<String> tags, 
+    final List<SSUri>  discs)throws Exception{
+    
+    return new SSLearnEpTimelineStateDesc(entityUri, entityLabel, creationTime, author,  overallRating, tags, discs);
   }
 }

@@ -24,7 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +32,16 @@ public class SSEntityDescGetRet extends SSServRetI{
 
   public SSEntityDescA entityDesc = null;
 
-  public static SSEntityDescGetRet get(SSEntityDescA entityDesc, SSMethU op){
+  public static SSEntityDescGetRet get(
+    final SSEntityDescA entityDesc, 
+    final SSMethU       op){
+    
     return new SSEntityDescGetRet(entityDesc, op);
   }
   
-  private SSEntityDescGetRet(SSEntityDescA entityDesc, SSMethU op){
+  private SSEntityDescGetRet(
+    final SSEntityDescA entityDesc, 
+    final SSMethU       op){
     
     super(op);
     
@@ -46,7 +51,7 @@ public class SSEntityDescGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<String, Object>();
     
     ld.put(SSVarU.entityDesc, SSVarU.sss + SSStrU.colon + SSEntityDescA.class.getName());
     

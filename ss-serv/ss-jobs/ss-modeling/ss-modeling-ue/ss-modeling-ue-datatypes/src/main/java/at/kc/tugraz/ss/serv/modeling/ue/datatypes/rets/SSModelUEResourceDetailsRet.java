@@ -21,12 +21,11 @@
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import java.util.*;
 
@@ -34,7 +33,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
   
   public  SSUri                             uri                                        = null;
   public  SSUri                             recentArtifact                             = null;
-  public  SSTagLabel                       recentTopic                                = null;
+  public  String                            recentTopic                                = null;
 	public  List<SSUri>                       relatedPersons                             = null;
   public  List<SSUri>                       editors                                    = null;
   public  List<SSUri>                       contributedResources                       = null;
@@ -47,7 +46,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
 	  List<String>                  maturingIndicators                         ,
 	  List<SSUri>                   editors                                    ,
 	  SSUri                         recentArtifact                             ,
-	  SSTagLabel                   recentTopic                                ,
+	  String                        recentTopic                                ,
 	  List<SSUri>                   contributedResources                       ,
 	  List<SSModelUETopicScore>     topicScores, 
     SSMethU                       op){
@@ -77,7 +76,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     ld.put(SSVarU.uri,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.recentArtifact, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.recentTopic,    SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
+    ld.put(SSVarU.recentTopic,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     relatedPersonsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     relatedPersonsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -107,7 +106,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding  */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
@@ -129,7 +128,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
   }
 
   public String getRecentTopic(){
-    return SSTagLabel.toStr(recentTopic);
+    return recentTopic;
   }
 
   public List<String> getContributedResources(){

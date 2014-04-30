@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.lomextractor.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class SSLOMUser extends SSEntityA{
   
   public SSLOMUser(
     String fullName,
-    String tempRole){
+    String tempRole)throws Exception{
     
     super(fullName);
     

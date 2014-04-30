@@ -21,15 +21,15 @@
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUserAddPar extends SSServPar{
   
   public SSUri      userUri   = null;
-  public SSLabelStr userLabel = null;
+  public SSLabel userLabel = null;
   
   public SSUserAddPar(SSServPar par) throws Exception{
    
@@ -39,7 +39,7 @@ public class SSUserAddPar extends SSServPar{
       
       if(pars != null){
         this.userUri   = (SSUri)      pars.get(SSVarU.userUri);
-        this.userLabel = (SSLabelStr) pars.get(SSVarU.userLabel);
+        this.userLabel = (SSLabel) pars.get(SSVarU.userLabel);
       }
       
     }catch(Exception error){

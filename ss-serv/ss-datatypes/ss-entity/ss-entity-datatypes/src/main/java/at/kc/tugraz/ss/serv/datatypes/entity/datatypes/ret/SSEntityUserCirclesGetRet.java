@@ -19,7 +19,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,17 +28,17 @@ import java.util.Map;
 
 public class SSEntityUserCirclesGetRet extends SSServRetI{
 
-  public List<SSCircle> circles = new ArrayList<SSCircle>();
+  public List<SSEntityCircle> circles = new ArrayList<SSEntityCircle>();
 
   public static SSEntityUserCirclesGetRet get(
-    final List<SSCircle> circles, 
+    final List<SSEntityCircle> circles, 
     final SSMethU        op){
     
     return new SSEntityUserCirclesGetRet(circles, op);
   }
   
   private SSEntityUserCirclesGetRet(
-    final List<SSCircle> circles, 
+    final List<SSEntityCircle> circles, 
     final SSMethU        op){
 
     super(op);
@@ -54,7 +54,7 @@ public class SSEntityUserCirclesGetRet extends SSServRetI{
     final Map<String, Object> ld           = new HashMap<String, Object>();
     final Map<String, Object> circlesObj   = new HashMap<String, Object>();
     
-    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircle.class.getName());
+    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircle.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.circles, circlesObj);
@@ -62,7 +62,7 @@ public class SSEntityUserCirclesGetRet extends SSServRetI{
     return ld;
   }
   
-  public List<SSCircle> getCircles() {
+  public List<SSEntityCircle> getCircles() {
     return circles;
   }
 }

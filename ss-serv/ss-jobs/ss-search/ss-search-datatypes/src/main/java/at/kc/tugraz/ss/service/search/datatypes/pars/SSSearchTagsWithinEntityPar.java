@@ -23,16 +23,14 @@
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchTagsWithinEntityPar extends SSServPar{
   
-  public SSUri             entityUri = null;
-  public List<SSTagLabel>  tags      = new ArrayList<SSTagLabel>();
+  public SSUri         entityUri  = null;
+  public List<String>  tagLabels  = null;
     
   public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
       
@@ -40,13 +38,13 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
     
     try{
       if(pars != null){
-        entityUri        = (SSUri)            pars.get(SSVarU.entityUri);
-        tags             = (List<SSTagLabel>) pars.get(SSVarU.tags);
+        entityUri            = (SSUri)                       pars.get(SSVarU.entityUri);
+        tagLabels            = SSStrU.splitDistinct((String) pars.get(SSVarU.tagLabels), SSStrU.comma);
       }
       
       if(clientPars != null){
-        entityUri        = SSUri.get             (clientPars.get(SSVarU.entityUri));
-        tags             = SSTagLabel.getDistinct(SSStrU.split(clientPars.get(SSVarU.tags), SSStrU.comma));
+        entityUri         = SSUri.get           (clientPars.get(SSVarU.entityUri));
+        tagLabels         = SSStrU.splitDistinct(clientPars.get(SSVarU.tagLabels), SSStrU.comma);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

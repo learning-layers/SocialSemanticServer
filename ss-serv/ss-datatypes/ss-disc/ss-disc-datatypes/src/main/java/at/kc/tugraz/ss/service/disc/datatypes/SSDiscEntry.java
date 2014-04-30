@@ -20,10 +20,11 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,16 +32,16 @@ public class SSDiscEntry extends SSEntityA {
   
   public  SSUri               uri;
   public  Integer             pos;
-  public  SSDiscEntryContent  content;
+  public  SSTextComment  content;
   public  SSUri               author;
   public  Long                timestamp; 
 
   public static SSDiscEntry get(
     SSUri                 uri,
     int                   pos,
-    SSDiscEntryContent    content,
+    SSTextComment         content,
     SSUri                 author,
-    Long                  timestamp){
+    Long                  timestamp) throws Exception{
     
     return new SSDiscEntry(uri, pos, content, author, timestamp);
   }
@@ -48,9 +49,9 @@ public class SSDiscEntry extends SSEntityA {
   private SSDiscEntry(
     SSUri               uri,
     int                 pos,
-    SSDiscEntryContent  content,
+    SSTextComment  content,
     SSUri               author,
-    Long                timestamp){
+    Long                timestamp) throws Exception{
     
     super(uri);
     
@@ -68,7 +69,7 @@ public class SSDiscEntry extends SSEntityA {
     
     ld.put(SSVarU.uri,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.pos,       SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.content,   SSVarU.sss + SSStrU.colon + SSDiscEntryContent.class.getName());
+    ld.put(SSVarU.content,   SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     ld.put(SSVarU.author,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.timestamp, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
@@ -85,7 +86,7 @@ public class SSDiscEntry extends SSEntityA {
   }
 
   public String getContent(){
-    return SSDiscEntryContent.toStr(content);
+    return SSTextComment.toStr(content);
   }
 
   public String getAuthor() throws Exception{

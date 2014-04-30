@@ -25,10 +25,10 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
@@ -436,7 +436,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public void addCircleToLearnEpVersion(
     SSUri      learnEpCircleUri,
     SSUri      learnEpVersionUri,
-    SSLabelStr label,
+    SSLabel label,
     Float      xLabel,
     Float      yLabel,
     Float      xR,
@@ -508,7 +508,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   
   public void updateCircle(
     SSUri      learnEpCircleUri,
-    SSLabelStr label,
+    SSLabel label,
     Float      xLabel,
     Float      yLabel,
     Float      xR,
@@ -575,7 +575,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     dbSQL.insert(learnEpVersionEntitiesTable, insertPars);
   }
   
-  public void createLearnEp(SSUri learnEpUri, SSUri user, SSSpaceEnum space) throws Exception{
+  public void createLearnEp(SSUri learnEpUri, SSUri user, SSSpaceE space) throws Exception{
     
     Map<String, String> insertPars;
     
@@ -737,22 +737,22 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   }
   
   private SSUri objLearnEpVersion() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.learnEpVersion.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpVersion.toString());
   }
   
   private SSUri objLearnEpCircle() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.learnEpCircle.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpCircle.toString());
   }
   
   private SSUri objLearnEpEntity() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.learnEpEntity.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpEntity.toString());
   }
   
   private SSUri objLearnEp() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.learnEp.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEp.toString());
   }
   
   private SSUri objLearnEpTimelineState() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.learnEpTimelineState.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpTimelineState.toString());
   }
 }

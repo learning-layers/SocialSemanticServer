@@ -18,50 +18,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.datatypes;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSDiscEntryContent extends SSEntityA {
+public class SSCollSearchWithKeywordWithinPar extends SSServPar{
 
-  public static SSDiscEntryContent get(final String content) throws Exception{
-    
-    if(SSStrU.isEmpty(content)){
-      return null; 
-    }
-    
-    final String tmp = SSStrU.replaceLineFeedsWithTextualRepr(content);
-    
-    if(SSStrU.isEmpty(tmp)){
-      return null; 
-    }
-    
-    return new SSDiscEntryContent(tmp);
-  }
-
-  public static String toStr(final SSDiscEntryContent content){
-    return SSStrU.toString(content);
-  }
+  public SSUri      collUri   = null;
+  public String     keyword   = null;
   
-  private SSDiscEntryContent(final String value){
-    super(value);
-  }
-
-  public static Boolean isEmpty(final SSDiscEntryContent content){
+  public SSCollSearchWithKeywordWithinPar(final SSServPar par) throws Exception{
     
-    if(
-      content == null ||
-      content.toString().isEmpty()){
-      return true;
+    super(par);
+    
+    try{
+    
+      if(pars != null){
+        collUri    = (SSUri)       pars.get(SSVarU.collUri);
+        keyword    = (String)      pars.get(SSVarU.keyword);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    return false;
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.tag.impl.fct;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SSTagFct {
 
   public static List<SSTagFrequ> getTagFrequsFromTags(
     final List<SSTag> tags, 
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     final Map<String, Integer> counterPerTags = new HashMap<String, Integer>();
     

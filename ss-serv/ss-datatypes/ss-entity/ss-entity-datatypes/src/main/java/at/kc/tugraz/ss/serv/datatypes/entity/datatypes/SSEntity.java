@@ -22,26 +22,26 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntity extends SSEntityA{
 
   public SSUri        uri          = null;
-  public SSLabelStr   label        = null;
+  public SSLabel      label        = null;
   public Long         creationTime = null;
-  public SSEntityEnum type         = null;
+  public SSEntityE    type         = null;
   public SSUri        author       = null;
   
   protected SSEntity(
     final SSUri          uri,
-    final SSLabelStr     label, 
+    final SSLabel        label, 
     final Long           creationTime,
-    final SSEntityEnum   type,
+    final SSEntityE      type,
     final SSUri          author) throws Exception{
     
     super(uri);
@@ -55,9 +55,9 @@ public class SSEntity extends SSEntityA{
   
   public static SSEntity get(
     final SSUri          uri,
-    final SSLabelStr     label, 
+    final SSLabel        label, 
     final Long           creationTime,
-    final SSEntityEnum   type,
+    final SSEntityE      type,
     final SSUri          author) throws Exception{
     
     return new SSEntity(uri, label, creationTime, type, author);
@@ -69,9 +69,9 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> ld         = new HashMap<String, Object>();
     
     ld.put(SSVarU.uri,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabelStr.class.getName());
+    ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarU.creationTime,   SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.type,           SSVarU.sss + SSStrU.colon + SSEntityEnum.class.getName());
+    ld.put(SSVarU.type,           SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;

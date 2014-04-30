@@ -57,7 +57,7 @@ public enum SSMethU{
   entityAddAtCreationTime                             ,
   entityCreationTimeGet                               ,
   entityGet                                           ,
-  entitySearchWithTagWithin                           ,                         
+  entitySearchWithKeywordWithin                       ,                         
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityLabelGet                                      ,
@@ -227,7 +227,7 @@ public enum SSMethU{
   
   
   //coll
-  collSearchWithTagWithin                             , 
+  collSearchWithKeywordWithin                         , 
   collToCircleAdd                                     ,
   collUserRootGet                                     ,
   collUserParentGet                                   ,

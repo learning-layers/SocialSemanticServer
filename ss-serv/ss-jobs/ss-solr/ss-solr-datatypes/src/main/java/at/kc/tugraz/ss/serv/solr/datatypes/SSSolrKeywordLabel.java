@@ -21,30 +21,34 @@
 package at.kc.tugraz.ss.serv.solr.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class SSSolrKeywordLabel extends SSEntityA{
 
-  public static String toStr(final SSSolrKeywordLabel keywordLabel){
-    return SSStrU.toString(keywordLabel);
-  }
-
   public static SSSolrKeywordLabel get(final String string) throws Exception{
+    
+    if(string == null){
+      return null;
+    }
+        
     return new SSSolrKeywordLabel(string);
   }
   
-  public static List<SSSolrKeywordLabel> getDistinct(
-    final List<String> strings) throws Exception {
+  public static List<SSSolrKeywordLabel> get(final List<String> strings) throws Exception{
     
-    final List<SSSolrKeywordLabel> result = new ArrayList<SSSolrKeywordLabel>();
+  final List<SSSolrKeywordLabel> result = new ArrayList<SSSolrKeywordLabel>();
     
-    for(String string : SSStrU.distinct(strings)){
-      result.add(get(string));
+    if(strings == null){
+      return result;
     }
     
+    for(String string: strings){
+      result.add(get(string));
+    }
+
     return result;
   }
   

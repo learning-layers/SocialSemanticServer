@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
@@ -49,6 +49,6 @@ public class SSUserServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-     regServForManagingEntities(SSEntityEnum.user);
+     regServForManagingEntities(SSEntityE.user);
   }
 }

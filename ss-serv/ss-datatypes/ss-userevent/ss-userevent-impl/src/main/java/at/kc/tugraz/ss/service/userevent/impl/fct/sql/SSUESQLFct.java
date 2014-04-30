@@ -25,9 +25,9 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import java.sql.ResultSet;
@@ -61,7 +61,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       ue = SSUE.get(
         ueUri, 
         bindingStrToUri        (resultSet, SSSQLVarU.userId), 
-        SSUEEnum.get(bindingStr(resultSet, SSSQLVarU.eventType)), 
+        SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType)), 
         bindingStrToUri        (resultSet, SSSQLVarU.entityId), 
         bindingStr             (resultSet, SSSQLVarU.content), 
         null);
@@ -79,7 +79,7 @@ public class SSUESQLFct extends SSDBSQLFct{
   public List<SSUE> getUEs(
     final SSUri    forUserUri, 
     final SSUri    entityUri, 
-    final SSUEEnum eventType,
+    final SSUEE eventType,
     final Long     startTime,
     final Long     endTime) throws Exception{
     
@@ -88,7 +88,7 @@ public class SSUESQLFct extends SSDBSQLFct{
     final Map<String, String>  whereParNamesWithValues = new HashMap<String, String>();
     final List<SSUE>           ues                     = new ArrayList<SSUE>();
     ResultSet                  resultSet               = null;
-    SSUEEnum                   eventTypeFromDB;
+    SSUEE                   eventTypeFromDB;
     Long                       timestamp;
     
     tableNames.add(uesTable);
@@ -125,7 +125,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         try{
-          eventTypeFromDB = SSUEEnum.get(bindingStr(resultSet, SSSQLVarU.eventType));
+          eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType));
           timestamp       = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
         }catch(Exception error){
           SSLogU.warn("user event type doesnt exist in curren model or timestamp isn't valid " + bindingStr(resultSet, SSSQLVarU.eventType));
@@ -167,7 +167,7 @@ public class SSUESQLFct extends SSDBSQLFct{
     final SSUri    ueUri, 
     final SSUri    userUri, 
     final SSUri    entityUri, 
-    final SSUEEnum eventType, 
+    final SSUEE eventType, 
     final String   content) throws Exception{
 
     if(SSObjU.isNull(ueUri, userUri, entityUri, eventType, content)){

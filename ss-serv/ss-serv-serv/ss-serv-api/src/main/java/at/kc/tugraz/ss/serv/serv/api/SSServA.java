@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.serv.api;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSClientServNotAvailableErr;
@@ -41,7 +41,7 @@ public abstract class SSServA{
   protected              Exception                       servImplCreationError     = null;
   private   static final Map<SSMethU, SSServA>           servsForClientCalls       = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
   private   static final Map<SSMethU, SSServA>           servsForServerCalls       = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
-  private   static final Map<SSEntityEnum, SSServA>      servsForManagingEntities  = new EnumMap<SSEntityEnum, SSServA>(SSEntityEnum.class);
+  private   static final Map<SSEntityE, SSServA>      servsForManagingEntities  = new EnumMap<SSEntityE, SSServA>(SSEntityE.class);
  
   protected SSServA(
     final Class servImplClientInteraceClass, 
@@ -103,7 +103,7 @@ public abstract class SSServA{
     }
   }
   
-  protected void regServForManagingEntities(final SSEntityEnum entityType) throws Exception{
+  protected void regServForManagingEntities(final SSEntityE entityType) throws Exception{
     
     if(!servConf.use){
       return;

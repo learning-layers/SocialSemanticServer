@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.lomextractor.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class SSLOMTitle extends SSEntityA{
   public String label = SSStrU.empty;
   public String lang  = SSStrU.empty;
   
-  public SSLOMTitle(String label, String lang){
+  public SSLOMTitle(String label, String lang)throws Exception{
     
     super(label);
     
@@ -57,7 +57,7 @@ public class SSLOMTitle extends SSEntityA{
     return result;
   }
 
-  public SSLOMTitle titleInLangWithDefault(List<SSLOMTitle> titles, String lang){
+  public SSLOMTitle titleInLangWithDefault(List<SSLOMTitle> titles, String lang) throws Exception{
     
     for(SSLOMTitle title : titles){
       
@@ -78,7 +78,7 @@ public class SSLOMTitle extends SSEntityA{
     return new SSLOMTitle(SSStrU.empty, SSStrU.empty);    
   }
   
-  public SSLOMTitle titleInLang(List<SSLOMTitle> titles, String lang){
+  public SSLOMTitle titleInLang(List<SSLOMTitle> titles, String lang) throws Exception{
     
     for(SSLOMTitle title : titles){
       

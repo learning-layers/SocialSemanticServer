@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.userevent.impl.fct.graph;
 
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 

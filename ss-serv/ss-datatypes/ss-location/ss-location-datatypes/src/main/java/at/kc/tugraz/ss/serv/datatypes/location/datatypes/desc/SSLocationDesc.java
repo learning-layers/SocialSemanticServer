@@ -20,23 +20,36 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.location.datatypes.desc;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import java.util.List;
 
 public class SSLocationDesc extends SSEntityDescA{
   
-  public SSLocationDesc(SSUri entityUri, SSLabelStr entityLabel, Long creationTime, final SSUri author){
-    super(entityUri, entityLabel, creationTime, SSEntityEnum.location, SSEntityEnum.locationDesc, author);
+  public SSLocationDesc(
+    final SSUri        entityUri,
+    final SSLabel      entityLabel, 
+    final Long         creationTime, 
+    final SSUri        author,
+    final SSEntityA    overallRating, 
+    final List<String> tags, 
+    final List<SSUri>  discs)throws Exception{
+    
+    super(entityUri, entityLabel, creationTime, SSEntityE.location, SSEntityE.locationDesc, author, overallRating, tags, discs);
   }
   
-  public static SSLocationDesc get(SSUri entityUri, SSLabelStr entityLabel, Long entityCreationTime, final SSUri author){
-    return new SSLocationDesc(entityUri, entityLabel, entityCreationTime, author);
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return super.jsonLDDesc();
+  public static SSLocationDesc get(
+    final SSUri        entityUri,
+    final SSLabel      entityLabel, 
+    final Long         creationTime, 
+    final SSUri        author,
+    final SSEntityA    overallRating, 
+    final List<String> tags, 
+    final List<SSUri>  discs)throws Exception{
+    
+    return new SSLocationDesc(entityUri, entityLabel, creationTime, author, overallRating, tags, discs);
   }
 }

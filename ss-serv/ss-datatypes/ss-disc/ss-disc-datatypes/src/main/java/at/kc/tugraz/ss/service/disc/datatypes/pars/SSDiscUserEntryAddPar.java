@@ -21,16 +21,16 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntryContent;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 
 public class SSDiscUserEntryAddPar extends SSServPar{
   
   public SSUri               disc         = null;
   public SSUri               target       = null;
-  public SSDiscEntryContent  content      = null;
+  public SSTextComment  content      = null;
   public Boolean             addNewDisc   = null;
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
@@ -42,7 +42,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
       if(pars != null){
         disc        = (SSUri)              pars.get(SSVarU.disc);
         target      = (SSUri)              pars.get(SSVarU.target);
-        content     = (SSDiscEntryContent) pars.get(SSVarU.content);
+        content     = (SSTextComment) pars.get(SSVarU.content);
         addNewDisc  = (Boolean)            pars.get(SSVarU.addNewDisc);
       }
       
@@ -61,7 +61,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          content     = SSDiscEntryContent.get(clientPars.get(SSVarU.content));
+          content     = SSTextComment.get(clientPars.get(SSVarU.content));
         }catch(Exception error){}
       }
     }catch(Exception error){

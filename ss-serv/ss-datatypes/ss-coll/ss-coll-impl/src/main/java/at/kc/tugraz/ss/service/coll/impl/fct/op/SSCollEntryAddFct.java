@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -48,7 +48,7 @@ public class SSCollEntryAddFct{
       par.user,
       par.collEntry,
       par.collEntryLabel,
-      SSEntityEnum.coll, 
+      SSEntityE.coll, 
       false);
     
     sqlFct.createColl(par.collEntry);
@@ -60,7 +60,7 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
+    for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
@@ -76,7 +76,7 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSEntityCircleTypeE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry), SSEntityCircleTypeE.pub)){
+    if(!SSCircleE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry), SSCircleE.pub)){
       throw new Exception("coll to add is not public");
     }
     
@@ -113,12 +113,12 @@ public class SSCollEntryAddFct{
       par.user,
       par.collEntry,
       par.collEntryLabel,
-      SSEntityEnum.entity,
+      SSEntityE.entity,
       false);
     
     sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
     
-    for(SSCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
+    for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,

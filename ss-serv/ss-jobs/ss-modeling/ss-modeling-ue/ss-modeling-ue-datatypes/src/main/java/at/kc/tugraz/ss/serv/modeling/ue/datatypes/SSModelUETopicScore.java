@@ -20,23 +20,22 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSModelUETopicScore extends SSEntityA {
   
-	public SSTagLabel    topic   = null;
+	public String         topic   = null;
 	public Integer        level   = -1;
 	public Integer        frequ   = -1;
 	
 	public SSModelUETopicScore(
-			SSTagLabel topic,
+			String      topic,
 			int         level,
-			int         frequ){
+			int         frequ)throws Exception{
     
     super(level);
 		
@@ -50,16 +49,16 @@ public class SSModelUETopicScore extends SSEntityA {
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.topic, SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
+    ld.put(SSVarU.topic, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.level, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     ld.put(SSVarU.frequ, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
    
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public String getTopic(){
-    return SSTagLabel.toStr(topic);
+    return topic;
   }
 
   public int getLevel(){

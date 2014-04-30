@@ -21,15 +21,15 @@
  package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEsGetPar extends SSServPar{
   
   public SSUri           resource       = null;
-  public SSUEEnum        eventType      = null;
+  public SSUEE        eventType      = null;
   public Long            startTime      = null;
   public Long            endTime        = null;
   public SSUri           forUser        = null;
@@ -42,7 +42,7 @@ public class SSUEsGetPar extends SSServPar{
       
       if(pars != null){
         resource   = (SSUri)    pars.get(SSVarU.resource);
-        eventType  = (SSUEEnum) pars.get(SSVarU.eventType);
+        eventType  = (SSUEE) pars.get(SSVarU.eventType);
         startTime  = (Long)     pars.get(SSVarU.startTime);
         forUser    = (SSUri)    pars.get(SSVarU.forUser);
         
@@ -62,7 +62,7 @@ public class SSUEsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          eventType  = SSUEEnum.get ((String)clientPars.get(SSVarU.eventType));
+          eventType  = SSUEE.get ((String)clientPars.get(SSVarU.eventType));
         }catch(Exception error){}
         
         try{

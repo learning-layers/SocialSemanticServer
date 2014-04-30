@@ -22,8 +22,7 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +30,12 @@ import java.util.Map;
 public class SSTagFrequ implements SSJSONLDPropI{
   
   public SSTagLabel    label  = null;
-  public SSSpaceEnum    space  = null;
+  public SSSpaceE    space  = null;
 	public Integer        frequ  = -1;
 
   public static SSTagFrequ get(
     SSTagLabel    label,
-    SSSpaceEnum    space,
+    SSSpaceE    space,
     Integer        frequ){
     
     return new SSTagFrequ(label, space, frequ);
@@ -44,7 +43,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
 	
   private SSTagFrequ(
     SSTagLabel    label,
-    SSSpaceEnum    space,
+    SSSpaceE    space,
     Integer        frequ){
 		
 		this.label      = label;
@@ -58,7 +57,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
     Map<String, Object> ld = new HashMap<String, Object>();
     
     ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
-    ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceEnum.class.getName());
+    ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     ld.put(SSVarU.frequ,   SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
@@ -70,7 +69,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
 	}
   
   public String getSpace() {
-		return SSSpaceEnum.toStr(space);
+		return SSSpaceE.toStr(space);
 	}
 
 	public int getFrequ() {

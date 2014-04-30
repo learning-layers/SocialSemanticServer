@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.coll.impl.fct.ue;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
@@ -41,14 +41,14 @@ public class SSCollUEFct {
       SSServCaller.ueAdd(
         par.user,
         par.collEntry,
-        SSUEEnum.removeCollectionItem,
+        SSUEE.removeCollectionItem,
         SSUri.toStr(par.coll),
         false);
       
       SSServCaller.ueAdd(
         par.user,
         par.coll,
-        SSUEEnum.changeCollectionByRemoveCollectionItem,
+        SSUEE.changeCollectionByRemoveCollectionItem,
         SSUri.toStr(par.collEntry),
         false);
       
@@ -68,7 +68,7 @@ public class SSCollUEFct {
       SSServCaller.ueAdd(
         par.user,
         par.collEntry,
-        SSUEEnum.unSubscribeCollection,
+        SSUEE.unSubscribeCollection,
         SSStrU.empty,
         false);
       
@@ -88,7 +88,7 @@ public class SSCollUEFct {
       SSServCaller.ueAdd(
         par.user,
         par.collEntry,
-        SSUEEnum.removeCollection,
+        SSUEE.removeCollection,
         SSStrU.empty,
         false);
       

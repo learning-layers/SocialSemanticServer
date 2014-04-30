@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.db.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import java.sql.ResultSet;
 
 public class SSDBSQLFct extends SSDBFct{
@@ -49,20 +49,20 @@ public class SSDBSQLFct extends SSDBFct{
     return SSUri.get(bindingStr(resultSet, binding));
   }
   
-  public SSSpaceEnum bindingStrToSpace(ResultSet resultSet, String binding) throws Exception{
-    return SSSpaceEnum.get(bindingStr(resultSet, binding));
+  public SSSpaceE bindingStrToSpace(ResultSet resultSet, String binding) throws Exception{
+    return SSSpaceE.get(bindingStr(resultSet, binding));
   }
   
   public String bindingStr(ResultSet resultSet, String binding) throws Exception{
     return resultSet.getString(binding);
   }
   
-  public SSLabelStr bindingStrToLabel(ResultSet resultSet, String binding) throws Exception{
-    return SSLabelStr.get(bindingStr(resultSet, binding));
+  public SSLabel bindingStrToLabel(ResultSet resultSet, String binding) throws Exception{
+    return SSLabel.get(bindingStr(resultSet, binding));
   }
   
-  public SSEntityEnum bindingStrToEntityType(ResultSet resultSet, String binding) throws Exception{
-    return SSEntityEnum.valueOf(bindingStr(resultSet, binding));
+  public SSEntityE bindingStrToEntityType(ResultSet resultSet, String binding) throws Exception{
+    return SSEntityE.valueOf(bindingStr(resultSet, binding));
   }
   
   public Float bindingStrToFloat(ResultSet resultSet, String binding) throws Exception{

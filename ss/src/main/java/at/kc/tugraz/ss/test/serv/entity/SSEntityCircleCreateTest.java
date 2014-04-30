@@ -17,9 +17,9 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
@@ -47,8 +47,8 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
         userUri, 
         SSUri.get("http://www.google.at"), 
         userUris, 
-        SSEntityCircleTypeE.priv,
-        SSLabelStr.get("dieter priv circle"),
+        SSCircleE.priv,
+        SSLabel.get("dieter priv circle"),
         SSUri.get(SSUserGlobals.systemUserURI),
         true);
     
@@ -62,6 +62,6 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
 }

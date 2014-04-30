@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public interface SSCollServerI{
   
-  public List<SSUri>                collSearchWithTagWithin                       (final SSServPar parA) throws Exception;
+  public List<SSUri>                collSearchWithKeywordWithin                   (final SSServPar parA) throws Exception;
   public SSUri                      collToCircleAdd                               (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;

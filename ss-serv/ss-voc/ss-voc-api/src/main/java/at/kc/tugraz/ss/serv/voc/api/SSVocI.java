@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.voc.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSVocI{

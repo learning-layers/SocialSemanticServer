@@ -21,25 +21,24 @@
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntitySearchWithTagWithinPar extends SSServPar{
+public class SSEntitySearchWithKeywordWithinPar extends SSServPar{
   
-  public SSUri          entityUri = null;
-  public SSTagLabel     tag       = null;
+  public SSUri     entityUri = null;
+  public String    keyword   = null;
     
-  public SSEntitySearchWithTagWithinPar(SSServPar par) throws Exception{
+  public SSEntitySearchWithKeywordWithinPar(SSServPar par) throws Exception{
       
     super(par);
     
     try{
       
       if(pars != null){
-        entityUri   = (SSUri)      pars.get(SSVarU.entityUri);
-        tag         = (SSTagLabel) pars.get(SSVarU.tag);
+        entityUri   = (SSUri)  pars.get(SSVarU.entityUri);
+        keyword     = (String) pars.get(SSVarU.keyword);
       }
       
     }catch(Exception error){

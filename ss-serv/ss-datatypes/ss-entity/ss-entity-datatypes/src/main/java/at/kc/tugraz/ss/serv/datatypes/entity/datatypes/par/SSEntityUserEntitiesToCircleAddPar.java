@@ -18,7 +18,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
       
       if(clientPars != null){
         circleUri        = SSUri.get(clientPars.get(SSVarU.circleUri));
-        entityUris       = SSUri.getDistinct(SSStrU.split(clientPars.get(SSVarU.entityUris), SSStrU.comma));
+        entityUris       = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.entityUris), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

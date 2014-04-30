@@ -295,7 +295,7 @@ public class SSStrU{
   
   public static String toString(final Object object){
     
-    if(SSObjU.isNull(object)){
+    if(object == null){
       return null;
     }
     
@@ -517,7 +517,6 @@ public class SSStrU{
   }
   
   public static String[] toStringArray(final Collection<String> toConvert) {
-    
     return (String[]) toConvert.toArray(new String[toConvert.size()]);
   }
   

@@ -23,14 +23,14 @@ package at.kc.tugraz.ss.service.user.impl.functions.sql;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public SSUri createUserUri(SSLabelStr userLabel) throws Exception{
+  public SSUri createUserUri(SSLabel userLabel) throws Exception{
     return SSUri.get(objUser().toString() + userLabel);
   }
 
@@ -55,7 +55,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     
     try{
       
-      whereParNamesWithValues.put(SSSQLVarU.type, SSEntityEnum.user.toString());
+      whereParNamesWithValues.put(SSSQLVarU.type, SSEntityE.user.toString());
       
       resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
 
@@ -81,7 +81,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> where      = new HashMap<String, String>();
       
       where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
-      where.put(SSSQLVarU.type, SSEntityEnum.user.toString());
+      where.put(SSSQLVarU.type, SSEntityE.user.toString());
       
       resultSet = dbSQL.selectAllWhere(entityTable, where);
       
@@ -131,6 +131,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
   }
    
   private SSUri objUser() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.user.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.user.toString());
   }  
 }

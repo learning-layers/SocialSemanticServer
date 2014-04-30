@@ -21,15 +21,15 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpCreatePar extends SSServPar{
   
-  public SSLabelStr   label = null;
-  public SSSpaceEnum  space = null;
+  public SSLabel   label = null;
+  public SSSpaceE  space = null;
   
   public SSLearnEpCreatePar(SSServPar par) throws Exception{
       
@@ -38,13 +38,13 @@ public class SSLearnEpCreatePar extends SSServPar{
     try{
       
       if(pars != null){
-        label   = (SSLabelStr)  pars.get(SSVarU.label);
-        space   = (SSSpaceEnum) pars.get(SSVarU.space);
+        label   = (SSLabel)  pars.get(SSVarU.label);
+        space   = (SSSpaceE) pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
-        label   = SSLabelStr.get (clientPars.get(SSVarU.label));
-        space   = SSSpaceEnum.get(clientPars.get(SSVarU.space));
+        label   = SSLabel.get (clientPars.get(SSVarU.label));
+        space   = SSSpaceE.get(clientPars.get(SSVarU.space));
       }
       
     }catch(Exception error){

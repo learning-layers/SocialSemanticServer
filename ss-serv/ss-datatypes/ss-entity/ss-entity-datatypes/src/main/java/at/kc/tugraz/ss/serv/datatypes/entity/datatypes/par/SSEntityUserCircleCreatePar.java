@@ -17,11 +17,11 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +29,8 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
 
   public List<SSUri>               entityUris  = new ArrayList<SSUri>();
   public List<SSUri>               userUris    = new ArrayList<SSUri>();
-  public SSEntityCircleTypeE       circleType  = null;
-  public SSLabelStr                label       = null;
+  public SSCircleE       circleType  = null;
+  public SSLabel                label       = null;
   
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
     
@@ -39,22 +39,22 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     try{
     
       if(pars != null){
-        circleType       = (SSEntityCircleTypeE)       pars.get(SSVarU.circleType);
-        label            = (SSLabelStr)                pars.get(SSVarU.label);
+        circleType       = (SSCircleE)       pars.get(SSVarU.circleType);
+        label            = (SSLabel)                pars.get(SSVarU.label);
         entityUris       = (List<SSUri>)               pars.get(SSVarU.entityUris);
         userUris         = (List<SSUri>)               pars.get(SSVarU.userUris);
       }
       
       if(clientPars != null){
-        circleType       = SSEntityCircleTypeE.get       (clientPars.get(SSVarU.circleType));
-        label            = SSLabelStr.get                (clientPars.get(SSVarU.label));
+        circleType       = SSCircleE.get       (clientPars.get(SSVarU.circleType));
+        label            = SSLabel.get                (clientPars.get(SSVarU.label));
         
         try{
-          entityUris       = SSUri.getDistinct             (SSStrU.split(clientPars.get(SSVarU.entityUris), SSStrU.comma));
+          entityUris       = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.entityUris), SSStrU.comma));
         }catch(Exception error){}
         
         try{
-          userUris         = SSUri.getDistinct             (SSStrU.split(clientPars.get(SSVarU.userUris), SSStrU.comma));
+          userUris         = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.userUris), SSStrU.comma));
         }catch(Exception error){}
       }
     }catch(Exception error){

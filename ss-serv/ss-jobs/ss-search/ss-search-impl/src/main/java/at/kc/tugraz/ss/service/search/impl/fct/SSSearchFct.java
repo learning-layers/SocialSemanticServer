@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.search.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -47,7 +47,7 @@ public class SSSearchFct {
         entity = SSServCaller.entityGet(userUri, searchResult.uri);
 
         searchResult.type          = entity.type;
-        searchResult.label         = SSLabelStr.toStr(entity.label);
+        searchResult.label         = SSLabel.toStr(entity.label);
       }
 
       return searchResults;
@@ -58,7 +58,6 @@ public class SSSearchFct {
     }
   }
   
-  //TODO dtheiler: think about distinct search results for more than one keyword/tag/mi
   private static List<SSSearchResult> selectSearchResultsWithRegardToSearchOp(
     final String                            searchOp,
     final Map<String, List<SSSearchResult>> searchResultsPerKeyword){
@@ -101,7 +100,7 @@ public class SSSearchFct {
     if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueOr)) {
       
       for(List<SSSearchResult> searchResultsForOneKeyword : searchResultsPerKeyword.values()) {
-        searchResults.addAll(searchResultsForOneKeyword);
+        SSSearchResult.addDistinct(searchResults, searchResultsForOneKeyword);
       }
     }
     

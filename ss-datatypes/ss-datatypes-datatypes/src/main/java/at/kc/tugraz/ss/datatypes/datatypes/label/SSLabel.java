@@ -18,32 +18,46 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.pars;
+package at.kc.tugraz.ss.datatypes.datatypes.label;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSCollSearchWithTagWithinPar extends SSServPar{
+public class SSLabel extends SSEntityA{
 
-  public SSUri      collUri   = null;
-  public SSTagLabel tag       = null;
-  
-  public SSCollSearchWithTagWithinPar(final SSServPar par) throws Exception{
+  public static SSLabel get(final String str) throws Exception{
     
-    super(par);
-    
-    try{
-    
-      if(pars != null){
-        collUri    = (SSUri)       pars.get(SSVarU.collUri);
-        tag        = (SSTagLabel)  pars.get(SSVarU.tag);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+    if(str == null){
+      return null;
     }
+    
+    return new SSLabel(str);
+  }
+  
+  public static List<SSLabel> get(final List<String> strings) throws Exception{
+    
+    final List<SSLabel> result = new ArrayList<SSLabel>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
+   
+  protected SSLabel(final String str) throws Exception{
+    super(str);
+  }
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

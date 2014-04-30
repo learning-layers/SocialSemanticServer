@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.serv;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
@@ -45,8 +45,8 @@ public class SSEvernoteServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityEnum.evernoteNotebook);
-    regServForManagingEntities(SSEntityEnum.evernoteNote);
-    regServForManagingEntities(SSEntityEnum.evernoteResource);
+    regServForManagingEntities(SSEntityE.evernoteNotebook);
+    regServForManagingEntities(SSEntityE.evernoteNote);
+    regServForManagingEntities(SSEntityE.evernoteResource);
   }
 }

@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
@@ -33,43 +33,43 @@ public class SSEvernoteLabelHelper {
   public SSEvernoteLabelHelper() {
   }
   
-  public SSLabelStr getNormalOrSharedNotebookLabel(SSUri notebookUri, Notebook notebook) throws Exception{
+  public SSLabel getNormalOrSharedNotebookLabel(SSUri notebookUri, Notebook notebook) throws Exception{
     
     try{
-      return SSLabelStr.get(notebook.getName());
+      return SSLabel.get(notebook.getName());
     }catch(Exception error){
       return getDefaultLabel(notebookUri);
     }
   }
   
-  public SSLabelStr getLinkedNotebookLabel(LinkedNotebook linkedNotebook, SSUri notebookUri) throws Exception {
+  public SSLabel getLinkedNotebookLabel(LinkedNotebook linkedNotebook, SSUri notebookUri) throws Exception {
     
     try{
-      return SSLabelStr.get(linkedNotebook.getShareName());
+      return SSLabel.get(linkedNotebook.getShareName());
     }catch(Exception error){
       return getDefaultLabel(notebookUri);
     }
   }
   
-  public SSLabelStr getLinkedNoteLabel(Note note, SSUri noteUri) throws Exception {
+  public SSLabel getLinkedNoteLabel(Note note, SSUri noteUri) throws Exception {
     
     try{
-      return SSLabelStr.get(note.getTitle());
+      return SSLabel.get(note.getTitle());
     }catch(Exception error){
       return getDefaultLabel(noteUri);
     }
   }
   
-  public SSLabelStr getNoteLabel(Note note, SSUri noteUri) throws Exception {
+  public SSLabel getNoteLabel(Note note, SSUri noteUri) throws Exception {
     
     try{
-      return SSLabelStr.get(note.getTitle());
+      return SSLabel.get(note.getTitle());
     }catch(Exception error){
       return getDefaultLabel(noteUri);
     }
   }
   
-  public SSLabelStr getResourceLabel(Resource resource, SSUri resourceUri) throws Exception{
+  public SSLabel getResourceLabel(Resource resource, SSUri resourceUri) throws Exception{
     
     if(resource == null){
       return null;
@@ -81,12 +81,12 @@ public class SSEvernoteLabelHelper {
       return getDefaultLabel(resourceUri);
     }
     
-    return SSLabelStr.get(resource.getAttributes().getFileName());
+    return SSLabel.get(resource.getAttributes().getFileName());
   }
   
-  private SSLabelStr getDefaultLabel(SSUri noteUri) throws Exception{
+  private SSLabel getDefaultLabel(SSUri noteUri) throws Exception{
           
-    return SSLabelStr.get(SSStrU.empty);
+    return SSLabel.get(SSStrU.empty);
 
 //    if(noteUri ==  null){
 //      return null;

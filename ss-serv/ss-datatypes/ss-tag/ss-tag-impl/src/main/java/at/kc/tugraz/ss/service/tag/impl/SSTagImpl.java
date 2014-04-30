@@ -20,19 +20,20 @@
 */
 package at.kc.tugraz.ss.service.tag.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -73,11 +74,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   /* SSEntityHandlerImplI */
   
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
     
     return null;
   }
@@ -86,7 +87,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -98,7 +99,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -108,14 +109,14 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }  
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     try{
@@ -138,27 +139,38 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType,
+    final SSEntityE       entityType,
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception{
     
     try{
       
-      if(!SSEntityEnum.equals(entityType, SSEntityEnum.tag)){
-        return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
+      if(!SSEntityE.equals(entityType, SSEntityE.tag)){
+        
+        return SSEntityDesc.get(
+          entityUri, 
+          label, 
+          creationTime, 
+          tags, 
+          overallRating, 
+          discUris, 
+          author);
       }
       
       return SSTagDesc.get(
         entityUri,
         label,
         creationTime,
-        author);
+        author, 
+        overallRating, 
+        tags,
+        discUris);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -210,15 +222,15 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServCaller.entityAdd(
         par.user,
         tagUri,       
-        SSLabelStr.get(SSTagLabel.toStr(par.tagString)), 
-        SSEntityEnum.tag,
+        SSLabel.get(SSTagLabel.toStr(par.tagString)), 
+        SSEntityE.tag,
         false);
 
       SSServCaller.entityAdd(
         par.user,
         par.resource, 
-        SSLabelStr.get(SSUri.toStr(par.resource)),
-        SSEntityEnum.entity,
+        SSLabel.get(SSUri.toStr(par.resource)),
+        SSEntityE.entity,
         false);
       
       if(!sqlFct.existsTagAss(par.user, par.resource, tagUri, par.space)){
@@ -259,16 +271,16 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServCaller.entityAddAtCreationTime(
         par.user,
         tagUri,
-        SSLabelStr.get(SSStrU.toString(par.tagString)),
+        SSLabel.get(SSStrU.toString(par.tagString)),
         par.creationTime,
-        SSEntityEnum.tag,
+        SSEntityE.tag,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         par.resource,
-        SSLabelStr.get(par.resource.toString()),
-        SSEntityEnum.entity,
+        SSLabel.get(par.resource.toString()),
+        SSEntityE.entity,
         false);
       
       sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
@@ -409,8 +421,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceEnum.privateSpace);
-        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceEnum.sharedSpace);
+        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -434,8 +446,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.user, par.resource, par.tagString, SSSpaceEnum.privateSpace);
-        sqlFct.removeTagAsss (null,     par.resource, par.tagString, SSSpaceEnum.sharedSpace);
+        sqlFct.removeTagAsss (par.user, par.resource, par.tagString, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss (null,     par.resource, par.tagString, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -490,18 +502,18 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
           sqlFct.getEntitiesForTagLabel(
           par.user,
           par.tagString,
-          SSSpaceEnum.privateSpace));
+          SSSpaceE.privateSpace));
         
         entityUris.addAll(
           sqlFct.getEntitiesForTagLabel(
           null,
           par.tagString,
-          SSSpaceEnum.sharedSpace));
+          SSSpaceE.sharedSpace));
         
         return SSUri.distinct(entityUris);
       }
       
-      if(SSSpaceEnum.isShared(par.space)){
+      if(SSSpaceE.isShared(par.space)){
         
         return sqlFct.getEntitiesForTagLabel(
           null,
@@ -509,7 +521,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
           par.space);
       }
         
-      if(SSSpaceEnum.isPrivate(par.space)){
+      if(SSSpaceE.isPrivate(par.space)){
         
         return sqlFct.getEntitiesForTagLabel(
           par.user,
@@ -540,17 +552,17 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         
         final List<SSTag>      tags = new ArrayList<SSTag>();
         
-        tags.addAll (sqlFct.getTagAsss(par.user, par.resource, par.tagString, SSSpaceEnum.privateSpace));
-        tags.addAll (sqlFct.getTagAsss(null,     par.resource, par.tagString, SSSpaceEnum.sharedSpace));
+        tags.addAll (sqlFct.getTagAsss(par.user, par.resource, par.tagString, SSSpaceE.privateSpace));
+        tags.addAll (sqlFct.getTagAsss(null,     par.resource, par.tagString, SSSpaceE.sharedSpace));
         
         return tags;
       }
       
-      if(SSSpaceEnum.isPrivate(par.space)){
+      if(SSSpaceE.isPrivate(par.space)){
         return sqlFct.getTagAsss(par.user, par.resource, par.tagString, par.space);
       }
       
-      if(SSSpaceEnum.isShared(par.space)){
+      if(SSSpaceE.isShared(par.space)){
         return sqlFct.getTagAsss(null, par.resource, par.tagString, par.space);
       }
       
@@ -569,7 +581,12 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     
     try{
       
-      tags = SSServCaller.tagsUserGet(par.user, par.resource, par.tagString, par.space);
+      tags = 
+        SSServCaller.tagsUserGet(
+          par.user,
+          par.resource, 
+          SSTagLabel.toStr(par.tagString), 
+          par.space);
       
       return SSTagFct.getTagFrequsFromTags (tags, par.space);
       

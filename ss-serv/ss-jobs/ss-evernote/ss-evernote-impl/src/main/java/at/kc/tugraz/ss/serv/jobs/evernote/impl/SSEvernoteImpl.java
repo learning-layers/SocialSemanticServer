@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -42,7 +42,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesLinkedGet
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -68,11 +67,11 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
   
   /* SSEntityHandlerImplI */
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
@@ -81,7 +80,7 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -93,7 +92,7 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -103,26 +102,26 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
   }
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType,
+    final SSEntityE       entityType,
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author)throws Exception{
     

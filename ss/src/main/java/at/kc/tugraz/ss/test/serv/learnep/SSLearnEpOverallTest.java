@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -43,8 +43,8 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
     SSUri learnEpUri = 
       SSServCaller.createLearnEp(
       userUri, 
-      SSLabelStr.get("learn ep dieter 1"), 
-      SSSpaceEnum.privateSpace, 
+      SSLabel.get("learn ep dieter 1"), 
+      SSSpaceE.privateSpace, 
       true);
     
     SSUri learnEpVersionUri = 
@@ -57,7 +57,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       SSServCaller.addLearnEpVersionCircle(
       userUri,
       learnEpVersionUri,
-      SSLabelStr.get("learn ep circle label"),
+      SSLabel.get("learn ep circle label"),
       Float.parseFloat("98"),
       Float.parseFloat("99"),
       Float.parseFloat("101"),
@@ -97,7 +97,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
     SSServCaller.updateLearnEpVersionCircle(
       userUri, 
       learnEpCircleUri, 
-      SSLabelStr.get("new Label"), 
+      SSLabel.get("new Label"), 
       Float.parseFloat("1004"), 
       Float.parseFloat("21"), 
       Float.parseFloat("104"), 

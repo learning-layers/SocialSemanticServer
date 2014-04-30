@@ -25,12 +25,6 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-tag-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>at.kc.tugraz.ss.adapter</groupId>
       <artifactId>ss-adapter-socket-datatypes</artifactId>
       <version>${project.version}</version>

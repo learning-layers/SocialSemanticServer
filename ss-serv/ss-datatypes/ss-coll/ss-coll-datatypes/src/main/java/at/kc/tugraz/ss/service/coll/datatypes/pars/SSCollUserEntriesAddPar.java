@@ -20,10 +20,10 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
   
   public SSUri             coll               = null;
   public List<SSUri>       entries            = new ArrayList<SSUri>();
-  public List<SSLabelStr>  entryLabels        = new ArrayList<SSLabelStr>();
+  public List<SSLabel>  entryLabels        = new ArrayList<SSLabel>();
       
   public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
     
@@ -44,7 +44,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
       if(pars != null){
         coll           = (SSUri)             pars.get(SSVarU.coll);
         entries        = (List<SSUri>)       pars.get(SSVarU.entries);
-        entryLabels    = (List<SSLabelStr>)  pars.get(SSVarU.entryLabels);
+        entryLabels    = (List<SSLabel>)  pars.get(SSVarU.entryLabels);
       }
       
       if(clientPars != null){
@@ -52,7 +52,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
         coll = SSUri.get(clientPars.get(SSVarU.coll));
         
         entries.addAll     (SSUri.get       (SSStrU.split(clientPars.get(SSVarU.entries),     SSStrU.comma)));
-        entryLabels.addAll (SSLabelStr.get  (SSStrU.split(clientPars.get(SSVarU.entryLabels), SSStrU.comma)));
+        entryLabels.addAll (SSLabel.get  (SSStrU.split(clientPars.get(SSVarU.entryLabels), SSStrU.comma)));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -20,10 +20,10 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.socialserver.utils.SSNumberU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,25 +41,25 @@ public class SSModelUEMISetterHelper {
 			double        personThreshold){
 		
 		if(
-				SSEntityEnum.isColl(resource.type)      &&
+				SSEntityE.isColl(resource.type)      &&
 				SSNumberU.isGreaterThan(counter,collectionThreshold)){
 			
 			return true;
 
 		}else if(
-				SSEntityEnum.isDisc(resource.type)         &&		
+				SSEntityE.isDisc(resource.type)         &&		
 				SSNumberU.isGreaterThan(counter,discussionThreshold)){
 
 			return true;
 			
 		}else if(
-				SSEntityEnum.isResourceOrFile(resource.type)   &&
+				SSEntityE.isResourceOrFile(resource.type)   &&
 				SSNumberU.isGreaterThan(counter,digitalResourceThreshold)){
 
 			return true;
 			
 		}else if(
-				SSEntityEnum.isUser(resource.type) && 
+				SSEntityE.isUser(resource.type) && 
 				SSNumberU.isGreaterThan(counter,personThreshold)){
 
 			return true;
@@ -77,19 +77,19 @@ public class SSModelUEMISetterHelper {
 			double     digitalResourceThreshold){
 		
 		if(
-				SSEntityEnum.isColl(resource.type) &&
+				SSEntityE.isColl(resource.type) &&
 				SSNumberU.isLessThanOrEqual(counter,collectionThreshold)                ){
 		
 			return true;
 			
 		}else if(
-				SSEntityEnum.isDisc(resource.type)   &&				
+				SSEntityE.isDisc(resource.type)   &&				
 				SSNumberU.isLessThanOrEqual(counter,discussionThreshold)                ){
 			
 			return true;
 			
 		}else if(
-				SSEntityEnum.isResourceOrFile(resource.type)  &&
+				SSEntityE.isResourceOrFile(resource.type)  &&
 				SSNumberU.isLessThanOrEqual(counter,digitalResourceThreshold)           ){
 			
 			return true;
@@ -103,15 +103,15 @@ public class SSModelUEMISetterHelper {
 	 */
 	public List<SSUE> getResourceEventsOfType(
 			SSModelUEResource              resource,
-			List<SSUEEnum>      eventTypes) {
+			List<SSUEE>      eventTypes) {
 
 		List<SSUE> result = new ArrayList<SSUE>();
 		
 		for(SSUE event : resource.events){
 			
-			for(SSUEEnum eventType : eventTypes){
+			for(SSUEE eventType : eventTypes){
 				
-				if(SSUEEnum.isSame(event.type, eventType)){
+				if(SSUEE.isSame(event.type, eventType)){
 					
 					result.add(event);
 				}

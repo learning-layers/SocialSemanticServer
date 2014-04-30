@@ -21,17 +21,17 @@
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityAddPar extends SSServPar{
   
   public SSUri        entityUri  = null;
-  public SSLabelStr   label      = null;
-  public SSEntityEnum entityType = null;
+  public SSLabel   label      = null;
+  public SSEntityE entityType = null;
     
   public SSEntityAddPar(SSServPar par) throws Exception{
       
@@ -41,8 +41,8 @@ public class SSEntityAddPar extends SSServPar{
       
       if(pars != null){
         entityUri   = (SSUri)        pars.get(SSVarU.entityUri);
-        label       = (SSLabelStr)   pars.get(SSVarU.label);
-        entityType  = (SSEntityEnum) pars.get(SSVarU.entityType);
+        label       = (SSLabel)   pars.get(SSVarU.label);
+        entityType  = (SSEntityE) pars.get(SSVarU.entityType);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

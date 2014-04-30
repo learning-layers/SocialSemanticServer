@@ -23,20 +23,20 @@ package at.kc.tugraz.ss.serv.serv.caller;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
@@ -48,7 +48,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.LinkedNotebook;
@@ -62,7 +62,7 @@ import java.util.Map;
 
 public class SSServCaller {
   
-  public static SSUri createLearnEp(SSUri userUri, SSLabelStr label, SSSpaceEnum space, Boolean shouldCommit) throws Exception{
+  public static SSUri createLearnEp(SSUri userUri, SSLabel label, SSSpaceE space, Boolean shouldCommit) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
     SSUri               result = null;
@@ -84,7 +84,7 @@ public class SSServCaller {
   public static SSUri addLearnEpVersionCircle(
     SSUri      userUri,
     SSUri      learnEpVersionUri,
-    SSLabelStr label,
+    SSLabel label,
     Float      xLabel,
     Float      yLabel,
     Float      xR,
@@ -220,9 +220,9 @@ public class SSServCaller {
   public static void entityAddAtCreationTime(
     final SSUri        userUri,
     final SSUri        uri,
-    final SSLabelStr   label,
+    final SSLabel   label,
     final Long         creationTime,
-    final SSEntityEnum type,
+    final SSEntityE type,
     final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -239,7 +239,7 @@ public class SSServCaller {
   
   public static void addUser(
     final SSUri      userUri,
-    final SSLabelStr userLabel,
+    final SSLabel userLabel,
     final Boolean    shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -254,8 +254,8 @@ public class SSServCaller {
   public static void entityAdd(
     final SSUri        userUri,
     final SSUri        uri,
-    final SSLabelStr   label,
-    final SSEntityEnum type,
+    final SSLabel   label,
+    final SSEntityE type,
     final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -273,7 +273,7 @@ public class SSServCaller {
     SSUri    userUri,
     SSUri    forUserUri,
     SSUri    entityUri,
-    SSUEEnum eventType,
+    SSUEE eventType,
     Long     startTime,
     Long     endTime) throws Exception{
     
@@ -419,7 +419,7 @@ public class SSServCaller {
   
   public static void entityLabelSet(
     final SSUri      entityUri,
-    final SSLabelStr label,
+    final SSLabel label,
     final Boolean    shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -449,7 +449,7 @@ public class SSServCaller {
   public static void addUEAtCreationTime(
     SSUri    userUri,
     SSUri    entityUri,
-    SSUEEnum evenType,
+    SSUEE evenType,
     String   content,
     Long     creationTime,
     Boolean  shouldCommit) throws Exception{
@@ -470,7 +470,7 @@ public class SSServCaller {
     }
   }
   
-  public static void addTagsAtCreationTime(SSUri userUri, SSUri entityUri, List<SSTagLabel> tagList, SSSpaceEnum space, Long creationTime, Boolean shouldCommit) throws Exception{
+  public static void addTagsAtCreationTime(SSUri userUri, SSUri entityUri, List<SSTagLabel> tagList, SSSpaceE space, Long creationTime, Boolean shouldCommit) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -488,7 +488,7 @@ public class SSServCaller {
     }
   }
   
-  public static SSUri logUserIn(SSLabelStr userLabel, Boolean shouldCommit) throws Exception{
+  public static SSUri logUserIn(SSLabel userLabel, Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -532,7 +532,7 @@ public class SSServCaller {
   public static void updateLearnEpVersionCircle(
     SSUri      userUri,
     SSUri      learnEpCircleUri,
-    SSLabelStr label,
+    SSLabel label,
     Float      xLabel,
     Float      yLabel,
     Float      xR,
@@ -690,18 +690,18 @@ public class SSServCaller {
   
   /* colls */
   
-  public static List<SSUri> collSearchWithTagWithin(
+  public static List<SSUri> collSearchWithKeywordWithin(
     final SSUri      userUri, 
     final SSUri      collUri, 
-    final SSTagLabel tag) throws Exception{
+    final String     keyword) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,               userUri);
     opPars.put(SSVarU.collUri,            collUri);
-    opPars.put(SSVarU.tag,                tag);
+    opPars.put(SSVarU.keyword,            keyword);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.collSearchWithTagWithin, opPars)); 
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.collSearchWithKeywordWithin, opPars)); 
   }
     
   public static SSUri collToCircleAdd(
@@ -806,7 +806,7 @@ public class SSServCaller {
     final SSUri        user,
     final SSUri        coll,
     final SSUri        collEntry,
-    final SSLabelStr   label,
+    final SSLabel   label,
     final Boolean      addNewColl,
     final Boolean      saveUE,
     final Boolean      shouldCommit) throws Exception{
@@ -828,7 +828,7 @@ public class SSServCaller {
     final SSUri             userUri,
     final SSUri             collUri,
     final List<SSUri>       collEntries,
-    final List<SSLabelStr>  collEntryLabels,
+    final List<SSLabel>  collEntryLabels,
     final Boolean           saveUE,
     final Boolean           shouldCommit) throws Exception{
     
@@ -1049,18 +1049,18 @@ public class SSServCaller {
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
   }
   
-  public static List<SSUri> entitySearchWithTagWithin(
+  public static List<SSUri> entitySearchWithKeywordWithin(
     final SSUri      userUri, 
     final SSUri      entityUri, 
-    final SSTagLabel tag) throws Exception{
+    final String     keyword) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,      userUri);
     opPars.put(SSVarU.entityUri, entityUri);
-    opPars.put(SSVarU.tag,       tag);
+    opPars.put(SSVarU.keyword,   keyword);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySearchWithTagWithin, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySearchWithKeywordWithin, opPars));
   }
   
   public static Long entityCreationTimeGet(final SSUri entityUri) throws Exception{
@@ -1072,13 +1072,13 @@ public class SSServCaller {
     return (Long) SSServA.callServViaServer(new SSServPar(SSMethU.entityCreationTimeGet, opPars));
   }
   
-  public static SSLabelStr entityLabelGet(final SSUri entityUri) throws Exception{
+  public static SSLabel entityLabelGet(final SSUri entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.entityUri, entityUri);
     
-    return (SSLabelStr) SSServA.callServViaServer(new SSServPar(SSMethU.entityLabelGet, opPars));
+    return (SSLabel) SSServA.callServViaServer(new SSServPar(SSMethU.entityLabelGet, opPars));
   }
   
   public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(
@@ -1115,13 +1115,13 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityAuthorGet, opPars));
   }
   
-  public static SSEntityEnum entityTypeGet(final SSUri entityUri) throws Exception{
+  public static SSEntityE entityTypeGet(final SSUri entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.entityUri, entityUri);
     
-    return (SSEntityEnum) SSServA.callServViaServer(new SSServPar(SSMethU.entityTypeGet, opPars));
+    return (SSEntityE) SSServA.callServViaServer(new SSServPar(SSMethU.entityTypeGet, opPars));
   }
   
   public static SSEntityDescA entityDescGet(
@@ -1158,7 +1158,7 @@ public class SSServCaller {
     }
   }
   
-  public static List<SSCircle> entityUserEntityCirclesGet(
+  public static List<SSEntityCircle> entityUserEntityCirclesGet(
     final SSUri userUri,
     final SSUri entityUri) throws Exception{
     
@@ -1167,13 +1167,13 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        userUri);
     opPars.put(SSVarU.entityUri,   entityUri);
     
-    return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
+    return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
   }
   
   public static Boolean entityUserAllowedIs(
     final SSUri                    userUri,
     final SSUri                    entityUri, 
-    final SSEntityRightTypeE       accessRight) throws Exception{
+    final SSCircleRightE       accessRight) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -1188,21 +1188,21 @@ public class SSServCaller {
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
-    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.edit);
+    return entityUserAllowedIs(userUri, entityUri, SSCircleRightE.edit);
   }
   
   public static Boolean entityUserCanRead(
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
-    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.read);
+    return entityUserAllowedIs(userUri, entityUri, SSCircleRightE.read);
   }
   
   public static Boolean entityUserCanAll(
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
-    return entityUserAllowedIs(userUri, entityUri, SSEntityRightTypeE.all);
+    return entityUserAllowedIs(userUri, entityUri, SSCircleRightE.all);
   }
   
   public static SSUri entityCirclePublicAdd(
@@ -1215,7 +1215,7 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCirclePublicAdd,  opPars));
   }
   
-  public static List<SSCircle> entityUserCirclesGet(
+  public static List<SSEntityCircle> entityUserCirclesGet(
     final SSUri   userUri,
     final Boolean withSystemGeneratedCircles) throws Exception{
     
@@ -1224,15 +1224,15 @@ public class SSServCaller {
     opPars.put(SSVarU.user,                       userUri);
     opPars.put(SSVarU.withSystemGeneratedCircles, withSystemGeneratedCircles);
     
-    return (List<SSCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));
+    return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));
   }
   
   public static SSUri entityCircleCreate(
     final SSUri                     userUri,
     final SSUri                     toAddEntityUri,
     final List<SSUri>               toAddUserUris, 
-    final SSEntityCircleTypeE       circleType, 
-    final SSLabelStr                label, 
+    final SSCircleE       circleType, 
+    final SSLabel                label, 
     final SSUri                     circleAuthor,
     final Boolean                   shouldCommit) throws Exception{
     
@@ -1258,8 +1258,8 @@ public class SSServCaller {
     final SSUri                     userUri,
     final SSUri                     toAddEntityUri,
     final SSUri                     toAddUserUri, 
-    final SSEntityCircleTypeE       circleType, 
-    final SSLabelStr                label,
+    final SSCircleE       circleType, 
+    final SSLabel                label,
     final SSUri                     circleAuthor,
     final Boolean                   shouldCommit) throws Exception{
     
@@ -1290,8 +1290,8 @@ public class SSServCaller {
     final SSUri                     userUri,
     final List<SSUri>               entityUris,
     final List<SSUri>               userUris, 
-    final SSEntityCircleTypeE       circleType, 
-    final SSLabelStr                label,
+    final SSCircleE       circleType, 
+    final SSLabel                label,
     final SSUri                     circleAuthor,
     final Boolean                   shouldCommit) throws Exception{
     
@@ -1423,7 +1423,7 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCircleURIPublicGet, new HashMap<String, Object>()));
   }
   
-  public static List<SSEntityCircleTypeE> entityUserEntityCircleTypesGet(
+  public static List<SSCircleE> entityUserEntityCircleTypesGet(
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
@@ -1432,17 +1432,17 @@ public class SSServCaller {
     opPars.put(SSVarU.user,           userUri);
     opPars.put(SSVarU.entityUri,      entityUri);
     
-    return (List<SSEntityCircleTypeE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCircleTypesGet, opPars));
+    return (List<SSCircleE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCircleTypesGet, opPars));
   }
 
-  public static SSEntityCircleTypeE entityMostOpenCircleTypeGet(
+  public static SSCircleE entityMostOpenCircleTypeGet(
     final SSUri entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.entityUri,      entityUri);
     
-    return (SSEntityCircleTypeE) SSServA.callServViaServer(new SSServPar(SSMethU.entityMostOpenCircleTypeGet, opPars));
+    return (SSCircleE) SSServA.callServViaServer(new SSServPar(SSMethU.entityMostOpenCircleTypeGet, opPars));
   }
     
   public static Boolean entityUserCircleDelete(
@@ -1476,7 +1476,7 @@ public class SSServCaller {
   public static void ueAdd(
     final SSUri     userUri, 
     final SSUri     entityUri, 
-    final SSUEEnum  evenType, 
+    final SSUEE  evenType, 
     final String    content, 
     final Boolean   shouldCommit) throws Exception{
     
@@ -1610,7 +1610,7 @@ public class SSServCaller {
   public static void tagsAdd(final SSUri userUri, 
     final SSUri            entityUri, 
     final List<SSTagLabel> tagList, 
-    final SSSpaceEnum      space, 
+    final SSSpaceE      space, 
     final Boolean          shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1632,14 +1632,14 @@ public class SSServCaller {
   public static List<SSTag> tagsUserGet(
     final SSUri       userUri, 
     final SSUri       entityUri, 
-    final SSTagLabel  tagString, 
-    final SSSpaceEnum space) throws Exception{
+    final String      tag, 
+    final SSSpaceE    space) throws Exception{
     
     final Map<String, Object>   opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,      userUri);
     opPars.put(SSVarU.resource,  entityUri);
-    opPars.put(SSVarU.tagString, tagString);
+    opPars.put(SSVarU.tagString, tag);
     opPars.put(SSVarU.space,     space);
     
     return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.tagsUserGet, opPars));
@@ -1649,7 +1649,7 @@ public class SSServCaller {
     final SSUri       userUri, 
     final SSUri       entityUri, 
     final SSTagLabel tagLabel, 
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -1663,8 +1663,8 @@ public class SSServCaller {
   
   public static List<SSUri> tagUserEntitiesForTagGet(
     final SSUri       userUri,
-    final SSTagLabel tagLabel,
-    final SSSpaceEnum space) throws Exception{
+    final String      tagLabel,
+    final SSSpaceE    space) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -1679,7 +1679,7 @@ public class SSServCaller {
     final SSUri         forUserUri,   
     final SSUri         entityUri,
     final SSTagLabel    tagLabel,
-    final SSSpaceEnum   space,
+    final SSSpaceE   space,
     final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1697,7 +1697,7 @@ public class SSServCaller {
     final SSUri         userUri,
     final SSUri         entityUri,
     final SSTagLabel   tagString,
-    final SSSpaceEnum   space,
+    final SSSpaceE   space,
     final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1715,7 +1715,7 @@ public class SSServCaller {
     final SSUri       userUri,
     final SSUri       entityUri,
     final SSTagLabel  tagString,
-    final SSSpaceEnum space,
+    final SSSpaceE space,
     final Boolean     shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1733,7 +1733,7 @@ public class SSServCaller {
     final SSUri        userUri,
     final SSUri        entityUri,
     final SSTagLabel   tagString,
-    final SSSpaceEnum  space,
+    final SSSpaceE  space,
     final Long         creationTime,
     final Boolean      shouldCommit) throws Exception{
     
@@ -1771,7 +1771,7 @@ public class SSServCaller {
   
   /* recommendation */
   
-   public static List<SSTag> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
+   public static List<String> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1784,14 +1784,14 @@ public class SSServCaller {
     opPars.put(SSVarU.entityUri,      entityUri);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
   }
   
   public static void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate() throws Exception {
     SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate, new HashMap<String, Object>()));
   }
   
-  public static List<SSTag> recommTagsLanguageModelBasedOnUserEntityTag(
+  public static List<String> recommTagsLanguageModelBasedOnUserEntityTag(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1804,14 +1804,14 @@ public class SSServCaller {
     opPars.put(SSVarU.entityUri,      entityUri);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTag, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTag, opPars));
   }
   
   public static void recommTagsLanguageModelBasedOnUserEntityTagUpdate() throws Exception {
     SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTagUpdate, new HashMap<String, Object>()));
   }
   
-  public static List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategory(
+  public static List<String> recommTagsThreeLayersBasedOnUserEntityTagCategory(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri,
@@ -1826,15 +1826,14 @@ public class SSServCaller {
     opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategory, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategory, opPars));
   }
   
   public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate() throws Exception {
     SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate, new HashMap<String, Object>()));
   }
   
-  
-  public static List<SSTag> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
+  public static List<String> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
     final SSUri         userUri, 
     final SSUri         forUser, 
     final SSUri         entityUri, 
@@ -1849,7 +1848,7 @@ public class SSServCaller {
     opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp, opPars));
   }
   
   public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate() throws Exception {

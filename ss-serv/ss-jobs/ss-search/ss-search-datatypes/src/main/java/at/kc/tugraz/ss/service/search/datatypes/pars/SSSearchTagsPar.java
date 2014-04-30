@@ -23,13 +23,12 @@
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.List;
 
 public class SSSearchTagsPar extends SSServPar{
   
-  public List<SSTagLabel> tags             = null;
+  public List<String>      tags             = null;
   public String            searchOp         = null;
   public int               maxResultsPerTag = 0;
     
@@ -38,16 +37,17 @@ public class SSSearchTagsPar extends SSServPar{
     super(par);
     
     try{
+      
       if(pars != null){
         searchOp         = (String)            pars.get(SSVarU.searchOp);
-        tags             = (List<SSTagLabel>) pars.get(SSVarU.tags);
+        tags             = (List<String>)      pars.get(SSVarU.tags);
         maxResultsPerTag = (Integer)           pars.get(SSVarU.maxResultsPerTag);
       }
       
       if(clientPars != null){
-        searchOp         = (String) clientPars.get(SSVarU.searchOp);
-        tags             = SSTagLabel.getDistinct(SSStrU.splitDistinct((String)clientPars.get(SSVarU.tags), SSStrU.comma));
-        maxResultsPerTag = Integer.valueOf((String)clientPars.get(SSVarU.maxResultsPerTag));
+        searchOp         = (String)             clientPars.get(SSVarU.searchOp);
+        tags             = SSStrU.splitDistinct(clientPars.get(SSVarU.tags), SSStrU.comma);
+        maxResultsPerTag = Integer.valueOf     (clientPars.get(SSVarU.maxResultsPerTag));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

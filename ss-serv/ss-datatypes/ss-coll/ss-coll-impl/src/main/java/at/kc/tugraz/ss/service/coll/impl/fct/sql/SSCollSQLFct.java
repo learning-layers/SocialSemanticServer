@@ -25,10 +25,10 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -136,7 +136,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   public void addEntryToColl(
     final SSUri      collParent, 
     final SSUri      collEntry, 
-    final SSLabelStr entryLabel) throws Exception{
+    final SSLabel entryLabel) throws Exception{
     
     if(SSObjU.isNull(collParent, collEntry, entryLabel)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -204,7 +204,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       columnNames.add             (circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
       columnNames.add             (SSSQLVarU.circleType);
       
-      where.put                   (SSSQLVarU.circleType, SSEntityCircleTypeE.toStr(SSEntityCircleTypeE.pub));
+      where.put                   (SSSQLVarU.circleType, SSCircleE.toStr(SSCircleE.pub));
         
       whereFixed.add(SSSQLVarU.id                                              + SSStrU.equal + SSSQLVarU.collId);
       whereFixed.add(SSSQLVarU.collId                                          + SSStrU.equal + SSSQLVarU.entityId);
@@ -610,7 +610,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   
   private SSColl getColl(
     final SSUri                     collUri, 
-    final List<SSEntityCircleTypeE> circleTypes) throws Exception{
+    final List<SSCircleE> circleTypes) throws Exception{
    
     if(SSObjU.isNull(collUri, circleTypes)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -661,7 +661,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   
   public SSColl getCollWithEntries(
     final SSUri                           collUri,
-    final List<SSEntityCircleTypeE>       circleTypes) throws Exception{
+    final List<SSCircleE>       circleTypes) throws Exception{
 
     if(SSObjU.isNull(collUri, circleTypes)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -703,7 +703,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
           SSCollEntry.get(
             bindingStrToUri        (resultSet, SSSQLVarU.entryId),
             bindingStr             (resultSet, SSSQLVarU.label),
-            new ArrayList<SSEntityCircleTypeE>(),
+            new ArrayList<SSCircleE>(),
             bindingStrToInteger    (resultSet, SSSQLVarU.pos),
             bindingStrToEntityType (resultSet, SSSQLVarU.type));
         
@@ -824,7 +824,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }
   
   private static SSUri objColl() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.coll.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.coll.toString());
   }  
   
   public List<SSUri> getCollUsers(

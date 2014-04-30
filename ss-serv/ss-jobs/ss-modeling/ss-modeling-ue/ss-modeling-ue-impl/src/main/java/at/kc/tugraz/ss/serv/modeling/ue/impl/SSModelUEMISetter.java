@@ -24,8 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSNumberU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class SSModelUEMISetter {
 
 		ArrayList<String>    result    = new ArrayList<String>();
 			
-		if(SSEntityEnum.isColl(resource.type)){
+		if(SSEntityE.isColl(resource.type)){
 			
 			if(resource.mIMadeOutOfOthersNumberOf){
 				maturingIndicatorSetterHelper.addIndicator(resource,result,SSModelUEMIEnum.has_many_entries.toString());
@@ -56,9 +56,9 @@ public class SSModelUEMISetter {
 		}
 
 		if(
-				SSEntityEnum.isColl(resource.type)||
-				SSEntityEnum.isDisc(resource.type)||
-				SSEntityEnum.isResourceOrFile(resource.type)){
+				SSEntityE.isColl(resource.type)||
+				SSEntityE.isDisc(resource.type)||
+				SSEntityE.isResourceOrFile(resource.type)){
 
 			if(resource.mIAssociatePersonNumberOf ){
 				maturingIndicatorSetterHelper.addIndicator(resource,result,SSModelUEMIEnum.associated_with_many_persons.toString());
@@ -106,10 +106,10 @@ public class SSModelUEMISetter {
 		}			
 
 		if(
-				SSEntityEnum.isColl(resource.type)       ||
-				SSEntityEnum.isDisc(resource.type)       ||
-				SSEntityEnum.isUser(resource.type)           ||
-				SSEntityEnum.isResourceOrFile(resource.type)){
+				SSEntityE.isColl(resource.type)       ||
+				SSEntityE.isDisc(resource.type)       ||
+				SSEntityE.isUser(resource.type)           ||
+				SSEntityE.isResourceOrFile(resource.type)){
 
 			if(resource.mITagNot ){
 				maturingIndicatorSetterHelper.addIndicator(resource,result,SSModelUEMIEnum.no_tag.toString()); 
@@ -288,7 +288,7 @@ public class SSModelUEMISetter {
 			}
 		}
 
-		if(SSEntityEnum.isUser(resource.type)){
+		if(SSEntityE.isUser(resource.type)){
 
 			if(resource.mIIsEditorNot ){
 				maturingIndicatorSetterHelper.addIndicator(resource,result,SSModelUEMIEnum.didnt_edit_a_resource_yet.toString());
@@ -390,7 +390,7 @@ public class SSModelUEMISetter {
 			SSModelUEResource                    resource) {
 
 		if(
-				SSEntityEnum.isUser(resource.type) &&
+				SSEntityE.isUser(resource.type) &&
 				
 				(resource.mIUseWide                                              ||
 				 resource.mIAware                                               )){

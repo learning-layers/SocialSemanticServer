@@ -25,15 +25,15 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntryContent;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +101,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
 
-  public void createDisc(SSUri discUri, SSUri user, SSUri target, SSLabelStr label) throws Exception{
+  public void createDisc(SSUri discUri, SSUri user, SSUri target, SSLabel label) throws Exception{
     
     Map<String, String> insertPars;
     
@@ -112,7 +112,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     dbSQL.insert(discTable, insertPars);
   }
 
-  public void addDiscEntry(SSUri discEntryUri, SSUri user, SSUri discUri, SSDiscEntryContent content) throws Exception{
+  public void addDiscEntry(SSUri discEntryUri, SSUri user, SSUri discUri, SSTextComment content) throws Exception{
     
     Map<String, String> insertPars;
     Integer             discEntryCount;
@@ -310,7 +310,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
           SSDiscEntry.get(
             bindingStrToUri       (resultSet, SSSQLVarU.discEntryId),
             bindingStrToInteger   (resultSet, SSSQLVarU.pos),
-            SSDiscEntryContent.get(bindingStr(resultSet, SSSQLVarU.discEntryContent)),
+            SSTextComment.get     (bindingStr(resultSet, SSSQLVarU.discEntryContent)),
             bindingStrToUri       (resultSet, SSSQLVarU.author),
             bindingStrToLong      (resultSet, SSSQLVarU.creationTime)));
       }
@@ -335,10 +335,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   }
   
   private SSUri objDisc() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.disc.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.disc.toString());
   }
   
   private SSUri objDiscEntry() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.discEntry.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.discEntry.toString());
   }
 }

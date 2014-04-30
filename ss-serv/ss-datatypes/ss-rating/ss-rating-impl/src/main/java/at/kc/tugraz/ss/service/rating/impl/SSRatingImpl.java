@@ -21,20 +21,20 @@
  package at.kc.tugraz.ss.service.rating.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
 import at.kc.tugraz.ss.service.rating.api.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -48,8 +48,6 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingDesc;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI{
@@ -67,18 +65,18 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   
   /* SSEntityHandlerImplI */
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     if(!par.removeUserRatings){
@@ -100,7 +98,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -112,7 +110,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -122,32 +120,42 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }
     
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType,
+    final SSEntityE       entityType,
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris, 
     final SSUri           author) throws Exception{
     
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.rating)){
-      return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
+    if(!SSEntityE.equals(entityType, SSEntityE.rating)){
+      return SSEntityDesc.get(
+        entityUri, 
+        label,
+        creationTime, 
+        tags, 
+        overallRating, 
+        discUris, 
+        author);
     }
 
     return SSRatingDesc.get(
         entityUri,
         label,
         creationTime,
-        author);
+        author, 
+        tags, 
+        overallRating, 
+        discUris);
   }
   
   /* SSRatingClientI */
@@ -229,15 +237,15 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       SSServCaller.entityAdd(
         par.user,
         ratingUri,
-        SSLabelStr.get(ratingUri.toString()),
-        SSEntityEnum.rating,
+        SSLabel.get(ratingUri.toString()),
+        SSEntityE.rating,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         par.resource,
-        SSLabelStr.get(SSUri.toStr(par.resource)),
-        SSEntityEnum.entity,
+        SSLabel.get(SSUri.toStr(par.resource)),
+        SSEntityE.entity,
         false);
       
       sqlFct.rateEntityByUser (ratingUri, par.user, par.resource, par.value);

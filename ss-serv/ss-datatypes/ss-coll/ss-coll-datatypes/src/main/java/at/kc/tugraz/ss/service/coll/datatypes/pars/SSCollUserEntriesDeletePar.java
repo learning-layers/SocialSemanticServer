@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
         
         coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
 
-        collEntries.addAll(SSUri.getDistinct(SSStrU.split(clientPars.get(SSVarU.collEntries), SSStrU.comma)));
+        collEntries.addAll(SSUri.get(SSStrU.splitDistinct(clientPars.get(SSVarU.collEntries), SSStrU.comma)));
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

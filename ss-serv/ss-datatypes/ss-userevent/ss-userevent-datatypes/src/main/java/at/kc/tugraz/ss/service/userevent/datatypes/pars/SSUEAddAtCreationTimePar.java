@@ -21,15 +21,15 @@
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEAddAtCreationTimePar extends SSServPar{
   
   public SSUri            resource     = null;
-  public SSUEEnum         eventType    = null;
+  public SSUEE         eventType    = null;
   public String           content      = null;
   public Long             creationTime = null;
   
@@ -41,7 +41,7 @@ public class SSUEAddAtCreationTimePar extends SSServPar{
       
       if(pars != null){
         resource     = (SSUri)    pars.get(SSVarU.resource);
-        eventType    = (SSUEEnum) pars.get(SSVarU.eventType);
+        eventType    = (SSUEE) pars.get(SSVarU.eventType);
         content      = (String)   pars.get(SSVarU.content);
         creationTime = (Long)     pars.get(SSVarU.creationTime);
       }

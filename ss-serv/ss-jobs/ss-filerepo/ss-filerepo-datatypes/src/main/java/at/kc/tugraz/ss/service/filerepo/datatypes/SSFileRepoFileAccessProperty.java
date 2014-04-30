@@ -21,9 +21,8 @@
  package at.kc.tugraz.ss.service.filerepo.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import java.net.MalformedURLException;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,11 +40,6 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 		
     super(file);
     
-    if(file == null){
-      throw new MalformedURLException("FileAccessProperty cannot be created with null uri!");
-    }
-    
-    //TODO dtheiler: check whether previous call was necessary: SSUri.get(file.toString());
 		this.file = file;
 	}
 

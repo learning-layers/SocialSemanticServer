@@ -17,44 +17,44 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCircle extends SSEntityA{
+public class SSEntityCircle extends SSEntityA{
  
   public SSUri                          circleUri    = null;
-  public SSLabelStr                     label        = null;
-  public SSEntityCircleTypeE            circleType   = null;
-  public List<SSEntityRightTypeE>       circleRights = new ArrayList<SSEntityRightTypeE>();
+  public SSLabel                     label        = null;
+  public SSCircleE            circleType   = null;
+  public List<SSCircleRightE>       circleRights = new ArrayList<SSCircleRightE>();
   public List<SSUri>                    userUris     = new ArrayList<SSUri>();
   public List<SSUri>                    entityUris   = new ArrayList<SSUri>();
   
-  public static SSCircle get(
+  public static SSEntityCircle get(
     final SSUri                          circleUri,
-    final SSLabelStr                     label, 
-    final SSEntityCircleTypeE            circleType, 
-    final List<SSEntityRightTypeE>       circleRights,
+    final SSLabel                     label, 
+    final SSCircleE            circleType, 
+    final List<SSCircleRightE>       circleRights,
     final List<SSUri>                    userUris,
-    final List<SSUri>                    entityUris){
+    final List<SSUri>                    entityUris) throws Exception{
     
-    return new SSCircle(circleUri, label, circleType, circleRights, userUris, entityUris);
+    return new SSEntityCircle(circleUri, label, circleType, circleRights, userUris, entityUris);
   }
 
-  protected SSCircle(
-    final SSUri                          circleUri,
-    final SSLabelStr                     label,
-    final SSEntityCircleTypeE            circleType, 
-    final List<SSEntityRightTypeE>       circleRights,
-    final List<SSUri>                    userUris,
-    final List<SSUri>                    entityUris){
+  protected SSEntityCircle(
+    final SSUri                           circleUri,
+    final SSLabel                         label,
+    final SSCircleE                       circleType, 
+    final List<SSCircleRightE>            circleRights,
+    final List<SSUri>                     userUris,
+    final List<SSUri>                     entityUris) throws Exception{
     
-    super(circleUri.toString());
+    super(SSUri.toStr(circleUri));
     
     this.circleUri    = circleUri;
     this.label        = label;
@@ -81,10 +81,10 @@ public class SSCircle extends SSEntityA{
     final Map<String, Object> entityUrisObj   = new HashMap<String, Object>();
     
     ld.put(SSVarU.circleUri,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSLabelStr.class.getName());
-    ld.put(SSVarU.circleType, SSVarU.sss + SSStrU.colon + SSEntityCircleTypeE.class.getName());
+    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.circleType, SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     
-    circleRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityRightTypeE.class.getName());
+    circleRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleRightE.class.getName());
     circleRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.circleRights, circleRightsObj);
@@ -102,19 +102,21 @@ public class SSCircle extends SSEntityA{
     return ld;
   }
 
+  /* getters to allow for json enconding  */
+  
   public String getCircleUri(){
     return SSUri.toStrWithoutSlash(circleUri);
   }
 
   public String getLabel(){
-    return SSLabelStr.toStr(label);
+    return SSLabel.toStr(label);
   }
 
-  public SSEntityCircleTypeE getCircleType(){
+  public SSCircleE getCircleType(){
     return circleType;
   }
 
-  public List<SSEntityRightTypeE> getCircleRights(){
+  public List<SSCircleRightE> getCircleRights(){
     return circleRights;
   }
 

@@ -27,7 +27,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSXMLU;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMConceptRelation;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMCoverage;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMDesc;
@@ -199,7 +198,7 @@ public class SSLOMExtractorInHandler {
 //    return uri;
 //  }
     
-  private List<SSLOMKeyword> getKeywords(File file){
+  private List<SSLOMKeyword> getKeywords(File file) throws Exception{
     
     List<SSLOMKeyword>     result          = new ArrayList<SSLOMKeyword>();
     NodeList               keywords;
@@ -249,7 +248,7 @@ public class SSLOMExtractorInHandler {
     return result;
   }
   
-  private List<SSLOMDesc> getDescriptions(File file) {
+  private List<SSLOMDesc> getDescriptions(File file) throws Exception{
     
     List<SSLOMDesc>        result          = new ArrayList<SSLOMDesc>();
     NodeList               descs;
@@ -325,7 +324,7 @@ public class SSLOMExtractorInHandler {
     return result;
   }
   
-  private List<SSLOMTitle> getTitles(File file){
+  private List<SSLOMTitle> getTitles(File file) throws Exception{
     
     List<SSLOMTitle>       result          = new ArrayList<SSLOMTitle>();
     NodeList               titles;
@@ -375,7 +374,7 @@ public class SSLOMExtractorInHandler {
     return result;
   }
   
-  private List<SSLOMCoverage> getCoverages(File file) {
+  private List<SSLOMCoverage> getCoverages(File file)  throws Exception{
     List<SSLOMCoverage>    result          = new ArrayList<SSLOMCoverage>();
     NodeList               coverages;
     Node                   coverageNode;
@@ -463,7 +462,7 @@ public class SSLOMExtractorInHandler {
     return result;
   }
   
-  private List<SSLOMUser> getUsers(File file){
+  private List<SSLOMUser> getUsers(File file) throws Exception{
     
     List<SSLOMUser>        result           = new ArrayList<SSLOMUser>();
     NodeList               contributes;

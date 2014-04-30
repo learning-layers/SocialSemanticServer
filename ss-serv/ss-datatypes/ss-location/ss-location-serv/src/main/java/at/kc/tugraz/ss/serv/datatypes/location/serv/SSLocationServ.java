@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.location.serv;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationServerI;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -49,6 +49,6 @@ public class SSLocationServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityEnum.location);
+    regServForManagingEntities(SSEntityE.location);
   }
 }

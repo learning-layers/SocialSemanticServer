@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
@@ -29,18 +29,19 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -61,7 +62,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollSearchWithTagWithinPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollSearchWithKeywordWithinPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCummulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -79,7 +80,6 @@ import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollUserShareWithUserFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.*;
@@ -97,30 +97,30 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   
   /* SSEntityHandlerImplI */
 
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
     
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
       return null;
     }
     
-    return SSServCaller.collSearchWithTagWithin(
+    return SSServCaller.collSearchWithKeywordWithin(
       userUri,
       entityUri,
-      tag);
+      keyword);
   }
       
   @Override
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
     
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
       return false;
     }
     
@@ -145,9 +145,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          circleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
 
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
       return false;
     }
     
@@ -175,9 +175,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri        userUri,
     final SSUri        circleUri,
     final SSUri        entityUri,
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
 
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
+    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
       return false;
     }
 
@@ -198,7 +198,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
 
     if(!par.removeFromUserColls){
@@ -224,18 +224,26 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum entityType,
-    final SSUri userUri,
-    final SSUri entityUri,
-    final SSLabelStr label,
-    final Long creationTime,
-    final List<SSTag> tags,
-    final SSRatingOverall overallRating,
-    final List<SSUri> discUris,
-    final SSUri author) throws Exception{
+    final SSEntityE       entityType,
+    final SSUri           userUri,
+    final SSUri           entityUri,
+    final SSLabel         label,
+    final Long            creationTime,
+    final List<String>    tags,
+    final SSEntityA       overallRating,
+    final List<SSUri>     discUris,
+    final SSUri           author) throws Exception{
 
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.coll)){
-      return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
+    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
+     
+      return SSEntityDesc.get(
+        entityUri, 
+        label, 
+        creationTime, 
+        tags, 
+        overallRating, 
+        discUris, 
+        author);
     }
 
     return SSCollDesc.get(
@@ -375,8 +383,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       SSServCaller.entityAdd(
         par.user,
         rootCollUri,
-        SSLabelStr.get(SSStrU.valueRoot),
-        SSEntityEnum.coll,
+        SSLabel.get(SSStrU.valueRoot),
+        SSEntityE.coll,
         false);
 
       sqlFct.createColl(rootCollUri);
@@ -385,8 +393,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         rootCollUri,
         new ArrayList<SSUri>(),
-        SSEntityCircleTypeE.priv,
-        SSLabelStr.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
+        SSCircleE.priv,
+        SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
         SSUri.get(SSUserGlobals.systemUserURI),
         false);
 
@@ -636,7 +644,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user, 
         sqlFct.getCollWithEntries(
           par.collUri, 
-          new ArrayList<SSEntityCircleTypeE>()), 
+          new ArrayList<SSCircleE>()), 
         par.collCircleUri);
       
       SSCollUserShareWithUserFct.addCollUsersToSharedCircle                   (sqlFct, par);
@@ -679,7 +687,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         sqlFct.getCollWithEntries(
           par.collUri, 
-          new ArrayList<SSEntityCircleTypeE>()),
+          new ArrayList<SSCircleE>()),
         par.publicCircleUri);
 
       dbSQL.commit(par.shouldCommit);
@@ -885,7 +893,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot access this collection");
       }
 
-      coll = sqlFct.getCollWithEntries(par.collUri, new ArrayList<SSEntityCircleTypeE>());
+      coll = sqlFct.getCollWithEntries(par.collUri, new ArrayList<SSCircleE>());
 
       for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, par.collUri, null, null)){
 
@@ -900,7 +908,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       for(SSCollEntry collEntry : coll.entries){
 
-        if(SSEntityEnum.equals(collEntry.entityType, SSEntityEnum.coll)){
+        if(SSEntityE.equals(collEntry.entityType, SSEntityE.coll)){
 
           for(SSTagFrequ tagFrequ : SSServCaller.collUserCumulatedTagsGet(par.user, collEntry.uri)){
 
@@ -961,7 +969,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       collUris     = sqlFct.getCollUrisContainingEntity(par.entityUri);
 
       for(String coll : SSStrU.retainAll(collUris, userCollUris)){
-        colls.add(sqlFct.getCollWithEntries(SSUri.get(coll), new ArrayList<SSEntityCircleTypeE>()));
+        colls.add(sqlFct.getCollWithEntries(SSUri.get(coll), new ArrayList<SSCircleE>()));
       }
 
       return colls;
@@ -1011,7 +1019,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         sqlFct.getCollWithEntries(
           par.collUri, 
-          new ArrayList<SSEntityCircleTypeE>()),
+          new ArrayList<SSCircleE>()),
         par.collCircleUri);
 
       dbSQL.commit(par.shouldCommit);
@@ -1034,11 +1042,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public List<SSUri> collSearchWithTagWithin(final SSServPar parA) throws Exception{
+  public List<SSUri> collSearchWithKeywordWithin(final SSServPar parA) throws Exception{
     
     try{
-      final SSCollSearchWithTagWithinPar   par               = new SSCollSearchWithTagWithinPar(parA);
-      final List<SSUri>                    searchResultUris  = new ArrayList<SSUri>();
+      final SSCollSearchWithKeywordWithinPar   par               = new SSCollSearchWithKeywordWithinPar(parA);
+      final List<SSUri>                        searchResultUris  = new ArrayList<SSUri>();
       
       if(!SSServCaller.entityUserCanRead(par.user, par.collUri)){
         throw new Exception("user is not allowed to search within collection");
@@ -1049,7 +1057,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           sqlFct,
           sqlFct.getCollWithEntries(
             par.collUri,
-            new ArrayList<SSEntityCircleTypeE>()));
+            new ArrayList<SSCircleE>()));
       
       for(SSUri entityUri : collSubCollAndEntryUris){
         
@@ -1057,7 +1065,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           continue;
         }
         
-        if(!SSServCaller.tagsUserGet(par.user, entityUri, par.tag, null).isEmpty()){
+        if(!SSServCaller.tagsUserGet(par.user, entityUri, par.keyword, null).isEmpty()){
           searchResultUris.add(entityUri);
         }
       }

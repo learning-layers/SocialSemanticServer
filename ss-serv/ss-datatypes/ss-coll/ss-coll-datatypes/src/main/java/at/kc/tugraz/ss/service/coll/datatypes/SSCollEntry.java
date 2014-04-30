@@ -22,11 +22,11 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,16 +37,16 @@ public class SSCollEntry extends SSEntityA {
 
   public  SSUri                           uri         = null;
   public  Integer                         pos         = -1;
-  public  List<SSEntityCircleTypeE> circleTypes = new ArrayList<SSEntityCircleTypeE>();
+  public  List<SSCircleE>                 circleTypes = new ArrayList<SSCircleE>();
   public  String                          label       = null;
-  public  SSEntityEnum                    entityType  = null;
+  public  SSEntityE                       entityType  = null;
 
   public static SSCollEntry get(
     SSUri         uri,
     String        label  ,
-    List<SSEntityCircleTypeE> circleTypes,
+    List<SSCircleE> circleTypes,
     Integer       pos,
-    SSEntityEnum  entityType){
+    SSEntityE     entityType) throws Exception{
     
     return new SSCollEntry(uri, label, circleTypes, pos, entityType);
   }
@@ -54,9 +54,9 @@ public class SSCollEntry extends SSEntityA {
   private SSCollEntry(
     SSUri        uri,
     String       label,
-    List<SSEntityCircleTypeE> circleTypes,
+    List<SSCircleE> circleTypes,
     Integer      pos, 
-    SSEntityEnum entityType){
+    SSEntityE entityType) throws Exception{
 
     super(uri);
     
@@ -70,7 +70,7 @@ public class SSCollEntry extends SSEntityA {
     }
   }
   
-  public SSCollEntry(){
+  private SSCollEntry() throws Exception{
     super(SSStrU.empty);
   }
 
@@ -80,16 +80,16 @@ public class SSCollEntry extends SSEntityA {
     final Map<String, Object> ld             = new HashMap<String, Object>();
     final Map<String, Object> circleTypesObj = new HashMap<String, Object>();
     
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircleTypeE.class.getName());
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
     
     ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.pos,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceEnum.class.getName());
+    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     ld.put(SSVarU.label,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.entityType, SSVarU.sss + SSStrU.colon + SSEntityEnum.class.getName());
+    ld.put(SSVarU.entityType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     
     return ld;
   }
@@ -103,7 +103,7 @@ public class SSCollEntry extends SSEntityA {
     return pos;
   }
 
-  public List<SSEntityCircleTypeE> getCircleTypes(){
+  public List<SSCircleE> getCircleTypes(){
     return circleTypes;
   }
 
@@ -112,6 +112,6 @@ public class SSCollEntry extends SSEntityA {
   }
   
   public String getEntityType(){
-    return SSEntityEnum.toStr(entityType);
+    return SSEntityE.toStr(entityType);
   }
 }

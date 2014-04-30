@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.job.recomm.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class SSRecommFct{
     
     for(SSUri user : SSServCaller.getAllUsers()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -77,7 +77,7 @@ public class SSRecommFct{
     
     for(SSUri user : SSServCaller.getAllUsers()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -89,7 +89,7 @@ public class SSRecommFct{
       SSServCaller.dataExportUserEntityTagTimestamps(
         user,
         tagsPerEntities,
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceEnum.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -118,7 +118,7 @@ public class SSRecommFct{
     
     for(SSUri user : SSServCaller.getAllUsers()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -159,7 +159,7 @@ public class SSRecommFct{
     
     for(SSUri user : SSServCaller.getAllUsers()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceEnum.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -172,7 +172,7 @@ public class SSRecommFct{
         user,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceEnum.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -196,7 +196,7 @@ public class SSRecommFct{
   
   private static Map<String, List<String>> getTagsOfUserPerEntities(
     final SSUri       userUri, 
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     return SSTag.getTagLabelsPerEntities(
       SSServCaller.tagsUserGet(
@@ -221,7 +221,7 @@ public class SSRecommFct{
   private static Long getTimestampInMillisecOfAUserTagForEntity(
     final SSUri       userUri, 
     final String      entityUri, 
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     final List<SSTag> tags = 
       SSServCaller.tagsUserGet(

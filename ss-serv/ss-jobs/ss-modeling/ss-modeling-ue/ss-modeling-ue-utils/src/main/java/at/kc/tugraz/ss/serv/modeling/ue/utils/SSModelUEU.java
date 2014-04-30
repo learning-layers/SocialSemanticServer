@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.serv.modeling.ue.utils;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -315,306 +315,306 @@ public class SSModelUEU {
    * event type containers
    ***********************************/
   
-  public static final List<SSUEEnum> initialCollectionCollaborationEventTypes       = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> initialDiscussionCollaborationEventTypes       = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> collaborateCollectionEventTypes                = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> collaborateDiscussionEventTypes                = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> removeInitialCollectionCollaborationEventTypes = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> relateResourceEventTypes                       = new ArrayList<SSUEEnum>();
+  public static final List<SSUEE> initialCollectionCollaborationEventTypes       = new ArrayList<SSUEE>();
+  public static final List<SSUEE> initialDiscussionCollaborationEventTypes       = new ArrayList<SSUEE>();
+  public static final List<SSUEE> collaborateCollectionEventTypes                = new ArrayList<SSUEE>();
+  public static final List<SSUEE> collaborateDiscussionEventTypes                = new ArrayList<SSUEE>();
+  public static final List<SSUEE> removeInitialCollectionCollaborationEventTypes = new ArrayList<SSUEE>();
+  public static final List<SSUEE> relateResourceEventTypes                       = new ArrayList<SSUEE>();
   
-  public static final List<SSUEEnum> changingEventTypes                             = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> addingAndDeletingEventTypes                    = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> taggingEventTypes                              = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> sharingWithCommunityEventTypes                 = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> awarenessEventTypes                            = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> recommendEventTypes                            = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> authoringEventTypes                            = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> selectedFromOthersEventTypes                   = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> organizingInCollectionsEventTypes              = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> assessEventTypes                               = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> participationEventTypes                        = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> personAssociationEventTypes                    = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> contributeToDiscussionEventTypes               = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> exportCollectionItemEventTypes                 = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> rateEventTypes                                 = new ArrayList<SSUEEnum>();
+  public static final List<SSUEE> changingEventTypes                             = new ArrayList<SSUEE>();
+  public static final List<SSUEE> addingAndDeletingEventTypes                    = new ArrayList<SSUEE>();
+  public static final List<SSUEE> taggingEventTypes                              = new ArrayList<SSUEE>();
+  public static final List<SSUEE> sharingWithCommunityEventTypes                 = new ArrayList<SSUEE>();
+  public static final List<SSUEE> awarenessEventTypes                            = new ArrayList<SSUEE>();
+  public static final List<SSUEE> recommendEventTypes                            = new ArrayList<SSUEE>();
+  public static final List<SSUEE> authoringEventTypes                            = new ArrayList<SSUEE>();
+  public static final List<SSUEE> selectedFromOthersEventTypes                   = new ArrayList<SSUEE>();
+  public static final List<SSUEE> organizingInCollectionsEventTypes              = new ArrayList<SSUEE>();
+  public static final List<SSUEE> assessEventTypes                               = new ArrayList<SSUEE>();
+  public static final List<SSUEE> participationEventTypes                        = new ArrayList<SSUEE>();
+  public static final List<SSUEE> personAssociationEventTypes                    = new ArrayList<SSUEE>();
+  public static final List<SSUEE> contributeToDiscussionEventTypes               = new ArrayList<SSUEE>();
+  public static final List<SSUEE> exportCollectionItemEventTypes                 = new ArrayList<SSUEE>();
+  public static final List<SSUEE> rateEventTypes                                 = new ArrayList<SSUEE>();
 //  public static final List<SSUEEnum> appearInSearchResultEventTypes                 = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> viewEntityEventTypes                           = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> startDicussionEventTypes                       = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> addToCollectionEventTypes                      = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> removeFromCollectionEventTypes                 = new ArrayList<SSUEEnum>();
+  public static final List<SSUEE> viewEntityEventTypes                           = new ArrayList<SSUEE>();
+  public static final List<SSUEE> startDicussionEventTypes                       = new ArrayList<SSUEE>();
+  public static final List<SSUEE> addToCollectionEventTypes                      = new ArrayList<SSUEE>();
+  public static final List<SSUEE> removeFromCollectionEventTypes                 = new ArrayList<SSUEE>();
   
   /* event type containers for user model */
-  public static final List<SSUEEnum> sharedCollectionEventTypes                     = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> discussionEventTypes                           = new ArrayList<SSUEEnum>();
-  public static final List<SSUEEnum> useTopicEventTypes                             = new ArrayList<SSUEEnum>();
+  public static final List<SSUEE> sharedCollectionEventTypes                     = new ArrayList<SSUEE>();
+  public static final List<SSUEE> discussionEventTypes                           = new ArrayList<SSUEE>();
+  public static final List<SSUEE> useTopicEventTypes                             = new ArrayList<SSUEE>();
   
   public static void init() throws Exception{
     
     //contribute to discussion event types
-    contributeToDiscussionEventTypes.add(SSUEEnum.addDiscussionComment);
+    contributeToDiscussionEventTypes.add(SSUEE.addDiscussionComment);
     
     //export collection item event types
-    exportCollectionItemEventTypes.add(SSUEEnum.exportCollectionItem);
+    exportCollectionItemEventTypes.add(SSUEE.exportCollectionItem);
     
     //rate event types
-    rateEventTypes.add(SSUEEnum.rateEntity);
+    rateEventTypes.add(SSUEE.rateEntity);
     
     //appear in search result event types
 //    appearInSearchResultEventTypes.add(SSUEEnum.appearsInSearchResult);
     
     //view entity event types
-    viewEntityEventTypes.add(SSUEEnum.viewEntity);
+    viewEntityEventTypes.add(SSUEE.viewEntity);
     
     //start discussion event types
-    startDicussionEventTypes.add(SSUEEnum.discussEntity);
+    startDicussionEventTypes.add(SSUEE.discussEntity);
     //				startDicussionEventTypes.add("startDiscussion");
     
     //add to collections event types
-    addToCollectionEventTypes.add(SSUEEnum.addPrivateCollectionItem);
-    addToCollectionEventTypes.add(SSUEEnum.addSharedCollectionItem);
+    addToCollectionEventTypes.add(SSUEE.addPrivateCollectionItem);
+    addToCollectionEventTypes.add(SSUEE.addSharedCollectionItem);
     
     //remove from collection event types
-    removeFromCollectionEventTypes.add(SSUEEnum.removeCollectionItem);
+    removeFromCollectionEventTypes.add(SSUEE.removeCollectionItem);
     
     //change event types
-    changingEventTypes.add(SSUEEnum.addPrivateCollectionItem);
-    changingEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    changingEventTypes.add(SSUEEnum.createPrivateCollection);
-    changingEventTypes.add(SSUEEnum.createSharedCollection);
-    changingEventTypes.add(SSUEEnum.renameDiscussion);
-    changingEventTypes.add(SSUEEnum.addDiscussionComment);
-    changingEventTypes.add(SSUEEnum.removeCollectionItem);
-    changingEventTypes.add(SSUEEnum.removeCollection);
-    changingEventTypes.add(SSUEEnum.renamePrivateCollection);
-    changingEventTypes.add(SSUEEnum.renameSharedCollection);
-    changingEventTypes.add(SSUEEnum.renamePrivateCollectionItem);
-    changingEventTypes.add(SSUEEnum.renameSharedCollectionItem);
-    changingEventTypes.add(SSUEEnum.changeCollectionByAddPrivateCollectionItem);
+    changingEventTypes.add(SSUEE.addPrivateCollectionItem);
+    changingEventTypes.add(SSUEE.addSharedCollectionItem);
+    changingEventTypes.add(SSUEE.createPrivateCollection);
+    changingEventTypes.add(SSUEE.createSharedCollection);
+    changingEventTypes.add(SSUEE.renameDiscussion);
+    changingEventTypes.add(SSUEE.addDiscussionComment);
+    changingEventTypes.add(SSUEE.removeCollectionItem);
+    changingEventTypes.add(SSUEE.removeCollection);
+    changingEventTypes.add(SSUEE.renamePrivateCollection);
+    changingEventTypes.add(SSUEE.renameSharedCollection);
+    changingEventTypes.add(SSUEE.renamePrivateCollectionItem);
+    changingEventTypes.add(SSUEE.renameSharedCollectionItem);
+    changingEventTypes.add(SSUEE.changeCollectionByAddPrivateCollectionItem);
     //		changingEventTypes.add("changeCollectionAddPrivateCollectionItem");
-    changingEventTypes.add(SSUEEnum.changeCollectionByAddSharedCollectionItem);
+    changingEventTypes.add(SSUEE.changeCollectionByAddSharedCollectionItem);
     //		changingEventTypes.add("changeCollectionAddSharedCollectionItem");
-    changingEventTypes.add(SSUEEnum.changeCollectionByRemoveCollectionItem);
+    changingEventTypes.add(SSUEE.changeCollectionByRemoveCollectionItem);
     //		changingEventTypes.add("changeCollectionRemovePrivateCollectionItem");
     //		changingEventTypes.add("changeCollectionRemoveSharedCollectionItem");
-    changingEventTypes.add(SSUEEnum.changeCollectionByRenamePrivateCollectionItem);
+    changingEventTypes.add(SSUEE.changeCollectionByRenamePrivateCollectionItem);
     //		changingEventTypes.add("changeCollectionRenamePrivateCollectionItem");
-    changingEventTypes.add(SSUEEnum.changeCollectionByRenameSharedCollectionItem);
+    changingEventTypes.add(SSUEE.changeCollectionByRenameSharedCollectionItem);
     //		changingEventTypes.add("changeCollectionRenameSharedCollectionItem");
-    changingEventTypes.add(SSUEEnum.newDiscussionByDiscussEntity);
+    changingEventTypes.add(SSUEE.newDiscussionByDiscussEntity);
     //		changingEventTypes.add("createDiscussion");
     
     //adding & deleting event types
-    addingAndDeletingEventTypes.add(SSUEEnum.addDiscussionComment);
-    addingAndDeletingEventTypes.add(SSUEEnum.addPrivateTag);
-    addingAndDeletingEventTypes.add(SSUEEnum.addSharedTag);
-    addingAndDeletingEventTypes.add(SSUEEnum.removePrivateTag);
-    addingAndDeletingEventTypes.add(SSUEEnum.removeSharedTag);
-    addingAndDeletingEventTypes.add(SSUEEnum.changeCollectionByAddPrivateCollectionItem);
+    addingAndDeletingEventTypes.add(SSUEE.addDiscussionComment);
+    addingAndDeletingEventTypes.add(SSUEE.addPrivateTag);
+    addingAndDeletingEventTypes.add(SSUEE.addSharedTag);
+    addingAndDeletingEventTypes.add(SSUEE.removePrivateTag);
+    addingAndDeletingEventTypes.add(SSUEE.removeSharedTag);
+    addingAndDeletingEventTypes.add(SSUEE.changeCollectionByAddPrivateCollectionItem);
     //		addingAndDeletingEventTypes.add("changeCollectionAddPrivateCollectionItem");
-    addingAndDeletingEventTypes.add(SSUEEnum.changeCollectionByAddSharedCollectionItem);
+    addingAndDeletingEventTypes.add(SSUEE.changeCollectionByAddSharedCollectionItem);
     //		addingAndDeletingEventTypes.add("changeCollectionAddSharedCollectionItem");
-    addingAndDeletingEventTypes.add(SSUEEnum.changeCollectionByRemoveCollectionItem);
+    addingAndDeletingEventTypes.add(SSUEE.changeCollectionByRemoveCollectionItem);
     //		addingAndDeletingEventTypes.add("changeCollectionRemovePrivateCollectionItem");
     //		addingAndDeletingEventTypes.add("changeCollectionRemoveSharedCollectionItem");
     
     //tagging event types
-    taggingEventTypes.add(SSUEEnum.addPrivateTag);
-    taggingEventTypes.add(SSUEEnum.addSharedTag);
-    taggingEventTypes.add(SSUEEnum.removePrivateTag);
-    taggingEventTypes.add(SSUEEnum.removeSharedTag);
+    taggingEventTypes.add(SSUEE.addPrivateTag);
+    taggingEventTypes.add(SSUEE.addSharedTag);
+    taggingEventTypes.add(SSUEE.removePrivateTag);
+    taggingEventTypes.add(SSUEE.removeSharedTag);
     
     //sharing with community event types
-    sharingWithCommunityEventTypes.add(SSUEEnum.shareCollection);
-    sharingWithCommunityEventTypes.add(SSUEEnum.shareCollectionItemByShareCollection);
+    sharingWithCommunityEventTypes.add(SSUEE.shareCollection);
+    sharingWithCommunityEventTypes.add(SSUEE.shareCollectionItemByShareCollection);
     //			sharingWithCommunityEventTypes.add("shareCollectionItemShareCollection");
-    sharingWithCommunityEventTypes.add(SSUEEnum.createSharedCollection);
-    sharingWithCommunityEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    sharingWithCommunityEventTypes.add(SSUEEnum.addSharedTag);
-    sharingWithCommunityEventTypes.add(SSUEEnum.discussEntity);
+    sharingWithCommunityEventTypes.add(SSUEE.createSharedCollection);
+    sharingWithCommunityEventTypes.add(SSUEE.addSharedCollectionItem);
+    sharingWithCommunityEventTypes.add(SSUEE.addSharedTag);
+    sharingWithCommunityEventTypes.add(SSUEE.discussEntity);
     //		sharingWithCommunityEventTypes.add("startDiscussion");
-    sharingWithCommunityEventTypes.add(SSUEEnum.newDiscussionByDiscussEntity);
+    sharingWithCommunityEventTypes.add(SSUEE.newDiscussionByDiscussEntity);
     //		sharingWithCommunityEventTypes.add("createDiscussion");
     
     //initial collection collaboration event types (indicating that a resource got able to be collaborated on)
-    initialCollectionCollaborationEventTypes.add(SSUEEnum.subscribeCollection);
-    initialCollectionCollaborationEventTypes.add(SSUEEnum.subscribeCollectionItemBySubscribeCollection);
+    initialCollectionCollaborationEventTypes.add(SSUEE.subscribeCollection);
+    initialCollectionCollaborationEventTypes.add(SSUEE.subscribeCollectionItemBySubscribeCollection);
     
     //initial discussion collaboration event types (indicating that a resource got able to be collaborated on)
-    initialDiscussionCollaborationEventTypes.add(SSUEEnum.discussEntity);
+    initialDiscussionCollaborationEventTypes.add(SSUEE.discussEntity);
     //		initialDiscussionCollaborationEventTypes.add("startDiscussion");
-    initialDiscussionCollaborationEventTypes.add(SSUEEnum.newDiscussionByDiscussEntity);
+    initialDiscussionCollaborationEventTypes.add(SSUEE.newDiscussionByDiscussEntity);
     //		initialDiscussionCollaborationEventTypes.add("createDiscussion");
     
     //remove initial collection collaboration event types (indicating that a resource was removed from collaborative work)
-    removeInitialCollectionCollaborationEventTypes.add(SSUEEnum.unSubscribeCollection);
-    removeInitialCollectionCollaborationEventTypes.add(SSUEEnum.unSubscribeCollectionItemByUnSubscribeCollection);
+    removeInitialCollectionCollaborationEventTypes.add(SSUEE.unSubscribeCollection);
+    removeInitialCollectionCollaborationEventTypes.add(SSUEE.unSubscribeCollectionItemByUnSubscribeCollection);
     
     //collaborately collection work event types (prerequisite is that resource got able to be collaborated on)
-    collaborateCollectionEventTypes.add(SSUEEnum.structureSharedCollection);
+    collaborateCollectionEventTypes.add(SSUEE.structureSharedCollection);
     //		collaborateCollectionEventTypes.add("structureSharedCollectionContent");
-    collaborateCollectionEventTypes.add(SSUEEnum.renameSharedCollection);
-    collaborateCollectionEventTypes.add(SSUEEnum.changeCollectionByAddSharedCollectionItem);
+    collaborateCollectionEventTypes.add(SSUEE.renameSharedCollection);
+    collaborateCollectionEventTypes.add(SSUEE.changeCollectionByAddSharedCollectionItem);
     //		collaborateCollectionEventTypes.add("changeCollectionAddSharedCollectionItem");
-    collaborateCollectionEventTypes.add(SSUEEnum.changeCollectionByRemoveCollectionItem);
+    collaborateCollectionEventTypes.add(SSUEE.changeCollectionByRemoveCollectionItem);
     //		collaborateCollectionEventTypes.add("changeCollectionRemoveSharedCollectionItem");
-    collaborateCollectionEventTypes.add(SSUEEnum.changeCollectionByRenameSharedCollectionItem);
+    collaborateCollectionEventTypes.add(SSUEE.changeCollectionByRenameSharedCollectionItem);
     //		collaborateCollectionEventTypes.add("changeCollectionRenameSharedCollectionItem");
-    collaborateCollectionEventTypes.add(SSUEEnum.structureSharedCollectionItemByStructureSharedCollection);
+    collaborateCollectionEventTypes.add(SSUEE.structureSharedCollectionItemByStructureSharedCollection);
     //		collaborateCollectionEventTypes.add("structureSharedCollectionItemStructureSharedCollectionContent");
-    collaborateCollectionEventTypes.add(SSUEEnum.renameSharedCollectionItemByRenameSharedCollection);
+    collaborateCollectionEventTypes.add(SSUEE.renameSharedCollectionItemByRenameSharedCollection);
     //		collaborateCollectionEventTypes.add("renameSharedCollectionItemRenameSharedCollection");
-    collaborateCollectionEventTypes.add(SSUEEnum.addSharedTag);
-    collaborateCollectionEventTypes.add(SSUEEnum.removeSharedTag);
+    collaborateCollectionEventTypes.add(SSUEE.addSharedTag);
+    collaborateCollectionEventTypes.add(SSUEE.removeSharedTag);
     
     //collaborately discussion work event types (prerequisite is that resource got able to be collaborated on)
-    collaborateDiscussionEventTypes.add(SSUEEnum.renameDiscussion);
-    collaborateDiscussionEventTypes.add(SSUEEnum.addDiscussionComment);
-    collaborateDiscussionEventTypes.add(SSUEEnum.addDiscussionTargetCommentByAddDiscussionComment);
+    collaborateDiscussionEventTypes.add(SSUEE.renameDiscussion);
+    collaborateDiscussionEventTypes.add(SSUEE.addDiscussionComment);
+    collaborateDiscussionEventTypes.add(SSUEE.addDiscussionTargetCommentByAddDiscussionComment);
     //		collaborateDiscussionEventTypes.add("addDiscussionTargetCommentAddDiscussionComment");
-    collaborateDiscussionEventTypes.add(SSUEEnum.renameDiscussionTargetByRenameDiscussion);
+    collaborateDiscussionEventTypes.add(SSUEE.renameDiscussionTargetByRenameDiscussion);
     //		collaborateDiscussionEventTypes.add("renameDiscussionTargetRenameDiscussion");
     
     //events indicating that a resource has reached high awareness among others
-    awarenessEventTypes.add(SSUEEnum.viewEntity);
-    awarenessEventTypes.add(SSUEEnum.rateEntity);
-    awarenessEventTypes.add(SSUEEnum.addSharedTag);
-    awarenessEventTypes.add(SSUEEnum.exportCollectionItem);
-    awarenessEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    awarenessEventTypes.add(SSUEEnum.changeCollectionByAddSharedCollectionItem);
+    awarenessEventTypes.add(SSUEE.viewEntity);
+    awarenessEventTypes.add(SSUEE.rateEntity);
+    awarenessEventTypes.add(SSUEE.addSharedTag);
+    awarenessEventTypes.add(SSUEE.exportCollectionItem);
+    awarenessEventTypes.add(SSUEE.addSharedCollectionItem);
+    awarenessEventTypes.add(SSUEE.changeCollectionByAddSharedCollectionItem);
     //		awarenessEventTypes.add("changeCollectionAddSharedCollectionItem");
-    awarenessEventTypes.add(SSUEEnum.addDiscussionComment);
-    awarenessEventTypes.add(SSUEEnum.addDiscussionTargetCommentByAddDiscussionComment);
+    awarenessEventTypes.add(SSUEE.addDiscussionComment);
+    awarenessEventTypes.add(SSUEE.addDiscussionTargetCommentByAddDiscussionComment);
     //		awarenessEventTypes.add("addDiscussionTargetCommentAddDiscussionComment");
-    awarenessEventTypes.add(SSUEEnum.subscribeCollection);
-    awarenessEventTypes.add(SSUEEnum.subscribeCollectionItemBySubscribeCollection);
-    awarenessEventTypes.add(SSUEEnum.structureSharedCollection);
+    awarenessEventTypes.add(SSUEE.subscribeCollection);
+    awarenessEventTypes.add(SSUEE.subscribeCollectionItemBySubscribeCollection);
+    awarenessEventTypes.add(SSUEE.structureSharedCollection);
     //		awarenessEventTypes.add("structureSharedCollectionContent");
-    awarenessEventTypes.add(SSUEEnum.removeSharedTag);
-    awarenessEventTypes.add(SSUEEnum.structureSharedCollectionItemByStructureSharedCollection);
+    awarenessEventTypes.add(SSUEE.removeSharedTag);
+    awarenessEventTypes.add(SSUEE.structureSharedCollectionItemByStructureSharedCollection);
     //		awarenessEventTypes.add("structureSharedCollectionItemStructureSharedCollectionContent");
     
     //event types indicating that the resource was recommended
-    recommendEventTypes.add(SSUEEnum.exportCollectionItem);
-    recommendEventTypes.add(SSUEEnum.shareCollection);
-    recommendEventTypes.add(SSUEEnum.createSharedCollection);
-    recommendEventTypes.add(SSUEEnum.rateEntity);
-    recommendEventTypes.add(SSUEEnum.shareCollectionItemByShareCollection);
+    recommendEventTypes.add(SSUEE.exportCollectionItem);
+    recommendEventTypes.add(SSUEE.shareCollection);
+    recommendEventTypes.add(SSUEE.createSharedCollection);
+    recommendEventTypes.add(SSUEE.rateEntity);
+    recommendEventTypes.add(SSUEE.shareCollectionItemByShareCollection);
     //		recommendEventTypes.add("shareCollectionItemShareCollection");
-    recommendEventTypes.add(SSUEEnum.addSharedTag);
-    recommendEventTypes.add(SSUEEnum.addSharedCollectionItem);
+    recommendEventTypes.add(SSUEE.addSharedTag);
+    recommendEventTypes.add(SSUEE.addSharedCollectionItem);
     
     //event types indicating that a person authored a resource
-    authoringEventTypes.add(SSUEEnum.addSharedTag);
-    authoringEventTypes.add(SSUEEnum.addSharedCollectionItem);
+    authoringEventTypes.add(SSUEE.addSharedTag);
+    authoringEventTypes.add(SSUEE.addSharedCollectionItem);
     
     //event types indicating that a resource was selected from others
-    selectedFromOthersEventTypes.add(SSUEEnum.selectedFromOthers);
+    selectedFromOthersEventTypes.add(SSUEE.selectedFromOthers);
     
     //event types indicating that a resource was organized in collections
-    organizingInCollectionsEventTypes.add(SSUEEnum.structurePrivateCollection);
+    organizingInCollectionsEventTypes.add(SSUEE.structurePrivateCollection);
     //			organizingInCollectionsEventTypes.add("structurePrivateCollectionContent");
-    organizingInCollectionsEventTypes.add(SSUEEnum.structureSharedCollection);
+    organizingInCollectionsEventTypes.add(SSUEE.structureSharedCollection);
     //		organizingInCollectionsEventTypes.add("structureSharedCollectionContent");
-    organizingInCollectionsEventTypes.add(SSUEEnum.structurePrivateCollectionItemByStructurePrivateCollection);
+    organizingInCollectionsEventTypes.add(SSUEE.structurePrivateCollectionItemByStructurePrivateCollection);
     //			organizingInCollectionsEventTypes.add("structurePrivateCollectionItemStructurePrivateCollectionContent");
-    organizingInCollectionsEventTypes.add(SSUEEnum.structureSharedCollectionItemByStructureSharedCollection);
+    organizingInCollectionsEventTypes.add(SSUEE.structureSharedCollectionItemByStructureSharedCollection);
     //			organizingInCollectionsEventTypes.add("structureSharedCollectionItemStructureSharedCollectionContent");
     
     //event types indicating that a resource was assess by a person
-    assessEventTypes.add(SSUEEnum.rateEntity);
-    assessEventTypes.add(SSUEEnum.addPrivateTag);
-    assessEventTypes.add(SSUEEnum.addSharedTag);
-    assessEventTypes.add(SSUEEnum.removePrivateTag);
-    assessEventTypes.add(SSUEEnum.removeSharedTag);
+    assessEventTypes.add(SSUEE.rateEntity);
+    assessEventTypes.add(SSUEE.addPrivateTag);
+    assessEventTypes.add(SSUEE.addSharedTag);
+    assessEventTypes.add(SSUEE.removePrivateTag);
+    assessEventTypes.add(SSUEE.removeSharedTag);
     
     //event types indicating that a resource participated in discussion/collection
-    participationEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    participationEventTypes.add(SSUEEnum.shareCollection);
-    participationEventTypes.add(SSUEEnum.subscribeCollection);
-    participationEventTypes.add(SSUEEnum.discussEntity);
+    participationEventTypes.add(SSUEE.addSharedCollectionItem);
+    participationEventTypes.add(SSUEE.shareCollection);
+    participationEventTypes.add(SSUEE.subscribeCollection);
+    participationEventTypes.add(SSUEE.discussEntity);
     //			participationEventTypes.add("startDiscussion");
-    participationEventTypes.add(SSUEEnum.renameDiscussion);
-    participationEventTypes.add(SSUEEnum.addDiscussionComment);
-    participationEventTypes.add(SSUEEnum.addSharedTag);
-    participationEventTypes.add(SSUEEnum.removeSharedTag);
-    participationEventTypes.add(SSUEEnum.renameSharedCollectionItem);
-    participationEventTypes.add(SSUEEnum.structureSharedCollection);
+    participationEventTypes.add(SSUEE.renameDiscussion);
+    participationEventTypes.add(SSUEE.addDiscussionComment);
+    participationEventTypes.add(SSUEE.addSharedTag);
+    participationEventTypes.add(SSUEE.removeSharedTag);
+    participationEventTypes.add(SSUEE.renameSharedCollectionItem);
+    participationEventTypes.add(SSUEE.structureSharedCollection);
     //			participationEventTypes.add("structureSharedCollectionContent");
     
     //event types indicating that a person can be associated with a resource
-    personAssociationEventTypes.add(SSUEEnum.exportCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.addPrivateCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.shareCollection);
-    personAssociationEventTypes.add(SSUEEnum.subscribeCollection);
-    personAssociationEventTypes.add(SSUEEnum.unSubscribeCollection);
-    personAssociationEventTypes.add(SSUEEnum.createPrivateCollection);
-    personAssociationEventTypes.add(SSUEEnum.createSharedCollection);
-    personAssociationEventTypes.add(SSUEEnum.rateEntity);
-    personAssociationEventTypes.add(SSUEEnum.discussEntity);
+    personAssociationEventTypes.add(SSUEE.exportCollectionItem);
+    personAssociationEventTypes.add(SSUEE.addPrivateCollectionItem);
+    personAssociationEventTypes.add(SSUEE.addSharedCollectionItem);
+    personAssociationEventTypes.add(SSUEE.shareCollection);
+    personAssociationEventTypes.add(SSUEE.subscribeCollection);
+    personAssociationEventTypes.add(SSUEE.unSubscribeCollection);
+    personAssociationEventTypes.add(SSUEE.createPrivateCollection);
+    personAssociationEventTypes.add(SSUEE.createSharedCollection);
+    personAssociationEventTypes.add(SSUEE.rateEntity);
+    personAssociationEventTypes.add(SSUEE.discussEntity);
     //			personAssociationEventTypes.add("startDiscussion");
-    personAssociationEventTypes.add(SSUEEnum.renameDiscussion);
-    personAssociationEventTypes.add(SSUEEnum.addDiscussionComment);
-    personAssociationEventTypes.add(SSUEEnum.viewEntity);
-    personAssociationEventTypes.add(SSUEEnum.addPrivateTag);
-    personAssociationEventTypes.add(SSUEEnum.addSharedTag);
-    personAssociationEventTypes.add(SSUEEnum.removePrivateTag);
-    personAssociationEventTypes.add(SSUEEnum.removeSharedTag);
-    personAssociationEventTypes.add(SSUEEnum.removeCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.removeCollection);
-    personAssociationEventTypes.add(SSUEEnum.renamePrivateCollection);
-    personAssociationEventTypes.add(SSUEEnum.renameSharedCollection);
-    personAssociationEventTypes.add(SSUEEnum.renamePrivateCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.renameSharedCollectionItem);
-    personAssociationEventTypes.add(SSUEEnum.structurePrivateCollection);
+    personAssociationEventTypes.add(SSUEE.renameDiscussion);
+    personAssociationEventTypes.add(SSUEE.addDiscussionComment);
+    personAssociationEventTypes.add(SSUEE.viewEntity);
+    personAssociationEventTypes.add(SSUEE.addPrivateTag);
+    personAssociationEventTypes.add(SSUEE.addSharedTag);
+    personAssociationEventTypes.add(SSUEE.removePrivateTag);
+    personAssociationEventTypes.add(SSUEE.removeSharedTag);
+    personAssociationEventTypes.add(SSUEE.removeCollectionItem);
+    personAssociationEventTypes.add(SSUEE.removeCollection);
+    personAssociationEventTypes.add(SSUEE.renamePrivateCollection);
+    personAssociationEventTypes.add(SSUEE.renameSharedCollection);
+    personAssociationEventTypes.add(SSUEE.renamePrivateCollectionItem);
+    personAssociationEventTypes.add(SSUEE.renameSharedCollectionItem);
+    personAssociationEventTypes.add(SSUEE.structurePrivateCollection);
     //			personAssociationEventTypes.add("structurePrivateCollectionContent");
-    personAssociationEventTypes.add(SSUEEnum.structureSharedCollection);
+    personAssociationEventTypes.add(SSUEE.structureSharedCollection);
     //			personAssociationEventTypes.add("structureSharedCollectionContent");
     
     /* event type containers for user model */
-    sharedCollectionEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    sharedCollectionEventTypes.add(SSUEEnum.changeCollectionByAddSharedCollectionItem);
-    sharedCollectionEventTypes.add(SSUEEnum.subscribeCollection);
-    sharedCollectionEventTypes.add(SSUEEnum.subscribeCollectionItemBySubscribeCollection);
+    sharedCollectionEventTypes.add(SSUEE.addSharedCollectionItem);
+    sharedCollectionEventTypes.add(SSUEE.changeCollectionByAddSharedCollectionItem);
+    sharedCollectionEventTypes.add(SSUEE.subscribeCollection);
+    sharedCollectionEventTypes.add(SSUEE.subscribeCollectionItemBySubscribeCollection);
     
-    discussionEventTypes.add(SSUEEnum.renameDiscussion);
-    discussionEventTypes.add(SSUEEnum.addDiscussionComment);
-    discussionEventTypes.add(SSUEEnum.discussEntity);
+    discussionEventTypes.add(SSUEE.renameDiscussion);
+    discussionEventTypes.add(SSUEE.addDiscussionComment);
+    discussionEventTypes.add(SSUEE.discussEntity);
     //			discussionEventTypes.add("startDiscussion");
-    discussionEventTypes.add(SSUEEnum.addDiscussionComment);
-    discussionEventTypes.add(SSUEEnum.addDiscussionComment);
+    discussionEventTypes.add(SSUEE.addDiscussionComment);
+    discussionEventTypes.add(SSUEE.addDiscussionComment);
     
-    useTopicEventTypes.add(SSUEEnum.useTag);
-    useTopicEventTypes.add(SSUEEnum.addSharedTag);
-    useTopicEventTypes.add(SSUEEnum.removeSharedTag);
+    useTopicEventTypes.add(SSUEE.useTag);
+    useTopicEventTypes.add(SSUEE.addSharedTag);
+    useTopicEventTypes.add(SSUEE.removeSharedTag);
     
-    relateResourceEventTypes.add(SSUEEnum.exportCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.addPrivateCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.addSharedCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.shareCollection);
-    relateResourceEventTypes.add(SSUEEnum.subscribeCollection);
-    relateResourceEventTypes.add(SSUEEnum.unSubscribeCollection);
-    relateResourceEventTypes.add(SSUEEnum.createPrivateCollection);
-    relateResourceEventTypes.add(SSUEEnum.createSharedCollection);
-    relateResourceEventTypes.add(SSUEEnum.rateEntity);
-    relateResourceEventTypes.add(SSUEEnum.discussEntity);
+    relateResourceEventTypes.add(SSUEE.exportCollectionItem);
+    relateResourceEventTypes.add(SSUEE.addPrivateCollectionItem);
+    relateResourceEventTypes.add(SSUEE.addSharedCollectionItem);
+    relateResourceEventTypes.add(SSUEE.shareCollection);
+    relateResourceEventTypes.add(SSUEE.subscribeCollection);
+    relateResourceEventTypes.add(SSUEE.unSubscribeCollection);
+    relateResourceEventTypes.add(SSUEE.createPrivateCollection);
+    relateResourceEventTypes.add(SSUEE.createSharedCollection);
+    relateResourceEventTypes.add(SSUEE.rateEntity);
+    relateResourceEventTypes.add(SSUEE.discussEntity);
     //			relateResourceEventTypes.add("startDiscussion");
-    relateResourceEventTypes.add(SSUEEnum.renameDiscussion);
-    relateResourceEventTypes.add(SSUEEnum.addDiscussionComment);
-    relateResourceEventTypes.add(SSUEEnum.viewEntity);
-    relateResourceEventTypes.add(SSUEEnum.addPrivateTag);
-    relateResourceEventTypes.add(SSUEEnum.addSharedTag);
-    relateResourceEventTypes.add(SSUEEnum.removePrivateTag);
-    relateResourceEventTypes.add(SSUEEnum.removeSharedTag);
-    relateResourceEventTypes.add(SSUEEnum.removeCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.removeCollection);
-    relateResourceEventTypes.add(SSUEEnum.renamePrivateCollection);
-    relateResourceEventTypes.add(SSUEEnum.renameSharedCollection);
-    relateResourceEventTypes.add(SSUEEnum.renamePrivateCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.renameSharedCollectionItem);
-    relateResourceEventTypes.add(SSUEEnum.structurePrivateCollection);
+    relateResourceEventTypes.add(SSUEE.renameDiscussion);
+    relateResourceEventTypes.add(SSUEE.addDiscussionComment);
+    relateResourceEventTypes.add(SSUEE.viewEntity);
+    relateResourceEventTypes.add(SSUEE.addPrivateTag);
+    relateResourceEventTypes.add(SSUEE.addSharedTag);
+    relateResourceEventTypes.add(SSUEE.removePrivateTag);
+    relateResourceEventTypes.add(SSUEE.removeSharedTag);
+    relateResourceEventTypes.add(SSUEE.removeCollectionItem);
+    relateResourceEventTypes.add(SSUEE.removeCollection);
+    relateResourceEventTypes.add(SSUEE.renamePrivateCollection);
+    relateResourceEventTypes.add(SSUEE.renameSharedCollection);
+    relateResourceEventTypes.add(SSUEE.renamePrivateCollectionItem);
+    relateResourceEventTypes.add(SSUEE.renameSharedCollectionItem);
+    relateResourceEventTypes.add(SSUEE.structurePrivateCollection);
     //			relateResourceEventTypes.add("structurePrivateCollectionContent");
-    relateResourceEventTypes.add(SSUEEnum.structureSharedCollection);
+    relateResourceEventTypes.add(SSUEE.structureSharedCollection);
     //			relateResourceEventTypes.add("structureSharedCollectionContent");
   }
 }

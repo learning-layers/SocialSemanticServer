@@ -17,14 +17,14 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 
 public class SSEntityUserAllowedIsPar extends SSServPar{
 
   public SSUri               entityUri    = null;
-  public SSEntityRightTypeE  accessRight  = null;
+  public SSCircleRightE  accessRight  = null;
   
   public SSEntityUserAllowedIsPar(final SSServPar par) throws Exception{
     
@@ -34,12 +34,12 @@ public class SSEntityUserAllowedIsPar extends SSServPar{
     
       if(pars != null){
         entityUri       = (SSUri)               pars.get(SSVarU.entityUri);
-        accessRight     = (SSEntityRightTypeE)  pars.get(SSVarU.accessRight);
+        accessRight     = (SSCircleRightE)  pars.get(SSVarU.accessRight);
       }
       
       if(clientPars != null){
         entityUri       = SSUri.get              (clientPars.get(SSVarU.entityUri));
-        accessRight     = SSEntityRightTypeE.get (clientPars.get(SSVarU.accessRight));
+        accessRight     = SSCircleRightE.get (clientPars.get(SSVarU.accessRight));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

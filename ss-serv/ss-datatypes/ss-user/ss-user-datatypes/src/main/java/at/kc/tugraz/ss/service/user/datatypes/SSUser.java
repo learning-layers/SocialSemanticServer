@@ -18,30 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
+ package at.kc.tugraz.ss.service.user.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSUser extends SSEntityA {
 
   public         SSUri           uri     = null;
-  public         SSLabelStr      label   = null;
+  public         SSLabel      label   = null;
   
   public static SSUser get(
-    final SSUri      userUri,
-    final SSLabelStr label) throws Exception{
+    final SSUri    userUri,
+    final SSLabel  label) throws Exception{
     
     return new SSUser(userUri, label);
   }
   
   private SSUser(
     final SSUri      userUri,
-    final SSLabelStr label){
+    final SSLabel label) throws Exception{
     
     super(userUri);
     
@@ -60,11 +60,13 @@ public class SSUser extends SSEntityA {
     return ld;
   }
   
+  /* getters to allow for json enconding  */
+  
   public String getUri(){
     return SSUri.toStr(uri);
   }
 
   public String getLabel(){
-    return SSLabelStr.toStr(label);
+    return SSLabel.toStr(label);
   }
 }

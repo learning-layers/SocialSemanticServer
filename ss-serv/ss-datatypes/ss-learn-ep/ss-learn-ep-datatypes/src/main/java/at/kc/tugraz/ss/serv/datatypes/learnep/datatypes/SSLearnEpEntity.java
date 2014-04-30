@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +34,11 @@ public class SSLearnEpEntity extends SSEntityA {
   public Float  x                 = null;
   public Float  y                 = null;
   
-  public static SSLearnEpEntity get(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y){
+  public static SSLearnEpEntity get(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
     return new SSLearnEpEntity(learnEpEntityUri, entityUri, x, y);
   }
   
-  private SSLearnEpEntity(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y){
+  private SSLearnEpEntity(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
     super(learnEpEntityUri);
     
     this.learnEpEntityUri   = learnEpEntityUri;

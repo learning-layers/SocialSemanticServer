@@ -21,9 +21,9 @@
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
@@ -31,7 +31,7 @@ public class SSTagAddAtCreationTimePar extends SSServPar{
   
   public SSUri        resource     = null;
   public SSTagLabel  tagString    = null;
-  public SSSpaceEnum  space        = null;
+  public SSSpaceE  space        = null;
   public Long         creationTime = null;
   
   
@@ -44,7 +44,7 @@ public class SSTagAddAtCreationTimePar extends SSServPar{
       if(pars != null){
         resource     = (SSUri)       pars.get(SSVarU.resource);
         tagString    = (SSTagLabel) pars.get(SSVarU.tagString);
-        space        = (SSSpaceEnum) pars.get(SSVarU.space);
+        space        = (SSSpaceE) pars.get(SSVarU.space);
         creationTime = (Long)        pars.get(SSVarU.creationTime);
       }
       

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.test.i5cloud;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
@@ -50,6 +50,6 @@ public class SSI5CloudFileUploadTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
 }

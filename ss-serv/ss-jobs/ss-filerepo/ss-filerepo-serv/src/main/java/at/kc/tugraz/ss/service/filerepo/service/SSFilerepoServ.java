@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.filerepo.service;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
@@ -63,6 +63,6 @@ public class SSFilerepoServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityEnum.file);
+    regServForManagingEntities(SSEntityE.file);
   }
 }

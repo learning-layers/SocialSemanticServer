@@ -20,12 +20,11 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import java.util.List;
 
 public interface SSModelUEServerI {
@@ -39,7 +38,7 @@ public interface SSModelUEServerI {
 	public List<String>                       modelUEResourcesAll            (final SSServPar parA)     throws Exception;
 	public List<SSUri>                        modelUEEditors                 (final SSServPar parA)     throws Exception;
 	public SSUri                              modelUEResourceRecent          (final SSServPar parA)     throws Exception;
-	public SSTagLabel                        modelUETopicRecent             (final SSServPar parA)     throws Exception;
+	public String                             modelUETopicRecent             (final SSServPar parA)     throws Exception;
 	
 	public List<SSUri>                        modelUEResourcesContributed    (final SSServPar parA)     throws Exception;
 	public List<SSModelUETopicScore>          modelUETopicScores             (final SSServPar parA)     throws Exception;

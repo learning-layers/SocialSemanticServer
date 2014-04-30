@@ -20,61 +20,27 @@
 */
 package at.kc.tugraz.ss.datatypes.datatypes;
 
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SSLabelStr extends SSEntityA{
+public class SSTextComment extends SSEntityA {
 
-  public static String toStr(final SSLabelStr label){
-    return SSStrU.toString(label);
-  }
-  
-  public static SSLabelStr get(final String str) throws Exception{
-    return new SSLabelStr(str);
-  }
-  
-  public static List<SSLabelStr> get(final List<String> strings) throws Exception{
-
-    final List<SSLabelStr> result = new ArrayList<SSLabelStr>();
+  public static SSTextComment get(final String comment) throws Exception{
     
-    for(String string : strings){
-      result.add(get(string));
+    if(comment == null){
+      return null;
     }
     
-    return result;
+    return new SSTextComment(SSStrU.replaceLineFeedsWithTextualRepr(comment));
   }
-   
-  public static List<SSLabelStr> getDistinct(final List<String> strings) throws Exception{
 
-    final List<SSLabelStr> result = new ArrayList<SSLabelStr>();
-    
-    for(String string : SSStrU.distinct(strings)){
-      result.add(get(string));
-    }
-    
-    return result;
+  private SSTextComment(final String value) throws Exception{
+    super(value);
   }
-  
-  public static Boolean isEmtpy(final SSLabelStr labelStr){
-    
-    if(labelStr == null){
-      return true;
-    }
-    
-    return SSStrU.isEmpty(labelStr.toString());
-  }
-  
-  private SSLabelStr(final String str) throws Exception{
-    super(str);
-  }
-  
+
   @Override
   public Object jsonLDDesc() {
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }
-
-
-//tag.replaceAll("[/\\*\\?<>]", "");

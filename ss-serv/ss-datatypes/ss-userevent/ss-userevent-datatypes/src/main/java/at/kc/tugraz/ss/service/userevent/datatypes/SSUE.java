@@ -20,11 +20,10 @@
 */
  package at.kc.tugraz.ss.service.userevent.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,17 +35,17 @@ public class SSUE extends SSEntityA {
   public         SSUri            uri        = null;
   public         SSUri            user       = null;
   public         SSUri            resource   = null;
-  public         SSUEEnum         type       = null;
+  public         SSUEE         type       = null;
   public         String           content    = null;
   public         Long             timestamp  = -1L;
 
   public static SSUE get(
     final SSUri           uri, 
     final SSUri           user,
-    final SSUEEnum        type,
+    final SSUEE        type,
     final SSUri           resource,
     final String          content,
-    final Long            timestamp){
+    final Long            timestamp) throws Exception{
     
     return new SSUE(uri, user, type, resource, content, timestamp);
   }
@@ -59,16 +58,14 @@ public class SSUE extends SSEntityA {
     ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.resource,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSUEEnum.class.getName());
+    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSUEE.class.getName());
     ld.put(SSVarU.content,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.timestamp,  SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }
 
-  /**
-   * 0 sorts SSUserEventEnum array ascending according to time
-   */
+  /* sorts SSUserEventEnum array ascending according to time */
   public static List<SSUE> sort(final List<SSUE> toSortUserEvents) {
 
     boolean    changedSomething = true;
@@ -114,10 +111,10 @@ public class SSUE extends SSEntityA {
   private SSUE(
     SSUri           uri, 
     SSUri           user,
-    SSUEEnum        type,
+    SSUEE        type,
     SSUri           resource,
     String          content,
-    Long            timestamp) {
+    Long            timestamp) throws Exception{
 
     super(SSStrU.toString(type));
     
@@ -129,7 +126,7 @@ public class SSUE extends SSEntityA {
     this.timestamp  = timestamp;
   }
 
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
@@ -139,7 +136,7 @@ public class SSUE extends SSEntityA {
   }
 
   public String getType(){
-    return SSUEEnum.typeToStr(type);
+    return SSUEE.toStr(type);
   }
 
   public String getResource() throws Exception{

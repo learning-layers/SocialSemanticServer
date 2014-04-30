@@ -23,20 +23,20 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityTypeGetRet extends SSServRetI{
 
-  public SSEntityEnum entityType = null;
+  public SSEntityE entityType = null;
 
-  public static SSEntityTypeGetRet get(SSEntityEnum entityType, SSMethU op){
+  public static SSEntityTypeGetRet get(SSEntityE entityType, SSMethU op){
     return new SSEntityTypeGetRet(entityType, op);
   }
   
-  private SSEntityTypeGetRet(SSEntityEnum entityType, SSMethU op){
+  private SSEntityTypeGetRet(SSEntityE entityType, SSMethU op){
     
     super(op);
     
@@ -48,12 +48,12 @@ public class SSEntityTypeGetRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.entityType, SSVarU.sss + SSStrU.colon + SSEntityEnum.class.getName());
+    ld.put(SSVarU.entityType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     
     return ld;
   }
   
   public String getEntityType() {
-    return SSEntityEnum.toStr(entityType);
+    return SSEntityE.toStr(entityType);
   }
 }

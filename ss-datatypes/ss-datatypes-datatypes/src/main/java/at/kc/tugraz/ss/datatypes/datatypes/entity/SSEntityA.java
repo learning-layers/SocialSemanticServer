@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.datatypes.datatypes;
+package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -36,22 +36,40 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return val;
   }
   
-  protected SSEntityA(final String value){
+  protected SSEntityA(final String value) throws Exception{
+    
+    if(value == null){
+      throw new Exception("pars null");
+    }
+    
     this.val = value;
   }
   
-  protected SSEntityA(final SSEntityA entity){
+  protected SSEntityA(final SSEntityA entity) throws Exception{
     
-    if(SSStrU.isNotEmpty(SSStrU.toString(entity))){
-     this.val = entity.toString();
+    if(entity == null){
+      throw new Exception("pars null");
     }
+    
+    this.val = entity.toString();
   }
   
-  protected SSEntityA(int value){
+  protected SSEntityA(final Integer value) throws Exception{
     
-    if(SSStrU.isNotEmpty(SSStrU.toString(value))){
-     this.val = SSStrU.toString(value);
+    if(value == null){
+      throw new Exception("pars null");
     }
+    
+    this.val = value.toString();
+  }
+  
+  protected SSEntityA(final Double value) throws Exception{
+    
+    if(value == null){
+      throw new Exception("pars null");
+    }
+    
+    this.val = value.toString();
   }
   
 //  public static List<SSEntityA> distinctForUri(List<? extends SSEntityA> entities) throws Exception{
@@ -72,6 +90,25 @@ public abstract class SSEntityA implements SSJSONLDPropI{
 //    return result;
 //  }
   
+  public static List<String> toStr(final List<? extends SSEntityA> toConvert){
+    
+    if(toConvert == null){
+      return new ArrayList<String>();
+    }
+    
+    final List<String> result = new ArrayList<String>();
+    
+    for(SSEntityA entity : toConvert){
+      result.add(toStr(entity));
+    }
+    
+    return result;
+  }
+  
+  public static String toStr(final SSEntityA entity){
+    return SSStrU.toString(entity);
+  }
+  
   public static Boolean contains(
     final List<? extends SSEntityA> entities, 
     final SSEntityA                 entityToContain){
@@ -88,6 +125,26 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     }
     
     return false;
+  }
+  
+  public static Boolean containedInStrList(
+    final List<String> list,
+    final SSEntityA    entity){
+    
+    if(SSObjU.isNull(list, entity)){
+      return false;
+    }
+    
+    return list.contains(entity.toString());
+  }
+  
+  public static Boolean isEmtpy(final SSEntityA entity){
+    
+    if(entity == null){
+      return true;
+    }
+    
+    return SSStrU.isEmpty(entity.toString());
   }
   
   public static void remove(

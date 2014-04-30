@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
@@ -73,6 +73,6 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTest
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
 }

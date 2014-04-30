@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.userevent.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.ArrayList;
@@ -70,6 +70,6 @@ public class SSUEMiscFct {
   }
   
   private static SSUri objUE() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.userEvent.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.userEvent.toString());
   }
 }

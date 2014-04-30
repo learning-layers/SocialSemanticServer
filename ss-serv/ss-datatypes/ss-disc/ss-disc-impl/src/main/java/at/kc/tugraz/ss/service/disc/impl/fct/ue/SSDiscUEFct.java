@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.impl.fct.ue;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUEEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 
@@ -40,14 +40,14 @@ public class SSDiscUEFct {
       SSServCaller.ueAdd(
         par.user,
         par.target,
-        SSUEEnum.discussEntity,
+        SSUEE.discussEntity,
         SSUri.toStr(discUri),
         false);
       
       SSServCaller.ueAdd(
         par.user,
         discUri,
-        SSUEEnum.newDiscussionByDiscussEntity,
+        SSUEE.newDiscussionByDiscussEntity,
         SSUri.toStr(par.target),
         false);
       
@@ -67,7 +67,7 @@ public class SSDiscUEFct {
       SSServCaller.ueAdd(
         par.user,
         par.disc,
-        SSUEEnum.addDiscussionComment,
+        SSUEE.addDiscussionComment,
         SSStrU.empty,
         false);
       

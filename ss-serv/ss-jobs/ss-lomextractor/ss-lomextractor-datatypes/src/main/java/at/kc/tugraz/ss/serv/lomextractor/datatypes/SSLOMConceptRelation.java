@@ -22,8 +22,7 @@ package at.kc.tugraz.ss.serv.lomextractor.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class SSLOMConceptRelation extends SSEntityA{
   public SSLOMConceptRelation(
     String concept, 
     String relation,
-    String lang){
+    String lang) throws Exception{
     
     super(relation + relation);
     

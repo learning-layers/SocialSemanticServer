@@ -21,17 +21,17 @@
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSTagAddPar extends SSServPar{
   
   public SSUri        resource     = null;
   public SSTagLabel   tagString    = null;
-  public SSSpaceEnum  space        = null;
+  public SSSpaceE  space        = null;
   
   public SSTagAddPar(SSServPar par) throws Exception{
     
@@ -42,13 +42,13 @@ public class SSTagAddPar extends SSServPar{
       if(pars != null){
         resource   = (SSUri)       pars.get(SSVarU.resource);
         tagString  = (SSTagLabel)  pars.get(SSVarU.tagString);
-        space      = (SSSpaceEnum) pars.get(SSVarU.space);
+        space      = (SSSpaceE) pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
         resource   = SSUri.get        (clientPars.get(SSVarU.resource));
         tagString  = SSTagLabel.get   (clientPars.get(SSVarU.tagString));
-        space      = SSSpaceEnum.get  (clientPars.get(SSVarU.space));
+        space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
       }
       
     }catch(Exception error){

@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,13 +33,13 @@ public class SSLearnEp extends SSEntityA {
 
   public SSUri       learnEpUri = null;
   public SSUri       user       = null;
-  public SSLabelStr  label      = null;
+  public SSLabel     label      = null;
 
-  public static SSLearnEp get(SSUri user, SSUri learnEpUri, SSLabelStr label){
+  public static SSLearnEp get(SSUri user, SSUri learnEpUri, SSLabel label)throws Exception{
     return new SSLearnEp(user, learnEpUri, label);
   }
   
-  private SSLearnEp(SSUri user, SSUri learnEpUri, SSLabelStr label){
+  private SSLearnEp(SSUri user, SSUri learnEpUri, SSLabel label)throws Exception{
     
     super(learnEpUri);
     
@@ -55,12 +55,12 @@ public class SSLearnEp extends SSEntityA {
     
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.learnEpUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSSpaceEnum.class.getName());
+    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public String getUser() throws Exception {
     return SSUri.toStrWithoutSlash(user);
   }
@@ -70,6 +70,6 @@ public class SSLearnEp extends SSEntityA {
   }
 
   public String getLabel() {
-    return SSLabelStr.toStr(label);
+    return SSLabel.toStr(label);
   }
 }

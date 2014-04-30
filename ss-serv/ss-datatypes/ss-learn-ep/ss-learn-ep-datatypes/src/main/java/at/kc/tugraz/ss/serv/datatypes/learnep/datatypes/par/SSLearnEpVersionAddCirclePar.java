@@ -21,15 +21,15 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionAddCirclePar extends SSServPar{
   
   public SSUri         learnEpVersionUri = null;
-  public SSLabelStr    label             = null;
+  public SSLabel    label             = null;
   public Float         xLabel            = null;
   public Float       yLabel            = null;
   public Float       xR                = null;
@@ -45,7 +45,7 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
       
       if(pars != null){
         learnEpVersionUri = (SSUri) pars.get(SSVarU.learnEpVersionUri);
-        label             = (SSLabelStr) pars.get(SSVarU.label);
+        label             = (SSLabel) pars.get(SSVarU.label);
         xLabel            = (Float)    pars.get(SSVarU.xLabel);
         yLabel            = (Float)    pars.get(SSVarU.yLabel);
         xR                = (Float)    pars.get(SSVarU.xR);
@@ -56,7 +56,7 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
       
       if(clientPars != null){
         learnEpVersionUri = SSUri.get        (clientPars.get(SSVarU.learnEpVersionUri));
-        label             = SSLabelStr.get   (clientPars.get(SSVarU.label));
+        label             = SSLabel.get   (clientPars.get(SSVarU.label));
         xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
         yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
         xR                = Float.parseFloat (clientPars.get(SSVarU.xR));

@@ -23,18 +23,18 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
@@ -204,7 +204,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     try{
       
-      SSServCaller.tagsRemove(null, null, null, SSSpaceEnum.sharedSpace, par.shouldCommit);
+      SSServCaller.tagsRemove(null, null, null, SSSpaceE.sharedSpace, par.shouldCommit);
       
       dataImportFileIn = SSFileU.openFileForRead   (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
       lineReader       = new BufferedReader        (new InputStreamReader(dataImportFileIn));
@@ -241,11 +241,11 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         userLabel   = lineSplit.get   (0);
         timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
         tags        = lineSplit.get   (3);
-        user        = SSServCaller.logUserIn  (SSLabelStr.get(userLabel), false);
+        user        = SSServCaller.logUserIn  (SSLabel.get(userLabel), false);
         tagList     = SSTagLabel.getDistinct  (SSStrU.split(tags, SSStrU.comma));
         tagCounter += tagList.size    ();
 
-        SSServCaller.addTagsAtCreationTime(user, resource, tagList, SSSpaceEnum.sharedSpace, timestamp, par.shouldCommit);
+        SSServCaller.addTagsAtCreationTime(user, resource, tagList, SSSpaceE.sharedSpace, timestamp, par.shouldCommit);
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
 

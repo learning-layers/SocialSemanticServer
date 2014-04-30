@@ -25,8 +25,8 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -61,7 +61,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     
     try{
       selectPars.put(SSSQLVarU.label, locationString);
-      selectPars.put(SSSQLVarU.type,  SSEntityEnum.toStr(SSEntityEnum.location));
+      selectPars.put(SSSQLVarU.type,  SSEntityE.toStr(SSEntityE.location));
       
       tableNames.add  (locationTable);
       tableNames.add  (entityTable);
@@ -313,6 +313,6 @@ public class SSLocationSQLFct extends SSDBSQLFct{
   }
   
   private SSUri objLocation() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.location.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.location.toString());
   } 
 }

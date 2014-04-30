@@ -24,10 +24,10 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUERelationEnum;
 
 public class SSModelUERelation {
 	
-	public String            subject        = null;
-	public String            subjectLabel   = null;
-	public String            object         = null;
-	public String            objectLabel    = null;
+	public String                subject        = null;
+	public String                subjectLabel   = null;
+	public String                object         = null;
+	public String                objectLabel    = null;
 	public SSModelUERelationEnum predicate      = null;
 	
 	public SSModelUERelation(

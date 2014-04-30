@@ -20,14 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.List;
 
 public interface SSEntityHandlerImplI{
@@ -36,24 +34,24 @@ public interface SSEntityHandlerImplI{
 //  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception;
 
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType, 
+    final SSEntityE       entityType, 
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception;
   
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception;
 
   public Boolean setUserEntityPublic(
     final SSUri                    userUri, 
     final SSUri                    entityUri, 
-    final SSEntityEnum             entityType,
+    final SSEntityE             entityType,
     final SSUri                    publicCircleUri) throws Exception;
 
   public Boolean shareUserEntity(
@@ -61,17 +59,17 @@ public interface SSEntityHandlerImplI{
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          circleUri,
-    final SSEntityEnum   entityType) throws Exception;
+    final SSEntityE   entityType) throws Exception;
 
   public Boolean addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception;
+    final SSEntityE entityType) throws Exception;
 
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri, 
     final SSUri         entityUri, 
-    final SSTagLabel    tag, 
-    final SSEntityEnum  entityType) throws Exception;
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception;
 }

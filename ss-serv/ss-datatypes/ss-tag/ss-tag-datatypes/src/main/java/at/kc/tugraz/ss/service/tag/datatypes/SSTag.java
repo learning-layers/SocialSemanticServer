@@ -20,12 +20,11 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.*;
 
 public class SSTag extends SSEntityA {
@@ -33,7 +32,7 @@ public class SSTag extends SSEntityA {
   public  SSUri               uri          = null;
   public  SSUri               resource     = null;
   public  SSUri               user         = null;
-  public  SSSpaceEnum         space        = null;
+  public  SSSpaceE           space        = null;
   public  SSTagLabel         label        = null;
 
   @Override
@@ -44,36 +43,18 @@ public class SSTag extends SSEntityA {
     ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.resource,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceEnum.class.getName());    
+    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());    
     
     return ld;
   } 
     
-  public static List<SSTag> getDistinct(List<String> tags) throws Exception {
-    
-    final List<SSTag> result = new ArrayList<SSTag>();
-    
-    for(String tag : SSStrU.getDistinct(tags)){
-      
-      result.add(
-        get(
-          null,
-          null,
-          null,
-          null,
-          SSTagLabel.get(tag)));
-    }
-    
-    return result;
-  }
-  
   public static SSTag get(
     SSUri       uri      ,
     SSUri       resource ,
     SSUri       user     ,
-    SSSpaceEnum space    ,
-    SSTagLabel  label){
+    SSSpaceE space    ,
+    SSTagLabel  label) throws Exception{
     
     return new SSTag(uri, resource, user, space, label);
   }
@@ -128,8 +109,8 @@ public class SSTag extends SSEntityA {
     SSUri        uri,
     SSUri        resource,
     SSUri        user,
-    SSSpaceEnum  space,
-    SSTagLabel  label){
+    SSSpaceE  space,
+    SSTagLabel   label) throws Exception{
     
     super(label);
     
@@ -141,6 +122,7 @@ public class SSTag extends SSEntityA {
   }
   
   /* getters to allow for json enconding */
+  
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
@@ -154,7 +136,7 @@ public class SSTag extends SSEntityA {
   }
 
   public String getSpace(){
-    return SSSpaceEnum.toStr(space);
+    return SSSpaceE.toStr(space);
   }
 
   public String getLabel(){

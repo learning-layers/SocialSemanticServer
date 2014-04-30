@@ -1,21 +1,20 @@
- /**
-  * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.scaff.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffClientI;
@@ -28,7 +27,6 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEnti
 import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.List;
 
 public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSScaffServerI{
@@ -78,12 +76,11 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     final SSScaffRecommTagsBasedOnUserEntityTagPar par = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
     
-    return SSTag.toDistinctStringArray(
-      SSServCaller.recommTagsLanguageModelBasedOnUserEntityTag(
-        par.user,
-        par.forUserUri,
-        par.entityUri,
-        par.maxTags));
+    return SSServCaller.recommTagsLanguageModelBasedOnUserEntityTag(
+      par.user,
+      par.forUserUri,
+      par.entityUri,
+      par.maxTags);
   }
   
   @Override
@@ -91,27 +88,24 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
     
-    return SSTag.toDistinctStringArray(
-      SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
-        par.user,
-        par.forUserUri,
-        par.entityUri,
-        par.maxTags));
-    
+    return SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
+      par.user,
+      par.forUserUri,
+      par.entityUri,
+      par.maxTags);
   }
   
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTagCategory(final SSServPar parA) throws Exception{
     
     final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
-      
-    return SSTag.toDistinctStringArray(
-      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategory(
-        par.user,
-        par.forUserUri,
-        par.entityUri,
-        par.categories,
-        par.maxTags));
+    
+    return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategory(
+      par.user,
+      par.forUserUri,
+      par.entityUri,
+      par.categories,
+      par.maxTags);
   }
   
   @Override
@@ -119,17 +113,16 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     final SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(parA);
     
-    return SSTag.toDistinctStringArray(
-      SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
-        par.user,
-        par.forUserUri,
-        par.entityUri,
-        par.categories,
-        par.maxTags));
+    return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
+      par.user,
+      par.forUserUri,
+      par.entityUri,
+      par.categories,
+      par.maxTags);
   }
 }
 
-  
+
 //        case collaborativeFilteringOnEntitySimilarityForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsCollaborativeFilteringOnEntitySimilarity(
@@ -137,7 +130,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-//          
+//
 //        case collaborativeFilteringOnUserSimilarityForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsCollaborativeFilteringOnUserSimilarity(
@@ -145,7 +138,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-//          
+//
 //        case adaptedPageRankForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsAdaptedPageRank(
@@ -153,7 +146,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-//          
+//
 //        case folkRankForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsFolkRank(
@@ -161,7 +154,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-//          
+//
 //        case ldaForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsLDA(
@@ -169,7 +162,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
 //              par.forUser,
 //              par.resource,
 //              par.maxTags));
-//          
+//
 //        case temporalUsagePatternsForTags:
 //          return SSTag.toDistinctStringArray(
 //            SSServCaller.recommTagsTemporalUsagePatterns(

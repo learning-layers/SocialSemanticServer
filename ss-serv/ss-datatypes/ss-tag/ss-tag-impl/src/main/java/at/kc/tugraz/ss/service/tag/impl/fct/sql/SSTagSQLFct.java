@@ -25,11 +25,11 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSSpaceEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -59,7 +59,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     try{
       
       whereParNamesWithValues.put(SSSQLVarU.label, tagLabel.toString());
-      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityEnum.tag.toString());
+      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityE.tag.toString());
         
       resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
      
@@ -91,7 +91,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     try{
       
       whereParNamesWithValues.put(SSSQLVarU.label, tagString.toString());
-      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityEnum.tag.toString());
+      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityE.tag.toString());
       
       resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
         
@@ -110,7 +110,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       tagUri, 
     final SSUri       userUri,
     final SSUri       entityUri,
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     if(SSObjU.isNull(tagUri, userUri, entityUri, space)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -135,7 +135,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       userUri, 
     final SSUri       entityUri, 
     final SSUri       tagUri, 
-    final SSSpaceEnum space) throws Exception{
+    final SSSpaceE space) throws Exception{
     
     if(SSObjU.isNull(userUri, entityUri, tagUri, space)){
       return false;
@@ -166,7 +166,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       user,
     final SSUri       entity, 
     final SSTagLabel  tagString, 
-    final SSSpaceEnum tagSpace) throws Exception{
+    final SSSpaceE tagSpace) throws Exception{
     
     final Map<String, String> selectPars = new HashMap<String, String>();
     final Map<String, String> deletePars = new HashMap<String, String>();
@@ -176,7 +176,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     if(tagString != null){
       
       selectPars.put(SSSQLVarU.label,    tagString.toString());
-      selectPars.put(SSSQLVarU.type,     SSEntityEnum.toStr(SSEntityEnum.tag));
+      selectPars.put(SSSQLVarU.type,     SSEntityE.toStr(SSEntityE.tag));
 
       resultSet = dbSQL.selectAllWhere(entityTable, selectPars);
       
@@ -228,7 +228,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       user, 
     final SSUri       entity, 
     final SSTagLabel  tagString, 
-    final SSSpaceEnum tagSpace) throws Exception{
+    final SSSpaceE tagSpace) throws Exception{
     
     final Map<String, String> whereParsAndValues = new HashMap<String, String>();
     final List<SSTag>         tagAsss            = new ArrayList<SSTag>();
@@ -301,7 +301,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
   public List<SSUri> getEntitiesForTagLabel(
     final SSUri       user, 
     final SSTagLabel tagString, 
-    final SSSpaceEnum tagSpace) throws Exception{
+    final SSSpaceE tagSpace) throws Exception{
     
     if(!existsTagLabel(tagString)){
       return new ArrayList<SSUri>();
@@ -316,7 +316,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     whereParNamesWithValues.put(SSSQLVarU.tagId,    SSUri.toStr            (tagURI));
     
     if(tagSpace != null){
-      whereParNamesWithValues.put(SSSQLVarU.tagSpace, SSSpaceEnum.toStr (tagSpace));
+      whereParNamesWithValues.put(SSSQLVarU.tagSpace, SSSpaceE.toStr (tagSpace));
     }
     
     if(user != null){
@@ -348,6 +348,6 @@ public class SSTagSQLFct extends SSDBSQLFct{
   }
    
   private SSUri objTag() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.tag.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.tag.toString());
   }
 }

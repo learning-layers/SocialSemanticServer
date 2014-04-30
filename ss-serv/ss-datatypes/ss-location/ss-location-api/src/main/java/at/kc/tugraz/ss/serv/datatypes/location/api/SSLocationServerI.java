@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.serv.datatypes.location.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
 

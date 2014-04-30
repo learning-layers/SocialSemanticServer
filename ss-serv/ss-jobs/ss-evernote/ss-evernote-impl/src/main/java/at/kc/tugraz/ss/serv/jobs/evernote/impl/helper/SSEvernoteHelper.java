@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
@@ -40,7 +40,7 @@ public class SSEvernoteHelper {
     this.uriHelper   = new SSEvernoteUriHelper   ();
   }
   
-  public Boolean isSharedNootebook(SSUri notebookUri, SSLabelStr userName, Notebook notebook) {
+  public Boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
     return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
   }
 
@@ -59,7 +59,7 @@ public class SSEvernoteHelper {
     return sharedNotebookGuids;
   }
 
-  public SSLabelStr getUserName(SSEvernoteInfo evernoteInfo) throws Exception{
-    return SSLabelStr.get(evernoteInfo.userStore.getUser().getUsername());
+  public SSLabel getUserName(SSEvernoteInfo evernoteInfo) throws Exception{
+    return SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
   }
 }

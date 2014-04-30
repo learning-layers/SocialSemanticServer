@@ -24,8 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -156,7 +156,7 @@ public void deleteRatingAss(
       return null;
     }
     
-    Integer                 ratingValue  = 0;
+    Double                  ratingValue  = 0d;
     int                     counter      = 0;
     HashMap<String, String> selectPars   = new HashMap<String, String>();
     ResultSet               resultSet    = null;
@@ -189,7 +189,7 @@ public void deleteRatingAss(
   }
   
   private SSUri objRating() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.rating.toString());
+    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.rating.toString());
   }  
 }
 

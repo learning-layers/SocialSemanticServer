@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.*;
 
@@ -34,14 +34,14 @@ public class SSColl extends SSEntityA{
 	public  List<SSCollEntry>               entries     = new ArrayList<SSCollEntry>();
 	public  SSUri                           author      = null;
 	public  String                          label       = null;
-	public  List<SSEntityCircleTypeE> circleTypes = new ArrayList<SSEntityCircleTypeE>();
+	public  List<SSCircleE>       circleTypes = new ArrayList<SSCircleE>();
 	
   public static SSColl get(
     SSUri                           uri    ,
     List<SSCollEntry>               entries,
     SSUri                           author ,
     String                          label  ,
-    List<SSEntityCircleTypeE> circleTypes){
+    List<SSCircleE> circleTypes) throws Exception{
     
     return new SSColl(uri, entries, author, label, circleTypes);
   }
@@ -51,7 +51,7 @@ public class SSColl extends SSEntityA{
     List<SSCollEntry>               entries,
     SSUri                           author ,
     String                          label  ,
-    List<SSEntityCircleTypeE> circleTypes){
+    List<SSCircleE>       circleTypes) throws Exception{
 
     super(uri);
     
@@ -68,7 +68,7 @@ public class SSColl extends SSEntityA{
     }
   }
 
-  public SSColl(){
+  private SSColl() throws Exception{
     super(SSStrU.empty);
   }
     
@@ -86,7 +86,7 @@ public class SSColl extends SSEntityA{
     
     ld.put(SSVarU.entries, entriesObj);
     
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircleTypeE.class.getName());
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
@@ -102,6 +102,7 @@ public class SSColl extends SSEntityA{
   }
   
   /* getters to allow for json enconding */
+  
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }
@@ -118,23 +119,7 @@ public class SSColl extends SSEntityA{
     return label;
   }
 
-  public List<SSEntityCircleTypeE> getCircleTypes(){
+  public List<SSCircleE> getCircleTypes(){
     return circleTypes;
-  }
-  
-  //  public boolean isPrivate(){
-//    return SSSpaceEnum.isPrivate(space);
-//  }
-//  
-//  public boolean isShared(){
-//    return SSSpaceEnum.isShared(space);
-//  }
-//  
-//  public boolean isSharedOrFollowed(){
-//    return SSSpaceEnum.isSharedOrFollow(space);
-//  }
-  
-//  public boolean isFollowed(){
-//    return SSSpaceEnum.isFollowed(space);
-//  }
+  }  
 }

@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.test.api;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -43,7 +43,7 @@ public abstract class SSServOverallTestCaseA extends SSServImplStartA{
     //TODO dtheiler: fix this
 //    SSServCaller.removeAllEntities();
     
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
   
   protected void tearDown() throws Exception{

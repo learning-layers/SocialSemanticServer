@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class SSEvernoteUriHelper {
   
-  public SSUri getNormalOrSharedNotebookUri(SSLabelStr userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
+  public SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
     
     try{
      
@@ -48,7 +48,7 @@ public class SSEvernoteUriHelper {
     return getNotebookDefaultUri(notebook);
   }
   
-  public Boolean isSharedNotebookUri(SSLabelStr userName, Notebook notebook, SSUri notebookUri){
+  public Boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
     
     String sharedNotebookUriStr;
     
@@ -83,7 +83,7 @@ public class SSEvernoteUriHelper {
     return SSUri.get(evernoteInfo.shardUri + "res/" + resource.getGuid());
   }
   
-  private String createSharedNotebookUriStr(SSLabelStr userName, Notebook notebook) throws Exception{
+  private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws Exception{
     
     //TODO dtheiler: check evernote environment to use here
     return SSLinkU.httpsEvernote + "pub/" + SSStrU.toString(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)

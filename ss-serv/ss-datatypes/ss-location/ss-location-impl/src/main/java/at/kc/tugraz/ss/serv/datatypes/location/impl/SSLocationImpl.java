@@ -22,16 +22,16 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
@@ -48,8 +48,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClientI, SSLocationServerI, SSEntityHandlerImplI{
@@ -68,18 +66,18 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   /* SSEntityHandlerImplI */
   
   @Override
-  public List<SSUri> searchWithTagWithin(
+  public List<SSUri> searchWithKeywordWithin(
     final SSUri         userUri,
     final SSUri         entityUri,
-    final SSTagLabel    tag,
-    final SSEntityEnum  entityType) throws Exception{
+    final String        keyword,
+    final SSEntityE     entityType) throws Exception{
 
     return null;
   }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityEnum                                  entityType,
+    final SSEntityE                                  entityType,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
     
     if(!par.removeUserLocations){
@@ -102,7 +100,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityEnum   entityType,
+    final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -114,7 +112,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityEnum   entityType) throws Exception{
+    final SSEntityE   entityType) throws Exception{
     
     return false;
   }
@@ -124,24 +122,24 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityEnum entityType) throws Exception{
+    final SSEntityE entityType) throws Exception{
     
     return false;
   }  
     
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityEnum    entityType,
+    final SSEntityE       entityType,
     final SSUri           userUri, 
     final SSUri           entityUri, 
-    final SSLabelStr      label,
+    final SSLabel         label,
     final Long            creationTime,
-    final List<SSTag>     tags, 
-    final SSRatingOverall overallRating,
+    final List<String>    tags, 
+    final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception{
     
-    if(!SSEntityEnum.equals(entityType, SSEntityEnum.location)){
+    if(!SSEntityE.equals(entityType, SSEntityE.location)){
       SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris,author);
     }
     
@@ -149,7 +147,10 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
         entityUri,
         label,
         creationTime, 
-        author);
+        author, 
+        overallRating, 
+        tags, 
+        discUris);
   }
   
   /* SSLocationClientI */
@@ -218,15 +219,15 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       SSServCaller.entityAdd(
         par.user,
         locationUri,
-        SSLabelStr.get(par.location),
-        SSEntityEnum.location,
+        SSLabel.get(par.location),
+        SSEntityE.location,
         false);
       
       SSServCaller.entityAdd(
         par.user,
         par.entityUri,
-        SSLabelStr.get(SSStrU.empty),
-        SSEntityEnum.entity,
+        SSLabel.get(SSStrU.empty),
+        SSEntityE.entity,
         false);
       
       if(!existsLocation){

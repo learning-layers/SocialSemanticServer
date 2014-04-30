@@ -22,17 +22,20 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircleTypeE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityRightTypeE;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +85,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      return SSEntityCircleTypeE.equals(sqlFct.getCircleType(circleUri), SSEntityCircleTypeE.group);
+      return SSCircleE.equals(sqlFct.getCircleType(circleUri), SSCircleE.group);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -102,9 +105,9 @@ public class SSEntityMiscFct{
   }
 
   private static Boolean isGroupCircle(
-    final SSEntityCircleTypeE circleType){
+    final SSCircleE circleType){
     
-    return SSEntityCircleTypeE.equals(circleType, SSEntityCircleTypeE.group);
+    return SSCircleE.equals(circleType, SSCircleE.group);
   }
 
   public static void checkWhetherUsersExist(
@@ -127,7 +130,7 @@ public class SSEntityMiscFct{
   }
 
   public static void checkWhetherCircleIsGroupCircle(
-    final SSEntityCircleTypeE circleType) throws Exception{
+    final SSCircleE circleType) throws Exception{
     
     try{
       
@@ -269,8 +272,8 @@ public class SSEntityMiscFct{
   public static SSUri createCircleWithRights(
     final SSEntitySQLFct          sqlFct,
     final SSUri                   circleAuthor,
-    final SSEntityCircleTypeE     circleType,
-    final SSLabelStr              circleLabel) throws Exception{
+    final SSCircleE     circleType,
+    final SSLabel              circleLabel) throws Exception{
     
     try{
       
@@ -284,7 +287,7 @@ public class SSEntityMiscFct{
         circleAuthor,
         circleUri,
         circleLabel,
-        SSEntityEnum.circle,
+        SSEntityE.circle,
         false);
       
       switch(circleType){
@@ -317,8 +320,8 @@ public class SSEntityMiscFct{
         SSServCaller.entityAdd(
           userUri,
           entityUri,
-          SSLabelStr.get(SSUri.toStr(entityUri)),
-          SSEntityEnum.entity,
+          SSLabel.get(SSUri.toStr(entityUri)),
+          SSEntityE.entity,
           false);
       }
     }catch(Exception error){
@@ -338,9 +341,9 @@ public class SSEntityMiscFct{
         throw new Exception("pars null");
       }
             
-      final SSEntityEnum entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
       
-      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+      if(SSEntityE.equals(entityType, SSEntityE.entity)){
         return;
       }
       
@@ -368,9 +371,9 @@ public class SSEntityMiscFct{
         throw new Exception("pars null");
       }
       
-      final SSEntityEnum entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
       
-      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+      if(SSEntityE.equals(entityType, SSEntityE.entity)){
         return;
       }
       
@@ -403,9 +406,9 @@ public class SSEntityMiscFct{
       
       for(SSUri entityUri : entityUris){
         
-        final SSEntityEnum entityType = SSServCaller.entityTypeGet(entityUri);
+        final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
         
-        if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+        if(SSEntityE.equals(entityType, SSEntityE.entity)){
           continue;
         }
         
@@ -428,21 +431,21 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static List<SSEntityRightTypeE> getCircleRights(
-    final SSEntityCircleTypeE circleType) throws Exception{
+  public static List<SSCircleRightE> getCircleRights(
+    final SSCircleE circleType) throws Exception{
     
     try{
       
-      final List<SSEntityRightTypeE> circleRights = new ArrayList<SSEntityRightTypeE>();
+      final List<SSCircleRightE> circleRights = new ArrayList<SSCircleRightE>();
       
       if(SSObjU.isNull(circleType)){
         throw new Exception("pars null");
       }
       
       switch(circleType){
-        case priv: circleRights.add(SSEntityRightTypeE.all);  break;
-        case pub:  circleRights.add(SSEntityRightTypeE.read); break;
-        default:   circleRights.add(SSEntityRightTypeE.read); circleRights.add(SSEntityRightTypeE.edit);
+        case priv: circleRights.add(SSCircleRightE.all);  break;
+        case pub:  circleRights.add(SSCircleRightE.read); break;
+        default:   circleRights.add(SSCircleRightE.read); circleRights.add(SSCircleRightE.edit);
       }
       
       return circleRights;
@@ -452,27 +455,27 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static List<SSUri> searchWithTagWithinByEntityHandlers(
+  public static List<SSUri> searchWithKeywordWithinByEntityHandlers(
     final SSUri      userUri, 
     final SSUri      entityUri, 
-    final SSTagLabel tag) throws Exception{
+    final String     keyword) throws Exception{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUri, tag)){
+      if(SSObjU.isNull(userUri, entityUri, keyword)){
         throw new Exception("pars null");
       }
       
-      final SSEntityEnum entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE    entityType = SSServCaller.entityTypeGet(entityUri);
       List<SSUri>        entityUris;
       
-      if(SSEntityEnum.equals(entityType, SSEntityEnum.entity)){
+      if(SSEntityE.equals(entityType, SSEntityE.entity)){
         return new ArrayList<SSUri>();
       }
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
-        entityUris = ((SSEntityHandlerImplI) serv.serv()).searchWithTagWithin(userUri, entityUri, tag, entityType);
+        entityUris = ((SSEntityHandlerImplI) serv.serv()).searchWithKeywordWithin(userUri, entityUri, keyword, entityType);
         
         if(!SSObjU.isNull(entityUris)){
           return entityUris;
@@ -480,6 +483,64 @@ public class SSEntityMiscFct{
       }
       
       throw new Exception("entity couldnt be searched within by entity handlers");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  public static SSEntityDescA getDescForEntityByEntityHandlers(
+    final SSUri           userUri,
+    final SSEntity        entity,
+    final List<String>    tags,
+    final SSRatingOverall overallRating,
+    final List<SSUri>     discUris) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entity, tags, overallRating, discUris)){
+        throw new Exception("pars null");
+      }
+      
+      SSEntityDescA result = 
+        SSEntityDesc.get(
+            entity.uri,
+            entity.label,
+            entity.creationTime,
+            tags,
+            overallRating,
+            discUris,
+            entity.author);
+      
+      switch(entity.type){
+        
+        case entity: return result;
+        
+        default:{
+          
+          for(SSServA serv : SSServA.getServsManagingEntities()){
+            
+            result =
+              ((SSEntityHandlerImplI) serv.serv()).getDescForEntity(
+                entity.type,
+                userUri,
+                entity.uri,
+                entity.label,
+                entity.creationTime,
+                tags,
+                overallRating,
+                discUris,
+                entity.author);
+            
+            if(!SSEntityE.equals(result.entityDescType, SSEntityE.entityDesc)){
+              break;
+            }
+          }
+          
+          return result;
+        }
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

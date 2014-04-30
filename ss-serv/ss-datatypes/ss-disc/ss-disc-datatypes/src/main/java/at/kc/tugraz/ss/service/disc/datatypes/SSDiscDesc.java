@@ -20,75 +20,36 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityDescA;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import java.util.ArrayList;
-import java.util.HashMap;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import java.util.List;
-import java.util.Map;
 
 public class SSDiscDesc extends SSEntityDescA{
 
-  public List<SSTag>     tags          = new ArrayList<SSTag>();
-  public SSRatingOverall overallRating = null;
-  
   public SSDiscDesc(
-    final SSUri           entityUri, 
-    final SSLabelStr      entityLabel, 
-    final Long            creationTime, 
-    final List<SSTag>     tags,
-    final SSRatingOverall overallRating,
-    final SSUri           author){
+    final SSUri            entityUri, 
+    final SSLabel          entityLabel, 
+    final Long             creationTime, 
+    final List<String>     tags,
+    final SSEntityA        overallRating,
+    final SSUri            author,
+    final List<SSUri>      discs) throws Exception{
     
-    super(entityUri, entityLabel, creationTime, SSEntityEnum.disc, SSEntityEnum.discDesc, author);
-    
-    if(tags != null){
-      this.tags.addAll(tags);
-    }
-
-    this.overallRating = overallRating;
+    super(entityUri, entityLabel, creationTime, SSEntityE.disc, SSEntityE.discDesc, author, overallRating, tags, discs);
   }
   
   public static SSDiscDesc get(
     final SSUri           entityUri, 
-    final SSLabelStr      entityLabel, 
-    final Long            entityCreationTime, 
-    final List<SSTag>     tags,
-    final SSRatingOverall overallRating,
-    final SSUri           author){
+    final SSLabel         entityLabel, 
+    final Long            creationTime, 
+    final List<String>    tags,
+    final SSEntityA       overallRating,
+    final SSUri           author,
+    final List<SSUri>     discs) throws Exception{
     
-    return new SSDiscDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, author);
-  }
-  
-@Override
-  public Object jsonLDDesc(){
-    
-    Map<String, Object> jsonLDDesc = (Map<String, Object>) super.jsonLDDesc();
-    Map<String, Object> tagsObj    = new HashMap<String, Object>();
-    
-    tagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTag.class.getName());
-    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    jsonLDDesc.put(SSVarU.tags,      tagsObj);
-    
-    jsonLDDesc.put(SSVarU.overallRating,  SSVarU.sss + SSStrU.colon + SSRatingOverall.class.getName());
-    
-    return jsonLDDesc;
-  }
-  
-  /*************** getters to allow for json enconding ********************/
-  public List<SSTag> getTags(){
-    return tags;
-  }
-
-  public SSRatingOverall getOverallRating(){
-    return overallRating;
+    return new SSDiscDesc(entityUri, entityLabel, creationTime, tags, overallRating, author, discs);
   }
 }

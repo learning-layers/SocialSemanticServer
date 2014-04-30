@@ -20,18 +20,18 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityEnum;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEditorsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEMIsForEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEModelRelationsPar;
@@ -63,7 +63,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     this.resources = resources;
   }
 
-  /****** SSModelUserEventClientI ******/
+  /* SSModelUserEventClientI  */
   
   @Override
   public void modelUEResourceDetails(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -89,7 +89,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(par), par.op));
   }
   
-  /****** SSModelUEServerI ******/
+  /* SSModelUEServerI  */
   
   @Override
   public SSModelUEResourceDetailsRet modelUEResourceDetails(SSServPar parI) throws Exception {
@@ -123,7 +123,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     if(resource != null){
       
-      if(SSEntityEnum.isUser(resource.type)){
+      if(SSEntityE.isUser(resource.type)){
         
         result.addAll(resource.personsRelatedPersons);
         result.addAll(resource.relatedPersons);
@@ -267,9 +267,9 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   }
   
   @Override
-  public SSTagLabel modelUETopicRecent(SSServPar parI) throws Exception {
+  public String modelUETopicRecent(SSServPar parI) throws Exception {
     
-    SSModelUETopicRecentPar par = new SSModelUETopicRecentPar(parI);
+    final SSModelUETopicRecentPar par = new SSModelUETopicRecentPar(parI);
     
     if(SSObjU.isNull(par.resource)){
       return null;

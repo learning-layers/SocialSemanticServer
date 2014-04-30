@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.test.serv.coll;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLabelStr;
-import at.kc.tugraz.ss.datatypes.datatypes.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -43,7 +43,7 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     final List<SSUri>       entries      = new ArrayList<SSUri>(); 
-    final List<SSLabelStr>  entryLabels  = new ArrayList<SSLabelStr>(); 
+    final List<SSLabel>  entryLabels  = new ArrayList<SSLabel>(); 
     final SSColl            rootColl     = SSServCaller.collUserRootGet      (userUri);
     final SSColl            rootCollAfterAddingEntries;
     
@@ -51,9 +51,9 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
     entries.add(SSUri.get("http://test.uri/hugo.pdf"));
     entries.add(SSUri.get("http://test.uri/hugo.csv"));
     
-    entryLabels.add(SSLabelStr.get("first entry"));
-    entryLabels.add(SSLabelStr.get("second entry"));
-    entryLabels.add(SSLabelStr.get("third entry"));
+    entryLabels.add(SSLabel.get("first entry"));
+    entryLabels.add(SSLabel.get("second entry"));
+    entryLabels.add(SSLabel.get("third entry"));
         
     SSServCaller.collUserEntriesAdd(userUri, rootColl.uri, entries, entryLabels, false, true);
     
@@ -85,6 +85,6 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabelStr.get("dt"), true);
+    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
   }
 }
