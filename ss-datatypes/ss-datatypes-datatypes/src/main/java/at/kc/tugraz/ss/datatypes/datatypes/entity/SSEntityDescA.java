@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,13 +79,13 @@ public abstract class SSEntityDescA extends SSEntityA{
     final Map<String, Object> tagsObj  = new HashMap<String, Object>();
     final Map<String, Object> discsObj = new HashMap<String, Object>();
     
-    tagsObj.put("@id",        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    tagsObj.put("@container", "@set");
+    tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
     ld.put(SSVarU.tags,      tagsObj);
     
-    discsObj.put("@id",        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    discsObj.put("@container", "@set");
+    discsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
     ld.put(SSVarU.discs,      discsObj);
     

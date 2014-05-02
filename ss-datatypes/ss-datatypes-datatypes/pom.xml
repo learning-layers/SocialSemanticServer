@@ -31,8 +31,8 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.util</groupId>
-      <artifactId>ss-util</artifactId>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-jsonld-util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
