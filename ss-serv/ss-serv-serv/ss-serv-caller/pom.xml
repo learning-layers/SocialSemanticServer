@@ -19,6 +19,12 @@
   <dependencies>
   
     <dependency>
+      <groupId>at.kc.tugraz.ss.activity</groupId>
+      <artifactId>ss-activity-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-solr-datatypes</artifactId>
       <version>${project.version}</version>

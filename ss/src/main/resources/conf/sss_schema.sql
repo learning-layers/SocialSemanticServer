@@ -18,6 +18,102 @@ USE `sss`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `activity`
+--
+
+DROP TABLE IF EXISTS `activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activity` (
+  `activityId` varchar(100) NOT NULL,
+  `activityType` varchar(100) NOT NULL,
+  `textComment` varchar(5000) NOT NULL,
+  PRIMARY KEY (`activityId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activity`
+--
+
+LOCK TABLES `activity` WRITE;
+/*!40000 ALTER TABLE `activity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `activitysourceentities`
+--
+
+DROP TABLE IF EXISTS `activitysourceentities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activitysourceentities` (
+  `activityId` varchar(100) NOT NULL,
+  `entityId` varchar(100) NOT NULL,
+  PRIMARY KEY (`activityId`,`entityId`),
+  CONSTRAINT `activityIdactivitysourceentities` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activitysourceentities`
+--
+
+LOCK TABLES `activitysourceentities` WRITE;
+/*!40000 ALTER TABLE `activitysourceentities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activitysourceentities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `activitytargetentities`
+--
+
+DROP TABLE IF EXISTS `activitytargetentities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activitytargetentities` (
+  `activityId` varchar(100) NOT NULL,
+  `entityId` varchar(100) NOT NULL,
+  PRIMARY KEY (`activityId`,`entityId`),
+  CONSTRAINT `activityIdactivitytargetentities` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activitytargetentities`
+--
+
+LOCK TABLES `activitytargetentities` WRITE;
+/*!40000 ALTER TABLE `activitytargetentities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activitytargetentities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `activityusers`
+--
+
+DROP TABLE IF EXISTS `activityusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activityusers` (
+  `activityId` varchar(100) NOT NULL,
+  `userId` varchar(100) NOT NULL,
+  PRIMARY KEY (`activityId`,`userId`),
+  CONSTRAINT `activityIdactivityusers` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activityusers`
+--
+
+LOCK TABLES `activityusers` WRITE;
+/*!40000 ALTER TABLE `activityusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activityusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `circle`
 --
 
@@ -781,4 +877,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-02 12:42:14
+-- Dump completed on 2014-05-02 15:12:48

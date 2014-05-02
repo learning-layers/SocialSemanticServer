@@ -154,10 +154,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public void addEntityIfNotExists(
-    SSUri        entityUri,
-    SSEntityA    label,
-    SSEntityE entityType,
-    SSUri        authorUri) throws Exception{
+    final SSUri        entityUri,
+    final SSEntityA    label,
+    final SSEntityE    entityType,
+    final SSUri        authorUri) throws Exception{
     
     if(entityUri == null){
       throw new Exception("pars null");

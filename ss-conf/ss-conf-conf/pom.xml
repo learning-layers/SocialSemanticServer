@@ -19,6 +19,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>at.kc.tugraz.ss.activity</groupId>
+      <artifactId>ss-activity-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv.job.i5cloud</groupId>
       <artifactId>ss-i5cloud-conf</artifactId>
       <version>${project.version}</version>

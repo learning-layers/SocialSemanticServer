@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.log.conf.SSLogConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
+import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
@@ -78,6 +79,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSEntityConf        entityConf         = null;
   private SSCollConf          collConf           = null;
   private SSLocationConf      locationConf       = null;
+  private SSActivityConf      activityConf       = null;
   private SSUEConf            ueConf             = null;
   private SSRatingConf        ratingConf         = null;
   private SSTagConf           tagConf            = null;
@@ -280,6 +282,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setLocationConf(SSLocationConf locationConf) {
     this.locationConf = locationConf;
+  }
+  
+  public SSActivityConf getActivityConf() {
+    return activityConf;
+  }
+
+  public void setActivityConf(SSActivityConf activityConf) {
+    this.activityConf = activityConf;
   }
   
   public SSUEConf getUeConf(){

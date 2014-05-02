@@ -259,7 +259,10 @@ public enum SSMethU{
   //i5cloud
   i5CloudAuth,
   i5CloudFileUpload,
-  i5CloudFileDownload;
+  i5CloudFileDownload,
+  
+  //activity
+  activityAdd;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

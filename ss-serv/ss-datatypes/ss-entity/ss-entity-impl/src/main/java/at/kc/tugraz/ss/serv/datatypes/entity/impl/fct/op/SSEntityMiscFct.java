@@ -22,10 +22,13 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
@@ -556,6 +559,34 @@ public class SSEntityMiscFct{
       if(SSUri.contains(userUrisToShareWith, userUri)){
         throw new Exception("user cannot share with himself");
       }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void saveActivity(
+    final SSServPar     parA,
+    final SSActivityE   type, 
+    final List<SSUri>   userUris,
+    final SSUri         entityUri, 
+    final List<SSUri>   targetEntityUris, 
+    final SSTextComment comment) throws Exception{
+    
+    try{
+
+      if(!parA.saveActivity){
+        return;
+      }
+      
+      SSServCaller.activityAdd(
+        parA.user, 
+        type, 
+        userUris, 
+        entityUri, 
+        targetEntityUris, 
+        comment, 
+        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

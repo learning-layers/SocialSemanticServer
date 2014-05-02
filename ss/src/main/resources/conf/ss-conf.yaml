@@ -181,3 +181,7 @@ dataImportConf:
   executeOpAtStartUp: false
   op: #testDataImportEvernote
   fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
+activityConf:
+  use: true
+  executeOpAtStartUp: false
+  op:  

@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.serv.serv.caller;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -2070,6 +2072,40 @@ public class SSServCaller {
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudFileDownload, opPars));
   } 
+
+  /* activity */
+  
+  public static SSUri activityAdd(
+    final SSUri          userUri, 
+    final SSActivityE    type, 
+    final List<SSUri>    userUris, 
+    final SSUri          sourceEntityUri, 
+    final List<SSUri>    targetEntityUris,
+    final SSTextComment  textComment, 
+    final Boolean        shouldCommit) throws Exception{
+   
+    final Map<String, Object>  opPars           = new HashMap<String, Object>();
+    final List<SSUri>          sourceEntityUris = new ArrayList<SSUri>();
+    final List<SSTextComment>  textComments     = new ArrayList<SSTextComment>();
+    
+    if(sourceEntityUri != null){
+      sourceEntityUris.add(sourceEntityUri);
+    }
+    
+    if(textComment != null){
+      textComments.add(textComment);
+    }
+    
+    opPars.put(SSVarU.user,             userUri);
+    opPars.put(SSVarU.type,             type);
+    opPars.put(SSVarU.userUris,         userUris);
+    opPars.put(SSVarU.sourceEntityUris, sourceEntityUris);
+    opPars.put(SSVarU.targetEntityUris, targetEntityUris);
+    opPars.put(SSVarU.textComments,     textComments);
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityAdd, opPars));
+  }
 }
 
 

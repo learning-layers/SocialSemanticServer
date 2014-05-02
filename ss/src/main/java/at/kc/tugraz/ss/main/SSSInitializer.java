@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.main;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -93,6 +94,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSDiscServ.inst.initServ          (SSCoreConf.instGet().getDiscConf());
       SSLearnEpServ.inst.initServ       (SSCoreConf.instGet().getLearnEpConf());
       SSLocationServ.inst.initServ      (SSCoreConf.instGet().getLocationConf());
+      SSActivityServ.inst.initServ      (SSCoreConf.instGet().getActivityConf());
       
       /**** jobs ****/
       SSSearchServ.inst.initServ        (SSCoreConf.instGet().getSearchConf());

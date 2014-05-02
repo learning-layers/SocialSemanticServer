@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
@@ -65,7 +66,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesT
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityUsersGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCreateRet;
@@ -73,7 +73,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCirclesGe
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -86,6 +85,8 @@ import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithKeywordWithinPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -916,10 +917,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           SSUri.get(SSUserGlobals.systemUserURI),
           false);
       
-      if(par.comment != null){
-        //TODO dtheiler: work on comment
-      }
-      
       for(SSUri userUriToShareWith : par.userUris){
         
         SSServCaller.collUserShareWithUser(
@@ -929,12 +926,20 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           circleUri,
           false);
       }
-      
+
       SSEntityMiscFct.shareByEntityHandlers(
         par.user,
         par.userUris,
         par.entityUri,
         circleUri);
+      
+      SSEntityMiscFct.saveActivity(
+        par,
+        SSActivityE.share,
+        par.userUris,
+        par.entityUri,
+        new ArrayList<SSUri>(),
+        par.comment);
       
       dbSQL.commit(par.shouldCommit);
       

@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String comment                                        = "comment";
+  public static final String textComments                                   = "textComments";
   public static final String tagLabels                                      = "tagLabels";
   public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
   public static final String collCircleUri                                  = "collCircleUri";
@@ -32,6 +34,8 @@ public class SSVarU{
   public static final String circleUri                                      = "circleUri";
   public static final String circleType                                     = "circleType";
   public static final String userUris                                       = "userUris";
+  public static final String sourceEntityUris                               = "sourceEntityUris";
+  public static final String targetEntityUris                               = "targetEntityUris";
   public static final String entityCircleUri                                = "entityCircleUri";
   public static final String entityUris                                     = "entityUris";
   public static final String username                                       = "username";
@@ -240,6 +244,7 @@ public class SSVarU{
   public static final String collectionEntry                                = "collectionEntry";
   public static final String shouldCommit                                   = "shouldCommit";
   public static final String saveUE                                         = "saveUE";
+  public static final String saveActivity                                   = "saveActivity";
   public static final String key                                            = "key";
   public static final String type                                           = "type";
   public static final String userRating                                     = "userRating";
