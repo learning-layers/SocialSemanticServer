@@ -32,7 +32,7 @@ public abstract class SSServOverallTestCaseA extends SSServImplStartA{
   
   protected       SSUri               userUri;
   
-  public SSServOverallTestCaseA(final SSServConfA conf) throws Exception{
+  public SSServOverallTestCaseA(final SSServConfA conf){
     super(conf);
   }
 

@@ -20,22 +20,23 @@
 */
 package at.kc.tugraz.ss.test.serv.learnep;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 
-public class SSLearnEpTester{
+public class SSLearnEpTester extends Thread{
   
-  public static void run() throws Exception{
+  @Override
+  public void run(){
     
-    SSLearnEpConf learnEpConf = (SSLearnEpConf) SSLearnEpServ.inst.servConf;
+    final SSLearnEpConf learnEpConf = (SSLearnEpConf) SSLearnEpServ.inst.servConf;
     
     if(!learnEpConf.executeOpAtStartUp){
       return;
-    }      
-    
-    if(SSMethU.equals(learnEpConf.op, SSMethU.testServOverall)){
-      new Thread(new SSLearnEpOverallTest(learnEpConf)).start();
     }
-  }  
+    
+    switch(learnEpConf.op){
+      case testServOverall:                new Thread(new SSLearnEpOverallTest                (learnEpConf)).start(); break;
+      case learnEpVersionSetTimelineState: new Thread(new SSLearnEpVersionSetTimelineStateTest(learnEpConf)).start(); break;
+    }
+  }
 }

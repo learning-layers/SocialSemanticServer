@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.main;
 import at.kc.tugraz.ss.test.i5cloud.SSI5CloudTester;
 import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
+import at.kc.tugraz.ss.test.serv.learnep.SSLearnEpTester;
 import at.kc.tugraz.ss.test.serv.scaff.SSScaffTester;
 
 public class SSTester extends Thread{
@@ -34,10 +35,11 @@ public class SSTester extends Thread{
       new SSEntityTester().start();
       new SSScaffTester().start();
       new SSI5CloudTester().start();
+      new SSLearnEpTester().start();
       
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
-//    SSLearnEpTester.run();
+
 //    SSEvernoteTester.run();
 //    SSCollTester.run();
 //    SSLoadTester.run(false);

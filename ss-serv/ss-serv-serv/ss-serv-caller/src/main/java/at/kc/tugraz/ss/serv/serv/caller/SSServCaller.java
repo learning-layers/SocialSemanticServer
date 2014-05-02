@@ -62,6 +62,8 @@ import java.util.Map;
 
 public class SSServCaller {
   
+  /* learn ep */
+  
   public static SSUri createLearnEp(SSUri userUri, SSLabel label, SSSpaceE space, Boolean shouldCommit) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
@@ -158,29 +160,22 @@ public class SSServCaller {
     }
   }
   
-  public static SSUri setLearnEpVersionTimelineState(
-    SSUri   userUri,
-    SSUri   learnEpVersionUri,
-    Long    startTime,
-    Long    endTime,
-    Boolean shouldCommit) throws Exception{
+  public static SSUri learnEpVersionSetTimelineState(
+    final SSUri   userUri,
+    final SSUri   learnEpVersionUri,
+    final Long    startTime,
+    final Long    endTime,
+    final Boolean shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    SSUri               result = null;
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.shouldCommit,      shouldCommit);
-      opPars.put(SSVarU.user,              userUri);
-      opPars.put(SSVarU.learnEpVersionUri, learnEpVersionUri);
-      opPars.put(SSVarU.startTime,         startTime);
-      opPars.put(SSVarU.endTime,           endTime);
-      
-      result = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionSetTimelineState, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.shouldCommit,      shouldCommit);
+    opPars.put(SSVarU.user,              userUri);
+    opPars.put(SSVarU.learnEpVersionUri, learnEpVersionUri);
+    opPars.put(SSVarU.startTime,         startTime);
+    opPars.put(SSVarU.endTime,           endTime);
     
-    return result;
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionSetTimelineState, opPars));
   }
   
   public static SSUri createLearnEpVersion(SSUri userUri, SSUri learnEpUri, Boolean shouldCommit) throws Exception{

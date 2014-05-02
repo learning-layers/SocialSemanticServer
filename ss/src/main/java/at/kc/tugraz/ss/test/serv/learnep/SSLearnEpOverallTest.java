@@ -33,7 +33,7 @@ import java.util.List;
 
 public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
   
-  public SSLearnEpOverallTest(SSLearnEpConf conf) throws Exception {
+  public SSLearnEpOverallTest(SSLearnEpConf conf){
     super(conf);
   }
   
@@ -81,7 +81,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSUri learnEpVersionTimelineStateUri = 
-      SSServCaller.setLearnEpVersionTimelineState(
+      SSServCaller.learnEpVersionSetTimelineState(
       userUri, 
       learnEpVersionUri, 
       SSDateU.dateAsLong(), 
