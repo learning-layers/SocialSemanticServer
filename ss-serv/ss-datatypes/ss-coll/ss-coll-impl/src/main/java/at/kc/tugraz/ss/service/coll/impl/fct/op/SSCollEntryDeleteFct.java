@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -28,33 +29,44 @@ import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 public class SSCollEntryDeleteFct{
   
   public static Boolean removeColl(
-    final SSCollSQLFct             sqlFct, 
+    final SSCollSQLFct             sqlFct,
     final SSCollUserEntryDeletePar par) throws Exception{
     
-    switch(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry)){
+    try{
       
-      case priv:{
-        
-        //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
-        
-        sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
-        
-        SSCollUEFct.collUserDeleteColl(par);
-        
-        break;
+      if(sqlFct.isSpecialColl(par.collEntry)){
+        throw new Exception("cant delete special collection");
       }
       
-      default:{
+      switch(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry)){
         
-        //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+        case priv:{
           
-        sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
+          //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+          
+          sqlFct.removeUserPrivateCollAndUnlinkSubColls(par.user, par.collEntry);
+          
+          SSCollUEFct.collUserDeleteColl(par);
+          
+          break;
+        }
         
-        SSCollUEFct.collUserUnSubscribeColl(par);
+        default:{
+          
+          //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+          
+          sqlFct.unlinkUserCollAndSubColls(par.user, par.coll, par.collEntry);
+          
+          SSCollUEFct.collUserUnSubscribeColl(par);
+        }
       }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return true;
   }
 
   public static void removeCollEntry(

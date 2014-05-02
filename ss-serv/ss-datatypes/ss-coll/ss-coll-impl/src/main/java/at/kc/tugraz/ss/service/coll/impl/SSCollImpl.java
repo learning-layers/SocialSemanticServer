@@ -77,7 +77,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
-import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollUserShareWithUserFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
@@ -144,25 +143,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          circleUri,
-    final SSEntityE   entityType) throws Exception{
+    final SSEntityE      entityType) throws Exception{
 
-    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
-      return false;
-    }
-    
     try{
-      
-      for(SSUri userUriToShareWith : userUrisToShareWith){
-        
-        SSServCaller.collUserShareWithUser(
-          userUri,
-          userUriToShareWith,
-          entityUri,
-          circleUri,
-          false);
-      }
-      
-      return true;
+      return false;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -367,7 +351,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
 
     final SSCollUserRootAddPar par = new SSCollUserRootAddPar(parA);
-    final SSUri                rootCollUri;
 
     try{
 
@@ -377,7 +360,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       dbSQL.startTrans(par.shouldCommit);
 
-      rootCollUri = sqlFct.createCollURI();
+      final SSUri rootCollUri = sqlFct.createCollURI();
 
       SSServCaller.entityAdd(
         par.user,
@@ -385,8 +368,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         SSLabel.get(SSStrU.valueRoot),
         SSEntityE.coll,
         false);
-
-      sqlFct.createColl(rootCollUri);
+      
+      sqlFct.createColl (rootCollUri);
 
       SSServCaller.entityCircleCreate(
         par.user,
@@ -402,8 +385,24 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         SSServCaller.entityCircleURIPublicGet(),
         par.user,
         false);
-
-      sqlFct.addUserRootColl(rootCollUri, par.user);
+      
+      sqlFct.addRootColl(
+        rootCollUri, 
+        par.user);
+      
+      final SSUri sharedWithMeFilesCollUri =
+        SSServCaller.collUserEntryAdd(
+          par.user,
+          rootCollUri,
+          null,
+          SSLabel.get(SSStrU.valueSharedWithMeFiles),
+          true,
+          false,
+          false);
+      
+      sqlFct.addSpecialColl(
+        sharedWithMeFilesCollUri,
+        par.user);
 
       dbSQL.commit(par.shouldCommit);
 
@@ -478,10 +477,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       if(!SSServCaller.entityUserCanRead(par.user, par.collEntry)){
         throw new Exception("user cannot delete this coll entry");
       }
-
+      
       dbSQL.startTrans(par.shouldCommit);
 
       if(sqlFct.isColl(par.collEntry)){
+        
         SSCollEntryDeleteFct.removeColl(sqlFct, par);
       }else{
         SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
@@ -611,46 +611,57 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollUserShareWithUserPar par = new SSCollUserShareWithUserPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.collUri)){
-        throw new Exception("user cannot share this coll");
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entityUri)){
+        throw new Exception("user cannot share this entity");
       }
-
-      final SSUri rootCollUri = SSServCaller.collUserRootGet(par.userUriToShareWith).uri;
-
-      if(rootCollUri == null){
-        throw new Exception("user to share coll with doesnt exist");
-      }
-
-      if(!sqlFct.isColl(par.collUri)){
-        throw new Exception("to share coll isnt a coll");
-      }
-
-      if(
-        sqlFct.containsEntry (rootCollUri, par.collUri) ||
-        sqlFct.ownsUserColl  (par.userUriToShareWith, par.collUri)){
-        throw new Exception("coll is already shared with user");
-      }
-
-      if(sqlFct.ownsUserASubColl(par.userUriToShareWith, par.collUri)){
-        throw new Exception("a sub coll is already shared with user");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSCollUserShareWithUserFct.addCollToRootColl                           (sqlFct, par, rootCollUri);
-      SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(
-        sqlFct, 
-        par.user, 
-        sqlFct.getCollWithEntries(
-          par.collUri, 
-          new ArrayList<SSCircleE>()), 
-        par.collCircleUri);
       
-      SSCollUserShareWithUserFct.addCollUsersToSharedCircle                   (sqlFct, par);
+      if(sqlFct.isColl(par.entityUri)){
+        
+        final SSUri rootCollUri = SSServCaller.collUserRootGet (par.userUriToShareWith).uri;
+        
+        if(sqlFct.isSpecialColl(par.entityUri)){
+          throw new Exception("cannot share special collection");
+        }
+        
+        if(
+          sqlFct.containsEntry (rootCollUri, par.entityUri) ||
+          sqlFct.ownsUserColl  (par.userUriToShareWith, par.entityUri)){
+          throw new Exception("coll is already shared with user");
+        }
+        
+        if(sqlFct.ownsUserASubColl(par.userUriToShareWith, par.entityUri)){
+          throw new Exception("a sub coll is already shared with user");
+        }
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSCollMiscFct.shareCollWithUser(
+          sqlFct, 
+          par.user, 
+          par.userUriToShareWith,
+          rootCollUri,
+          par.entityUri, 
+          par.entityCircleUri);
+        
+      }else{
+        
+        final SSUri sharedWithMeFilesCollUri  = sqlFct.getSpecialCollUri (par.userUriToShareWith);
+       
+        if(sqlFct.containsEntry (sharedWithMeFilesCollUri, par.entityUri)){
+          throw new Exception("entity is already shared with user");
+        }
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSCollMiscFct.shareEntityWithUser(
+          sqlFct, 
+          sharedWithMeFilesCollUri, 
+          par.entityUri);
+      }
 
       dbSQL.commit(par.shouldCommit);
 
-      return par.collUri;
+      return par.entityUri;
 
     }catch(SSSQLDeadLockErr deadLockErr){
 
@@ -677,6 +688,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       if(!SSServCaller.entityUserCanAll(par.user, par.collUri)){
         throw new Exception("user is not allowed to set coll public");
+      }
+      
+      if(sqlFct.isSpecialColl(par.collUri)){
+        throw new Exception("cannot set special collection public");
       }
 
       dbSQL.startTrans(par.shouldCommit);

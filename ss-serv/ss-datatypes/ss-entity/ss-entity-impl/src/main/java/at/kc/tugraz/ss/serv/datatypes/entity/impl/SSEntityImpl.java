@@ -901,7 +901,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
       
-      SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entityUri);
+      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entityUri);
+      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.userUris);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -917,6 +918,16 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(par.comment != null){
         //TODO dtheiler: work on comment
+      }
+      
+      for(SSUri userUriToShareWith : par.userUris){
+        
+        SSServCaller.collUserShareWithUser(
+          par.user,
+          userUriToShareWith,
+          par.entityUri,
+          circleUri,
+          false);
       }
       
       SSEntityMiscFct.shareByEntityHandlers(

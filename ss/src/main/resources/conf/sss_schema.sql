@@ -190,6 +190,30 @@ LOCK TABLES `collroot` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `collspecial`
+--
+
+DROP TABLE IF EXISTS `collspecial`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `collspecial` (
+  `collId` varchar(100) NOT NULL,
+  `userId` varchar(100) NOT NULL,
+  PRIMARY KEY (`collId`),
+  CONSTRAINT `collIdFKcollspecial` FOREIGN KEY (`collId`) REFERENCES `coll` (`collId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `collspecial`
+--
+
+LOCK TABLES `collspecial` WRITE;
+/*!40000 ALTER TABLE `collspecial` DISABLE KEYS */;
+/*!40000 ALTER TABLE `collspecial` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `colluser`
 --
 
@@ -757,4 +781,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-25 14:43:27
+-- Dump completed on 2014-05-02 12:42:14

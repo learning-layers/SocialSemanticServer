@@ -34,6 +34,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   circleEntitiesTable                 = "circleentities";
   protected static final String   collTable                           = "coll";
   protected static final String   collRootTable                       = "collroot";
+  protected static final String   collSpecialTable                    = "collspecial";
   protected static final String   collEntryPosTable                   = "collentrypos";
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";

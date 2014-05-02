@@ -62,46 +62,138 @@ public class SSCollSQLFct extends SSDBSQLFct{
     return collUri;
   }
   
-  public void addUserRootColl(
-    final SSUri rootCollUri, 
-    final SSUri userUri) throws Exception{
-    
-    if(SSObjU.isNull(rootCollUri, userUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return;
-    }
-    
-    final Map<String, String> insertPars = new HashMap<String, String>();
-        
-    //add coll to coll root table
-    insertPars.put(SSSQLVarU.userId, userUri.toString());
-    insertPars.put(SSSQLVarU.collId, rootCollUri.toString());
-    
-    dbSQL.insert(collRootTable, insertPars);
-    
-    //add coll to user coll table
-    insertPars.clear();
-    insertPars.put(SSSQLVarU.userId,    userUri.toString());
-    insertPars.put(SSSQLVarU.collId,    rootCollUri.toString());
-    
-    dbSQL.insert(collUserTable, insertPars);
-  }
-  
-  public Boolean isRootColl(final SSUri entityUri) throws Exception{
-    
-    if(SSObjU.isNull(entityUri)){
-      SSServErrReg.regErrThrow(new Exception("entityUri null"));
-      return null;
-    }
-        
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.collId, entityUri.toString());
+  public void addRootColl(
+    final SSUri   collUri, 
+    final SSUri   userUri) throws Exception{
     
     try{
-      resultSet = dbSQL.selectAllWhere(collRootTable, whereParNamesWithValues);
+      
+      if(SSObjU.isNull(collUri, userUri)){
+        throw new Exception("pars null");
+      }
+
+      final Map<String, String> insertPars = new HashMap<String, String>();
+
+      //add coll to coll root table
+      insertPars.put(SSSQLVarU.userId, userUri.toString());
+      insertPars.put(SSSQLVarU.collId, collUri.toString());
+      
+      dbSQL.insert(collRootTable, insertPars);
+      
+      //add coll to user coll table
+      
+      insertPars.clear();
+      insertPars.put(SSSQLVarU.userId,    userUri.toString());
+      insertPars.put(SSSQLVarU.collId,    collUri.toString());
+      
+      dbSQL.insert(collUserTable, insertPars);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+   public Boolean isRootColl(
+    final SSUri collUri) throws Exception{
+    
+    ResultSet  resultSet               = null;
+    
+    try{
+      
+      if(SSObjU.isNull(collUri)){
+        throw new Exception("pars null");
+      }
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.collId, collUri.toString());
+      
+      resultSet = dbSQL.selectAllWhere(collRootTable, where);
+      
       return resultSet.first();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  //TODO dtheiler: special coll could be merged with root coll table
+  public void addSpecialColl(
+    final SSUri   collUri, 
+    final SSUri   userUri) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(collUri, userUri)){
+        throw new Exception("pars null");
+      }
+
+      final Map<String, String> insertPars = new HashMap<String, String>();
+
+      //add coll to special coll table
+      insertPars.put(SSSQLVarU.userId, userUri.toString());
+      insertPars.put(SSSQLVarU.collId, collUri.toString());
+      
+      dbSQL.insert(collSpecialTable, insertPars);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public Boolean isSpecialColl(
+    final SSUri collUri) throws Exception{
+    
+    ResultSet  resultSet               = null;
+    
+    try{
+      
+      if(SSObjU.isNull(collUri)){
+        throw new Exception("pars null");
+      }
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.collId, collUri.toString());
+      
+      resultSet = dbSQL.selectAllWhere(collSpecialTable, where);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+   public SSUri getSpecialCollUri(
+     final SSUri userUri) throws Exception{
+    
+     ResultSet  resultSet               = null;
+     
+     try{
+      
+      if(SSObjU.isNull(userUri)){
+        throw new Exception("pars null");
+      }
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where.put(SSSQLVarU.userId, userUri.toString());
+      
+      resultSet = dbSQL.selectAllWhere(collSpecialTable, where);
+      
+      if(!resultSet.first()){
+        throw new Exception("special coll doesnt exist for user");
+      }
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.collId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -135,10 +227,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
   
   public void addEntryToColl(
     final SSUri      collParent, 
-    final SSUri      collEntry, 
-    final SSLabel entryLabel) throws Exception{
+    final SSUri      collEntry) throws Exception{
     
-    if(SSObjU.isNull(collParent, collEntry, entryLabel)){
+    if(SSObjU.isNull(collParent, collEntry)){
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return;
     }

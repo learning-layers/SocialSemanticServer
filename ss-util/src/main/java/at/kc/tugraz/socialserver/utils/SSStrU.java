@@ -99,6 +99,7 @@ public class SSStrU{
   public  static final String        valueDouble                              = "double";
   public  static final String        valueDotDot                              = "..";
   public  static final String        valueRoot                                = "root";
+  public  static final String        valueSharedWithMeFiles                   = "SharedWithMeFiles";
   public  static final String        valueCollRootCircle                      = "collRootCircle";
   
   public static int lastIndexOf(final String string, final String what){
