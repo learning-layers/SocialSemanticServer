@@ -343,10 +343,6 @@ public class SSEntityMiscFct{
             
       final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
       
-      if(SSEntityE.equals(entityType, SSEntityE.entity)){
-        return;
-      }
-      
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
         if(((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType)){
@@ -354,7 +350,6 @@ public class SSEntityMiscFct{
         }
       }
       
-      throw new Exception("entity couldnt be shared through entity handlers");
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -545,6 +540,25 @@ public class SSEntityMiscFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+
+  public static void checkWhetherUserWantsToShareWithHimself(
+    final SSUri       userUri, 
+    final List<SSUri> userUrisToShareWith) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, userUrisToShareWith)){
+        throw new Exception("pars null");
+      }
+      
+      if(SSUri.contains(userUrisToShareWith, userUri)){
+        throw new Exception("user cannot share with himself");
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

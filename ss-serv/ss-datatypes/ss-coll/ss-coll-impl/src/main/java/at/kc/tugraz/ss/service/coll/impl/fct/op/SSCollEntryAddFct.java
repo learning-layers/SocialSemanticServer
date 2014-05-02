@@ -116,7 +116,7 @@ public class SSCollEntryAddFct{
       SSEntityE.entity,
       false);
     
-    sqlFct.addEntryToColl(par.coll, par.collEntry, par.collEntryLabel);
+    sqlFct.addEntryToColl(par.coll, par.collEntry);
     
     for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       

@@ -718,16 +718,16 @@ public class SSServCaller {
   public static SSUri collUserShareWithUser(
     final SSUri    userUri, 
     final SSUri    userUriToShareWith, 
-    final SSUri    collUri, 
-    final SSUri    collCircleUri, 
+    final SSUri    entityUri, 
+    final SSUri    entityCircleUri, 
     final Boolean  shouldCommit) throws Exception{
   
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,               userUri);
     opPars.put(SSVarU.userUriToShareWith, userUriToShareWith);
-    opPars.put(SSVarU.collUri,            collUri);
-    opPars.put(SSVarU.collCircleUri,      collCircleUri);
+    opPars.put(SSVarU.entityUri,          entityUri);
+    opPars.put(SSVarU.entityCircleUri,    entityCircleUri);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserShareWithUser, opPars)); 

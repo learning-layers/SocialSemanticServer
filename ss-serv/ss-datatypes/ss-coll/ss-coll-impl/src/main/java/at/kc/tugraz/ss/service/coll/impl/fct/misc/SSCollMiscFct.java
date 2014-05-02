@@ -1,23 +1,12 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
+ * Code contributed to the Learning Layers project http://www.learning-layers.eu Development is partly funded by the FP7 Programme of the European Commission under Grant Agreement FP7-ICT-318209. Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute). For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ * 
+* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+ * 
 * http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * 
+* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
@@ -32,91 +21,149 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSCollMiscFct{
-  
+
   public static SSColl getCollWithEntriesWithCircleTypes(
     final SSCollSQLFct sqlFct,
-    final SSUri        userUri,
-    final SSUri        collUri) throws Exception{
-    
+    final SSUri userUri,
+    final SSUri collUri) throws Exception{
+
     try{
-      
-      final SSColl coll =
-        sqlFct.getCollWithEntries(
+
+      final SSColl coll
+        = sqlFct.getCollWithEntries(
           collUri,
           SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
-      
+
       for(SSCollEntry entry : coll.entries){
         entry.circleTypes.clear();
         entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.uri));
       }
-      
+
       return coll;
-      
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-  
+
   public static void addCollAndSubCollsWithEntriesToCircle(
-    final SSCollSQLFct               sqlFct,
-    final SSUri                      userUri,
-    final SSColl                     startColl,
-    final SSUri                      circleUri) throws Exception{
-    
+    final SSCollSQLFct sqlFct,
+    final SSUri userUri,
+    final SSColl startColl,
+    final SSUri circleUri) throws Exception{
+
     try{
       SSServCaller.entityEntitiesToCircleAdd(
         userUri,
         circleUri,
         getCollSubCollAndEntryURIs(sqlFct, startColl),
         false);
-      
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-  
+
   public static List<SSUri> getCollSubCollAndEntryURIs(
-    final SSCollSQLFct  sqlFct,
-    final SSColl        startColl) throws Exception{
-    
+    final SSCollSQLFct sqlFct,
+    final SSColl startColl) throws Exception{
+
     try{
-      
+
       if(SSObjU.isNull(startColl)){
         throw new Exception("pars null");
       }
-      
-      final List<String>  subCollUris          = new ArrayList<String>();
-      final List<SSUri>   collAndCollEntryUris = new ArrayList<SSUri>();
-      
+
+      final List<String> subCollUris = new ArrayList<String>();
+      final List<SSUri> collAndCollEntryUris = new ArrayList<SSUri>();
+
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.uri);
-      
+
       for(SSCollEntry collEntry : startColl.entries){
         collAndCollEntryUris.add(collEntry.uri);
       }
-      
+
       //add all coll sub coll und entry uris
       sqlFct.getAllChildCollURIs(SSUri.toStr(startColl.uri), SSUri.toStr(startColl.uri), subCollUris);
-      
+
       for(String subCollUri : subCollUris){
-        
+
         if(!SSUri.contains(collAndCollEntryUris, SSUri.get(subCollUri))){
           collAndCollEntryUris.add(SSUri.get(subCollUri));
         }
-        
+
         for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSCircleE>()).entries){
-          
+
           if(!SSUri.contains(collAndCollEntryUris, collEntry.uri)){
             collAndCollEntryUris.add(collEntry.uri);
           }
         }
       }
-      
+
       return collAndCollEntryUris;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+
+  public static void shareCollWithUser(
+    final SSCollSQLFct sqlFct,
+    final SSUri userUri,
+    final SSUri userUriToShareWith,
+    final SSUri rootCollUri,
+    final SSUri collUri,
+    final SSUri circleUri) throws Exception{
+
+    try{
+
+      if(SSObjU.isNull(sqlFct, userUri, userUriToShareWith, rootCollUri, collUri, circleUri)){
+        throw new Exception("pars null");
+      }
+      
+      sqlFct.addCollToUserColl(
+        userUriToShareWith,
+        rootCollUri,
+        collUri,
+        false,
+        true);
+
+      addCollAndSubCollsWithEntriesToCircle(
+        sqlFct,
+        userUri,
+        sqlFct.getCollWithEntries(
+          collUri,
+          new ArrayList<SSCircleE>()),
+        circleUri);
+
+      SSServCaller.entityUsersToCircleAdd(
+        userUri,
+        circleUri,
+        sqlFct.getCollUsers(collUri),
+        false);
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void shareEntityWithUser(
+    final SSCollSQLFct sqlFct, 
+    final SSUri        sharedWithMeFilesCollUri,
+    final SSUri        entityUri) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(sqlFct, sharedWithMeFilesCollUri, entityUri)){
+        throw new Exception("pars null");
+      }
+      
+      sqlFct.addEntryToColl(sharedWithMeFilesCollUri, entityUri);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }
