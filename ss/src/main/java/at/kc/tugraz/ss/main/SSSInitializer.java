@@ -66,16 +66,20 @@ public class SSSInitializer extends SSServImplStartA{
   public void run(){
     
     try{
+
+      /**** vocabulary ****/
+      SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
       
       /**** utils ****/
       SSMimeTypeU.init();
-      SSJSONLDU.init                    (SSCoreConf.instGet().getJsonLDConf().uri);
+      
+      SSJSONLDU.init(
+        SSCoreConf.instGet().getJsonLDConf().uri,
+        SSCoreConf.instGet().getVocConf().app, 
+        SSCoreConf.instGet().getVocConf().space);
 
       /**** local work serv ****/
       SSLocalWorkServ.inst.initServ     (SSCoreConf.instGet().getLocalWorkConf());
-      
-      /**** vocabulary ****/
-      SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
       
       /**** json-ld ****/
       SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());

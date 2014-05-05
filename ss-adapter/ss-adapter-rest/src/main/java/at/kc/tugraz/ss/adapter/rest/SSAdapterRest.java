@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import com.sun.jersey.multipart.FormDataParam;
 import java.io.IOException;
@@ -65,7 +64,6 @@ public class SSAdapterRest{
     
     /**** utils ****/
     SSMimeTypeU.init();
-    SSJSONLDU.init  (SSAdapterRestConf.instGet().getJsonLDConf().uri);
     
     /**** json-ld ****/
 //    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());

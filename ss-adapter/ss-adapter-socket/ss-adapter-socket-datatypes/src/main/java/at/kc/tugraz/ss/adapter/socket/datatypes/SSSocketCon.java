@@ -78,9 +78,11 @@ public class SSSocketCon{
     this.testOut             = new OutputStreamWriter(clientSocket.getOutputStream(), SSEncodingU.utf8);
   }
   
-  public String prepErrorToClient(List<SSErrForClient> errors, SSMethU op) throws Exception{
+  public String prepErrorToClient(
+    final List<SSErrForClient> errors, 
+    final SSMethU              op) throws Exception{
     
-    Map<String, Object> ret    = new HashMap<String, Object>();
+    final Map<String, Object> ret    = new HashMap<String, Object>();
     
     ret.put(SSVarU.op,                      SSMethU.toStr(op));
     ret.put(SSVarU.error,                   true);

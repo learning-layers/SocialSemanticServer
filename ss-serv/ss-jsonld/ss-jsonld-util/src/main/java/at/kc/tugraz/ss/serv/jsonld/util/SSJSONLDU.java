@@ -36,9 +36,17 @@ public class SSJSONLDU {
   public static final String set       = "@set";
 
   private static String jsonLDUri; 
+  private static String app; 
+  private static String space; 
   
-  public static void init(final String jsonLDServUri){
+  public static void init(
+    final String jsonLDServUri, 
+    final String application, 
+    final String appSpace){
+    
     jsonLDUri = jsonLDServUri;
+    app       = application;
+    space     = appSpace;
   }
   
   public static Map<String, Object> jsonLDContext() throws Exception{
@@ -66,6 +74,8 @@ public class SSJSONLDU {
     jsonLDContext.put(SSVarU.op,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     jsonLDContext.put(SSVarU.error,    SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     jsonLDContext.put(SSVarU.errorMsg, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    jsonLDContext.put(SSVarU.app,      app);
+    jsonLDContext.put(SSVarU.space,    space);
 
     return jsonLDContext;
   }

@@ -223,6 +223,7 @@ public class SSVarU{
   public static final String xC                                             = "xC";
   public static final String yC                                             = "yC";
   public static final String space                                          = "space";
+  public static final String app                                            = "app";
   public static final String tagSet                                         = "tagSet";
   public static final String collEntryLabel                                 = "collEntryLabel";
   public static final String parentColl                                     = "parentColl";
