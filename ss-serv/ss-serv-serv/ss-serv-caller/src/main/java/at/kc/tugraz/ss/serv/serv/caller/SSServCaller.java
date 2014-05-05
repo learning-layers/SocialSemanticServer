@@ -1478,8 +1478,8 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
   }
   
-  public static List<SSUri> userAll() throws Exception{
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
+  public static List<SSUser> userAll() throws Exception{
+    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
   }
   
   public static List<SSUser> usersGet(

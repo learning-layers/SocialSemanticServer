@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,16 +40,16 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
       }
       
       SSServCaller.dataExportUserEntityTags(
-        user,
+        user.uri,
         tagsPerEntities,
         fileName,
         false);
@@ -75,9 +76,9 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -87,9 +88,9 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagTimestamps(
-        user,
+        user.uri,
         tagsPerEntities,
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.uri, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -116,9 +117,9 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -128,7 +129,7 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagCategories(
-        user,
+        user.uri,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
         fileName,
@@ -157,9 +158,9 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -169,10 +170,10 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
-        user,
+        user.uri,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.uri, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       

@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -89,7 +88,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityE   entityType,
+    final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -250,7 +249,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public List<SSUri> userAll(final SSServPar parA) throws Exception {
+  public List<SSUser> userAll(final SSServPar parA) throws Exception {
     return sqlFct.userAll();
   }
 

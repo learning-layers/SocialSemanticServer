@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSUser extends SSEntityA {
 
-  public         SSUri           uri     = null;
+  public         SSUri        uri     = null;
   public         SSLabel      label   = null;
   
   public static SSUser get(

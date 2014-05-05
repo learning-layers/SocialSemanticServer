@@ -25,28 +25,29 @@ import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSUserAllRet extends SSServRetI{
-
-  public List<SSUri> users = new ArrayList<SSUri>();
-
+  
+  public List<SSUser> users = new ArrayList<SSUser>();
+  
   public static SSUserAllRet get(
-    final List<SSUri> users, 
-    final SSMethU     op){
+    final List<SSUser> users,
+    final SSMethU      op){
+    
     return new SSUserAllRet(users, op);
   }
   
   private SSUserAllRet(
-    final List<SSUri> users, 
-    final SSMethU     op){
+    final List<SSUser> users,
+    final SSMethU      op){
     
     super(op);
-
+    
     if(users != null){
       this.users.addAll(users);
     }
@@ -55,10 +56,10 @@ public class SSUserAllRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> usersObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> usersObj   = new HashMap<String, Object>();
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUser.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.users, usersObj);
@@ -68,7 +69,7 @@ public class SSUserAllRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   
-  public List<String> getUsers(){
-    return SSUri.toStrWithoutSlash(users);
+  public List<SSUser> getUsers(){
+    return users;
   }
 }

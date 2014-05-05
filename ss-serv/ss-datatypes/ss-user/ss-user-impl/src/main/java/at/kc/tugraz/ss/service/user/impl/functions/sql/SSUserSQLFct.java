@@ -47,20 +47,24 @@ public class SSUserSQLFct extends SSDBSQLFct{
     return SSUri.get(objUser().toString() + userLabel);
   }
 
-  public List<SSUri> userAll() throws Exception {
+  public List<SSUser> userAll() throws Exception {
     
-    final List<SSUri> users                            = new ArrayList<SSUri>();
-    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
-    ResultSet                 resultSet                = null;
+    ResultSet resultSet = null;
     
     try{
+      final List<SSUser>        users                    = new ArrayList<SSUser>();
+      final Map<String, String> where  = new HashMap<String, String>();
       
-      whereParNamesWithValues.put(SSSQLVarU.type, SSEntityE.user.toString());
+      where.put(SSSQLVarU.type, SSEntityE.user.toString());
       
-      resultSet = dbSQL.selectAllWhere(entityTable, whereParNamesWithValues);
-
+      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      
       while(resultSet.next()){
-        users.add(bindingStrToUri(resultSet, SSSQLVarU.id));
+        
+        users.add(
+          SSUser.get(
+            bindingStrToUri   (resultSet, SSSQLVarU.id),
+            bindingStrToLabel (resultSet, SSSQLVarU.label)));
       }
       
       return users;
