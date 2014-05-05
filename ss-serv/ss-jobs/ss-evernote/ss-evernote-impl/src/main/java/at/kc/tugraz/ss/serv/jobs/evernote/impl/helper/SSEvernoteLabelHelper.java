@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -30,68 +31,93 @@ import com.evernote.edam.type.Resource;
 
 public class SSEvernoteLabelHelper {
   
-  public SSEvernoteLabelHelper() {
-  }
-  
-  public SSLabel getNormalOrSharedNotebookLabel(SSUri notebookUri, Notebook notebook) throws Exception{
+  public static SSLabel getNormalOrSharedNotebookLabel(
+    final SSUri    notebookUri, 
+    final Notebook notebook) throws Exception{
     
     try{
-      return SSLabel.get(notebook.getName());
-    }catch(Exception error){
-      return getDefaultLabel(notebookUri);
-    }
-  }
-  
-  public SSLabel getLinkedNotebookLabel(LinkedNotebook linkedNotebook, SSUri notebookUri) throws Exception {
-    
-    try{
-      return SSLabel.get(linkedNotebook.getShareName());
-    }catch(Exception error){
-      return getDefaultLabel(notebookUri);
-    }
-  }
-  
-  public SSLabel getLinkedNoteLabel(Note note, SSUri noteUri) throws Exception {
-    
-    try{
-      return SSLabel.get(note.getTitle());
-    }catch(Exception error){
-      return getDefaultLabel(noteUri);
-    }
-  }
-  
-  public SSLabel getNoteLabel(Note note, SSUri noteUri) throws Exception {
-    
-    try{
-      return SSLabel.get(note.getTitle());
-    }catch(Exception error){
-      return getDefaultLabel(noteUri);
-    }
-  }
-  
-  public SSLabel getResourceLabel(Resource resource, SSUri resourceUri) throws Exception{
-    
-    if(resource == null){
-      return null;
-    }
-    
-    if(
-      resource.getAttributes() == null ||
-      SSStrU.isEmpty(resource.getAttributes().getFileName())){
-      return getDefaultLabel(resourceUri);
-    }
-    
-    return SSLabel.get(resource.getAttributes().getFileName());
-  }
-  
-  private SSLabel getDefaultLabel(SSUri noteUri) throws Exception{
-          
-    return SSLabel.get(SSStrU.empty);
+      final SSLabel tmpLabel = SSLabel.get(notebook.getName());
 
-//    if(noteUri ==  null){
-//      return null;
-//    }
-//    
-//    return SSLabelStr.get(SSStrU.toString(noteUri));
+      if(tmpLabel == null){
+        return getDefaultLabel();
+      }else{
+        return tmpLabel;
+      }
+    }catch(Exception error){
+      return getDefaultLabel();
+    }
+  }
+  
+  public static SSLabel getLinkedNotebookLabel(
+    final LinkedNotebook linkedNotebook,
+    final SSUri          notebookUri) throws Exception{
+    
+    try{
+      final SSLabel tmpLabel = SSLabel.get(linkedNotebook.getShareName());
+      
+      if(tmpLabel == null){
+        return getDefaultLabel();
+      }else{
+        return tmpLabel;
+      }
+    }catch(Exception error){
+      return getDefaultLabel();
+    }
+  }
+  
+  public static SSLabel getLinkedNoteLabel(
+    final Note  note,
+    final SSUri noteUri) throws Exception {
+    
+    try{
+      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
+      
+      if(tmpLabel == null){
+        return getDefaultLabel();
+      }else{
+        return tmpLabel;
+      }
+    }catch(Exception error){
+      return getDefaultLabel();
+    }
+  }
+  
+  public static SSLabel getNoteLabel(
+    final Note  note, 
+    final SSUri noteUri) throws Exception {
+    
+    try{
+      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
+      
+      if(tmpLabel == null){
+        return getDefaultLabel();
+      }else{
+        return tmpLabel;
+      }
+    }catch(Exception error){
+      return getDefaultLabel();
+    }
+  }
+  
+  public static SSLabel getResourceLabel(
+    final Resource resource,
+    final SSUri    resourceUri) throws Exception{
+    
+    try{
+      
+      if(
+        SSObjU.isNull (resource, resource.getAttributes()) ||
+        SSStrU.isEmpty(resource.getAttributes().getFileName())){
+        return getDefaultLabel();
+      }
+      
+      return SSLabel.get(resource.getAttributes().getFileName());
+    }catch(Exception error){
+      return getDefaultLabel();
+    }
+  }
+  
+  private static SSLabel getDefaultLabel() throws Exception{
+    return SSLabel.get(SSStrU.empty);
   }
 }

@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
+import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -58,7 +59,7 @@ public class SSDataImportEvernoteHelper {
   
   private final  SSFileRepoConf          localWorkConf          = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
   private        SSEvernoteInfo          evernoteInfo           = null;
-  private        SSLabel              userName               = null;
+  private        SSLabel                 userName               = null;
   private        SSUri                   userUri                = null;
   private        List<SharedNotebook>    sharedNotebooks        = null;
   private        List<String>            sharedNotebookGuids    = null;
@@ -87,7 +88,7 @@ public class SSDataImportEvernoteHelper {
       
       notebookUri      = evernoteHelper.uriHelper.getNormalOrSharedNotebookUri      (userName,    notebook, sharedNotebookGuids);
       isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
-      notebookLabel    = evernoteHelper.labelHelper.getNormalOrSharedNotebookLabel  (notebookUri, notebook);
+      notebookLabel    = SSEvernoteLabelHelper.getNormalOrSharedNotebookLabel       (notebookUri, notebook);
       
       SSServCaller.entityAddAtCreationTime(
         userUri,
@@ -122,7 +123,7 @@ public class SSDataImportEvernoteHelper {
     for(LinkedNotebook linkedNotebook : SSServCaller.getEvernoteLinkedNotebooks(evernoteInfo.noteStore)){
       
       notebookUri   = evernoteHelper.uriHelper.getLinkedNotebookUri     (linkedNotebook);
-      notebookLabel = evernoteHelper.labelHelper.getLinkedNotebookLabel (linkedNotebook, notebookUri);
+      notebookLabel = SSEvernoteLabelHelper.getLinkedNotebookLabel      (linkedNotebook, notebookUri);
       
       creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
       timeCounter++;
@@ -199,7 +200,7 @@ public class SSDataImportEvernoteHelper {
     for(Note note : SSServCaller.getEvernoteNotes(evernoteInfo.noteStore, notebook.getGuid())){
       
       noteUri   = evernoteHelper.uriHelper.getNormalOrSharedNoteUri   (evernoteInfo, note);
-      noteLabel = evernoteHelper.labelHelper.getNoteLabel             (note,         noteUri);
+      noteLabel = SSEvernoteLabelHelper.getNoteLabel                  (note,         noteUri);
       
       SSServCaller.entityAddAtCreationTime(
         userUri,
@@ -238,7 +239,7 @@ public class SSDataImportEvernoteHelper {
     for(Resource resource : note.getResources()){
       
       resourceUri   = evernoteHelper.uriHelper.getResourceUri     (evernoteInfo, resource);
-      resourceLabel = evernoteHelper.labelHelper.getResourceLabel (resource,     resourceUri);
+      resourceLabel = SSEvernoteLabelHelper.getResourceLabel      (resource,     resourceUri);
       
       SSServCaller.entityAddAtCreationTime(
         userUri,

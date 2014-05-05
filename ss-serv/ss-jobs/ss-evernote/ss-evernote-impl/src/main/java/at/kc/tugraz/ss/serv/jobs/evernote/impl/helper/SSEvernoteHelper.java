@@ -30,12 +30,10 @@ import java.util.List;
 
 public class SSEvernoteHelper {
   
-  public  final SSEvernoteLabelHelper labelHelper;
   public  final SSEvernoteUEHelper    ueHelper;
   public  final SSEvernoteUriHelper   uriHelper;
   
   public SSEvernoteHelper(){
-    this.labelHelper = new SSEvernoteLabelHelper ();
     this.ueHelper    = new SSEvernoteUEHelper    ();
     this.uriHelper   = new SSEvernoteUriHelper   ();
   }
