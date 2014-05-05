@@ -70,7 +70,7 @@ public class SSDataImportEvernoteHelper {
     
     this.evernoteInfo    = SSServCaller.getEvernoteInfo (par.user, par.authToken);
     this.userName        = evernoteHelper.getUserName   (evernoteInfo);
-    this.userUri         = SSServCaller.logUserIn       (userName, false);
+    this.userUri         = SSServCaller.userLogin       (userName, false);
   }
   
   public void handleSharedNotebooks() throws Exception{

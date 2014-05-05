@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddAtCreationTimePar;
@@ -116,18 +115,23 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
     
     try{
       
-      if(!par.removeUserTags){
+      if(!removeUserTags){
         return;
       }
       
       SSServCaller.tagsUserRemove(
-        par.user, 
-        par.entityUri, 
+        userUri, 
+        entityUri, 
         null, 
         null, 
         false);

@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
@@ -181,20 +180,25 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
 
-    if(!par.removeFromUserColls){
+    if(!removeFromUserColls){
       return;
     }
 
     try{
 
-      for(SSColl coll : SSServCaller.collsUserEntityIsInGet(par.user, par.entityUri)){
+      for(SSColl coll : SSServCaller.collsUserEntityIsInGet(userUri, entityUri)){
         
         SSServCaller.collUserEntryDelete(
-          par.user, 
-          par.entityUri, 
+          userUri, 
+          entityUri,
           coll.uri, 
           true, 
           false);

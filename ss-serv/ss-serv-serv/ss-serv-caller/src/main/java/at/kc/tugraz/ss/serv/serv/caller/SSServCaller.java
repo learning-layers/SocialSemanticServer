@@ -485,30 +485,6 @@ public class SSServCaller {
     }
   }
   
-  public static SSUri logUserIn(SSLabel userLabel, Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.userLabel,    userLabel);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
-  }
-  
-  public static List<SSUri> getAllUsers() throws Exception{
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
-  }
-  
-  public static List<SSUser> usersGet(
-    final List<SSUri> userUris) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.userUris, userUris);
-    
-    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.usersGet, opPars));
-  }
-  
   public static SSLearnEpVersion getLearnEpVersion(SSUri userUri, SSUri learnEpCurrentVersionUri) throws Exception{
     
     Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1489,6 +1465,33 @@ public class SSServCaller {
   }
   
   /* user */
+  
+  public static SSUri userLogin(
+    final SSLabel userLabel, 
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.userLabel,    userLabel);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
+  }
+  
+  public static List<SSUri> userAll() throws Exception{
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<String, Object>()));
+  }
+  
+  public static List<SSUser> usersGet(
+    final List<SSUri> userUris) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.userUris, userUris);
+    
+    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.usersGet, opPars));
+  }
+  
   public static Boolean userExists(
     final SSUri userUri) throws Exception{
     
@@ -2019,7 +2022,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.fileName,     fileName);
+    opPars.put(SSVarU.fileName, fileName);
     
     return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.dataImportSSSUsersFromCSVFile, opPars));
   }

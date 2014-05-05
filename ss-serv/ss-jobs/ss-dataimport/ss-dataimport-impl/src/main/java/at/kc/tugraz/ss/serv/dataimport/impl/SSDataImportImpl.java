@@ -241,7 +241,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         userLabel   = lineSplit.get   (0);
         timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
         tags        = lineSplit.get   (3);
-        user        = SSServCaller.logUserIn  (SSLabel.get(userLabel), false);
+        user        = SSServCaller.userLogin  (SSLabel.get(userLabel), false);
         tagList     = SSTagLabel.getDistinct  (SSStrU.split(tags, SSStrU.comma));
         tagCounter += tagList.size    ();
 

@@ -43,7 +43,7 @@ public abstract class SSServOverallTestCaseA extends SSServImplStartA{
     //TODO dtheiler: fix this
 //    SSServCaller.removeAllEntities();
     
-    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
+    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
   
   protected void tearDown() throws Exception{

@@ -39,7 +39,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.getAllUsers()){
+    for(SSUri user : SSServCaller.userAll()){
       
       tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
@@ -75,7 +75,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.getAllUsers()){
+    for(SSUri user : SSServCaller.userAll()){
       
       tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
@@ -116,7 +116,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.getAllUsers()){
+    for(SSUri user : SSServCaller.userAll()){
       
       tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       
@@ -157,7 +157,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUri user : SSServCaller.getAllUsers()){
+    for(SSUri user : SSServCaller.userAll()){
       
       tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user, SSSpaceE.sharedSpace);
       

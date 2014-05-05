@@ -47,7 +47,6 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.util.List;
 
 public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClientI, SSLocationServerI, SSEntityHandlerImplI{
@@ -77,18 +76,23 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
     
-    if(!par.removeUserLocations){
+    if(!removeUserLocations){
       return;
     }
     
     try{
       
       SSServCaller.locationsUserRemove(
-        par.user, 
-        par.entityUri, 
+        userUri, 
+        entityUri, 
         false);
       
     }catch(Exception error){

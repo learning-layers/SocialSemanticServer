@@ -39,7 +39,7 @@ public abstract class SSServLoadTestCaseA extends SSServImplStartA{
   }
   
   protected void setUp() throws Exception{
-    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
+    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
   
   protected void tearDown() throws Exception{

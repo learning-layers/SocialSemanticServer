@@ -76,17 +76,22 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
     
-    if(!par.removeUserRatings){
+    if(!removeUserRatings){
       return;
     }
     
     try{
       SSServCaller.ratingsUserRemove(
-        par.user, 
-        par.entityUri, 
+        userUri, 
+        entityUri, 
         false);
       
     }catch(Exception error){

@@ -55,6 +55,6 @@ public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.logUserIn(SSLabel.get("dt"), true);
+    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

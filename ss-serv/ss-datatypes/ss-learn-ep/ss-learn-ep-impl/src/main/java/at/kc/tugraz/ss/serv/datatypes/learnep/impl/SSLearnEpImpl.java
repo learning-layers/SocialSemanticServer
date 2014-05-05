@@ -109,8 +109,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
   }
   
   @Override

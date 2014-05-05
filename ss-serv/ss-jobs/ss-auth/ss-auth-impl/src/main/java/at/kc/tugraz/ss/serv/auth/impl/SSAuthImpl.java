@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
@@ -80,12 +81,15 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
     try{
       passwordPerUser.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
       
+      //TODO dtheiler: create transactions here as well
       for(Map.Entry<String, String> passwordForUser : passwordPerUser.entrySet()){
         
         key = SSAuthFct.generateKey(passwordForUser.getKey() + passwordForUser.getValue());
         
         keyPerUser.put(passwordForUser.getKey(), key);
         keys.add(key);
+        
+        SSServCaller.userLogin(SSLabel.get(passwordForUser.getKey()), true);
       }
       
     }catch(Exception error){

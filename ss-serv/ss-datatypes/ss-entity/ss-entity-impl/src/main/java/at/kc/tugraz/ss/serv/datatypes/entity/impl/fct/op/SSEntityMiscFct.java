@@ -33,6 +33,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -588,6 +589,27 @@ public class SSEntityMiscFct{
         comment, 
         false);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void removeUserEntityDirectlyAdjoinedEntitiesByEntityHandlers(
+    final SSEntity                                      entity,
+    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    
+    try{
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        
+        ((SSEntityHandlerImplI) serv.serv()).removeDirectlyAdjoinedEntitiesForUser(
+          par.user,
+          entity.type,
+          entity.uri,
+          par.removeUserTags,
+          par.removeUserRatings,
+          par.removeFromUserColls,
+          par.removeUserLocations);
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

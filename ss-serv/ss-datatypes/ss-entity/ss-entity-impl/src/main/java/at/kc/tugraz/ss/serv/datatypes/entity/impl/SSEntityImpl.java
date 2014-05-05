@@ -76,8 +76,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSet
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -265,12 +263,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSServA serv : SSServA.getServsManagingEntities()){
-        
-        ((SSEntityHandlerImplI) serv.serv()).removeDirectlyAdjoinedEntitiesForUser(
-          entity.type,
-          par);
-      }
+      SSEntityMiscFct.removeUserEntityDirectlyAdjoinedEntitiesByEntityHandlers(entity, par);
       
       dbSQL.commit(par.shouldCommit);
       

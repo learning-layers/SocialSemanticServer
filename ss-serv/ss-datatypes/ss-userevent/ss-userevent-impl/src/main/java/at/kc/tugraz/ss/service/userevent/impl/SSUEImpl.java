@@ -39,7 +39,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
@@ -114,8 +113,13 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSEntityE                                  entityType,
-    final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{
+    final SSUri       userUri, 
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
   }
   
   @Override
