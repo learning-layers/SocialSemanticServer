@@ -1966,6 +1966,18 @@ public class SSServCaller {
   
   /* data import */
   
+  public static void dataImportAchso(
+    final SSUri   userUri, 
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarU.user,             userUri);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataImportAchso, opPars));
+  }
+  
   public static void dataImportUserResourceTagFromWikipedia(
     final SSUri   userUri, 
     final Boolean shouldCommit) throws Exception{
@@ -2005,6 +2017,10 @@ public class SSServCaller {
   
   /* i5Cloud */
   
+  public static String i5CloudAchsoVideoInformationGet() throws Exception{
+    return (String) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAchsoVideoInformationGet, new HashMap<String, Object>()));
+  }
+    
   public static Map<String, String> i5CloudAuth() throws Exception{
     return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAuth, new HashMap<String, Object>()));
   }

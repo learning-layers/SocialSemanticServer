@@ -29,4 +29,5 @@ public interface SSDataImportServerI {
   public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
   public void                dataImportEvernote                       (final SSServPar parA) throws Exception;
   public void                dataImportMediaWikiUser                  (final SSServPar parA) throws Exception;
+  public void                dataImportAchso                          (final SSServPar parA) throws Exception;
 }

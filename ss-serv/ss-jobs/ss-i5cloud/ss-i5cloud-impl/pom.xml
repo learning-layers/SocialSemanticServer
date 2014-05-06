@@ -61,6 +61,18 @@
     </dependency> 
     
     <dependency>
+      <groupId>i5Cloud</groupId>
+      <artifactId>i5Cloud-http-connector-client</artifactId>
+      <version>1</version>
+    </dependency>      
+    
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.8</version>
+    </dependency>
+    
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>

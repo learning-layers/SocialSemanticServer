@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudAuthPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
+import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.OutputStream;
@@ -60,7 +61,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     
     try{
       
-      messageBody.put(SSVarU.username,((SSI5CloudConf)conf).userLabel);
+      messageBody.put(SSVarU.username, ((SSI5CloudConf)conf).userLabel);
       messageBody.put(SSVarU.password, ((SSI5CloudConf)conf).pass);
       
       con = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "auth").openConnection();
@@ -89,22 +90,25 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   @Override
   public Boolean i5CloudFileUpload(final SSServPar parA) throws Exception{
     
-    final SSI5CloudFileUploadPar par = new SSI5CloudFileUploadPar(parA);
-    final HttpURLConnection      i5CloudCon;
-    
     try{
+      final SSI5CloudFileUploadPar par        = new SSI5CloudFileUploadPar(parA);
+      final HttpURLConnection      i5CloudCon = 
+        (HttpURLConnection) new URL(
+          SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + 
+            "storage/"   + 
+            par.space    + 
+            SSStrU.slash +  
+            par.fileName).openConnection();
       
-      i5CloudCon = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "storage/" + par.space + SSStrU.slash +  par.fileName).openConnection();
-
       i5CloudCon.setDoOutput         (true);
       i5CloudCon.setRequestMethod    (SSHTMLU.put);
       i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.xAuthToken);
       i5CloudCon.setRequestProperty  (SSHTMLU.contentType, SSMimeTypeU.multipartFormData);
-    
+      
       SSFileU.readFileBytes(
-        i5CloudCon.getOutputStream(), 
+        i5CloudCon.getOutputStream(),
         SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.fileName));
-     
+      
       SSFileU.readStreamText(i5CloudCon.getInputStream());
       
       return true;
@@ -131,6 +135,30 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
         i5CloudCon.getInputStream());
 
       return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public String i5CloudAchsoVideoInformationGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSI5CloudLASConnector lasConnection = new SSI5CloudLASConnector(((SSI5CloudConf)conf).userLabel, ((SSI5CloudConf)conf).pass);
+      
+      // returns a String with the XML containing all the videos and the
+      // corresponding data for each video
+      return (String) lasConnection.invocationHelper(
+        "videoinformation", 				        // The service code
+        "getVideoInformationConditional",   // The method of the service
+        SSStrU.empty, 
+        SSStrU.empty, 
+        SSStrU.empty, 
+        SSStrU.empty);					// The parameters (in general Strings!)
+      // Please note that invocationHelper is an overloaded method. Thus
+      // if you call a method with 1 parameters, the invocationHelper method looks like this
+      // las.invocationHelper("videoinformation","method", "")
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

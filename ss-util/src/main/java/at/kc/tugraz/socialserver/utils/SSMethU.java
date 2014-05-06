@@ -200,6 +200,7 @@ public enum SSMethU{
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,
+  dataImportAchso,
   dataImportSSSUsersFromCSVFile                       ,
   dataImportEvernote                                  ,
   dataImportMediaWikiUser,
@@ -255,6 +256,7 @@ public enum SSMethU{
   
   //i5cloud
   i5CloudAuth,
+  i5CloudAchsoVideoInformationGet,
   i5CloudFileUpload,
   i5CloudFileDownload,
   

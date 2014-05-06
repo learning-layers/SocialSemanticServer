@@ -32,6 +32,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -185,22 +186,38 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   }
   
   @Override
+  public void dataImportAchso(final SSServPar parA) throws Exception {
+    
+    try{
+      final SSDataImportAchsoPar par       = new SSDataImportAchsoPar(parA);
+      final String               vidInfXML = SSServCaller.i5CloudAchsoVideoInformationGet();
+      
+      System.out.println(vidInfXML);
+     
+      System.out.println();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
   public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws Exception {
     
     final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
-    int                                              counter       = 1;
-    int                                         tagCounter    = 0;
-    BufferedReader                              lineReader    = null;
-    List<SSTagLabel>                            tagList;
-    FileInputStream                             dataImportFileIn;
-    String                                      line;
-    List<String>                                lineSplit;
-    String                                      userLabel;
-    SSUri                                       resource;
-    SSUri                                       user;
-    String                                      tags;
-    String                                      categories;
-    Long                                        timestamp;
+    int                                               counter       = 1;
+    int                                               tagCounter    = 0;
+    BufferedReader                                    lineReader    = null;
+    List<SSTagLabel>                                  tagList;
+    FileInputStream                                   dataImportFileIn;
+    String                                            line;
+    List<String>                                      lineSplit;
+    String                                            userLabel;
+    SSUri                                             resource;
+    SSUri                                             user;
+    String                                            tags;
+    String                                            categories;
+    Long                                              timestamp;
     
     try{
       

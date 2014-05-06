@@ -18,14 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.i5cloud.api;
+package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.Map;
 
-public interface SSI5CloudServerI{
-  public Map<String, String> i5CloudAuth                     (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileUpload               (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileDownload             (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoVideoInformationGet (final SSServPar parA) throws Exception;
+public class SSDataImportAchsoPar extends SSServPar{
+  
+  public SSDataImportAchsoPar(final SSServPar par) throws Exception{
+    super(par);
+  }  
 }

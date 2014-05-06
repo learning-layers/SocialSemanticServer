@@ -18,14 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.i5cloud.api;
+package at.kc.tugraz.ss.test.serv.dataimport;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.Map;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 
-public interface SSI5CloudServerI{
-  public Map<String, String> i5CloudAuth                     (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileUpload               (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileDownload             (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoVideoInformationGet (final SSServPar parA) throws Exception;
+public class SSDataImportAchsoTest extends SSServOpTestCaseA{
+  
+  public SSDataImportAchsoTest(SSDataImportConf dataImportConf){
+    super(dataImportConf, SSMethU.dataImportAchso);
+  }  
+  
+  @Override
+  protected void test() throws Exception {
+    
+    SSLogU.info("start " + op + "Test");
+    
+    SSServCaller.dataImportAchso(userUri, true);
+    
+    SSLogU.info("end " + op + "Test");
+  }
+  
+  @Override
+  protected void testFromClient() throws Exception{
+  }
+
+  @Override
+  protected void setUp() throws Exception {
+  }
 }
