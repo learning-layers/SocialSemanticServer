@@ -25,9 +25,8 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSEntityClientI {
 
-  public void entityTypeGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDescGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityLabelGet                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityLabelSet                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUserDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUserShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

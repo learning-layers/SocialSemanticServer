@@ -22,6 +22,44 @@ import java.util.List;
 
 public class SSCollMiscFct{
 
+  public static Boolean ownsUserASubColl(
+    final SSCollSQLFct sqlFct, 
+    final SSUri        userUri,
+    final SSUri        collUri) throws Exception{
+    
+    final List<String> subCollUris = new ArrayList<String>();
+    
+    getAllChildCollURIs(sqlFct, collUri.toString(), collUri.toString(), subCollUris);
+    
+    for(String subCollUri : subCollUris){
+      
+      if(sqlFct.ownsUserColl(userUri, SSUri.get(subCollUri))){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public static void getAllChildCollURIs(
+    final SSCollSQLFct sqlFct,
+    final String       startCollUri, 
+    final String       currentCollUri, 
+    final List<String> subCollUris) throws Exception{
+    
+    for(String directSubCollUri : sqlFct.getDirectChildCollURIs(currentCollUri)){
+      getAllChildCollURIs(sqlFct, startCollUri, directSubCollUri, subCollUris);
+    }
+    
+    if(startCollUri.equals(currentCollUri)){
+      return;
+    }
+    
+    if(!subCollUris.contains(currentCollUri)){
+      subCollUris.add(currentCollUri);
+    }
+  }
+   
   public static SSColl getCollWithEntriesWithCircleTypes(
     final SSCollSQLFct sqlFct,
     final SSUri userUri,
@@ -86,7 +124,7 @@ public class SSCollMiscFct{
       }
 
       //add all coll sub coll und entry uris
-      sqlFct.getAllChildCollURIs(SSUri.toStr(startColl.uri), SSUri.toStr(startColl.uri), subCollUris);
+      getAllChildCollURIs(sqlFct, SSUri.toStr(startColl.uri), SSUri.toStr(startColl.uri), subCollUris);
 
       for(String subCollUri : subCollUris){
 
@@ -108,6 +146,51 @@ public class SSCollMiscFct{
       return null;
     }
   }
+  
+  public static SSUri getDirectParentCollURIForUser(
+    final SSCollSQLFct sqlFct, 
+    final SSUri        userUri, 
+    final SSUri        childColl) throws Exception{
+    
+    try{
+      
+      if(sqlFct.isCollRoot(childColl)){
+        return childColl;
+      }
+      
+      for(String parentCollUri : sqlFct.getDirectParentCollURIs(childColl.toString())){
+        
+        if(sqlFct.ownsUserColl(userUri, SSUri.get(parentCollUri))){
+          return SSUri.get(parentCollUri);
+        }
+      }
+      
+      throw new Exception("user doesnt own coll");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+//  public static void getAllParentCollURIs(
+//    final SSCollSQLFct sqlFct, 
+//    final String       startCollUri, 
+//    final String       currentCollUri, 
+//    final List<String> parentCollUris) throws Exception{
+//    
+//    for(String directParentCollUri : sqlFct.getDirectParentCollURIs(currentCollUri)){
+//      getAllParentCollURIs(sqlFct, startCollUri, directParentCollUri, parentCollUris);
+//    }
+//    
+//    if(startCollUri.equals(currentCollUri)){
+//      return;
+//    }
+//    
+//    if(!parentCollUris.contains(currentCollUri)){
+//      parentCollUris.add(currentCollUri);
+//    }
+//  }
 
   public static void shareCollWithUser(
     final SSCollSQLFct sqlFct,
@@ -123,7 +206,7 @@ public class SSCollMiscFct{
         throw new Exception("pars null");
       }
       
-      sqlFct.addCollToUserColl(
+      sqlFct.addCollToColl(
         userUriToShareWith,
         rootCollUri,
         collUri,
@@ -141,7 +224,7 @@ public class SSCollMiscFct{
       SSServCaller.entityUsersToCircleAdd(
         userUri,
         circleUri,
-        sqlFct.getCollUsers(collUri),
+        sqlFct.getCollUserURIs(collUri),
         false);
 
     }catch(Exception error){
@@ -160,7 +243,7 @@ public class SSCollMiscFct{
         throw new Exception("pars null");
       }
       
-      sqlFct.addEntryToColl(sharedWithMeFilesCollUri, entityUri);
+      sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityUri);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

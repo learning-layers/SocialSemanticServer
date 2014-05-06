@@ -57,9 +57,9 @@ public void deleteRatingAss(
     }
     
     if(whereParNamesWithValues.isEmpty()){
-      dbSQL.deleteAll(ratingAssTable);
+      dbSQL.delete(ratingAssTable);
     }else{
-      dbSQL.deleteWhere(ratingAssTable, whereParNamesWithValues);
+      dbSQL.delete(ratingAssTable, whereParNamesWithValues);
     }
   }
 
@@ -80,7 +80,7 @@ public void deleteRatingAss(
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(ratingAssTable, selectPars);
+      resultSet = dbSQL.select(ratingAssTable, selectPars);
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -129,7 +129,7 @@ public void deleteRatingAss(
     selectPars.put(SSSQLVarU.entityId, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(ratingAssTable, selectPars);
+      resultSet = dbSQL.select(ratingAssTable, selectPars);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);
@@ -164,7 +164,7 @@ public void deleteRatingAss(
     selectPars.put(SSSQLVarU.entityId, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(ratingAssTable, selectPars);
+      resultSet = dbSQL.select(ratingAssTable, selectPars);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);

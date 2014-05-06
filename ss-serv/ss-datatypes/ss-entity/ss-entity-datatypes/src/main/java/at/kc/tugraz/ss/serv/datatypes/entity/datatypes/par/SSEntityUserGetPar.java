@@ -25,23 +25,24 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityLabelGetPar extends SSServPar{
+public class SSEntityUserGetPar extends SSServPar{
   
-  public SSUri  entityUri = null;
+  public SSUri    entityUri         = null;
     
-  public SSEntityLabelGetPar(SSServPar par) throws Exception{
+  public SSEntityUserGetPar(SSServPar par) throws Exception{
       
     super(par);
     
     try{
       
       if(pars != null){
-        entityUri   = (SSUri) pars.get(SSVarU.entityUri);
+        entityUri = (SSUri)   pars.get(SSVarU.entityUri);
       }
       
       if(clientPars != null){
-        entityUri   = SSUri.get(clientPars.get(SSVarU.entityUri));
+        entityUri = SSUri.get(clientPars.get(SSVarU.entityUri));
       }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

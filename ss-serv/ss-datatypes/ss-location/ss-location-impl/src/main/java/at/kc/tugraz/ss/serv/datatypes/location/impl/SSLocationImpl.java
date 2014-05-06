@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationServerI;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.desc.SSLocationDesc;
@@ -216,7 +215,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     try{
       final SSLocationAddPar par               = new SSLocationAddPar(parA);
       final Boolean          existsLocation    = sqlFct.existsLocationString   (par.location);
-      final SSUri            locationUri       = sqlFct.getOrCreateLocationUri (existsLocation, par.location);
+      final SSUri            locationUri       = sqlFct.getOrCreateLocationURI (existsLocation, par.location);
       
       dbSQL.startTrans(par.shouldCommit);
       

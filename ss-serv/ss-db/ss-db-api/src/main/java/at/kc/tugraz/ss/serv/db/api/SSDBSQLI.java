@@ -35,82 +35,84 @@ public interface SSDBSQLI{
   public Boolean rollBack(
     final SSServPar parA);
 
-  public ResultSet selectCertainDistinctWhere(
-    final String              tableName, 
-    final List<String>        columns, 
-    final Map<String, String> where) throws Exception;
-
-  public ResultSet selectAllWhere(
+  public ResultSet select(
+    final String tableName) throws Exception;
+  
+  public ResultSet select(
     final String              table, 
     final Map<String, String> where) throws Exception;
   
-  public void closeStmt(
-    final ResultSet resultSet) throws Exception;
+  public ResultSet select(
+    final String              table, 
+    final List<String>        columns, 
+    final Map<String, String> where) throws Exception;
   
-  public ResultSet selectCertainWhere(
-    final List<String>        tableNames, 
-    final List<String>        columnNames, 
+//  public ResultSet select(
+//    final List<String>        tables, 
+//    final List<String>        columns, 
+//    final Map<String, String> where, 
+//    final String              tableConnection) throws Exception;
+  
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
     final Map<String, String> where, 
-    final String              whereFixedRestriction) throws Exception;
+    final List<String>        tableConnections) throws Exception;
   
-  public ResultSet selectCertainDistinctWhere(
-    final List<String>        tableNames, 
-    final List<String>        columnNames, 
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
     final Map<String, String> where, 
-    final List<String>        whereFixed) throws Exception;
+    final String              tableConnection,
+    final String              orderByColumn,
+    final String              sortType) throws Exception;
   
-  public ResultSet selectCertainWhereOrderBy(
-    final List<String>        tableNames, 
-    final List<String>        columnNames, 
+  public ResultSet select(
+    final String              tableName, 
     final Map<String, String> whereParNamesWithValues, 
-    final String              whereFixedRestriction, 
     final String              orderByColumn, 
     final String              sortType) throws Exception;
   
   public void insert(
-    final String              tableName, 
-    final Map<String, String> insertPars) throws Exception;
-  
-  public void deleteWhere(
     final String              table, 
-    final Map<String, String> where) throws Exception;
+    final Map<String, String> inserts) throws Exception;
   
-  public void deleteWhereIgnore(
+  public void insertIfNotExists(
     final String              table, 
-    final Map<String, String> where) throws Exception;
+    final Map<String, String> inserts,
+    final Map<String, String> uniqueKeys) throws Exception;
   
-  public void updateWhere(
+  public void delete(
+    final String table) throws Exception;
+  
+  public void delete(
     final String              table, 
-    final Map<String, String> where, 
-    final Map<String, String> values) throws Exception;
+    final Map<String, String> deletes) throws Exception;
   
-   public void updateWhereIgnore(
+  public void deleteIgnore(
     final String              table, 
-    final Map<String, String> where, 
-    final Map<String, String> values) throws Exception;
-  
-  public void deleteAll(
-    final String tableName) throws Exception;
- 
-  public ResultSet selectAll(
-    final String tableName) throws Exception;
- 
-  public ResultSet selectAllWhereOrderBy(
-    final String              tableName, 
-    final Map<String, String> whereParNamesWithValues, 
-    final String              orderByColumn, 
-    final String              sortType) throws Exception;
+    final Map<String, String> deletes) throws Exception;
 
+  public void update(
+    final String              table, 
+    final Map<String, String> wheres, 
+    final Map<String, String> values) throws Exception;
+  
+  public void updateIgnore(
+    final String              table, 
+    final Map<String, String> wheres, 
+    final Map<String, String> updates) throws Exception;
+
+  
+  public void closeStmt(
+    final ResultSet resultSet) throws Exception;
+  
+ 
   public void startTrans(
     final Boolean shouldCommit) throws Exception;
   
   public void commit(
     final Boolean shouldCommit) throws Exception;
-
-  public void insertWhereNotExists(
-    final String              table, 
-    final Map<String, String> insert,
-    final Map<String, String> uniqueKey) throws Exception;
 }
 
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;

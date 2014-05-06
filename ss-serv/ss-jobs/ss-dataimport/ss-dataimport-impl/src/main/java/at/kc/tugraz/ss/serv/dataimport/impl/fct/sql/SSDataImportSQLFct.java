@@ -49,7 +49,7 @@ public class SSDataImportSQLFct extends SSDBSQLFct{
       
       whereParNamesWithValues.put("user_name", userName);
       
-      resultSet = dbSQL.selectAllWhere("user", whereParNamesWithValues);
+      resultSet = dbSQL.select("user", whereParNamesWithValues);
       resultSet.first();
       userId    = resultSet.getString("user_id");
       

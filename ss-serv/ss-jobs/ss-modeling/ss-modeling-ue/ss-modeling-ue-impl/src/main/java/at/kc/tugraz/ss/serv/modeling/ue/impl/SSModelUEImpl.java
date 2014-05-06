@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
@@ -32,6 +31,7 @@ import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEditorsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEMIsForEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEModelRelationsPar;
@@ -49,6 +49,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetR
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 
@@ -168,7 +169,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       for (SSModelUEResource resource : resources.values()){
 
-        resource.type = SSServCaller.entityTypeGet(resource.resourceUrl);
+        resource.type = SSServCaller.entityGet(par.user, resource.resourceUrl).type;
 
         resourcePropertySetter.setResourceIndependentProperties                 (resource);
 
@@ -355,11 +356,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     for(SSModelUERelation relation : modelRelations){
       
       if(counter == 0){
-        subjectLabel = SSStrU.toString(SSServCaller.entityLabelGet(SSUri.get(relation.subject)));
+        subjectLabel = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(SSUserGlobals.systemUserURI), SSUri.get(relation.subject)).label);
       }
       
       relation.subjectLabel = subjectLabel;
-      relation.objectLabel  = SSStrU.toString(SSServCaller.entityLabelGet(SSUri.get(relation.object)));      
+      relation.objectLabel  = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(SSUserGlobals.systemUserURI), SSUri.get(relation.object)));      
       
       counter++;
     }

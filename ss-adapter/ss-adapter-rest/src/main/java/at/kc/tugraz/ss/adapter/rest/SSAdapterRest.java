@@ -174,6 +174,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserGet")
+  public String entityUserGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityUserCircleCreate")
   public String entityUserCircleCreate(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCircleCreate);
@@ -350,14 +358,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityTypeGet")
-  public String entityTypeGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityTypeGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityUserDirectlyAdjoinedEntitiesRemove")
   public String entityUserDirectlyAdjoinedEntitiesRemove(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserDirectlyAdjoinedEntitiesRemove);
@@ -377,14 +377,6 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityLabelSet")
   public String entityLabelSet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityLabelSet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityLabelGet")
-  public String entityLabelGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityLabelGet);
   }
   
   @POST

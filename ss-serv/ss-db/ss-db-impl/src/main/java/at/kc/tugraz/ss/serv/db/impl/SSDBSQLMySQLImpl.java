@@ -49,10 +49,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   private        Boolean    gotCon                   = false;
   private        Integer    numberTimesTriedToGetCon = 0;
   
-  public Connection getConnection(){
-    return connector;
-  }
-  
   public SSDBSQLMySQLImpl(final SSServConfA conf) throws Exception{
     
     super(conf);
@@ -60,6 +56,525 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     connectToMYSQL();
   }
   
+  @Override
+  public ResultSet select(
+    final String table) throws Exception{
+    return connector.prepareStatement("SELECT * FROM " + table).executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
+    final String              table, 
+    final Map<String, String> wheres) throws Exception{
+    
+    String                              query    = "SELECT * FROM " + table + " WHERE ";
+    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
+    int                                 counter  = 1;
+    PreparedStatement                   stmt;
+    
+    while(iterator.hasNext()){
+      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    stmt           = connector.prepareStatement(query);
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      stmt.setObject(counter++, iterator.next().getValue());
+    }
+    
+    return stmt.executeQuery();
+  }
+  
+//  @Override
+//  public ResultSet select(
+//    final List<String>        tables,
+//    final List<String>        columns,
+//    final Map<String, String> wheres,
+//    final String              tableConnection) throws Exception{
+//    
+//    String                              query   = "SELECT "; 
+//    int                                 counter = 1;
+//    PreparedStatement                   stmt;
+//    Iterator<Map.Entry<String, String>> iterator;
+//    
+//    for(String columnName : columns){
+//      query += columnName + SSStrU.comma;
+//    }
+//    
+//    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+//    
+//    for(String tableName : tables){
+//      query += tableName + SSStrU.comma;
+//    }
+//    
+//    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+//    iterator      = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+//    }
+//    
+//    query         += tableConnection;
+//    stmt           = connector.prepareStatement(query);
+//    iterator       = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      stmt.setObject(counter++, iterator.next().getValue());
+//    }
+//
+//    return stmt.executeQuery();
+//  }
+  
+  @Override
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
+    final Map<String, String> wheres, 
+    final List<String>        tableConnections) throws Exception{
+    
+    String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    Iterator<Map.Entry<String, String>> iterator;
+    int                                 counter = 1;
+    PreparedStatement                   stmt;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+    iterator      = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+    }
+    
+    for(String tableConection : tableConnections){
+      query += tableConection + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    stmt           = connector.prepareStatement(query);
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      stmt.setObject(counter++, iterator.next().getValue());
+    }
+
+    return stmt.executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
+    final Map<String, String> wheres, 
+    final String              tableConnection,
+    final String              orderByColumn, 
+    final String              sortType) throws Exception{
+    
+    String                              query   = "SELECT ";
+    int                                 counter = 1;
+    PreparedStatement                   stmt;
+    Iterator<Map.Entry<String, String>> iterator;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+    iterator      = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+    }
+    
+    query         += tableConnection + " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+    stmt           = connector.prepareStatement(query);
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      stmt.setObject(counter++, iterator.next().getValue());
+    }
+
+    return stmt.executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
+    final String              table, 
+    final List<String>        columns, 
+    final Map<String, String> wheres) throws Exception{
+    
+    String                              query   = "SELECT DISTINCT ";
+    int                                 counter = 1;
+    PreparedStatement                   stmt;
+    Iterator<Map.Entry<String, String>> iterator;
+    
+    for(String certain : columns){
+      query += certain + SSStrU.comma + SSStrU.blank;
+    }
+    
+    query          = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table + " WHERE ";
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    stmt           = connector.prepareStatement(query);
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      stmt.setObject(counter++, iterator.next().getValue());
+    }
+    
+    return stmt.executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
+    String              table, 
+    Map<String, String> wheres, 
+    String              orderByColumn, 
+    String              sortType) throws Exception{
+   
+    String                              query    = "SELECT * FROM " + table + " WHERE ";
+    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
+    int                                 counter  = 1;
+    PreparedStatement                   stmt;
+
+    while(iterator.hasNext()){
+      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ") + " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+    stmt           = connector.prepareStatement(query);
+    iterator       = wheres.entrySet().iterator();
+    
+    while(iterator.hasNext()){
+      stmt.setObject(counter++, iterator.next().getValue());
+    }
+    
+    return stmt.executeQuery();
+  }
+  
+  @Override 
+  public void insertIfNotExists(
+    final String              table, 
+    final Map<String, String> inserts,
+    final Map<String, String> uniqueKeys) throws Exception{
+
+    PreparedStatement stmt = null;
+    
+    try{
+      String                              query    = "INSERT INTO " + table + SSStrU.bracketOpen;
+      int                                 counter  = 1;
+      Iterator<Map.Entry<String, String>> iterator = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.comma;
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose + " SELECT * FROM (SELECT ";
+      iterator       = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += SSStrU.questionMark + "AS " + iterator.next().getKey() + SSStrU.comma;
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose + " AS tmp WHERE NOT EXISTS (SELECT ";
+      iterator       = uniqueKeys.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.comma;
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM " + table + " WHERE ";
+      iterator       = uniqueKeys.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      }
+      
+      query          = SSStrU.removeTrailingString(query, " AND ") + ") LIMIT 1";
+      stmt           = connector.prepareStatement(query);
+      iterator       = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      iterator = uniqueKeys.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+    }catch(MySQLTransactionRollbackException error){
+      throw new SSSQLDeadLockErr(error.getMessage());
+    }finally{
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void delete(
+    final String table) throws Exception{
+    
+    PreparedStatement   stmt  = null;
+    
+    try{
+      
+      stmt = connector.prepareStatement("DELETE FROM " + table);
+      
+      stmt.executeUpdate();
+      
+    }catch(MySQLTransactionRollbackException error){
+      throw new SSSQLDeadLockErr(error.getMessage());
+    }finally{
+      
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void updateIgnore(
+    final String              table, 
+    final Map<String, String> wheres, 
+    final Map<String, String> values) throws Exception{
+    
+    PreparedStatement stmt    = null;
+    
+    try{
+      String                              query    = "UPDATE IGNORE " + table + " SET ";
+      int                                 counter  = 1;
+      Iterator<Map.Entry<String, String>> iterator = values.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.comma;
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      iterator       = wheres.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      }
+      
+      query          = SSStrU.removeTrailingString(query, " AND ");
+      stmt           = connector.prepareStatement(query);
+      iterator       = values.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      iterator = wheres.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+      
+    }catch(MySQLTransactionRollbackException error){
+      throw new SSSQLDeadLockErr(error.getMessage());
+    }finally{
+      
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void update(
+    final String              table, 
+    final Map<String, String> wheres, 
+    final Map<String, String> updates) throws Exception{
+    
+    PreparedStatement stmt    = null;
+    
+    try{
+      String                              query   = "UPDATE " + table + " SET ";
+      int                                 counter = 1;
+      Iterator<Map.Entry<String, String>> iterator = updates.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.comma;
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      iterator       = wheres.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      }
+      
+      
+      query          = SSStrU.removeTrailingString(query, " AND ");
+      stmt           = connector.prepareStatement(query);
+      iterator       = updates.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      iterator = wheres.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+      
+    }catch(MySQLTransactionRollbackException error){
+      throw new SSSQLDeadLockErr(error.getMessage());
+    }finally{
+      
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void insert(
+    final String              table, 
+    final Map<String, String> inserts) throws Exception{
+    
+    PreparedStatement stmt    = null;
+    
+    try{
+      String                              query    = "INSERT INTO " + table + SSStrU.bracketOpen;
+      int                                 counter  = 1;
+      Iterator<Map.Entry<String, String>> iterator = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.comma;
+      }
+      
+      query           = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose + " VALUES " + SSStrU.bracketOpen;
+      iterator        = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += SSStrU.questionMark + SSStrU.comma;
+        iterator.next();
+      }
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose;
+      stmt           = connector.prepareStatement(query);
+      iterator       = inserts.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+    }catch(MySQLTransactionRollbackException error){
+      throw new SSSQLDeadLockErr(error.getMessage());
+    }finally{
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void delete(
+    final String              table,
+    final Map<String, String> deletes) throws Exception{
+    
+    PreparedStatement stmt    = null;
+    
+    try{
+      String                              query    = "DELETE FROM " + table + " WHERE ";
+      int                                 counter  = 1;
+      Iterator<Map.Entry<String, String>> iterator = deletes.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      }
+      
+      query          = SSStrU.removeTrailingString(query, " AND ");
+      stmt           = connector.prepareStatement(query);
+      iterator       = deletes.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  @Override
+  public void deleteIgnore(
+    final String              table,
+    final Map<String, String> deletes) throws Exception{
+    
+    PreparedStatement stmt = null;
+    
+    try{
+      String                              query    = "DELETE IGNORE FROM " + table + " WHERE ";
+      Iterator<Map.Entry<String, String>> iterator = deletes.entrySet().iterator();
+      int                                 counter  = 1;
+      
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      }
+      
+      query          = SSStrU.removeTrailingString(query, " AND ");
+      stmt           = connector.prepareStatement(query);
+      iterator       = deletes.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+      
+      stmt.executeUpdate();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      if(stmt != null){
+        stmt.close();
+      }
+    }
+  }
+  
+  public Connection getConnection(){
+    return connector;
+  }
+   
   @Override
   protected void finalizeImpl() throws Exception{
     
@@ -167,651 +682,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       connector.setAutoCommit(true);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public ResultSet selectAll(
-    String tableName) throws Exception{
-    
-    if(SSStrU.isEmpty(tableName)){
-      SSServErrReg.regErrThrow(new Exception("table not spec"));
-    }
-    
-    return connector.prepareStatement("SELECT * FROM " + tableName).executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectAllWhere(
-    String              tableName, 
-    Map<String, String> whereParNamesWithValues) throws Exception{
-    
-    if(
-      SSStrU.isEmpty(tableName) ||
-      whereParNamesWithValues == null){
-      
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT * FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    query        += tableName + " WHERE ";
-    iterator      = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    stmt           = connector.prepareStatement(query);
-    iterator       = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-    
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectCertainWhere(
-    List<String>        tableNames, 
-    List<String>        columnNames, 
-    Map<String, String> whereParNamesWithValues, 
-    String              whereFixedRestriction) throws Exception{
-    
-    if(
-      SSObjU.isNull(tableNames, columnNames, whereParNamesWithValues) ||
-      tableNames.size()              <= 0    ||
-      columnNames.size()             <= 0    ||
-      SSStrU.isEmpty(whereFixedRestriction)){
-      
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT "; // + "* FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String columnName : columnNames){
-      query += columnName + ",";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, ",");
-    query         += " FROM ";
-    
-    for(String tableName : tableNames){
-      query += tableName + ",";
-    }
-    
-    query         = SSStrU.removeTrailingString(query, ",");
-    query         += " WHERE ";
-    iterator      = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query         += whereFixedRestriction;
-    stmt           = connector.prepareStatement(query);
-    iterator       = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectCertainDistinctWhere(
-    List<String>        tableNames, 
-    List<String>        columnNames, 
-    Map<String, String> where, 
-    List<String>        whereFixed) throws Exception{
-    
-    if(
-      SSObjU.isNull(tableNames, columnNames, where, whereFixed) ||
-      tableNames.size()              <= 0    ||
-      columnNames.size()             <= 0    ||
-      whereFixed.size()  <= 0){
-      
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT DISTINCT "; // + "* FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String columnName : columnNames){
-      query += columnName + ",";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, ",");
-    query         += " FROM ";
-    
-    for(String tableName : tableNames){
-      query += tableName + ",";
-    }
-    
-    query         = SSStrU.removeTrailingString(query, ",");
-    query         += " WHERE ";
-    iterator      = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    for(String whereFixedRestriction : whereFixed){
-      query         += whereFixedRestriction + " AND ";
-    }
-    
-    query         = SSStrU.removeTrailingString(query, " AND ");
-    stmt           = connector.prepareStatement(query);
-    iterator       = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectCertainWhereOrderBy(
-    List<String>        tableNames, 
-    List<String>        columnNames, 
-    Map<String, String> whereParNamesWithValues, 
-    String              whereFixedRestriction,
-    String              orderByColumn, 
-    String              sortType) throws Exception{
-    
-    if(
-      tableNames                     == null ||
-      tableNames.size()              <= 0    ||
-      columnNames                    == null ||
-      columnNames.size()             <= 0    ||
-      whereParNamesWithValues        == null ||
-      whereParNamesWithValues.size() <= 0    ||
-      SSStrU.isEmpty(whereFixedRestriction, orderByColumn, sortType)){
-      
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT "; // + "* FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String columnName : columnNames){
-      query += columnName + ",";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, ",");
-    query         += " FROM ";
-    
-    for(String tableName : tableNames){
-      query += tableName + ",";
-    }
-    
-    query         = SSStrU.removeTrailingString(query, ",");
-    query         += " WHERE ";
-    iterator      = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query         += whereFixedRestriction;
-    query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    stmt           = connector.prepareStatement(query);
-    iterator       = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectCertainDistinctWhere(
-    String              tableName, 
-    List<String>        columnNames, 
-    Map<String, String> wherePars) throws Exception{
-    
-    if(
-      SSStrU.isEmpty   (tableName)    ||
-      columnNames == null   ||
-      wherePars   == null){
-      SSServErrReg.regErrThrow(new Exception("table not spec, certain or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT DISTINCT "; //"* FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String certain : columnNames){
-      query += certain + SSStrU.comma + SSStrU.blank;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank);
-    query         += " FROM " + tableName + " WHERE ";
-    iterator       = wherePars.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    stmt           = connector.prepareStatement(query);
-    iterator       = wherePars.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-    
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet selectAllWhereOrderBy(
-    String              tableName, 
-    Map<String, String> whereParNamesWithValues, 
-    String              orderByColumn, 
-    String              sortType) throws Exception{
-   
-    if(
-      SSStrU.isEmpty(tableName) ||
-      whereParNamesWithValues == null){
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return null;
-    }
-    
-    String                              query   = "SELECT * FROM "; //wiki_revision_test WHERE UserID = ? AND Timestamp = ?";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    query        += tableName + " WHERE ";
-    iterator      = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    stmt           = connector.prepareStatement(query);
-    iterator       = whereParNamesWithValues.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-    
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public void updateWhereIgnore(
-    final String              table, 
-    final Map<String, String> where, 
-    final Map<String, String> values) throws Exception{
-    
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull(where, values)){
-      SSServErrReg.regErrThrow(new Exception("table not specified, pars null or newValues null"));
-      return;
-    }
-    
-    //    UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
-    String                              query   = "UPDATE IGNORE " + table + " SET ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    iterator      = values.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.comma;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += " WHERE ";
-    iterator       = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    try{
-      query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
-      iterator       = values.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      iterator       = where.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      stmt.executeUpdate();
-      
-    }catch(Exception error){
-       SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override
-  public void updateWhere(
-    final String              table, 
-    final Map<String, String> where, 
-    final Map<String, String> values) throws Exception{
-    
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull(where, values)){
-      SSServErrReg.regErrThrow(new Exception("table not specified, pars null or newValues null"));
-      return;
-    }
-    
-    //    UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
-    String                              query   = "UPDATE " + table + " SET ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    iterator      = values.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.comma;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += " WHERE ";
-    iterator       = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    try{
-      query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
-      iterator       = values.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      iterator       = where.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      stmt.executeUpdate();
-      
-    }catch(Exception error){
-       SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override
-  public void insert(
-    final String              table, 
-    final Map<String, String> insert) throws Exception{
-    
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull  (insert)){
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return;
-    }
-    
-    String                              query   = "INSERT INTO ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-
-    query         += table + SSStrU.bracketOpen;
-    iterator       = insert.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.comma;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += SSStrU.bracketClose + " VALUES " + SSStrU.bracketOpen;
-    iterator       = insert.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += SSStrU.questionMark + SSStrU.comma;
-      iterator.next();
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += SSStrU.bracketClose;
-    
-    try{
-    
-      stmt           = connector.prepareStatement(query);
-      iterator       = insert.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-      
-      stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
-    }finally{
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override 
-  public void insertWhereNotExists(
-    final String              table, 
-    final Map<String, String> insert,
-    final Map<String, String> uniqueKey) throws Exception{
-
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull  (insert, uniqueKey) ||
-      uniqueKey.size() != 1){
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return;
-    }
-    
-    final String                        key     = uniqueKey.entrySet().iterator().next().getKey();
-    final String                        value   = uniqueKey.get(key);
-    String                              query   = "INSERT INTO ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-
-    query         += table + SSStrU.bracketOpen;
-    iterator       = insert.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.comma;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += SSStrU.bracketClose + " SELECT * FROM (SELECT ";
-    iterator       = insert.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += SSStrU.questionMark + "AS " + iterator.next().getKey() + SSStrU.comma;
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
-    query         += SSStrU.bracketClose;
-    query         += " AS tmp WHERE NOT EXISTS (SELECT " + key + " FROM " + table + " WHERE " + key + "='" + value + "') LIMIT 1";
-    
-    try{
-    
-      stmt           = connector.prepareStatement(query);
-      iterator       = insert.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-      
-      stmt.executeUpdate();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override
-  public void deleteAll(
-    String tableName) throws Exception{
-    
-    if(SSStrU.isEmpty (tableName)){
-      SSServErrReg.regErrThrow(new Exception("table not spec"));
-      return;
-    }
-    
-    String              query = "DELETE FROM " + tableName;
-    PreparedStatement   stmt  = null;
-    
-    try{
-      stmt = connector.prepareStatement(query);
-      stmt.executeUpdate();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override
-  public void deleteWhere(
-    final String              table, 
-    final Map<String, String> where) throws Exception{
-
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull  (where)){
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return;
-    }
-    
-    String                              query   = "DELETE FROM ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    query        += table + " WHERE ";
-    iterator      = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    
-    try{
-      stmt           = connector.prepareStatement(query);
-      iterator       = where.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      stmt.executeUpdate();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(stmt != null){
-        stmt.close();
-      }
-    }
-  }
-  
-  @Override
-  public void deleteWhereIgnore(
-    final String              table, 
-    final Map<String, String> where) throws Exception{
-
-    if(
-      SSStrU.isEmpty (table) ||
-      SSObjU.isNull  (where)){
-      SSServErrReg.regErrThrow(new Exception("table not spec or pars null"));
-      return;
-    }
-    
-    String                              query   = "DELETE IGNORE FROM ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt    = null;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    query        += table + " WHERE ";
-    iterator      = where.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    
-    try{
-      stmt           = connector.prepareStatement(query);
-      iterator       = where.entrySet().iterator();
-
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
-      }
-
-      stmt.executeUpdate();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(stmt != null){
-        stmt.close();
-      }
     }
   }
   

@@ -57,7 +57,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       where.put(SSSQLVarU.type, SSEntityE.user.toString());
       
-      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      resultSet = dbSQL.select(entityTable, where);
       
       while(resultSet.next()){
         
@@ -87,7 +87,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
       where.put(SSSQLVarU.type, SSEntityE.user.toString());
       
-      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      resultSet = dbSQL.select(entityTable, where);
       
       return resultSet.first();
     }catch(Exception error){
@@ -112,7 +112,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
       
-      resultSet = dbSQL.selectAllWhere(entityTable, where);
+      resultSet = dbSQL.select(entityTable, where);
       
       if(!resultSet.first()){
         throw new Exception("user doesn't exist");

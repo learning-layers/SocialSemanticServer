@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -161,10 +160,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       author);
   }
 
-  /**
-   * ****
-   * SSFileRepoClientI *****
-   */
+  /* SSFileRepoClientI */
   @Override
   public void fileCanWrite(SSSocketCon sSCon, SSServPar par) throws Exception{
 
@@ -245,9 +241,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     sSCon.writeRetFullToClient(new SSFileExtGetRet(fileExtGet(par), par.op));
   }
 
-  /**
-   * SSFileRepoServerI 
-   */
+  /* SSFileRepoServerI */
   @Override
   public SSUri fileCreateUri(SSServPar parA) throws Exception{
 
@@ -298,7 +292,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     result = new SSFileGetEditingFilesRet(par.op, SSUri.toDistinctStringArray(fileUris), null);
 
     for(String fileUri : result.fileUris){
-      result.fileNames.add(SSStrU.toString(SSServCaller.entityLabelGet(SSUri.get(fileUri))));
+      result.fileNames.add(SSLabel.toStr(SSServCaller.entityGet(par.user, SSUri.get(fileUri)).label));
     }
 
     return result;

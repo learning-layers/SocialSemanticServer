@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
@@ -33,6 +32,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
+import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,69 +45,61 @@ public class SSCollSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
-  public SSUri createColl(final SSUri collUri) throws Exception{
+  public SSUri addColl(
+    final SSUri collUri) throws Exception{
     
-     if(collUri == null){
-      SSServErrReg.regErrThrow(new Exception("colluri null"));
+    try{
+      final Map<String, String> inserts = new HashMap<String, String>();
+      
+      insert(inserts, SSSQLVarU.collId, collUri);
+      
+      dbSQL.insert(collTable, inserts);
+      
+      return collUri;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
-     
-    final Map<String, String> insertPars = new HashMap<String, String>();
-    
-    insertPars.put(SSSQLVarU.collId, collUri.toString());
-    
-    dbSQL.insert(collTable, insertPars);
-    
-    return collUri;
   }
   
-  public void addRootColl(
+  public void addCollRoot(
     final SSUri   collUri, 
     final SSUri   userUri) throws Exception{
     
     try{
       
-      if(SSObjU.isNull(collUri, userUri)){
-        throw new Exception("pars null");
-      }
-
-      final Map<String, String> insertPars = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<String, String>();
 
       //add coll to coll root table
-      insertPars.put(SSSQLVarU.userId, userUri.toString());
-      insertPars.put(SSSQLVarU.collId, collUri.toString());
+      insert (inserts, SSSQLVarU.userId, userUri);
+      insert (inserts, SSSQLVarU.collId, collUri);
       
-      dbSQL.insert(collRootTable, insertPars);
+      dbSQL.insert(collRootTable, inserts);
       
       //add coll to user coll table
+      inserts.clear();
+      insert(inserts, SSSQLVarU.userId, userUri);
+      insert(inserts, SSSQLVarU.collId, collUri);
       
-      insertPars.clear();
-      insertPars.put(SSSQLVarU.userId,    userUri.toString());
-      insertPars.put(SSSQLVarU.collId,    collUri.toString());
-      
-      dbSQL.insert(collUserTable, insertPars);
+      dbSQL.insert(collUserTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-   public Boolean isRootColl(
+  public Boolean isCollRoot(
     final SSUri collUri) throws Exception{
     
-    ResultSet  resultSet               = null;
+    ResultSet  resultSet = null;
     
     try{
       
-      if(SSObjU.isNull(collUri)){
-        throw new Exception("pars null");
-      }
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      final Map<String, String> where = new HashMap<String, String>();
+      where(wheres, SSSQLVarU.collId, collUri);
       
-      where.put(SSSQLVarU.collId, collUri.toString());
-      
-      resultSet = dbSQL.selectAllWhere(collRootTable, where);
+      resultSet = dbSQL.select(collRootTable, wheres);
       
       return resultSet.first();
       
@@ -120,45 +112,37 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }
   
   //TODO dtheiler: special coll could be merged with root coll table
-  public void addSpecialColl(
+  public void addCollSpecial(
     final SSUri   collUri, 
     final SSUri   userUri) throws Exception{
     
     try{
       
-      if(SSObjU.isNull(collUri, userUri)){
-        throw new Exception("pars null");
-      }
-
-      final Map<String, String> insertPars = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<String, String>();
 
       //add coll to special coll table
-      insertPars.put(SSSQLVarU.userId, userUri.toString());
-      insertPars.put(SSSQLVarU.collId, collUri.toString());
+      insert(inserts, SSSQLVarU.userId, userUri);
+      insert(inserts, SSSQLVarU.collId, collUri);
       
-      dbSQL.insert(collSpecialTable, insertPars);
+      dbSQL.insert(collSpecialTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public Boolean isSpecialColl(
+  public Boolean isCollSpecial(
     final SSUri collUri) throws Exception{
     
     ResultSet  resultSet               = null;
     
     try{
       
-      if(SSObjU.isNull(collUri)){
-        throw new Exception("pars null");
-      }
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      final Map<String, String> where = new HashMap<String, String>();
+      where(wheres, SSSQLVarU.collId, collUri);
       
-      where.put(SSSQLVarU.collId, collUri.toString());
-      
-      resultSet = dbSQL.selectAllWhere(collSpecialTable, where);
+      resultSet = dbSQL.select(collSpecialTable, wheres);
       
       return resultSet.first();
       
@@ -170,29 +154,23 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-   public SSUri getSpecialCollUri(
+   public SSUri getCollSpecialURI(
      final SSUri userUri) throws Exception{
     
-     ResultSet  resultSet               = null;
+     ResultSet  resultSet = null;
      
      try{
       
-      if(SSObjU.isNull(userUri)){
-        throw new Exception("pars null");
-      }
-      
-      final Map<String, String> where = new HashMap<String, String>();
-      
-      where.put(SSSQLVarU.userId, userUri.toString());
-      
-      resultSet = dbSQL.selectAllWhere(collSpecialTable, where);
-      
-      if(!resultSet.first()){
-        throw new Exception("special coll doesnt exist for user");
-      }
-      
-      return bindingStrToUri(resultSet, SSSQLVarU.collId);
-      
+       final Map<String, String> wheres = new HashMap<String, String>();
+       
+       where(wheres, SSSQLVarU.userId, userUri);
+       
+       resultSet = dbSQL.select(collSpecialTable, wheres);
+       
+       checkFirstResult(resultSet);
+       
+       return bindingStrToUri(resultSet, SSSQLVarU.collId);
+       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -201,20 +179,18 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public Boolean isColl(final SSUri entityUri) throws Exception{
+  public Boolean isColl(
+    final SSUri entityUri) throws Exception{
     
-    if(SSObjU.isNull(entityUri)){
-      SSServErrReg.regErrThrow(new Exception("entityUri null"));
-      return null;
-    }
-    
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.collId, entityUri.toString());
+    ResultSet resultSet = null;
     
     try{
-      resultSet = dbSQL.selectAllWhere(collTable, whereParNamesWithValues);
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.collId, entityUri);
+      
+      resultSet = dbSQL.select(collTable, wheres);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -224,95 +200,89 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addEntryToColl(
-    final SSUri      collParent, 
+  public void addCollEntry(
+    final SSUri      collParent,
     final SSUri      collEntry) throws Exception{
     
-    if(SSObjU.isNull(collParent, collEntry)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return;
+    try{
+      final Map<String, String> inserts = new HashMap<String, String>();
+      
+      //add coll entry to coll entry pos table
+      Integer collEntryCount = getCollEntryCount(collParent);
+      
+      collEntryCount++;
+      
+      insert(inserts, SSSQLVarU.collId,  collParent);
+      insert(inserts, SSSQLVarU.entryId, collEntry);
+      insert(inserts, SSSQLVarU.pos,     collEntryCount);
+      
+      dbSQL.insert(collEntryPosTable, inserts);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    final Map<String, String> insertPars = new HashMap<String, String>();
-    
-    //add coll entry to coll entry pos table
-    Integer collEntryCount = getCollEntryCount(collParent);
-    
-    collEntryCount++;
-    
-    insertPars.put(SSSQLVarU.collId,  collParent.toString());
-    insertPars.put(SSSQLVarU.entryId, collEntry.toString());
-    insertPars.put(SSSQLVarU.pos,     collEntryCount.toString());
-    
-    dbSQL.insert(collEntryPosTable, insertPars);
   }
 
-  public Integer getCollEntryCount(SSUri coll) throws Exception{
+  public Integer getCollEntryCount(
+    final SSUri collUri) throws Exception{
     
-    Map<String, String> selectPars     = new HashMap<String, String>();
-    ResultSet           resultSet      = null;
-    Integer             collEntryCount = 0;
-
-    selectPars.put(SSSQLVarU.collId, coll.toString());
+    ResultSet resultSet = null;
     
     try{
-      resultSet = dbSQL.selectAllWhere(collEntryPosTable, selectPars);
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.collId, collUri);
+      
+      resultSet = dbSQL.select(collEntryPosTable, wheres);
       
       resultSet.last();
       
-      collEntryCount = new Integer(resultSet.getRow());
+      return new Integer(resultSet.getRow());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return collEntryCount;
   }
   
-  public List<SSColl> getAllPublicColls() throws Exception{
+  public List<SSColl> getCollsPublic() throws Exception{
     
-    final List<String>        tableNames    = new ArrayList<String>();
-    final List<String>        columnNames   = new ArrayList<String>();
-    final Map<String, String> where         = new HashMap<String, String>();
-    final List<String>        whereFixed    = new ArrayList<String>();
-    ResultSet                 resultSet     = null;
-    final List<SSColl>        publicColls   = new ArrayList<SSColl>();
+    ResultSet resultSet = null;
     
     try{
-      tableNames.add              (collTable);
-      tableNames.add              (entityTable);
-      tableNames.add              (circleTable);
-      tableNames.add              (circleEntitiesTable);
+    
+      final List<String>        tables      = new ArrayList<String>();
+      final List<String>        columns     = new ArrayList<String>();
+      final Map<String, String> wheres      = new HashMap<String, String>();
+      final List<String>        tableCons   = new ArrayList<String>();
+      final List<SSColl>        publicColls = new ArrayList<SSColl>();
       
-      columnNames.add             (SSSQLVarU.id);
-      columnNames.add             (SSSQLVarU.collId);
-      columnNames.add             (SSSQLVarU.author);
-      columnNames.add             (SSSQLVarU.label);
-      columnNames.add             (SSSQLVarU.entityId);
-      columnNames.add             (circleTable         + SSStrU.dot + SSSQLVarU.circleId);
-      columnNames.add             (circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId);
-      columnNames.add             (SSSQLVarU.circleType);
+      table(tables, collTable);
+      table(tables, entityTable);
+      table(tables, circleTable);
+      table(tables, circleEntitiesTable);
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.collId);
+      column(columns, SSSQLVarU.author);
+      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.circleType);
+      column(columns, circleTable,          SSSQLVarU.circleId);
+      column(columns, circleEntitiesTable,  SSSQLVarU.circleId);
+      where (wheres,  SSSQLVarU.circleType, SSCircleE.toStr(SSCircleE.pub));
       
-      where.put                   (SSSQLVarU.circleType, SSCircleE.toStr(SSCircleE.pub));
-        
-      whereFixed.add(SSSQLVarU.id                                              + SSStrU.equal + SSSQLVarU.collId);
-      whereFixed.add(SSSQLVarU.collId                                          + SSStrU.equal + SSSQLVarU.entityId);
-      whereFixed.add(circleEntitiesTable + SSStrU.dot + SSSQLVarU.circleId     + SSStrU.equal + circleTable + SSStrU.dot + SSSQLVarU.circleId);
+      tableCon(tableCons, entityTable,         SSSQLVarU.id,       collTable,   SSSQLVarU.collId);
+      tableCon(tableCons, circleEntitiesTable, SSSQLVarU.circleId, circleTable, SSSQLVarU.circleId);
+      tableCon(tableCons, circleEntitiesTable, SSSQLVarU.entityId, collTable,   SSSQLVarU.collId);
       
-      resultSet =
-        dbSQL.selectCertainDistinctWhere(
-        tableNames,
-        columnNames,
-        where,
-        whereFixed);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       while(resultSet.next()){
         
         publicColls.add(
           SSColl.get(
-            bindingStrToUri(resultSet, SSSQLVarU.id), 
-            null, 
+            bindingStrToUri(resultSet, SSSQLVarU.id),
+            null,
             bindingStrToUri(resultSet, SSSQLVarU.author),
             bindingStr     (resultSet, SSSQLVarU.label),
             null));
@@ -328,24 +298,19 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   } 
   
-  public List<String> getAllUserCollURIs(
+  public List<String> getCollURIsForUser(
     final SSUri userUri) throws Exception{
      
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
-      final List<String>        userCollUris              = new ArrayList<String>();
+      final Map<String, String> wheres   = new HashMap<String, String>();
     
-      whereParNamesWithValues.put(SSSQLVarU.userId, userUri.toString());
+      where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.selectAllWhere(collUserTable, whereParNamesWithValues);
+      resultSet = dbSQL.select(collUserTable, wheres);
       
-      while(resultSet.next()){
-        userCollUris.add(bindingStr(resultSet, SSSQLVarU.collId));
-      }
-      
-      return userCollUris;
+      return getStringsFromResult(resultSet, SSSQLVarU.collId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -362,12 +327,12 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> where = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      where.put(SSSQLVarU.userId, userUri.toString());
-      where.put(SSSQLVarU.collId, collUri.toString());
+      where(wheres, SSSQLVarU.userId, userUri);
+      where(wheres, SSSQLVarU.collId, collUri);
     
-      resultSet = dbSQL.selectAllWhere(collUserTable, where);
+      resultSet = dbSQL.select(collUserTable, wheres);
 
       return resultSet.first();
     }catch(Exception error){
@@ -378,211 +343,147 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }  
   
-  public Boolean ownsUserASubColl(
-    final SSUri userUri, 
-    final SSUri collUri) throws Exception{
-    
-    if(SSObjU.isNull(userUri, collUri)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-        
-    final List<String> subCollUris    = new ArrayList<String>();
-    
-    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
-    
-    for(String subCollUri : subCollUris){
-      
-      if(ownsUserColl(userUri, SSUri.get(subCollUri))){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  public void addCollToUserColl(
-    final SSUri       user, 
-    final SSUri       collParent, 
-    final SSUri       collChild, 
+  public void addCollToColl(
+    final SSUri       user,
+    final SSUri       collParent,
+    final SSUri       collChild,
     final Boolean     createdCollIsInSharedOrPublicCircle,
     final Boolean     addedCollIsSharedOrPublic) throws Exception{
     
-    if(SSObjU.isNull(user, collParent, collChild, createdCollIsInSharedOrPublicCircle, addedCollIsSharedOrPublic)){
-      SSServErrReg.regErrThrow(new Exception("pars not ok"));
-      return;
-    }
-    
-    if(
-      createdCollIsInSharedOrPublicCircle &&
-      addedCollIsSharedOrPublic){
-      SSServErrReg.regErrThrow(new Exception("cannot add to shared coll and add shared/public coll at the same time"));
-      return;
-    }
-    
-    final Map<String, String> insertPars = new HashMap<String, String>(); 
-    
-    //add relation of coll parent to child coll to hierarchy table
-    insertPars.clear();
-    insertPars.put(SSSQLVarU.collParentId, collParent.toString());
-    insertPars.put(SSSQLVarU.collChildId,  collChild.toString());
-    
-    dbSQL.insert(collHierarchyTable, insertPars);
-    
-    //add coll child to coll parent in coll entry pos table
-    final Integer collEntryCount = getCollEntryCount(collParent) + 1;
-    
-    insertPars.clear();
-    insertPars.put(SSSQLVarU.collId,  collParent.toString());
-    insertPars.put(SSSQLVarU.entryId, collChild.toString());
-    insertPars.put(SSSQLVarU.pos,     collEntryCount.toString());
-    
-    dbSQL.insert(collEntryPosTable, insertPars);
-    
-    //add child coll to user coll table
-    insertPars.clear();
-    insertPars.put(SSSQLVarU.userId,    user.toString());
-    insertPars.put(SSSQLVarU.collId,    collChild.toString());
-    
-    dbSQL.insert(collUserTable, insertPars);
-    
-    //add currently added coll to other users as well
-    if(createdCollIsInSharedOrPublicCircle){
-
-      insertPars.clear();
-      insertPars.put(SSSQLVarU.collId,    collChild.toString());
-        
-      for(SSUri coUserUri : getCollUsers(collParent)){
-        
-        if(SSStrU.equals(coUserUri.toString(), user.toString())){
-          continue;
-        }
-        
-        insertPars.put(SSSQLVarU.userId, coUserUri.toString());
-        
-        dbSQL.insert(collUserTable, insertPars);
+    try{
+      
+      if(createdCollIsInSharedOrPublicCircle && addedCollIsSharedOrPublic){
+        throw new Exception("cannot add to shared coll and add shared/public coll at the same time");
       }
+      
+      final Map<String, String> inserts = new HashMap<String, String>();
+      
+      //add relation of coll parent to child coll to hierarchy table
+      inserts.clear();
+      insert(inserts, SSSQLVarU.collParentId, collParent);
+      insert(inserts, SSSQLVarU.collChildId,  collChild);
+      
+      dbSQL.insert(collHierarchyTable, inserts);
+      
+      //add coll child to coll parent in coll entry pos table
+      final Integer collEntryCount = getCollEntryCount(collParent) + 1;
+      
+      inserts.clear();
+      insert(inserts, SSSQLVarU.collId,   collParent);
+      insert(inserts, SSSQLVarU.entryId,  collChild);
+      insert(inserts, SSSQLVarU.pos,      collEntryCount);
+      
+      dbSQL.insert(collEntryPosTable, inserts);
+      
+      //add child coll to user coll table
+      inserts.clear();
+      insert(inserts, SSSQLVarU.userId,    user);
+      insert(inserts, SSSQLVarU.collId,    collChild);
+      
+      dbSQL.insert(collUserTable, inserts);
+      
+      //add currently added coll to other users as well
+      if(createdCollIsInSharedOrPublicCircle){
+        
+        inserts.clear();
+        insert(inserts, SSSQLVarU.collId, collChild);
+        
+        for(SSUri coUserUri : getCollUserURIs(collParent)){
+          
+          if(SSStrU.equals(coUserUri.toString(), user.toString())){
+            continue;
+          }
+          
+          insert(inserts, SSSQLVarU.userId, coUserUri);
+          
+          dbSQL.insert(collUserTable, inserts);
+        }
+      }
+      
+      //add sub colls of shared / pub coll for this user as well
+      if(addedCollIsSharedOrPublic){
+        
+        final List<String> subCollUris = new ArrayList<String>();
+        
+        SSCollMiscFct.getAllChildCollURIs(this, collChild.toString(), collChild.toString(), subCollUris);
+        
+        inserts.clear();
+        insert(inserts, SSSQLVarU.userId, user);
+        
+        for(String subCollUri : subCollUris){
+          
+          insert(inserts, SSSQLVarU.collId, subCollUri);
+          
+          dbSQL.insert(collUserTable, inserts);
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
+  }
+
+  public void unlinkCollAndSubColls(
+    final SSUri userUri,
+    final SSUri parentCollUri,
+    final SSUri collUri) throws Exception{
     
-    //add sub colls of shared / pub coll for this user as well
-    if(addedCollIsSharedOrPublic){
+    try{
+      final Map<String, String> deletes     = new HashMap<String, String>();
+      final List<String>        subCollUris = new ArrayList<String>();
       
-      final List<String> subCollUris = new ArrayList<String>();
+      //remove sub colls of followed coll from user coll table as well
+      SSCollMiscFct.getAllChildCollURIs(this, collUri.toString(), collUri.toString(), subCollUris);
       
-      getAllChildCollURIs(collChild.toString(), collChild.toString(), subCollUris);
-      
-      insertPars.clear();
-      insertPars.put(SSSQLVarU.userId,    user.toString());
+      deletes.clear();
+      delete(deletes, SSSQLVarU.userId, userUri);
       
       for(String subCollUri : subCollUris){
         
-        insertPars.put(SSSQLVarU.collId, subCollUri);
+        delete(deletes, SSSQLVarU.collId, subCollUri);
         
-        dbSQL.insert(collUserTable, insertPars);
+        dbSQL.delete(collUserTable, deletes);
       }
-    }
-  }
-
-  public void unlinkUserCollAndSubColls(
-    final SSUri userUri, 
-    final SSUri parentCollUri, 
-    final SSUri collUri) throws Exception{
-    
-    if(SSObjU.isNull(userUri, parentCollUri, collUri)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return;
-    }
-    
-    final Map<String, String> deletePars = new HashMap<String, String>(); 
-    final List<String>       subCollUris = new ArrayList<String>();
-
-    //remove sub colls of followed coll from user coll table as well
-    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
-    
-    deletePars.clear();
-    deletePars.put(SSSQLVarU.userId, userUri.toString());
-    
-    for(String subCollUri : subCollUris){
       
-      deletePars.put(SSSQLVarU.collId, subCollUri);
+      //remove coll from user coll table
+      deletes.clear();
+      delete(deletes, SSSQLVarU.userId,     userUri);
+      delete(deletes, SSSQLVarU.collId,     collUri);
       
-      dbSQL.deleteWhere(collUserTable, deletePars);
-    }
-    
-    //remove coll from user coll table
-    deletePars.clear();
-    deletePars.put(SSSQLVarU.userId,     userUri.toString());
-    deletePars.put(SSSQLVarU.collId,     collUri.toString());
-            
-    dbSQL.deleteWhere(collUserTable, deletePars);
-    
-    //remove coll from coll hierarchy table
-    deletePars.clear();
-    deletePars.put(SSSQLVarU.collParentId, parentCollUri.toString());
-    deletePars.put(SSSQLVarU.collChildId,  collUri.toString());
-            
-    dbSQL.deleteWhere(collHierarchyTable, deletePars);
-    
-    //remove coll from coll entries pos table
-    deletePars.clear();
-    deletePars.put(SSSQLVarU.collId,   parentCollUri.toString());
-    deletePars.put(SSSQLVarU.entryId,  collUri.toString());
-            
-    dbSQL.deleteWhere(collEntryPosTable, deletePars);
-  }
-
-  public void getAllChildCollURIs(
-    final String       startCollUri, 
-    final String       currentCollUri, 
-    final List<String> subCollUris) throws Exception{
-    
-    for(String directSubCollUri : getDirectChildCollURIs(currentCollUri)){
-      getAllChildCollURIs(startCollUri, directSubCollUri, subCollUris);
-    }
-    
-    if(startCollUri.equals(currentCollUri)){
-      return;
-    }
-    
-    if(!subCollUris.contains(currentCollUri)){
-      subCollUris.add(currentCollUri);
+      dbSQL.delete(collUserTable, deletes);
+      
+      //remove coll from coll hierarchy table
+      deletes.clear();
+      delete(deletes, SSSQLVarU.collParentId, parentCollUri);
+      delete(deletes, SSSQLVarU.collChildId,  collUri);
+      
+      dbSQL.delete(collHierarchyTable, deletes);
+      
+      //remove coll from coll entries pos table
+      deletes.clear();
+      delete(deletes, SSSQLVarU.collId,   parentCollUri.toString());
+      delete(deletes, SSSQLVarU.entryId,  collUri.toString());
+      
+      dbSQL.delete(collEntryPosTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void getAllParentCollURIs(
-    final String       startCollUri, 
-    final String       currentCollUri, 
-    final List<String> parentCollUris) throws Exception{
+  public List<String> getDirectChildCollURIs(
+    final String collUri) throws Exception{
     
-    for(String directParentCollUri : getDirectParentCollURIs(currentCollUri)){
-      getAllParentCollURIs(startCollUri, directParentCollUri, parentCollUris);
-    }
-    
-    if(startCollUri.equals(currentCollUri)){
-      return;
-    }
-    
-    if(!parentCollUris.contains(currentCollUri)){
-      parentCollUris.add(currentCollUri);
-    }
-  }
-  
-  private List<String> getDirectChildCollURIs(final String collUri) throws Exception{
-    
-    final Map<String, String> whereParNamesWithValues   = new HashMap<String, String>();
-    final List<String>        directSubCollUris         = new ArrayList<String>();
-    ResultSet                 resultSet                 = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.collParentId, collUri.toString());
+    ResultSet resultSet = null;
     
     try{
-      resultSet = dbSQL.selectAllWhere(collHierarchyTable, whereParNamesWithValues);
+      final Map<String, String> wheres   = new HashMap<String, String>();
       
-      while(resultSet.next()){
-        directSubCollUris.add(resultSet.getString(SSSQLVarU.collChildId));
-      }
+      where(wheres, SSSQLVarU.collParentId, collUri);
       
-      return directSubCollUris;
+      resultSet = dbSQL.select(collHierarchyTable, wheres);
+      
+      return getStringsFromResult(resultSet, SSSQLVarU.collChildId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -591,22 +492,20 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  private List<String> getDirectParentCollURIs(final String collUri) throws Exception{
-    
-    final List<String>        directParentCollUris    = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
+  public List<String> getDirectParentCollURIs(
+    final String collUri) throws Exception{
+
+    ResultSet resultSet = null;
     try{
-      whereParNamesWithValues.put(SSSQLVarU.collChildId, collUri);
       
-      resultSet = dbSQL.selectAllWhere(collHierarchyTable, whereParNamesWithValues);
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      while(resultSet.next()){
-        directParentCollUris.add(bindingStr(resultSet, SSSQLVarU.collParentId));
-      }
+      where(wheres, SSSQLVarU.collChildId, collUri);
       
-      return directParentCollUris;
+      resultSet = dbSQL.select(collHierarchyTable, wheres);
+      
+      return getStringsFromResult(resultSet, SSSQLVarU.collParentId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -615,124 +514,96 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void removeUserPrivateCollAndUnlinkSubColls(
+  public void removeCollAndUnlinkSubColls(
     final SSUri userUri,
     final SSUri collUri) throws Exception{
     
     try{
       
-      if(SSObjU.isNull(userUri, collUri)){
-        throw new Exception("pars not ok");
-      }
-      
-      final Map<String, String> deletePars = new HashMap<String, String>();
-      final List<String>        directChildCollURIs;
-      
-      //retrieve all direct sub coll uris
-      directChildCollURIs = getDirectChildCollURIs(collUri.toString());
+      final Map<String, String> deletes             = new HashMap<String, String>();
+      final List<String>        directChildCollURIs = getDirectChildCollURIs(collUri.toString());
       
       //unlink all direct sub colls (and hence their sub colls as well)
       for(String subCollUri : directChildCollURIs){
-        unlinkUserCollAndSubColls(userUri, collUri, SSUri.get(subCollUri));
+        unlinkCollAndSubColls(userUri, collUri, SSUri.get(subCollUri));
       }
       
-      deletePars.clear();
-      deletePars.put(SSSQLVarU.collId, SSUri.toStr(collUri));
-      
-      dbSQL.deleteWhere(collTable, deletePars);
-      
-      deletePars.clear();
-      deletePars.put(SSSQLVarU.entryId, SSUri.toStr(collUri));
-      
-      dbSQL.deleteWhere(collEntryPosTable, deletePars);
+      deletes.clear();
+      delete(deletes, SSSQLVarU.id, collUri);
+      dbSQL.delete(entityTable, deletes);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void removeEntryFromColl(
-    final SSUri collUri, 
+  public void removeCollEntry(
+    final SSUri collUri,
     final SSUri collEntryUri) throws Exception{
     
-    if(SSObjU.isNull(collUri, collEntryUri)){
-      SSServErrReg.regErrThrow(new Exception("pars not ok"));
-      return;
-    }
-
-    final Map<String, String> deletePars = new HashMap<String, String>();
-    
-    //remove coll entry from coll entry pos table
-    deletePars.put(SSSQLVarU.collId,  collUri.toString());
-    deletePars.put(SSSQLVarU.entryId, collEntryUri.toString());
+    try{
+      final Map<String, String> deletes = new HashMap<String, String>();
       
-    dbSQL.deleteWhere(collEntryPosTable, deletePars);
+      //remove coll entry from coll entry pos table
+      delete(deletes, SSSQLVarU.collId,  collUri);
+      delete(deletes, SSSQLVarU.entryId, collEntryUri);
+      
+      dbSQL.delete(collEntryPosTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
-  public void changeCollEntriesPos(
+  public void updateCollEntriesPos(
     final SSUri         collUri, 
-    final List<SSUri>   collEntries, 
+    final List<SSUri>   collEntries,
     final List<Integer> order) throws Exception{
-  
-    if(
-      SSObjU.isNull(collUri, collEntries, order) ||
-      collEntries.size() != order.size()){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return;
-    }
     
-    final Map<String, String> updatePars = new HashMap<String, String>();
-    final Map<String, String> newValues  = new HashMap<String, String>();
-    Integer                   counter    = 0;
-    
-    updatePars.put(SSSQLVarU.collId,  SSUri.toStr(collUri));
-    
-    while(counter < collEntries.size()){
+    try{
+      final Map<String, String> wheres   = new HashMap<String, String>();
+      final Map<String, String> updates  = new HashMap<String, String>();
+      Integer                   counter  = 0;
       
-      updatePars.put(SSSQLVarU.entryId, collEntries.get(counter).toString());
-      newValues.put (SSSQLVarU.pos,     order.get      (counter).toString());
+      where(wheres, SSSQLVarU.collId, collUri);
       
-      counter++;
-      
-      dbSQL.updateWhere(collEntryPosTable, updatePars, newValues);
+      while(counter < collEntries.size()){
+        
+        where  (wheres,  SSSQLVarU.entryId, collEntries.get(counter));
+        update (updates, SSSQLVarU.pos,     order.get      (counter));
+        
+        counter++;
+        
+        dbSQL.update(collEntryPosTable, wheres, updates);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
   private SSColl getColl(
-    final SSUri                     collUri, 
+    final SSUri           collUri,
     final List<SSCircleE> circleTypes) throws Exception{
-   
-    if(SSObjU.isNull(collUri, circleTypes)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
     
-//    if(!ownsUserColl(userUri, collUri)){
-//      SSServErrReg.regErrThrow(new Exception("user doesnt have access to coll"));
-//      return null;
-//    }
-    
-    final List<String>        tableNames              = new ArrayList<String>();
-    final List<String>        columnNames             = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
+    ResultSet resultSet = null;
     
     try{
-      tableNames.add              (collTable);
-      tableNames.add              (entityTable);
-      columnNames.add             (SSSQLVarU.collId);
-      columnNames.add             (SSSQLVarU.author);
-      columnNames.add             (SSSQLVarU.label);
-      whereParNamesWithValues.put (SSSQLVarU.collId, collUri.toString());
       
-      resultSet =
-        dbSQL.selectCertainWhere(
-        tableNames,
-        columnNames,
-        whereParNamesWithValues,
-        SSSQLVarU.collId + SSStrU.equal + SSSQLVarU.id);
+      final List<String>        tables     = new ArrayList<String>();
+      final List<String>        columns    = new ArrayList<String>();
+      final List<String>        tableCons  = new ArrayList<String>();
+      final Map<String, String> wheres     = new HashMap<String, String>();
       
-      resultSet.first();
+      table    (tables,    collTable);
+      table    (tables,    entityTable);
+      column   (columns,   SSSQLVarU.collId);
+      column   (columns,   SSSQLVarU.author);
+      column   (columns,   SSSQLVarU.label);
+      where    (wheres,    SSSQLVarU.collId, collUri);
+      tableCon (tableCons, collTable, SSSQLVarU.collId, entityTable, SSSQLVarU.id);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      checkFirstResult(resultSet);
       
       return SSColl.get(
         collUri,
@@ -750,42 +621,30 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }
   
   public SSColl getCollWithEntries(
-    final SSUri                           collUri,
+    final SSUri                 collUri,
     final List<SSCircleE>       circleTypes) throws Exception{
 
-    if(SSObjU.isNull(collUri, circleTypes)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-        
-    final List<String>        tableNames              = new ArrayList<String>();
-    final List<String>        columnNames             = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    final SSColl              coll;
-    ResultSet                 resultSet               = null;
-    SSCollEntry               collEntry;
+    ResultSet  resultSet = null;
     
     try{
       
-      coll = getColl(collUri, circleTypes);
+      final List<String>        tables    = new ArrayList<String>();
+      final List<String>        columns   = new ArrayList<String>();
+      final List<String>        tableCons = new ArrayList<String>();
+      final Map<String, String> wheres    = new HashMap<String, String>();
+      final SSColl              coll      = getColl(collUri, circleTypes);
+      SSCollEntry               collEntry;
+
+      table    (tables,    collEntryPosTable);
+      table    (tables,    entityTable);
+      column   (columns,   SSSQLVarU.entryId);
+      column   (columns,   SSSQLVarU.pos);
+      column   (columns,   SSSQLVarU.label);
+      column   (columns,   SSSQLVarU.type);
+      where    (wheres,    SSSQLVarU.collId,  coll.uri);
+      tableCon (tableCons, collEntryPosTable, SSSQLVarU.entryId, entityTable, SSSQLVarU.id);
       
-      tableNames.add              (collEntryPosTable); 
-      tableNames.add              (entityTable);
-      columnNames.add             (SSSQLVarU.entryId);
-      columnNames.add             (SSSQLVarU.pos);
-      columnNames.add             (SSSQLVarU.label);
-      columnNames.add             (SSSQLVarU.type);
-      
-      whereParNamesWithValues.put (SSSQLVarU.collId, coll.uri.toString());
-        
-      resultSet = 
-        dbSQL.selectCertainWhereOrderBy(
-        tableNames, 
-        columnNames, 
-        whereParNamesWithValues, 
-        SSSQLVarU.entryId + SSStrU.equal + SSSQLVarU.id,
-        SSSQLVarU.pos,
-        "ASC");
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons.get(0), SSSQLVarU.pos, "ASC");
       
       while(resultSet.next()){
         
@@ -809,27 +668,21 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSUri getUserRootCollURI(final SSUri userUri) throws Exception{
+  public SSUri getRootCollURIForUser(
+    final SSUri userUri) throws Exception{
     
-    if(SSObjU.isNull(userUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-     
-    final Map<String, String> selectPars      = new HashMap<String, String>();
-    ResultSet                 resultSet       = null;
+    ResultSet resultSet = null;
     
     try{
-      
-      selectPars.put(SSSQLVarU.userId, SSUri.toStr(userUri));
-      
-      resultSet = dbSQL.selectAllWhere(collRootTable, selectPars);
+      final Map<String, String> wheres = new HashMap<String, String>();
 
-      if(resultSet.first()){
-        return bindingStrToUri(resultSet, SSSQLVarU.collId);
-      }
+      where(wheres, SSSQLVarU.userId, userUri);
       
-      throw new Exception("user root coll doesnt exist");
+      resultSet = dbSQL.select(collRootTable, wheres);
+      
+      checkFirstResult(resultSet);
+
+      return bindingStrToUri(resultSet, SSSQLVarU.collId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -838,42 +691,19 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSUri getUserDirectParentCollURI(
-    final SSUri userUri, 
-    final SSUri childColl) throws Exception{
-    
-    if(isRootColl(childColl)){
-      return childColl;
-    }
-    
-    for(String parentCollUri : getDirectParentCollURIs(childColl.toString())){ 
-      
-      if(ownsUserColl(userUri, SSUri.get(parentCollUri))){
-        return SSUri.get(parentCollUri);
-      }
-    }
-    
-    SSServErrReg.regErrThrow(new Exception("user doesnt own coll"));
-    return null;
-  }
-
-  public Boolean containsEntry(
+  public Boolean containsCollEntry(
     final SSUri collUri, 
     final SSUri collEntryUri) throws Exception{
     
-    if(SSObjU.isNull(collUri, collEntryUri)){
-      SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
-      return null;
-    }
-    
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
+    ResultSet resultSet = null;
     
     try{
-      whereParNamesWithValues.put(SSSQLVarU.collId,  SSUri.toStr(collUri));
-      whereParNamesWithValues.put(SSSQLVarU.entryId, SSUri.toStr(collEntryUri));
-    
-      resultSet = dbSQL.selectAllWhere(collEntryPosTable, whereParNamesWithValues);
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.collId,  collUri);
+      where(wheres, SSSQLVarU.entryId, collEntryUri);
+      
+      resultSet = dbSQL.select(collEntryPosTable, wheres);
       
       return resultSet.first();
     }catch(Exception error){
@@ -884,23 +714,65 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public Boolean existsUserRootColl(
+  public Boolean existsCollRootForUser(
     final SSUri userUri) throws Exception{
     
-    if(SSObjU.isNull(userUri)){
-      SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
-      return null;
-    }
-    
-    final Map<String, String> selectPars         = new HashMap<String, String>();
-    ResultSet                 resultSet          = null;
+    ResultSet resultSet = null;
     
     try{
-      selectPars.put(SSSQLVarU.userId, userUri.toString());
       
-      resultSet  = dbSQL.selectAllWhere(collRootTable, selectPars);
+      final Map<String, String> wheres = new HashMap<String, String>();
+
+      where(wheres, SSSQLVarU.userId, userUri);
+      
+      resultSet  = dbSQL.select(collRootTable, wheres);
       
       return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getCollUserURIs(
+    final SSUri collUri) throws Exception{
+
+    ResultSet resultSet   = null;
+    
+    try{
+      
+      final Map<String, String> wheres       = new HashMap<String, String>();
+
+      where(wheres, SSSQLVarU.collId, collUri);
+      
+      resultSet = dbSQL.select(collUserTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.userId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<String> getCollURIsContainingEntity(
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.entryId, entityUri);
+      
+      resultSet = dbSQL.select(collEntryPosTable, wheres);
+      
+      return getStringsFromResult(resultSet, SSSQLVarU.collId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -915,68 +787,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   
   private static SSUri objColl() throws Exception{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.coll.toString());
-  }  
-  
-  public List<SSUri> getCollUsers(
-    final SSUri collUri) throws Exception{
-
-    if(SSObjU.isNull(collUri)){
-      SSServErrReg.regErrThrow(new Exception("parameter(s) null"));
-      return null;
-    }
-    
-    final Map<String, String> where       = new HashMap<String, String>();
-    final List<SSUri>         users       = new ArrayList<SSUri>();
-    ResultSet                 resultSet   = null;
-    
-    try{
-      where.put(SSSQLVarU.collId, collUri.toString());
-      
-      resultSet = dbSQL.selectAllWhere(collUserTable, where);
-      
-      while(resultSet.next()){
-        users.add(bindingStrToUri(resultSet, SSSQLVarU.userId));
-      }
-      
-      return users;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public List<String> getCollUrisContainingEntity(final SSUri entityUri) throws Exception{
-    
-    if(SSObjU.isNull(entityUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-        
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    final List<String>        collUris                = new ArrayList<String>();
-    ResultSet                 resultSet               = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.entryId, entityUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.selectAllWhere(collEntryPosTable, whereParNamesWithValues);
-      
-      while(resultSet.next()){
-        collUris.add(bindingStr(resultSet, SSSQLVarU.collId));
-      }
-      
-      return collUris;
-    
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+  } 
 }
 
 //  public SSSpaceEnum getUserCollSpace(SSUri user, SSUri coll) throws Exception{

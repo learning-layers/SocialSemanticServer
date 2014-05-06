@@ -56,7 +56,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet         resultSet = null;
 
     try{
-      resultSet = dbSQL.selectAll(discTable);
+      resultSet = dbSQL.select(discTable);
 
       while(resultSet.next()){
         discUris.add(bindingStrToUri(resultSet, SSSQLVarU.discId));
@@ -86,7 +86,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(discTable, whereParNamesWithValues);
+      resultSet = dbSQL.select(discTable, whereParNamesWithValues);
       
       while(resultSet.next()){
         discUris.add(SSUri.get(bindingStr(resultSet, SSSQLVarU.discId)));
@@ -143,7 +143,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     selectPars.put(SSSQLVarU.discId, discUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(discEntriesTable, selectPars);
+      resultSet = dbSQL.select(discEntriesTable, selectPars);
       
       resultSet.last();
       
@@ -168,7 +168,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(discTable, selectPars);
+      resultSet = dbSQL.select(discTable, selectPars);
       isDisc    = resultSet.first();
       
     }catch(Exception error){
@@ -191,7 +191,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
       
-      resultSet   = dbSQL.selectAllWhere(discEntriesTable, selectPars);
+      resultSet   = dbSQL.select(discEntriesTable, selectPars);
       isDiscEntry = resultSet.first();
       
     }catch(Exception error){
@@ -206,42 +206,33 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   public SSDisc getDiscWithoutEntries(
     final SSUri discUri) throws Exception{
     
-    if(SSObjU.isNull(discUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-    
-    final List<String>        tableNames              = new ArrayList<String>();
-    final List<String>        columNames              = new ArrayList<String>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
+    ResultSet resultSet = null;
     
     try{
-      tableNames.add(entityTable);
-      tableNames.add(discTable);
+      final List<String>        tables     = new ArrayList<String>();
+      final List<String>        columns    = new ArrayList<String>();
+      final List<String>        tableCons  = new ArrayList<String>();
+      final Map<String, String> wheres     = new HashMap<String, String>();
       
-      columNames.add(SSSQLVarU.label);
-      columNames.add(SSSQLVarU.author);
-      columNames.add(SSSQLVarU.discId);
-      columNames.add(SSSQLVarU.target);
+      table     (tableCons, entityTable);
+      table     (tableCons, discTable);
+      column    (columns,   SSSQLVarU.label);
+      column    (columns,   SSSQLVarU.author);
+      column    (columns,   SSSQLVarU.discId);
+      column    (columns,   SSSQLVarU.target);
+      where     (wheres,    SSSQLVarU.discId, discUri);
+      tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
-      whereParNamesWithValues.put(SSSQLVarU.discId, discUri.toString());
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
-      resultSet = dbSQL.selectCertainWhere(
-        tableNames,
-        columNames,
-        whereParNamesWithValues,
-        SSSQLVarU.discId + SSStrU.equal + SSSQLVarU.id);
+      checkFirstResult(resultSet);
       
-      resultSet.first();
-      
-      return
-        SSDisc.get(
-          discUri,
-          bindingStrToLabel (resultSet, SSSQLVarU.label),
-          bindingStrToUri   (resultSet, SSSQLVarU.author),
-          bindingStrToUri   (resultSet, SSSQLVarU.target),
-          null);
+      return SSDisc.get(
+        discUri,
+        bindingStrToLabel (resultSet, SSSQLVarU.label),
+        bindingStrToUri   (resultSet, SSSQLVarU.author),
+        bindingStrToUri   (resultSet, SSSQLVarU.target),
+        null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -262,7 +253,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     whereParNamesWithValues.put(SSSQLVarU.discId, discUri.toString());
     
-    dbSQL.deleteWhere(discTable, whereParNamesWithValues);
+    dbSQL.delete(discTable, whereParNamesWithValues);
   }
   
   public SSDisc getDiscWithEntries(
@@ -298,7 +289,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       whereFixed.add  (discEntriesTable + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
       whereFixed.add  (discEntryTable   + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
       
-      resultSet = dbSQL.selectCertainDistinctWhere(
+      resultSet = dbSQL.select(
         tableNames,
         columNames,
         where,

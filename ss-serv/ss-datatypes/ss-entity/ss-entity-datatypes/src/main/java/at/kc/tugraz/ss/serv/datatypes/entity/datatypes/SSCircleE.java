@@ -19,6 +19,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import java.util.ArrayList;
 import java.util.List;
 
 public enum SSCircleE implements SSJSONLDPropI{
@@ -29,6 +30,17 @@ public enum SSCircleE implements SSJSONLDPropI{
   org,
   clust,
   pub;
+  
+  public static List<SSCircleE> get(final List<String> values) throws Exception{
+    
+    final List<SSCircleE> result = new ArrayList<SSCircleE>();
+    
+    for(String value : values){
+      result.add(get(value));
+    }
+    
+    return result;
+  }
   
   public static SSCircleE get(final String value) throws Exception{
     return SSCircleE.valueOf(value);
@@ -47,6 +59,12 @@ public enum SSCircleE implements SSJSONLDPropI{
     }
     
     return circleType1.toString().equals(circleType2.toString());
+  }
+  
+  public static Boolean isGroupCircle(
+    final SSCircleE circleType){
+
+    return SSCircleE.equals(circleType, SSCircleE.group);
   }
   
   public static Boolean contains(

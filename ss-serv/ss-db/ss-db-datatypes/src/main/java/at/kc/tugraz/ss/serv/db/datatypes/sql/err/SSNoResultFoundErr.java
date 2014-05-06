@@ -18,32 +18,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.db.datatypes.sql.err;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-
-public class SSEntityAuthorGetPar extends SSServPar{
+public class SSNoResultFoundErr extends Exception{
   
-  public SSUri entityUri = null;
-    
-  public SSEntityAuthorGetPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entityUri   = (SSUri) pars.get(SSVarU.entityUri);
-      }
-      
-      if(clientPars != null){
-        entityUri   = SSUri.get(clientPars.get(SSVarU.entityUri));
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public SSNoResultFoundErr(final String message){
+    super(message);
   }
 }

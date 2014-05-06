@@ -76,4 +76,26 @@ public class SSEntity extends SSEntityA{
     
     return ld;
   }
+
+  /* getters for json */
+  
+  public String getUri(){
+    return SSUri.toStrWithoutSlash(uri);
+  }
+
+  public String getLabel(){
+    return SSLabel.toStr(label);
+  }
+
+  public Long getCreationTime(){
+    return creationTime;
+  }
+
+  public SSEntityE getType(){
+    return type;
+  }
+
+  public String getAuthor(){
+    return SSUri.toStrWithoutSlash(author);
+  }
 }

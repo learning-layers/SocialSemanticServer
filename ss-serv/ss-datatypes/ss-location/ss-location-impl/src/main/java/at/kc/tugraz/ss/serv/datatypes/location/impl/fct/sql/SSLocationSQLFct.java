@@ -21,9 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.location.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -38,86 +36,69 @@ import java.util.Map;
 
 public class SSLocationSQLFct extends SSDBSQLFct{
 
-  private static final String            locationTable                       = "location";
-  private static final String            locationsTable                      = "locations";
-  
   public SSLocationSQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
   
-  public Boolean existsLocationString(String locationString) throws Exception{
+  public Boolean existsLocationString(
+    final String locationString) throws Exception{
    
-    if(locationString == null){
-      SSServErrReg.regErrThrow(new Exception("locationString null"));
-      return null;
-    }
-    
-    HashMap<String, String> selectPars         = new HashMap<String, String>();
     ResultSet               resultSet          = null;
-    Boolean                 exists             = false;
-    List<String>            tableNames         = new ArrayList<String>();
-    List<String>            columnNames        = new ArrayList<String>();
-    Map<String, String>     whereParsAndValues = new HashMap<String, String>();
     
     try{
-      selectPars.put(SSSQLVarU.label, locationString);
-      selectPars.put(SSSQLVarU.type,  SSEntityE.toStr(SSEntityE.location));
+      final List<String>            tables         = new ArrayList<String>();
+      final List<String>            columns        = new ArrayList<String>();
+      final List<String>            tableCons      = new ArrayList<String>();
+      final Map<String, String>     wheres         = new HashMap<String, String>();
       
-      tableNames.add  (locationTable);
-      tableNames.add  (entityTable);
-      columnNames.add (SSSQLVarU.locationId);
-      columnNames.add (SSSQLVarU.id);
-      columnNames.add (SSSQLVarU.label);
+      table  (tables,     locationTable);
+      table  (tables,     entityTable);
+      column (columns,    SSSQLVarU.locationId);
+      column (columns,    SSSQLVarU.id);
+      column (columns,    SSSQLVarU.label);
+      where  (wheres,     SSSQLVarU.label, locationString);
+      where  (wheres,     SSSQLVarU.type,  SSEntityE.location);
+      tableCon(tableCons, entityTable,     SSSQLVarU.id, locationTable, SSSQLVarU.locationId);
       
-      whereParsAndValues.put(SSSQLVarU.label, locationString);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
-      resultSet =
-        dbSQL.selectCertainWhere(
-        tableNames,
-        columnNames,
-        whereParsAndValues,
-        SSSQLVarU.locationId + SSStrU.equal + SSSQLVarU.id);
-      
-      exists = resultSet.first();
+      return resultSet.first();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return exists;
   }
   
-  public SSUri getOrCreateLocationUri(Boolean exsitsTag, String locationString) throws Exception{
+  public SSUri getOrCreateLocationURI(
+    final Boolean existsTag, 
+    final String  locationString) throws Exception{
     
-    if(!exsitsTag){
+    if(!existsTag){
       return createLocationURI();
     }
         
-    ResultSet               resultSet          = null;
-    List<String>            tableNames         = new ArrayList<String>();
-    List<String>            columnNames        = new ArrayList<String>();
-    Map<String, String>     whereParsAndValues = new HashMap<String, String>();
+    ResultSet resultSet = null;
     
     try{
+      final List<String>            tables     = new ArrayList<String>();
+      final List<String>            columns    = new ArrayList<String>();
+      final List<String>            tableCons  = new ArrayList<String>();
+      final Map<String, String>     wheres     = new HashMap<String, String>();
       
-      tableNames.add  (locationTable);
-      tableNames.add  (entityTable);
-      columnNames.add (SSSQLVarU.tagId);
-      columnNames.add (SSSQLVarU.id);
-      columnNames.add (SSSQLVarU.label);
+      table    (tables,    locationTable);
+      table    (tables,    entityTable);
+      column   (columns,   SSSQLVarU.tagId);
+      column   (columns,   SSSQLVarU.id);
+      column   (columns,   SSSQLVarU.label);
+      where    (wheres,    SSSQLVarU.label, locationString);
+      tableCon (tableCons, locationTable,   SSSQLVarU.locationId, entityTable, SSSQLVarU.id);
       
-      whereParsAndValues.put(SSSQLVarU.label, locationString);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
-      resultSet =
-        dbSQL.selectCertainWhere(
-        tableNames,
-        columnNames,
-        whereParsAndValues,
-        SSSQLVarU.locationId + SSStrU.equal + SSSQLVarU.id);
-      
-      resultSet.first();
+      checkFirstResult(resultSet);
       
       return bindingStrToUri(resultSet, SSSQLVarU.id);
       
@@ -129,183 +110,154 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void addLocation(SSUri locationUri) throws Exception{
-    
-    if(locationUri == null){
-      SSServErrReg.regErrThrow(new Exception("locationUri null"));
-      return;
-    }
-    
-    final Map<String, String> insertPars  = new HashMap<String, String>();
-    
-    insertPars.put(SSSQLVarU.locationId, locationUri.toString());
+  public void addLocation(
+    final SSUri locationUri) throws Exception{
     
     try{
-      dbSQL.insert(locationTable, insertPars);
+      final Map<String, String> inserts  = new HashMap<String, String>();
+      
+      insert(inserts, SSSQLVarU.locationId, locationUri);
+      
+      dbSQL.insert(locationTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public Boolean existsLocationAss(SSUri userUri, SSUri entityUri, SSUri locationUri) throws Exception{
-   
-    if(
-      userUri        == null ||
-      entityUri      == null ||
-      locationUri    == null){
-      SSServErrReg.regErrThrow(new Exception("pars not ok"));
+  public Boolean existsLocationAss(
+    final SSUri userUri, 
+    final SSUri entityUri,
+    final SSUri locationUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.locationId,   locationUri);
+      where(wheres, SSSQLVarU.entityId,     entityUri);
+      where(wheres, SSSQLVarU.userId,       userUri);
+      
+      resultSet = dbSQL.select(locationsTable, wheres);
+      
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
-    }
-    
-    final HashMap<String, String> selectPars = new HashMap<String, String>();
-    ResultSet                     resultSet  = null;
-    Boolean                       exists     = null;
-    
-    try{
-      selectPars.put(SSSQLVarU.locationId,   locationUri.toString());
-      selectPars.put(SSSQLVarU.entityId,     entityUri.toString());
-      selectPars.put(SSSQLVarU.userId,       userUri.toString());
-      
-      resultSet = dbSQL.selectAllWhere(locationsTable, selectPars);
-      exists    = resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-
-    return exists;
   }
   
-  public void addLocationAss(SSUri userUri, SSUri entityUri, SSUri locationUri) throws Exception{
+  public void addLocationAss(
+    final SSUri userUri, 
+    final SSUri entityUri, 
+    final SSUri locationUri) throws Exception{
   
-    if(
-      userUri     == null ||
-      entityUri   == null ||
-      locationUri == null){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return;
-    }
-    
-    final HashMap<String, String> insertPars = new HashMap<String, String>();
-    
-    insertPars.put(SSSQLVarU.locationId,   locationUri.toString());
-    insertPars.put(SSSQLVarU.entityId,     entityUri.toString());
-    insertPars.put(SSSQLVarU.userId,       userUri.toString());
-
     try{
-      dbSQL.insert(locationsTable, insertPars);
+      final Map<String, String> inserts = new HashMap<String, String>();
+      
+      insert (inserts, SSSQLVarU.locationId, locationUri);
+      insert (inserts, SSSQLVarU.entityId,   entityUri);
+      insert (inserts, SSSQLVarU.userId,     userUri);
+      
+      dbSQL.insert(locationsTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 
-  public Boolean existsLocationForEntity(SSUri entity) throws Exception{
+  public Boolean existsLocationForEntity(
+    final SSUri entityUri) throws Exception{
     
-    ResultSet           resultSet               = null;
-    Map<String, String> selectPars              = new HashMap<String, String>();
-    Boolean             existsLocationForEntity = false;
-    
-    selectPars.put(SSSQLVarU.entryId, entity.toString());
+    ResultSet resultSet = null;
     
     try{
-      resultSet               = dbSQL.selectAllWhere(locationTable, selectPars);
-      existsLocationForEntity = resultSet.first();
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.entityId, entityUri);
+      
+      resultSet = dbSQL.select(locationTable, wheres);
+      
+      return resultSet.first();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return existsLocationForEntity;
   }
   
   public void deleteLocationAss(
     final SSUri userUri,
     final SSUri entityUri) throws Exception{
     
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    
-    if(userUri != null){
-      whereParNamesWithValues.put(SSSQLVarU.userId,   userUri.toString());
-    }
-    
-    if(entityUri != null){
-      whereParNamesWithValues.put(SSSQLVarU.entityId, entityUri.toString());
-    }
-    
-    if(whereParNamesWithValues.isEmpty()){
-      dbSQL.deleteAll(locationsTable);
-    }else{
-      dbSQL.deleteWhere(locationsTable, whereParNamesWithValues);
-    }
-  }
-
-  public List<String> getLocationAsss(SSUri userUri, SSUri entityUri, String locationString) throws Exception{
-    
-    if(SSObjU.isNull(userUri, entityUri, locationString)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return null;
-    }
-    
-    final List<String>        locations          = new ArrayList<String>();
-    final List<String>        tableNames         = new ArrayList<String>();
-    final List<String>        columnNames        = new ArrayList<String>();
-    final Map<String, String> whereParsAndValues = new HashMap<String, String>();
-    ResultSet                 resultSet          = null;
-    SSUri                     locationUri        = null;
-    
     try{
-      
-      if(locationString != null){
-        
-        if(!existsLocationString(locationString)){
-          return locations;
-        }
-        
-        locationUri = getOrCreateLocationUri(true, locationString);
-      }
-      
-      tableNames.add (locationsTable);
-      tableNames.add (entityTable);
-      columnNames.add(SSSQLVarU.locationId);
-      columnNames.add(SSSQLVarU.entityId);
-      columnNames.add(SSSQLVarU.userId);
-      columnNames.add(SSSQLVarU.label);
+      final Map<String, String> wheres = new HashMap<String, String>();
       
       if(userUri != null){
-        whereParsAndValues.put(SSSQLVarU.userId, userUri.toString());
+        where(wheres, SSSQLVarU.userId,   userUri);
       }
       
       if(entityUri != null){
-        whereParsAndValues.put(SSSQLVarU.entityId, entityUri.toString());
+        where(wheres, SSSQLVarU.entityId, entityUri);
+      }
+      
+      if(wheres.isEmpty()){
+        dbSQL.delete(locationsTable);
+      }else{
+        dbSQL.delete(locationsTable, wheres);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public List<String> getLocationAsss(
+    final SSUri  userUri, 
+    final SSUri  entityUri, 
+    final String locationString) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>        tables         = new ArrayList<String>();
+      final List<String>        columns        = new ArrayList<String>();
+      final List<String>        tableCons      = new ArrayList<String>();
+      final Map<String, String> wheres         = new HashMap<String, String>();
+      final SSUri               locationUri    = getOrCreateLocationURI(existsLocationString(locationString), locationString);
+      
+      table    (tables,    locationsTable);
+      table    (tables,    entityTable);
+      column   (columns,   SSSQLVarU.locationId);
+      column   (columns,   SSSQLVarU.entityId);
+      column   (columns,   SSSQLVarU.userId);
+      column   (columns,   SSSQLVarU.label);
+      tableCon (tableCons, locationsTable, SSSQLVarU.locationId, entityTable, SSSQLVarU.id);
+      
+      if(userUri != null){
+        where(wheres, SSSQLVarU.userId, userUri);
+      }
+      
+      if(entityUri != null){
+        where(wheres, SSSQLVarU.entityId, entityUri);
       }
       
       if(locationUri != null){
-        whereParsAndValues.put(SSSQLVarU.locationId, locationUri.toString());
+        where(wheres, SSSQLVarU.locationId, locationUri);
       }
       
-      resultSet =
-        dbSQL.selectCertainWhere(
-        tableNames,
-        columnNames,
-        whereParsAndValues,
-        SSSQLVarU.locationId + SSStrU.equal + SSSQLVarU.id);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
-      while(resultSet.next()){
-        
-        if(!locations.contains(bindingStr(resultSet, SSSQLVarU.label))){
-          locations.add(bindingStr(resultSet, SSSQLVarU.label));
-        }
-      }  
+      return getStringsFromResult(resultSet, SSSQLVarU.label);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return locations;
   }
   
   public SSUri createLocationURI() throws Exception{

@@ -23,36 +23,42 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityLabelGetRet extends SSServRetI{
+public class SSEntityUserGetRet extends SSServRetI{
 
-  public SSLabel label = null;
+  public SSEntity entity = null;
 
-  public static SSEntityLabelGetRet get(SSLabel label, SSMethU op){
-    return new SSEntityLabelGetRet(label, op);
+  public static SSEntityUserGetRet get(
+    final SSEntity entity, 
+    final SSMethU  op){
+    
+    return new SSEntityUserGetRet(entity, op);
   }
   
-  private SSEntityLabelGetRet(SSLabel label, SSMethU op){
+  private SSEntityUserGetRet(
+    final SSEntity entity, 
+    final SSMethU  op){
     
     super(op);
-    this.label = label;
+    
+    this.entity = entity;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.label, SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
     
     return ld;
   }
   
-  public String getLabel() {
-    return SSLabel.toStr(label);
+  public SSEntity getEntity() {
+    return entity;
   }
 }

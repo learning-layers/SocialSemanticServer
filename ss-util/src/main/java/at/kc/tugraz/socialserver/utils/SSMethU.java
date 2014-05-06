@@ -51,18 +51,14 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
-  entityTypeGet                                       ,
   entityDescGet                                       ,
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
-  entityCreationTimeGet                               ,
   entityGet                                           ,
   entitySearchWithKeywordWithin                       ,                         
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityLabelGet                                      ,
   entityLabelSet                                      ,
-  entityAuthorGet                                     ,
   entityCirclePublicAdd,
   entityCircleURIPublicGet,
   entityUserCircleDelete,
@@ -80,6 +76,7 @@ public enum SSMethU{
   entityMostOpenCircleTypeGet,
   entityUserEntityCircleTypesGet,
   entityUserPublicSet,
+  entityUserGet,
   entityUserShare,
   entityUserEntityUsersGet,
   

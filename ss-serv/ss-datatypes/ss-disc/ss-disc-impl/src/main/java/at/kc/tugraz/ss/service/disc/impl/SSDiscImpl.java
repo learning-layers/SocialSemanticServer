@@ -37,7 +37,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -213,7 +212,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSDiscUserRemovePar par = new SSDiscUserRemovePar(parA);
 
     try {
-      final SSUri author = SSServCaller.entityAuthorGet(par.user, par.discUri);
+      final SSUri author = SSServCaller.entityGet(par.user, par.discUri).author;
 
       if (!SSUri.equals(author, par.user)) {
         throw new Exception("user is not author of disc");
@@ -273,7 +272,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           SSEntityE.entity,
           false);
         
-        discLabel = SSServCaller.entityLabelGet(par.target);
+        discLabel = SSServCaller.entityGet(par.user, par.target).label;
         
         SSServCaller.entityAdd(
           par.user,

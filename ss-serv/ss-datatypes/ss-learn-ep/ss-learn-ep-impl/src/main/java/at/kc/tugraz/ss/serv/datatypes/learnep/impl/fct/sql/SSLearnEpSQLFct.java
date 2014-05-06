@@ -71,7 +71,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet  = dbSQL.selectAllWhere(learnEpTable, selectPars);
+      resultSet  = dbSQL.select(learnEpTable, selectPars);
       isLearnEp  = resultSet.first();
       
     }catch(Exception error){
@@ -93,7 +93,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet  = dbSQL.selectAllWhere(learnEpVersionTable, selectPars);
+      resultSet  = dbSQL.select(learnEpVersionTable, selectPars);
       isVersion  = resultSet.first();
       
     }catch(Exception error){
@@ -115,7 +115,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(learnEpCircleTable, selectPars);
+      resultSet = dbSQL.select(learnEpCircleTable, selectPars);
       isCircle  = resultSet.first();
       
     }catch(Exception error){
@@ -137,7 +137,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet = dbSQL.selectAllWhere(learnEpEntityTable, selectPars);
+      resultSet = dbSQL.select(learnEpEntityTable, selectPars);
       isEntity  = resultSet.first();
       
     }catch(Exception error){
@@ -159,7 +159,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet       = dbSQL.selectAllWhere(learnEpTimelineStateTable, selectPars);
+      resultSet       = dbSQL.select(learnEpTimelineStateTable, selectPars);
       isTimelineState = resultSet.first();
       
     }catch(Exception error){
@@ -180,7 +180,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.userId, user.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpUserTable, selectPars);
+      resultSet = dbSQL.select(learnEpUserTable, selectPars);
       
       while(resultSet.next()){
         learnEps.add(
@@ -207,7 +207,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.userId, user.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionCurrentTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, selectPars);
       
       if(!resultSet.first()){
         return null;
@@ -233,7 +233,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionsTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionsTable, selectPars);
       
       resultSet.first();
       
@@ -270,7 +270,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpId, learnEpUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionsTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionsTable, selectPars);
       
       while(resultSet.next()){
         
@@ -307,7 +307,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionCirclesTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionCirclesTable, selectPars);
       
       while(resultSet.next()){
         learnEpCirclesUris.add(bindingStrToUri(resultSet, SSSQLVarU.learnEpCircleId));
@@ -335,7 +335,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionEntitiesTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionEntitiesTable, selectPars);
       
       while(resultSet.next()){
         learnEpEntityUris.add(bindingStrToUri(resultSet, SSSQLVarU.learnEpEntityId));
@@ -362,7 +362,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpCircleId, circleUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpCircleTable, selectPars);
+      resultSet = dbSQL.select(learnEpCircleTable, selectPars);
       
       resultSet.first();
       
@@ -395,7 +395,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpEntityTable, selectPars);
+      resultSet = dbSQL.select(learnEpEntityTable, selectPars);
       
       resultSet.first();
       
@@ -481,7 +481,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
       deletePars.put(SSSQLVarU.learnEpEntityId, SSUri.toStr(entityUri));
       
-      dbSQL.deleteWhere(learnEpEntityTable, deletePars);
+      dbSQL.delete(learnEpEntityTable, deletePars);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -500,7 +500,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
       deletePars.put(SSSQLVarU.learnEpCircleId, SSUri.toStr(circleUri));
       
-      dbSQL.deleteWhere(learnEpCircleTable, deletePars);
+      dbSQL.delete(learnEpCircleTable, deletePars);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -529,7 +529,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     newValues.put(SSSQLVarU.xC,                 xC.toString());
     newValues.put(SSSQLVarU.yC,                 yC.toString());
     
-    dbSQL.updateWhere(learnEpCircleTable, updatePars, newValues);
+    dbSQL.update(learnEpCircleTable, updatePars, newValues);
   }
   
   public void updateEntity(
@@ -548,7 +548,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     newValues.put(SSSQLVarU.x,                  x.toString());
     newValues.put(SSSQLVarU.y,                  y.toString());
     
-    dbSQL.updateWhere(learnEpEntityTable, updatePars, newValues);
+    dbSQL.update(learnEpEntityTable, updatePars, newValues);
   }
   
   public void addEntityToLearnEpVersion(
@@ -603,7 +603,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.userId, user.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionCurrentTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, selectPars);
       
       if(resultSet.first()){
         
@@ -612,7 +612,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         updatePars.put (SSSQLVarU.userId,           user.toString());
         newValues.put  (SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
         
-        dbSQL.updateWhere(learnEpVersionCurrentTable, updatePars, newValues);
+        dbSQL.update(learnEpVersionCurrentTable, updatePars, newValues);
       }else{
         
         insertPars = new HashMap<String, String>();
@@ -652,7 +652,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       deletePars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
         
-      dbSQL.deleteWhere(learnEpVersionTimelineStatesTable, deletePars);
+      dbSQL.delete(learnEpVersionTimelineStatesTable, deletePars);
       
       insertPars.clear();
       insertPars.put(SSSQLVarU.learnEpVersionId,       learnEpVersionUri.toString());
@@ -679,7 +679,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpVersionTimelineStatesTable, selectPars);
+      resultSet = dbSQL.select(learnEpVersionTimelineStatesTable, selectPars);
       
       resultSet.first();
       
@@ -696,7 +696,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     selectPars.put(SSSQLVarU.learnEpTimelineStateId, SSStrU.toString(timelineStateUri));
     
     try{
-      resultSet = dbSQL.selectAllWhere(learnEpTimelineStateTable, selectPars);
+      resultSet = dbSQL.select(learnEpTimelineStateTable, selectPars);
       
       resultSet.first();
       

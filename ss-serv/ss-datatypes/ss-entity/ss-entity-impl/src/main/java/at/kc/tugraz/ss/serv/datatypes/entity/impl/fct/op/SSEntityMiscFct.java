@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +54,9 @@ public class SSEntityMiscFct{
       
       try{
         if(
-          isSystemCircle  (sqlFct, circleUri) ||
-          !isGroupCircle  (sqlFct, circleUri) ||
-          !isUserInCircle (sqlFct, userUri, circleUri)){
+          sqlFct.isSystemCircle  (circleUri) ||
+          !sqlFct.isGroupCircle  (circleUri) ||
+          !sqlFct.isUserInCircle (userUri, circleUri)){
           
           throw new Exception("user is not allowed to edit circle");
         }
@@ -70,50 +69,6 @@ public class SSEntityMiscFct{
     }
   }
   
-  private static Boolean isUserInCircle(
-    final SSEntitySQLFct sqlFct, 
-    final SSUri          userUri, 
-    final SSUri          circleUri) throws Exception{
-  
-    try{
-      return SSUri.contains (sqlFct.getUserCircleURIs(userUri), circleUri);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private static Boolean isGroupCircle(
-    final SSEntitySQLFct sqlFct, 
-    final SSUri          circleUri) throws Exception{
-    
-    try{
-      
-      return SSCircleE.equals(sqlFct.getCircleType(circleUri), SSCircleE.group);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static Boolean isSystemCircle(
-    final SSEntitySQLFct sqlFct, 
-    final SSUri          circleUri) throws Exception{
-    
-    try{
-      return SSUri.equals(sqlFct.getEntityAuthor(circleUri), SSUri.get(SSUserGlobals.systemUserURI));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  private static Boolean isGroupCircle(
-    final SSCircleE circleType){
-    
-    return SSCircleE.equals(circleType, SSCircleE.group);
-  }
-
   public static void checkWhetherUsersExist(
     final List<SSUri> userUris) throws Exception{
     
@@ -138,7 +93,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(!isGroupCircle(circleType)){
+      if(!SSCircleE.isGroupCircle(circleType)){
         throw new Exception("circle is no group circle");
       }
     }catch(Exception error){
@@ -151,10 +106,6 @@ public class SSEntityMiscFct{
     final SSUri entityUri) throws Exception{
     
     try{
-      
-      if(SSObjU.isNull(userUri, entityUri)){
-        throw new Exception("pars null");
-      }
       
       if(!SSServCaller.entityUserCanEdit(userUri, entityUri)){
         throw new Exception("user cannot edit entity");
@@ -170,10 +121,6 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUri)){
-        throw new Exception("pars null");
-      }
-      
       if(!SSServCaller.entityUserCanRead(userUri, entityUri)){
         throw new Exception("user cannot read");
       }
@@ -188,10 +135,6 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUris)){
-        throw new Exception("pars null");
-      }
-      
       for(SSUri entityUri : entityUris){
         
         if(!SSServCaller.entityUserCanEdit(userUri, entityUri)){
@@ -203,87 +146,13 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void addEntityToCircle(
-    final SSEntitySQLFct              sqlFct, 
-    final SSUri                       entityUri, 
-    final SSUri                       circleUri) throws Exception{
-  
-    try{
-      
-      if(SSObjU.isNull(entityUri, circleUri)){
-        throw new Exception("pars null");
-      }
-      
-      sqlFct.addEntityToCircle(circleUri, entityUri);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addEntitiesToCircle(
-    final SSEntitySQLFct              sqlFct, 
-    final List<SSUri>                 entityUris, 
-    final SSUri                       circleUri) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(entityUris, circleUri)){
-        throw new Exception("pars null");
-      }
-      
-      for(SSUri entityUri : entityUris){
-        sqlFct.addEntityToCircle(circleUri, entityUri);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addUserToCircle(
-    final SSEntitySQLFct              sqlFct,
-    final SSUri                       userUri,
-    final SSUri                       circleUri) throws Exception{
-    
-    try{
-      sqlFct.addUserToCircle(circleUri, userUri);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addUsersToCircle(
-    final SSEntitySQLFct              sqlFct,
-    final List<SSUri>                 userUris,
-    final SSUri                       circleUri) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(userUris, circleUri)){
-        throw new Exception("pars null");
-      }
-      
-      for(SSUri userUri : userUris){
-        sqlFct.addUserToCircle(circleUri, userUri);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static SSUri createCircleWithRights(
+  public static SSUri createCircle(
     final SSEntitySQLFct          sqlFct,
     final SSUri                   circleAuthor,
-    final SSCircleE     circleType,
-    final SSLabel              circleLabel) throws Exception{
+    final SSCircleE               circleType,
+    final SSLabel                 circleLabel) throws Exception{
     
     try{
-      
-      if(SSObjU.isNull(circleType, circleAuthor, circleLabel)){
-        throw new Exception("pars null");
-      }
       
       final SSUri circleUri = sqlFct.createCircleURI();
       
@@ -315,10 +184,6 @@ public class SSEntityMiscFct{
   
     try{
       
-      if(SSObjU.isNull(userUri, entityUris)){
-        throw new Exception("pars null");
-      }
-      
       for(SSUri entityUri : entityUris){
         
         SSServCaller.entityAdd(
@@ -341,11 +206,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, userUris, entityUri, circleUri)){
-        throw new Exception("pars null");
-      }
-            
-      final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
@@ -366,11 +227,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUri)){
-        throw new Exception("pars null");
-      }
-      
-      final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
       
       if(SSEntityE.equals(entityType, SSEntityE.entity)){
         return;
@@ -397,15 +254,11 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUris, circleUri)){
-        throw new Exception("pars null");
-      }
-      
       Boolean handledEntity;
       
       for(SSUri entityUri : entityUris){
         
-        final SSEntityE entityType = SSServCaller.entityTypeGet(entityUri);
+        final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
         
         if(SSEntityE.equals(entityType, SSEntityE.entity)){
           continue;
@@ -461,11 +314,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      if(SSObjU.isNull(userUri, entityUri, keyword)){
-        throw new Exception("pars null");
-      }
-      
-      final SSEntityE    entityType = SSServCaller.entityTypeGet(entityUri);
+      final SSEntityE    entityType = SSServCaller.entityGet(userUri, entityUri).type;
       List<SSUri>        entityUris;
       
       if(SSEntityE.equals(entityType, SSEntityE.entity)){
@@ -497,10 +346,6 @@ public class SSEntityMiscFct{
     final List<SSUri>     discUris) throws Exception{
     
     try{
-      
-      if(SSObjU.isNull(userUri, entity, tags, overallRating, discUris)){
-        throw new Exception("pars null");
-      }
       
       SSEntityDescA result = 
         SSEntityDesc.get(

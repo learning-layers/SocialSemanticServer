@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String entity                                         = "entity";
   public static final String comment                                        = "comment";
   public static final String textComments                                   = "textComments";
   public static final String tagLabels                                      = "tagLabels";

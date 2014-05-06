@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
+import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
@@ -51,9 +52,9 @@ public class SSCollEntryAddFct{
       SSEntityE.coll, 
       false);
     
-    sqlFct.createColl(par.collEntry);
+    sqlFct.addColl(par.collEntry);
     
-    sqlFct.addCollToUserColl(
+    sqlFct.addCollToColl(
       par.user, 
       par.coll, 
       par.collEntry, 
@@ -91,11 +92,11 @@ public class SSCollEntryAddFct{
       throw new Exception("coll is already followed by user");
     }
     
-    if(sqlFct.ownsUserASubColl(par.user, par.collEntry)){
+    if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.user, par.collEntry)){
       throw new Exception("a sub coll is already followed");
     }
     
-    sqlFct.addCollToUserColl(
+    sqlFct.addCollToColl(
       par.user, 
       par.coll, 
       par.collEntry, 
@@ -116,7 +117,7 @@ public class SSCollEntryAddFct{
       SSEntityE.entity,
       false);
     
-    sqlFct.addEntryToColl(par.coll, par.collEntry);
+    sqlFct.addCollEntry(par.coll, par.collEntry);
     
     for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       

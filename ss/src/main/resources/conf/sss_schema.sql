@@ -123,7 +123,8 @@ DROP TABLE IF EXISTS `circle`;
 CREATE TABLE `circle` (
   `circleId` varchar(100) NOT NULL,
   `circleType` varchar(100) NOT NULL,
-  PRIMARY KEY (`circleId`)
+  PRIMARY KEY (`circleId`),
+  CONSTRAINT `circleIdcircle` FOREIGN KEY (`circleId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -147,6 +148,8 @@ CREATE TABLE `circleentities` (
   `circleId` varchar(100) NOT NULL,
   `entityId` varchar(100) NOT NULL,
   PRIMARY KEY (`circleId`,`entityId`),
+  KEY `entityIdFKcircleentities_idx` (`entityId`),
+  CONSTRAINT `entityIdFKcircleentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `circleIdFKcircleentities` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -171,6 +174,8 @@ CREATE TABLE `circleusers` (
   `circleId` varchar(100) NOT NULL,
   `userId` varchar(100) NOT NULL,
   PRIMARY KEY (`circleId`,`userId`),
+  KEY `userIdFKcircleusers_idx` (`userId`),
+  CONSTRAINT `userIdFKcircleusers` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `circleIdFKcircleusers` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -194,7 +199,8 @@ DROP TABLE IF EXISTS `coll`;
 CREATE TABLE `coll` (
   `collId` varchar(200) NOT NULL,
   PRIMARY KEY (`collId`),
-  KEY `spaceFKcoll_idx` (`collId`)
+  KEY `spaceFKcoll_idx` (`collId`),
+  CONSTRAINT `collIdcoll` FOREIGN KEY (`collId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -221,6 +227,7 @@ CREATE TABLE `collentrypos` (
   PRIMARY KEY (`collId`,`entryId`,`pos`),
   KEY `collIdFKcollentrypos_idx` (`collId`),
   KEY `entryIdFKcollentrypos_idx` (`entryId`),
+  CONSTRAINT `collEntryIdFKcollentrypos` FOREIGN KEY (`entryId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `collIdFKcollentrypos` FOREIGN KEY (`collId`) REFERENCES `coll` (`collId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -321,6 +328,7 @@ CREATE TABLE `colluser` (
   `collId` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`,`collId`),
   KEY `collIdFKusercoll_idx` (`collId`),
+  CONSTRAINT `userIdFKcolluser` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `collIdFKcolluser` FOREIGN KEY (`collId`) REFERENCES `coll` (`collId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -877,4 +885,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-02 15:12:48
+-- Dump completed on 2014-05-06 13:12:48

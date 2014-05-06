@@ -350,7 +350,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
   }
 
-  /*  SSCollServerI */
+  /* SSCollServerI */
   @Override
   public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
 
@@ -358,7 +358,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(sqlFct.existsUserRootColl(par.user)){
+      if(sqlFct.existsCollRootForUser(par.user)){
         return true;
       }
 
@@ -373,7 +373,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         SSEntityE.coll,
         false);
       
-      sqlFct.createColl (rootCollUri);
+      sqlFct.addColl (rootCollUri);
 
       SSServCaller.entityCircleCreate(
         par.user,
@@ -390,7 +390,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         false);
       
-      sqlFct.addRootColl(
+      sqlFct.addCollRoot(
         rootCollUri, 
         par.user);
       
@@ -404,7 +404,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           false,
           false);
       
-      sqlFct.addSpecialColl(
+      sqlFct.addCollSpecial(
         sharedWithMeFilesCollUri,
         par.user);
 
@@ -570,7 +570,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("no coll entry provided");
       }
 
-      if(sqlFct.containsEntry(par.coll, par.collEntry)){
+      if(sqlFct.containsCollEntry(par.coll, par.collEntry)){
         return par.collEntry;
       }
 
@@ -623,17 +623,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         final SSUri rootCollUri = SSServCaller.collUserRootGet (par.userUriToShareWith).uri;
         
-        if(sqlFct.isSpecialColl(par.entityUri)){
+        if(sqlFct.isCollSpecial(par.entityUri)){
           throw new Exception("cannot share special collection");
         }
         
         if(
-          sqlFct.containsEntry (rootCollUri, par.entityUri) ||
+          sqlFct.containsCollEntry (rootCollUri, par.entityUri) ||
           sqlFct.ownsUserColl  (par.userUriToShareWith, par.entityUri)){
           throw new Exception("coll is already shared with user");
         }
         
-        if(sqlFct.ownsUserASubColl(par.userUriToShareWith, par.entityUri)){
+        if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.userUriToShareWith, par.entityUri)){
           throw new Exception("a sub coll is already shared with user");
         }
         
@@ -649,9 +649,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
       }else{
         
-        final SSUri sharedWithMeFilesCollUri  = sqlFct.getSpecialCollUri (par.userUriToShareWith);
+        final SSUri sharedWithMeFilesCollUri  = sqlFct.getCollSpecialURI (par.userUriToShareWith);
        
-        if(sqlFct.containsEntry (sharedWithMeFilesCollUri, par.entityUri)){
+        if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, par.entityUri)){
           throw new Exception("entity is already shared with user");
         }
         
@@ -694,7 +694,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user is not allowed to set coll public");
       }
       
-      if(sqlFct.isSpecialColl(par.collUri)){
+      if(sqlFct.isCollSpecial(par.collUri)){
         throw new Exception("cannot set special collection public");
       }
 
@@ -748,7 +748,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.changeCollEntriesPos(par.coll, collEntries, order);
+      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
 
       dbSQL.commit(par.shouldCommit);
 
@@ -794,7 +794,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
       final List<SSColl>              userCollsWithEntries = new ArrayList<SSColl>();
       
-      for(String collUri : sqlFct.getAllUserCollURIs(par.user)){
+      for(String collUri : sqlFct.getCollURIsForUser(par.user)){
 
         userCollsWithEntries.add(
           SSCollMiscFct.getCollWithEntriesWithCircleTypes(
@@ -820,7 +820,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
         sqlFct,
         par.user,
-        sqlFct.getUserRootCollURI(par.user));
+        sqlFct.getRootCollURIForUser(par.user));
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -842,7 +842,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
         sqlFct,
         par.user,
-        sqlFct.getUserDirectParentCollURI(par.user, par.coll));
+        SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll));
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -865,14 +865,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user access this collection");
       }
 
-      rootCollUri          = sqlFct.getUserRootCollURI         (par.user);
-      directPartentCollUri = sqlFct.getUserDirectParentCollURI (par.user, par.collUri);
+      rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
+      directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.collUri);
 
       while(!SSUri.equals(rootCollUri, directPartentCollUri)){
 
         hierarchy.add(directPartentCollUri);
 
-        directPartentCollUri = sqlFct.getUserDirectParentCollURI(par.user, directPartentCollUri);
+        directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, directPartentCollUri);
       }
 
       hierarchy.add(rootCollUri);
@@ -884,7 +884,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             collUri,
             null,
             null,
-            SSStrU.toString(SSServCaller.entityLabelGet(collUri)),
+            SSLabel.toStr(SSServCaller.entityGet(par.user, collUri)),
             null));
       }
 
@@ -983,8 +983,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot access entity");
       }
 
-      userCollUris = sqlFct.getAllUserCollURIs(par.user);
-      collUris     = sqlFct.getCollUrisContainingEntity(par.entityUri);
+      userCollUris = sqlFct.getCollURIsForUser(par.user);
+      collUris     = sqlFct.getCollURIsContainingEntity(par.entityUri);
 
       for(String coll : SSStrU.retainAll(collUris, userCollUris)){
         colls.add(sqlFct.getCollWithEntries(SSUri.get(coll), new ArrayList<SSCircleE>()));
@@ -1002,10 +1002,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
       final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
-      final List<String>                    userCollUris = sqlFct.getAllUserCollURIs(par.user);
+      final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
       final List<SSColl>                    publicColls  = new ArrayList<SSColl>();
 
-      for(SSColl publicColl : sqlFct.getAllPublicColls()){
+      for(SSColl publicColl : sqlFct.getCollsPublic()){
 
         if(!userCollUris.contains(SSUri.toStr(publicColl.uri))){
           publicColls.add(publicColl);

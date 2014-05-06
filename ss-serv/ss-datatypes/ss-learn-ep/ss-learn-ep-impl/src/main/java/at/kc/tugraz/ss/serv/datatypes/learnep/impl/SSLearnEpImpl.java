@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
@@ -729,17 +728,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public SSLearnEpVersion learnEpVersionGet(SSServPar parI) throws Exception {
+  public SSLearnEpVersion learnEpVersionGet(final SSServPar parA) throws Exception {
     
-    SSLearnEpVersionGetPar par            = new SSLearnEpVersionGetPar(parI);
+    SSLearnEpVersionGetPar par            = new SSLearnEpVersionGetPar(parA);
     SSLearnEpVersion       learnEpVersion = null;
     
     try{
       learnEpVersion           = sqlFct.getLearnEpVersion(par.learnEpVersionUri);
-      learnEpVersion.timestamp = SSServCaller.entityCreationTimeGet(learnEpVersion.learnEpVersionUri).toString();
+      learnEpVersion.timestamp = SSServCaller.entityGet(par.user, learnEpVersion.learnEpVersionUri).creationTime.toString();
       
       for(SSLearnEpCircle circle : learnEpVersion.circles){
-        circle.label = SSServCaller.entityLabelGet(circle.learnEpCircleUri);
+        circle.label = SSServCaller.entityGet(par.user, circle.learnEpCircleUri).label;
       }
       
     }catch(Exception error){
@@ -761,10 +760,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       for(SSLearnEpVersion learnEpVersion: learnEpVersions){
         
-        learnEpVersion.timestamp = SSServCaller.entityCreationTimeGet(learnEpVersion.learnEpVersionUri).toString();
+        learnEpVersion.timestamp = SSServCaller.entityGet(par.user, learnEpVersion.learnEpVersionUri).creationTime.toString();
         
         for(SSLearnEpCircle circle : learnEpVersion.circles){
-          circle.label = SSServCaller.entityLabelGet(circle.learnEpCircleUri);
+          circle.label = SSServCaller.entityGet(par.user, circle.learnEpCircleUri).label;
         }
       }
       
@@ -776,9 +775,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public List<SSLearnEp> learnEpsGet(SSServPar parI) throws Exception {
+  public List<SSLearnEp> learnEpsGet(final SSServPar parA) throws Exception {
     
-    SSLearnEpsGetPar par      = new SSLearnEpsGetPar(parI);
+    SSLearnEpsGetPar par      = new SSLearnEpsGetPar(parA);
     List<SSLearnEp>  learnEps = new ArrayList<SSLearnEp>();
     
     try{
@@ -786,7 +785,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       learnEps = sqlFct.getLearnEpsForUser(par.user);
       
       for(SSLearnEp learnEp : learnEps){
-        learnEp.label = SSServCaller.entityLabelGet(learnEp.learnEpUri);
+        learnEp.label = SSServCaller.entityGet(par.user, learnEp.learnEpUri).label;
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

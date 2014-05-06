@@ -1036,24 +1036,6 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySearchWithKeywordWithin, opPars));
   }
   
-  public static Long entityCreationTimeGet(final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.entityUri,    entityUri);
-    
-    return (Long) SSServA.callServViaServer(new SSServPar(SSMethU.entityCreationTimeGet, opPars));
-  }
-  
-  public static SSLabel entityLabelGet(final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (SSLabel) SSServA.callServViaServer(new SSServPar(SSMethU.entityLabelGet, opPars));
-  }
-  
   public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(
     final SSUri   userUri,
     final SSUri   entityUri           ,
@@ -1074,27 +1056,6 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,          shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
-  }
-  
-  public static SSUri entityAuthorGet(
-    final SSUri userUri,
-    final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,        userUri);
-    opPars.put(SSVarU.entityUri,   entityUri);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityAuthorGet, opPars));
-  }
-  
-  public static SSEntityE entityTypeGet(final SSUri entityUri) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.entityUri, entityUri);
-    
-    return (SSEntityE) SSServA.callServViaServer(new SSServPar(SSMethU.entityTypeGet, opPars));
   }
   
   public static SSEntityDescA entityDescGet(
