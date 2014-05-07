@@ -45,7 +45,7 @@ public class SSSearchMIsPar extends SSServPar{
       
       if(clientPars != null){
         searchOp   = clientPars.get(SSVarU.searchOp);
-        mIs        = SSModelUEMILabel.get(SSStrU.splitDistinct(clientPars.get(SSVarU.mIs), SSStrU.comma));
+        mIs        = SSModelUEMILabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.mIs), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

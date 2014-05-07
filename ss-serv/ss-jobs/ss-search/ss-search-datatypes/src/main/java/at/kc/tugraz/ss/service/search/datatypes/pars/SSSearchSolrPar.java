@@ -44,7 +44,7 @@ public class SSSearchSolrPar  extends SSServPar{
       
       if(clientPars != null){
         searchOp   = (String) clientPars.get(SSVarU.searchOp);
-        keywords   = SSSolrKeywordLabel.get (SSStrU.splitDistinct(clientPars.get(SSVarU.keywords), SSStrU.comma));
+        keywords   = SSSolrKeywordLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywords), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

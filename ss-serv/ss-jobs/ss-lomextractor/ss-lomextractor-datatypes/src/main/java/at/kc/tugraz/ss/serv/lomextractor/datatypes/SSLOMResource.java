@@ -93,19 +93,19 @@ public class SSLOMResource extends SSEntityA{
     }
     
     if(formats.size() > 0){
-      formats = SSStrU.distinct(formats);
+      formats = SSStrU.distinctWithoutEmptyAndNull(formats);
     }
     
     if(learningResourceTypes.size() > 0){
-      learningResourceTypes = SSStrU.distinct(learningResourceTypes);
+      learningResourceTypes = SSStrU.distinctWithoutEmptyAndNull(learningResourceTypes);
     }
     
     if(intendedEndUserRoles.size() > 0){
-      intendedEndUserRoles = SSStrU.distinct(intendedEndUserRoles);
+      intendedEndUserRoles = SSStrU.distinctWithoutEmptyAndNull(intendedEndUserRoles);
     }
     
     if(contexts.size() > 0){
-      contexts = SSStrU.distinct(contexts);
+      contexts = SSStrU.distinctWithoutEmptyAndNull(contexts);
     }
     
     if(conceptRelatios.size() > 0){

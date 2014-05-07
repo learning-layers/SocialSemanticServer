@@ -64,7 +64,7 @@ public class SSModelUEMIThresholdSetter {
         continue;
       }
       
-			if(SSStrU.containsNot(distinctFrequencies, resource.counters.get(counterIdString))){
+			if(!distinctFrequencies.contains(resource.counters.get(counterIdString))){
 				distinctFrequencies.add(resource.counters.get(counterIdString));
 			}
 		}

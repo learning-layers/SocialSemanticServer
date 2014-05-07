@@ -212,7 +212,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     for(SSModelUEResource resource : resources.values()){
       
-      if(SSStrU.contains(SSServCaller.modelUEMIsForEntityGet(par.user, resource.resourceUrl), par.mi.toString())){
+      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.resourceUrl).contains(par.mi.toString())){
         entityUris.add(resource.resourceUrl);
       }
     }

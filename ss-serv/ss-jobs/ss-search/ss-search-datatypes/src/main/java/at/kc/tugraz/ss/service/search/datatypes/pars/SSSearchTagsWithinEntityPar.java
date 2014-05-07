@@ -38,13 +38,13 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
     
     try{
       if(pars != null){
-        entityUri            = (SSUri)                       pars.get(SSVarU.entityUri);
-        tagLabels            = SSStrU.splitDistinct((String) pars.get(SSVarU.tagLabels), SSStrU.comma);
+        entityUri            = (SSUri)                                          pars.get(SSVarU.entityUri);
+        tagLabels            = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tagLabels), SSStrU.comma);
       }
       
       if(clientPars != null){
-        entityUri         = SSUri.get           (clientPars.get(SSVarU.entityUri));
-        tagLabels         = SSStrU.splitDistinct(clientPars.get(SSVarU.tagLabels), SSStrU.comma);
+        entityUri         = SSUri.get                              (clientPars.get(SSVarU.entityUri));
+        tagLabels         = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tagLabels), SSStrU.comma);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

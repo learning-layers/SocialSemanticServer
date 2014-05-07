@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -45,7 +44,7 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     
     SSEntityDescA entityDesc = SSServCaller.entityDescGet(
       userUri, 
-      SSUri.get("http://bbb.com"),
+      userUri,
       true, 
       true, 
       true);

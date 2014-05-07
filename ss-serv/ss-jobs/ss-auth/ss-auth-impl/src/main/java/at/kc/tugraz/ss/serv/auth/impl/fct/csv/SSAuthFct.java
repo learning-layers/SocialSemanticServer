@@ -73,7 +73,7 @@ public class SSAuthFct{
     final List<String> keys, 
     final String       key) throws Exception {
     
-    if(SSStrU.containsNot(keys, key)){
+    if(!keys.contains(key)){
       SSServErrReg.regErrThrow(new Exception("Login key is wrong."));
     }
   }

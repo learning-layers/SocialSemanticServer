@@ -18,42 +18,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.datatypes.datatypes.label;
+package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.enums;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import java.util.ArrayList;
-import java.util.List;
+public enum SSI5CloudAchsoVideoMetaDataE{
 
-public class SSLabel extends SSEntityA{
+  title,
+  video_uri,
+  creator,
+  created_at,
+  keywords,
+  annotations,
+  thumbnail;
 
-  public static SSLabel get(final String str) throws Exception{
+  public static SSI5CloudAchsoVideoMetaDataE get(
+    final String value){
     
-    if(str == null){
-      return null;
-    }
-    
-    return new SSLabel(str);
-  }
-  
-  public static List<SSLabel> get(final List<String> strings) throws Exception{
-    
-    final List<SSLabel> result = new ArrayList<SSLabel>();
-    
-    for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
-  }
-   
-  protected SSLabel(final String str) throws Exception{
-    super(str);
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+    return SSI5CloudAchsoVideoMetaDataE.valueOf(value);
   }
 }

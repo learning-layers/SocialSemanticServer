@@ -125,7 +125,7 @@ public class SSEvernoteUEHelper {
       SSServCaller.addTagsAtCreationTime(
         userUri,
         noteUri,
-        SSTagLabel.getDistinct(note.getTagNames()),
+        SSTagLabel.get(SSStrU.distinctWithoutEmptyAndNull(note.getTagNames())),
         SSSpaceE.privateSpace,
         note.getUpdated() + SSEvernoteTimestampCounter.get(),
         false);

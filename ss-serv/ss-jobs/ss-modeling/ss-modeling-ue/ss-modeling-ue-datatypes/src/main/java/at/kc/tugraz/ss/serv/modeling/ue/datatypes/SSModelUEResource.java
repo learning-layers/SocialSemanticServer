@@ -493,22 +493,22 @@ public class SSModelUEResource extends SSEntityA{
       }
 		}
 
-		for(SSUri relatedPerson : relatedPersons){
-
-      if(SSObjU.isNotNull(relatedPerson)){
-        
-        if(SSStrU.containsNot(alreadyAddedPersons, relatedPerson.toString())){
-
-          result.add(
-              new SSModelUERelation(
-                  SSStrU.toString(resourceUrl),
-                  null,
-                  relatedPerson.toString(),
-                  null,
-                  relationType));
-        }
+    for(SSUri relatedPerson : relatedPersons){
+      
+      if(
+        SSObjU.isNull(relatedPerson) ||
+        alreadyAddedPersons.contains(relatedPerson.toString())){
+        continue;
       }
-		}
+      
+      result.add(
+        new SSModelUERelation(
+          SSStrU.toString(resourceUrl),
+          null,
+          relatedPerson.toString(),
+          null,
+          relationType));
+    }
 		
 		return result;
 	}

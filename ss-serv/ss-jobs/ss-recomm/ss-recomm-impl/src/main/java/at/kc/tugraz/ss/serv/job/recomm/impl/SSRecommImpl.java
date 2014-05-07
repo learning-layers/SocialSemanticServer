@@ -94,7 +94,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      return SSStrU.distinct(
+      return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.getTags(
           SSUri.toStr(par.forUser),
           SSUri.toStr(par.entityUri),
@@ -141,7 +141,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      return SSStrU.distinct(
+      return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagLanguageModelBasedOnUserEntityTag.getTags(
           SSUri.toStr (par.forUser),
           SSUri.toStr (par.entityUri),
@@ -188,7 +188,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-        return SSStrU.distinct(
+        return SSStrU.distinctWithoutEmptyAndNull(
           recommenderTagThreeLayersBasedOnUserEntityTagCategory.getTags(
             SSUri.toStr (par.forUser),
             SSUri.toStr (par.entityUri),
@@ -236,7 +236,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     final SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampPar par = new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampPar(parA);
     
     try{
-      return SSStrU.distinct(
+      return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp.getTags(
           SSUri.toStr (par.forUser),
           SSUri.toStr (par.entityUri),

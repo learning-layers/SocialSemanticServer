@@ -34,7 +34,7 @@ public class SSTagsAddPar extends SSServPar{
   
   public SSUri             resource       = null;
   public List<SSTagLabel>  tagStrings     = new ArrayList<SSTagLabel>();
-  public SSSpaceE       space          = null;
+  public SSSpaceE          space          = null;
   
   public SSTagsAddPar(SSServPar par) throws Exception{
     
@@ -51,9 +51,8 @@ public class SSTagsAddPar extends SSServPar{
       if(clientPars != null){
         
         resource   = SSUri.get        (clientPars.get(SSVarU.resource));
-        space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
-        
-        tagStrings.addAll(SSTagLabel.getDistinct(SSStrU.split(clientPars.get(SSVarU.tagStrings), SSStrU.comma)));
+        space      = SSSpaceE.get     (clientPars.get(SSVarU.space));
+        tagStrings = SSTagLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tagStrings), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

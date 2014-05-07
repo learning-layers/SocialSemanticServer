@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
@@ -42,10 +41,6 @@ public class SSModelUEMILabel extends SSEntityA{
   
   public static List<SSModelUEMILabel> get(final List<String> strings) throws Exception{
     
-    if(strings == null){
-      return new ArrayList<SSModelUEMILabel>();
-    }
-    
     final List<SSModelUEMILabel> result = new ArrayList<SSModelUEMILabel>();
     
     for(String string: strings){
@@ -53,17 +48,6 @@ public class SSModelUEMILabel extends SSEntityA{
     }
     
     return result;
-  }
-  
-  public static Boolean contains(
-    final List<String>     list,
-    final SSModelUEMILabel miLabel){
-    
-    if(SSObjU.isNull(miLabel, list)){
-      return false;
-    }
-    
-    return list.contains(miLabel.toString());
   }
   
   public static void checkMILabel(

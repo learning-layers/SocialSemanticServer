@@ -38,12 +38,12 @@ public class SSTagLabel extends SSEntityA{
     return new SSTagLabel(string);
   }
   
-  public static List<SSTagLabel> getDistinct(
-    final List<String> strings) throws Exception {
-    
+  public static List<SSTagLabel> get(
+    final List<String> strings) throws Exception{
+
     final List<SSTagLabel> result = new ArrayList<SSTagLabel>();
     
-    for(String string : SSStrU.distinct(strings)){
+    for(String string : strings){
       result.add(get(string));
     }
     

@@ -53,7 +53,7 @@ public class SSScaffRecommTagsBasedOnUserEntityTagCategoryPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          this.categories.addAll(SSStrU.splitDistinct(clientPars.get(SSVarU.categories), SSStrU.comma));
+          this.categories = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.categories), SSStrU.comma);
         }catch(Exception error){}
         
         try{

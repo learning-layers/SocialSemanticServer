@@ -40,8 +40,8 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
       }
       
       if(clientPars != null){
-        circleUri        = SSUri.get(clientPars.get(SSVarU.circleUri));
-        entityUris       = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.entityUris), SSStrU.comma));
+        circleUri        = SSUri.get (clientPars.get(SSVarU.circleUri));
+        entityUris       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entityUris), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -46,9 +46,8 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
       
       if(clientPars != null){
         
-        coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
-
-        collEntries.addAll(SSUri.get(SSStrU.splitDistinct(clientPars.get(SSVarU.collEntries), SSStrU.comma)));
+        coll        = SSUri.get  ((String)clientPars.get(SSVarU.coll));
+        collEntries = SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.collEntries), SSStrU.comma));
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

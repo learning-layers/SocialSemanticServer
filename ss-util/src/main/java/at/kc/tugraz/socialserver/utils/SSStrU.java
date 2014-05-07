@@ -234,41 +234,7 @@ public class SSStrU{
     return stringBuffer.toString();
   }
   
-  public static boolean containsNot(
-    final List<String> list,
-    final String       value){
-    
-    return !contains(list, value);
-  }
-  
-  public static boolean containsNot(
-    final List<Integer> list,
-    final Integer       integer){
-    
-    return !contains(list, integer);
-  }
-  
-  public static boolean containsNot(
-    final String       string1,
-    final String       string2){
-    
-    return !contains(string1, string2);
-  }
-  
-  public static boolean contains(
-    final List<String> list,
-    final String       value){
-    
-    if(
-      SSObjU.isNull(list) ||
-      SSObjU.isNull(value)){
-      return false;
-    }
-    
-    return list.contains(value);
-  }
-  
-  public static boolean contains(
+  public static Boolean contains(
     final String       string1,
     final String       string2){
     
@@ -284,12 +250,6 @@ public class SSStrU{
   public static boolean contains(
     final List<Integer> list,
     final Integer       integer){
-    
-    if(
-      SSObjU.isNull(list) ||
-      SSObjU.isNull(integer)){
-      return false;
-    }
     
     return list.contains(integer);
   }
@@ -372,28 +332,6 @@ public class SSStrU{
     return string.replace(find, with);
   }
   
-  public static List<String> distinct(
-    final List<String> strings) {
-    
-    final List<String> result = new ArrayList<String>();
-    
-    if(strings == null){
-      return result;
-    }
-    
-    for(String string : strings){
-      
-      if(
-        !isEmpty     (string) &&
-        !contains    (result, string)){
-        
-        result.add(string);
-      }
-    }
-    
-    return result;
-  }
-  
   public static String strFromList(List<String> list) {
     
     String result = SSStrU.empty;
@@ -404,12 +342,35 @@ public class SSStrU{
     
     return removeTrailingString(result, SSStrU.comma);
   }
+  
+//  SSStrU.distinctWithoutEmptyAndNull(SSStrU.split(
+//  new ArrayList<String>(new LinkedHashSet<String>(split(toSplit, splitter)));
+//  Set<String> temp = new HashSet<String>(strings);
+//  return Arrays.asList(temp.toArray(new String[temp.size()]));
+  
+  public static List<String> distinctWithoutEmptyAndNull(
+    final List<String> strings) {
+    
+    final List<String> result = new ArrayList<String>();
+    
+    for(String string : strings){
+      
+      if(
+        !isEmpty        (string) &&
+        !result.contains(string)){
+        
+        result.add(string);
+      }
+    }
+    
+    return result;
+  }
 
-  public static List<String> splitDistinct(
+  public static List<String> splitDistinctWithoutEmptyAndNull(
     final String toSplit, 
     final String splitter) throws Exception{
     
-    return new ArrayList<String>(new LinkedHashSet<String>(split(toSplit, splitter)));
+    return distinctWithoutEmptyAndNull(split(toSplit, splitter));
   }
   
   public static List<String> split(
@@ -543,11 +504,6 @@ public class SSStrU{
   //    return split(string.toString(), splitter);
   //  }
   
-  public static List<String> split(final CharBuffer string, final String splitter) throws Exception{
-    
-    return split(string.toString(), splitter);
-  }
-  
   public static String filterNumbers(
     final String string){
     
@@ -556,17 +512,6 @@ public class SSStrU{
     }
     
     return string.replaceAll("[^0-9]", empty);
-  }
-  
-  public static List<String> getDistinct(final List<String> strings) {
-    
-    if(SSObjU.isNull(strings)){
-      return strings;
-    }
-    
-    Set<String> temp = new HashSet<String>(strings);
-    
-    return Arrays.asList(temp.toArray(new String[temp.size()]));
   }
   
   public static List<String> removeAll(

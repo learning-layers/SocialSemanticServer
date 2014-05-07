@@ -39,28 +39,13 @@ public class SSSolrKeywordLabel extends SSEntityA{
   
   public static List<SSSolrKeywordLabel> get(final List<String> strings) throws Exception{
     
-  final List<SSSolrKeywordLabel> result = new ArrayList<SSSolrKeywordLabel>();
-    
-    if(strings == null){
-      return result;
-    }
+    final List<SSSolrKeywordLabel> result = new ArrayList<SSSolrKeywordLabel>();
     
     for(String string: strings){
       result.add(get(string));
     }
-
+    
     return result;
-  }
-  
-  public static Boolean contains(
-    final List<String>         list,
-    final SSSolrKeywordLabel   keywordLabel){
-    
-    if(SSObjU.isNull(keywordLabel, list)){
-      return false;
-    }
-    
-    return list.contains(keywordLabel.toString());
   }
   
   public static void checkKeywordLabel(

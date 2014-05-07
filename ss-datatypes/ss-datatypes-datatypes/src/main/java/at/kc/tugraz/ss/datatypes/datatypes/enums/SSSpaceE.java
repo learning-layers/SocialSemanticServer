@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.datatypes.datatypes.enums;
 
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,22 +43,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
 
     final List<SSSpaceE> result = new ArrayList<SSSpaceE>();
     
-    if(strings == null){
-      return result;
-    }
-    
     for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
-  }
-  
-  public static List<SSSpaceE> getDistinct(final List<String> strings) throws Exception{
-
-    final List<SSSpaceE> result = new ArrayList<SSSpaceE>();
-    
-    for(String string : SSStrU.distinct(strings)){
       result.add(get(string));
     }
     

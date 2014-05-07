@@ -33,7 +33,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
   
   public SSUri             coll               = null;
   public List<SSUri>       entries            = new ArrayList<SSUri>();
-  public List<SSLabel>  entryLabels        = new ArrayList<SSLabel>();
+  public List<SSLabel>     entryLabels        = new ArrayList<SSLabel>();
       
   public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
     
@@ -51,8 +51,8 @@ public class SSCollUserEntriesAddPar extends SSServPar{
         
         coll = SSUri.get(clientPars.get(SSVarU.coll));
         
-        entries.addAll     (SSUri.get       (SSStrU.split(clientPars.get(SSVarU.entries),     SSStrU.comma)));
-        entryLabels.addAll (SSLabel.get  (SSStrU.split(clientPars.get(SSVarU.entryLabels), SSStrU.comma)));
+        entries     = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entries),     SSStrU.comma));
+        entryLabels = SSLabel.get  (SSStrU.split                           (clientPars.get(SSVarU.entryLabels), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -544,9 +544,9 @@ public class SSDBGraphFct extends SSDBFct{
 //    return SSDbalConnectorFactory.getInstance().getConnector();
 //  }
   
-  protected List<String> splitObject(Object object) throws Exception{
-    return SSStrU.split(SSStrU.removeDoubleQuotes(SSStrU.toString(object)), SSStrU.pipe);
-  }
+//  protected List<String> splitObject(Object object) throws Exception{
+//    return SSStrU.split(SSStrU.removeDoubleQuotes(SSStrU.toString(object)), SSStrU.pipe);
+//  }
   
   protected long getLongFromGraphDoubleString(String string){
     

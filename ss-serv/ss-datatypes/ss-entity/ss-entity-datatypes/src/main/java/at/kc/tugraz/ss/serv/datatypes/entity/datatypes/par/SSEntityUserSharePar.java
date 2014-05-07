@@ -48,7 +48,7 @@ public class SSEntityUserSharePar extends SSServPar{
       if(clientPars != null){
         saveActivity = true;
         entityUri    = SSUri.get        (clientPars.get(SSVarU.entityUri));
-        userUris     = SSUri.get        (SSStrU.splitDistinct(clientPars.get(SSVarU.userUris), SSStrU.comma));
+        userUris     = SSUri.get        (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.userUris), SSStrU.comma));
         
         try{
           comment     = SSTextComment.get(clientPars.get(SSVarU.comment));

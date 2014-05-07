@@ -27,9 +27,9 @@ import java.util.List;
 
 public class SSEntityUserCircleCreatePar extends SSServPar{
 
-  public List<SSUri>               entityUris  = new ArrayList<SSUri>();
-  public List<SSUri>               userUris    = new ArrayList<SSUri>();
-  public SSCircleE       circleType  = null;
+  public List<SSUri>            entityUris  = new ArrayList<SSUri>();
+  public List<SSUri>            userUris    = new ArrayList<SSUri>();
+  public SSCircleE              circleType  = null;
   public SSLabel                label       = null;
   
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
@@ -40,21 +40,21 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     
       if(pars != null){
         circleType       = (SSCircleE)       pars.get(SSVarU.circleType);
-        label            = (SSLabel)                pars.get(SSVarU.label);
-        entityUris       = (List<SSUri>)               pars.get(SSVarU.entityUris);
-        userUris         = (List<SSUri>)               pars.get(SSVarU.userUris);
+        label            = (SSLabel)         pars.get(SSVarU.label);
+        entityUris       = (List<SSUri>)     pars.get(SSVarU.entityUris);
+        userUris         = (List<SSUri>)     pars.get(SSVarU.userUris);
       }
       
       if(clientPars != null){
         circleType       = SSCircleE.get       (clientPars.get(SSVarU.circleType));
-        label            = SSLabel.get                (clientPars.get(SSVarU.label));
+        label            = SSLabel.get         (clientPars.get(SSVarU.label));
         
         try{
-          entityUris       = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.entityUris), SSStrU.comma));
+          entityUris       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entityUris), SSStrU.comma));
         }catch(Exception error){}
         
         try{
-          userUris         = SSUri.get (SSStrU.splitDistinct(clientPars.get(SSVarU.userUris), SSStrU.comma));
+          userUris         = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.userUris), SSStrU.comma));
         }catch(Exception error){}
       }
     }catch(Exception error){

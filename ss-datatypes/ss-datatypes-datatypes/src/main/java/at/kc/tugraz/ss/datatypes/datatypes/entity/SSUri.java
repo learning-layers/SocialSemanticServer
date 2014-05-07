@@ -26,6 +26,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.*;
+import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSUri extends SSEntityA{
   
@@ -37,7 +38,7 @@ public class SSUri extends SSEntityA{
       return null;
     }
     
-    if(!java.net.URI.create(uri).isAbsolute()){
+    if(!java.net.URI.create(URIUtil.encodeQuery(uri)).isAbsolute()){
       throw new Exception("uri not java.net.URI conform");
     }
     

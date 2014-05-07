@@ -42,6 +42,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, SSI5CloudServerI{
 
@@ -60,7 +61,6 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     OutputStream              out         = null;
     
     try{
-      
       messageBody.put(SSVarU.username, ((SSI5CloudConf)conf).userLabel);
       messageBody.put(SSVarU.password, ((SSI5CloudConf)conf).pass);
       
@@ -145,7 +145,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   public String i5CloudAchsoVideoInformationGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSI5CloudLASConnector lasConnection = new SSI5CloudLASConnector(((SSI5CloudConf)conf).userLabel, ((SSI5CloudConf)conf).pass);
+      final SSI5CloudLASConnector lasConnection = new SSI5CloudLASConnector("sss", "ssstest");
       
       // returns a String with the XML containing all the videos and the
       // corresponding data for each video

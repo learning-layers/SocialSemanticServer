@@ -45,8 +45,8 @@ public class SSCollUserEntryChangePosPar extends SSServPar{
       }
       
       if(clientPars != null){
-        coll       = SSUri.get           ((String)clientPars.get(SSVarU.coll));
-        order      = SSStrU.split((String)clientPars.get(SSVarU.order), SSStrU.comma);
+        coll       = SSUri.get     (clientPars.get(SSVarU.coll));
+        order      = SSStrU.split  (clientPars.get(SSVarU.order), SSStrU.comma);
       }      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
