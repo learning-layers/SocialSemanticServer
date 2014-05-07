@@ -34,7 +34,6 @@ public class SSUri extends SSEntityA{
     
     //    new URL(uriString); //import java.net.URL;
     if(uri == null){
-      SSLogU.warn("uri creation null");
       return null;
     }
     
@@ -52,7 +51,6 @@ public class SSUri extends SSEntityA{
     SSUri newUri = null;
     
     if(SSObjU.isNull(uri, append)){
-      SSLogU.warn("uri creation null");
       return null;
     }
     
