@@ -453,22 +453,24 @@ public class SSServCaller {
     }
   }
   
-  public static void addTagsAtCreationTime(SSUri userUri, SSUri entityUri, List<SSTagLabel> tagList, SSSpaceE space, Long creationTime, Boolean shouldCommit) throws Exception{
+  public static void tagsAddAtCreationTime(
+    final SSUri            userUri,
+    final SSUri            entityUri,
+    final List<String>     tagList,
+    final SSSpaceE         space,
+    final Long             creationTime,
+    final Boolean          shouldCommit) throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      opPars.put(SSVarU.shouldCommit, shouldCommit);
-      opPars.put(SSVarU.user,         userUri);
-      opPars.put(SSVarU.resource,     entityUri);
-      opPars.put(SSVarU.tagStrings,   tagList);
-      opPars.put(SSVarU.space,        space);
-      opPars.put(SSVarU.creationTime, creationTime);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.resource,     entityUri);
+    opPars.put(SSVarU.tagStrings,   tagList);
+    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarU.creationTime, creationTime);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
   }
   
   public static SSLearnEpVersion getLearnEpVersion(SSUri userUri, SSUri learnEpCurrentVersionUri) throws Exception{
@@ -1679,8 +1681,8 @@ public class SSServCaller {
   public static void tagAddAtCreationTime(
     final SSUri        userUri,
     final SSUri        entityUri,
-    final SSTagLabel   tagString,
-    final SSSpaceE  space,
+    final String       tagString,
+    final SSSpaceE     space,
     final Long         creationTime,
     final Boolean      shouldCommit) throws Exception{
     

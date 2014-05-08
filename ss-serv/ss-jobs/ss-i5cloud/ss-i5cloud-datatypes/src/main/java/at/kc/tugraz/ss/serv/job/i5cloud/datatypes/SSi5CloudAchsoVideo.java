@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SSi5CloudAchsoVideo extends SSEntityA{
@@ -32,7 +31,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
   public SSUri        uri            = null;
   public SSLabel      label          = null;
   public SSLabel      author         = null;
-  public Date         creationTime   = null;
+  public Long         creationTime   = null;
   public List<String> keywords       = new ArrayList<String>();
   public List<String> annotations    = new ArrayList<String>();
   
@@ -40,7 +39,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
     final SSLabel      title,
     final SSUri        uri,
     final SSLabel      author,
-    final Date         creationTime,
+    final Long         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     
@@ -57,7 +56,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
     final SSLabel      label,
     final SSUri        uri,
     final SSLabel      author,
-    final Date         creationTime,
+    final Long         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     

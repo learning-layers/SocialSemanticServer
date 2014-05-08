@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -346,10 +345,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSTagLabel tagString : par.tagStrings) {
+       
         SSServCaller.tagAddAtCreationTime(
           par.user, 
           par.resource, 
-          tagString, 
+          SSTagLabel.toStr(tagString), 
           par.space, 
           par.creationTime, 
           false);

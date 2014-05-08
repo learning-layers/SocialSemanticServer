@@ -30,8 +30,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSTagAddAtCreationTimePar extends SSServPar{
   
   public SSUri        resource     = null;
-  public SSTagLabel  tagString    = null;
-  public SSSpaceE  space        = null;
+  public SSTagLabel   tagString    = null;
+  public SSSpaceE     space        = null;
   public Long         creationTime = null;
   
   
@@ -42,10 +42,10 @@ public class SSTagAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        resource     = (SSUri)       pars.get(SSVarU.resource);
-        tagString    = (SSTagLabel) pars.get(SSVarU.tagString);
-        space        = (SSSpaceE) pars.get(SSVarU.space);
-        creationTime = (Long)        pars.get(SSVarU.creationTime);
+        resource     = (SSUri)                 pars.get(SSVarU.resource);
+        tagString    = SSTagLabel.get((String) pars.get(SSVarU.tagString));
+        space        = (SSSpaceE)              pars.get(SSVarU.space);
+        creationTime = (Long)                  pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

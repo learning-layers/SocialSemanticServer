@@ -122,10 +122,10 @@ public class SSEvernoteUEHelper {
       note.getTagNames()  != null &&
       !note.getTagNames().isEmpty()){
       
-      SSServCaller.addTagsAtCreationTime(
+      SSServCaller.tagsAddAtCreationTime(
         userUri,
         noteUri,
-        SSTagLabel.get(SSStrU.distinctWithoutEmptyAndNull(note.getTagNames())),
+        note.getTagNames(),
         SSSpaceE.privateSpace,
         note.getUpdated() + SSEvernoteTimestampCounter.get(),
         false);

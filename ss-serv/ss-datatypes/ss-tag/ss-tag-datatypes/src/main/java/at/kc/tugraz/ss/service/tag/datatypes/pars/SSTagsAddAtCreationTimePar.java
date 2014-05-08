@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -32,8 +33,8 @@ import java.util.List;
 public class SSTagsAddAtCreationTimePar extends SSServPar{
   
   public SSUri             resource       = null;
-  public List<SSTagLabel> tagStrings     = new ArrayList<SSTagLabel>();
-  public SSSpaceE       space          = null;
+  public List<SSTagLabel>  tagStrings     = new ArrayList<SSTagLabel>();
+  public SSSpaceE          space          = null;
   public Long              creationTime   = null;
   
   public SSTagsAddAtCreationTimePar(SSServPar par) throws Exception{
@@ -43,10 +44,10 @@ public class SSTagsAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        this.tagStrings.addAll((List<SSTagLabel>) pars.get(SSVarU.tagStrings));
-        this.resource     =  (SSUri)               pars.get(SSVarU.resource);
-        this.space        =  (SSSpaceE)         pars.get(SSVarU.space);
-        this.creationTime =  (Long)                pars.get(SSVarU.creationTime);
+        this.tagStrings   =  SSTagLabel.get (SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.tagStrings)));
+        this.resource     =  (SSUri)                        pars.get(SSVarU.resource);
+        this.space        =  (SSSpaceE)                     pars.get(SSVarU.space);
+        this.creationTime =  (Long)                         pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

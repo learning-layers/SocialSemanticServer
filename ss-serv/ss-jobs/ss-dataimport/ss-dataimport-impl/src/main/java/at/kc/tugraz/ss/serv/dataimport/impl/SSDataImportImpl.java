@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
@@ -214,11 +213,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           authorUri, 
           video.uri,
           video.label, 
-          video.creationTime.getTime(),
+          video.creationTime,
           SSEntityE.entity, 
           true);
         
-//        SSServCaller.addTagsAtCreationTime(video.author, entityUri, tagList, space, creationTime, shouldCommit);
+        SSServCaller.tagsAddAtCreationTime(
+          authorUri, 
+          video.uri,
+          video.keywords,
+          SSSpaceE.sharedSpace, 
+          video.creationTime, 
+          true);
       }
       
       System.out.println();
@@ -235,7 +240,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     int                                               counter       = 1;
     int                                               tagCounter    = 0;
     BufferedReader                                    lineReader    = null;
-    List<SSTagLabel>                                  tagList;
+    List<String>                                      tagList;
     FileInputStream                                   dataImportFileIn;
     String                                            line;
     List<String>                                      lineSplit;
@@ -293,13 +298,16 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             "1234", 
             false);
         
-        tagList = 
-          SSTagLabel.get(
-            SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma));
-        
-        tagCounter += tagList.size    ();
+        tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
+        tagCounter += tagList.size();
 
-        SSServCaller.addTagsAtCreationTime(user, resource, tagList, SSSpaceE.sharedSpace, timestamp, par.shouldCommit);
+        SSServCaller.tagsAddAtCreationTime(
+          user, 
+          resource,
+          tagList, 
+          SSSpaceE.sharedSpace, 
+          timestamp, 
+          par.shouldCommit);
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
 

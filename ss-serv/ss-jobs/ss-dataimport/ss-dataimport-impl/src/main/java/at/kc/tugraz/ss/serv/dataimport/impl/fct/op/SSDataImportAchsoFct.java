@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.enums.SSI5CloudAchsoVideoMetaDataE;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +54,7 @@ public class SSDataImportAchsoFct{
       String                          title;
       String                          video_uri;
       String                          creator;
-      Date                            created_at;
+      Long                            created_at;
       List<String>                    annotations;
       List<String>                    keywords;
       
@@ -109,7 +108,7 @@ public class SSDataImportAchsoFct{
   
   private static List<String> getKeywords(Iterator keywordsIterator){
     
-    final List<String>  keywords = new ArrayList<String>();
+    final List<String> keywords = new ArrayList<String>();
     
     while(keywordsIterator.hasNext()){
       keywords.add((String)((Element) keywordsIterator.next()).getData());
@@ -129,8 +128,8 @@ public class SSDataImportAchsoFct{
     return SSStrU.distinctWithoutEmptyAndNull(annotations);
   }
 
-   private static Date getCreationTime(
+   private static Long getCreationTime(
      final String dateAsString) throws Exception{
-     return new SimpleDateFormat(SSI5CloudU.achsoDateFormat, Locale.US).parse(dateAsString);
+     return new SimpleDateFormat(SSI5CloudU.achsoDateFormat, Locale.US).parse(dateAsString).getTime();
    }
 }
