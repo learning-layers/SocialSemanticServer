@@ -669,14 +669,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "userLogin")
-  public String userLogin(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.userLogin);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "userAll")
   public String userAll(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.userAll);

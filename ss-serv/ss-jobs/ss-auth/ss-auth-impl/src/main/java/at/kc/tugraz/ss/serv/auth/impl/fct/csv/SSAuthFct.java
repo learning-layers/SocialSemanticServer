@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.security.MessageDigest;
 import java.util.List;
@@ -32,18 +33,19 @@ public class SSAuthFct{
   public static String checkPasswordAndGetUserKey(
     final Map<String, String> passwordPerUser, 
     final Map<String, String> keyPerUser, 
-    final String              userName,
+    final SSUri               userUri,
     final String              password) throws Exception{
     
     try{
+      final String userStr = SSUri.toStr(userUri);
       
       if(
-        !SSStrU.equals(password, passwordPerUser.get(userName)) ||
-        keyPerUser.get(userName) == null){
+        !SSStrU.equals(password, passwordPerUser.get(userStr)) ||
+        keyPerUser.get(userStr) == null){
         throw new Exception("user not registered");
       }
       
-      return keyPerUser.get(userName);
+      return keyPerUser.get(userStr);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

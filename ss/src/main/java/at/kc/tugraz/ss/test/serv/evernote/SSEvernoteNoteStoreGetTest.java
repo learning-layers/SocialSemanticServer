@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.test.serv.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 import com.evernote.edam.type.Notebook;
@@ -50,7 +50,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
     NoteAttributes       noteAttr;
     ResourceAttributes   resourceAttr;
     
-    evernoteInfo = SSServCaller.getEvernoteInfo(userUri, ((SSEvernoteConf)conf).authTokens.get(0));
+    evernoteInfo = SSServCaller.getEvernoteInfo(SSUserGlobals.systemUser, ((SSEvernoteConf)conf).authTokens.get(0));
     
     //      opPars = new HashMap<String, Object>();
     //      opPars.put(SSVarU.shouldCommit,  false);
@@ -186,7 +186,6 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }
 

@@ -28,8 +28,7 @@ import java.util.List;
 public interface SSUserServerI {
 
   public Boolean        userExists           (final SSServPar parA)     throws Exception;
-  public SSUri          userLogin            (final SSServPar parA)     throws Exception;
-  public void           userAdd              (final SSServPar parA)     throws Exception;
+  public SSUri          userURICreate        (final SSServPar parA)     throws Exception;
   public List<SSUser>   userAll              (final SSServPar parA)     throws Exception;
   public SSUri          userSystemGet        (final SSServPar parA)     throws Exception;
   public List<SSUser>   usersGet             (final SSServPar parA)     throws Exception;

@@ -112,9 +112,8 @@ public enum SSMethU{
   
   //user
   userSystemGet                                       ,
-  userLogin                                           ,
+  userURICreate,
   userAll                                             ,
-  userAdd                                             ,
   userExists                                          ,
   usersGet,                            
   
@@ -220,6 +219,7 @@ public enum SSMethU{
   
   //auth
   authUsersFromCSVFileAdd                             ,
+  authRegisterUser,
   authCheckCred                                       ,
   authCheckKey                                        ,
   

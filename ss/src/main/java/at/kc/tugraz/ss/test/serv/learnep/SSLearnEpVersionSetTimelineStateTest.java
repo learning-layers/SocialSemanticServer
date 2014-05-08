@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionSetTimelineStatePar;
@@ -64,6 +63,5 @@ public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

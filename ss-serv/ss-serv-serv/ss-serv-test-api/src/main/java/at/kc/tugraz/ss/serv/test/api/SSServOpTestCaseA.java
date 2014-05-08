@@ -37,7 +37,6 @@ import java.util.Map;
 public abstract class SSServOpTestCaseA extends SSServImplStartA{
   
   protected final SSMethU   op;
-  protected SSUri           userUri;
   protected String          jsonRequ;
   protected SSServPar       clientServPar;
   

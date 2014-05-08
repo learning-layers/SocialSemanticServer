@@ -73,28 +73,34 @@ public class SSSInitializer extends SSServImplStartA{
       SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
       
       /**** utils ****/
-      SSMimeTypeU.init();
-      SSUserGlobals.init(SSServCaller.vocURIPrefixGet());
+      SSMimeTypeU.init   ();
+      SSUserGlobals.init (SSServCaller.vocURIPrefixGet());
       
       SSJSONLDU.init(
         SSCoreConf.instGet().getJsonLDConf().uri,
         SSCoreConf.instGet().getVocConf().app, 
         SSCoreConf.instGet().getVocConf().space);
 
+      /**** db ****/
+      SSDBGraph.inst.initServ           (SSCoreConf.instGet().getDbGraphConf());
+      SSDBSQL.inst.initServ             (SSCoreConf.instGet().getDbSQLConf());
+      
+      /**** entity ****/
+      SSEntityServ.inst.initServ        (SSCoreConf.instGet().getEntityConf());
+      SSUserServ.inst.initServ          (SSCoreConf.instGet().getUserConf());
+      SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
+      
+      /**** job ****/
+      SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
+      SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
+        
       /**** local work serv ****/
       SSLocalWorkServ.inst.initServ     (SSCoreConf.instGet().getLocalWorkConf());
       
       /**** json-ld ****/
       SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());
       
-      /**** db ****/
-      SSDBGraph.inst.initServ           (SSCoreConf.instGet().getDbGraphConf());
-      SSDBSQL.inst.initServ             (SSCoreConf.instGet().getDbSQLConf());
-      
       /**** entities ****/
-      SSEntityServ.inst.initServ        (SSCoreConf.instGet().getEntityConf());
-      SSUserServ.inst.initServ          (SSCoreConf.instGet().getUserConf());
-      SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
       SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
       SSRatingServ.inst.initServ        (SSCoreConf.instGet().getRatingConf());
       SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
@@ -105,11 +111,10 @@ public class SSSInitializer extends SSServImplStartA{
       
       /**** jobs ****/
       SSSearchServ.inst.initServ        (SSCoreConf.instGet().getSearchConf());
-      SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
       SSDataExportServ.inst.initServ    (SSCoreConf.instGet().getDataExportConf());
       SSLOMExtractorServ.inst.initServ  (SSCoreConf.instGet().getLomExtractorConf());
       SSScaffServ.inst.initServ         (SSCoreConf.instGet().getScaffConf());
-      SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
+      
       SSSolrServ.inst.initServ          (SSCoreConf.instGet().getSolrConf());
       SSModelUEServ.inst.initServ       (SSCoreConf.instGet().getModelConf());
       SSBroadcasterServ.inst.initServ   (SSCoreConf.instGet().getBroadcasterConf());

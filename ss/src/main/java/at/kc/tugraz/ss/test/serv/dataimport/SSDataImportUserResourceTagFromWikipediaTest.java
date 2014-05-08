@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.test.serv.dataimport;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCaseA{
   
@@ -38,7 +38,7 @@ public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCa
     
     SSLogU.info(op + " test start");
     
-    SSServCaller.dataImportUserResourceTagFromWikipedia(userUri, true);
+    SSServCaller.dataImportUserResourceTagFromWikipedia(SSUserGlobals.systemUser, true);
     
     SSLogU.info(op + " test end");
   }
@@ -49,6 +49,5 @@ public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCa
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

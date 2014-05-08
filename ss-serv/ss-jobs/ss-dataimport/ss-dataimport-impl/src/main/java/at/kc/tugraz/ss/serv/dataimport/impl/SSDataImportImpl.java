@@ -49,7 +49,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -197,19 +196,29 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       final SSDataImportAchsoPar      par          = new SSDataImportAchsoPar(parA);
       final List<SSi5CloudAchsoVideo> videoObjs    = 
         SSDataImportAchsoFct.getVideoObjs(
+          par.user, 
           SSServCaller.i5CloudAchsoVideoInformationGet());
+      
+      SSUri authorUri;
 
       for(SSi5CloudAchsoVideo video : videoObjs){
         
+        authorUri =
+          SSServCaller.authRegisterUser(
+            par.user,
+            video.author,
+            "1234",
+            true);
+        
         SSServCaller.entityAddAtCreationTime(
-          SSUserGlobals.systemUser, 
+          authorUri, 
           video.uri,
           video.label, 
           video.creationTime.getTime(),
           SSEntityE.entity, 
           true);
         
-//        SSServCaller.addTagsAtCreationTime(userUri, entityUri, tagList, space, creationTime, shouldCommit);
+//        SSServCaller.addTagsAtCreationTime(video.author, entityUri, tagList, space, creationTime, shouldCommit);
       }
       
       System.out.println();
@@ -276,8 +285,18 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         userLabel   = lineSplit.get   (0);
         timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
         tags        = lineSplit.get   (3);
-        user        = SSServCaller.userLogin  (SSLabel.get(userLabel), false);
-        tagList     = SSTagLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma));
+        
+        user = 
+          SSServCaller.authRegisterUser(
+            par.user, 
+            SSLabel.get(userLabel), 
+            "1234", 
+            false);
+        
+        tagList = 
+          SSTagLabel.get(
+            SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma));
+        
         tagCounter += tagList.size    ();
 
         SSServCaller.addTagsAtCreationTime(user, resource, tagList, SSSpaceE.sharedSpace, timestamp, par.shouldCommit);

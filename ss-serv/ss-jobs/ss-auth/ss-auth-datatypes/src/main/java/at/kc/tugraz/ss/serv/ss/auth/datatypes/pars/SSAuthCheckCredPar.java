@@ -21,13 +21,14 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSAuthCheckCredPar extends SSServPar{
   
-  public String userLabel  = null;
-  public String pass       = null;
+  public SSLabel userLabel  = null;
+  public String  pass       = null;
   
   public SSAuthCheckCredPar(SSServPar par) throws Exception{
     
@@ -36,12 +37,12 @@ public class SSAuthCheckCredPar extends SSServPar{
     try{
       
       if(pars != null){
-        userLabel = (String) pars.get(SSVarU.userLabel);
+        userLabel = (SSLabel) pars.get(SSVarU.userLabel);
         pass      = (String) pars.get(SSVarU.pass);
       }
       
       if(clientPars != null){
-        userLabel = clientPars.get(SSVarU.userLabel);
+        userLabel = SSLabel.get(clientPars.get(SSVarU.userLabel));
         pass =      clientPars.get(SSVarU.pass);
       }
       

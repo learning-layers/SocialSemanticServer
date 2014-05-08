@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -90,9 +91,8 @@ public class SSServPar{
       jp.close();
       
       if(
-        this.op   == null ||
-        this.user == null ||
-        SSStrU.isEmpty    (this.key)){
+        SSObjU.isNull  (this.op, this.user)||
+        SSStrU.isEmpty (this.key)){
         SSServErrReg.regErr(new Exception("op, user or key is empty"));
       }
       

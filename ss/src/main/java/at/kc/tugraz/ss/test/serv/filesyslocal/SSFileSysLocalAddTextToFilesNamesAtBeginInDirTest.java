@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.test.serv.filesyslocal;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
@@ -43,6 +42,5 @@ public class SSFileSysLocalAddTextToFilesNamesAtBeginInDirTest extends SSServOpT
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

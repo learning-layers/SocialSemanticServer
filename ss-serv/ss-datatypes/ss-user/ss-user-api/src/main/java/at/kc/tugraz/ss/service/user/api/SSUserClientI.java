@@ -24,6 +24,5 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSUserClientI {
-  public void  userLogin            (SSSocketCon sSCon, SSServPar par) throws Exception;
   public void  userAll              (SSSocketCon sSCon, SSServPar par) throws Exception;
 }

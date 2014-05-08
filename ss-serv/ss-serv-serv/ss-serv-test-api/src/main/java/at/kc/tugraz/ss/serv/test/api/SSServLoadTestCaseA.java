@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public abstract class SSServLoadTestCaseA extends SSServImplStartA{
   
-  protected SSUri userUri;
   
   protected abstract void test() throws Exception;
   
@@ -39,7 +38,6 @@ public abstract class SSServLoadTestCaseA extends SSServImplStartA{
   }
   
   protected void setUp() throws Exception{
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
   
   protected void tearDown() throws Exception{

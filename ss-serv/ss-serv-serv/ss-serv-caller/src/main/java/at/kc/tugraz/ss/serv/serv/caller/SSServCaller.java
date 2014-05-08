@@ -234,20 +234,6 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.entityAddAtCreationTime, opPars));
   }
   
-  public static void addUser(
-    final SSUri      userUri,
-    final SSLabel userLabel,
-    final Boolean    shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.userUri,      userUri);
-    opPars.put(SSVarU.userLabel,    userLabel);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.userAdd, opPars));
-  }
-  
   public static void entityAdd(
     final SSUri        userUri,
     final SSUri        uri,
@@ -1427,16 +1413,16 @@ public class SSServCaller {
   
   /* user */
   
-  public static SSUri userLogin(
-    final SSLabel userLabel, 
-    final Boolean shouldCommit) throws Exception{
+  public static SSUri userURICreate(
+    final SSUri   userUri,
+    final SSLabel label) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.userLabel,    userLabel);
+    opPars.put(SSVarU.user,  userUri);
+    opPars.put(SSVarU.label, label);
     
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userLogin, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userURICreate, opPars));
   }
   
   public static List<SSUser> userAll() throws Exception{
@@ -2002,6 +1988,22 @@ public class SSServCaller {
   
   /* auth */
   
+  public static SSUri authRegisterUser(
+    final SSUri   userUri,
+    final SSLabel label, 
+    final String  password,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,              userUri);
+    opPars.put(SSVarU.label,             label);
+    opPars.put(SSVarU.password,          password);
+    opPars.put(SSVarU.shouldCommit,      shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.authRegisterUser, opPars));
+  }
+   
   public static void authUsersFromCSVFileAdd() throws Exception{
     SSServA.callServViaServer(new SSServPar(SSMethU.authUsersFromCSVFileAdd, new HashMap<String, Object>()));
   }

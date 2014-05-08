@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     final List<SSUri>       entries      = new ArrayList<SSUri>(); 
-    final List<SSLabel>  entryLabels  = new ArrayList<SSLabel>(); 
-    final SSColl            rootColl     = SSServCaller.collUserRootGet      (userUri);
+    final List<SSLabel>     entryLabels  = new ArrayList<SSLabel>(); 
+    final SSColl            rootColl     = SSServCaller.collUserRootGet      (SSUserGlobals.systemUser);
     final SSColl            rootCollAfterAddingEntries;
     
     entries.add(SSUri.get("http://test.uri/hugo.html"));
@@ -55,9 +56,9 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
     entryLabels.add(SSLabel.get("second entry"));
     entryLabels.add(SSLabel.get("third entry"));
         
-    SSServCaller.collUserEntriesAdd(userUri, rootColl.uri, entries, entryLabels, false, true);
+    SSServCaller.collUserEntriesAdd(SSUserGlobals.systemUser, rootColl.uri, entries, entryLabels, false, true);
     
-    rootCollAfterAddingEntries = SSServCaller.collUserRootGet      (userUri);
+    rootCollAfterAddingEntries = SSServCaller.collUserRootGet      (SSUserGlobals.systemUser);
     
     System.out.println (op + " test end");
   }
@@ -85,6 +86,5 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

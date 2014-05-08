@@ -18,36 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.test.i5cloud;
+ package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSI5CloudFileDownloadTest extends SSServOpTestCaseA{
+public class SSUserURICreatePar extends SSServPar{
   
-  public SSI5CloudFileDownloadTest(SSI5CloudConf i5CloudConf){
-    super(i5CloudConf, SSMethU.i5CloudFileDownload);
-  }
+  public SSLabel label = null;
   
-  @Override
-  protected void test() throws Exception {
+  public SSUserURICreatePar(SSServPar par) throws Exception{
+   
+    super(par);
     
-    SSLogU.info("start " + op + "Test");
-    
-    final Boolean result = SSServCaller.i5CloudFileDownload("test.pdf", "private", "4a400ba7c47f41dcabb8f3cdd664003c");
-    
-    SSLogU.info("end " + op + "Test");
-  }
-  
-  @Override
-  protected void testFromClient() throws Exception{
-    
-  }
-  
-  @Override
-  protected void setUp() throws Exception {
+    try{
+      
+      if(pars != null){
+        this.label = (SSLabel) pars.get(SSVarU.label);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

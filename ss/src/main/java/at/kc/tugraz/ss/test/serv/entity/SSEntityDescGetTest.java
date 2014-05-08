@@ -24,12 +24,12 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
@@ -43,8 +43,8 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     SSLogU.info("start " + op + " Test");
     
     SSEntityDescA entityDesc = SSServCaller.entityDescGet(
-      userUri, 
-      userUri,
+      SSUserGlobals.systemUser, 
+      SSUserGlobals.systemUser,
       true, 
       true, 
       true);
@@ -74,6 +74,5 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

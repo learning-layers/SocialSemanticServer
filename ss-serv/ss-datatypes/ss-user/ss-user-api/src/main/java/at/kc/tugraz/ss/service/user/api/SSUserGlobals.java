@@ -22,14 +22,17 @@ package at.kc.tugraz.ss.service.user.api;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 
 public class SSUserGlobals {
   
-  public static SSUri systemUser;
+  public static SSUri   systemUser;
+  public static SSLabel systemUserLabel;
   
   public static void init(
     final SSUri vocPrefix) throws Exception{
     
-    systemUser = SSUri.get(SSUri.toStr(vocPrefix) + SSStrU.slash + SSStrU.valueUser + SSStrU.slash);
+    systemUserLabel = SSLabel.get (SSStrU.valueSystem);
+    systemUser      = SSUri.get   (SSUri.toStr(vocPrefix) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
   }
 }

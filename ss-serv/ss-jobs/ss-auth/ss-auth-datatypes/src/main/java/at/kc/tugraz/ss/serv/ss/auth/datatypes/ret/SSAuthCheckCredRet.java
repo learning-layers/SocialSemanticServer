@@ -24,36 +24,50 @@ import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSAuthCheckCredRet extends SSServRetI{
 
+  public SSUri  uri = null;
   public String key = null;
-
-  public static SSAuthCheckCredRet get(String key, SSMethU op){
-    return new SSAuthCheckCredRet(key, op);
+  
+  public static SSAuthCheckCredRet get(
+    final String  key, 
+    final SSUri   uri){
+    return new SSAuthCheckCredRet(key, uri);
   }
 
-  private SSAuthCheckCredRet(String key, SSMethU op){
+  private SSAuthCheckCredRet(
+    final String  key,
+    final SSUri   uri){
     
-    super(op);
+    super(SSMethU.authCheckCred);
     
     this.key = key;
+    this.uri = uri;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<String, Object>();
     
     ld.put(SSVarU.key, SSLinkU.xsd + SSStrU.valueString);
+    ld.put(SSVarU.uri, SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
+  /* json getters */
+  
   public String getKey() {
     return key;
+  }  
+  
+  public String getUri() {
+    return SSUri.toStr(uri);
   }  
 }

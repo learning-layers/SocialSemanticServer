@@ -18,43 +18,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.user.datatypes.ret;
+package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import java.util.HashMap;
-import java.util.Map;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSUserLoginRet extends SSServRetI{
-
-  public SSUri uri = null;
-
-  public static SSUserLoginRet get(SSUri uri, SSMethU op){
-    return new SSUserLoginRet(uri, op);
-  }
+public class SSAuthRegisterUserPar extends SSServPar{
   
-  private SSUserLoginRet(SSUri uri, SSMethU op){
+  public SSLabel  label             = null;
+  public String   password          = null;
+  
+  public SSAuthRegisterUserPar(final SSServPar par) throws Exception{
     
-    super(op);
+    super(par);
     
-    this.uri = uri;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    
-    ld.put(SSVarU.uri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-
-  /*************** getters to allow for json enconding ********************/
-  public String getUri() throws Exception {
-    return SSUri.toStrWithoutSlash(uri);
+    try{
+      
+      if(pars != null){
+        password           = (String)  pars.get(SSVarU.password);
+        label              = (SSLabel) pars.get(SSVarU.label);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

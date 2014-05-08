@@ -20,11 +20,14 @@
 */
  package at.kc.tugraz.ss.serv.auth.api;
 
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 
 public interface SSAuthServerI {
 
-  public String             authCheckCred           (final SSServPar parA) throws Exception;
-  public void               authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
-  public void               authCheckKey            (final SSServPar parA) throws Exception;
+  public SSAuthCheckCredRet  authCheckCred           (final SSServPar parA) throws Exception;
+  public void                authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
+  public void                authCheckKey            (final SSServPar parA) throws Exception;
+  public SSUri               authRegisterUser        (final SSServPar parA) throws Exception;
 }

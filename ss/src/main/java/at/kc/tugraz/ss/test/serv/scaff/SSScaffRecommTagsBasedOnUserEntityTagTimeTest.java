@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.test.serv.scaff;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.scaff.conf.SSScaffConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -55,6 +54,5 @@ public class SSScaffRecommTagsBasedOnUserEntityTagTimeTest extends SSServOpTestC
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

@@ -31,7 +31,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
   
   public SSUri        uri            = null;
   public SSLabel      label          = null;
-  public String       author         = null;
+  public SSLabel      author         = null;
   public Date         creationTime   = null;
   public List<String> keywords       = new ArrayList<String>();
   public List<String> annotations    = new ArrayList<String>();
@@ -39,7 +39,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
   public static SSi5CloudAchsoVideo get(
     final SSLabel      title,
     final SSUri        uri,
-    final String       author,
+    final SSLabel      author,
     final Date         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{
@@ -56,7 +56,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
   private SSi5CloudAchsoVideo(
     final SSLabel      label,
     final SSUri        uri,
-    final String       author,
+    final SSLabel      author,
     final Date         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{

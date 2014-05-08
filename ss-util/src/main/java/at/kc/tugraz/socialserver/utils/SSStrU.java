@@ -101,6 +101,7 @@ public class SSStrU{
   public  static final String        valueSharedWithMeFiles                   = "SharedWithMeFiles";
   public  static final String        valueCollRootCircle                      = "collRootCircle";
   public  static final String        valueUser                                = "user";
+  public  static final String        valueSystem                              = "system";
   
   public static int lastIndexOf(final String string, final String what){
     

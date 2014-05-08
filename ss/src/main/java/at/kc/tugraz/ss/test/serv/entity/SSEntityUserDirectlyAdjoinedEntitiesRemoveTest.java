@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTestCaseA{
   
@@ -40,7 +40,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTest
     SSLogU.info("start " + op + " Test");
     
     SSUri entityUri = SSServCaller.entityUserDirectlyAdjoinedEntitiesRemove(
-      userUri, 
+      SSUserGlobals.systemUser, 
       SSUri.get("https://www.google.at/"), 
       true, 
       true, 
@@ -73,6 +73,5 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTest
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSAuthServ extends SSServA{
   
@@ -50,6 +51,12 @@ public class SSAuthServ extends SSServA{
     if(!servConf.use){
       return;
     }
+    
+    SSServCaller.authRegisterUser(
+      SSUserGlobals.systemUser,
+      SSUserGlobals.systemUserLabel,
+      ((SSAuthConf)servConf).systemUserPassword, 
+      true);
     
     switch(((SSAuthConf)servConf).authType){
       case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(); break;

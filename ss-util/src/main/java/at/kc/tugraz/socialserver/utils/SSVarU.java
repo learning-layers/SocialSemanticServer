@@ -41,6 +41,7 @@ public class SSVarU{
   public static final String entityUris                                     = "entityUris";
   public static final String username                                       = "username";
   public static final String password                                       = "password";
+  public static final String userUriToRegister                              = "userUriToRegister";
   public static final String forUserUri                                     = "forUserUri";
   public static final String tagLabel                                       = "tagLabel";
   public static final String collEntries                                    = "collEntries";

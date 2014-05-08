@@ -21,6 +21,8 @@
  package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
@@ -31,8 +33,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,29 +71,25 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
   
   @Override
   public void authCheckCred(SSSocketCon sSCon, SSServPar par) throws Exception {
-    sSCon.writeRetFullToClient(SSAuthCheckCredRet.get(authCheckCred(par), par.op));
+    sSCon.writeRetFullToClient(authCheckCred(par));
   }
   
   /* SSAuthServServerI */
   
+  //TODO dtheiler: create transactions here as well
   @Override
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     
-    final SSAuthUsersFromCSVFileAddPar par = new SSAuthUsersFromCSVFileAddPar(parA);
-    String                             key;
-    
     try{
-      passwordPerUser.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
-      
-      //TODO dtheiler: create transactions here as well
-      for(Map.Entry<String, String> passwordForUser : passwordPerUser.entrySet()){
-        
-        key = SSAuthFct.generateKey(passwordForUser.getKey() + passwordForUser.getValue());
-        
-        keyPerUser.put(passwordForUser.getKey(), key);
-        keys.add(key);
-        
-        SSServCaller.userLogin(SSLabel.get(passwordForUser.getKey()), true);
+      final SSAuthUsersFromCSVFileAddPar par = new SSAuthUsersFromCSVFileAddPar(parA);
+    
+      for(Map.Entry<String, String> passwordForUser : SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName).entrySet()){
+
+        SSServCaller.authRegisterUser(
+          SSUserGlobals.systemUser,
+          SSLabel.get(passwordForUser.getKey()),
+          passwordForUser.getValue(),
+          true);
       }
       
     }catch(Exception error){
@@ -97,19 +97,76 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
     }
   }
   
+  //TODO dtheiler: create transactions here as well
+  @Override 
+  public SSUri authRegisterUser(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSAuthRegisterUserPar par               = new SSAuthRegisterUserPar(parA);
+      final SSUri                 userUriToRegister = SSServCaller.userURICreate(par.user, par.label);
+      final String                userStr           = SSUri.toStr(userUriToRegister);
+      final String                key               = SSAuthFct.generateKey(userStr + par.password);
+      
+      if(passwordPerUser.containsKey(userStr)){
+        return userUriToRegister;
+      }
+      
+      passwordPerUser.put(userStr, par.password);
+      keyPerUser.put     (userStr, key);
+      keys.add           (key);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        userUriToRegister,
+        par.label,
+        SSEntityE.user,
+        true);
+      
+      SSServCaller.collUserRootAdd (userUriToRegister, true);
+      
+      return userUriToRegister;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
-  public String authCheckCred(final SSServPar parA) throws Exception {
+  public SSAuthCheckCredRet authCheckCred(final SSServPar parA) throws Exception {
     
     final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
+    final SSUri              userUri;
     
     switch(((SSAuthConf)conf).authType){
       
-      case noAuth:      
-        return keys.get(1);
+      case noAuth:{
+        
+        userUri =
+          SSServCaller.authRegisterUser(
+            SSUserGlobals.systemUser,
+            par.userLabel,
+            par.pass,
+            true);
+        
+        return SSAuthCheckCredRet.get(keys.get(1), userUri);
+      }
       
-      case csvFileAuth: 
-        return SSAuthFct.checkPasswordAndGetUserKey(passwordPerUser, keyPerUser, par.userLabel, par.pass);
-      
+      case csvFileAuth:
+        
+        userUri =
+          SSServCaller.userURICreate(
+            SSUserGlobals.systemUser,
+            par.userLabel);
+        
+        return SSAuthCheckCredRet.get(
+          SSAuthFct.checkPasswordAndGetUserKey(
+            passwordPerUser,
+            keyPerUser,
+            userUri,
+            par.pass),
+          userUri);
+        
       default: 
         throw new UnsupportedOperationException();
         

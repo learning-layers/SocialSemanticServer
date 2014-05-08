@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.test.serv.dataimport;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
@@ -42,7 +42,7 @@ public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
       
       SSLogU.info("start " + op + "Test number " + counter);
       
-      SSServCaller.importDataFromEvernote(userUri, authToken, true);
+      SSServCaller.importDataFromEvernote(SSUserGlobals.systemUser, authToken, true);
       
       SSLogU.info("end " + op + "Test number " + counter++);
     }
@@ -55,6 +55,5 @@ public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

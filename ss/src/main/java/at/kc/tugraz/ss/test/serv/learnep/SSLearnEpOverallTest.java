@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOverallTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.List;
 
 public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
@@ -42,20 +43,20 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
     
     SSUri learnEpUri = 
       SSServCaller.createLearnEp(
-      userUri, 
+      SSUserGlobals.systemUser, 
       SSLabel.get("learn ep dieter 1"), 
       SSSpaceE.privateSpace, 
       true);
     
     SSUri learnEpVersionUri = 
       SSServCaller.createLearnEpVersion(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpUri, 
       true);
     
     SSUri learnEpCircleUri =
       SSServCaller.addLearnEpVersionCircle(
-      userUri,
+      SSUserGlobals.systemUser,
       learnEpVersionUri,
       SSLabel.get("learn ep circle label"),
       Float.parseFloat("98"),
@@ -68,7 +69,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
 
     SSUri learnEpEntityUri = 
       SSServCaller.addLearnEpVersionEntity(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpVersionUri, 
       SSUri.get("http://google.com/"),
       Float.parseFloat("10"),
@@ -76,26 +77,26 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.setLearnEpCurrentVersion(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpVersionUri, 
       true);
     
     SSUri learnEpVersionTimelineStateUri = 
       SSServCaller.learnEpVersionSetTimelineState(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpVersionUri, 
       SSDateU.dateAsLong(), 
       SSDateU.dateAsLong(), 
       true);
 
     SSLearnEpVersion currentLearnEpVersion = 
-      SSServCaller.getCurrentLearnEpVersion (userUri);
+      SSServCaller.getCurrentLearnEpVersion (SSUserGlobals.systemUser);
     
     SSLearnEpVersion learnEpVersion = 
-      SSServCaller.getLearnEpVersion (userUri, learnEpVersionUri);
+      SSServCaller.getLearnEpVersion (SSUserGlobals.systemUser, learnEpVersionUri);
     
     SSServCaller.updateLearnEpVersionCircle(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpCircleUri, 
       SSLabel.get("new Label"), 
       Float.parseFloat("1004"), 
@@ -107,7 +108,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.updateLearnEpVersionEntity(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpEntityUri, 
       SSUri.get("http://metallica.com/"), 
       Float.parseFloat("44"),
@@ -115,21 +116,21 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.removeLearnEpVersionCircle(
-      userUri,
+      SSUserGlobals.systemUser,
       learnEpCircleUri,
       true);
     
     SSServCaller.removeLearnEpVersionEntity(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpEntityUri, 
       true);
     
     List<SSLearnEp>        learnEps        =
-      SSServCaller.getLearnEps(userUri);
+      SSServCaller.getLearnEps(SSUserGlobals.systemUser);
     
     List<SSLearnEpVersion> learnEpVersions = 
       SSServCaller.getLearnEpVersions(
-      userUri, 
+      SSUserGlobals.systemUser, 
       learnEpUri);
   }
 }

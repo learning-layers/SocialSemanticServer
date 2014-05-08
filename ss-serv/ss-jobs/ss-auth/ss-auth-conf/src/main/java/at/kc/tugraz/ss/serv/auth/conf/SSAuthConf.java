@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
 
 public class SSAuthConf extends SSServConfA{
-  public SSAuthEnum authType = null;
-  public String     fileName = null;
+  public SSAuthEnum authType            = null;
+  public String     fileName            = null;
+  public String     systemUserPassword  = null;
 }

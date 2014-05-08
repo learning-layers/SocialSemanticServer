@@ -21,13 +21,13 @@
 package at.kc.tugraz.ss.test.serv.coll;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     System.out.println (op + " test start");
-    final SSColl           rootColl      = SSServCaller.collUserRootGet          (userUri);
+    final SSColl           rootColl      = SSServCaller.collUserRootGet          (SSUserGlobals.systemUser);
     final List<SSUri>      collEntryUris = new ArrayList<SSUri>();
     final SSColl           rootCollAfterEntriesDelete;
     
@@ -49,20 +49,18 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
       collEntryUris.add(collEntry.uri);
     }
     
-    SSServCaller.collUserEntriesDelete(userUri, rootColl.uri, collEntryUris, true);
+    SSServCaller.collUserEntriesDelete(SSUserGlobals.systemUser, rootColl.uri, collEntryUris, true);
     
-    rootCollAfterEntriesDelete = SSServCaller.collUserRootGet(userUri);
+    rootCollAfterEntriesDelete = SSServCaller.collUserRootGet(SSUserGlobals.systemUser);
       
     System.out.println (op + " test end");
   }
   
   @Override
   protected void testFromClient() throws Exception{
-    
   }
   
   @Override
   protected void setUp() throws Exception {
-    userUri = SSServCaller.userLogin(SSLabel.get("dt"), true);
   }
 }

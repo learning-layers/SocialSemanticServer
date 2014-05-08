@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public SSUri createUserUri(SSLabel userLabel) throws Exception{
+  public SSUri createUserUri(final SSLabel userLabel) throws Exception{
     return SSUri.get(objUser().toString() + userLabel);
   }
 

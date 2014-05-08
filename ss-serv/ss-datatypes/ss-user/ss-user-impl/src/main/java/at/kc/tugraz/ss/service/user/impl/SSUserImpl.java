@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -39,12 +38,10 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserLoginPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURICreatePar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserLoginRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import java.util.*;
 
@@ -150,15 +147,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   /* SSUserClientI  */
-  @Override
-  public void userLogin(SSSocketCon sSCon, SSServPar par) throws Exception {
-    
-    SSServCaller.checkKey(par);
-    
-    SSUri user = userLogin(par);
-    
-    sSCon.writeRetFullToClient(SSUserLoginRet.get(user, par.op));
-  }
 
   @Override
   public void userAll(SSSocketCon sSCon, SSServPar par) throws Exception {
@@ -175,41 +163,12 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 
   /* SSUserServerI */
   @Override
-  public SSUri userLogin(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSUserLoginPar      par     = new SSUserLoginPar (parA);
-      final SSUri               user    = createUserURI (par.userLabel);
-      
-      SSServCaller.addUser         (user, par.userLabel, par.shouldCommit);
-      SSServCaller.collUserRootAdd (user, par.shouldCommit);
-      
-      return user;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return userLogin(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public Boolean userExists(final SSServPar parA) throws Exception{
     
     final SSUserExistsPar par = new SSUserExistsPar (parA);
     
     try{
-
       return sqlFct.existsUser(par.user);
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -217,34 +176,15 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public void userAdd(final SSServPar parA) throws Exception{
+  public SSUri userURICreate(final SSServPar parA) throws Exception{
     
     try{
+      final SSUserURICreatePar par = new SSUserURICreatePar (parA);
       
-      final SSUserAddPar par = new SSUserAddPar (parA);
-        
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityAdd(
-        SSUserGlobals.systemUser,
-        par.userUri,
-        par.userLabel,
-        SSEntityE.user,
-        false);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        userAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-      }
-      
+      return sqlFct.createUserUri(par.label);
     }catch(Exception error){
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -274,10 +214,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  private SSUri createUserURI(SSLabel userLabel) throws Exception {
-    return sqlFct.createUserUri(userLabel);
   }
 }
 

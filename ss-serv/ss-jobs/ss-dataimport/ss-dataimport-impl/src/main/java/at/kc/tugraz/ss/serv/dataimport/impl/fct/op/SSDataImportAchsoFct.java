@@ -41,6 +41,7 @@ import org.dom4j.Element;
 public class SSDataImportAchsoFct{
   
   public static List<SSi5CloudAchsoVideo> getVideoObjs(
+    final SSUri  userUri, 
     final String vidXML) throws Exception{
     
     try{
@@ -89,7 +90,7 @@ public class SSDataImportAchsoFct{
             SSi5CloudAchsoVideo.get(
               SSLabel.get  (title),
               SSUri.get    (video_uri),
-              creator,
+              SSLabel.get  (creator),
               created_at,
               keywords,
               annotations));

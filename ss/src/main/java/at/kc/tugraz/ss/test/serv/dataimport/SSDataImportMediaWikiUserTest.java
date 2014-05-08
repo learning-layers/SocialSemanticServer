@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSDataImportMediaWikiUserTest extends SSServOpTestCaseA{
   
@@ -37,7 +38,7 @@ public class SSDataImportMediaWikiUserTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    SSServCaller.dataImportMediaWikiUser(userUri, true);
+    SSServCaller.dataImportMediaWikiUser(SSUserGlobals.systemUser, true);
     
     SSLogU.info("end " + op + "Test");
   }
