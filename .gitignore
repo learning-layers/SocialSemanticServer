@@ -204,3 +204,9 @@
 /ss-serv/ss-datatypes/ss-activity/ss-activity-conf/target
 /ss-serv/ss-datatypes/ss-activity/ss-activity-impl/target
 /ss-serv/ss-jobs/ss-i5cloud/ss-i5cloud-util/target
+/ss-serv/ss-datatypes/ss-category/ss-category-api/target
+/ss-serv/ss-datatypes/ss-category/ss-category-datatypes/target
+/ss-serv/ss-datatypes/ss-category/ss-category-conf/target
+/ss-serv/ss-datatypes/ss-category/ss-category-impl/target
+/ss-serv/ss-datatypes/ss-category/ss-category-util/target
+/ss-serv/ss-datatypes/ss-category/ss-category-serv/target

@@ -24,6 +24,9 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEn
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -451,26 +454,6 @@ public class SSServCaller {
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  public static void tagsAddAtCreationTime(
-    final SSUri            userUri,
-    final SSUri            entityUri,
-    final List<String>     tagList,
-    final SSSpaceE         space,
-    final Long             creationTime,
-    final Boolean          shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         userUri);
-    opPars.put(SSVarU.resource,     entityUri);
-    opPars.put(SSVarU.tagStrings,   tagList);
-    opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.creationTime, creationTime);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
   }
   
   public static SSLearnEpVersion getLearnEpVersion(SSUri userUri, SSUri learnEpCurrentVersionUri) throws Exception{
@@ -1554,7 +1537,172 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
   
-  /*  tag  */
+  /* category */
+  
+  public static void categorysAdd(
+    final SSUri                 userUri, 
+    final SSUri                 entityUri, 
+    final List<SSCategoryLabel> categoryList, 
+    final SSSpaceE              space, 
+    final Boolean               shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    try{
+      
+      opPars.put(SSVarU.shouldCommit,     shouldCommit);
+      opPars.put(SSVarU.user,             userUri);
+      opPars.put(SSVarU.resource,         entityUri);
+      opPars.put(SSVarU.categoryLabels,   categoryList);
+      opPars.put(SSVarU.space,            space);
+      
+      SSServA.callServViaServer(new SSServPar(SSMethU.categorysAdd, opPars));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static List<SSCategory> categorysUserGet(
+    final SSUri       userUri, 
+    final SSUri       entityUri, 
+    final String      category, 
+    final SSSpaceE    space) throws Exception{
+    
+    final Map<String, Object>   opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,          userUri);
+    opPars.put(SSVarU.resource,      entityUri);
+    opPars.put(SSVarU.categoryLabel, category);
+    opPars.put(SSVarU.space,         space);
+    
+    return (List<SSCategory>) SSServA.callServViaServer(new SSServPar(SSMethU.categorysUserGet, opPars));
+  }
+  
+  public static List<SSCategoryFrequ> categoryUserFrequsGet(
+    final SSUri           userUri, 
+    final SSUri           entityUri, 
+    final SSCategoryLabel categoryLabel, 
+    final SSSpaceE        space) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,          userUri);
+    opPars.put(SSVarU.resource,      entityUri);
+    opPars.put(SSVarU.categoryLabel, categoryLabel);
+    opPars.put(SSVarU.space,         space);
+    
+    return (List<SSCategoryFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserFrequsGet, opPars));
+  }
+  
+  public static List<SSUri> categoryUserEntitiesForCategoryGet(
+    final SSUri       userUri,
+    final String      categoryLabel,
+    final SSSpaceE    space) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,          userUri);
+    opPars.put(SSVarU.categoryLabel, categoryLabel);
+    opPars.put(SSVarU.space,         space);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserEntitiesForCategoryGet, opPars));
+  }
+  
+  public static void categorysRemove(
+    final SSUri           forUserUri,   
+    final SSUri           entityUri,
+    final SSCategoryLabel categoryLabel,
+    final SSSpaceE        space,
+    final Boolean         shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.forUser,        forUserUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarU.entityUri,      entityUri);
+    opPars.put(SSVarU.categoryLabel,  categoryLabel);
+    opPars.put(SSVarU.space,          space);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categorysRemove, opPars));
+  }
+  
+  public static void categorysUserRemove(
+    final SSUri           userUri,
+    final SSUri           entityUri,
+    final SSCategoryLabel categoryLabel,
+    final SSSpaceE        space,
+    final Boolean         shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarU.resource,       entityUri);
+    opPars.put(SSVarU.categoryLabel,  categoryLabel);
+    opPars.put(SSVarU.space,          space);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categorysUserRemove, opPars));
+  }
+  
+  public static void categoryAdd(
+    final SSUri            userUri,
+    final SSUri            entityUri,
+    final SSCategoryLabel  categoryLabel,
+    final SSSpaceE         space,
+    final Boolean          shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    opPars.put(SSVarU.user,          userUri);
+    opPars.put(SSVarU.resource,      entityUri);
+    opPars.put(SSVarU.space,         space);
+    opPars.put(SSVarU.categoryLabel, categoryLabel);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoryAdd, opPars));
+  }
+  
+  public static void categoryAddAtCreationTime(
+    final SSUri        userUri,
+    final SSUri        entityUri,
+    final String       categoryLabel,
+    final SSSpaceE     space,
+    final Long         creationTime,
+    final Boolean      shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarU.user,           userUri);
+    opPars.put(SSVarU.resource,       entityUri);
+    opPars.put(SSVarU.categoryLabel,  categoryLabel);
+    opPars.put(SSVarU.space,          space);
+    opPars.put(SSVarU.creationTime,   creationTime);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoryAddAtCreationTime, opPars));
+  }
+  
+  public static void categorysAddAtCreationTime(
+    final SSUri            userUri,
+    final SSUri            entityUri,
+    final List<String>     categoryList,
+    final SSSpaceE         space,
+    final Long             creationTime,
+    final Boolean          shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarU.user,             userUri);
+    opPars.put(SSVarU.resource,         entityUri);
+    opPars.put(SSVarU.categoryLabels,   categoryList);
+    opPars.put(SSVarU.space,            space);
+    opPars.put(SSVarU.creationTime,     creationTime);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categorysAddAtCreationTime, opPars));
+  }
+  
+  /* tag */
  
   public static void tagsAdd(final SSUri userUri, 
     final SSUri            entityUri, 
@@ -1694,8 +1842,28 @@ public class SSServCaller {
     opPars.put(SSVarU.tagString,    tagString);
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
-    
+   
     SSServA.callServViaServer(new SSServPar(SSMethU.tagAddAtCreationTime, opPars));
+  }
+  
+  public static void tagsAddAtCreationTime(
+    final SSUri            userUri,
+    final SSUri            entityUri,
+    final List<String>     tagList,
+    final SSSpaceE         space,
+    final Long             creationTime,
+    final Boolean          shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.resource,     entityUri);
+    opPars.put(SSVarU.tagStrings,   tagList);
+    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarU.creationTime, creationTime);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
   }
   
   /* location */

@@ -23,5 +23,6 @@
     <module>ss-learn-ep</module>
     <module>ss-entity</module>
     <module>ss-activity</module>
+    <module>ss-category</module>
   </modules>
 </project>

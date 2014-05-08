@@ -35,6 +35,7 @@ public enum SSEntityE implements SSJSONLDPropI{
 	file,
   rating,
   tag,
+  category,
   userEvent,
   location,
   learnEp,
@@ -60,6 +61,7 @@ public enum SSEntityE implements SSJSONLDPropI{
   learnEpCircleDesc,
   ratingDesc,
   tagDesc,
+  categoryDesc,
   userEventDesc,
   userDesc, 
   locationDesc;

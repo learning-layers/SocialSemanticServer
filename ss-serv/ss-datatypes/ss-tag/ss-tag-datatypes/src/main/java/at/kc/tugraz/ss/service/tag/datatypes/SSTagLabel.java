@@ -35,7 +35,7 @@ public class SSTagLabel extends SSEntityA{
       return null;
     }
     
-    return new SSTagLabel(string);
+    return new SSTagLabel(SSStrU.replace(string, SSStrU.blank, SSStrU.underline));
   }
   
   public static List<SSTagLabel> get(

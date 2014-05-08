@@ -53,20 +53,18 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
-import at.kc.tugraz.ss.service.tag.impl.fct.SSTagFct;
+import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import java.util.*;
 
 public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI{
   
-//  private final SSTagGraphFct graphFct;
   private final SSTagSQLFct   sqlFct;
   
   public SSTagImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     
-//    graphFct  = new SSTagGraphFct (this);
     sqlFct    = new SSTagSQLFct   (this);
   }
   
@@ -162,7 +160,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
           creationTime, 
           tags, 
           overallRating, 
-          discUris, 
+          discUris,
           author);
       }
       
@@ -218,7 +216,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       final SSTagAddPar par       = new SSTagAddPar(parA);
       final Boolean     existsTag = sqlFct.existsTagLabel    (par.tagString);
-      final SSUri       tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString);
+      final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.tagString);
 
       dbSQL.startTrans(par.shouldCommit);
       
@@ -236,9 +234,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSEntityE.entity,
         false);
       
-      if(!sqlFct.existsTagAss(par.user, par.resource, tagUri, par.space)){
-        sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
-      }
+        sqlFct.addTagAssIfNotExists(
+          tagUri, 
+          par.user, 
+          par.resource, 
+          par.space);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -267,7 +267,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       final SSTagAddAtCreationTimePar par       = new SSTagAddAtCreationTimePar(parA);
       final Boolean                   existsTag = sqlFct.existsTagLabel   (par.tagString);
-      final SSUri                     tagUri    = sqlFct.getOrCreateTagUri (existsTag, par.tagString); 
+      final SSUri                     tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.tagString); 
 
       dbSQL.startTrans(par.shouldCommit);
       
@@ -286,7 +286,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSEntityE.entity,
         false);
       
-      sqlFct.addTagAss(tagUri, par.user, par.resource, par.space);
+      sqlFct.addTagAssIfNotExists(
+        tagUri, 
+        par.user, 
+        par.resource, 
+        par.space);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -592,7 +596,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
           SSTagLabel.toStr(par.tagString), 
           par.space);
       
-      return SSTagFct.getTagFrequsFromTags (tags, par.space);
+      return SSTagMiscFct.getTagFrequsFromTags (tags, par.space);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

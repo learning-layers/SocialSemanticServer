@@ -134,6 +134,17 @@ public enum SSMethU{
   tagAdd                                              ,
   tagAddAtCreationTime                                ,
   
+  //
+  categorysAdd                                             ,
+  categorysAddAtCreationTime                               ,
+  categorysRemove                                          , 
+  categorysUserRemove                                      ,
+  categorysUserGet                                         ,
+  categoryUserEntitiesForCategoryGet                       ,
+  categoryUserFrequsGet                                    ,
+  categoryAdd                                              ,
+  categoryAddAtCreationTime                                ,
+  
   //solr
   solrAddDoc                                          ,
   solrSearch                                          ,

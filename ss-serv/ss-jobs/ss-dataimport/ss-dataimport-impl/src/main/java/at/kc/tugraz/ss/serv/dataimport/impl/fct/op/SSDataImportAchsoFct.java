@@ -120,9 +120,31 @@ public class SSDataImportAchsoFct{
    private static List<String> getAnnotations(Iterator annotationsIterator){
     
     final List<String> annotations = new ArrayList<String>();
+    Iterator           annotContentIterator;
+    Element            annotation;
     
     while(annotationsIterator.hasNext()){
-      annotations.add((String)((Element) annotationsIterator.next()).getData());
+      
+      annotContentIterator = ((Element) annotationsIterator.next()).nodeIterator();
+      
+      while(annotContentIterator.hasNext()){
+        
+        annotation = (Element) annotContentIterator.next();
+        
+        try{
+          switch(SSI5CloudAchsoVideoMetaDataE.get(annotation.getName())){
+            case semanticRefId: 
+              
+              //TODO dtheiler: replace annotation extraction below with las service call getVideoInformationConditional
+              annotations.add(
+               annotation.getText().substring(
+                 0, 
+                 annotation.getText().indexOf(SSStrU.underline))); 
+              
+              break;
+          }
+        }catch(Exception error){}
+      }
     }
     
     return SSStrU.distinctWithoutEmptyAndNull(annotations);

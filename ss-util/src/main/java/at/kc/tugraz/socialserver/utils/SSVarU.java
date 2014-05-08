@@ -24,6 +24,9 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String categoryFrequs                                 = "categoryFrequs";
+  public static final String categoryLabels                                 = "categoryLabels";
+  public static final String categoryLabel                                  = "categoryLabel";
   public static final String entity                                         = "entity";
   public static final String comment                                        = "comment";
   public static final String textComments                                   = "textComments";

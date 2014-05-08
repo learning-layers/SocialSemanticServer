@@ -53,6 +53,8 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   activityTargetEntitiesTable         = "activitytargetentities";
   protected static final String   locationTable                       = "location";
   protected static final String   locationsTable                      = "locations";
+  protected static final String   tagAssTable                         = "tagass";
+  protected static final String   categoryAssTable                    = "categoryass";
 
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
@@ -159,10 +161,34 @@ public class SSDBSQLFct extends SSDBFct{
   protected static void delete(
     final Map<String, String> deletes,
     final String              key,
+    final Enum                value) throws Exception{
+    
+    try{
+      deletes.put(key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void delete(
+    final Map<String, String> deletes,
+    final String              key,
     final String              value) throws Exception{
     
     try{
       deletes.put(key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void uniqueKey(
+    final Map<String, String> uniqueKeys,
+    final String              key,
+    final Enum                value) throws Exception{
+    
+    try{
+      uniqueKeys.put(key, value.toString());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

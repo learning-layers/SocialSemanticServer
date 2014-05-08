@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.log.conf.SSLogConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
+import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
@@ -86,6 +87,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSSearchConf        searchConf         = null;
   private SSDiscConf          discConf           = null;
   private SSLearnEpConf       learnEpConf        = null;
+  private SSCategoryConf      categoryConf       = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -314,6 +316,14 @@ public class SSCoreConf extends SSCoreConfA{
   
   public void setTagConf(SSTagConf tagConf){
     this.tagConf = tagConf;
+  }
+  
+  public SSCategoryConf getCategoryConf(){
+    return categoryConf;
+  }
+  
+  public void setCategoryConf(SSCategoryConf categoryConf){
+    this.categoryConf = categoryConf;
   }
   
   public SSSearchConf getSearchConf(){

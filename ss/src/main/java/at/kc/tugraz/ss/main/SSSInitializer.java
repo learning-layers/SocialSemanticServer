@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.main;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
+import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -104,6 +105,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
       SSRatingServ.inst.initServ        (SSCoreConf.instGet().getRatingConf());
       SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
+      SSCategoryServ.inst.initServ      (SSCoreConf.instGet().getCategoryConf());
       SSDiscServ.inst.initServ          (SSCoreConf.instGet().getDiscConf());
       SSLearnEpServ.inst.initServ       (SSCoreConf.instGet().getLearnEpConf());
       SSLocationServ.inst.initServ      (SSCoreConf.instGet().getLocationConf());
@@ -114,7 +116,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSDataExportServ.inst.initServ    (SSCoreConf.instGet().getDataExportConf());
       SSLOMExtractorServ.inst.initServ  (SSCoreConf.instGet().getLomExtractorConf());
       SSScaffServ.inst.initServ         (SSCoreConf.instGet().getScaffConf());
-      
       SSSolrServ.inst.initServ          (SSCoreConf.instGet().getSolrConf());
       SSModelUEServ.inst.initServ       (SSCoreConf.instGet().getModelConf());
       SSBroadcasterServ.inst.initServ   (SSCoreConf.instGet().getBroadcasterConf());

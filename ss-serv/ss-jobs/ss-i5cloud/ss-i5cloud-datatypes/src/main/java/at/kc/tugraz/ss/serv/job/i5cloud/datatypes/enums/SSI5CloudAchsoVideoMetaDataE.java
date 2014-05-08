@@ -28,7 +28,8 @@ public enum SSI5CloudAchsoVideoMetaDataE{
   created_at,
   keywords,
   annotations,
-  thumbnail;
+  thumbnail,
+  semanticRefId;
 
   public static SSI5CloudAchsoVideoMetaDataE get(
     final String value){

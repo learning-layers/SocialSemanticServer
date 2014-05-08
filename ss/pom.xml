@@ -392,6 +392,12 @@
     </dependency>
     
     <dependency>
+      <groupId>at.kc.tugraz.ss.category</groupId>
+      <artifactId>ss-category-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-tag-serv</artifactId>
       <version>${project.version}</version>

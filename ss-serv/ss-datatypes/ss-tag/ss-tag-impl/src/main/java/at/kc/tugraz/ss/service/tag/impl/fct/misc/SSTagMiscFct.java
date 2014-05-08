@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.tag.impl.fct;
+package at.kc.tugraz.ss.service.tag.impl.fct.misc;
 
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -29,11 +29,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSTagFct {
+public class SSTagMiscFct {
 
   public static List<SSTagFrequ> getTagFrequsFromTags(
     final List<SSTag> tags, 
-    final SSSpaceE space) throws Exception{
+    final SSSpaceE    space) throws Exception{
     
     final Map<String, Integer> counterPerTags = new HashMap<String, Integer>();
     
@@ -54,10 +54,11 @@ public class SSTagFct {
 
     for(String key : counterPerTags.keySet()){
       
-      outList.add(SSTagFrequ.get(
-        SSTagLabel.get(key),
-        space,
-        counterPerTags.get(key)));
+      outList.add(
+        SSTagFrequ.get(
+          SSTagLabel.get(key),
+          space,
+          counterPerTags.get(key)));
     }
     
     return outList;

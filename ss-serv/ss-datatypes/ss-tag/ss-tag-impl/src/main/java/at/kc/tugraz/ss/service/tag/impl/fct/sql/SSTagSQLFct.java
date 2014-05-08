@@ -21,12 +21,12 @@
 package at.kc.tugraz.ss.service.tag.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -40,28 +40,27 @@ import java.util.Map;
 
 public class SSTagSQLFct extends SSDBSQLFct{
   
-  protected final String               tagAssTable                         = "tagass";
-
   public SSTagSQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
 
   public Boolean existsTagLabel(final SSTagLabel tagLabel) throws Exception{
    
-    if(tagLabel == null){
-      return false;
-    }
-    
-    final Map<String, String>     whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                     resultSet               = null;
+    ResultSet resultSet = null;
     
     try{
       
-      whereParNamesWithValues.put(SSSQLVarU.label, tagLabel.toString());
-      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityE.tag.toString());
-        
-      resultSet = dbSQL.select(entityTable, whereParNamesWithValues);
-     
+      if(tagLabel == null){
+        return false;
+      }
+      
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.label, tagLabel);
+      where(wheres, SSSQLVarU.type,  SSEntityE.tag);
+      
+      resultSet = dbSQL.select(entityTable, wheres);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -71,30 +70,26 @@ public class SSTagSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSUri getOrCreateTagUri(
+  public SSUri getOrCreateTagURI(
     final Boolean     exsitsTag, 
-    final SSTagLabel tagString) throws Exception{
+    final SSTagLabel  tagString) throws Exception{
     
-    if(!exsitsTag){
-      return createTagURI();
-    }
-    
-    if(SSObjU.isNull(tagString)){
-      SSServErrReg.regErrThrow(new Exception("tagstring null"));
-      return null;
-    }
-        
-    final Map<String, String>  whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                  resultSet          = null;
+    ResultSet resultSet  = null;
     
     try{
       
-      whereParNamesWithValues.put(SSSQLVarU.label, tagString.toString());
-      whereParNamesWithValues.put(SSSQLVarU.type,  SSEntityE.tag.toString());
+      if(!exsitsTag){
+        return createTagURI();
+      }
       
-      resultSet = dbSQL.select(entityTable, whereParNamesWithValues);
-        
-      resultSet.first();
+      final Map<String, String>  wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.label, tagString);
+      where(wheres, SSSQLVarU.type,  SSEntityE.tag);
+      
+      resultSet = dbSQL.select(entityTable, wheres);
+      
+      checkFirstResult(resultSet);
       
       return bindingStrToUri(resultSet, SSSQLVarU.id);
     }catch(Exception error){
@@ -105,26 +100,26 @@ public class SSTagSQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addTagAss(
+  public void addTagAssIfNotExists(
     final SSUri       tagUri, 
     final SSUri       userUri,
     final SSUri       entityUri,
-    final SSSpaceE space) throws Exception{
-    
-    if(SSObjU.isNull(tagUri, userUri, entityUri, space)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return;
-    }
-    
-    final Map<String, String> insertPars = new HashMap<String, String>();
+    final SSSpaceE    space) throws Exception{
     
     try{
-      insertPars.put(SSSQLVarU.userId,       userUri.toString());
-      insertPars.put(SSSQLVarU.entityId,     entityUri.toString());
-      insertPars.put(SSSQLVarU.tagId,        tagUri.toString());
-      insertPars.put(SSSQLVarU.tagSpace,     space.toString());
+      final Map<String, String> inserts    = new HashMap<String, String>();
+      final Map<String, String> uniqueKeys = new HashMap<String, String>();
       
-      dbSQL.insert(tagAssTable, insertPars);
+      insert    (inserts,    SSSQLVarU.userId,    userUri);
+      insert    (inserts,    SSSQLVarU.entityId,  entityUri);
+      insert    (inserts,    SSSQLVarU.tagId,     tagUri);
+      insert    (inserts,    SSSQLVarU.tagSpace,  space);
+      uniqueKey (uniqueKeys, SSSQLVarU.userId,    userUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.entityId,  entityUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.tagId,     tagUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.tagSpace,  space);
+      
+      dbSQL.insertIfNotExists(tagAssTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -134,22 +129,20 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       userUri, 
     final SSUri       entityUri, 
     final SSUri       tagUri, 
-    final SSSpaceE space) throws Exception{
-    
-    if(SSObjU.isNull(userUri, entityUri, tagUri, space)){
-      return false;
-    }
-    
-    final HashMap<String, String> selectPars = new HashMap<String, String>();
-    ResultSet                     resultSet = null;
+    final SSSpaceE    space) throws Exception{
+
+    ResultSet resultSet = null;
     
     try{
-      selectPars.put(SSSQLVarU.userId,       userUri.toString());
-      selectPars.put(SSSQLVarU.entityId,     entityUri.toString());
-      selectPars.put(SSSQLVarU.tagId,        tagUri.toString());
-      selectPars.put(SSSQLVarU.tagSpace,     space.toString());
+    
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      resultSet = dbSQL.select(tagAssTable, selectPars);
+      where(wheres, SSSQLVarU.userId,       userUri);
+      where(wheres, SSSQLVarU.entityId,     entityUri);
+      where(wheres, SSSQLVarU.tagId,        tagUri);
+      where(wheres, SSSQLVarU.tagSpace,     space);
+      
+      resultSet = dbSQL.select(tagAssTable, wheres);
       
       return resultSet.first();
       
@@ -162,58 +155,58 @@ public class SSTagSQLFct extends SSDBSQLFct{
   }
   
   public void removeTagAsss(
-    final SSUri       user,
-    final SSUri       entity, 
+    final SSUri       userUri,
+    final SSUri       entityUri, 
     final SSTagLabel  tagString, 
-    final SSSpaceE tagSpace) throws Exception{
+    final SSSpaceE    space) throws Exception{
     
-    final Map<String, String> selectPars = new HashMap<String, String>();
-    final Map<String, String> deletePars = new HashMap<String, String>();
-    ResultSet                 resultSet  = null;
-    SSUri                     tagURI     = null;
-
-    if(tagString != null){
-      
-      selectPars.put(SSSQLVarU.label,    tagString.toString());
-      selectPars.put(SSSQLVarU.type,     SSEntityE.toStr(SSEntityE.tag));
-
-      resultSet = dbSQL.select(entityTable, selectPars);
-      
-      try{
-        
-        if(!resultSet.first()){
-          return;
-        }
-        
-        tagURI = bindingStrToUri(resultSet, SSSQLVarU.id);
-        
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-      }finally{
-        dbSQL.closeStmt(resultSet);
-      }
-    }
+    ResultSet resultSet  = null;
     
     try{
       
-      if(tagSpace != null){
-        deletePars.put(SSSQLVarU.tagSpace,  tagSpace.toString());
-      }
-
-      if(user != null){
-        deletePars.put(SSSQLVarU.userId,     user.toString());
+      final Map<String, String> wheres  = new HashMap<String, String>();
+      final Map<String, String> deletes = new HashMap<String, String>();
+      SSUri                     tagURI  = null;
+      
+      if(tagString != null){
+        
+        try{
+          where(wheres, SSSQLVarU.label, tagString);
+          where(wheres, SSSQLVarU.type,  SSEntityE.tag);
+          
+          resultSet = dbSQL.select(entityTable, wheres);
+          
+          checkFirstResult(resultSet);
+          
+          tagURI = bindingStrToUri(resultSet, SSSQLVarU.id);
+        }catch(SSNoResultFoundErr error){
+          return;
+        }catch(Exception error){
+          SSServErrReg.regErrThrow(error);
+          return;
+        }finally{
+          dbSQL.closeStmt(resultSet);
+        }
       }
       
-      if(entity != null){
-        deletePars.put(SSSQLVarU.entityId,    entity.toString());
+      if(space != null){
+        delete(deletes, SSSQLVarU.tagSpace, space);
+      }
+      
+      if(userUri != null){
+        delete(deletes, SSSQLVarU.userId,     userUri);
+      }
+      
+      if(entityUri != null){
+        delete(deletes, SSSQLVarU.entityId,    entityUri);
       }
       
       if(tagURI != null){
-        deletePars.put(SSSQLVarU.tagId,      tagURI.toString());
+        delete(deletes, SSSQLVarU.tagId,      tagURI);
       }
       
-      if(deletePars.size() > 0){
-        dbSQL.delete(tagAssTable, deletePars);
+      if(deletes.size() > 0){
+        dbSQL.delete(tagAssTable, deletes);
       }else{
         dbSQL.delete(tagAssTable);
       }
@@ -224,7 +217,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
   }
   
   public List<SSTag> getTagAsss(
-    final SSUri       user, 
+    final SSUri       userUri, 
     final SSUri       entity, 
     final SSTagLabel  tagString, 
     final SSSpaceE    tagSpace) throws Exception{
@@ -238,7 +231,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
       final List<String>        tables         = new ArrayList<String>();
       final List<String>        columns        = new ArrayList<String>();
       final List<String>        tableCons      = new ArrayList<String>();
-      final SSUri               tagURI         = getOrCreateTagUri(existsTagLabel(tagString), tagString);
+      final SSUri               tagURI         = getOrCreateTagURI(existsTagLabel(tagString), tagString);
 
       table    (tables,    tagAssTable);
       table    (tables,    entityTable);
@@ -249,8 +242,8 @@ public class SSTagSQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.label);
       tableCon (tableCons, tagAssTable, SSSQLVarU.tagId, entityTable, SSSQLVarU.id);
       
-      if(user != null){
-        where(wheres, SSSQLVarU.userId, user);
+      if(userUri != null){
+        where(wheres, SSSQLVarU.userId, userUri);
       }
       
       if(entity != null){
@@ -288,41 +281,37 @@ public class SSTagSQLFct extends SSDBSQLFct{
   }
   
   public List<SSUri> getEntitiesForTagLabel(
-    final SSUri       user, 
-    final SSTagLabel tagString, 
-    final SSSpaceE tagSpace) throws Exception{
+    final SSUri       userUri, 
+    final SSTagLabel  tagString, 
+    final SSSpaceE    tagSpace) throws Exception{
     
-    if(!existsTagLabel(tagString)){
-      return new ArrayList<SSUri>();
-    }
-
-    final List<SSUri>         entityUris              = new ArrayList<SSUri>();
-    final List<String>        columNames              = new ArrayList<String>();
-    final SSUri               tagURI                  = getOrCreateTagUri(true, tagString);
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.tagId,    SSUri.toStr            (tagURI));
-    
-    if(tagSpace != null){
-      whereParNamesWithValues.put(SSSQLVarU.tagSpace, SSSpaceE.toStr (tagSpace));
-    }
-    
-    if(user != null){
-      whereParNamesWithValues.put(SSSQLVarU.userId, user.toString()); 
-    }
-    
-    columNames.add(SSSQLVarU.entityId);
-    columNames.add(SSSQLVarU.tagId);
+    ResultSet resultSet = null;
     
     try{
-      resultSet = dbSQL.select(tagAssTable, columNames, whereParNamesWithValues);
       
-      while(resultSet.next()){
-        entityUris.add(bindingStrToUri(resultSet, SSSQLVarU.entityId));
+      if(!existsTagLabel(tagString)){
+        return new ArrayList<SSUri>();
       }
-
-      return entityUris;
+      
+      final Map<String, String> wheres       = new HashMap<String, String>();
+      final List<String>        columns      = new ArrayList<String>();
+      
+      where(wheres, SSSQLVarU.tagId, getOrCreateTagURI(true, tagString));
+      
+      if(tagSpace != null){
+        where(wheres, SSSQLVarU.tagSpace, tagSpace);
+      }
+      
+      if(userUri != null){
+        where(wheres, SSSQLVarU.userId, userUri);
+      }
+      
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.tagId);
+      
+      resultSet = dbSQL.select(tagAssTable, columns, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -185,3 +185,8 @@ activityConf:
   use: true
   executeOpAtStartUp: false
   op:  
+categoryConf:
+  use: true
+  executeOpAtStartUp: false
+  op:
+    

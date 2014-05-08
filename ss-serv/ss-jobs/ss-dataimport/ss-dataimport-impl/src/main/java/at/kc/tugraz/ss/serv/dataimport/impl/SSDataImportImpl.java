@@ -224,6 +224,14 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           SSSpaceE.sharedSpace, 
           video.creationTime, 
           true);
+        
+        SSServCaller.categorysAddAtCreationTime(
+          authorUri, 
+          video.uri,
+          video.annotations,
+          SSSpaceE.sharedSpace, 
+          video.creationTime, 
+          true);
       }
       
       System.out.println();
