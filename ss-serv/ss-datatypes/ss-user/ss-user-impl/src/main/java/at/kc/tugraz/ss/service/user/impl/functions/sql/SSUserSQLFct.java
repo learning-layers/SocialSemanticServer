@@ -130,10 +130,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSUri userSystem() throws Exception{
-    return SSUri.get(objUser() + SSUserGlobals.systemUserLabel);
-  }
-   
   private SSUri objUser() throws Exception{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.user.toString());
   }  

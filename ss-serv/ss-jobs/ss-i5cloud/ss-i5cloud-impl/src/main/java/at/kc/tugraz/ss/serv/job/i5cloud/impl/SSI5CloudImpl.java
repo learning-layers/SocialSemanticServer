@@ -42,7 +42,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, SSI5CloudServerI{
 
@@ -68,7 +67,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       
       con.setDoOutput(true);
       con.setRequestProperty(SSHTMLU.acceptCharset, SSEncodingU.utf8);
-      con.setRequestProperty(SSHTMLU.contentType,  SSMimeTypeU.applicationJson);
+      con.setRequestProperty(SSHTMLU.contentType,   SSMimeTypeU.applicationJson);
       
       out = con.getOutputStream();
       

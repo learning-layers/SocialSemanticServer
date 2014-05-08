@@ -17,5 +17,6 @@
     <module>ss-i5cloud-api</module>
     <module>ss-i5cloud-serv</module>
     <module>ss-i5cloud-datatypes</module>
+    <module>ss-i5cloud-util</module>
   </modules>
 </project>

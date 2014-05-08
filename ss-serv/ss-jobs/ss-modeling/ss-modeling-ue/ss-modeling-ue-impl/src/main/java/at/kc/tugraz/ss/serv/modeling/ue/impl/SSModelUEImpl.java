@@ -356,11 +356,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     for(SSModelUERelation relation : modelRelations){
       
       if(counter == 0){
-        subjectLabel = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(SSUserGlobals.systemUserURI), SSUri.get(relation.subject)).label);
+        subjectLabel = SSLabel.toStr(SSServCaller.entityGet(SSUserGlobals.systemUser, SSUri.get(relation.subject)).label);
       }
       
       relation.subjectLabel = subjectLabel;
-      relation.objectLabel  = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(SSUserGlobals.systemUserURI), SSUri.get(relation.object)));      
+      relation.objectLabel  = SSLabel.toStr(SSServCaller.entityGet(SSUserGlobals.systemUser, SSUri.get(relation.object)));      
       
       counter++;
     }

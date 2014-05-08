@@ -49,7 +49,7 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
         userUris, 
         SSCircleE.priv,
         SSLabel.get("dieter priv circle"),
-        SSUri.get(SSUserGlobals.systemUserURI),
+        SSUserGlobals.systemUser,
         true);
     
     SSLogU.info("end " + op + "Test");

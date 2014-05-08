@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;

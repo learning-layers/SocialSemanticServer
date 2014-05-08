@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.socialserver.utils;
 
-import java.nio.*;
 import java.security.*;
 import java.util.*;
 
@@ -101,6 +100,7 @@ public class SSStrU{
   public  static final String        valueRoot                                = "root";
   public  static final String        valueSharedWithMeFiles                   = "SharedWithMeFiles";
   public  static final String        valueCollRootCircle                      = "collRootCircle";
+  public  static final String        valueUser                                = "user";
   
   public static int lastIndexOf(final String string, final String what){
     

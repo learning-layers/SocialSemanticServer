@@ -20,7 +20,16 @@
 */
 package at.kc.tugraz.ss.service.user.api;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+
 public class SSUserGlobals {
-  public static final String systemUserLabel = "system";
-  public static final String systemUserURI   = "http://system.sss/user/system/";
+  
+  public static SSUri systemUser;
+  
+  public static void init(
+    final SSUri vocPrefix) throws Exception{
+    
+    systemUser = SSUri.get(SSUri.toStr(vocPrefix) + SSStrU.slash + SSStrU.valueUser + SSStrU.slash);
+  }
 }

@@ -34,7 +34,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
   }
   
   @Override
-  public SSUri vocURIPrefixGet(SSServPar parA) throws Exception{
+  public SSUri vocURIPrefixGet(final SSServPar parA) throws Exception{
     return SSUri.get(SSLinkU.prefixHttp + ((SSVocConf)conf).getSpaceAndApp());
   }
 }

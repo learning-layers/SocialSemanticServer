@@ -226,7 +226,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
-        SSUri.get(SSUserGlobals.systemUserURI),
+        SSUserGlobals.systemUser,
         par.userUri,
         par.userLabel,
         SSEntityE.user,
@@ -255,7 +255,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 
   @Override
   public SSUri userSystemGet(final SSServPar parA) throws Exception {
-    return sqlFct.userSystem();
+    return SSUserGlobals.systemUser;
   }
 
   @Override 

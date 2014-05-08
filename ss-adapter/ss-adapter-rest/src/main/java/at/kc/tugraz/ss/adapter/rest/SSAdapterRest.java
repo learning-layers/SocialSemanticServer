@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import com.sun.jersey.multipart.FormDataParam;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,7 +76,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.entityType + SSStrU.curlyBracketClose)
   public String jsonLD(@PathParam(SSVarU.entityType) String entityType){
     
-    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + SSUserGlobals.systemUserURI + "/\",\"entityType\":\"" + entityType + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"entityType\":\"" + entityType + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
     
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
     

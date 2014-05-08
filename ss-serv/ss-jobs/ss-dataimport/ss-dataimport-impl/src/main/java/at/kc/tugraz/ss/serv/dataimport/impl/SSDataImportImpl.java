@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -40,27 +41,22 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
+import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
-import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.enums.SSI5CloudAchsoVideoMetaDataE;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.httpclient.util.URIUtil;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
@@ -193,78 +189,29 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     }
   }
   
+  //TODO dtheiler: add transactions here
   @Override
   public void dataImportAchso(final SSServPar parA) throws Exception {
     
     try{
       final SSDataImportAchsoPar      par          = new SSDataImportAchsoPar(parA);
-      final String                    vidInfXML    = SSServCaller.i5CloudAchsoVideoInformationGet();
-      final Document                  document     = DocumentHelper.parseText(vidInfXML);
-      final Element                   rootElement  = document.getRootElement();
-      final Iterator                  vidIterator  = rootElement.elementIterator();
-      final List<SSi5CloudAchsoVideo> videos       = new ArrayList<SSi5CloudAchsoVideo>();
-      Iterator vidContentIterator, keywordsIterator, annotationsIterator;
-      Element vid, vidContent;
-      String title;
-      String video_uri;
-      String creator;
-      String created_at;
-      List<String> annotations, keywords;
-      
-      while(vidIterator.hasNext()){
-        
-        vid                = (Element) vidIterator.next();
-        vidContentIterator = vid.elementIterator();
-        title              = null;
-        video_uri          = null;
-        creator            = null;
-        created_at         = null;
-        keywords           = new ArrayList<String>();
-        annotations        = new ArrayList<String>();
-        
-        while(vidContentIterator.hasNext()){
-          
-          vidContent = (Element) vidContentIterator.next();
-          
-          switch(SSI5CloudAchsoVideoMetaDataE.get(vidContent.getName())){
-            
-            case title:         title      = (String) vidContent.getData(); break;
-            case video_uri:     video_uri  = (String) vidContent.getData(); break;
-            case creator:       creator    = (String) vidContent.getData(); break;
-            case created_at:    created_at = (String) vidContent.getData(); break;
-            
-            case keywords:{
-              keywordsIterator = vidContent.nodeIterator();
-              
-              while(keywordsIterator.hasNext()){
-                keywords.add((String)((Element) keywordsIterator.next()).getData());
-              }
-              
-              keywords = SSStrU.distinctWithoutEmptyAndNull(keywords);
-            }
-            
-            case annotations:{
-              annotationsIterator = vidContent.nodeIterator();
-              
-              while(annotationsIterator.hasNext()){
-                annotations.add((String)((Element) annotationsIterator.next()).getData());
-              }
-              
-              annotations = SSStrU.distinctWithoutEmptyAndNull(annotations);
-            }
-          }
-        }
+      final List<SSi5CloudAchsoVideo> videoObjs    = 
+        SSDataImportAchsoFct.getVideoObjs(
+          SSServCaller.i5CloudAchsoVideoInformationGet());
 
-        videos.add(
-          SSi5CloudAchsoVideo.get(
-            SSLabel.get(title),
-            SSUri.get(video_uri),
-            creator,
-            created_at,
-            keywords,
-            annotations));
+      for(SSi5CloudAchsoVideo video : videoObjs){
+        
+        SSServCaller.entityAddAtCreationTime(
+          SSUserGlobals.systemUser, 
+          video.uri,
+          video.label, 
+          video.creationTime.getTime(),
+          SSEntityE.entity, 
+          true);
+        
+//        SSServCaller.addTagsAtCreationTime(userUri, entityUri, tagList, space, creationTime, shouldCommit);
       }
-
+      
       System.out.println();
       
     }catch(Exception error){

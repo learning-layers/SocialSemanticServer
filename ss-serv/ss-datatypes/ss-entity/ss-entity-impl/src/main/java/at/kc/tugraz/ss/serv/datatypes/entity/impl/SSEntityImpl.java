@@ -869,7 +869,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.userUris,
           SSCircleE.group,
           SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
-          SSUri.get(SSUserGlobals.systemUserURI),
+          SSUserGlobals.systemUser,
           false);
       
       for(SSUri userUriToShareWith : par.userUris){

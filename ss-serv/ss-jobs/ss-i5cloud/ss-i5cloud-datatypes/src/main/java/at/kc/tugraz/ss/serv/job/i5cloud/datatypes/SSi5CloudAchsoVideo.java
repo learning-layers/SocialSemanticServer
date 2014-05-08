@@ -24,48 +24,49 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SSi5CloudAchsoVideo extends SSEntityA{
   
-  public SSUri        video_uri      = null;
-  public SSLabel      title          = null;
-  public String       creator        = null;
-  public String       created_at     = null;
+  public SSUri        uri            = null;
+  public SSLabel      label          = null;
+  public String       author         = null;
+  public Date         creationTime   = null;
   public List<String> keywords       = new ArrayList<String>();
   public List<String> annotations    = new ArrayList<String>();
   
   public static SSi5CloudAchsoVideo get(
     final SSLabel      title,
-    final SSUri        video_uri,
-    final String       creator,
-    final String       created_at,
+    final SSUri        uri,
+    final String       author,
+    final Date         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     
     return new SSi5CloudAchsoVideo(
       title, 
-      video_uri,
-      creator, 
-      created_at, 
+      uri,
+      author, 
+      creationTime, 
       keywords, 
       annotations);
   }
   
   private SSi5CloudAchsoVideo(
-    final SSLabel      title,
-    final SSUri        video_uri,
-    final String       creator,
-    final String       created_at,
+    final SSLabel      label,
+    final SSUri        uri,
+    final String       author,
+    final Date         creationTime,
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     
-    super(video_uri);
+    super(uri);
     
-    this.title      = title;
-    this.video_uri  = video_uri;
-    this.creator    = creator;
-    this.created_at = created_at;
+    this.label        = label;
+    this.uri          = uri;
+    this.author       = author;
+    this.creationTime = creationTime;
     
     if(keywords != null){
       this.keywords.addAll(keywords);

@@ -18,11 +18,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.kc.tugraz.ss.activity.ss.i5cloud.util;
 
-package at.kc.tugraz.socialserver.utils;
-
-public class SSSocketU {
-
-  public static final Integer socketTranmissionSize = 10000;
-  public static final char    endOfRequest        = '\0';
+public class SSI5CloudU{
+  
+  public static final String achsoDateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXX";
 }

@@ -256,7 +256,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         circleUri, 
         SSLabel.get(SSStrU.empty), 
         SSEntityE.circle, 
-        SSUri.get(SSUserGlobals.systemUserURI));
+        SSUserGlobals.systemUser);
 
       insert(inserts, SSSQLVarU.circleId,   circleUri);
       insert(inserts, SSSQLVarU.circleType, SSCircleE.pub);
@@ -587,7 +587,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSUri.equals(getEntity(circleUri).author, SSUri.get(SSUserGlobals.systemUserURI));
+      return SSUri.equals(getEntity(circleUri).author, SSUserGlobals.systemUser);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
