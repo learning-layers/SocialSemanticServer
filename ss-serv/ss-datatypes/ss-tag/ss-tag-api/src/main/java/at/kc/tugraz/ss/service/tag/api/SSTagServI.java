@@ -21,6 +21,7 @@
 
 package at.kc.tugraz.ss.service.tag.api;
 
-public interface SSTagServI{
-  
+import at.kc.tugraz.ss.serv.serv.api.SSServI;
+
+public interface SSTagServI extends SSServI{
 }

@@ -24,13 +24,13 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
@@ -73,7 +73,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithKeywordWithinPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
@@ -185,7 +184,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA)));
   }
   
   /* SSEntityServerI */
@@ -583,7 +582,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUsersToCircleAddPar par = new SSEntityUsersToCircleAddPar(parA);
       
-      SSEntityMiscFct.checkWhetherUsersExist(par.userUris);
+      SSEntityMiscFct.checkWhetherEntitiesExist(sqlFct, par.userUris, SSEntityE.user);
         
       dbSQL.startTrans(par.shouldCommit);
       
@@ -917,12 +916,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSUser> entityUserEntityUsersGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> entityUserEntityUsersGet(final SSServPar parA) throws Exception{
     
     try{
       final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
       final List<SSUri>                   userUris        = new ArrayList<SSUri>();
       final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user);
+      final List<SSEntity>                users           = new ArrayList<SSEntity>();
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entityUri)){
         
@@ -954,7 +954,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      return SSServCaller.usersGet(userUris);
+      for(SSUri userUri : userUris){
+        users.add(sqlFct.getEntity(userUri));
+      }
+      
+      return users;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

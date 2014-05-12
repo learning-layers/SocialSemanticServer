@@ -66,7 +66,7 @@ public class SSDataImportEvernoteHelper {
   private final SSEvernoteHelper evernoteHelper = new SSEvernoteHelper();
   
   public SSDataImportEvernoteHelper() throws Exception{
-    this.localWorkPath = SSCoreConf.instGet().getSsConf().localWorkPath;
+    this.localWorkPath = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
   }
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{

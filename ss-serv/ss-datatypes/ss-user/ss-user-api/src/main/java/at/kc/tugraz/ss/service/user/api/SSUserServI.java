@@ -18,28 +18,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.db.conf;
+package at.kc.tugraz.ss.service.user.api;
 
-import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSServI;
 
-public class SSDBSQLConf extends SSCoreServConfA{
+public interface SSUserServI extends SSServI{
   
-  public       String         host        = null;
-  public       Integer        port        = null;
-  public       String         username    = null;
-  public       String         password    = null;
-  public       String         schema      = null;
-  
-  public static SSDBSQLConf copy(final SSDBSQLConf orig){
-    
-    final SSDBSQLConf copy = (SSDBSQLConf) SSCoreServConfA.copy(orig, new SSDBSQLConf());
-    
-    copy.host     = orig.host;
-    copy.port     = orig.port;
-    copy.username = orig.username;
-    copy.password = orig.password;
-    copy.schema   = orig.schema;
-    
-    return copy;
-  }
 }

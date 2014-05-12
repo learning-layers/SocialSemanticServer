@@ -69,18 +69,16 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void checkWhetherUsersExist(
-    final List<SSUri> userUris) throws Exception{
+  public static void checkWhetherEntitiesExist(
+    final SSEntitySQLFct sqlFct, 
+    final List<SSUri>    entityUris,
+    final SSEntityE      entityType) throws Exception{
     
     try{
-      if(userUris == null){
-        throw new Exception("pars null");
-      }
-      
-      for(SSUri userUri: userUris){
+      for(SSUri entityUri: entityUris){
         
-        if(!SSServCaller.userExists(userUri)){
-          throw new Exception("user doesnt exist");
+        if(!SSEntityE.equals(sqlFct.getEntity(entityUri).type, entityType)){
+          throw new Exception("entity doesnt exist");
         }
       }
     }catch(Exception error){

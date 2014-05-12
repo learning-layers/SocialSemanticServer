@@ -216,3 +216,7 @@
 /ss-serv/ss-jobs/ss-cloud/ss-cloud-impl/target/
 /ss-serv/ss-jobs/ss-cloud/ss-cloud-serv/target/
 /ss/users.csv
+/ss/lib
+/ss/runit.bat
+/ss/runit.sh
+/ss/ss.jar

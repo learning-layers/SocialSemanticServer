@@ -22,6 +22,8 @@ package at.kc.tugraz.ss.conf.api;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
@@ -65,26 +67,26 @@ public abstract class SSCoreConfA {
     }
   }
   
-  /**
-   * @param conf
-   * @param fileName provide null if you want it to be the default config filename
-   */
-  public void save(String fileName) throws Exception{
+  public void save(
+    final String pathToFile) throws Exception{
     
-    try {
-//      FileWriter fw = new FileWriter(fileName);
-      // URL resource = getClass().getResource("/conf.yaml");
-      // String file = resource.getFile();
-      // String host = resource.getHost();
-      // System.out.println(file + " " + host);
-      // FilewriteToFile(null, null);
-//      Yaml yaml = getYaml();
-//      yaml.dump(this, fw);
-//      String output = yaml.dump(this);
-//      
-//      SSLogU.logInfo(output);
-    } catch (Exception error) {
+    FileWriter fileWriter = null;
+    
+    try{
+      
+      final Yaml yaml = getYaml();
+      
+      fileWriter = new FileWriter(SSFileU.openOrCreateFileWithPathForWrite(pathToFile).getFD());
+      
+      yaml.dump(this, fileWriter);
+      
+    }catch (Exception error) {
       SSLogU.errThrow(error);
+    }finally{
+      
+      if(fileWriter != null){
+        fileWriter.close();
+      }
     }
   }
 }  

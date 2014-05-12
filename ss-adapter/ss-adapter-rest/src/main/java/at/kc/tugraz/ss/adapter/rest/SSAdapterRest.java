@@ -920,6 +920,7 @@ public class SSAdapterRest{
         errors.add(SSErrForClient.get(error));
         
         return sSCon.prepErrorToClient (errors, op);
+        
       }catch(Exception error1){
         SSServErrReg.regErr(error1, "writing error to client didnt work");
       }

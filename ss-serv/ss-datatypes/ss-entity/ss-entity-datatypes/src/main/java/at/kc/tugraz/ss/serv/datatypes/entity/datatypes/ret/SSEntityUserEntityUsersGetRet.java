@@ -24,8 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,20 +33,18 @@ import java.util.Map;
 
 public class SSEntityUserEntityUsersGetRet extends SSServRetI{
 
-  public List<SSUser> users = new ArrayList<SSUser>();
+  public List<SSEntity> users = new ArrayList<SSEntity>();
 
   public static SSEntityUserEntityUsersGetRet get(
-    final List<SSUser> users, 
-    final SSMethU      op){
+    final List<SSEntity> users){
     
-    return new SSEntityUserEntityUsersGetRet(users, op);
+    return new SSEntityUserEntityUsersGetRet(users);
   }
   
   private SSEntityUserEntityUsersGetRet(
-    final List<SSUser> users, 
-    final SSMethU      op) {
+    final List<SSEntity> users) {
 
-    super(op);
+    super(SSMethU.entityUserEntityUsersGet);
     
     if(users != null){
       this.users.addAll(users);
@@ -59,7 +57,7 @@ public class SSEntityUserEntityUsersGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<String, Object>();
     final Map<String, Object> usersObj   = new HashMap<String, Object>();
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUser.class.getName());
+    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.users, usersObj);
@@ -67,7 +65,7 @@ public class SSEntityUserEntityUsersGetRet extends SSServRetI{
     return ld;
   }
   
-  public List<SSUser> getUsers() {
+  public List<SSEntity> getUsers() {
     return users;
   }
 }

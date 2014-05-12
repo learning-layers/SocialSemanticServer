@@ -20,13 +20,15 @@
 */
 package at.kc.tugraz.ss.conf.conf;
 
+import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
 public class SSConf extends SSCoreServConfA{
   
-  public String    host           = null;
-  public Integer   port           = null;
-  public String    localWorkPath  = null;
+  public  String    host           = null;
+  public  Integer   port           = null;
+  private String    localWorkPath  = null;
   
   public static SSConf copy(final SSConf orig){
     
@@ -37,5 +39,18 @@ public class SSConf extends SSCoreServConfA{
     copy.localWorkPath = orig.localWorkPath;
     
     return copy;
+  }
+  
+  public void setLocalWorkPath(final String value){
+  
+    localWorkPath = value;
+    
+    if(SSStrU.isEmpty(this.localWorkPath)){
+      this.localWorkPath = SSFileU.dirWorkingTmp();
+    }
+  }
+  
+  public String getLocalWorkPath(){
+    return localWorkPath;
   }
 }

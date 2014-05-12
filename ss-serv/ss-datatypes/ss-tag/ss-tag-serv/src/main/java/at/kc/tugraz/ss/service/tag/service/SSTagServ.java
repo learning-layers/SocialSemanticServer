@@ -36,7 +36,7 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
 import java.util.List;
 
-public class SSTagServ extends SSServA{
+public class SSTagServ extends SSServA implements SSTagServI{
   
   public static final SSServA  inst = new SSTagServ(SSTagClientI.class, SSTagServerI.class);
   

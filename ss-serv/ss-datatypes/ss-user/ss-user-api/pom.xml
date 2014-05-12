@@ -23,7 +23,13 @@
       <version>${project.version}</version>
     </dependency>
     
-        <dependency>
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.serv.api</groupId>
+      <artifactId>ss-serv-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
       <artifactId>ss-serv-datatypes</artifactId>
       <version>${project.version}</version>

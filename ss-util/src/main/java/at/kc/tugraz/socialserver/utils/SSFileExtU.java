@@ -25,6 +25,7 @@ import java.util.List;
 
 public class SSFileExtU {
   
+  public final static String                 yaml            = "yaml";
   public final static String                 pdf             = "pdf";
 	public final static String                 doc             = "doc";
   public final static String                 ppt             = "ppt";
