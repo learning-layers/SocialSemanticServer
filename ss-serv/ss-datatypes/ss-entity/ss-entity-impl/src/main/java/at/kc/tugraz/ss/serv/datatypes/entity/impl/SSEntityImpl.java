@@ -80,6 +80,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
 //  private final SSEntityGraphFct       graphFct;
   private final SSEntitySQLFct         sqlFct;
   
-  public SSEntityImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSEntityImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     

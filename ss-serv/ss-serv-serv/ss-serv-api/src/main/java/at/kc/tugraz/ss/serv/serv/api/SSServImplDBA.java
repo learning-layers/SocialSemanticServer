@@ -29,18 +29,8 @@ import java.util.List;
 
 public abstract class SSServImplDBA extends SSServImplA{
   
-  public SSServImplDBA(final SSServConfA conf) throws Exception{
+  public SSServImplDBA(final SSConfA conf) throws Exception{
     super(conf);
-  }
-  
-  @Override
-  public List<SSMethU> publishClientOps(final Class servImplClientInteraceClass) throws Exception{
-    return new ArrayList<SSMethU>();
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps(final Class servImplServerInteraceClass) throws Exception{
-    return new ArrayList<SSMethU>();    
   }
   
   @Override

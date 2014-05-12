@@ -30,4 +30,18 @@ public class SSLOMExtractorConf extends SSServConfA{
   public String  outputResourceLangFileName     = null;
   public Boolean useEdunet                      = null;
   public Boolean useEPrints                     = null;
+  
+  public static SSLOMExtractorConf copy(final SSLOMExtractorConf orig){
+    
+    final SSLOMExtractorConf copy = (SSLOMExtractorConf) SSServConfA.copy(orig, new SSLOMExtractorConf());
+    
+    copy.inputDirPath                   = orig.inputDirPath;
+    copy.outputResourceRecommFileName   = orig.outputResourceRecommFileName;
+    copy.outputResourceMetadataFileName = orig.outputResourceMetadataFileName;
+    copy.outputResourceLangFileName     = orig.outputResourceLangFileName;
+    copy.useEdunet                      = orig.useEdunet;
+    copy.useEPrints                     = orig.useEPrints;
+    
+    return copy;
+  }
 }

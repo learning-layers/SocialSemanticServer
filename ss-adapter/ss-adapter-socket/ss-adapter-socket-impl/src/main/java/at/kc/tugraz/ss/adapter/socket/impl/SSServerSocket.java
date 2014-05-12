@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.adapter.socket.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -34,8 +35,8 @@ public class SSServerSocket implements Runnable{
   private int                     port       = -1;
   private boolean                 run        = true;
   
-  public SSServerSocket(int port) {
-    this.port = port;
+  public SSServerSocket() throws Exception {
+    this.port = SSCoreConf.instGet().getSsConf().port;
   }
   
   @Override
@@ -83,7 +84,10 @@ public class SSServerSocket implements Runnable{
         
 //        SSLogU.info("server enter: " + par.op);
         
-        SSServA.callServViaClient(sScon, par);
+        SSServA.callServViaClient(
+          sScon, 
+          par, 
+          SSCoreConf.instGet().getCloudConf().use);
         
       }catch(Exception error1){
         

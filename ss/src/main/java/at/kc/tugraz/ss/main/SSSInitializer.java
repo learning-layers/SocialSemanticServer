@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
+import at.kc.tugraz.ss.cloud.serv.SSCloudServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -41,7 +42,6 @@ import at.kc.tugraz.ss.serv.job.i5cloud.serv.SSI5CloudServ;
 import at.kc.tugraz.ss.serv.job.recomm.serv.SSRecommServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
 import at.kc.tugraz.ss.serv.lomextractor.serv.SSLOMExtractorServ;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
 import at.kc.tugraz.ss.serv.scaff.serv.SSScaffServ;
@@ -70,10 +70,10 @@ public class SSSInitializer extends SSServImplStartA{
     
     try{
 
-      /**** vocabulary ****/
+      /* vocabulary */
       SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
       
-      /**** utils ****/
+      /* util */
       SSMimeTypeU.init   ();
       SSUserGlobals.init (SSServCaller.vocURIPrefixGet());
       
@@ -82,26 +82,23 @@ public class SSSInitializer extends SSServImplStartA{
         SSCoreConf.instGet().getVocConf().app, 
         SSCoreConf.instGet().getVocConf().space);
 
-      /**** db ****/
+      /* db  */
       SSDBGraph.inst.initServ           (SSCoreConf.instGet().getDbGraphConf());
       SSDBSQL.inst.initServ             (SSCoreConf.instGet().getDbSQLConf());
       
-      /**** entity ****/
+      /* entity  */
       SSEntityServ.inst.initServ        (SSCoreConf.instGet().getEntityConf());
       SSUserServ.inst.initServ          (SSCoreConf.instGet().getUserConf());
       SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
       
-      /**** job ****/
+      /* job  */
       SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
       SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
         
-      /**** local work serv ****/
-      SSLocalWorkServ.inst.initServ     (SSCoreConf.instGet().getLocalWorkConf());
-      
-      /**** json-ld ****/
+      /* json-ld  */
       SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());
       
-      /**** entities ****/
+      /* entities  */
       SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
       SSRatingServ.inst.initServ        (SSCoreConf.instGet().getRatingConf());
       SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
@@ -111,7 +108,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSLocationServ.inst.initServ      (SSCoreConf.instGet().getLocationConf());
       SSActivityServ.inst.initServ      (SSCoreConf.instGet().getActivityConf());
       
-      /**** jobs ****/
+      /* jobs  */
       SSSearchServ.inst.initServ        (SSCoreConf.instGet().getSearchConf());
       SSDataExportServ.inst.initServ    (SSCoreConf.instGet().getDataExportConf());
       SSLOMExtractorServ.inst.initServ  (SSCoreConf.instGet().getLomExtractorConf());
@@ -124,8 +121,9 @@ public class SSSInitializer extends SSServImplStartA{
       SSFilerepoServ.inst.initServ      (SSCoreConf.instGet().getFilerepoConf());
       SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
       SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
+      SSCloudServ.inst.initServ         (SSCoreConf.instGet().getCloudConf());
 
-      /**** scheduling task ****/
+      /* scheduling task */
       SSModelUEServ.inst.schedule   ();
       SSFilerepoServ.inst.schedule  ();
       SSRecommServ.inst.schedule    ();

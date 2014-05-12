@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.user.impl;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -32,6 +31,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -39,7 +39,7 @@ import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURICreatePar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
@@ -50,7 +50,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
   
-  public SSUserImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSUserImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     
@@ -176,12 +176,12 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public SSUri userURICreate(final SSServPar parA) throws Exception{
+  public SSUri userURIGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSUserURICreatePar par = new SSUserURICreatePar (parA);
+      final SSUserURIGetPar par = new SSUserURIGetPar (parA);
       
-      return sqlFct.createUserUri(par.label);
+      return sqlFct.getUserURIForLabel(par.label);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -191,11 +191,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   @Override
   public List<SSUser> userAll(final SSServPar parA) throws Exception {
     return sqlFct.userAll();
-  }
-
-  @Override
-  public SSUri userSystemGet(final SSServPar parA) throws Exception {
-    return SSUserGlobals.systemUser;
   }
 
   @Override 

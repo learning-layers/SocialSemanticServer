@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.conf.api;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
@@ -44,10 +45,10 @@ public abstract class SSCoreConfA {
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     options.setAllowUnicode(true);
     
-    return new Yaml(new SSMainConfARepresenter(), options);
+    return new Yaml(new SSCoreConfARepresenter(), options);
   }
   
-  private static class SSMainConfARepresenter extends Representer {
+  private static class SSCoreConfARepresenter extends Representer {
 
     @Override
     protected NodeTuple representJavaBeanProperty(
@@ -63,28 +64,27 @@ public abstract class SSCoreConfA {
       return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
     }
   }
-}
-
-
+  
   /**
    * @param conf
    * @param fileName provide null if you want it to be the default config filename
    */
-//  public void save(String fileName) throws Exception{
-//    
-//    try {
+  public void save(String fileName) throws Exception{
+    
+    try {
 //      FileWriter fw = new FileWriter(fileName);
-//      // URL resource = getClass().getResource("/configuration.yml");
-//      // String file = resource.getFile();
-//      // String host = resource.getHost();
-//      // System.out.println(file + " " + host);
-//      // FilewriteToFile(null, null);
+      // URL resource = getClass().getResource("/conf.yaml");
+      // String file = resource.getFile();
+      // String host = resource.getHost();
+      // System.out.println(file + " " + host);
+      // FilewriteToFile(null, null);
 //      Yaml yaml = getYaml();
 //      yaml.dump(this, fw);
 //      String output = yaml.dump(this);
 //      
 //      SSLogU.logInfo(output);
-//    } catch (Exception error) {
-//      SSLogU.logAndThrow(error);
-//    }
-//  }
+    } catch (Exception error) {
+      SSLogU.errThrow(error);
+    }
+  }
+}  

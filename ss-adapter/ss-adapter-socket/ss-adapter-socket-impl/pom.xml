@@ -19,6 +19,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.api</groupId>
       <artifactId>ss-serv-api</artifactId>
       <version>${project.version}</version>

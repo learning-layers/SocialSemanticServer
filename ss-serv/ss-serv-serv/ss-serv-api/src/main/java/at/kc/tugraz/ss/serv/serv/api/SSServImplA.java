@@ -24,52 +24,15 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SSServImplA{
 
-  protected SSServConfA                        conf         = null;
+  protected SSConfA                        conf         = null;
   
   protected abstract void finalizeImpl      ()    throws Exception;
   
-  protected SSServImplA(final SSServConfA conf){
+  protected SSServImplA(final SSConfA conf){
     this.conf = conf;
-  }
-  
-  public List<SSMethU> publishClientOps(final Class clientInterfaceClass) throws Exception{
-
-    final List<SSMethU> clientOps = new ArrayList<SSMethU>();
-    
-    if(clientInterfaceClass == null){
-      return clientOps;
-    }
-    
-    final Method[]      methods   = clientInterfaceClass.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-  
-  public List<SSMethU> publishServerOps(final Class serverInterfaceClass) throws Exception{
-
-    final List<SSMethU> serverOps = new ArrayList<SSMethU>();
-    
-    if(serverInterfaceClass == null){
-      return serverOps;
-    }
-    
-    final Method[]      methods   = serverInterfaceClass.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
   }
   
   public void handleClientOp(

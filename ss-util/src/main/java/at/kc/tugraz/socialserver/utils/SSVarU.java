@@ -24,6 +24,10 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String serv                                           = "serv";
+  public static final String useDifferentServiceNode                        = "useDifferentServiceNode";
+  public static final String sssNodeHost                                    = "sssNodeHost";
+  public static final String sssNodePort                                    = "sssNodePort";
   public static final String categoryFrequs                                 = "categoryFrequs";
   public static final String categoryLabels                                 = "categoryLabels";
   public static final String categoryLabel                                  = "categoryLabel";

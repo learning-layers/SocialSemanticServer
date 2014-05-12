@@ -21,12 +21,17 @@
  package at.kc.tugraz.ss.serv.ss.auth.datatypes.enums;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 
 public enum SSAuthEnum {
   
   wikiAuth, 
   noAuth,
   csvFileAuth;
+
+  public static String toStr(final SSAuthEnum value) {
+    return SSStrU.toString(value);
+  }
   
   public static SSAuthEnum get(final String type) {
     return SSAuthEnum.valueOf(type);

@@ -210,3 +210,9 @@
 /ss-serv/ss-datatypes/ss-category/ss-category-impl/target
 /ss-serv/ss-datatypes/ss-category/ss-category-util/target
 /ss-serv/ss-datatypes/ss-category/ss-category-serv/target
+/ss-serv/ss-jobs/ss-cloud/ss-cloud-datatypes/target/
+/ss-serv/ss-jobs/ss-cloud/ss-cloud-api/target/
+/ss-serv/ss-jobs/ss-cloud/ss-cloud-conf/target/
+/ss-serv/ss-jobs/ss-cloud/ss-cloud-impl/target/
+/ss-serv/ss-jobs/ss-cloud/ss-cloud-serv/target/
+/ss/users.csv

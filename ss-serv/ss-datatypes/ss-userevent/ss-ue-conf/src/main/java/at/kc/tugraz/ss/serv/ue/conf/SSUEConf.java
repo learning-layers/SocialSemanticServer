@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.ue.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSUEConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSUEConf copy(final SSUEConf orig){
+    
+    final SSUEConf copy = (SSUEConf) SSServConfA.copy(orig, new SSUEConf());
+    
+    return copy;
+  }
 }

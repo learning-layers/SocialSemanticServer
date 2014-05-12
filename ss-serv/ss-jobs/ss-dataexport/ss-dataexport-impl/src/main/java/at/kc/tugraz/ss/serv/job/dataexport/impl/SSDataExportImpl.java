@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityT
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagTimestampsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
@@ -52,7 +53,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
   private CSVWriter fileWriterUserEntityTagCategories             = null;
   private CSVWriter fileWriterUserEntityTagCategoryTimestamps     = null;
   
-  public SSDataExportImpl(final SSServConfA conf) throws Exception{
+  public SSDataExportImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

@@ -24,8 +24,10 @@ import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterClientI;
 import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterServerI;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcasterImpl;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSBroadcasterServ extends SSServA{
   
@@ -45,5 +47,12 @@ public class SSBroadcasterServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+  }
+  
+@Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.activity.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSActivityConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSActivityConf copy(final SSActivityConf orig){
+    
+    final SSActivityConf copy = (SSActivityConf) SSServConfA.copy(orig, new SSActivityConf());
+    
+    return copy;
+  }
 }

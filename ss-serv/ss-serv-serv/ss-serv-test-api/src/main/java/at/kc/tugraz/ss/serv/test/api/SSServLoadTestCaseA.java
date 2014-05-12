@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
@@ -33,7 +34,7 @@ public abstract class SSServLoadTestCaseA extends SSServImplStartA{
   
   protected abstract void test() throws Exception;
   
-  public SSServLoadTestCaseA(final SSServConfA conf) throws Exception{
+  public SSServLoadTestCaseA(final SSConfA conf) throws Exception{
     super(conf);
   }
   

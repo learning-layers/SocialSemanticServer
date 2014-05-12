@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.auth.serv;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
@@ -28,6 +29,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import java.util.List;
 
 public class SSAuthServ extends SSServA{
   
@@ -61,5 +63,12 @@ public class SSAuthServ extends SSServA{
     switch(((SSAuthConf)servConf).authType){
       case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(); break;
     }
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

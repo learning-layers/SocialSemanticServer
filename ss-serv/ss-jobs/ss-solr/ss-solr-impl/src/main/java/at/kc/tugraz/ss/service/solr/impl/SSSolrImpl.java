@@ -21,11 +21,10 @@
  package at.kc.tugraz.ss.service.solr.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrAddDocPar;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrRemoveDocPar;
@@ -46,16 +45,16 @@ import org.apache.solr.common.util.*;
 public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolrServerI{
   
   private final SolrServer     server;
-  private final SSFileRepoConf localWorkConf;
+  private final String         localWorkPath;
   
-  public SSSolrImpl(final SSFileRepoConf conf) throws Exception{
+  public SSSolrImpl(final SSConfA conf) throws Exception{
     
     super(conf);
     
-    server         = new CommonsHttpSolrServer(conf.getPath());
-    localWorkConf  = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
+    server         = new CommonsHttpSolrServer(((SSFileRepoConf) conf).getPath());
+    localWorkPath  = SSCoreConf.instGet().getSsConf().localWorkPath;
     
-    SSLogU.info("connected to Solr server @ " + conf.getPath() + ".");
+    SSLogU.info("connected to Solr server @ " + ((SSFileRepoConf) conf).getPath() + ".");
   }
   
   /****** SSSolrServerI ******/
@@ -74,7 +73,7 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
     final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
     final NamedList<Object>          response;
     
-    csur.addFile   (new File(localWorkConf.getPath() + par.id));
+    csur.addFile   (new File(localWorkPath + par.id));
     csur.setParam  ("literal.id", par.id);
     csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
 

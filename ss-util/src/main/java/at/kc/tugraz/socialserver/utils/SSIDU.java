@@ -24,6 +24,13 @@ public class SSIDU {
 
   private static Integer intAdd = 0;
   
+  public static String uniqueID(){
+    
+    synchronized(intAdd){
+      return SSDateU.dateAsNano().toString() + (++intAdd).toString();
+    }
+  }
+  
   public static String uniqueID(String preText){
     
     synchronized(intAdd){

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.security.MessageDigest;
 import java.util.List;
@@ -33,11 +33,11 @@ public class SSAuthFct{
   public static String checkPasswordAndGetUserKey(
     final Map<String, String> passwordPerUser, 
     final Map<String, String> keyPerUser, 
-    final SSUri               userUri,
+    final SSLabel             userLabel,
     final String              password) throws Exception{
     
     try{
-      final String userStr = SSUri.toStr(userUri);
+      final String userStr = SSLabel.toStr(userLabel);
       
       if(
         !SSStrU.equals(password, passwordPerUser.get(userStr)) ||

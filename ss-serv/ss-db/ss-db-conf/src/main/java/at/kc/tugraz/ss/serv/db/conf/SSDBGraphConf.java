@@ -28,4 +28,16 @@ public class SSDBGraphConf extends SSServConfA{
   public       Integer        port;
   public       String         username;
   public       String         password;
+  
+  public static SSDBGraphConf copy(final SSDBGraphConf orig){
+    
+    final SSDBGraphConf copy = (SSDBGraphConf) SSServConfA.copy(orig, new SSDBGraphConf());
+    
+    copy.host     = orig.host;
+    copy.port     = orig.port;
+    copy.username = orig.username;
+    copy.password = orig.password;
+    
+    return copy;
+  }
 }

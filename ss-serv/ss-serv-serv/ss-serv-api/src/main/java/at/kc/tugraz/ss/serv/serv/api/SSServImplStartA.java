@@ -43,7 +43,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     }
   };
   
-  public SSServImplStartA(final SSServConfA conf){
+  public SSServImplStartA(final SSConfA conf){
     super(conf);
   }
   
@@ -92,15 +92,5 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     final SSServPar par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
-  }
-
-  @Override
-  public List<SSMethU> publishClientOps(final Class clientInterfaceClass) throws Exception{
-    return new ArrayList<SSMethU>();
-  }
-
-  @Override
-  public List<SSMethU> publishServerOps(final Class serverInterfaceClass) throws Exception{
-    return new ArrayList<SSMethU>();
   }
 }

@@ -19,6 +19,18 @@
 
     <dependency>
       <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-tag-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
       <artifactId>ss-db-serv</artifactId>
       <version>${project.version}</version>
     </dependency>

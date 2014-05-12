@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.service.filerepo.service;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -31,6 +32,7 @@ import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import at.kc.tugraz.ss.service.filerepo.service.task.SSFileRepoWritingMinutesUpdateTask;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSFilerepoServ extends SSServA{
@@ -64,5 +66,12 @@ public class SSFilerepoServ extends SSServA{
   @Override
   protected void initServSpecificStuff() throws Exception{
     regServForManagingEntities(SSEntityE.file);
+  }
+  
+@Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

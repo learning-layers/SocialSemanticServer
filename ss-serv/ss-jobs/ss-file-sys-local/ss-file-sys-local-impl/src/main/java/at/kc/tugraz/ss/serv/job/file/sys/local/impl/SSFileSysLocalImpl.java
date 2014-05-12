@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.serv.job.file.sys.local.api.SSFileSysLocalClientI;
 import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.job.file.sys.local.datatypes.pars.SSFileSysLocalAddTextToFilesNamesAtBeginInDirPar;
 import at.kc.tugraz.ss.serv.job.file.sys.local.datatypes.pars.SSFileSysLocalFormatFileNamesInDirPar;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +40,7 @@ import java.nio.file.Path;
 
 public class SSFileSysLocalImpl extends SSServImplMiscA implements SSFileSysLocalClientI, SSFileSysLocalServerI{
   
-  public SSFileSysLocalImpl(final SSServConfA conf) throws Exception{
+  public SSFileSysLocalImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

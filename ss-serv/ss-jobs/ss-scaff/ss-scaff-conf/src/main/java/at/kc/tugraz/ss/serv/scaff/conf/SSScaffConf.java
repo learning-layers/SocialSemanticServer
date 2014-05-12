@@ -23,4 +23,11 @@ package at.kc.tugraz.ss.serv.scaff.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSScaffConf extends SSServConfA{
+  
+  public static SSScaffConf copy(final SSScaffConf orig){
+    
+    final SSScaffConf copy = (SSScaffConf) SSServConfA.copy(orig, new SSScaffConf());
+    
+    return copy;
+  }
 }

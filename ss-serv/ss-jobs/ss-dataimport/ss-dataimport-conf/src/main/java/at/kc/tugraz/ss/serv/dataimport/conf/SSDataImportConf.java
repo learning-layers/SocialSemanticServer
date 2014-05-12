@@ -23,5 +23,15 @@ package at.kc.tugraz.ss.serv.dataimport.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSDataImportConf extends SSServConfA{
-  public String  fileName           = null;
+  
+  public String  fileName = null;
+  
+  public static SSDataImportConf copy(final SSDataImportConf orig){
+    
+    final SSDataImportConf copy = (SSDataImportConf) SSServConfA.copy(orig, new SSDataImportConf());
+    
+    copy.fileName = orig.fileName;
+    
+    return copy;
+  }
 }

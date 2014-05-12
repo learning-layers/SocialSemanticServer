@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationAddRet;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.sql.SSLocationSQLFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
@@ -53,7 +54,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
 //  private final SSLocationGraphFct graphFct;
   private final SSLocationSQLFct   sqlFct;
   
-  public SSLocationImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSLocationImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     

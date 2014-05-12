@@ -23,4 +23,11 @@
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSBroadcasterConf extends SSServConfA {
+  
+  public static SSBroadcasterConf copy(final SSBroadcasterConf orig){
+    
+    final SSBroadcasterConf copy = (SSBroadcasterConf) SSServConfA.copy(orig, new SSBroadcasterConf());
+    
+    return copy;
+  }
 }

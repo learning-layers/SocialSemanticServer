@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.coll.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSCollConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSCollConf copy(final SSCollConf orig){
+    
+    final SSCollConf copy = (SSCollConf) SSServConfA.copy(orig, new SSCollConf());
+    
+    return copy;
+  }
 }

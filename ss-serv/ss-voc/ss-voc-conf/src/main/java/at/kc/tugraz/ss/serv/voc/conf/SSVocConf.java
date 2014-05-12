@@ -21,13 +21,23 @@
 package at.kc.tugraz.ss.serv.voc.conf;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
-public class SSVocConf extends SSServConfA{
+public class SSVocConf extends SSCoreServConfA{
   
-  public String   app      = null; /** represents the application domain */
-  public String   space    = null; /** represents the graph space used in the current application domain */
+  public String   app      = null; /* represents the application domain */
+  public String   space    = null; /* represents the graph space used in the current application domain */
  
+  public static SSVocConf copy(final SSVocConf orig){
+    
+    final SSVocConf copy = (SSVocConf) SSCoreServConfA.copy(orig, new SSVocConf());
+    
+    copy.app          = orig.app;
+    copy.space  = orig.space;
+    
+    return copy;
+  }
+  
   public String getSpaceAndApp(){
     return space + SSStrU.dot + app;
   }

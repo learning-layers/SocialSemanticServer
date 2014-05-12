@@ -20,12 +20,14 @@
 */
 package at.kc.tugraz.ss.serv.lomextractor.serv;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorClientI;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorServerI;
 import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
 import at.kc.tugraz.ss.serv.lomextractor.impl.SSLOMExtractorImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSLOMExtractorServ extends SSServA{
   
@@ -45,5 +47,12 @@ public class SSLOMExtractorServ extends SSServA{
   
   @Override
   protected void initServSpecificStuff() throws Exception{
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

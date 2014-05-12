@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.search.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSSearchConf extends SSServConfA{
-
+  
+  public static SSSearchConf copy(final SSSearchConf orig){
+    
+    final SSSearchConf copy = (SSSearchConf) SSServConfA.copy(orig, new SSSearchConf());
+    
+    return copy;
+  }
 }

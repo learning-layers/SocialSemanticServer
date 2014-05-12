@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.rating.service;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -30,6 +31,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.rating.api.SSRatingClientI;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
+import java.util.List;
 
 public class SSRatingServ extends SSServA{
   
@@ -50,5 +52,12 @@ public class SSRatingServ extends SSServA{
   @Override
   protected void initServSpecificStuff() throws Exception{
     regServForManagingEntities(SSEntityE.rating);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.disc.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSDiscConf extends SSServConfA{
-  public Boolean addToGraph = false;
+ 
+  public static SSDiscConf copy(final SSDiscConf orig){
+    
+    final SSDiscConf copy = (SSDiscConf) SSServConfA.copy(orig, new SSDiscConf());
+    
+    return copy;
+  }
 }

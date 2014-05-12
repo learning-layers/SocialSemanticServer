@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.serv.caller;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
+import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
@@ -620,16 +621,17 @@ public class SSServCaller {
 
   public static SSUri vocURIPrefixGet() throws Exception{
     
-    Map<String, Object> opPars = new HashMap<String, Object>();
-    SSUri               result = null;
+    final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      result = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
+  }
+  
+  public static SSUri vocURIGet() throws Exception{
     
-    return result;
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    final SSUri               vocPrefix = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
+    
+    return SSUri.get(SSUri.toStr(vocPrefix) + SSIDU.uniqueID());
   }
   
   /* colls */
@@ -1398,7 +1400,7 @@ public class SSServCaller {
   
   /* user */
   
-  public static SSUri userURICreate(
+  public static SSUri userURIGet(
     final SSUri   userUri,
     final SSLabel label) throws Exception{
     
@@ -1407,7 +1409,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,  userUri);
     opPars.put(SSVarU.label, label);
     
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userURICreate, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userURIGet, opPars));
   }
   
   public static List<SSUser> userAll() throws Exception{

@@ -20,11 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.serv;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.SSI5CloudImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSI5CloudServ extends SSServA{
   
@@ -44,5 +46,12 @@ public class SSI5CloudServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -23,12 +23,13 @@ package at.kc.tugraz.ss.serv.test.api;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 
 public abstract class SSServOverallTestCaseA extends SSServImplStartA{
   
   
-  public SSServOverallTestCaseA(final SSServConfA conf){
+  public SSServOverallTestCaseA(final SSConfA conf){
     super(conf);
   }
 

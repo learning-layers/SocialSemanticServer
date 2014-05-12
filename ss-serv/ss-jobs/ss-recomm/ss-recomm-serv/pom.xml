@@ -19,8 +19,26 @@
   <dependencies>
   
     <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-db-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
       <artifactId>ss-recomm-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
+      <artifactId>ss-recomm-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.util</groupId>
+      <artifactId>ss-util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

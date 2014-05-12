@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.modeling.ue.serv;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.impl.SSModelUEImpl;
@@ -33,6 +34,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SSModelUEServ extends SSServA{
   
@@ -83,5 +85,12 @@ public class SSModelUEServ extends SSServA{
     SSModelUEU.lastUpdateTime = SSDateU.dateAsLong() - (SSDateU.dayInMilliSeconds * ((SSModelUEConf)servConf).daysToRetrieveEvents);
     
     SSServCaller.modelUEUpdate();
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksLinke
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesLinkedGetPar;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import com.evernote.auth.EvernoteAuth;
@@ -60,7 +61,7 @@ import java.util.List;
 
 public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI{
   
-  public SSEvernoteImpl(final SSServConfA conf) throws Exception{
+  public SSEvernoteImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

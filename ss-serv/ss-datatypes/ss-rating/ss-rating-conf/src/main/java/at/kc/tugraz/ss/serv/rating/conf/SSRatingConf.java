@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.rating.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSRatingConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSRatingConf copy(final SSRatingConf orig){
+    
+    final SSRatingConf copy = (SSRatingConf) SSServConfA.copy(orig, new SSRatingConf());
+    
+    return copy;
+  }
 }

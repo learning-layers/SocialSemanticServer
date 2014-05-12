@@ -24,4 +24,11 @@ package at.kc.tugraz.ss.serv.job.dataexport.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSDataExportConf extends SSServConfA{
+  
+  public static SSDataExportConf copy(final SSDataExportConf orig){
+    
+    final SSDataExportConf copy = (SSDataExportConf) SSServConfA.copy(orig, new SSDataExportConf());
+    
+    return copy;
+  }
 }

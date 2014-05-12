@@ -20,13 +20,25 @@
 */
  package at.kc.tugraz.ss.serv.db.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
-public class SSDBSQLConf extends SSServConfA{
+public class SSDBSQLConf extends SSCoreServConfA{
   
   public       String         host        = null;
   public       Integer        port        = null;
   public       String         username    = null;
   public       String         password    = null;
   public       String         schema      = null;
+  
+  public static SSDBSQLConf copy(final SSDBSQLConf orig){
+    
+    final SSDBSQLConf copy = (SSDBSQLConf) SSCoreServConfA.copy(orig, new SSDBSQLConf());
+    
+    copy.host     = orig.host;
+    copy.port     = orig.port;
+    copy.username = orig.username;
+    copy.password = orig.password;
+    
+    return copy;
+  }
 }

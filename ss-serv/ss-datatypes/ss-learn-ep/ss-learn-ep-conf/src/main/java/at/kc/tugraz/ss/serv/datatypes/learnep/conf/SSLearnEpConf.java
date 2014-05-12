@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSLearnEpConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSLearnEpConf copy(final SSLearnEpConf orig){
+    
+    final SSLearnEpConf copy = (SSLearnEpConf) SSServConfA.copy(orig, new SSLearnEpConf());
+    
+    return copy;
+  }
 }

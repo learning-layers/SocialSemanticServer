@@ -20,18 +20,24 @@
 */
  package at.kc.tugraz.ss.service.coll.service;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
+import at.kc.tugraz.ss.service.coll.api.SSCollServI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
+import at.kc.tugraz.ss.service.tag.api.SSTagServI;
+import java.util.List;
 
-public class SSCollServ extends SSServA{
+public class SSCollServ extends SSServA implements SSCollServI{
   
  public static final SSServA  inst = new SSCollServ(SSCollClientI.class, SSCollServerI.class);
   
@@ -50,5 +56,21 @@ public class SSCollServ extends SSServA{
   @Override
   protected void initServSpecificStuff() throws Exception{
     regServForManagingEntities(SSEntityE.coll);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+   
+    //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
+    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
+    final SSCollConf collConf = coreConf.getCollConf();
+    
+    collConf.use                = true;
+    collConf.executeOpAtStartUp = false;
+//    collConf.op                 = null;
+    
+    return coreConf;
   }
 }

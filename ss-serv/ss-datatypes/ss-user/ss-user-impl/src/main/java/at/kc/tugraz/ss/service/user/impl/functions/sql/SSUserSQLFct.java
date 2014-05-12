@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -28,7 +27,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -42,21 +40,17 @@ public class SSUserSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public SSUri createUserUri(final SSLabel userLabel) throws Exception{
-    return SSUri.get(objUser().toString() + userLabel);
-  }
-
   public List<SSUser> userAll() throws Exception {
     
     ResultSet resultSet = null;
     
     try{
-      final List<SSUser>        users                    = new ArrayList<SSUser>();
-      final Map<String, String> where  = new HashMap<String, String>();
+      final List<SSUser>        users  = new ArrayList<SSUser>();
+      final Map<String, String> wheres  = new HashMap<String, String>();
       
-      where.put(SSSQLVarU.type, SSEntityE.user.toString());
+      where(wheres, SSSQLVarU.type, SSEntityE.user);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, wheres);
       
       while(resultSet.next()){
         
@@ -77,16 +71,16 @@ public class SSUserSQLFct extends SSDBSQLFct{
   
   public Boolean existsUser(final SSUri userUri) throws Exception{
     
-    ResultSet                 resultSet  = null;
+    ResultSet resultSet  = null;
     
     try{
       
-      final Map<String, String> where      = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
-      where.put(SSSQLVarU.type, SSEntityE.user.toString());
+      where(wheres, SSSQLVarU.id,   userUri);
+      where(wheres, SSSQLVarU.type, SSEntityE.user);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, wheres);
       
       return resultSet.first();
     }catch(Exception error){
@@ -97,25 +91,43 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSUser getUser(final SSUri userUri) throws Exception{
+  public SSUri getUserURIForLabel(final SSLabel label) throws Exception{
     
     ResultSet resultSet  = null;
     
     try{
       
-      if(SSObjU.isNull(userUri)){
-        throw new Exception("pars null");
-      }
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      final Map<String, String> where = new HashMap<String, String>();
+      where(wheres, SSSQLVarU.label,  label);
+      where(wheres, SSSQLVarU.type,   SSEntityE.user);
       
-      where.put(SSSQLVarU.id,   SSUri.toStr(userUri));
+      resultSet = dbSQL.select(entityTable, wheres);
       
-      resultSet = dbSQL.select(entityTable, where);
+      checkFirstResult(resultSet);
       
-      if(!resultSet.first()){
-        throw new Exception("user doesn't exist");
-      }
+      return bindingStrToUri(resultSet, SSSQLVarU.id);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+   
+  public SSUser getUser(final SSUri userUri) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.id, userUri);
+      
+      resultSet = dbSQL.select(entityTable, wheres);
+      
+      checkFirstResult(resultSet);
       
       return SSUser.get(
         userUri, 
@@ -128,8 +140,4 @@ public class SSUserSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-
-  private SSUri objUser() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.user.toString());
-  }  
 }

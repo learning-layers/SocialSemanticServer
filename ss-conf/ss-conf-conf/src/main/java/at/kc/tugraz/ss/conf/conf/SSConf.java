@@ -20,9 +20,22 @@
 */
 package at.kc.tugraz.ss.conf.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
-public class SSConf extends SSServConfA{
-  public String    host       = null;
-  public Integer   port       = null;
+public class SSConf extends SSCoreServConfA{
+  
+  public String    host           = null;
+  public Integer   port           = null;
+  public String    localWorkPath  = null;
+  
+  public static SSConf copy(final SSConf orig){
+    
+    final SSConf copy = (SSConf) SSCoreServConfA.copy(orig, new SSConf());
+    
+    copy.host          = orig.host;
+    copy.port          = orig.port;
+    copy.localWorkPath = orig.localWorkPath;
+    
+    return copy;
+  }
 }

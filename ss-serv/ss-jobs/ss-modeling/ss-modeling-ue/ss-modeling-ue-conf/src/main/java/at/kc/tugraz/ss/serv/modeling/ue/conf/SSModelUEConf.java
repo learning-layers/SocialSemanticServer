@@ -23,6 +23,17 @@ package at.kc.tugraz.ss.serv.modeling.ue.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSModelUEConf extends SSServConfA{
+  
   public Integer daysToRetrieveEvents = null;
   public Boolean initAtStartUp        = null;
+  
+  public static SSModelUEConf copy(final SSModelUEConf orig){
+    
+    final SSModelUEConf copy = (SSModelUEConf) SSServConfA.copy(orig, new SSModelUEConf());
+    
+    copy.daysToRetrieveEvents  = orig.daysToRetrieveEvents;
+    copy.initAtStartUp         = orig.initAtStartUp;
+    
+    return copy;
+  }
 }

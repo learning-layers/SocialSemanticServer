@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -32,9 +33,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
-import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
@@ -57,7 +56,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 public class SSDataImportEvernoteHelper {
   
-  private final  SSFileRepoConf          localWorkConf          = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
+  private final  String                  localWorkPath;
   private        SSEvernoteInfo          evernoteInfo           = null;
   private        SSLabel                 userName               = null;
   private        SSUri                   userUri                = null;
@@ -65,6 +64,10 @@ public class SSDataImportEvernoteHelper {
   private        List<String>            sharedNotebookGuids    = null;
   
   private final SSEvernoteHelper evernoteHelper = new SSEvernoteHelper();
+  
+  public SSDataImportEvernoteHelper() throws Exception{
+    this.localWorkPath = SSCoreConf.instGet().getSsConf().localWorkPath;
+  }
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
@@ -263,9 +266,9 @@ public class SSDataImportEvernoteHelper {
       fileUri = SSServCaller.fileCreateUri     (userUri, SSFileExtU.png);
       fileId  = SSServCaller.fileIDFromURI     (userUri, fileUri);
       
-      String           xhtmlFilePath    = localWorkConf.getPath() + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
-      String           pdfFilePath      = localWorkConf.getPath() + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
-      String           pngFilePath      = localWorkConf.getPath() + fileId;
+      String           xhtmlFilePath    = localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
+      String           pdfFilePath      = localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
+      String           pngFilePath      = localWorkPath + fileId;
       
       evernoteNoteWriteHTML         (note,        xhtmlFilePath);
       evernoteNoteWritePDF          (pdfFilePath, xhtmlFilePath);

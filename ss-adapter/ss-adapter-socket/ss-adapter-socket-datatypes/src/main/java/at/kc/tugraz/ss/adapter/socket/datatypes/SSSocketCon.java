@@ -75,7 +75,7 @@ public class SSSocketCon{
     this.clientInMsgFull     = new InputStreamReader  (clientSocket.getInputStream(), SSEncodingU.utf8);
     this.clientOutFileChunk  = new DataOutputStream   (clientSocket.getOutputStream ());
     this.clientInFileChunk   = new DataInputStream    (clientSocket.getInputStream());
-    this.testOut             = new OutputStreamWriter(clientSocket.getOutputStream(), SSEncodingU.utf8);
+    this.testOut             = new OutputStreamWriter (clientSocket.getOutputStream(), SSEncodingU.utf8);
   }
   
   public String prepErrorToClient(
@@ -103,9 +103,24 @@ public class SSSocketCon{
     writeMsgFullToClient(prepErrorToClient(errors, op));
   }
   
+  public void writeRetFullToClient(final SSServRetI result, final Boolean sendJSONLD) throws Exception{
+  
+    final Map<String, Object> ret       = new HashMap<String, Object>();
+    
+    ret.put(SSVarU.op,                SSMethU.toStr(result.op));
+    ret.put(SSVarU.error,             false);
+    ret.put(SSMethU.toStr(result.op), result);
+    
+    if(sendJSONLD){
+      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
+    }
+    
+    writeMsgFullToClient(SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest);
+  }
+  
   public void writeRetFullToClient(final SSServRetI result) throws Exception{
   
-    Map<String, Object> ret       = new HashMap<String, Object>();
+    final Map<String, Object> ret       = new HashMap<String, Object>();
     
     ret.put(SSVarU.op,                SSMethU.toStr(result.op));
     ret.put(SSVarU.error,             false);

@@ -47,9 +47,9 @@ public class SSMain{
     
     new Thread(new SSTester()).start();
     
-    /**** socket adapter ****/
+    /* socket adapter */
     if(SSCoreConf.instGet().getSsConf().use){
-      new SSServerSocket(SSCoreConf.instGet().getSsConf().port).run();
+      new SSServerSocket().run();
     }
   }
   

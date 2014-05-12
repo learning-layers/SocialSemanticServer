@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.datatypes.location.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSLocationConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSLocationConf copy(final SSLocationConf orig){
+    
+    final SSLocationConf copy = (SSLocationConf) SSServConfA.copy(orig, new SSLocationConf());
+    
+    return copy;
+  }
 }

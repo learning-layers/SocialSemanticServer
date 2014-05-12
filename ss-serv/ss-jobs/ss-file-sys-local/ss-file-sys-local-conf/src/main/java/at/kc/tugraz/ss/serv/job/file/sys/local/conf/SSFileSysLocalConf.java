@@ -26,4 +26,14 @@ public class SSFileSysLocalConf extends SSServConfA{
 
   public String  dirPath            = null;
   public String  text               = null;
+  
+  public static SSFileSysLocalConf copy(final SSFileSysLocalConf orig){
+    
+    final SSFileSysLocalConf copy = (SSFileSysLocalConf) SSServConfA.copy(orig, new SSFileSysLocalConf());
+    
+    copy.dirPath = orig.dirPath;
+    copy.text    = orig.text;
+    
+    return copy;
+  }
 }

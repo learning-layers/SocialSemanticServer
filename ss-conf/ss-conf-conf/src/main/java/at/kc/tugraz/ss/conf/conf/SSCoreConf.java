@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
+import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
@@ -54,7 +55,8 @@ import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 
 public class SSCoreConf extends SSCoreConfA{
 
-  private static SSCoreConf inst;
+  private static       SSCoreConf        inst;
+//  private static final List<SSConfA>     confs = new ArrayList<SSConfA>();
   
   private SSConf              ssConf             = null;
   private SSJSONLDConf        jsonLDConf         = null;
@@ -64,13 +66,13 @@ public class SSCoreConf extends SSCoreConfA{
   private SSLogConf           logConf            = null;
   private SSFileRepoConf      filerepoConf       = null;
   private SSFileRepoConf      solrConf           = null;
-  private SSFileRepoConf      localWorkConf      = null;
   private SSVocConf           vocConf            = null;
   private SSBroadcasterConf   broadcasterConf    = null;
   private SSRecommConf        recommConf         = null;
   private SSFileSysLocalConf  fileSysLocalConf   = null;
   private SSEvernoteConf      evernoteConf       = null;
   private SSI5CloudConf       i5CloudConf        = null;
+  private SSCloudConf         cloudConf          = null;
   private SSAuthConf          authConf           = null;
   private SSScaffConf         scaffConf          = null;
   private SSDataImportConf    dataImportConf     = null;
@@ -96,18 +98,106 @@ public class SSCoreConf extends SSCoreConfA{
     }
     
     inst = (SSCoreConf) SSCoreConfA.instSet(pathToFile, SSCoreConf.class);
+    
+//    confs.add(inst.ssConf);
+//    confs.add(inst.jsonLDConf);
+//    confs.add(inst.dbGraphConf);
+//    confs.add(inst.dbSQLConf);
+//    confs.add(inst.modelConf);
+//    confs.add(inst.logConf);
+//    confs.add(inst.filerepoConf);
+//    confs.add(inst.solrConf);
+//    confs.add(inst.vocConf);
+//    confs.add(inst.broadcasterConf);
+//    confs.add(inst.recommConf);
+//    confs.add(inst.fileSysLocalConf);
+//    confs.add(inst.evernoteConf);
+//    confs.add(inst.i5CloudConf);
+//    confs.add(inst.cloudConf);
+//    confs.add(inst.authConf);
+//    confs.add(inst.scaffConf);
+//    confs.add(inst.dataImportConf);
+//    confs.add(inst.dataExportConf);
+//    confs.add(inst.lomExtractorConf);
+//    confs.add(inst.userConf);
+//    confs.add(inst.entityConf);
+//    confs.add(inst.collConf);
+//    confs.add(inst.locationConf);
+//    confs.add(inst.activityConf);
+//    confs.add(inst.ueConf);
+//    confs.add(inst.ratingConf);
+//    confs.add(inst.tagConf);
+//    confs.add(inst.searchConf);
+//    confs.add(inst.discConf);
+//    confs.add(inst.learnEpConf);
+//    confs.add(inst.categoryConf);
 
     return inst;
   }
   
   public static SSCoreConf instGet() throws Exception{
     
-    if(inst == null){
-      SSServErrReg.regErrThrow(new Exception("conf not set"));
+    try{
+      
+      if(inst == null){
+        throw new Exception("inst not set");
+      }
+      
+      return inst;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  public static SSCoreConf copy() throws Exception{
     
-    return inst;
+    try{
+      
+      if(inst == null){
+        throw new Exception("inst not set");
+      }
+      
+      final SSCoreConf copy = new SSCoreConf();
+      
+      copy.ssConf             = SSConf.copy(inst.ssConf);
+      copy.jsonLDConf         = SSJSONLDConf.copy(inst.jsonLDConf);
+      copy.dbGraphConf        = SSDBGraphConf.copy(inst.dbGraphConf);
+      copy.dbSQLConf          = SSDBSQLConf.copy(inst.dbSQLConf);
+      copy.modelConf          = SSModelUEConf.copy(inst.modelConf);
+      copy.logConf            = SSLogConf.copy(inst.logConf);
+      copy.filerepoConf       = SSFileRepoConf.copy(inst.filerepoConf);
+      copy.solrConf           = SSFileRepoConf.copy(inst.solrConf);
+      copy.vocConf            = SSVocConf.copy(inst.vocConf);
+      copy.broadcasterConf    = SSBroadcasterConf.copy(inst.broadcasterConf);
+      copy.recommConf         = SSRecommConf.copy(inst.recommConf);
+      copy.fileSysLocalConf   = SSFileSysLocalConf.copy(inst.fileSysLocalConf);
+      copy.evernoteConf       = SSEvernoteConf.copy(inst.evernoteConf);
+      copy.i5CloudConf        = SSI5CloudConf.copy(inst.i5CloudConf);
+      copy.cloudConf          = SSCloudConf.copy(inst.cloudConf);
+      copy.authConf           = SSAuthConf.copy(inst.authConf);
+      copy.scaffConf          = SSScaffConf.copy(inst.scaffConf);
+      copy.dataImportConf     = SSDataImportConf.copy(inst.dataImportConf);
+      copy.dataExportConf     = SSDataExportConf.copy(inst.dataExportConf);
+      copy.lomExtractorConf   = SSLOMExtractorConf.copy(inst.lomExtractorConf);
+      copy.userConf           = SSUserConf.copy(inst.userConf);
+      copy.entityConf         = SSEntityConf.copy(inst.entityConf);
+      copy.collConf           = SSCollConf.copy(inst.collConf);
+      copy.locationConf       = SSLocationConf.copy(inst.locationConf);
+      copy.activityConf       = SSActivityConf.copy(inst.activityConf);
+      copy.ueConf             = SSUEConf.copy(inst.ueConf);
+      copy.ratingConf         = SSRatingConf.copy(inst.ratingConf);
+      copy.tagConf            = SSTagConf.copy(inst.tagConf);
+      copy.searchConf         = SSSearchConf.copy(inst.searchConf);
+      copy.discConf           = SSDiscConf.copy(inst.discConf);
+      copy.learnEpConf        = SSLearnEpConf.copy(inst.learnEpConf);
+      copy.categoryConf       = SSCategoryConf.copy(inst.categoryConf);
+      
+      return copy;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public SSFileRepoConf getFilerepoConf() {
@@ -126,14 +216,6 @@ public class SSCoreConf extends SSCoreConfA{
     this.solrConf = solrConf;
   }
   
-  public SSFileRepoConf getLocalWorkConf() {
-    return localWorkConf;
-  }
-
-  public void setLocalWorkConf(SSFileRepoConf localWorkConf) {
-    this.localWorkConf = localWorkConf;
-  }
-
   public SSModelUEConf getModelConf() {
     return modelConf;
   }
@@ -212,6 +294,14 @@ public class SSCoreConf extends SSCoreConfA{
   
   public SSI5CloudConf getI5CloudConf(){
     return this.i5CloudConf;
+  }
+  
+  public void setCloudConf(final SSCloudConf cloudConf){
+    this.cloudConf = cloudConf;
+  }
+  
+  public SSCloudConf getCloudConf(){
+    return this.cloudConf;
   }
   
   public SSAuthConf getAuthConf(){

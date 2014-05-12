@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.service;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -30,6 +31,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.impl.*;
+import java.util.List;
 
 public class SSUserServ extends SSServA{
   
@@ -50,5 +52,12 @@ public class SSUserServ extends SSServA{
   @Override
   protected void initServSpecificStuff() throws Exception{
      regServForManagingEntities(SSEntityE.user);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

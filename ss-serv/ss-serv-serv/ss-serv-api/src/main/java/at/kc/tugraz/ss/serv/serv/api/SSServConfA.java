@@ -20,11 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-
-public abstract class SSServConfA{
-
-  public    Boolean     use                 = false;
-  public    Boolean     executeOpAtStartUp  = false;
-  public    SSMethU     op                  = null;
+public abstract class SSServConfA extends SSConfA{
+  
+  public static SSConfA copy(
+    final SSConfA orig, 
+    final SSConfA copy){
+   
+    return SSConfA.copy(orig, copy);
+  }
 }

@@ -30,6 +30,28 @@ public class SSRecommConf extends SSServConfA{
   public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
   public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
   
+  public static SSRecommConf copy(final SSRecommConf orig){
+    
+    final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
+    
+    copy.initAtStartUp = 
+      orig.initAtStartUp;
+    
+    copy.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp = 
+      orig.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp;
+    
+    copy.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag = 
+      orig.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag;
+    
+    copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory = 
+      orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory;
+    
+    copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp = 
+      orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp;
+    
+    return copy;
+  }
+    
 //  public String          rPath                                                                                         = null;
 //  public String          prefix                                                                                        = null;
 //  public String          posfix                                                                                        = null;

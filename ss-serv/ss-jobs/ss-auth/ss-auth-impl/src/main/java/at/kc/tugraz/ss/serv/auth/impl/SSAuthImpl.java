@@ -20,6 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.auth.impl;
 
+import at.kc.tugraz.socialserver.utils.SSIDU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -32,6 +34,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
@@ -81,9 +84,16 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     
     try{
-      final SSAuthUsersFromCSVFileAddPar par = new SSAuthUsersFromCSVFileAddPar(parA);
-    
-      for(Map.Entry<String, String> passwordForUser : SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName).entrySet()){
+      final SSAuthUsersFromCSVFileAddPar par                          = new SSAuthUsersFromCSVFileAddPar(parA);
+      final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<String, String>();
+        
+      try{
+        passwordsForUsersFromCSVFile.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
+      }catch(SSServerServNotAvailableErr error){
+        SSLogU.warn("dataImportSSSUsersFromCSVFile failed | service down");
+      }
+      
+      for(Map.Entry<String, String> passwordForUser : passwordsForUsersFromCSVFile.entrySet()){
 
         SSServCaller.authRegisterUser(
           SSUserGlobals.systemUser,
@@ -103,8 +113,8 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
     
     try{
       final SSAuthRegisterUserPar par               = new SSAuthRegisterUserPar(parA);
-      final SSUri                 userUriToRegister = SSServCaller.userURICreate(par.user, par.label);
-      final String                userStr           = SSUri.toStr(userUriToRegister);
+      final SSUri                 userUriToRegister = SSServCaller.vocURIGet();
+      final String                userStr           = SSLabel.toStr(par.label);
       final String                key               = SSAuthFct.generateKey(userStr + par.password);
       
       if(passwordPerUser.containsKey(userStr)){
@@ -122,7 +132,11 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
         SSEntityE.user,
         true);
       
-      SSServCaller.collUserRootAdd (userUriToRegister, true);
+      try{
+        SSServCaller.collUserRootAdd (userUriToRegister, true);
+      }catch(SSServerServNotAvailableErr error){
+        SSLogU.warn("collUserRootAdd failed | service down");
+      }
       
       return userUriToRegister;
       
@@ -154,18 +168,15 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
       
       case csvFileAuth:
         
-        userUri =
-          SSServCaller.userURICreate(
-            SSUserGlobals.systemUser,
-            par.userLabel);
-        
         return SSAuthCheckCredRet.get(
           SSAuthFct.checkPasswordAndGetUserKey(
             passwordPerUser,
             keyPerUser,
-            userUri,
+            par.userLabel,
             par.pass),
-          userUri);
+          SSServCaller.userURIGet(
+            SSUserGlobals.systemUser,
+            par.userLabel));
         
       default: 
         throw new UnsupportedOperationException();

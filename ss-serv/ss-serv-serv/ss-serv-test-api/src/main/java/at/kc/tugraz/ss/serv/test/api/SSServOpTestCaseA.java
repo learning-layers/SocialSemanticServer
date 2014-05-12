@@ -24,12 +24,11 @@ import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +43,7 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
   protected abstract void testFromClient() throws Exception;
   protected abstract void setUp()          throws Exception;
   
-  public SSServOpTestCaseA(final SSServConfA conf, final SSMethU op){
+  public SSServOpTestCaseA(final SSConfA conf, final SSMethU op){
     super(conf);
     
     this.op = op;

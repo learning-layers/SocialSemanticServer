@@ -24,27 +24,26 @@ import at.kc.tugraz.socialserver.utils.*;
 
 public enum SSFileRepoTypeE {
   
-  localWork,
   fileSys,
   webdav, 
   solr,
   i5Cloud;
   
+  public static String toStr(final SSFileRepoTypeE value){
+    return SSStrU.toString(value);
+  } 
+  
   public static SSFileRepoTypeE get(
-    String value){
-    
-    if(SSStrU.isEmpty(value)){
-      return null;
-    }
+    final String value){
     
     return SSFileRepoTypeE.valueOf(value);
   }
   
-  public static Boolean isSame(SSFileRepoTypeE type1, SSFileRepoTypeE type2){
+  public static Boolean isSame(
+    final SSFileRepoTypeE type1, 
+    final SSFileRepoTypeE type2){
     
-    if(
-      type1 == null ||
-      type2 == null){
+    if(SSObjU.isNull(type1, type2)){
       return false;
     }
     

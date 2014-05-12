@@ -22,6 +22,10 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //cloud
+  
+  cloudPublishService,
+  
   //voc
   vocURIPrefixGet,
   //db sql
@@ -111,8 +115,7 @@ public enum SSMethU{
   jsonLD                                              ,
   
   //user
-  userSystemGet                                       ,
-  userURICreate,
+  userURIGet,
   userAll                                             ,
   userExists                                          ,
   usersGet,                            

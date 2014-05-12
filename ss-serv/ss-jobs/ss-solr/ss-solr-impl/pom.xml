@@ -19,14 +19,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-filerepo-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>at.kc.tugraz.ss.serv.localwork</groupId>
-      <artifactId>ss-localwork-serv</artifactId>
+      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -39,6 +33,12 @@
     <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
       <artifactId>ss-serv-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-filerepo-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -30,6 +31,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSLearnEpServ extends SSServA{
   
@@ -54,5 +56,12 @@ public class SSLearnEpServ extends SSServA{
     regServForManagingEntities(SSEntityE.learnEpVersion);
     regServForManagingEntities(SSEntityE.learnEpCircle);
     regServForManagingEntities(SSEntityE.learnEpEntity);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -20,12 +20,14 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.serv;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSEvernoteServ extends SSServA{
   
@@ -48,5 +50,12 @@ public class SSEvernoteServ extends SSServA{
     regServForManagingEntities(SSEntityE.evernoteNotebook);
     regServForManagingEntities(SSEntityE.evernoteNote);
     regServForManagingEntities(SSEntityE.evernoteResource);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

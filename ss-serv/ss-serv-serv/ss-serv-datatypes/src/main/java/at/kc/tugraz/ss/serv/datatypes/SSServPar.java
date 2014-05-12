@@ -45,7 +45,7 @@ public class SSServPar{
   
   public SSServPar(final String jsonRequ) throws Exception{
     
-    JsonParser jp;
+    JsonParser jp = null;
     String     jKey;
     String     jValue;
       
@@ -88,8 +88,6 @@ public class SSServPar{
         }
       }
       
-      jp.close();
-      
       if(
         SSObjU.isNull  (this.op, this.user)||
         SSStrU.isEmpty (this.key)){
@@ -98,6 +96,11 @@ public class SSServPar{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(jp != null){
+        jp.close();
+      }
     }
   }
   

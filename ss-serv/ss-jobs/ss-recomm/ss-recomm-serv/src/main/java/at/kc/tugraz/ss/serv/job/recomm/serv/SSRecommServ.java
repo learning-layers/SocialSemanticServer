@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.job.recomm.serv;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.serv.job.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
@@ -32,6 +33,7 @@ import at.kc.tugraz.ss.serv.job.recomm.serv.task.SSRecommTagsThreeLayersBasedOnU
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import java.util.List;
 
 public class SSRecommServ extends SSServA{
   
@@ -96,5 +98,12 @@ public class SSRecommServ extends SSServA{
     SSServCaller.recommTagsLanguageModelBasedOnUserEntityTagUpdate();
     SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate();
     SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate();
+  }
+  
+ @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

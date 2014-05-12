@@ -20,12 +20,22 @@
 */
 package at.kc.tugraz.ss.log.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
-public class SSLogConf extends SSServConfA{
+public class SSLogConf extends SSCoreServConfA{
   
   public String logLevelRoot = null;
   public String logLevel     = null;
+  
+  public static SSLogConf copy(final SSLogConf orig){
+    
+    final SSLogConf copy = (SSLogConf) SSCoreServConfA.copy(orig, new SSLogConf());
+    
+    copy.logLevelRoot  = orig.logLevelRoot;
+    copy.logLevel      = orig.logLevel;
+    
+    return copy;
+  }
   
 //  @Override
 //  public String getLogLevelRoot() throws Exception{

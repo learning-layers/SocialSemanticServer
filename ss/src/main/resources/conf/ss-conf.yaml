@@ -1,105 +1,59 @@
 !!at.kc.tugraz.ss.conf.conf.SSMainConf
+#core services 
 ssConf:
-  use: true
-  executeOpAtStartUp: false
-  op:
   host: localhost
   port: 8390
+  localWorkPath: #leave empty for workingDir/tmp
+dbSQLConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
+  host: localhost
+  port: 3306
+  username: root
+  password: root
+  schema: sss
+vocConf:
+  app: bp
+  space: eval
+authConf: 
+  authType: noAuth #noAuth, csvFileAuth
+  fileName:
+  systemUserPassword: 1234
+entityConf:
 jsonLDConf:
   uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/
-i5CloudConf:
-  use: true
-  executeOpAtStartUp: false
-  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
-  uri: 
-  userLabel: 
-  pass:
+logConf:
+  logLevelRoot: debug
+  logLevel: debug
+
+#services 
+cloudConf:
+  op: #
 dbGraphConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
-  use: true
-  executeOpAtStartUp: false
-  op:
   host: 
   port: 
   username: 
   password: 
-dbSQLConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  host: localhost
-  port: 3306
-  username: 
-  password: 
-  schema: sss
-entityConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
+i5CloudConf:
+  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
+  uri: 
+  userLabel: 
+  pass:
 modelConf:
-  use: true
-  executeOpAtStartUp: false
   initAtStartUp: false #true, false
-  op: 
   daysToRetrieveEvents: 60
-logConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  logLevelRoot: debug
-  logLevel: debug
-localWorkConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  path: #leave empty for workingDir/tmp
-  fileRepoType: localWork #fileSys, webdav, solr, localWork
-  user: 
-  password: 
 filerepoConf: 
-  use: true
-  executeOpAtStartUp: false
-  op: 
   path: #leave empty for workingDir/tmp; http://localhost:80/webdav/knowBrainWeb/
-  fileRepoType: fileSys #fileSys, webdav, solr, localWork, i5Cloud
+  fileRepoType: fileSys #fileSys, webdav, solr, i5Cloud
   user: 
   password: 
 solrConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
   path: http://localhost:8080/solr/
-  fileRepoType: solr #fileSys, webdav, solr, localWork
+  fileRepoType: solr #fileSys, webdav, solr
   user: 
   password: 
-vocConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  app: bp
-  space: eval
 broadcasterConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-authConf: 
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  authType: noAuth #noAuth, csvFileAuth
-  fileName:
 scaffConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
 dataExportConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
 lomExtractorConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
   inputDirPath: #F:/orgRecomm/LOM
   outputResourceRecommFileName: #recommOutputEPrint.txt
   outputResourceMetadataFileName: #resourceMetadataOutputEPrint.csv
@@ -107,68 +61,27 @@ lomExtractorConf:
   useEPrints: true
   useEdunet:  false
 userConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 collConf:
-  use: true
-  executeOpAtStartUp: false
   op: #testServOverall
-  addToGraph: true
 locationConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 ueConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 ratingConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 tagConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 searchConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
 discConf:
-  use: true
-  executeOpAtStartUp: false
-  op: 
-  addToGraph: true
 learnEpConf: 
-  use: true
-  executeOpAtStartUp: false
   op: #testServOverall
-  executeOpAtStartUp: false
-  addToGraph: true
 recommConf: #files have to be provided in sss's_working_dir/data/csv/
-  use: true
-  executeOpAtStartUp: false
-  op:
   initAtStartUp: true # true, false
   fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp:
   fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: 
   fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory:
   fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp:
 fileSysLocalConf:
-  use: true
-  executeOpAtStartUp: false
   op: #fileSysLocalFormatAudioAndVideoFileNamesInDir
   dirPath: #D:/music_&_video/
   text:  
 evernoteConf:
-  use: true
-  executeOpAtStartUp: false
   op: #evernoteNoteStoreGet
   companyName: TU Graz
   appName: SSS
@@ -177,16 +90,7 @@ evernoteConf:
   authTokens:
     - dummyToken
 dataImportConf:
-  use: true
-  executeOpAtStartUp: false
   op: #testDataImportEvernote
   fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
 activityConf:
-  use: true
-  executeOpAtStartUp: false
-  op:  
 categoryConf:
-  use: true
-  executeOpAtStartUp: false
-  op:
-    

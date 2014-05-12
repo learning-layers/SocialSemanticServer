@@ -20,11 +20,13 @@
 */
  package at.kc.tugraz.ss.service.search.service;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
+import java.util.List;
 
 public class SSSearchServ extends SSServA{
   
@@ -44,5 +46,12 @@ public class SSSearchServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

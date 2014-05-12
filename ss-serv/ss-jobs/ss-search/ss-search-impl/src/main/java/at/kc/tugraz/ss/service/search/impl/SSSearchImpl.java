@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
@@ -47,7 +48,7 @@ import java.util.*;
 
 public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
   
-  public SSSearchImpl(final SSServConfA conf) throws Exception{
+  public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

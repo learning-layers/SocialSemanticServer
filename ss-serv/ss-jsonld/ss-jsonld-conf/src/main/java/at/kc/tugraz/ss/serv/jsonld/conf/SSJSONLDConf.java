@@ -21,8 +21,18 @@
 
 package at.kc.tugraz.ss.serv.jsonld.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
-public class SSJSONLDConf extends SSServConfA{
+public class SSJSONLDConf extends SSCoreServConfA{
+  
   public String uri = null;
+  
+  public static SSJSONLDConf copy(final SSJSONLDConf orig){
+    
+    final SSJSONLDConf copy = (SSJSONLDConf) SSCoreServConfA.copy(orig, new SSJSONLDConf());
+    
+    copy.uri = orig.uri;
+    
+    return copy;
+  }
 }

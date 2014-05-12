@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.service;
 
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -30,13 +31,14 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.userevent.api.SSUEClientI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.kc.tugraz.ss.service.userevent.impl.SSUEImpl;
+import java.util.List;
 
 public class SSUEServ extends SSServA{
   
   public static final SSServA  inst = new SSUEServ(SSUEClientI.class, SSUEServerI.class);
   
- protected SSUEServ(
-    final Class servImplClientInteraceClass, 
+  protected SSUEServ(
+    final Class servImplClientInteraceClass,
     final Class servImplServerInteraceClass){
     
     super(servImplClientInteraceClass, servImplServerInteraceClass);
@@ -46,9 +48,16 @@ public class SSUEServ extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSUEImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
   }
-
+  
   @Override
   protected void initServSpecificStuff() throws Exception{
     regServForManagingEntities(SSEntityE.userEvent);
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

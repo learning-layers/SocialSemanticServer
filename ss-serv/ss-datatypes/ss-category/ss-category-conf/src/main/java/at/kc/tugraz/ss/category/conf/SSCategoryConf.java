@@ -23,4 +23,11 @@ package at.kc.tugraz.ss.category.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSCategoryConf extends SSServConfA{
+  
+  public static SSCategoryConf copy(final SSCategoryConf orig){
+    
+    final SSCategoryConf copy = (SSCategoryConf) SSServConfA.copy(orig, new SSCategoryConf());
+    
+    return copy;
+  }
 }

@@ -34,7 +34,7 @@ public abstract class SSServImplWithDBA extends SSServImplA{
   public final SSDBSQLI   dbSQL;
   public final SSDBGraphI dbGraph;
 
-  public SSServImplWithDBA(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL){
+  public SSServImplWithDBA(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL){
     
     super(conf);
     
@@ -45,33 +45,5 @@ public abstract class SSServImplWithDBA extends SSServImplA{
   @Override
   protected void finalizeImpl() throws Exception{
 //    ((SSServImplDBA)dbSQL).finalizeImpl();
-  }
-  
-  @Override
-  public List<SSMethU> publishClientOps(final Class clientInterfaceClass) throws Exception{
-
-    List<SSMethU> clientOps = new ArrayList<SSMethU>();
-
-    Method[] methods = clientInterfaceClass.getMethods();
-
-    for(Method method : methods){
-      clientOps.add(SSMethU.get(method.getName()));
-    }
-
-    return clientOps;
-  }
-  
-  @Override
-  public List<SSMethU> publishServerOps(final Class serverInterfaceClass) throws Exception{
-
-    List<SSMethU> serverOps = new ArrayList<SSMethU>();
-
-    Method[] methods = serverInterfaceClass.getMethods();
-
-    for(Method method : methods){
-      serverOps.add(SSMethU.get(method.getName()));
-    }
-
-    return serverOps;
   }
 }

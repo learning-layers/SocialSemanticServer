@@ -18,6 +18,5 @@
 	<module>ss-db</module>
 	<module>ss-voc</module>
 	<module>ss-jsonld</module>
-    <module>ss-localwork</module>
   </modules>
 </project>

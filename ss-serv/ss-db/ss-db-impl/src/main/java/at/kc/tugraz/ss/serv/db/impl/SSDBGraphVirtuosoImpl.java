@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.db.datatypes.graph.SSQueryResult;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSStatement;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import java.util.List;
 //import org.openrdf.query.BindingSet;
 //import org.openrdf.query.QueryLanguage;
@@ -47,7 +48,7 @@ public class SSDBGraphVirtuosoImpl extends SSServImplDBA implements SSDBGraphI{
 //  private static org.openrdf.model.ValueFactory  openrdfFactory = null;
 //  private RepositoryConnection                   connector      = null;
   
-  public SSDBGraphVirtuosoImpl(final SSServConfA conf) throws Exception{
+  public SSDBGraphVirtuosoImpl(final SSConfA conf) throws Exception{
     
     super(conf);
     

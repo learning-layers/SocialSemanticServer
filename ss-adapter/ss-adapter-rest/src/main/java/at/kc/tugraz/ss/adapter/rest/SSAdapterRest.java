@@ -29,8 +29,11 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSConf;
+import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSDeployServiceOnNodeErr;
 import com.sun.jersey.multipart.FormDataParam;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,12 +62,16 @@ public class SSAdapterRest{
   public SSAdapterRest() throws Exception{
     
 //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf.yaml"); //"ss-adapter-rest-conf_domi.yaml" //"ss-adapter-rest-conf_newer.yaml"
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSFileU.folderConf + "ss-adapter-rest-conf.yaml");
     
-    /**** utils ****/
+    /* util */
     SSMimeTypeU.init();
+    SSJSONLDU.init(
+      SSAdapterRestConf.instGet().getJsonLDConf().uri,
+      SSAdapterRestConf.instGet().getVocConf().app,
+      SSAdapterRestConf.instGet().getVocConf().space);
     
-    /**** json-ld ****/
+    /* json-ld */
 //    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
     
     conf = SSAdapterRestConf.instGet().getSsConf();
@@ -889,18 +896,20 @@ public class SSAdapterRest{
     return result;
   }
   
-  private String handleStandardJSONRESTCall(String jsonRequ, SSMethU op){
+  private String handleStandardJSONRESTCall(
+    final String jsonRequ,
+    final SSMethU op){
     
-    String readMsgFullFromSS;
+    String      readMsgFullFromSS;
     
     try{
       sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
-      
-      sSCon.writeRequFullToSS                     ();
+
+      sSCon.writeRequFullToSS ();
       
       readMsgFullFromSS = sSCon.readMsgFullFromSS ();
       
-      return readMsgFullFromSS;
+      return checkAndHandleSSSNodeSwitch(readMsgFullFromSS, jsonRequ);
     
     }catch(Exception error){
       
@@ -915,11 +924,47 @@ public class SSAdapterRest{
         SSServErrReg.regErr(error1, "writing error to client didnt work");
       }
     }finally{
-      sSCon.closeCon();
       
-//      SSLogU.info("rest leave");
+      if(sSCon != null){
+        sSCon.closeCon();
+      }
     }
     
     return null;
+  }
+  
+  private String checkAndHandleSSSNodeSwitch(
+    final String msgFullFromSS, 
+    final String clientJSONRequ) throws Exception{
+    
+    SSSocketCon sssNodeSocketCon = null;
+    
+    try{
+      
+      final SSClientPar clientPar = new SSClientPar (msgFullFromSS);
+      
+      if(!clientPar.useDifferentServiceNode){
+        return msgFullFromSS;
+      }
+      
+      sssNodeSocketCon =
+        new SSSocketCon(
+          clientPar.sssNodeHost,
+          clientPar.sssNodePort,
+          clientJSONRequ);
+      
+      sssNodeSocketCon.writeRequFullToSS();
+      
+      return sssNodeSocketCon.readMsgFullFromSS ();
+      
+    }catch(Exception error){
+      SSServErrReg.regErr     (error);
+      SSServErrReg.regErrThrow(new SSDeployServiceOnNodeErr());
+      return null;
+    }finally{
+      if(sssNodeSocketCon != null){
+        sssNodeSocketCon.closeCon();
+      }
+    }
   }
 }

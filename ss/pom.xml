@@ -152,6 +152,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>at.kc.tugraz.ss.cloud</groupId>
+      <artifactId>ss-cloud-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.activity</groupId>
       <artifactId>ss-activity-serv</artifactId>
       <version>${project.version}</version>

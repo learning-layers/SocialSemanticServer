@@ -27,7 +27,7 @@ import java.util.List;
 
 public abstract class SSServImplMiscA extends SSServImplA{
 
-  public SSServImplMiscA(final SSServConfA conf) throws Exception{
+  public SSServImplMiscA(final SSConfA conf) throws Exception{
     super(conf);
   }
   

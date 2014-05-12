@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.user.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSUserConf extends SSServConfA{
-  public Boolean addToGraph = false;
+  
+  public static SSUserConf copy(final SSUserConf orig){
+    
+    final SSUserConf copy = (SSUserConf) SSServConfA.copy(orig, new SSUserConf());
+    
+    return copy;
+  }
 }

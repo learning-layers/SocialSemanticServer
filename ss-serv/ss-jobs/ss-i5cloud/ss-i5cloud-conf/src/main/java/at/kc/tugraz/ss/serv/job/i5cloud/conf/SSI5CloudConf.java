@@ -23,7 +23,19 @@ package at.kc.tugraz.ss.serv.job.i5cloud.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSI5CloudConf extends SSServConfA{
+  
   public String uri       = null;
   public String userLabel = null;
   public String pass      = null;
+  
+  public static SSI5CloudConf copy(final SSI5CloudConf orig){
+    
+    final SSI5CloudConf copy = (SSI5CloudConf) SSServConfA.copy(orig, new SSI5CloudConf());
+    
+    copy.uri               = orig.uri;
+    copy.userLabel         = orig.userLabel;
+    copy.pass              = orig.pass;
+    
+    return copy;
+  }
 }

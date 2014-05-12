@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudAuthPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.OutputStream;
@@ -45,7 +46,7 @@ import java.util.*;
 
 public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, SSI5CloudServerI{
 
-  public SSI5CloudImpl(final SSServConfA conf) throws Exception{
+  public SSI5CloudImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

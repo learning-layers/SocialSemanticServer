@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.job.recomm.impl.engine.BaseLevelLearningEngine;
 import at.kc.tugraz.ss.serv.job.recomm.impl.engine.LanguageModelEngine;
 import at.kc.tugraz.ss.serv.job.recomm.impl.engine.ThreeLayersEngine;
 import at.kc.tugraz.ss.serv.job.recomm.impl.fct.misc.SSRecommFct;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -54,7 +55,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   private static final ThreeLayersEngine       recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp = new ThreeLayersEngine();
 //  private static final ThreeLayersEngine       threeLayersEngine                                            = new ThreeLayersEngine();
   
-  public SSRecommImpl(final SSServConfA conf) throws Exception{
+  public SSRecommImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

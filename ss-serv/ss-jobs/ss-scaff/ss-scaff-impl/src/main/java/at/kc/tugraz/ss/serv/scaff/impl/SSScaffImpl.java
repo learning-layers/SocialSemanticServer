@@ -25,13 +25,14 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEnti
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagPar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagTimePar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
 
 public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSScaffServerI{
   
-  public SSScaffImpl(final SSServConfA conf) throws Exception{
+  public SSScaffImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
   

@@ -27,10 +27,10 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.localwork.serv.SSLocalWorkServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -45,13 +45,13 @@ import java.io.IOException;
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
-  private final SSFileRepoConf        localWorkConf;
   private       FileOutputStream      fileOutputStream  = null;
   private       FileInputStream       fileInputStream   = null;
   private       String                fileId            = null;
   private       byte[]                fileChunk         = null;
   private       SSUri                 uri               = null;
   private       SSSocketCon           sSCon             = null;
+  private       String                localWorkPath     = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
@@ -62,12 +62,12 @@ public class SSFileUploader extends SSServImplStartA{
     
     this.sSCon             = sSCon;
     this.par               = new SSFileUploadPar(par);
-    this.localWorkConf     = (SSFileRepoConf) SSLocalWorkServ.inst.servConf;
+    this.localWorkPath     = SSCoreConf.instGet().getSsConf().localWorkPath;
     
     try{
       this.uri               = SSServCaller.fileCreateUri(par.user, SSMimeTypeU.fileExtForMimeType(this.par.mimeType));
       this.fileId            = SSServCaller.fileIDFromURI (par.user, uri);
-      this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkConf.getPath() + fileId);
+      this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -149,12 +149,12 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void removeFileFromLocalWorkFolder() throws Exception{
     
-    if(SSStrU.equals(localWorkConf.getPath(), ((SSFileRepoConf)conf).getPath())){
+    if(SSStrU.equals(localWorkPath, ((SSFileRepoConf)conf).getPath())){
       return;
     }
     
     try{
-      SSFileU.delFile(localWorkConf.getPath() + fileId);
+      SSFileU.delFile(localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -162,12 +162,12 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void moveFileToLocalRepo() throws Exception{
     
-    if(SSStrU.equals(localWorkConf.getPath(), ((SSFileRepoConf)conf).getPath())){
+    if(SSStrU.equals(localWorkPath, ((SSFileRepoConf)conf).getPath())){
       return;
     }
     
     try{
-      final File file = new File(localWorkConf.getPath() + fileId);
+      final File file = new File(localWorkPath + fileId);
       
       if(!file.renameTo(new File(((SSFileRepoConf)conf).getPath() + fileId))){
         throw new Exception("couldnt move file to local file repo");
@@ -180,7 +180,7 @@ public class SSFileUploader extends SSServImplStartA{
   private void uploadFileToWebDav() throws Exception{
     
     try{
-      fileInputStream = SSFileU.openFileForRead(localWorkConf.getPath() + fileId);
+      fileInputStream = SSFileU.openFileForRead(localWorkPath + fileId);
       
       SardineFactory.begin(
         ((SSFileRepoConf)conf).user,

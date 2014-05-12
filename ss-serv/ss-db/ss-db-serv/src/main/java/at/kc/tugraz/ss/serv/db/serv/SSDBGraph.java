@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.db.serv;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
+import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.impl.SSDBGraphVirtuosoImpl;
 import at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.util.List;
 
 public class SSDBGraph extends SSServA{
   
-  public static final SSServA inst = new SSDBGraph(null, SSDBGraphI.class);
+  public static final SSServA inst = new SSDBGraph(null, null);
   
     protected SSDBGraph(
     final Class servImplClientInteraceClass, 
@@ -44,6 +45,13 @@ public class SSDBGraph extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+  }
+  
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA, 
+    final List<Class> configuredServs) throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }
 

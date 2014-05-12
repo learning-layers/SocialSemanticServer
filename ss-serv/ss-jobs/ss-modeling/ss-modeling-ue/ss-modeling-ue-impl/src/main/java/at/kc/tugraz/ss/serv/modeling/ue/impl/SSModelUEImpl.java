@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
@@ -57,7 +58,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   
   private final Map<String, SSModelUEResource> resources;
   
-  public SSModelUEImpl(final SSServConfA conf, final Map<String, SSModelUEResource> resources) throws Exception{
+  public SSModelUEImpl(final SSConfA conf, final Map<String, SSModelUEResource> resources) throws Exception{
     
     super(conf);
     

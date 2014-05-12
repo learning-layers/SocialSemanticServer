@@ -23,5 +23,11 @@ package at.kc.tugraz.ss.serv.tag.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSTagConf extends SSServConfA{
-  public Boolean addToGraph = false;
+
+  public static SSTagConf copy(final SSTagConf orig){
+    
+    final SSTagConf copy = (SSTagConf) SSServConfA.copy(orig, new SSTagConf());
+    
+    return copy;
+  }
 }

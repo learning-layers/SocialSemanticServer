@@ -46,6 +46,7 @@ import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.io.BufferedReader;
@@ -61,7 +62,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   private final SSDataImportEvernoteHelper dataImpEvernoteHelper;
   private final SSDataImportSQLFct         sqlFct;
   
-  public SSDataImportImpl(final SSServConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     super(conf, dbGraph, dbSQL);
     
     this.dataImpEvernoteHelper    = new SSDataImportEvernoteHelper(); 

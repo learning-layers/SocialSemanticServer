@@ -21,14 +21,28 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.conf;
 
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSEvernoteConf extends SSServConfA{
   
-  public Boolean      addToGraph         = false;
   public String       companyName         = "KTI";
   public String       appName             = "EvernoteDataSync";
   public String       appVersion          = "1.0";
   public String       evernoteEnvironment = "sandbox";
   public List<String> authTokens          = null; //"S=s1:U=8b810:E=1499f470bf9:C=1424795dffc:P=1cd:A=en-devtoken:V=2:H=6eb18db6ec86ef2dcd064c99d4478523";
+  
+  public static SSEvernoteConf copy(final SSEvernoteConf orig){
+    
+    final SSEvernoteConf copy = (SSEvernoteConf) SSServConfA.copy(orig, new SSEvernoteConf());
+    
+    copy.companyName             = orig.companyName;
+    copy.appName                 = orig.appName;
+    copy.appVersion              = orig.appVersion;
+    copy.evernoteEnvironment     = orig.evernoteEnvironment;
+    copy.authTokens              = new ArrayList<String>();
+    copy.authTokens.addAll(orig.authTokens);
+    
+    return copy;
+  }
 }
