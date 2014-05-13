@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -736,10 +735,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     
     try{
       learnEpVersion           = sqlFct.getLearnEpVersion(par.learnEpVersionUri);
-      learnEpVersion.timestamp = SSServCaller.entityGet(par.user, learnEpVersion.learnEpVersionUri).creationTime.toString();
+      learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.learnEpVersionUri).creationTime.toString();
       
       for(SSLearnEpCircle circle : learnEpVersion.circles){
-        circle.label = SSServCaller.entityGet(par.user, circle.learnEpCircleUri).label;
+        circle.label = SSServCaller.entityGet(circle.learnEpCircleUri).label;
       }
       
     }catch(Exception error){
@@ -761,10 +760,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       for(SSLearnEpVersion learnEpVersion: learnEpVersions){
         
-        learnEpVersion.timestamp = SSServCaller.entityGet(par.user, learnEpVersion.learnEpVersionUri).creationTime.toString();
+        learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.learnEpVersionUri).creationTime.toString();
         
         for(SSLearnEpCircle circle : learnEpVersion.circles){
-          circle.label = SSServCaller.entityGet(par.user, circle.learnEpCircleUri).label;
+          circle.label = SSServCaller.entityGet(circle.learnEpCircleUri).label;
         }
       }
       
@@ -786,7 +785,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       learnEps = sqlFct.getLearnEpsForUser(par.user);
       
       for(SSLearnEp learnEp : learnEps){
-        learnEp.label = SSServCaller.entityGet(par.user, learnEp.learnEpUri).label;
+        learnEp.label = SSServCaller.entityGet(learnEp.learnEpUri).label;
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

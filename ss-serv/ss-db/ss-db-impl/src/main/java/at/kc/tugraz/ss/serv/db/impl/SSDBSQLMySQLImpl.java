@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplDBA;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.Connection;
@@ -700,6 +701,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         
         gotCon = true;
         
+      }catch(CommunicationsException error){
+        throw error;
       }catch(MySQLNonTransientConnectionException error){
         
         SSLogU.info("no db conn available anymore... going to sleep for 3000 ms");

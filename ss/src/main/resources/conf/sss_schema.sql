@@ -114,6 +114,30 @@ LOCK TABLES `activityusers` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `auth`
+--
+
+DROP TABLE IF EXISTS `auth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth` (
+  `userId` varchar(100) NOT NULL,
+  `authKey` varchar(100) NOT NULL,
+  PRIMARY KEY (`userId`,`authKey`),
+  CONSTRAINT `userIdFKauth` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth`
+--
+
+LOCK TABLES `auth` WRITE;
+/*!40000 ALTER TABLE `auth` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `categoryass`
 --
 
@@ -912,4 +936,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-08 16:24:55
+-- Dump completed on 2014-05-13 13:52:32

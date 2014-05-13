@@ -204,7 +204,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
+      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
@@ -225,7 +225,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
+      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
       if(SSEntityE.equals(entityType, SSEntityE.entity)){
         return;
@@ -256,7 +256,7 @@ public class SSEntityMiscFct{
       
       for(SSUri entityUri : entityUris){
         
-        final SSEntityE entityType = SSServCaller.entityGet(userUri, entityUri).type;
+        final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
         
         if(SSEntityE.equals(entityType, SSEntityE.entity)){
           continue;
@@ -312,7 +312,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final SSEntityE    entityType = SSServCaller.entityGet(userUri, entityUri).type;
+      final SSEntityE    entityType = SSServCaller.entityGet(entityUri).type;
       List<SSUri>        entityUris;
       
       if(SSEntityE.equals(entityType, SSEntityE.entity)){

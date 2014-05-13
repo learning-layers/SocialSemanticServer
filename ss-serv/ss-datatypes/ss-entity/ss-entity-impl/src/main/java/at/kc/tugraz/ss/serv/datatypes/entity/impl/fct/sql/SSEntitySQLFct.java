@@ -71,6 +71,42 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
         bindingStrToUri        (resultSet, SSSQLVarU.author));
       
+    }catch(SSNoResultFoundErr error){
+      throw error;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public SSEntity getEntity(
+    final SSLabel   label,
+    final SSEntityE type) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> where = new HashMap<String, String>();
+      
+      where(where, SSSQLVarU.label, label);
+      where(where, SSSQLVarU.type,  type);
+      
+      resultSet = dbSQL.select(entityTable, where);
+      
+      checkFirstResult(resultSet);
+      
+      return SSEntity.get(
+        bindingStrToUri        (resultSet, SSSQLVarU.id),
+        label,
+        bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
+        type,
+        bindingStrToUri        (resultSet, SSSQLVarU.author));
+      
+    }catch(SSNoResultFoundErr error){
+      throw error;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

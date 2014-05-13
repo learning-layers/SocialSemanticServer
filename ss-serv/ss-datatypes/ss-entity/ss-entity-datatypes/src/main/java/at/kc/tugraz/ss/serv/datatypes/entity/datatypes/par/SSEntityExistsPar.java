@@ -27,13 +27,13 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityGetPar extends SSServPar{
+public class SSEntityExistsPar extends SSServPar{
   
   public SSUri          entityUri    = null;
   public SSLabel        label        = null;
   public SSEntityE      type         = null;
     
-  public SSEntityGetPar(SSServPar par) throws Exception{
+  public SSEntityExistsPar(SSServPar par) throws Exception{
       
     super(par);
     

@@ -29,14 +29,17 @@ public class SSMain{
   public SSMain() {}
   
   public static void main(String[] args) throws Exception {
+    
+//    System.getProperties().list(System.out);
     new SSMain().start(args);
+    
   }
   
   public void start(String[] args) throws Exception {
 
 //    addShutDownHookThread ();
     //TODO dtheiler: create conf via service as well
-    SSCoreConf.instSet(SSFileU.fileNameWithExtSSConf);
+    SSCoreConf.instSet(SSSystemU.fileNameSSConf);
     
 //    initJmx               ();
     

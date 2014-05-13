@@ -24,12 +24,6 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 public class SSFileU{
-   
-//  public static final String folderTemp                            = "./kbw-ss/";
-  public static final String folderConf                            = "conf/";
-  public static final String fileNameWithExtSSConf                 = "ss-conf.yaml";
-  public static final String fileNameWithExtSSAdapterRestConf      = "ss-adapter-rest-conf.yaml";
-  public static final String fileNameWithExtSSAdapterWebSocketConf = "ss-adapter-websocket-conf.yaml";
 
   private SSFileU(){}
   
@@ -332,7 +326,7 @@ public class SSFileU{
     }
   }
   
-  public static File[] filesForDirPath(String dirPath){
+  public static File[] filesForDirPath(final String dirPath){
     return new File(correctDirPath(dirPath)).listFiles();
   }
 }

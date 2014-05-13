@@ -55,6 +55,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   locationsTable                      = "locations";
   protected static final String   tagAssTable                         = "tagass";
   protected static final String   categoryAssTable                    = "categoryass";
+  protected static final String   authTable                           = "auth";
 
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

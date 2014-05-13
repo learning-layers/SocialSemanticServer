@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsR
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEditorsPar;
@@ -170,7 +169,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       for (SSModelUEResource resource : resources.values()){
 
-        resource.type = SSServCaller.entityGet(par.user, resource.resourceUrl).type;
+        resource.type = SSServCaller.entityGet(resource.resourceUrl).type;
 
         resourcePropertySetter.setResourceIndependentProperties                 (resource);
 
@@ -357,11 +356,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     for(SSModelUERelation relation : modelRelations){
       
       if(counter == 0){
-        subjectLabel = SSLabel.toStr(SSServCaller.entityGet(SSUserGlobals.systemUser, SSUri.get(relation.subject)).label);
+        subjectLabel = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(relation.subject)).label);
       }
       
       relation.subjectLabel = subjectLabel;
-      relation.objectLabel  = SSLabel.toStr(SSServCaller.entityGet(SSUserGlobals.systemUser, SSUri.get(relation.object)));      
+      relation.objectLabel  = SSLabel.toStr(SSServCaller.entityGet(SSUri.get(relation.object)));      
       
       counter++;
     }

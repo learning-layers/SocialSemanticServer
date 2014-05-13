@@ -292,7 +292,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     result = new SSFileGetEditingFilesRet(par.op, SSUri.toDistinctStringArray(fileUris), null);
 
     for(String fileUri : result.fileUris){
-      result.fileNames.add(SSLabel.toStr(SSServCaller.entityGet(par.user, SSUri.get(fileUri)).label));
+      result.fileNames.add(SSLabel.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
     }
 
     return result;

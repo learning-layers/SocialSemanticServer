@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -213,9 +212,9 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSDiscUserRemovePar par = new SSDiscUserRemovePar(parA);
 
     try {
-      final SSUri author = SSServCaller.entityGet(par.user, par.discUri).author;
+      final SSUri author = SSServCaller.entityGet(par.discUri).author;
 
-      if (!SSUri.equals(author, par.user)) {
+      if(!SSUri.equals(author, par.user)) {
         throw new Exception("user is not author of disc");
       }
 
@@ -247,7 +246,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     final SSDiscUserEntryAddPar par           = new SSDiscUserEntryAddPar(parA);
     SSUri                       discEntryUri  = null;
-    SSLabel                  discLabel     = null;
+    SSLabel                     discLabel     = null;
     SSUri                       discUri;
 
     try{
@@ -273,7 +272,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           SSEntityE.entity,
           false);
         
-        discLabel = SSServCaller.entityGet(par.user, par.target).label;
+        discLabel = SSServCaller.entityGet(par.target).label;
         
         SSServCaller.entityAdd(
           par.user,

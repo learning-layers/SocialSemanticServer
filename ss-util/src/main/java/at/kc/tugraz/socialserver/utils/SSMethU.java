@@ -59,6 +59,7 @@ public enum SSMethU{
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
   entityGet                                           ,
+  entityExists,
   entitySearchWithKeywordWithin                       ,                         
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
@@ -233,6 +234,7 @@ public enum SSMethU{
   
   //auth
   authUsersFromCSVFileAdd                             ,
+  authLoadKeys,
   authRegisterUser,
   authCheckCred                                       ,
   authCheckKey                                        ,

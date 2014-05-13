@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.conf.api;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;

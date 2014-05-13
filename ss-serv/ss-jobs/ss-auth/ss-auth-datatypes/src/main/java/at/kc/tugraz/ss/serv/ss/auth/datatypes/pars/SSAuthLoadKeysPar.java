@@ -18,35 +18,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityGetPar extends SSServPar{
+public class SSAuthLoadKeysPar extends SSServPar{
   
-  public SSUri          entityUri    = null;
-  public SSLabel        label        = null;
-  public SSEntityE      type         = null;
-    
-  public SSEntityGetPar(SSServPar par) throws Exception{
-      
+  public SSAuthLoadKeysPar(SSServPar par) throws Exception{
     super(par);
-    
-    try{
-      
-      if(pars != null){
-        entityUri        = (SSUri)     pars.get(SSVarU.entityUri);
-        label            = (SSLabel)   pars.get(SSVarU.label);
-        type             = (SSEntityE) pars.get(SSVarU.type);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

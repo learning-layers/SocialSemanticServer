@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.serv.auth.impl;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -29,13 +28,18 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthFct;
+import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
+import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthLoadKeysPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
@@ -45,28 +49,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuthServerI{
+public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
-  private static final List<String>          keys             = new ArrayList<String>();
-  private static final Map<String, String>   keyPerUser       = new HashMap<String, String>();
-  private static final Map<String, String>   passwordPerUser  = new HashMap<String, String>();
+  private static final List<String>          keys      = new ArrayList<String>();
+  private static final String                noAuthKey = "FischersFritzFischtFrischeFische";
+  private        final SSAuthSQLFct          sqlFct;
   
-  public SSAuthImpl(final SSAuthConf conf) throws Exception {
+  public SSAuthImpl(final SSAuthConf conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception {
     
-    super(conf);
+    super(conf, dbGraph, dbSQL);
     
-    switch(conf.authType){
-      
-      case noAuth:
-        
-        if(keys.isEmpty()){
-          keys.add("FischersFritzFischtFrischeFische");
-          keys.add("681V454J1P3H4W3B367BB79615U184N22356I3E");
-          keys.add("d4ed2b76cfcf9bad374ef96c9c7ab3b");
-        }
-        
-        break;
-    }    
+    this.sqlFct = new SSAuthSQLFct(dbSQL);
+    
 //    wikiauth  = new SSAuthWiki();
   }
   
@@ -80,6 +74,7 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
   /* SSAuthServServerI */
   
   //TODO dtheiler: create transactions here as well
+  
   @Override
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     
@@ -93,52 +88,65 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
         SSLogU.warn("dataImportSSSUsersFromCSVFile failed | service down");
       }
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       for(Map.Entry<String, String> passwordForUser : passwordsForUsersFromCSVFile.entrySet()){
 
         SSServCaller.authRegisterUser(
           SSUserGlobals.systemUser,
           SSLabel.get(passwordForUser.getKey()),
           passwordForUser.getValue(),
-          true);
+          false);
       }
+      
+      dbSQL.commit(par.shouldCommit);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  //TODO dtheiler: create transactions here as well
   @Override 
   public SSUri authRegisterUser(final SSServPar parA) throws Exception{
     
     try{
-      final SSAuthRegisterUserPar par               = new SSAuthRegisterUserPar(parA);
-      final SSUri                 userUriToRegister = SSServCaller.vocURIGet();
-      final String                userStr           = SSLabel.toStr(par.label);
-      final String                key               = SSAuthFct.generateKey(userStr + par.password);
       
-      if(passwordPerUser.containsKey(userStr)){
-        return userUriToRegister;
+      final SSAuthRegisterUserPar par               = new SSAuthRegisterUserPar(parA);
+      final SSUri                 userUri;
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(SSServCaller.entityExists(SSEntityE.user, par.label)){
+        userUri = SSServCaller.entityGet(SSEntityE.user, par.label).uri;
+      }else{
+        
+        userUri = SSServCaller.vocURIGet();
+        
+        SSServCaller.entityAdd(
+          par.user,
+          userUri,
+          par.label,
+          SSEntityE.user,
+          false);
       }
       
-      passwordPerUser.put(userStr, par.password);
-      keyPerUser.put     (userStr, key);
-      keys.add           (key);
-      
-      SSServCaller.entityAdd(
-        par.user,
-        userUriToRegister,
-        par.label,
-        SSEntityE.user,
-        true);
+      if(!sqlFct.hasKey(userUri)){
+        
+        keys.add(
+          sqlFct.addKey(
+            userUri,
+            SSAuthMiscFct.genKey(SSLabel.toStr(par.label) + par.password)));
+      }
       
       try{
-        SSServCaller.collUserRootAdd (userUriToRegister, true);
+        SSServCaller.collUserRootAdd (userUri, false);
       }catch(SSServerServNotAvailableErr error){
         SSLogU.warn("collUserRootAdd failed | service down");
       }
       
-      return userUriToRegister;
+      dbSQL.commit(par.shouldCommit);
+      
+      return userUri;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -163,21 +171,30 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
             par.pass,
             true);
         
-        return SSAuthCheckCredRet.get(keys.get(1), userUri);
+        return SSAuthCheckCredRet.get(noAuthKey, userUri);
       }
       
-      case csvFileAuth:
+      case csvFileAuth:{
+        
+        try{
+          userUri = SSServCaller.entityGet(SSEntityE.user, par.userLabel).uri;
+        }catch(SSNoResultFoundErr error){
+          throw new Exception("user not registered");
+        }
+        
+        if(!sqlFct.hasKey(userUri)){
+          throw new Exception("user not registered");
+        }
         
         return SSAuthCheckCredRet.get(
-          SSAuthFct.checkPasswordAndGetUserKey(
-            passwordPerUser,
-            keyPerUser,
+          SSAuthMiscFct.checkAndGetKey(
+            sqlFct,
+            userUri,
             par.userLabel,
             par.pass),
-          SSServCaller.userURIGet(
-            SSUserGlobals.systemUser,
-            par.userLabel));
-        
+          userUri);
+      }
+      
       default: 
         throw new UnsupportedOperationException();
         
@@ -201,12 +218,52 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
 //      }
     }
   }
-
+  
+  @Override
+  public void authLoadKeys(final SSServPar parA) throws Exception {
+    
+    try{
+      final SSAuthLoadKeysPar par = new SSAuthLoadKeysPar(parA);
+      
+      keys.addAll(sqlFct.getKeys());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   @Override
   public void authCheckKey(final SSServPar parA) throws Exception {
-    SSAuthFct.checkKey(keys, parA.key);
+    
+    try{
+      
+      switch(((SSAuthConf)conf).authType){
+        
+        case noAuth:{
+          
+          if(!keys.contains(parA.key)){
+            throw new Exception("login key wrong");
+          }
+          
+          break;
+        }
+          
+        case csvFileAuth:{
+          
+          if(
+            parA.key.equals(noAuthKey) ||
+            !keys.contains(parA.key)){
+            throw new Exception("login key wrong");
+          }
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
-   
+}
+
+
 //  @Override
 //  public List<String> authKeyList(SSServerPar par) throws Exception {
 //    return keylist;
@@ -216,8 +273,6 @@ public class SSAuthImpl extends SSServImplMiscA implements SSAuthClientI, SSAuth
 //  public SSAuthEnum authAuthType(SSServerPar par) throws Exception {
 //    return conf.getAuthTypeEnum();
 //  }
-}
-
 
 
 //private static String key;

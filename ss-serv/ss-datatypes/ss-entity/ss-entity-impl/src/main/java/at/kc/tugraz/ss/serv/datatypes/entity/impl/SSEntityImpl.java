@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -52,6 +53,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircl
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityCircleTypesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
@@ -79,6 +81,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import java.util.ArrayList;
 import java.util.List;
@@ -237,7 +240,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       return sqlFct.getEntity(par.entityUri);
     }catch(Exception error){
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -247,16 +249,52 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   public SSEntity entityGet(final SSServPar parA) throws Exception{
     
     try{
+      
       final SSEntityGetPar par = new SSEntityGetPar(parA);
       
-      return sqlFct.getEntity(par.entityUri);
+      if(par.entityUri != null){
+        return sqlFct.getEntity(par.entityUri);
+      }
+      
+      if(!SSObjU.isNull(par.label, par.type)){
+        return sqlFct.getEntity(par.label, par.type);  
+      }
+      
+      throw new Exception("entity cannot be queried this way");
+      
     }catch(Exception error){
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
+  @Override
+  public Boolean entityExists(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityExistsPar par = new SSEntityExistsPar(parA);
+      
+      if(par.entityUri != null){
+        sqlFct.getEntity(par.entityUri);
+        return true;
+      }
+      
+      if(!SSObjU.isNull(par.label, par.type)){
+        sqlFct.getEntity(par.label, par.type);
+        return true;
+      }
+      
+      throw new Exception("entity cannot be queried this way");
+      
+    }catch(SSNoResultFoundErr error){
+      return false;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
   @Override
   public SSUri entityUserDirectlyAdjoinedEntitiesRemove(final SSServPar parA) throws Exception{
     
@@ -783,7 +821,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      switch(SSServCaller.entityGet(par.user, par.entityUri).type){
+      switch(SSServCaller.entityGet(par.entityUri).type){
         case entity: return true;
       }
       

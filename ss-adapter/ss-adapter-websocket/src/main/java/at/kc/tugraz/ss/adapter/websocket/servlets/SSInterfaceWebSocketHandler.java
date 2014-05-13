@@ -47,7 +47,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
   
   public SSInterfaceWebSocketHandler() throws Exception{
     
-    SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSFileU.folderConf + SSFileU.fileNameWithExtSSAdapterWebSocketConf);
+    SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSSystemU.dirNameConf + SSSystemU.fileNameSSAdapterWebSocketConf);
     
     sSConf =  SSCoreConf.instGet().getSsConf();
   }

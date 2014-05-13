@@ -983,14 +983,40 @@ public class SSServCaller {
   
   /* entity */
 
+  public static Boolean entityExists(
+    final SSEntityE  type,
+    final SSLabel    label) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.entityUri, null);
+    opPars.put(SSVarU.type,      type);
+    opPars.put(SSVarU.label,     label);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityExists, opPars));
+  }
+  
   public static SSEntity entityGet(
-    final SSUri      userUri, 
+    final SSEntityE  type,
+    final SSLabel    label) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.entityUri, null);
+    opPars.put(SSVarU.type,      type);
+    opPars.put(SSVarU.label,     label);
+    
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
+  }
+  
+  public static SSEntity entityGet(
     final SSUri      entityUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    opPars.put(SSVarU.user,      userUri);
     opPars.put(SSVarU.entityUri, entityUri);
+    opPars.put(SSVarU.type,      null);
+    opPars.put(SSVarU.label,     null);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
   }
@@ -2160,6 +2186,10 @@ public class SSServCaller {
   
   /* auth */
   
+  public static void authLoadKeys() throws Exception{
+    SSServA.callServViaServer(new SSServPar(SSMethU.authLoadKeys, new HashMap<String, Object>()));
+  }
+  
   public static SSUri authRegisterUser(
     final SSUri   userUri,
     final SSLabel label, 
@@ -2176,8 +2206,14 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.authRegisterUser, opPars));
   }
    
-  public static void authUsersFromCSVFileAdd() throws Exception{
-    SSServA.callServViaServer(new SSServPar(SSMethU.authUsersFromCSVFileAdd, new HashMap<String, Object>()));
+  public static void authUsersFromCSVFileAdd(
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.shouldCommit,      shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.authUsersFromCSVFileAdd, opPars));
   }
     
   public static void checkKey(final SSServPar par) throws Exception{

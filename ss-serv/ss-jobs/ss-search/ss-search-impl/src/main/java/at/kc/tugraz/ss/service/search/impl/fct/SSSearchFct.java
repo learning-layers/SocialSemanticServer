@@ -44,7 +44,7 @@ public class SSSearchFct {
 
       for(SSSearchResult searchResult : searchResults){
 
-        entity = SSServCaller.entityGet(userUri, searchResult.uri);
+        entity = SSServCaller.entityGet(searchResult.uri);
 
         searchResult.type          = entity.type;
         searchResult.label         = SSLabel.toStr(entity.label);

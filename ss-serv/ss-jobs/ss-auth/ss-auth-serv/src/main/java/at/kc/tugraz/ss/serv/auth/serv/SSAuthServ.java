@@ -25,6 +25,10 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
+import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
+import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -44,7 +48,7 @@ public class SSAuthServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAuthImpl((SSAuthConf)servConf);
+    return new SSAuthImpl((SSAuthConf)servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
@@ -60,9 +64,14 @@ public class SSAuthServ extends SSServA{
       ((SSAuthConf)servConf).systemUserPassword, 
       true);
     
-    switch(((SSAuthConf)servConf).authType){
-      case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(); break;
+    if(((SSAuthConf)servConf).initAtStartUp){
+      
+      switch(((SSAuthConf)servConf).authType){
+        case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(true); break;
+      }
     }
+    
+    SSServCaller.authLoadKeys();
   }
   
   @Override

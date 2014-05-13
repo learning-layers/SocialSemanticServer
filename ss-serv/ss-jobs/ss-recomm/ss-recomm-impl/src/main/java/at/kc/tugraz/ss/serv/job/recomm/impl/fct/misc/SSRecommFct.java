@@ -235,6 +235,6 @@ public class SSRecommFct{
       return 0L;
     }
     
-    return SSServCaller.entityGet(userUri, tags.get(0).uri).creationTime / 1000;
+    return SSServCaller.entityGet(tags.get(0).uri).creationTime / 1000;
   }
 }
