@@ -1,96 +1,184 @@
-!!at.kc.tugraz.ss.conf.conf.SSMainConf
-#core services 
-ssConf:
+!!at.kc.tugraz.ss.conf.conf.SSCoreConf
+activityConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+authConf:
+  authType: noAuth #noAuth, csvFileAuth
+  executeOpAtStartUp: false
+  fileName: users.csv
+  initAtStartUp: true
+  op: null
+  systemUserPassword: '1234'
+  use: true
+broadcasterConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+categoryConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+cloudConf:
+  executeOpAtStartUp: false
+  op: null
+  use: false
+collConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+dataExportConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+dataImportConf:
+  executeOpAtStartUp: false
+  fileName: null
+  op: null
+  use: true
+dbGraphConf:
+  executeOpAtStartUp: false
+  host: null
+  op: null
+  password: null
+  port: null
+  use: false
+  username: null
+dbSQLConf:
+  executeOpAtStartUp: false
   host: localhost
-  port: 8390
-  localWorkPath: #leave empty for workingDir/tmp
-dbSQLConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
-  host: localhost
-  port: 3306
-  username: root
+  op: null
   password: root
+  port: 3306
   schema: sss
+  use: true
+  username: root
+discConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+entityConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+evernoteConf:
+  appName: SSS
+  appVersion: '1.0'
+  authTokens: null
+  companyName: TU Graz
+  evernoteEnvironment: production
+  executeOpAtStartUp: false
+  op: null
+  use: false
+fileSysLocalConf:
+  dirPath: null
+  executeOpAtStartUp: false
+  op: null
+  text: null
+  use: false
+filerepoConf:
+  executeOpAtStartUp: false
+  fileRepoType: fileSys
+  op: null
+  password: null
+  path: F:/workspace_git/SSS_8/master/SocialSemanticServer/ss/tmp/
+  use: true
+  user: null
+i5CloudConf:
+  executeOpAtStartUp: false
+  lasPass: 
+  lasUser: 
+  op: null
+  pass: 
+  uri: http://137.226.58.11:8081/i5Cloud/services/4/
+  use: false
+  userLabel:
+jsonLDConf:
+  executeOpAtStartUp: false
+  op: null
+  uri: http://127.0.0.1:8084/ss-adapter-rest/rest/SSAdapterRest/
+  use: true
+learnEpConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+locationConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+logConf:
+  executeOpAtStartUp: false
+  logLevel: debug
+  logLevelRoot: debug
+  op: null
+  use: true
+lomExtractorConf:
+  executeOpAtStartUp: false
+  inputDirPath: null
+  op: null
+  outputResourceLangFileName: null
+  outputResourceMetadataFileName: null
+  outputResourceRecommFileName: null
+  use: false
+  useEPrints: true
+  useEdunet: false
+modelConf:
+  daysToRetrieveEvents: 60
+  executeOpAtStartUp: false
+  initAtStartUp: true
+  op: null
+  use: true
+ratingConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+recommConf:
+  executeOpAtStartUp: false
+  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp: null
+  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: null
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory: null
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp: null
+  initAtStartUp: true
+  op: null
+  use: true
+scaffConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+searchConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+solrConf:
+  executeOpAtStartUp: false
+  fileRepoType: solr
+  op: null
+  password: null
+  path: http://localhost:8084/solr/
+  use: true
+  user: null
+ssConf:
+  executeOpAtStartUp: false
+  host: localhost
+  localWorkPath:
+  op: null
+  port: 7001
+  use: true
+tagConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+ueConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
+userConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true
 vocConf:
   app: bp
+  executeOpAtStartUp: false
+  op: null
   space: eval
-authConf: 
-  authType: noAuth #noAuth, csvFileAuth
-  fileName:
-  systemUserPassword: 1234
-entityConf:
-jsonLDConf:
-  uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/
-logConf:
-  logLevelRoot: debug
-  logLevel: debug
-
-#services 
-cloudConf:
-  op: #
-dbGraphConf: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
-  host: 
-  port: 
-  username: 
-  password: 
-i5CloudConf:
-  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
-  uri: 
-  userLabel: 
-  pass:
-modelConf:
-  initAtStartUp: false #true, false
-  daysToRetrieveEvents: 60
-filerepoConf: 
-  path: #leave empty for workingDir/tmp; http://localhost:80/webdav/knowBrainWeb/
-  fileRepoType: fileSys #fileSys, webdav, solr, i5Cloud
-  user: 
-  password: 
-solrConf:
-  path: http://localhost:8080/solr/
-  fileRepoType: solr #fileSys, webdav, solr
-  user: 
-  password: 
-broadcasterConf:
-scaffConf:
-dataExportConf:
-lomExtractorConf:
-  inputDirPath: #F:/orgRecomm/LOM
-  outputResourceRecommFileName: #recommOutputEPrint.txt
-  outputResourceMetadataFileName: #resourceMetadataOutputEPrint.csv
-  outputResourceLangFileName: #resourceLangOutputEPrint.csv
-  useEPrints: true
-  useEdunet:  false
-userConf:
-collConf:
-  op: #testServOverall
-locationConf:
-ueConf:
-ratingConf:
-tagConf:
-searchConf:
-discConf:
-learnEpConf: 
-  op: #testServOverall
-recommConf: #files have to be provided in sss's_working_dir/data/csv/
-  initAtStartUp: true # true, false
-  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp:
-  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: 
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory:
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp:
-fileSysLocalConf:
-  op: #fileSysLocalFormatAudioAndVideoFileNamesInDir
-  dirPath: #D:/music_&_video/
-  text:  
-evernoteConf:
-  op: #evernoteNoteStoreGet
-  companyName: TU Graz
-  appName: SSS
-  appVersion: 1.0
-  evernoteEnvironment: production #sandbox, production
-  authTokens:
-    - dummyToken
-dataImportConf:
-  op: #testDataImportEvernote
-  fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
-activityConf:
-categoryConf:
+  use: true

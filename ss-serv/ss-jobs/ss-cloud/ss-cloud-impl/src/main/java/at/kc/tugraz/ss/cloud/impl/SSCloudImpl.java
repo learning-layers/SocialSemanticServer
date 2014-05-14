@@ -57,7 +57,7 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
       final SSCloudPublishServicePar par                  = new SSCloudPublishServicePar(parA);
       final String                   localWorkTmpDirPath  = SSCloudPublishServiceFct.getLocalWorkTmpDirPath();
         
-      if(!SSSystemU.isWindows()){
+      if(SSSystemU.isWindows()){
         
         SSCloudPublishServiceFct.publishServiceFromWindowsToWindowsLocally(
           par.serv, 
