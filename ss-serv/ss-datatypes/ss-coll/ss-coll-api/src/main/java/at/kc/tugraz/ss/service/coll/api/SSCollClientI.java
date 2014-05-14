@@ -18,24 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.coll.api;
+package at.kc.tugraz.ss.service.coll.api;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSCollClientI{
   
-  public void collUserParentGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserEntryDelete       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserEntryChangePos    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserWithEntries       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collsUserWithEntries      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collUserHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
-  public void collUserCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
-  public void collsUserEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collsUserCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collParentGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collEntryDelete       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collEntryChangePos    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collWithEntries       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collsWithEntries      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
+  public void collCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
+  public void collsEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

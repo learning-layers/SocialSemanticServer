@@ -23,7 +23,6 @@
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.job.file.sys.local.api.SSFileSysLocalServerI;
 import at.kc.tugraz.ss.serv.job.file.sys.local.api.SSFileSysLocalClientI;

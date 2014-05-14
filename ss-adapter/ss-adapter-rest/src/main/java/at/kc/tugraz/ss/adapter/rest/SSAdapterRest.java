@@ -173,41 +173,41 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserPublicSet")
-  public String entityUserPublicSet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserPublicSet);
+  @Path    (SSStrU.slash + "entityPublicSet")
+  public String entityPublicSet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityPublicSet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserGet")
-  public String entityUserGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserGet);
+  @Path    (SSStrU.slash + "entityGet")
+  public String entityGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserCircleCreate")
-  public String entityUserCircleCreate(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserCircleCreate);
+  @Path    (SSStrU.slash + "entityCircleCreate")
+  public String entityCircleCreate(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityCircleCreate);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserUsersToCircleAdd")
-  public String entityUserUsersToCircleAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserUsersToCircleAdd);
+  @Path    (SSStrU.slash + "entityUsersToCircleAdd")
+  public String entityUsersToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUsersToCircleAdd);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserEntitiesToCircleAdd")
-  public String entityUserEntitiesToCircleAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserEntitiesToCircleAdd);
+  @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
+  public String entityEntitiesToCircleAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityEntitiesToCircleAdd);
   }
   
   @POST
@@ -221,153 +221,153 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserEntityUsersGet")
-  public String entityUserEntityUsersGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserEntityUsersGet);
+  @Path    (SSStrU.slash + "entityEntityUsersGet")
+  public String entityEntityUsersGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityEntityUsersGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collsUserEntityIsInGet")
-  public String collsUserEntityIsInGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsUserEntityIsInGet);
+  @Path    (SSStrU.slash + "collsEntityIsInGet")
+  public String collsEntityIsInGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsEntityIsInGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collsUserCouldSubscribeGet")
-  public String collsUserCouldSubscribeGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsUserCouldSubscribeGet);
+  @Path    (SSStrU.slash + "collsCouldSubscribeGet")
+  public String collsCouldSubscribeGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsCouldSubscribeGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserRootGet")
-  public String collUserRootGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserRootGet);
+  @Path    (SSStrU.slash + "collRootGet")
+  public String collRootGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collRootGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserParentGet")
-  public String collUserParentGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserParentGet);
+  @Path    (SSStrU.slash + "collParentGet")
+  public String collParentGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collParentGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserEntryAdd")
-  public String collUserEntryAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntryAdd);
+  @Path    (SSStrU.slash + "collEntryAdd")
+  public String collEntryAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collEntryAdd);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserEntriesAdd")
-  public String collUserEntriesAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntriesAdd);
+  @Path    (SSStrU.slash + "collEntriesAdd")
+  public String collEntriesAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collEntriesAdd);
   }  
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserEntryChangePos")
-  public String collUserEntryChangePos(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntryChangePos);
+  @Path    (SSStrU.slash + "collEntryChangePos")
+  public String collEntryChangePos(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collEntryChangePos);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserEntryDelete")
-  public String collUserEntryDelete(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntryDelete);
+  @Path    (SSStrU.slash + "collEntryDelete")
+  public String collEntryDelete(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collEntryDelete);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserEntriesDelete")
-  public String collUserEntriesDelete(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserEntriesDelete);
+  @Path    (SSStrU.slash + "collEntriesDelete")
+  public String collEntriesDelete(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collEntriesDelete);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserShare")
-  public String entityUserShare(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserShare);
+  @Path    (SSStrU.slash + "entityShare")
+  public String entityShare(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityShare);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserWithEntries")
-  public String collUserWithEntries(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserWithEntries);
+  @Path    (SSStrU.slash + "collWithEntries")
+  public String collWithEntries(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collWithEntries);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collsUserWithEntries")
-  public String collsUserWithEntries(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsUserWithEntries);
+  @Path    (SSStrU.slash + "collsWithEntries")
+  public String collsWithEntries(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collsWithEntries);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserHierarchyGet")
-  public String collUserHierarchyGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserHierarchyGet);
+  @Path    (SSStrU.slash + "collHierarchyGet")
+  public String collHierarchyGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collHierarchyGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collUserCumulatedTagsGet")
-  public String collUserCumulatedTagsGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collUserCumulatedTagsGet);
+  @Path    (SSStrU.slash + "collCumulatedTagsGet")
+  public String collCumulatedTagsGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.collCumulatedTagsGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discUserEntryAdd")
-  public String discUserEntryAdd(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discUserEntryAdd);
+  @Path    (SSStrU.slash + "discEntryAdd")
+  public String discEntryAdd(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discEntryAdd);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discUserWithEntriesGet")
-  public String discUserWithEntriesGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discUserWithEntriesGet);
+  @Path    (SSStrU.slash + "discWithEntriesGet")
+  public String discWithEntriesGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discWithEntriesGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "discsUserAllGet")
-  public String discsUserAllGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discsUserAllGet);
+  @Path    (SSStrU.slash + "discsAllGet")
+  public String discsAllGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discsAllGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserDirectlyAdjoinedEntitiesRemove")
-  public String entityUserDirectlyAdjoinedEntitiesRemove(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUserDirectlyAdjoinedEntitiesRemove);
+  @Path    (SSStrU.slash + "entityDirectlyAdjoinedEntitiesRemove")
+  public String entityDirectlyAdjoinedEntitiesRemove(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityDirectlyAdjoinedEntitiesRemove);
   }
   
   @POST
@@ -581,9 +581,9 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "ratingUserSet")
-  public String ratingUserSet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.ratingUserSet);
+  @Path    (SSStrU.slash + "ratingSet")
+  public String ratingSet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.ratingSet);
   }
   
   @POST
@@ -661,17 +661,17 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagUserFrequsGet")
-  public String tagUserFrequsGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagUserFrequsGet);
+  @Path    (SSStrU.slash + "tagFrequsGet")
+  public String tagFrequsGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagFrequsGet);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagsUserRemove")
-  public String tagsUserRemove(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagsUserRemove);
+  @Path    (SSStrU.slash + "tagsRemove")
+  public String tagsRemove(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagsRemove);
   }
   
   @POST

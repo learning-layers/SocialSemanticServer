@@ -165,7 +165,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   
   /* SSRatingClientI */
   @Override
-  public void ratingUserSet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void ratingSet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     

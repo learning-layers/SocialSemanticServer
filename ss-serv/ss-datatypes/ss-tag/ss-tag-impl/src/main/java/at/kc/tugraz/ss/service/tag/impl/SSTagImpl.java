@@ -191,7 +191,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
 
   @Override
-  public void tagsUserRemove(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void tagsRemove(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
@@ -201,7 +201,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
 
   @Override
-  public void tagUserFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void tagFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
        
     SSServCaller.checkKey(par);
     

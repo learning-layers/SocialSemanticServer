@@ -158,7 +158,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   /* SSDiscClientI */
   
   @Override
-  public void discUserEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
     SSServCaller.checkKey(parA);
 
@@ -166,7 +166,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
 
   @Override
-  public void discsUserAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void discsAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
 
     SSServCaller.checkKey(par);
 
@@ -174,7 +174,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
 
   @Override
-  public void discUserWithEntriesGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void discWithEntriesGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
 
     SSServCaller.checkKey(par);
 

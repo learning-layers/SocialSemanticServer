@@ -25,15 +25,15 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSEntityClientI {
 
-  public void entityUserGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityDescGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityLabelSet                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserCircleCreate                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserEntitiesToCircleAdd            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserCirclesGet                     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserEntityUsersGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityDescGet                        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityLabelSet                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityCircleCreate                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityEntitiesToCircleAdd            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUserCirclesGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityEntityUsersGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

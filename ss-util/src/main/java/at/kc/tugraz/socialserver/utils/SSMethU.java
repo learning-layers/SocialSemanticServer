@@ -23,24 +23,10 @@ package at.kc.tugraz.socialserver.utils;
 public enum SSMethU{
 
   //cloud
-  
   cloudPublishService,
   
   //voc
   vocURIPrefixGet,
-  //db sql
-//  dbSQLCloseCon,
-//  dbSQLSelectCertainDistinctWhere,
-//  dbSQLSelectAllWhere,
-//  dbSQLCloseStmt,
-//  dbSQLSelectCertainWhere,
-//  dbSQLInsert,
-//  dbSQLDeleteFromWhere,
-//  dbSQLUpdateWhere,
-//  dbSQLDeleteAll,
-//  dbSQLSelectAll,
-//  dbSQLSelectAllWhereOrderBy,
-//  dbSQLStartTrans,
   
   //test
   testServOverall                                     ,
@@ -55,6 +41,7 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
+  entityPublicSet,
   entityDescGet                                       ,
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
@@ -73,6 +60,7 @@ public enum SSMethU{
   entityUserCircleCreate,
   entityUserAllowedIs,
   entityUserCirclesGet,
+  entityEntityUsersGet,
   entityUserEntityCirclesGet,
   entityUserUsersToCircleAdd, 
   entityUserEntitiesToCircleAdd,
@@ -84,6 +72,8 @@ public enum SSMethU{
   entityUserGet,
   entityUserShare,
   entityUserEntityUsersGet,
+  entityDirectlyAdjoinedEntitiesRemove,
+  entityShare,
   
   //learn ep
   learnEpsGet                                         ,
@@ -137,6 +127,7 @@ public enum SSMethU{
   tagUserFrequsGet                                    ,
   tagAdd                                              ,
   tagAddAtCreationTime                                ,
+    tagFrequsGet,
   
   //
   categorysAdd                                             ,
@@ -166,6 +157,7 @@ public enum SSMethU{
   ratingUserGet                                       ,
   ratingOverallGet                                    ,
   ratingsUserRemove                                   ,
+    ratingSet,
   
   //scaff
   scaffRecommTagsBasedOnUserEntityTag                 , //cikm | 3Layers mit den Kategorien 
@@ -226,6 +218,10 @@ public enum SSMethU{
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,
   discUserRemove                                      ,
+    discEntryAdd,
+    discWithEntriesGet,
+    discsAllGet,
+    
   
   //broadcast
   broadcastServerTime                                 ,
@@ -259,6 +255,19 @@ public enum SSMethU{
   collUserHierarchyGet                                ,
   collUserCumulatedTagsGet                            ,
   collsUserCouldSubscribeGet                          ,
+  collsEntityIsInGet,
+  collsCouldSubscribeGet,
+  collRootGet,
+  collParentGet,
+  collEntryAdd,
+  collEntriesAdd,
+  collEntryChangePos,
+  collEntryDelete,
+  collEntriesDelete,
+  collWithEntries,
+    collsWithEntries,
+    collHierarchyGet,
+    collCumulatedTagsGet,
   
   //recomm
   recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,

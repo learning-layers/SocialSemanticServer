@@ -195,7 +195,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
 
   @Override
-  public void categorysUserRemove(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void categoriesRemove(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
@@ -205,7 +205,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
 
   @Override
-  public void categoryUserFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
        
     SSServCaller.checkKey(par);
     

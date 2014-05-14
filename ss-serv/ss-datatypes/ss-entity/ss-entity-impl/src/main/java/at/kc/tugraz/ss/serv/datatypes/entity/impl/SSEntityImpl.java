@@ -103,7 +103,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   
   /* SSEntityClientI */
   @Override
-  public void entityUserShare(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void entityShare(final SSSocketCon sSCon, final SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
@@ -119,7 +119,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCaller.checkKey(parA);
     
@@ -135,7 +135,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserDirectlyAdjoinedEntitiesRemove(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void entityDirectlyAdjoinedEntitiesRemove(final SSSocketCon sSCon, final SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
@@ -143,7 +143,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserCircleCreate(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void entityCircleCreate(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -151,7 +151,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserEntitiesToCircleAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void entityEntitiesToCircleAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -159,7 +159,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserUsersToCircleAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void entityUsersToCircleAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -175,7 +175,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserPublicSet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void entityPublicSet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -183,7 +183,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void entityEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCaller.checkKey(parA);
     

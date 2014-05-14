@@ -12,7 +12,6 @@
   <packaging>pom</packaging>
   <name>ss-localwork</name>
   <modules>
-    <module>ss-localwork-serv</module>
     <module>ss-localwork-impl</module>
   </modules>
 </project>

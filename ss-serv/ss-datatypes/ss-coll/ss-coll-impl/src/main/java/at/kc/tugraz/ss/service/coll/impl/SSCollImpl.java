@@ -245,7 +245,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   /* SSCollClientI */
   @Override
-  public void collUserParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void collParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCaller.checkKey(parA);
 
@@ -255,7 +255,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserRootGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collRootGet(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -263,7 +263,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserEntryDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void collEntryDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -271,7 +271,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collsUserCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -279,7 +279,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserEntriesDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void collEntriesDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -287,7 +287,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserEntryAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntryAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -295,7 +295,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserEntriesAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntriesAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -303,7 +303,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserEntryChangePos(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntryChangePos(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -311,7 +311,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -319,7 +319,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collsUserWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collsWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -327,7 +327,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserHierarchyGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collHierarchyGet(SSSocketCon sSCon, SSServPar par) throws Exception{
 
     SSServCaller.checkKey(par);
 
@@ -335,7 +335,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collUserCumulatedTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void collCumulatedTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCaller.checkKey(parA);
 
@@ -343,7 +343,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collsUserEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void collsEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCaller.checkKey(parA);
 
