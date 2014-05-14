@@ -148,6 +148,30 @@ public abstract class SSServA{
     }
   }
   
+  protected void regServForManagingEntities(final List<SSEntityE> entityTypes) throws Exception{
+    
+    try{
+     
+      if(!servConf.use){
+        return;
+      }
+      
+      synchronized(servsForManagingEntities){
+
+        for(SSEntityE entityType : entityTypes){
+         
+          if(servsForManagingEntities.containsKey(entityType)){
+            throw new Exception("entityType for service already registered");
+          }
+
+          servsForManagingEntities.put(entityType, this);
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   protected void regServForManagingEntities(final SSEntityE entityType) throws Exception{
     
     try{

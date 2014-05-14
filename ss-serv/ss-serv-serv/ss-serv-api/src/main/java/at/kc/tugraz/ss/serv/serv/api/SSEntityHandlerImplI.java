@@ -29,9 +29,6 @@ import java.util.List;
 
 public interface SSEntityHandlerImplI{
 
-  //TODO dtheiler: do this
-//  public List<SSEntityEnum> getSupportedEntityTypes() throws Exception;
-
   public SSEntityDescA getDescForEntity(
     final SSEntityE       entityType, 
     final SSUri           userUri, 

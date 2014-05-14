@@ -21,12 +21,9 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -42,27 +39,18 @@ import java.util.Map;
 
 public class SSDiscSQLFct extends SSDBSQLFct {
 
-  protected final String               discTable                           = "disc";
-  protected final String               discEntryTable                      = "discentry";
-  protected final String               discEntriesTable                    = "discentries";
-  
   public SSDiscSQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
 
-  public List<SSUri> getAllDiscUris() throws Exception{
+  public List<SSUri> getDiscURIs() throws Exception{
 
-    final List<SSUri> discUris  = new ArrayList<SSUri>();
-    ResultSet         resultSet = null;
+    ResultSet resultSet = null;
 
     try{
       resultSet = dbSQL.select(discTable);
 
-      while(resultSet.next()){
-        discUris.add(bindingStrToUri(resultSet, SSSQLVarU.discId));
-      }
-
-      return discUris;
+      return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -71,28 +59,19 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public List<SSUri> getDiscUrisForTarget(final SSUri targetUri) throws Exception {
+  public List<SSUri> getDiscURIsForTarget(
+    final SSUri targetUri) throws Exception {
   
-    if(SSObjU.isNull(targetUri)){
-      SSServErrReg.regErrThrow(new Exception("target null"));
-      return null;
-    }
-    
-    final List<SSUri>         discUris                = new ArrayList<SSUri>();
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    ResultSet                 resultSet               = null;
-    
-    whereParNamesWithValues.put(SSSQLVarU.target, targetUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.select(discTable, whereParNamesWithValues);
-      
-      while(resultSet.next()){
-        discUris.add(SSUri.get(bindingStr(resultSet, SSSQLVarU.discId)));
-      }
+    ResultSet resultSet = null;
 
-      return discUris;
+    try{
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.target, targetUri);
+      
+      resultSet = dbSQL.select(discTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -101,106 +80,116 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
 
-  public void createDisc(SSUri discUri, SSUri user, SSUri target, SSLabel label) throws Exception{
-    
-    Map<String, String> insertPars;
-    
-    insertPars = new HashMap<String,       String>();
-    insertPars.put(SSSQLVarU.discId,       discUri.toString());
-    insertPars.put(SSSQLVarU.target,       target.toString());
-    
-    dbSQL.insert(discTable, insertPars);
-  }
-
-  public void addDiscEntry(SSUri discEntryUri, SSUri user, SSUri discUri, SSTextComment content) throws Exception{
-    
-    Map<String, String> insertPars;
-    Integer             discEntryCount;
-
-    insertPars = new HashMap<String, String>();
-    insertPars.put(SSSQLVarU.discEntryId,      discEntryUri.toString());
-    insertPars.put(SSSQLVarU.discEntryContent, content.toString());
-    
-    dbSQL.insert(discEntryTable, insertPars);
-    
-    discEntryCount = getDiscEntryCount(discUri);
-    discEntryCount++;
-
-    insertPars = new HashMap<String, String>();
-    insertPars.put(SSSQLVarU.discId,      discUri.toString());
-    insertPars.put(SSSQLVarU.discEntryId, discEntryUri.toString());
-    insertPars.put(SSSQLVarU.pos,         discEntryCount.toString());
-    
-    dbSQL.insert(discEntriesTable, insertPars);
-  }
-  
-  public Integer getDiscEntryCount(SSUri discUri) throws Exception{
-    
-    Map<String, String> selectPars     = new HashMap<String, String>();
-    ResultSet           resultSet      = null;
-    Integer             discEntryCount = 0;
-    
-    selectPars.put(SSSQLVarU.discId, discUri.toString());
+  public void createDisc(
+    final SSUri   discUri,
+    final SSUri   targetUri) throws Exception{
     
     try{
-      resultSet = dbSQL.select(discEntriesTable, selectPars);
+      final Map<String, String> inserts =  new HashMap<String,       String>();
+      
+      insert(inserts, SSSQLVarU.discId, discUri);
+      insert(inserts, SSSQLVarU.target, targetUri);
+      
+      dbSQL.insert(discTable, inserts);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void addDiscEntry(
+    final SSUri         discEntryUri, 
+    final SSUri         discUri, 
+    final SSTextComment content) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<String, String>();
+      Integer             discEntryCount;
+      
+      insert(inserts, SSSQLVarU.discEntryId,      discEntryUri);
+      insert(inserts, SSSQLVarU.discEntryContent, content);
+      
+      dbSQL.insert(discEntryTable, inserts);
+      
+      discEntryCount = getDiscEntryCount(discUri);
+      discEntryCount++;
+      
+      inserts.clear();
+      
+      insert(inserts, SSSQLVarU.discId,      discUri);
+      insert(inserts, SSSQLVarU.discEntryId, discEntryUri);
+      insert(inserts, SSSQLVarU.pos,         discEntryCount);
+      
+      dbSQL.insert(discEntriesTable, inserts);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public Integer getDiscEntryCount(
+    final SSUri discUri) throws Exception{
+    
+    ResultSet resultSet      = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<String, String>();
+      
+      where(wheres, SSSQLVarU.discId, discUri);
+      
+      resultSet = dbSQL.select(discEntriesTable, wheres);
       
       resultSet.last();
       
-      discEntryCount = resultSet.getRow();
+      return resultSet.getRow();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return  discEntryCount;
   }
   
-  public Boolean isDisc(SSUri entityUri) throws Exception {
+  public Boolean isDisc(
+    final SSUri entityUri) throws Exception {
     
-    ResultSet           resultSet   = null;
-    Boolean             isDisc      = false;
-    Map<String, String> selectPars;
-    
-    selectPars = new HashMap<String, String>();
-    selectPars.put(SSSQLVarU.discId, entityUri.toString());
+    ResultSet resultSet   = null;
     
     try{
+      final Map<String, String> wheres =  new HashMap<String, String>();
       
-      resultSet = dbSQL.select(discTable, selectPars);
-      isDisc    = resultSet.first();
+      where(wheres, SSSQLVarU.discId, entityUri);
+      
+      resultSet = dbSQL.select(discTable, wheres);
+      
+      return resultSet.first();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return isDisc;
   }
   
-  public Boolean isDiscEntry(SSUri entityUri) throws Exception {
+  public Boolean isDiscEntry(
+    final SSUri entityUri) throws Exception {
     
-    ResultSet           resultSet   = null;
-    Boolean             isDiscEntry = false;
-    Map<String, String> selectPars;
-    
-    selectPars = new HashMap<String, String>();
-    selectPars.put(SSSQLVarU.discEntryId, entityUri.toString());
+    ResultSet resultSet   = null;
     
     try{
+      final Map<String, String> wheres = new HashMap<String, String>();
       
-      resultSet   = dbSQL.select(discEntriesTable, selectPars);
-      isDiscEntry = resultSet.first();
+      where(wheres, SSSQLVarU.discEntryId, entityUri);
+      
+      resultSet = dbSQL.select(discEntriesTable, wheres);
+      
+      return resultSet.first();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return isDiscEntry;
   }
   
   public SSDisc getDiscWithoutEntries(
@@ -244,56 +233,46 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   
   public void deleteDisc(final SSUri discUri) throws Exception{
     
-    if(SSObjU.isNull(discUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return;
+    try{
+      final Map<String, String> deletes = new HashMap<String, String>();
+      
+      delete(deletes, SSSQLVarU.discId, discUri);
+      
+      dbSQL.delete(discTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
-    
-    whereParNamesWithValues.put(SSSQLVarU.discId, discUri.toString());
-    
-    dbSQL.delete(discTable, whereParNamesWithValues);
   }
   
   public SSDisc getDiscWithEntries(
     final SSUri   discUri) throws Exception {
     
-    if(SSObjU.isNull(discUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-    
-    final List<SSDiscEntry>   discEntries             = new ArrayList<SSDiscEntry>();
-    final List<String>        tableNames              = new ArrayList<String>();
-    final List<String>        columNames              = new ArrayList<String>();
-    final List<String>        whereFixed              = new ArrayList<String>();
-    final Map<String, String> where                   = new HashMap<String, String>();
-    final SSDisc              disc;
-    ResultSet                 resultSet               = null;
+    ResultSet resultSet = null;
     
     try{
-      disc = getDiscWithoutEntries(discUri);
+      final List<SSDiscEntry>   discEntries   = new ArrayList<SSDiscEntry>();
+      final List<String>        tables        = new ArrayList<String>();
+      final List<String>        columns       = new ArrayList<String>();
+      final List<String>        tableCons     = new ArrayList<String>();
+      final Map<String, String> wheres        = new HashMap<String, String>();
+      final SSDisc              disc          = getDiscWithoutEntries(discUri);
       
-      tableNames.add(entityTable);
-      tableNames.add(discEntriesTable);
-      tableNames.add(discEntryTable);
+      table(tables, entityTable);
+      table(tables, discEntriesTable);
+      table(tables, discEntryTable);
       
-      columNames.add(discEntriesTable + SSStrU.dot + SSSQLVarU.discEntryId);
-      columNames.add(SSSQLVarU.author);
-      columNames.add(SSSQLVarU.discEntryContent);
-      columNames.add(SSSQLVarU.pos);
-      columNames.add(SSSQLVarU.creationTime);
+      column(columns, SSSQLVarU.author);
+      column(columns, SSSQLVarU.discEntryContent);
+      column(columns, SSSQLVarU.pos);
+      column(columns, SSSQLVarU.creationTime);
+      column(columns, discEntriesTable, SSSQLVarU.discEntryId);
       
-      where.put       (SSSQLVarU.discId, discUri.toString());
-      whereFixed.add  (discEntriesTable + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
-      whereFixed.add  (discEntryTable   + SSStrU.dot + SSSQLVarU.discEntryId + SSStrU.equal + SSSQLVarU.id);
+      where(wheres, SSSQLVarU.discId, discUri);
       
-      resultSet = dbSQL.select(
-        tableNames,
-        columNames,
-        where,
-        whereFixed);
+      tableCon(tableCons, discEntriesTable, SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
+      tableCon(tableCons, discEntryTable,   SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       while(resultSet.next()){
         

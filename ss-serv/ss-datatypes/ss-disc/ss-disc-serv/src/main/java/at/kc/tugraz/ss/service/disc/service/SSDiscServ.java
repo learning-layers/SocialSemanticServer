@@ -25,17 +25,17 @@ import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.disc.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
+import at.kc.tugraz.ss.service.disc.api.SSDiscI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import java.util.List;
 
-public class SSDiscServ extends SSServA{
+public class SSDiscServ extends SSServA implements SSDiscI{
   
-  public static final SSServA  inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
+  public static final SSServA inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
   
   protected SSDiscServ(
     final Class servImplClientInteraceClass, 
@@ -51,10 +51,7 @@ public class SSDiscServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    
-    for(SSEntityE entityType : ((SSDiscImpl)inst.serv()).getSupportedEntityTypes()){
-      regServForManagingEntities(entityType);
-    }
+    regServForManagingEntities(supportedEntityTypes);
   }
   
   @Override

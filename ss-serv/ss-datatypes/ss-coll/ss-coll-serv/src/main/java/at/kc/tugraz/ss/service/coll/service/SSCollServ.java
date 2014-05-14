@@ -55,7 +55,7 @@ public class SSCollServ extends SSServA implements SSCollServI{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.coll);
+    regServForManagingEntities(supportedEntityTypes);
   }
   
   @Override

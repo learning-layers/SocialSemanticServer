@@ -18,16 +18,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.api;
+package at.kc.tugraz.ss.service.disc.api;
 
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.serv.api.SSServI;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface SSCollServI extends SSServI{
+public interface SSDiscI{
   
   public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
-    add(SSEntityE.coll);
+    add(SSEntityE.disc);
+    add(SSEntityE.discEntry);
   }};
 }
