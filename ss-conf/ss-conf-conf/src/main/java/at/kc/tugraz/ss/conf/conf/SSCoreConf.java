@@ -41,7 +41,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
-import at.kc.tugraz.ss.serv.job.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
