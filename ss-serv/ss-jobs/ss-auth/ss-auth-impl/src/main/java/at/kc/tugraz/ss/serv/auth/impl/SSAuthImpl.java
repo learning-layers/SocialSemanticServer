@@ -61,6 +61,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     
     this.sqlFct = new SSAuthSQLFct(dbSQL);
     
+    keys.add(noAuthKey);
 //    wikiauth  = new SSAuthWiki();
   }
   

@@ -27,17 +27,17 @@ import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCategorysUserRemoveRet extends SSServRetI{
+public class SSCategoriesUserRemoveRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCategorysUserRemoveRet get(boolean worked){
-    return new SSCategorysUserRemoveRet(worked);
+  public static SSCategoriesUserRemoveRet get(boolean worked){
+    return new SSCategoriesUserRemoveRet(worked);
   }
   
-  private SSCategorysUserRemoveRet(boolean worked){
+  private SSCategoriesUserRemoveRet(boolean worked){
     
-    super(SSMethU.categorysUserRemove);
+    super(SSMethU.categoriesUserRemove);
     
     this.worked = worked;
   }

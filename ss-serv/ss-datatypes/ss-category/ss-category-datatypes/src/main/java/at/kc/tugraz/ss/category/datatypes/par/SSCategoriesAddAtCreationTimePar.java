@@ -20,44 +20,35 @@
 */
  package at.kc.tugraz.ss.category.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSCategorysUserGetPar extends SSServPar{
+public class SSCategoriesAddAtCreationTimePar extends SSServPar{
   
-  public SSUri            resource       = null;
-  public SSCategoryLabel  categoryLabel  = null;
-  public SSSpaceE         space          = null;
+  public SSUri                  resource        = null;
+  public List<SSCategoryLabel>  categoryLabels  = new ArrayList<SSCategoryLabel>();
+  public SSSpaceE               space           = null;
+  public Long                  creationTime     = null;
   
-  public SSCategorysUserGetPar(SSServPar par) throws Exception{
+  public SSCategoriesAddAtCreationTimePar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        resource       = (SSUri)                     pars.get(SSVarU.resource);
-        categoryLabel  = SSCategoryLabel.get((String)pars.get(SSVarU.categoryLabel));
-        space          = (SSSpaceE)                  pars.get(SSVarU.space);
+        this.categoryLabels   =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.categoryLabels)));
+        this.resource         =  (SSUri)                        pars.get(SSVarU.resource);
+        this.space            =  (SSSpaceE)                     pars.get(SSVarU.space);
+        this.creationTime     =  (Long)                         pars.get(SSVarU.creationTime);
       }
       
-      if(clientPars != null){
-        
-        try{
-          resource   = SSUri.get        (clientPars.get(SSVarU.resource));
-        }catch(Exception error){}
-        
-        try{
-          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
-        }catch(Exception error){}
-        
-        try{
-          categoryLabel  = SSCategoryLabel.get   (clientPars.get(SSVarU.categoryLabel));
-        }catch(Exception error){}
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

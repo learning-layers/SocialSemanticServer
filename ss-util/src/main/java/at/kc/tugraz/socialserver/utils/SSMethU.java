@@ -130,15 +130,16 @@ public enum SSMethU{
     tagFrequsGet,
   
   //
-  categorysAdd                                             ,
-  categorysAddAtCreationTime                               ,
-  categorysRemove                                          , 
-  categorysUserRemove                                      ,
-  categorysUserGet                                         ,
+  categoriesAdd                                             ,
+  categoriesAddAtCreationTime                               ,
+  categoriesRemove                                          , 
+  categoriesUserRemove                                      ,
+  categoriesUserGet                                         ,
   categoryUserEntitiesForCategoryGet                       ,
   categoryUserFrequsGet                                    ,
   categoryAdd                                              ,
   categoryAddAtCreationTime                                ,
+  categoryFrequsGet,
   
   //solr
   solrAddDoc                                          ,
@@ -314,12 +315,12 @@ public enum SSMethU{
 //  recommTrainTestSize                                 ,
 //  recommBetaValues                                    
   
-  public static SSMethU get(String value) throws Exception{
+  public static SSMethU get(final String value) throws Exception{
   
     try{
       return SSMethU.valueOf(value);
     }catch(Exception error){
-      SSLogU.errThrow(new Exception("sss op not available"));
+      SSLogU.errThrow(new Exception("sss op " + value + " not available"));
       return null;
     }
   }

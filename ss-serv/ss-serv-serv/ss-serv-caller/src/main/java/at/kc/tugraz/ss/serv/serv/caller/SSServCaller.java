@@ -1567,7 +1567,7 @@ public class SSServCaller {
   
   /* category */
   
-  public static void categorysAdd(
+  public static void categoriesAdd(
     final SSUri                 userUri, 
     final SSUri                 entityUri, 
     final List<SSCategoryLabel> categoryList, 
@@ -1576,21 +1576,16 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
-    try{
-      
-      opPars.put(SSVarU.shouldCommit,     shouldCommit);
-      opPars.put(SSVarU.user,             userUri);
-      opPars.put(SSVarU.resource,         entityUri);
-      opPars.put(SSVarU.categoryLabels,   categoryList);
-      opPars.put(SSVarU.space,            space);
-      
-      SSServA.callServViaServer(new SSServPar(SSMethU.categorysAdd, opPars));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarU.user,             userUri);
+    opPars.put(SSVarU.resource,         entityUri);
+    opPars.put(SSVarU.categoryLabels,   categoryList);
+    opPars.put(SSVarU.space,            space);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesAdd, opPars));
   }
   
-  public static List<SSCategory> categorysUserGet(
+  public static List<SSCategory> categoriesUserGet(
     final SSUri       userUri, 
     final SSUri       entityUri, 
     final String      category, 
@@ -1603,7 +1598,7 @@ public class SSServCaller {
     opPars.put(SSVarU.categoryLabel, category);
     opPars.put(SSVarU.space,         space);
     
-    return (List<SSCategory>) SSServA.callServViaServer(new SSServPar(SSMethU.categorysUserGet, opPars));
+    return (List<SSCategory>) SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserGet, opPars));
   }
   
   public static List<SSCategoryFrequ> categoryUserFrequsGet(
@@ -1636,7 +1631,7 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserEntitiesForCategoryGet, opPars));
   }
   
-  public static void categorysRemove(
+  public static void categoriesRemove(
     final SSUri           forUserUri,   
     final SSUri           entityUri,
     final SSCategoryLabel categoryLabel,
@@ -1651,10 +1646,10 @@ public class SSServCaller {
     opPars.put(SSVarU.categoryLabel,  categoryLabel);
     opPars.put(SSVarU.space,          space);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.categorysRemove, opPars));
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesRemove, opPars));
   }
   
-  public static void categorysUserRemove(
+  public static void categoriesUserRemove(
     final SSUri           userUri,
     final SSUri           entityUri,
     final SSCategoryLabel categoryLabel,
@@ -1669,7 +1664,7 @@ public class SSServCaller {
     opPars.put(SSVarU.categoryLabel,  categoryLabel);
     opPars.put(SSVarU.space,          space);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.categorysUserRemove, opPars));
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserRemove, opPars));
   }
   
   public static void categoryAdd(
@@ -1710,7 +1705,7 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.categoryAddAtCreationTime, opPars));
   }
   
-  public static void categorysAddAtCreationTime(
+  public static void categoriesAddAtCreationTime(
     final SSUri            userUri,
     final SSUri            entityUri,
     final List<String>     categoryList,
@@ -1727,7 +1722,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,            space);
     opPars.put(SSVarU.creationTime,     creationTime);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.categorysAddAtCreationTime, opPars));
+    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesAddAtCreationTime, opPars));
   }
   
   /* tag */

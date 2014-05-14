@@ -26,14 +26,14 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSCategorysRemovePar extends SSServPar{
+public class SSCategoriesRemovePar extends SSServPar{
   
   public SSUri             forUser       = null;
   public SSUri             entityUri     = null;
   public SSCategoryLabel   categoryLabel = null;
   public SSSpaceE          space         = null;
       
-  public SSCategorysRemovePar(SSServPar par) throws Exception{
+  public SSCategoriesRemovePar(SSServPar par) throws Exception{
       
     super(par);
     

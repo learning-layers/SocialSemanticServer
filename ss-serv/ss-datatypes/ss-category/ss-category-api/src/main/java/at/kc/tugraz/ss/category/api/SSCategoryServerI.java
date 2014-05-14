@@ -28,13 +28,13 @@ import java.util.List;
 
 public interface SSCategoryServerI{
   
-  public Boolean                         categorysAdd                      (final SSServPar parA) throws Exception;
-  public Boolean                         categorysAddAtCreationTime        (final SSServPar parA) throws Exception;
-  public Boolean                         categoryAdd                       (final SSServPar parA) throws Exception;
-  public Boolean                         categoryAddAtCreationTime         (final SSServPar parA) throws Exception;
-  public Boolean                         categorysRemove                   (final SSServPar parA) throws Exception;
-  public Boolean                         categorysUserRemove               (final SSServPar parA) throws Exception;
-  public List<SSCategory>                categorysUserGet                  (final SSServPar parA) throws Exception;
-  public List<SSCategoryFrequ>           categoryUserFrequsGet             (final SSServPar parA) throws Exception;
-  public List<SSUri>                     categoryUserEntitiesForCategoryGet(final SSServPar parA) throws Exception;
+  public Boolean                         categoriesAdd                      (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesAddAtCreationTime        (final SSServPar parA) throws Exception;
+  public Boolean                         categoryAdd                        (final SSServPar parA) throws Exception;
+  public Boolean                         categoryAddAtCreationTime          (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesRemove                   (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesUserRemove               (final SSServPar parA) throws Exception;
+  public List<SSCategory>                categoriesUserGet                  (final SSServPar parA) throws Exception;
+  public List<SSCategoryFrequ>           categoryUserFrequsGet              (final SSServPar parA) throws Exception;
+  public List<SSUri>                     categoryUserEntitiesForCategoryGet (final SSServPar parA) throws Exception;
 }

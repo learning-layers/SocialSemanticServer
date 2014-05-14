@@ -34,17 +34,16 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoryGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserFrequsGetPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategorysAddAtCreationTimePar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategorysAddPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategorysRemovePar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategorysUserGetPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategorysUserRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddAtCreationTimePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategorysUserRemoveRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserRemoveRet;
 import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -130,7 +129,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         return;
       }
       
-      SSServCaller.categorysUserRemove(
+      SSServCaller.categoriesUserRemove(
         userUri, 
         entityUri, 
         null, 
@@ -149,7 +148,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     final SSUri           entityUri, 
     final SSLabel         label,
     final Long            creationTime,
-    final List<String>    categorys, 
+    final List<String>    categories, 
     final SSEntityA       overallRating,
     final List<SSUri>     discUris,
     final SSUri           author) throws Exception{
@@ -162,7 +161,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
           entityUri, 
           label, 
           creationTime, 
-          categorys, 
+          categories, 
           overallRating, 
           discUris,
           author);
@@ -174,7 +173,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         creationTime,
         author, 
         overallRating, 
-        categorys,
+        categories,
         discUris);
       
     }catch(Exception error){
@@ -199,7 +198,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSCategorysUserRemoveRet.get(categorysUserRemove(par)));
+    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(par)));
     
 //    saveUECategoryDelete(par);
   }
@@ -316,11 +315,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean categorysAdd(final SSServPar parA) throws Exception {
+  public Boolean categoriesAdd(final SSServPar parA) throws Exception {
     
     try{
 
-      final SSCategorysAddPar par    = new SSCategorysAddPar(parA);
+      final SSCategoriesAddPar par    = new SSCategoriesAddPar(parA);
       
       for(SSCategoryLabel categoryLabel : par.categoryLabels) {
         
@@ -336,7 +335,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return categorysAdd(parA);
+        return categoriesAdd(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -350,11 +349,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean categorysAddAtCreationTime(final SSServPar parA) throws Exception {
+  public Boolean categoriesAddAtCreationTime(final SSServPar parA) throws Exception {
     
     try{
 
-      final SSCategorysAddAtCreationTimePar par    = new SSCategorysAddAtCreationTimePar(parA);
+      final SSCategoriesAddAtCreationTimePar par    = new SSCategoriesAddAtCreationTimePar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -375,7 +374,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return categorysAddAtCreationTime(parA);
+        return categoriesAddAtCreationTime(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -389,11 +388,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean categorysRemove(final SSServPar parA) throws Exception{
+  public Boolean categoriesRemove(final SSServPar parA) throws Exception{
   
     try{
       
-      final SSCategorysRemovePar par = new SSCategorysRemovePar (parA);
+      final SSCategoriesRemovePar par = new SSCategoriesRemovePar (parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -409,7 +408,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return categorysRemove(parA);
+        return categoriesRemove(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -423,11 +422,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean categorysUserRemove(final SSServPar parA) throws Exception {
+  public Boolean categoriesUserRemove(final SSServPar parA) throws Exception {
     
     try{
       
-      final SSCategorysUserRemovePar par = new SSCategorysUserRemovePar (parA);
+      final SSCategoriesUserRemovePar par = new SSCategoriesUserRemovePar (parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -488,7 +487,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return categorysUserRemove(parA);
+        return categoriesUserRemove(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -556,9 +555,9 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public List<SSCategory> categorysUserGet(final SSServPar parA) throws Exception {
+  public List<SSCategory> categoriesUserGet(final SSServPar parA) throws Exception {
     
-    final SSCategorysUserGetPar par  = new SSCategorysUserGetPar (parA);
+    final SSCategoriesUserGetPar par  = new SSCategoriesUserGetPar (parA);
     
     try{
       
@@ -568,12 +567,12 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(par.space == null){
         
-        final List<SSCategory>      categorys = new ArrayList<SSCategory>();
+        final List<SSCategory>      categories = new ArrayList<SSCategory>();
         
-        categorys.addAll (sqlFct.getCategoryAsss(par.user, par.resource, par.categoryLabel, SSSpaceE.privateSpace));
-        categorys.addAll (sqlFct.getCategoryAsss(null,     par.resource, par.categoryLabel, SSSpaceE.sharedSpace));
+        categories.addAll (sqlFct.getCategoryAsss(par.user, par.resource, par.categoryLabel, SSSpaceE.privateSpace));
+        categories.addAll (sqlFct.getCategoryAsss(null,     par.resource, par.categoryLabel, SSSpaceE.sharedSpace));
         
-        return categorys;
+        return categories;
       }
       
       if(SSSpaceE.isPrivate(par.space)){
@@ -595,18 +594,18 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   public List<SSCategoryFrequ> categoryUserFrequsGet(final SSServPar parA) throws Exception {
     
     final SSCategoryUserFrequsGetPar  par = new SSCategoryUserFrequsGetPar (parA);
-    final List<SSCategory>            categorys;
+    final List<SSCategory>            categories;
     
     try{
       
-      categorys = 
-        SSServCaller.categorysUserGet(
+      categories = 
+        SSServCaller.categoriesUserGet(
           par.user,
           par.resource, 
           SSCategoryLabel.toStr(par.categoryLabel), 
           par.space);
       
-      return SSCategoryMiscFct.getCategoryFrequsFromCategorys (categorys, par.space);
+      return SSCategoryMiscFct.getCategoryFrequsFromCategorys (categories, par.space);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

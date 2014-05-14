@@ -226,7 +226,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           video.creationTime, 
           true);
         
-        SSServCaller.categorysAddAtCreationTime(
+        SSServCaller.categoriesAddAtCreationTime(
           authorUri, 
           video.uri,
           video.annotations,
