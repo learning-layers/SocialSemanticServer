@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.recomm.impl;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;

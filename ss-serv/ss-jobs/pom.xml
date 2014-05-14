@@ -22,7 +22,7 @@
     <module>ss-scaff</module>
     <module>ss-solr</module>
     <module>ss-lomextractor</module>
-    <module>ss-recomm</module>
+    <module>recomm</module>
     <module>ss-dataexport</module>
     <module>ss-file-sys-local</module>
     <module>ss-evernote</module>

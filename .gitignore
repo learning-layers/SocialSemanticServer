@@ -220,3 +220,8 @@
 /ss/runit.bat
 /ss/runit.sh
 /ss/ss.jar
+/ss-serv/ss-jobs/recomm/api/target
+/ss-serv/ss-jobs/recomm/conf/target
+/ss-serv/ss-jobs/recomm/datatypes/target
+/ss-serv/ss-jobs/recomm/impl/target
+/ss-serv/ss-jobs/recomm/serv/target

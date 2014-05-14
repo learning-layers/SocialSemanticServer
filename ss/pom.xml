@@ -230,8 +230,8 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
-      <artifactId>ss-recomm-serv</artifactId>
+      <groupId>sss.recomm</groupId>
+      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -254,8 +254,8 @@
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
-      <artifactId>ss-recomm-datatypes</artifactId>
+      <groupId>sss.recomm</groupId>
+      <artifactId>datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

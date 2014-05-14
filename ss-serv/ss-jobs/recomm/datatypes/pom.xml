@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
-    <artifactId>ss-recomm</artifactId>
+    <groupId>sss.recomm</groupId>
+    <artifactId>recomm</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>at.kc.tugraz.ss.serv.job.recomm</groupId>
-  <artifactId>ss-recomm-datatypes</artifactId>
+  <groupId>sss.recomm</groupId>
+  <artifactId>datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>ss-recomm-datatypes</name>
+  <name>recomm-datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +23,6 @@
       <version>${project.version}</version>
     </dependency>
     
-
     <dependency>
       <groupId>at.kc.tugraz.ss.serv.serv.datatypes</groupId>
       <artifactId>ss-serv-datatypes</artifactId>
