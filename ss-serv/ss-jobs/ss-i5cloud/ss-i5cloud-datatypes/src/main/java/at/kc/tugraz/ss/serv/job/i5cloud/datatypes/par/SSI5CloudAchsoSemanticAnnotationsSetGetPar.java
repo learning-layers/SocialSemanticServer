@@ -18,15 +18,26 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.i5cloud.api;
+package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.Map;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public interface SSI5CloudServerI{
-  public Map<String, String> i5CloudAuth                            (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileUpload                      (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileDownload                    (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoVideoInformationGet        (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoSemanticAnnotationsSetGet  (final SSServPar parA) throws Exception;
+public class SSI5CloudAchsoSemanticAnnotationsSetGetPar extends SSServPar{
+  
+  public String[] ids = new String[0];
+  
+  public SSI5CloudAchsoSemanticAnnotationsSetGetPar(final SSServPar par) throws Exception{
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        ids        = (String[]) pars.get(SSVarU.ids);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

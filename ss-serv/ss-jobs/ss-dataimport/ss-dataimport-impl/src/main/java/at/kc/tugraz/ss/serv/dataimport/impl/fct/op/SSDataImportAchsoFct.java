@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.enums.SSI5CloudAchsoVideoMetaDataE;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -117,7 +118,7 @@ public class SSDataImportAchsoFct{
     return SSStrU.distinctWithoutEmptyAndNull(keywords);
   }
   
-   private static List<String> getAnnotations(Iterator annotationsIterator){
+  private static List<String> getAnnotations(final Iterator annotationsIterator) throws Exception{
     
     final List<String> annotations = new ArrayList<String>();
     Iterator           annotContentIterator;
@@ -133,25 +134,24 @@ public class SSDataImportAchsoFct{
         
         try{
           switch(SSI5CloudAchsoVideoMetaDataE.get(annotation.getName())){
-            case semanticRefId: 
-              
-              //TODO dtheiler: replace annotation extraction below with las service call getVideoInformationConditional
-              annotations.add(
-               annotation.getText().substring(
-                 0, 
-                 annotation.getText().indexOf(SSStrU.underline))); 
-              
-              break;
-          }
+            case semanticRefId: annotations.add(annotation.getText()); break;
+          }              
         }catch(Exception error){}
       }
     }
     
-    return SSStrU.distinctWithoutEmptyAndNull(annotations);
+    return new ArrayList<String>();
+      
+      //TODO: dtheiler include annotations again
+//      SSStrU.distinctWithoutEmptyAndNull(
+//      SSStrU.toList(
+//        SSServCaller.i5CloudAchsoSemanticAnnotationsSetGet(
+//        SSStrU.toStringArray(
+//          SSStrU.distinctWithoutEmptyAndNull(annotations)))));
   }
-
-   private static Long getCreationTime(
-     final String dateAsString) throws Exception{
-     return new SimpleDateFormat(SSI5CloudU.achsoDateFormat, Locale.US).parse(dateAsString).getTime();
-   }
+  
+  private static Long getCreationTime(
+    final String dateAsString) throws Exception{
+    return new SimpleDateFormat(SSI5CloudU.achsoDateFormat, Locale.US).parse(dateAsString).getTime();
+  }
 }

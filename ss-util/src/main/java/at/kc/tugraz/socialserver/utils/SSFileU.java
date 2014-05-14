@@ -128,12 +128,7 @@ public class SSFileU{
 	public static FileInputStream openFileForRead(
     final String filePath) throws Exception{
 
-		try{
-			return new FileInputStream(new File(filePath));
-		}catch (Exception error) {
-			SSLogU.errThrow(error);
-      return null;
-		}
+    return new FileInputStream(new File(filePath));
 	}
 	
 	public static FileOutputStream openOrCreateFileWithPathForWrite(

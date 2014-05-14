@@ -61,6 +61,8 @@ import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
 
 public class SSSInitializer extends SSServImplStartA{
   
+  protected static Boolean finished = false;
+    
   public SSSInitializer() throws Exception{
     super(null);
   }
@@ -128,6 +130,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSFilerepoServ.inst.schedule  ();
       SSRecommServ.inst.schedule    ();
       
+      finished = true;
     }catch(Exception error1){
       SSServErrReg.regErr(error1);
     }finally{
@@ -137,6 +140,10 @@ public class SSSInitializer extends SSServImplStartA{
         SSLogU.err(error2);
       }
     }
+  }
+
+  public static Boolean isFinished(){
+    return finished;
   }
   
   @Override

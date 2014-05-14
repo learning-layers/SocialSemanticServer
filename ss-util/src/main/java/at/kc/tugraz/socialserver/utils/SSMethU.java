@@ -275,6 +275,7 @@ public enum SSMethU{
   i5CloudAchsoVideoInformationGet,
   i5CloudFileUpload,
   i5CloudFileDownload,
+  i5CloudAchsoSemanticAnnotationsSetGet,
   
   //activity
   activityAdd;

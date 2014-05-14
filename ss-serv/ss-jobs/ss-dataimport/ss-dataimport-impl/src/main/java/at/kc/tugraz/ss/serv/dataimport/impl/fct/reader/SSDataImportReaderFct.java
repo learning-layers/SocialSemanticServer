@@ -26,6 +26,7 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.List;
 public class SSDataImportReaderFct {
 
   public static List<String[]> readAllFromCSV(
-    final String path, 
+    final String path,
     final String fileName) throws Exception{
     
     FileInputStream                    in          = null;
@@ -41,7 +42,15 @@ public class SSDataImportReaderFct {
     CSVReader                          csvReader   = null;
     
     try{
-      in        = SSFileU.openFileForRead (SSFileU.correctDirPath(path) + fileName);
+      
+      final String filePath = SSFileU.correctDirPath(path) + fileName;
+      
+      try{
+        in = SSFileU.openFileForRead (filePath);
+      }catch(FileNotFoundException error){
+        throw new Exception("csv file to read users from not found at: " + filePath);
+      }
+      
       reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8));
       csvReader = new CSVReader           (reader, SSStrU.semiColon.charAt(0));
       

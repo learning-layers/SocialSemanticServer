@@ -483,6 +483,10 @@ public class SSStrU{
     return (String[]) toConvert.toArray(new String[toConvert.size()]);
   }
   
+  public static List<String> toList(final String[] strings){
+    return new ArrayList<String>(Arrays.asList(strings));
+  }
+  
   public static boolean startsWith(final String string, final String prefix){
     
     if(

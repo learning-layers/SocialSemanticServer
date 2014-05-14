@@ -48,6 +48,10 @@ public class SSMain{
     initializer.start();
     initializer.join();
     
+    if(!SSSInitializer.isFinished()){
+      return;
+    }
+    
     new Thread(new SSTester()).start();
     
     /* socket adapter */

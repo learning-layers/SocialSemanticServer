@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String ids                                            = "ids";
   public static final String serv                                           = "serv";
   public static final String useDifferentServiceNode                        = "useDifferentServiceNode";
   public static final String sssNodeHost                                    = "sssNodeHost";

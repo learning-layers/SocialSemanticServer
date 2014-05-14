@@ -27,6 +27,8 @@ public class SSI5CloudConf extends SSServConfA{
   public String uri       = null;
   public String userLabel = null;
   public String pass      = null;
+  public String lasUser   = null;
+  public String lasPass   = null;
   
   public static SSI5CloudConf copy(final SSI5CloudConf orig){
     
@@ -35,6 +37,8 @@ public class SSI5CloudConf extends SSServConfA{
     copy.uri               = orig.uri;
     copy.userLabel         = orig.userLabel;
     copy.pass              = orig.pass;
+    copy.lasUser           = orig.lasUser;
+    copy.lasPass           = orig.lasPass;
     
     return copy;
   }
