@@ -48,7 +48,7 @@ import the SSS project as Maven project into e.g. Netbeans or Eclipse
 
 ####SSS client-side libraries
 * download the [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libraries from github
-* link Javascript projects JSUtilities, SSClientInterfaceGlobals and SSSClientInterfaceREST in your application to have access to SSS server-side operations via its REST interface
+* link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
 
 ####SSS plain REST API access
 * To access the REST API via POST requests to `http://your-sss-host:your-port/ss-adapter-rest/rest/SSAdapterRest/yourOp/` where your "your-sss-host" represents the host running the REST API and "yourOp" represents one operation out of the ones provided by SSS (see client-side project). The API generally expects JSON strings as input (mime type "application/json").
