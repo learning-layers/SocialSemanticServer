@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import i5.las.httpConnector.client.TimeoutException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,6 +47,8 @@ import java.util.*;
 
 public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, SSI5CloudServerI{
 
+  private SSI5CloudLASConnector lasCon = null;
+  
   public SSI5CloudImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
@@ -144,10 +147,11 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   @Override
   public String i5CloudAchsoVideoInformationGet(final SSServPar parA) throws Exception{
     
-    SSI5CloudLASConnector lasCon = null;
-    
     try{
-      lasCon = getLASCon();
+      if(
+        lasCon == null){
+        lasCon = getLASCon();
+      }
       
       return (String) lasCon.invocationHelper(
         "videoinformation", 				        
@@ -160,41 +164,48 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }finally{
-      
-      if(lasCon != null){
-        lasCon.disconnect();
-      }
     }
   }
   
   @Override
   public List<String> i5CloudAchsoSemanticAnnotationsSetGet(final SSServPar parA) throws Exception{
     
-    SSI5CloudLASConnector lasCon = null;
-    
     try{
-      final SSI5CloudAchsoSemanticAnnotationsSetGetPar par = new SSI5CloudAchsoSemanticAnnotationsSetGetPar(parA);
+      final SSI5CloudAchsoSemanticAnnotationsSetGetPar par                     = new SSI5CloudAchsoSemanticAnnotationsSetGetPar(parA);
+      final List<String>                               finalAnnotations        = new ArrayList<String>();
       
-      lasCon = getLASCon();
+      if(
+        lasCon == null){
+        lasCon = getLASCon();
+      }
       
-      final Object[] hugo = new Object[]{"SemanticPlaceType_petru20131210234004714"};
+      String[] annotations = null;
+        
+      try{
+        annotations =
+          (String[]) lasCon.invoke(
+            "videoinformation",
+            "getSemanticAnnotationsSet",
+            new Object[]{par.ids});
+      }catch(TimeoutException error){
+        
+        if(lasCon != null){
+          lasCon.disconnect();
+          lasCon = null;
+        }
+        
+        return i5CloudAchsoSemanticAnnotationsSetGet(parA);
+      }
       
-      lasCon.invocationHelper(
-        "videoinformation", 				        
-        "getSemanticAnnotationsSet", 
-        hugo);
+      for(String annotation : SSStrU.toList(annotations)){
+        finalAnnotations.addAll(SSStrU.split(annotation, SSStrU.comma));
+      }
       
-      return new ArrayList<String>();
+      return SSStrU.distinctWithoutEmptyAndNull(finalAnnotations);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }finally{
-      
-      if(lasCon != null){
-        lasCon.disconnect();
-      }
     }
   }
   

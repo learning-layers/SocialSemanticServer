@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.category.datatypes.err.SSCategoryLabelErr;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -51,6 +53,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -225,10 +228,21 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           video.creationTime, 
           true);
         
+        final List<String> categoryLabels = new ArrayList<String>();
+        
+        for(String annotation : video.annotations){
+          
+          try{
+            SSCategoryLabel.checkCategoryLabel(annotation);
+            
+            categoryLabels.add(annotation);
+          }catch(SSCategoryLabelErr error){}
+        }
+        
         SSServCaller.categoriesAddAtCreationTime(
           authorUri, 
           video.uri,
-          video.annotations,
+          categoryLabels,
           SSSpaceE.sharedSpace, 
           video.creationTime, 
           true);

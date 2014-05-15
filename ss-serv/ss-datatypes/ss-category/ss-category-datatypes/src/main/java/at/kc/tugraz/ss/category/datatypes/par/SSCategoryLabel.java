@@ -21,7 +21,9 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.*;
+import at.kc.tugraz.ss.category.datatypes.err.SSCategoryLabelErr;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -52,17 +54,23 @@ public class SSCategoryLabel extends SSEntityA{
   
   public static void checkCategoryLabel(
     final String categoryLabel) throws Exception {
-
-    if(SSStrU.isEmpty(categoryLabel)){
-      throw new Exception("Invalid category (null or empty): " + categoryLabel);
-    }
     
-    final String tmpCategoryLabel = categoryLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-    
-    if(
-      SSStrU.isEmpty(tmpCategoryLabel) ||
-      !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpCategoryLabel)){
-      throw new Exception("Invalid category: " + tmpCategoryLabel);
+    try{
+      if(SSStrU.isEmpty(categoryLabel)){
+        throw new SSCategoryLabelErr(categoryLabel);
+      }
+      
+      final String tmpCategoryLabel = categoryLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+      
+      if(
+        SSStrU.isEmpty(tmpCategoryLabel) ||
+        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpCategoryLabel)){
+        throw new SSCategoryLabelErr(tmpCategoryLabel);
+      }
+    }catch(SSCategoryLabelErr error){
+      throw error;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

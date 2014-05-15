@@ -51,7 +51,7 @@ public class SSI5CloudLASConnector {
    * @param params  the parameter list.
    * @return the object returned by the service method.
    */
-  public Object invoke(String service, String method, Object... params) {
+  public Object invoke(String service, String method, Object... params) throws TimeoutException {
     
     if (client == null) {
       System.out.println("LasConnection Missing client.");
@@ -78,6 +78,7 @@ public class SSI5CloudLASConnector {
       e.printStackTrace();
     } catch (TimeoutException e) {
       e.printStackTrace();
+      throw e;
     } catch (NotFoundException e) {
       e.printStackTrace();
     } catch (ConnectorClientException e) {
