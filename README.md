@@ -51,16 +51,16 @@ import the SSS project as Maven project into e.g. Netbeans or Eclipse
 * To access the REST API via POST requests to _http://your-sss-host:your-port/ss-adapter-rest/rest/SSAdapterRest/yourOp/_ where your "your-sss-host" represents the host running the REST API and "yourOp" represents one operation out of the ones provided by SSS (see client-side project). The API generally expects JSON strings as input (mime type "application/json").
 * Return values are JSON strings (except for, e.g. file downloading), e.g. _{"op":"collWithEntries", "error":false, "errorMsg":null, "opValue":{"author":"http://dt.ll/user/hugo/",...}}"_. 
 * Additionally, all properties/variables returned by any API call will contain a JSON-LD description.
-* Following key-value pairs are returned (execpt for non-JSON returns) normally:
- * op: the operation returning the result
- * "opValue": opValue will always be replaced by the op value provided for the op parameter and contains the actual result for the API request - the value of the operation's return
- * error: whether an error occured server-side
- * errorMsg: if error, "errorMsg" gets set to respective exception messages thrown
- * errorClassNames: if error, class names of errors
- * errorClassesWhereThrown: if error, class names where the errors got thrown
- * errorMethodsWhereThrown: if error, method names where the errors got thrown
- * errorLinesWhereThrown: if error, line numbers where the errors got thrown
- * errorThreadsWhereThrown: if error, id's of threads where the errors got thrown
+* Following key-value pairs are returned (except for non-JSON returns) normally:
+ * _op_ the operation returning the result
+ * _"opValue"_ opValue will always be replaced by the op value provided for the op parameter and contains the actual result for the API request - the value of the operation's return
+ * _error_ whether an error occured server-side
+ * _errorMsg_ if error, "errorMsg" gets set to respective exception messages thrown
+ * _errorClassNames_ if error, class names of errors
+ * _errorClassesWhereThrown_ if error, class names where the errors got thrown
+ * _errorMethodsWhereThrown_ if error, method names where the errors got thrown
+ * _errorLinesWhereThrown_ if error, line numbers where the errors got thrown
+ * _errorThreadsWhereThrown_ if error, id's of threads where the errors got thrown
 
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
