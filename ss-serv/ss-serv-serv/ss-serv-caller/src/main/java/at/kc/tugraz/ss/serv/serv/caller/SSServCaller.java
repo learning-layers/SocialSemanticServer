@@ -2222,14 +2222,14 @@ public class SSServCaller {
   
   /* i5Cloud */
   
-  public static String[] i5CloudAchsoSemanticAnnotationsSetGet(
+  public static List<String> i5CloudAchsoSemanticAnnotationsSetGet(
     final String[] ids) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.ids,   ids);
     
-    return (String[]) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAchsoSemanticAnnotationsSetGet, opPars));
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.i5CloudAchsoSemanticAnnotationsSetGet, opPars));
   }
     
   public static String i5CloudAchsoVideoInformationGet() throws Exception{

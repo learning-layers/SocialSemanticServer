@@ -140,14 +140,10 @@ public class SSDataImportAchsoFct{
       }
     }
     
-    return new ArrayList<String>();
-      
-      //TODO: dtheiler include annotations again
-//      SSStrU.distinctWithoutEmptyAndNull(
-//      SSStrU.toList(
-//        SSServCaller.i5CloudAchsoSemanticAnnotationsSetGet(
-//        SSStrU.toStringArray(
-//          SSStrU.distinctWithoutEmptyAndNull(annotations)))));
+    return SSStrU.distinctWithoutEmptyAndNull(
+      SSServCaller.i5CloudAchsoSemanticAnnotationsSetGet(
+        SSStrU.toStringArray(
+          SSStrU.distinctWithoutEmptyAndNull(annotations))));
   }
   
   private static Long getCreationTime(

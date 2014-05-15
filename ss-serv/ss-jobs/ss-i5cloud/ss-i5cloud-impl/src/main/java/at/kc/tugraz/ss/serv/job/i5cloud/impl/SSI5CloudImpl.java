@@ -38,7 +38,6 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -170,7 +169,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   }
   
   @Override
-  public String i5CloudAchsoSemanticAnnotationsSetGet(final SSServPar parA) throws Exception{
+  public List<String> i5CloudAchsoSemanticAnnotationsSetGet(final SSServPar parA) throws Exception{
     
     SSI5CloudLASConnector lasCon = null;
     
@@ -179,10 +178,14 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       
       lasCon = getLASCon();
       
-      return (String) lasCon.invocationHelper(
+      final Object[] hugo = new Object[]{"SemanticPlaceType_petru20131210234004714"};
+      
+      lasCon.invocationHelper(
         "videoinformation", 				        
         "getSemanticAnnotationsSet", 
-        (Object) par.ids);
+        hugo);
+      
+      return new ArrayList<String>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

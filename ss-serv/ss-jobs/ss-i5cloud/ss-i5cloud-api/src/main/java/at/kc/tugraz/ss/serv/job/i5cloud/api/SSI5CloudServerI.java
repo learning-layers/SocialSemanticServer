@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.job.i5cloud.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import java.util.List;
 import java.util.Map;
 
 public interface SSI5CloudServerI{
@@ -28,5 +29,5 @@ public interface SSI5CloudServerI{
   public Boolean             i5CloudFileUpload                      (final SSServPar parA) throws Exception;
   public Boolean             i5CloudFileDownload                    (final SSServPar parA) throws Exception;
   public String              i5CloudAchsoVideoInformationGet        (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoSemanticAnnotationsSetGet  (final SSServPar parA) throws Exception;
+  public List<String>        i5CloudAchsoSemanticAnnotationsSetGet  (final SSServPar parA) throws Exception;
 }

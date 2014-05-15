@@ -26,7 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
