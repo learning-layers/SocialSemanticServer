@@ -51,7 +51,7 @@ import the SSS project as Maven project into e.g. Netbeans or Eclipse
 * link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
 
 ####SSS plain REST API access
-* To access the REST API via POST requests to `http://your-sss-host:your-port/ss-adapter-rest/rest/SSAdapterRest/yourOp/` where your "your-sss-host" represents the host running the REST API and "yourOp" represents one operation out of the ones provided by SSS (see client-side project). The API generally expects JSON strings as input (mime type "application/json").
+* To access the REST API via POST requests call `http://your-sss-host:your-port/ss-adapter-rest/rest/SSAdapterRest/yourOp/` where your "your-sss-host" represents the host running the REST API and "yourOp" represents one operation out of the ones provided by SSS (see client-side project). The API generally expects JSON strings as input (mime type "application/json").
 * Return values are JSON strings (except for, e.g. file downloading), e.g. `{"op":"collWithEntries", "error":false, "errorMsg":null, "opValue":{"author":"http://dt.ll/user/hugo/",...}}")`. 
 * Additionally, all properties/variables returned by any API call will contain a JSON-LD description.
 * Following key-value pairs are returned (except for non-JSON returns) normally:
