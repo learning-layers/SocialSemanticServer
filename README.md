@@ -43,8 +43,8 @@ import the SSS project as Maven project into e.g. Netbeans or Eclipse
 * run `mvn clean install` on project `SSS/ss-root` in order to get `SSS/ss/target/ss-app/ss.jar` and `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war` and to install needed local jars provided in `SSS/ss-3rdpartylibs/libs/`
 * copy directory `SSS/ss/target/ss-app/` to where you plan to run the SSS
 * for configuration and logging please see chapter Logging and Configuration
-* run ss.jar with `runinit.bat` or `.sh`
-* deploy ss-adapter-rest.war after renaming `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war` to the webapps folder of Catalina Tomcat
+* run `ss.jar` with `runinit.bat` or `.sh`
+* deploy `ss-adapter-rest.war` after renaming `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war` to the webapps folder of Catalina Tomcat
 
 ####SSS client-side libraries
 * download the [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libraries from github
