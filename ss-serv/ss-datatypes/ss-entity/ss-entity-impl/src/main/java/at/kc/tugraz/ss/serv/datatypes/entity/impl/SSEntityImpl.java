@@ -102,12 +102,36 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   /* SSEntityClientI */
+  
   @Override
-  public void entityShare(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUserShare(par), par.op));
+    try{
+      
+      dbSQL.startTrans(true);
+      
+      parA.shouldCommit = false;
+      
+      final SSEntityUserSharePar par       = new SSEntityUserSharePar(parA);
+      final SSUri                entityUri = entityUserShare(par);
+      
+      SSEntityMiscFct.saveActivity(
+        parA,
+        SSActivityE.share,
+        par.userUris,
+        par.entityUri,
+        new ArrayList<SSUri>(),
+        par.comment);
+      
+      dbSQL.commit(true);
+      
+      sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUri, parA.op));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
@@ -893,8 +917,16 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   public SSUri entityUserShare(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
-      
+      return entityUserShare(new SSEntityUserSharePar(parA));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
+    
+    try{
       SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entityUri);
       SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.userUris);
       
@@ -919,35 +951,27 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           circleUri,
           false);
       }
-
+      
       SSEntityMiscFct.shareByEntityHandlers(
         par.user,
         par.userUris,
         par.entityUri,
         circleUri);
       
-      SSEntityMiscFct.saveActivity(
-        par,
-        SSActivityE.share,
-        par.userUris,
-        par.entityUri,
-        new ArrayList<SSUri>(),
-        par.comment);
-      
       dbSQL.commit(par.shouldCommit);
       
       return circleUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      if(dbSQL.rollBack(parA)){
-        return entityUserShare(parA);
+      if(dbSQL.rollBack(par)){
+        return entityUserShare(par);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
       }
       
     }catch(Exception error){
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(par);
       SSServErrReg.regErrThrow(error);
       return null;
     }
