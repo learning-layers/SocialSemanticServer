@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,15 +81,17 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
 
-  public void createDisc(
+  public void addDisc(
     final SSUri   discUri,
-    final SSUri   targetUri) throws Exception{
+    final SSUri   targetUri,
+    final SSDiscE discType) throws Exception{
     
     try{
-      final Map<String, String> inserts =  new HashMap<String,       String>();
+      final Map<String, String> inserts =  new HashMap<String,String>();
       
-      insert(inserts, SSSQLVarU.discId, discUri);
-      insert(inserts, SSSQLVarU.target, targetUri);
+      insert(inserts, SSSQLVarU.discId,   discUri);
+      insert(inserts, SSSQLVarU.target,   targetUri);
+      insert(inserts, SSSQLVarU.discType, discType);
       
       dbSQL.insert(discTable, inserts);
     }catch(Exception error){

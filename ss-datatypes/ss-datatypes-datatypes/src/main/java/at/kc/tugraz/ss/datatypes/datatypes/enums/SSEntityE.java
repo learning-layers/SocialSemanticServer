@@ -30,6 +30,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   entity,
   coll,
   disc,
+  qa,
+  chat,
   discEntry,
 	user,
 	file,

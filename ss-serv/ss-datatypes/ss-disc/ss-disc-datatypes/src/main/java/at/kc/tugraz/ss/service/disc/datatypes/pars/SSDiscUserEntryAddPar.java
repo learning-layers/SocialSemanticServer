@@ -25,13 +25,17 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
 
 public class SSDiscUserEntryAddPar extends SSServPar{
   
-  public SSUri               disc         = null;
-  public SSUri               target       = null;
-  public SSTextComment  content      = null;
+  public SSUri               discUri      = null;
+  public SSUri               targetUri    = null;
+  public SSTextComment       content      = null;
   public Boolean             addNewDisc   = null;
+  public SSDiscE             discType     = null;
+  public SSLabel             discLabel    = null;
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
       
@@ -40,20 +44,22 @@ public class SSDiscUserEntryAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        disc        = (SSUri)              pars.get(SSVarU.disc);
-        target      = (SSUri)              pars.get(SSVarU.target);
-        content     = (SSTextComment) pars.get(SSVarU.content);
+        discUri     = (SSUri)              pars.get(SSVarU.discUri);
+        targetUri   = (SSUri)              pars.get(SSVarU.targetUri);
+        content     = (SSTextComment)      pars.get(SSVarU.content);
         addNewDisc  = (Boolean)            pars.get(SSVarU.addNewDisc);
+        discType    = (SSDiscE)            pars.get(SSVarU.discType);
+        discLabel   = (SSLabel)            pars.get(SSVarU.discLabel);
       }
       
       if(clientPars != null){
         
         try{
-          target      = SSUri.get             (clientPars.get(SSVarU.target));
+          targetUri      = SSUri.get             (clientPars.get(SSVarU.targetUri));
         }catch(Exception error){}
         
         try{
-          disc        = SSUri.get             (clientPars.get(SSVarU.disc));
+          discUri        = SSUri.get             (clientPars.get(SSVarU.discUri));
         }catch(Exception error){}
         
         try{
@@ -62,6 +68,14 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         
         try{
           content     = SSTextComment.get(clientPars.get(SSVarU.content));
+        }catch(Exception error){}
+        
+        try{
+          discType     = SSDiscE.get(clientPars.get(SSVarU.discType));
+        }catch(Exception error){}
+        
+        try{
+          discLabel     = SSLabel.get(clientPars.get(SSVarU.discLabel));
         }catch(Exception error){}
       }
     }catch(Exception error){

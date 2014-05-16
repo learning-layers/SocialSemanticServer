@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
@@ -41,6 +42,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUrisUserForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
@@ -48,6 +50,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
 import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
+import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
 
@@ -249,66 +252,59 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   protected SSDiscUserEntryAddRet discUserEntryAdd(final SSDiscUserEntryAddPar par) throws Exception {
     
     try{
-      SSUri                       discEntryUri  = null;
-      SSLabel                     discLabel     = null;
-      SSUri                       discUri;
+      SSUri discEntryUri = null;
       
-      discUri = par.disc;
+      if(par.addNewDisc){
+        
+        if(SSObjU.isNull(par.discLabel, par.discType)){
+          throw new Exception("label or disc type null");
+        }
+        
+        if(
+          SSDiscE.equals (par.discType, SSDiscE.qa) &&
+          SSObjU.isNull  (par.content)){
+          
+          throw new Exception("question content null");
+        }
+      }
       
-      if(
-        !par.addNewDisc &&
-        par.content == null){
-        throw new Exception("pars not valid");
+      if(!par.addNewDisc){
+        
+        if(SSObjU.isNull(par.content)){
+          throw new Exception("content missing");
+        }
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
       if(par.addNewDisc){
         
-        discUri = sqlFct.createDiscUri();
-        
-        SSServCaller.entityAdd(
-          par.user,
-          par.target,
-          SSLabel.get(par.target.toString()),
-          SSEntityE.entity,
-          false);
-        
-        discLabel = SSServCaller.entityGet(par.target).label;
-        
-        SSServCaller.entityAdd(
-          par.user,
-          discUri,
-          discLabel,
-          SSEntityE.disc,
-          false);
-      }
-      
-      if (par.content != null) {
-        
-        discEntryUri = sqlFct.createDiscEntryUri();
-        
-        SSServCaller.entityAdd(
-          par.user,
-          discEntryUri,
-          SSLabel.get(discEntryUri.toString()),
-          SSEntityE.discEntry,
-          false);
-      }
-      
-      if(par.addNewDisc){
-        sqlFct.createDisc(discUri, par.target);
-      }
+        par.discUri =
+          SSDiscUserEntryAddFct.addDisc(
+            sqlFct,
+            par.user,
+            par.targetUri,
+            par.discType, 
+            par.discLabel);
+      }      
       
       if(par.content != null){
-        sqlFct.addDiscEntry(discEntryUri, discUri, par.content);
+        
+        discEntryUri = 
+          SSDiscUserEntryAddFct.addDiscEntry(
+            sqlFct,
+            par.user,
+            par.discUri,
+            par.content);
       }
-      
-//      SSServCaller.broadCastUpdate(par.user, disc, SSBroadcastEnum.suDiscssion, true);
       
       dbSQL.commit(par.shouldCommit);
       
-      return SSDiscUserEntryAddRet.get(discUri, discEntryUri, par.op);
+      return SSDiscUserEntryAddRet.get(
+        par.discUri, 
+        discEntryUri, 
+        par.op);
+      
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(par)){

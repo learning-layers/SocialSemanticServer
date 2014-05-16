@@ -50,6 +50,8 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
+import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -894,6 +896,28 @@ public class SSServCaller {
   
   /* disc */
 
+  public static SSDiscUserEntryAddRet discUserEntryAdd(
+    final SSUri               userUri,
+    final SSUri               discUri,
+    final SSUri               targetUri,
+    final SSTextComment       content,
+    final Boolean             addNewDisc,
+    final SSDiscE             discType,
+    final SSLabel             discLabel) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,         userUri);
+    opPars.put(SSVarU.discUri,      discUri);
+    opPars.put(SSVarU.targetUri,    targetUri);
+    opPars.put(SSVarU.content,      content);
+    opPars.put(SSVarU.addNewDisc,   addNewDisc);
+    opPars.put(SSVarU.discType,     discType);
+    opPars.put(SSVarU.discLabel,    discLabel);
+    
+    return (SSDiscUserEntryAddRet) SSServA.callServViaServer(new SSServPar(SSMethU.discUserEntryAdd, opPars));
+  }
+  
   public static List<SSDisc> discsUserAllGet(final SSUri userUri) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();

@@ -403,8 +403,12 @@ DROP TABLE IF EXISTS `disc`;
 CREATE TABLE `disc` (
   `discId` varchar(200) NOT NULL,
   `target` varchar(200) NOT NULL,
+  `discType` varchar(200) NOT NULL,
   PRIMARY KEY (`discId`,`target`),
-  KEY `discIdFKdisc_idx` (`discId`)
+  KEY `discIdFKdisc_idx` (`discId`),
+  KEY `targetFKdisc_idx` (`target`),
+  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `targetFKdisc` FOREIGN KEY (`target`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -924,6 +928,7 @@ CREATE TABLE `ues` (
 
 LOCK TABLES `ues` WRITE;
 /*!40000 ALTER TABLE `ues` DISABLE KEYS */;
+INSERT INTO `ues` VALUES ('http://eval.bp/userEvent/1882384941726153/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/1882385763142054/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/1886794568264558/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/1886796974899159/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/215869180110843/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/215869181429144/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/242343929911945/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/242345013847646/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/759176719904247/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/759176722810348/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/759368171375649/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','viewEntity','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/759368179165350/','http://eval.bp/231796091750393/','http://eval.bp/coll/187719340524356/','selectedFromOthers','http://eval.bp/coll/187719340524356'),('http://eval.bp/userEvent/760100081701852/','http://eval.bp/231796091750393/','http://eval.bp/coll/759682888561851/','selectedFromOthers','http://eval.bp/coll/759682888561851'),('http://eval.bp/userEvent/760100108666253/','http://eval.bp/231796091750393/','http://eval.bp/coll/759682888561851/','viewEntity','http://eval.bp/coll/759682888561851'),('http://eval.bp/userEvent/760971517258354/','http://eval.bp/231796091750393/','http://eval.bp/coll/759682888561851/','selectedFromOthers','http://eval.bp/coll/759682888561851'),('http://eval.bp/userEvent/760971528942955/','http://eval.bp/231796091750393/','http://eval.bp/coll/759682888561851/','viewEntity','http://eval.bp/coll/759682888561851');
 /*!40000 ALTER TABLE `ues` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -936,4 +941,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-13 13:52:32
+-- Dump completed on 2014-05-16 15:11:01
