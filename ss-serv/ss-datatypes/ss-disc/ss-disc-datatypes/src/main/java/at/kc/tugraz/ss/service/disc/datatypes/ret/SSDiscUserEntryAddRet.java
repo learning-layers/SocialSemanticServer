@@ -18,7 +18,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
@@ -34,13 +33,21 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   public SSUri disc      = null; 
   public SSUri discEntry = null;
   
-  public static SSDiscUserEntryAddRet get(final SSUri disc, final SSUri discEntry, final SSMethU op){
+  public static SSDiscUserEntryAddRet get(
+    final SSUri   disc, 
+    final SSUri   discEntry, 
+    final SSMethU op){
+    
     return new SSDiscUserEntryAddRet(disc, discEntry, op);
   }
   
-  private SSDiscUserEntryAddRet(final SSUri disc, final SSUri discEntry, final SSMethU op){
+  private SSDiscUserEntryAddRet(
+    final SSUri disc, 
+    final SSUri discEntry, 
+    final SSMethU op){
     
     super(op);
+    
     this.disc      = disc;
     this.discEntry = discEntry;
   }
@@ -48,13 +55,15 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<String, Object>();
     
     ld.put(SSVarU.disc,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.discEntry, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
+  
+  /* json getters */
   
   public String getDisc() throws Exception {
     return SSUri.toStrWithoutSlash(disc);

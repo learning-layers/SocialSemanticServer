@@ -409,34 +409,6 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void saveActivity(
-    final SSServPar     parA,
-    final SSActivityE   type, 
-    final List<SSUri>   userUris,
-    final SSUri         entityUri, 
-    final List<SSUri>   targetEntityUris, 
-    final SSTextComment comment) throws Exception{
-    
-    try{
-
-      if(!parA.saveActivity){
-        return;
-      }
-      
-      SSServCaller.activityAdd(
-        parA.user, 
-        type, 
-        userUris, 
-        entityUri, 
-        targetEntityUris, 
-        comment, 
-        false);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
   public static void removeUserEntityDirectlyAdjoinedEntitiesByEntityHandlers(
     final SSEntity                                      entity,
     final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par) throws Exception{

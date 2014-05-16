@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -81,6 +80,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import java.util.ArrayList;
@@ -117,13 +117,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserSharePar par       = new SSEntityUserSharePar(parA);
       final SSUri                entityUri = entityUserShare(par);
       
-      SSEntityMiscFct.saveActivity(
-        parA,
-        SSActivityE.share,
-        par.userUris,
-        par.entityUri,
-        new ArrayList<SSUri>(),
-        par.comment);
+      SSEntityActivityFct.entityShare(par);
       
       dbSQL.commit(true);
       

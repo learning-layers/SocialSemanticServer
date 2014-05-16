@@ -2273,6 +2273,42 @@ public class SSServCaller {
   public static SSUri activityAdd(
     final SSUri          userUri, 
     final SSActivityE    type, 
+    final SSUri          sourceEntityUri, 
+    final SSUri          targetEntityUri,
+    final SSTextComment  textComment, 
+    final Boolean        shouldCommit) throws Exception{
+   
+    final Map<String, Object>  opPars           = new HashMap<String, Object>();
+    final List<SSUri>          sourceEntityUris = new ArrayList<SSUri>();
+    final List<SSUri>          targetEntityUris = new ArrayList<SSUri>();
+    final List<SSTextComment>  textComments     = new ArrayList<SSTextComment>();
+    
+    if(sourceEntityUri != null){
+      sourceEntityUris.add(sourceEntityUri);
+    }
+    
+    if(textComment != null){
+      textComments.add(textComment);
+    }
+    
+    if(targetEntityUri != null){
+      targetEntityUris.add(targetEntityUri);
+    }
+    
+    opPars.put(SSVarU.user,             userUri);
+    opPars.put(SSVarU.type,             type);
+    opPars.put(SSVarU.userUris,         new ArrayList<SSUri>());
+    opPars.put(SSVarU.sourceEntityUris, sourceEntityUris);
+    opPars.put(SSVarU.targetEntityUris, targetEntityUris);
+    opPars.put(SSVarU.textComments,     textComments);
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityAdd, opPars));
+  }
+  
+  public static SSUri activityAdd(
+    final SSUri          userUri, 
+    final SSActivityE    type, 
     final List<SSUri>    userUris, 
     final SSUri          sourceEntityUri, 
     final List<SSUri>    targetEntityUris,

@@ -18,61 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.impl.fct.ue;
+
+package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
+import java.util.ArrayList;
 
-public class SSDiscUEFct {
-
-  public static void discCreate(final SSDiscUserEntryAddPar par, final SSUri discUri){
-    
-    if(!par.saveUE){
-      return;
-    }
+public class SSEntityActivityFct{
+  
+  public static void entityShare(
+    final SSEntityUserSharePar par) throws Exception{
     
     try{
-      
-      SSServCaller.ueAdd(
+      SSServCaller.activityAdd(
         par.user,
-        par.target,
-        SSUEE.discussEntity,
-        SSUri.toStr(discUri),
+        SSActivityE.share,
+        par.userUris,
+        par.entityUri,
+        new ArrayList<SSUri>(),
+        par.comment,
         false);
       
-      SSServCaller.ueAdd(
-        par.user,
-        discUri,
-        SSUEE.newDiscussionByDiscussEntity,
-        SSUri.toStr(par.target),
-        false);
-      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
     }catch(Exception error){
-      SSLogU.warn("storing ue failed");
-    }
-  }
-
-  public static void discEntryAdd(final SSDiscUserEntryAddPar par, final SSUri discEntryUri){
-
-     if(!par.saveUE){
-      return;
-    }
-    
-    try{
-      
-      SSServCaller.ueAdd(
-        par.user,
-        par.disc,
-        SSUEE.addDiscussionComment,
-        SSStrU.empty,
-        false);
-      
-    }catch(Exception error){
-      SSLogU.warn("storing ue failed");
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -47,8 +47,8 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
+import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
-import at.kc.tugraz.ss.service.disc.impl.fct.ue.SSDiscUEFct;
 import java.util.*;
 
 public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI {
@@ -159,10 +159,26 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   
   @Override
   public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-
+    
     SSServCaller.checkKey(parA);
-
-    sSCon.writeRetFullToClient(discUserEntryAdd(parA));
+    
+    try{
+      dbSQL.startTrans(true);
+      
+      parA.shouldCommit = false;
+      
+      final SSDiscUserEntryAddPar par = new SSDiscUserEntryAddPar(parA);
+      final SSDiscUserEntryAddRet ret = discUserEntryAdd(par);
+      
+      SSDiscActivityFct.discEntryAdd(par, ret);
+      
+      dbSQL.commit(true);
+      
+      sSCon.writeRetFullToClient(ret);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override
@@ -230,11 +246,9 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     }
   }
 
-  @Override
-  public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception {
+  protected SSDiscUserEntryAddRet discUserEntryAdd(final SSDiscUserEntryAddPar par) throws Exception {
     
     try{
-      final SSDiscUserEntryAddPar par           = new SSDiscUserEntryAddPar(parA);
       SSUri                       discEntryUri  = null;
       SSLabel                     discLabel     = null;
       SSUri                       discUri;
@@ -269,11 +283,11 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           SSEntityE.disc,
           false);
       }
-
+      
       if (par.content != null) {
-
+        
         discEntryUri = sqlFct.createDiscEntryUri();
-
+        
         SSServCaller.entityAdd(
           par.user,
           discEntryUri,
@@ -281,36 +295,42 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           SSEntityE.discEntry,
           false);
       }
-
+      
       if(par.addNewDisc){
         sqlFct.createDisc(discUri, par.target);
       }
-
+      
       if(par.content != null){
         sqlFct.addDiscEntry(discEntryUri, discUri, par.content);
       }
-
-//      SSServCaller.broadCastUpdate(par.user, disc, SSBroadcastEnum.suDiscssion, true);    
-      if(par.addNewDisc){
-        SSDiscUEFct.discCreate    (par, discUri);
-      } else {
-        SSDiscUEFct.discEntryAdd  (par, discEntryUri);
-      }
+      
+//      SSServCaller.broadCastUpdate(par.user, disc, SSBroadcastEnum.suDiscssion, true);
       
       dbSQL.commit(par.shouldCommit);
       
       return SSDiscUserEntryAddRet.get(discUri, discEntryUri, par.op);
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      if(dbSQL.rollBack(parA)){
-        return discUserEntryAdd(parA);
+      if(dbSQL.rollBack(par)){
+        return discUserEntryAdd(par);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
       }
       
     }catch(Exception error){
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(par);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      return discUserEntryAdd(new SSDiscUserEntryAddPar(parA));
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
