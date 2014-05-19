@@ -36,15 +36,17 @@ public class SSEntityUserEntityUsersGetRet extends SSServRetI{
   public List<SSEntity> users = new ArrayList<SSEntity>();
 
   public static SSEntityUserEntityUsersGetRet get(
-    final List<SSEntity> users){
+    final List<SSEntity> users,
+    final SSMethU        op){
     
-    return new SSEntityUserEntityUsersGetRet(users);
+    return new SSEntityUserEntityUsersGetRet(users, op);
   }
   
   private SSEntityUserEntityUsersGetRet(
-    final List<SSEntity> users) {
+    final List<SSEntity> users,
+    final SSMethU        op) {
 
-    super(SSMethU.entityUserEntityUsersGet);
+    super(op);
     
     if(users != null){
       this.users.addAll(users);

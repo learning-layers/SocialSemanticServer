@@ -205,7 +205,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA)));
+    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
   }
   
   /* SSEntityServerI */
@@ -936,16 +936,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           SSUserGlobals.systemUser,
           false);
       
-      for(SSUri userUriToShareWith : par.userUris){
-        
-        SSServCaller.collUserShareWithUser(
-          par.user,
-          userUriToShareWith,
-          par.entityUri,
-          circleUri,
-          false);
-      }
-      
       SSEntityMiscFct.shareByEntityHandlers(
         par.user,
         par.userUris,
@@ -984,6 +974,19 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         switch(sqlFct.getCircleType(circleUri)){
           
+          case priv:{
+            
+            if(!SSUri.contains(userCircleUris, circleUri)){
+              continue;
+            }
+            
+            if(!SSUri.contains(userUris, par.user)){
+              userUris.add(par.user);
+            }
+            
+            break;
+          }
+          
           case pub:{
             
             for(SSUri userUri : sqlFct.getCircleUserURIs(circleUri)){
@@ -992,6 +995,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
                 userUris.add(userUri);
               }
             }
+            
+            break;
           }
           
           case group:{
@@ -1006,6 +1011,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
                 userUris.add(userUri);
               }
             }
+            
+            break;
           }
         }
       }

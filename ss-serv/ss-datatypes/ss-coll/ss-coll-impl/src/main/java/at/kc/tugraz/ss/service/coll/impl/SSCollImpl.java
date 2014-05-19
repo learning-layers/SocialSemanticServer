@@ -143,9 +143,25 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri          entityUri, 
     final SSUri          circleUri,
     final SSEntityE      entityType) throws Exception{
-
+    
     try{
-      return false;
+      if(
+        !SSEntityE.equals(entityType, SSEntityE.coll) &&
+        !SSEntityE.equals(entityType, SSEntityE.entity)){
+        return false;
+      }
+      
+      for(SSUri userUriToShareWith : userUrisToShareWith){
+        
+        SSServCaller.collUserShareWithUser(
+          userUri,
+          userUriToShareWith,
+          entityUri,
+          circleUri,
+          false);
+      }
+      
+      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -649,7 +665,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
       }else{
         
-        final SSUri sharedWithMeFilesCollUri  = sqlFct.getCollSpecialURI (par.userUriToShareWith);
+        final SSUri sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (par.userUriToShareWith);
        
         if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, par.entityUri)){
           throw new Exception("entity is already shared with user");

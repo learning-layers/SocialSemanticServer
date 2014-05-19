@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
@@ -42,7 +41,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUrisUserForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
@@ -255,37 +253,26 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       SSUri discEntryUri = null;
       
       if(par.addNewDisc){
-        
-        if(SSObjU.isNull(par.discLabel, par.discType)){
-          throw new Exception("label or disc type null");
-        }
-        
-        if(
-          SSDiscE.equals (par.discType, SSDiscE.qa) &&
-          SSObjU.isNull  (par.content)){
-          
-          throw new Exception("question content null");
-        }
+        SSDiscUserEntryAddFct.checkWhetherUserCanAddDisc(par);
       }
       
       if(!par.addNewDisc){
-        
-        if(SSObjU.isNull(par.content)){
-          throw new Exception("content missing");
-        }
+        SSDiscUserEntryAddFct.checkWhetherUserCanAddDiscEntry(par);
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
       if(par.addNewDisc){
         
-        par.discUri =
-          SSDiscUserEntryAddFct.addDisc(
-            sqlFct,
-            par.user,
-            par.targetUri,
-            par.discType, 
-            par.discLabel);
+        par.discUri = SSServCaller.vocURICreate();
+        
+        SSDiscUserEntryAddFct.addDisc(
+          sqlFct,
+          par.discUri,
+          par.user,
+          par.targetUri,
+          par.discType,
+          par.discLabel);
       }      
       
       if(par.content != null){
@@ -367,8 +354,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   public List<SSDisc> discsUserWithEntriesGet(final SSServPar parA) throws Exception{
 
     try{
-      final SSDiscsWithEntriesGetPar par = new SSDiscsWithEntriesGetPar(parA);
-      final List<SSDisc> discsWithEntries = new ArrayList<SSDisc>();
+      final SSDiscsWithEntriesGetPar par              = new SSDiscsWithEntriesGetPar(parA);
+      final List<SSDisc>             discsWithEntries = new ArrayList<SSDisc>();
       
       for(SSDisc disc : SSServCaller.discsUserAllGet(par.user)){
 

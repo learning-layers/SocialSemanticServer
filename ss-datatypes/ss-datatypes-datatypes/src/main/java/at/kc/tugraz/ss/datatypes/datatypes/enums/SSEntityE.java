@@ -33,6 +33,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   qa,
   chat,
   discEntry,
+  qaEntry,
+  chatEntry,
 	user,
 	file,
   rating,
@@ -68,6 +70,10 @@ public enum SSEntityE implements SSJSONLDPropI{
   userDesc, 
   locationDesc;
 
+  public static SSEntityE get(final String value) {
+    return SSEntityE.valueOf(value);
+  }
+    
   public static Boolean contains(
     final List<SSEntityE> types, 
     final SSEntityE       certainType){

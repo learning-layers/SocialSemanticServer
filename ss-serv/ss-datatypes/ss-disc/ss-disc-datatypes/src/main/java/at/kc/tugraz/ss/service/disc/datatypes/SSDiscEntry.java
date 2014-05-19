@@ -25,60 +25,71 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSDiscEntry extends SSEntityA {
+public class SSDiscEntry extends SSEntityA{
   
   public  SSUri               uri;
   public  Integer             pos;
-  public  SSTextComment  content;
+  public  SSTextComment       content;
   public  SSUri               author;
   public  Long                timestamp; 
+  public  SSEntityE           discEntryType;
 
   public static SSDiscEntry get(
-    SSUri                 uri,
-    int                   pos,
-    SSTextComment         content,
-    SSUri                 author,
-    Long                  timestamp) throws Exception{
+    final SSUri                 uri,
+    final SSEntityE             discEntryType,
+    final int                   pos,
+    final SSTextComment         content,
+    final SSUri                 author,
+    final Long                  timestamp) throws Exception{
     
-    return new SSDiscEntry(uri, pos, content, author, timestamp);
+    return new SSDiscEntry(uri, discEntryType, pos, content, author, timestamp);
   }
   
   private SSDiscEntry(
-    SSUri               uri,
-    int                 pos,
-    SSTextComment  content,
-    SSUri               author,
-    Long                timestamp) throws Exception{
+    final SSUri                 uri,
+    final SSEntityE             discEntryType,
+    final int                   pos,
+    final SSTextComment         content,
+    final SSUri                 author,
+    final Long                  timestamp) throws Exception{
     
     super(uri);
     
-    this.uri       = uri;
-    this.pos       = pos;
-    this.content   = content;
-    this.author    = author;
-    this.timestamp = timestamp;
+    this.uri           = uri;
+    this.discEntryType = discEntryType;
+    this.pos           = pos;
+    this.content       = content;
+    this.author        = author;
+    this.timestamp     = timestamp;
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.pos,       SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.content,   SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarU.author,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.uri,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.discEntryType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.pos,           SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarU.content,       SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarU.author,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.timestamp,     SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }
 
-  /*************** getters to allow for jason enconding ********************/
+  /* getters to allow for json enconding */
+  
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
+  }
+  
+  public String getDiscEntryType() throws Exception{
+    return SSEntityE.toStr(discEntryType);
   }
 
   public int getPos(){

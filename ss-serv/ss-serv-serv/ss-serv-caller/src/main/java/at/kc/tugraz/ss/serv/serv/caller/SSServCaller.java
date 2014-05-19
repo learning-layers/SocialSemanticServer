@@ -50,7 +50,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
-import at.kc.tugraz.ss.service.disc.datatypes.enums.SSDiscE;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -628,9 +627,9 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
   }
   
-  public static SSUri vocURIGet() throws Exception{
+  public static SSUri vocURICreate() throws Exception{
     
-    final Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars    = new HashMap<String, Object>();
     final SSUri               vocPrefix = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
     
     return SSUri.get(SSUri.toStr(vocPrefix) + SSIDU.uniqueID());
@@ -754,7 +753,7 @@ public class SSServCaller {
     final SSUri        user,
     final SSUri        coll,
     final SSUri        collEntry,
-    final SSLabel   label,
+    final SSLabel      label,
     final Boolean      addNewColl,
     final Boolean      saveUE,
     final Boolean      shouldCommit) throws Exception{
@@ -902,7 +901,7 @@ public class SSServCaller {
     final SSUri               targetUri,
     final SSTextComment       content,
     final Boolean             addNewDisc,
-    final SSDiscE             discType,
+    final SSEntityE           discType,
     final SSLabel             discLabel) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
@@ -1188,8 +1187,8 @@ public class SSServCaller {
     final SSUri                     userUri,
     final SSUri                     toAddEntityUri,
     final List<SSUri>               toAddUserUris, 
-    final SSCircleE       circleType, 
-    final SSLabel                label, 
+    final SSCircleE                 circleType, 
+    final SSLabel                   label, 
     final SSUri                     circleAuthor,
     final Boolean                   shouldCommit) throws Exception{
     
