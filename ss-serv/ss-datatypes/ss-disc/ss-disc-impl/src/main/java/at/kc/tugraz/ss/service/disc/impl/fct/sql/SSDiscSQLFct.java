@@ -206,8 +206,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        tableCons  = new ArrayList<String>();
       final Map<String, String> wheres     = new HashMap<String, String>();
       
-      table     (tableCons, entityTable);
-      table     (tableCons, discTable);
+      table     (tables, entityTable);
+      table     (tables, discTable);
       column    (columns,   SSSQLVarU.label);
       column    (columns,   SSSQLVarU.author);
       column    (columns,   SSSQLVarU.discId);
