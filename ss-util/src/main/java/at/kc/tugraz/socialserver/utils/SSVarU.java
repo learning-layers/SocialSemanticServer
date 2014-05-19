@@ -54,10 +54,13 @@ public class SSVarU{
   public static final String tagLabel                                       = "tagLabel";
   public static final String collEntries                                    = "collEntries";
   public static final String discUri                                        = "discUri";
+  public static final String targetUri                                      = "targetUri";
   public static final String fileExt                                        = "fileExt";
   public static final String getDiscUris                                    = "getDiscUris";
   public static final String getOverallRating                               = "getOverallRating";
   public static final String getTags                                        = "getTags";
+  public static final String discType                                       = "discType";
+  public static final String discLabel                                      = "discLabel";
   public static final String addNewDisc                                     = "addNewDisc";
   public static final String jsonLDDesc                                     = "jsonLDDesc";
   public static final String wherePars                                      = "wherePars";

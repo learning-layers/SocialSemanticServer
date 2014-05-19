@@ -41,7 +41,7 @@ public class SSDiscActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.discussEntity,
-          par.target,
+          par.targetUri,
           ret.disc,
           null,
           false);
@@ -50,7 +50,7 @@ public class SSDiscActivityFct{
           par.user,
           SSActivityE.newDiscussionByDiscussEntity,
           ret.disc,
-          par.target,
+          par.targetUri,
           null,
           false);
         

@@ -219,9 +219,9 @@ public enum SSMethU{
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,
   discUserRemove                                      ,
-    discEntryAdd,
-    discWithEntriesGet,
-    discsAllGet,
+  discEntryAdd,
+  discWithEntriesGet,
+  discsAllGet,
     
   
   //broadcast

@@ -30,7 +30,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
   
   public SSUri        coll               = null;
   public SSUri        collEntry          = null;
-  public SSLabel   collEntryLabel     = null;
+  public SSLabel      collEntryLabel     = null;
   public Boolean      addNewColl         = null;
   public SSUri        circleUri          = null;
   

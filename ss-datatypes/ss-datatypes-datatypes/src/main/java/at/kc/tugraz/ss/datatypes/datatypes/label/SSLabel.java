@@ -37,6 +37,16 @@ public class SSLabel extends SSEntityA{
     return new SSLabel(str);
   }
   
+  public static SSLabel get(final SSEntityA entity) throws Exception{
+    
+    if(entity == null){
+      return null;
+    }
+    
+    return new SSLabel(entity.toString());
+  }
+  
+  
   public static List<SSLabel> get(final List<String> strings) throws Exception{
     
     final List<SSLabel> result = new ArrayList<SSLabel>();

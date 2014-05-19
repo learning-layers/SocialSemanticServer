@@ -18,18 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.api;
+package at.kc.tugraz.ss.service.disc.datatypes.enums;
 
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import java.util.ArrayList;
-import java.util.List;
+import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 
-public interface SSDiscI{
+public enum SSDiscE{
+  qa, 
+  disc,
+  chat;
   
-  public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
-    add(SSEntityE.disc);
-    add(SSEntityE.qa);
-    add(SSEntityE.chat);
-    add(SSEntityE.discEntry);
-  }};
+  public static SSDiscE get(final String value){
+    return SSDiscE.valueOf(value);
+  }
+  
+  public static String toStr(final String str){
+    return SSStrU.toString(str);
+  }
+  
+  public static Boolean equals(final SSDiscE type1, final SSDiscE type2){
+    
+    if(SSObjU.isNull(type1, type2)){
+      return false;
+    }
+    
+    return type1.toString().equals(type2.toString());
+  }
 }
