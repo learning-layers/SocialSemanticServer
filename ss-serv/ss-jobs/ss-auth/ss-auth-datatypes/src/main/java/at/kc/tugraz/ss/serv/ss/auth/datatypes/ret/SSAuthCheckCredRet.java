@@ -36,15 +36,17 @@ public class SSAuthCheckCredRet extends SSServRetI{
   
   public static SSAuthCheckCredRet get(
     final String  key, 
-    final SSUri   uri){
-    return new SSAuthCheckCredRet(key, uri);
+    final SSUri   uri,
+    final SSMethU op){
+    return new SSAuthCheckCredRet(key, uri, op);
   }
 
   private SSAuthCheckCredRet(
     final String  key,
-    final SSUri   uri){
+    final SSUri   uri,
+    final SSMethU op){
     
-    super(SSMethU.authCheckCred);
+    super(op);
     
     this.key = key;
     this.uri = uri;

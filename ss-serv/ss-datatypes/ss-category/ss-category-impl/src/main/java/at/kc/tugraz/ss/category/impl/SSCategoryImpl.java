@@ -188,7 +188,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryAdd(par)));
+    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryAdd(par), par.op));
     
 //    saveUECategoryAdd(par);
   }
@@ -198,7 +198,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(par)));
+    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(par), par.op));
     
 //    saveUECategoryDelete(par);
   }
@@ -208,7 +208,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
        
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(par)));
+    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(par), par.op));
   }
   
   /* SSCategoryServerI */

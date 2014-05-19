@@ -35,13 +35,18 @@ public class SSCategoryUserFrequsGetRet extends SSServRetI{
   
   public List<SSCategoryFrequ> categoryFrequs = new ArrayList<SSCategoryFrequ>();
   
-  public static SSCategoryUserFrequsGetRet get(final List<SSCategoryFrequ> categoryFrequs){
-    return new SSCategoryUserFrequsGetRet(categoryFrequs);
+  public static SSCategoryUserFrequsGetRet get(
+    final List<SSCategoryFrequ> categoryFrequs,
+    final SSMethU               op){
+    
+    return new SSCategoryUserFrequsGetRet(categoryFrequs, op);
   }
   
-  private SSCategoryUserFrequsGetRet(final List<SSCategoryFrequ> categoryFrequs){
+  private SSCategoryUserFrequsGetRet(
+    final List<SSCategoryFrequ> categoryFrequs,
+    final SSMethU               op){
     
-    super(SSMethU.categoryUserFrequsGet);
+    super(op);
     
     if(categoryFrequs != null){
       this.categoryFrequs.addAll(categoryFrequs);
