@@ -41,33 +41,54 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     super(serv.dbSQL);
   }
 
-  public List<SSUri> getDiscURIs() throws Exception{
-
-    ResultSet resultSet = null;
-
-    try{
-      resultSet = dbSQL.select(discTable);
-
-      return getURIsFromResult(resultSet, SSSQLVarU.discId);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSUri> getDiscURIs() throws Exception{
+//
+//    ResultSet resultSet = null;
+//
+//    try{
+//      resultSet = dbSQL.select(discTable);
+//
+//      return getURIsFromResult(resultSet, SSSQLVarU.discId);
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
-  public List<SSUri> getDiscURIsForTarget(
-    final SSUri targetUri) throws Exception {
+  //  public List<SSUri> getDiscURIsForTarget(
+//    final SSUri targetUri) throws Exception {
+//  
+//    ResultSet resultSet = null;
+//
+//    try{
+//      final Map<String, String> wheres = new HashMap<String, String>();
+//      
+//      where(wheres, SSSQLVarU.target, targetUri);
+//      
+//      resultSet = dbSQL.select(discTable, wheres);
+//      
+//      return getURIsFromResult(resultSet, SSSQLVarU.discId);
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
+  public List<SSUri> getDiscURIs(
+    final SSUri userUri) throws Exception{
+
     ResultSet resultSet = null;
 
     try{
       final Map<String, String> wheres = new HashMap<String, String>();
       
-      where(wheres, SSSQLVarU.target, targetUri);
+      where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(discTable, wheres);
+      resultSet = dbSQL.select(discUserTable, wheres);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -77,8 +98,40 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       dbSQL.closeStmt(resultSet);
     }
   }
-
+  
+  public List<SSUri> getDiscURIs(
+    final SSUri userUri,
+    final SSUri targetUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        tables    = new ArrayList<String>();
+      final Map<String, String> wheres    = new HashMap<String, String>();
+      final List<String>        columns   = new ArrayList<String>();
+      final List<String>        tableCons = new ArrayList<String>();
+      
+      table     (tables,    discUserTable);
+      table     (tables,    discTable);     
+      column    (columns,   discUserTable,    SSSQLVarU.discId);
+      where     (wheres,    SSSQLVarU.userId, userUri);
+      where     (wheres,    SSSQLVarU.target, targetUri);
+      tableCon  (tableCons, discTable,        SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.discId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public void addDisc(
+    final SSUri     userUri,
     final SSUri     discUri,
     final SSUri     targetUri) throws Exception{
     
@@ -89,6 +142,12 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       insert(inserts, SSSQLVarU.target,   targetUri);
       
       dbSQL.insert(discTable, inserts);
+      
+      inserts.clear();
+      insert(inserts, SSSQLVarU.discId,   discUri);
+      insert(inserts, SSSQLVarU.userId,   userUri);
+      
+      dbSQL.insert(discUserTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -263,7 +322,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public void deleteDisc(final SSUri discUri) throws Exception{
+  public void deleteDisc(
+    final SSUri discUri) throws Exception{
     
     try{
       final Map<String, String> deletes = new HashMap<String, String>();
@@ -271,6 +331,22 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       delete(deletes, SSSQLVarU.discId, discUri);
       
       dbSQL.delete(discTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void unlinkDisc(
+    final SSUri userUri, 
+    final SSUri discUri) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<String, String>();
+      
+      delete(deletes, SSSQLVarU.userId, userUri);
+      delete(deletes, SSSQLVarU.discId, discUri);
+      
+      dbSQL.delete(discUserTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
