@@ -31,5 +31,7 @@ public interface SSDiscI{
     add(SSEntityE.qa);
     add(SSEntityE.chat);
     add(SSEntityE.discEntry);
+    add(SSEntityE.qaEntry);
+    add(SSEntityE.chatEntry);
   }};
 }

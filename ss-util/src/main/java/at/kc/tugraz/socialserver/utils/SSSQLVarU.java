@@ -22,7 +22,6 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
-  public static final String discType                                       = "discType";
   public static final String authKey                                        = "authKey";
   public static final String accessRight                                    = "accessRight";
   public static final String circleType                                     = "circleType";

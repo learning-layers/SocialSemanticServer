@@ -81,8 +81,6 @@ public class SSCollEntryAddFct{
       throw new Exception("coll to add is not public");
     }
     
-    //TODO dtheiler: check whether to follow coll is [explicitly] shared [with user]
-    
     switch(SSServCaller.entityMostOpenCircleTypeGet(par.coll)){
       case priv: break;
       default:   throw new Exception("cannot add shared or public coll to shared / public parent coll");

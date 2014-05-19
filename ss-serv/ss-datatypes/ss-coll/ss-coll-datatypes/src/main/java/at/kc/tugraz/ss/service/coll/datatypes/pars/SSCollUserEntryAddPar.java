@@ -32,7 +32,6 @@ public class SSCollUserEntryAddPar extends SSServPar{
   public SSUri        collEntry          = null;
   public SSLabel      collEntryLabel     = null;
   public Boolean      addNewColl         = null;
-  public SSUri        circleUri          = null;
   
   public SSCollUserEntryAddPar(final SSServPar par) throws Exception{
     
@@ -43,9 +42,8 @@ public class SSCollUserEntryAddPar extends SSServPar{
       if(pars != null){
         coll           = (SSUri)       pars.get(SSVarU.coll);
         collEntry      = (SSUri)       pars.get(SSVarU.collEntry);
-        collEntryLabel = (SSLabel)  pars.get(SSVarU.collEntryLabel);
+        collEntryLabel = (SSLabel)     pars.get(SSVarU.collEntryLabel);
         addNewColl     = (Boolean)     pars.get(SSVarU.addNewColl);
-        circleUri      = (SSUri)       pars.get(SSVarU.circleUri);
       }
       
       if(clientPars != null){

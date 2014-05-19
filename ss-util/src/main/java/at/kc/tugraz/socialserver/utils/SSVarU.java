@@ -61,6 +61,7 @@ public class SSVarU{
   public static final String getTags                                        = "getTags";
   public static final String discType                                       = "discType";
   public static final String discLabel                                      = "discLabel";
+  public static final String discCircleUri                                  = "discCircleUri";
   public static final String addNewDisc                                     = "addNewDisc";
   public static final String jsonLDDesc                                     = "jsonLDDesc";
   public static final String wherePars                                      = "wherePars";
@@ -192,6 +193,7 @@ public class SSVarU{
   public static final String mimeType                                       = "mimeType";
   public static final String write                                          = "write";
   public static final String uri                                            = "uri";
+  public static final String discEntryType                                  = "discEntryType";
   public static final String entityUri                                      = "entityUri";
   public static final String accessRight                                    = "accessRight";
   public static final String removeUserTags                                 = "removeUserTags";

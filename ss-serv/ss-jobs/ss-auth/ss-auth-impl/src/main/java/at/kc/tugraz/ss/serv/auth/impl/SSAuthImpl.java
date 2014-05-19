@@ -121,7 +121,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         userUri = SSServCaller.entityGet(SSEntityE.user, par.label).uri;
       }else{
         
-        userUri = SSServCaller.vocURIGet();
+        userUri = SSServCaller.vocURICreate();
         
         SSServCaller.entityAdd(
           par.user,
