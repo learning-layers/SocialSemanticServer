@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.datatypes.datatypes.enums;
+package at.kc.tugraz.ss.datatypes.datatypes.enums;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;

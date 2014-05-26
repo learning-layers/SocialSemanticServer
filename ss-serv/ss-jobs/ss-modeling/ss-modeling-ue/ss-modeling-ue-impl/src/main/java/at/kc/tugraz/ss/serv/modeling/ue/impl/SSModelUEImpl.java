@@ -49,7 +49,6 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRe
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 

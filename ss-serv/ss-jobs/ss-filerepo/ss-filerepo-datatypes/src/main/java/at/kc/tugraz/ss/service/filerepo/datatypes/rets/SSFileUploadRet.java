@@ -63,7 +63,7 @@ public class SSFileUploadRet extends SSServRetI{
     return ld;
   }
    
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public String getUri() throws Exception{
     return SSUri.toStrWithoutSlash(uri);
   }

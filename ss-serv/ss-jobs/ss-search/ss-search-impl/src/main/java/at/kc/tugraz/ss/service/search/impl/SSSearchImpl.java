@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.search.impl;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;

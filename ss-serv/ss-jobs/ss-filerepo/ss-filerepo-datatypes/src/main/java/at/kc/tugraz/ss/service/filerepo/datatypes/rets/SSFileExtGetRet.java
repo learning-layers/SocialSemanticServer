@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSFileExtGetRet extends SSServRetI{
 
-	public String  fileExt = null;
+	public String fileExt = null;
 	
 	public SSFileExtGetRet(final String fileExt, final SSMethU op){
     
@@ -48,7 +48,8 @@ public class SSFileExtGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
+  
   public String getFileExt(){
 		return fileExt;
 	}

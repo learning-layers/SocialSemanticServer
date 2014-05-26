@@ -241,7 +241,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try {
       final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
       
-      if(SSServCaller.entityUserCanAll(par.user, par.discUri)){
+      if(!SSServCaller.entityUserCanAll(par.user, par.discUri)){
         throw new Exception("user cannot remove disc");
       }
       
@@ -369,7 +369,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try{
       final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
       
-      if(SSServCaller.entityUserCanRead(par.user, par.disc)){
+      if(!SSServCaller.entityUserCanRead(par.user, par.disc)){
         throw new Exception("user cannot access disc");
       }
       

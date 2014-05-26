@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
