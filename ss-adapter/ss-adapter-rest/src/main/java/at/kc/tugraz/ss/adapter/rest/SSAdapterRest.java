@@ -349,6 +349,22 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "discURIsForTargetGet")
+  public String discURIsForTargetGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discURIsForTargetGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "discRemove")
+  public String discRemove(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.discRemove);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "discWithEntriesGet")
   public String discWithEntriesGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.discWithEntriesGet);

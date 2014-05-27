@@ -31,13 +31,18 @@ public class SSCategoryAddRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCategoryAddRet get(boolean worked){
-    return new SSCategoryAddRet(worked);
+  public static SSCategoryAddRet get(
+    final Boolean worked,
+    final SSMethU op){
+    
+    return new SSCategoryAddRet(worked, op);
   }
   
-  private SSCategoryAddRet(boolean worked){
+  private SSCategoryAddRet(
+    final Boolean worked,
+    final SSMethU op){
     
-    super(SSMethU.categoryAdd);
+    super(op);
     
     this.worked = worked;
   }

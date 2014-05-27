@@ -18,39 +18,58 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
+package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSFileExtGetRet extends SSServRetI{
+public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
 
-	public String fileExt = null;
-	
-	public SSFileExtGetRet(final String fileExt, final SSMethU op){
+  public List<SSUri> discUris = new ArrayList<SSUri>();
+
+  public static SSDiscUserDiscURIsForTargetGetRet get(
+    final List<SSUri>   discUris, 
+    final SSMethU       op){
+    
+    return new SSDiscUserDiscURIsForTargetGetRet(discUris, op);
+  }
+  
+  private SSDiscUserDiscURIsForTargetGetRet(
+    final List<SSUri>   discUris, 
+    final SSMethU       op){
     
     super(op);
     
-		this.fileExt = fileExt;
-	}
-	
-  @Override
+    if(discUris != null){
+      this.discUris.addAll(discUris);
+    }
+  }
+
+@Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> discsObj   = new HashMap<String, Object>();
     
-    ld.put(SSVarU.fileExt, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.discUris, discsObj);
     
     return ld;
   }
+
+  /* json getters */
   
-  /* getters to allow for json enconding */
-  
-  public String getFileExt(){
-		return fileExt;
-	}
+  public List<String> getDiscUris(){
+    return SSUri.toStrWithoutSlash(discUris);
+  }
 }

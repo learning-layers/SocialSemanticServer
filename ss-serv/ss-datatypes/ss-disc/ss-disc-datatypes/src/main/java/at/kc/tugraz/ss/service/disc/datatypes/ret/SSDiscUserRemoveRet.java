@@ -18,39 +18,46 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
+package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSFileExtGetRet extends SSServRetI{
+public class SSDiscUserRemoveRet extends SSServRetI{
 
-	public String fileExt = null;
-	
-	public SSFileExtGetRet(final String fileExt, final SSMethU op){
+  public SSUri discUri = null;
+
+  public static SSDiscUserRemoveRet get(
+    final SSUri   discUri, 
+    final SSMethU op){
+    return new SSDiscUserRemoveRet(discUri, op);
+  }
+  
+  private SSDiscUserRemoveRet(
+    final SSUri   discUri, 
+    final SSMethU op){
     
     super(op);
     
-		this.fileExt = fileExt;
-	}
-	
+    this.discUri = discUri;
+  }
+
   @Override
   public Map<String, Object> jsonLDDesc(){
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.fileExt, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.discUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  
-  public String getFileExt(){
-		return fileExt;
-	}
+  public String isWorked() {
+    return SSUri.toStrWithoutSlash(discUri);
+  }
 }

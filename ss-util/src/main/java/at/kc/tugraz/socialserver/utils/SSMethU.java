@@ -214,15 +214,16 @@ public enum SSMethU{
   
   //disc
   discsUserAllGet                                     ,
-  discUrisUserForTargetGet                            ,
+  discURIsForTargetGet,
+  discUserDiscURIsForTargetGet                        ,
   discUserWithEntriesGet                              ,
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,
   discUserRemove                                      ,
+  discRemove,
   discEntryAdd,
   discWithEntriesGet,
   discsAllGet,
-    
   
   //broadcast
   broadcastServerTime                                 ,

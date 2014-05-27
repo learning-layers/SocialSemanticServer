@@ -25,11 +25,11 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSDiscUrisUserForTargetGetPar extends SSServPar{
+public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
   
   public SSUri               entityUri         = null;
             
-  public SSDiscUrisUserForTargetGetPar(SSServPar par) throws Exception{
+  public SSDiscUserDiscURIsForTargetGetPar(SSServPar par) throws Exception{
       
     super(par);
     

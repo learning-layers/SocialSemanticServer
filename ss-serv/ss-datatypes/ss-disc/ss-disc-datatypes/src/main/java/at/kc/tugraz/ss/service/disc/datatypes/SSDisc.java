@@ -63,6 +63,7 @@ public class SSDisc extends SSEntityA {
     this.label    = label;
     this.author   = author;
     this.target   = target;
+    this.discType = discType;
     
     if(entries != null){
       this.entries.addAll(entries);

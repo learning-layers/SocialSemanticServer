@@ -31,13 +31,18 @@ public class SSCategoriesUserRemoveRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCategoriesUserRemoveRet get(boolean worked){
-    return new SSCategoriesUserRemoveRet(worked);
+  public static SSCategoriesUserRemoveRet get(
+    final Boolean worked, 
+    final SSMethU op){
+    
+    return new SSCategoriesUserRemoveRet(worked, op);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked){
+  private SSCategoriesUserRemoveRet(
+    final Boolean worked,
+    final SSMethU op){
     
-    super(SSMethU.categoriesUserRemove);
+    super(op);
     
     this.worked = worked;
   }

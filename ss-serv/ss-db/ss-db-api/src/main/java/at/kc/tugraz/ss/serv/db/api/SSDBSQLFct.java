@@ -57,6 +57,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   categoryAssTable                    = "categoryass";
   protected static final String   authTable                           = "auth";
   protected static final String   discTable                           = "disc";
+  protected static final String   discUserTable                       = "discuser";
   protected static final String   discEntryTable                      = "discentry";
   protected static final String   discEntriesTable                    = "discentries";
 

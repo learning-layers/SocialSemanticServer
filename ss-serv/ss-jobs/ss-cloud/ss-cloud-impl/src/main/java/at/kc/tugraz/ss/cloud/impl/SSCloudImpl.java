@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.cloud.impl;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
@@ -65,7 +66,8 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
         
         return SSCloudPublishServiceRet.get(
           SSSystemU.serverNameLocalhost, 
-          7001);
+          7001, 
+          SSMethU.cloudPublishService);
           
       }else{
         
@@ -75,7 +77,8 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
         
         return SSCloudPublishServiceRet.get(
           SSSystemU.serverNameKeDemo, 
-          9000);
+          9000, 
+          SSMethU.cloudPublishService);
       }
       
     }catch(Exception error){

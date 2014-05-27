@@ -63,6 +63,7 @@ public class SSDiscUserEntryAddFct{
         false);
       
       sqlFct.addDisc(
+        userUri, 
         discUri, 
         tmpTargetUri);
       

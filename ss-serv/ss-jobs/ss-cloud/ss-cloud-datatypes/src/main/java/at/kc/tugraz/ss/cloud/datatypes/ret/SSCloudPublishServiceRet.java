@@ -35,16 +35,18 @@ public class SSCloudPublishServiceRet extends SSServRetI{
 
   public static SSCloudPublishServiceRet get(
     final String  sssNodeHost,
-    final Integer sssNodePort){
+    final Integer sssNodePort, 
+    final SSMethU op){
     
-    return new SSCloudPublishServiceRet(sssNodeHost, sssNodePort);
+    return new SSCloudPublishServiceRet(sssNodeHost, sssNodePort, op);
   }
   
   private SSCloudPublishServiceRet(
     final String  sssNodeHost,
-    final Integer sssNodePort){
+    final Integer sssNodePort,
+    final SSMethU op){
 
-    super(SSMethU.cloudPublishService);
+    super(op);
     
     this.sssNodeHost = sssNodeHost;
     this.sssNodePort = sssNodePort;

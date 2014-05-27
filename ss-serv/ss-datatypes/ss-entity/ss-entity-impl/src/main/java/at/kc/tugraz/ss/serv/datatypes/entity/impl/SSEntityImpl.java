@@ -228,7 +228,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       if(par.getDiscUris){
-        discUris = SSServCaller.discUrisUserForTargetGet  (par.user, par.entityUri);
+        discUris = SSServCaller.discUserDiscURIsForTargetGet(par.user, par.entityUri);
       }
       
       if(par.getTags){

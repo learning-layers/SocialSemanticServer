@@ -29,17 +29,17 @@ import java.util.Map;
 public class SSEntityCircle extends SSEntityA{
  
   public SSUri                          circleUri    = null;
-  public SSLabel                     label        = null;
-  public SSCircleE            circleType   = null;
-  public List<SSCircleRightE>       circleRights = new ArrayList<SSCircleRightE>();
+  public SSLabel                        label        = null;
+  public SSCircleE                      circleType   = null;
+  public List<SSCircleRightE>           circleRights = new ArrayList<SSCircleRightE>();
   public List<SSUri>                    userUris     = new ArrayList<SSUri>();
   public List<SSUri>                    entityUris   = new ArrayList<SSUri>();
   
   public static SSEntityCircle get(
     final SSUri                          circleUri,
-    final SSLabel                     label, 
-    final SSCircleE            circleType, 
-    final List<SSCircleRightE>       circleRights,
+    final SSLabel                        label, 
+    final SSCircleE                      circleType, 
+    final List<SSCircleRightE>           circleRights,
     final List<SSUri>                    userUris,
     final List<SSUri>                    entityUris) throws Exception{
     

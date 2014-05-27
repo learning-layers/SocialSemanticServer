@@ -91,7 +91,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityE   entityType,
+    final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;

@@ -926,7 +926,7 @@ public class SSServCaller {
     return (List<SSDisc>) SSServA.callServViaServer(new SSServPar(SSMethU.discsUserAllGet, opPars));
   }
   
-  public static List<SSUri> discUrisUserForTargetGet(
+  public static List<SSUri> discUserDiscURIsForTargetGet(
     final SSUri   userUri,
     final SSUri   entityUri) throws Exception{
     
@@ -935,7 +935,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         userUri);
     opPars.put(SSVarU.entityUri,    entityUri);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discUrisUserForTargetGet, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discUserDiscURIsForTargetGet, opPars));
   }
   
   public static SSDisc discUserWithEntriesGet(
