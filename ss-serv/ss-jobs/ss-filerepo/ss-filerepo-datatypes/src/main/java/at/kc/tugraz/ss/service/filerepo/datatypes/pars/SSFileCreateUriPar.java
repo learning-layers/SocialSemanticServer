@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileCreateUriPar extends SSServPar{
   
-  public String fileExtension    = null;
+  public String fileExt    = null;
   
   public SSFileCreateUriPar(SSServPar par) throws Exception{
     
@@ -35,11 +35,11 @@ public class SSFileCreateUriPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileExtension   = (String) pars.get(SSVarU.fileExtension);
+        fileExt   = (String) pars.get(SSVarU.fileExt);
       }
       
       if(clientPars != null){
-        fileExtension   = (String) clientPars.get(SSVarU.fileExtension);
+        fileExt   = clientPars.get(SSVarU.fileExt);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

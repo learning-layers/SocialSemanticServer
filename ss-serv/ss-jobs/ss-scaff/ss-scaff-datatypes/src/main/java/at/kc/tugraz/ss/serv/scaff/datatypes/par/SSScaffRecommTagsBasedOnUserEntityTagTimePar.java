@@ -27,9 +27,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSScaffRecommTagsBasedOnUserEntityTagTimePar extends SSServPar{
   
-  public SSUri            forUserUri    = null;
-  public SSUri            entityUri     = null;
-  public Integer          maxTags       = 10;
+  public SSUri            forUser    = null;
+  public SSUri            entity     = null;
+  public Integer          maxTags    = 10;
   
   public SSScaffRecommTagsBasedOnUserEntityTagTimePar(SSServPar par) throws Exception{
     
@@ -37,19 +37,19 @@ public class SSScaffRecommTagsBasedOnUserEntityTagTimePar extends SSServPar{
     
     try{
       if(pars != null){
-        this.forUserUri    = (SSUri)      pars.get(SSVarU.forUserUri);
-        this.entityUri   = (SSUri)        pars.get(SSVarU.entityUri);
+        this.forUser    = (SSUri)         pars.get(SSVarU.forUser);
+        this.entity     = (SSUri)         pars.get(SSVarU.entity);
         this.maxTags    = (Integer)       pars.get(SSVarU.maxTags);
       }
       
       if(clientPars != null){
         
         try{
-          this.forUserUri = SSUri.get          (clientPars.get(SSVarU.forUserUri));
+          this.forUser = SSUri.get          (clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
         try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
+          this.entity = SSUri.get         (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{

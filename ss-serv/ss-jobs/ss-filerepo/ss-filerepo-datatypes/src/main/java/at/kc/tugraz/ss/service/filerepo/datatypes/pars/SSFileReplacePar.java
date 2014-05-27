@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileReplacePar extends SSServPar{
   
-  public SSUri   uri    = null;
+  public SSUri   file    = null;
   
   public SSFileReplacePar(SSServPar par) throws Exception{
     
@@ -36,11 +36,11 @@ public class SSFileReplacePar extends SSServPar{
     try{
       
       if(pars != null){
-        this.uri = (SSUri) pars.get(SSVarU.uri);
+        file = (SSUri) pars.get(SSVarU.file);
       }
       
       if(clientPars != null){
-        this.uri = SSUri.get((String)clientPars.get(SSVarU.uri));
+        file = SSUri.get(clientPars.get(SSVarU.file));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

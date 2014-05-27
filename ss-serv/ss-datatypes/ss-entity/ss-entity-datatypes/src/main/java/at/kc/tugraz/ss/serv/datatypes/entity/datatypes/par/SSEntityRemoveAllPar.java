@@ -21,21 +21,10 @@
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityRemoveAllPar extends SSServPar{
   
   public SSEntityRemoveAllPar(SSServPar par) throws Exception{
-      
     super(par);
-    
-    try{
-      
-      if(pars != null){
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

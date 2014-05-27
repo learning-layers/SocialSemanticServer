@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileIDFromURIPar extends SSServPar{
   
-  public SSUri   fileUri = null;
+  public SSUri   file = null;
   
   public SSFileIDFromURIPar(SSServPar par) throws Exception{
     
@@ -36,7 +36,7 @@ public class SSFileIDFromURIPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileUri   = (SSUri) pars.get(SSVarU.fileUri);
+        file   = (SSUri) pars.get(SSVarU.file);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

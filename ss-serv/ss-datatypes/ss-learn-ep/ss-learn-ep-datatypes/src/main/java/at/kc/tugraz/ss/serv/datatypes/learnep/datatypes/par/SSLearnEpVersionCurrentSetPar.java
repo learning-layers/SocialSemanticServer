@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionCurrentSetPar extends SSServPar{
   
-  public SSUri  learnEpVersionUri = null;
+  public SSUri  learnEpVersion = null;
   
   public SSLearnEpVersionCurrentSetPar(SSServPar par) throws Exception{
       
@@ -36,11 +36,11 @@ public class SSLearnEpVersionCurrentSetPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpVersionUri   = (SSUri) pars.get(SSVarU.learnEpVersionUri);
+        learnEpVersion   = (SSUri) pars.get(SSVarU.learnEpVersion);
       }
       
       if(clientPars != null){
-        learnEpVersionUri   = SSUri.get(clientPars.get(SSVarU.learnEpVersionUri));
+        learnEpVersion   = SSUri.get(clientPars.get(SSVarU.learnEpVersion));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class SSCollUserEntryAddRet extends SSServRetI{
 
-  public SSUri uri = null;
+  public SSUri entity = null;
 
   public static SSCollUserEntryAddRet get(SSUri uri, SSMethU op){
     return new SSCollUserEntryAddRet(uri, op);
@@ -41,7 +41,7 @@ public class SSCollUserEntryAddRet extends SSServRetI{
 
     super(op);
     
-    this.uri = uri;
+    this.entity = uri;
   }
 
   @Override
@@ -49,12 +49,12 @@ public class SSCollUserEntryAddRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getUri() throws Exception {
-    return SSUri.toStrWithoutSlash(uri);
+  public String getEntity() throws Exception {
+    return SSUri.toStrWithoutSlash(entity);
   }
 }

@@ -26,5 +26,6 @@ public class SSDiscsUserAllGetPar extends SSServPar{
   
   public SSDiscsUserAllGetPar(SSServPar par) throws Exception{
     super(par);
+    
   }
 }

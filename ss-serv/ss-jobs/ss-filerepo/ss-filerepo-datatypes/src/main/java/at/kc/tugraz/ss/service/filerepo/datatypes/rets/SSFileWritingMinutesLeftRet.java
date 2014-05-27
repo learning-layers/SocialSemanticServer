@@ -30,13 +30,13 @@ import java.util.Map;
 
 public class SSFileWritingMinutesLeftRet extends SSServRetI{
 
-	public  SSUri         uri                 = null;
+	public  SSUri         file                 = null;
 	public  Integer       writingMinutesLeft  = -1;
 	
 	public SSFileWritingMinutesLeftRet(SSUri uri, SSMethU op){
     
     super(op);
-		this.uri = uri;
+		this.file = uri;
 	}
   
   @Override
@@ -44,15 +44,15 @@ public class SSFileWritingMinutesLeftRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,                 SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.file,                 SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.writingMinutesLeft,  SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
 	
-  /*************** getters to allow for json enconding ********************/
-  public String getUri() throws Exception{
-		return SSUri.toStrWithoutSlash(uri);
+  /*  getters to allow for json enconding*/
+  public String getFile() throws Exception{
+		return SSUri.toStrWithoutSlash(file);
 	}	
     
 	public int getWritingMinutesLeft(){

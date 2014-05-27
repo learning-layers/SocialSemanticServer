@@ -34,17 +34,17 @@ public class SSCollEntryDeleteFct{
     
     try{
       
-      if(sqlFct.isCollSpecial(par.collEntry)){
+      if(sqlFct.isCollSpecial(par.entry)){
         throw new Exception("cant delete special collection");
       }
       
-      switch(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry)){
+      switch(SSServCaller.entityMostOpenCircleTypeGet(par.entry)){
         
         case priv:{
           
           //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
           
-          sqlFct.removeCollAndUnlinkSubColls(par.user, par.collEntry);
+          sqlFct.removeCollAndUnlinkSubColls(par.user, par.entry);
           
           SSCollUEFct.collUserDeleteColl(par);
           
@@ -55,7 +55,7 @@ public class SSCollEntryDeleteFct{
           
           //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
           
-          sqlFct.unlinkCollAndSubColls(par.user, par.coll, par.collEntry);
+          sqlFct.unlinkCollAndSubColls(par.user, par.coll, par.entry);
           
           SSCollUEFct.collUserUnSubscribeColl(par);
         }
@@ -73,6 +73,6 @@ public class SSCollEntryDeleteFct{
     final SSCollSQLFct             sqlFct, 
     final SSCollUserEntryDeletePar par) throws Exception{
     
-    sqlFct.removeCollEntry(par.coll, par.collEntry);
+    sqlFct.removeCollEntry(par.coll, par.entry);
   }
 }

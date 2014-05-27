@@ -55,9 +55,7 @@ public class SSModelUEUESetter{
 		}
 	}
 	
-	/**
-	 * 0 set new events to RM <br>
-	 */
+	/* set new events to RM */
 	public List<SSUE> setNewEventsToModel(long lastUpdateTime) throws Exception{
 
 		HashMap<String, List<SSUE>>  eventsPerResource;
@@ -66,7 +64,7 @@ public class SSModelUEUESetter{
     List<SSUE>                   newEvents;
     List<SSUE>                   sortedEventsSinceLastUpdate;
     
-    newEvents = SSServCaller.getUEs(null, null, null, null, lastUpdateTime, null);
+    newEvents = SSServCaller.uEsGet(null, null, null, null, lastUpdateTime, null);
     
 		sortedEventsSinceLastUpdate = SSUE.sort(newEvents);
 
@@ -142,9 +140,9 @@ public class SSModelUEUESetter{
 		
 		for(SSUE userEvent : sortedUserEvents){
 			
-			if(eventsPerResource.containsKey(SSStrU.toString(userEvent.resource))){
+			if(eventsPerResource.containsKey(SSStrU.toString(userEvent.entity))){
 				
-				eventsPerResource.get(SSStrU.toString(userEvent.resource)).add(userEvent);
+				eventsPerResource.get(SSStrU.toString(userEvent.entity)).add(userEvent);
 				
 			}else{
 			
@@ -152,7 +150,7 @@ public class SSModelUEUESetter{
 				
 				eventsForResource.add(userEvent);
 				
-				eventsPerResource.put(SSStrU.toString(userEvent.resource), eventsForResource);
+				eventsPerResource.put(SSStrU.toString(userEvent.entity), eventsForResource);
 			}
 		}
 		

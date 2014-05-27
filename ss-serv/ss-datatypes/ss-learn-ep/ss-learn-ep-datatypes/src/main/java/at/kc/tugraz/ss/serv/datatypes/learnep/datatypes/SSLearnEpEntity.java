@@ -29,10 +29,10 @@ import java.util.Map;
 
 public class SSLearnEpEntity extends SSEntityA {
   
-  public SSUri    learnEpEntityUri  = null;
-  public SSUri    entityUri         = null;
-  public Float  x                 = null;
-  public Float  y                 = null;
+  public SSUri  id       = null;
+  public SSUri  entity   = null;
+  public Float  x        = null;
+  public Float  y        = null;
   
   public static SSLearnEpEntity get(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
     return new SSLearnEpEntity(learnEpEntityUri, entityUri, x, y);
@@ -41,8 +41,8 @@ public class SSLearnEpEntity extends SSEntityA {
   private SSLearnEpEntity(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
     super(learnEpEntityUri);
     
-    this.learnEpEntityUri   = learnEpEntityUri;
-    this.entityUri          = entityUri;
+    this.id   = learnEpEntityUri;
+    this.entity          = entityUri;
     this.x                  = x;
     this.y                  = y;
   }
@@ -52,21 +52,21 @@ public class SSLearnEpEntity extends SSEntityA {
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpEntityUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.entityUri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.x,                SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.y,                SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.x,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarU.y,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpEntityUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpEntityUri);
+  /* getters to allow for json enconding */
+  public String getId() throws Exception {
+    return SSUri.toStrWithoutSlash(id);
   }
   
-  public String getEntityUri() throws Exception {
-    return SSUri.toStrWithoutSlash(entityUri);
+  public String getEntity() throws Exception {
+    return SSUri.toStrWithoutSlash(entity);
   }
   
   public Float getX() {

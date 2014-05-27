@@ -40,7 +40,7 @@ public class SSCollUEFct {
       
       SSServCaller.ueAdd(
         par.user,
-        par.collEntry,
+        par.entry,
         SSUEE.removeCollectionItem,
         SSUri.toStr(par.coll),
         false);
@@ -49,7 +49,7 @@ public class SSCollUEFct {
         par.user,
         par.coll,
         SSUEE.changeCollectionByRemoveCollectionItem,
-        SSUri.toStr(par.collEntry),
+        SSUri.toStr(par.entry),
         false);
       
     }catch(Exception error){
@@ -67,7 +67,7 @@ public class SSCollUEFct {
       
       SSServCaller.ueAdd(
         par.user,
-        par.collEntry,
+        par.entry,
         SSUEE.unSubscribeCollection,
         SSStrU.empty,
         false);
@@ -87,7 +87,7 @@ public class SSCollUEFct {
       
       SSServCaller.ueAdd(
         par.user,
-        par.collEntry,
+        par.entry,
         SSUEE.removeCollection,
         SSStrU.empty,
         false);

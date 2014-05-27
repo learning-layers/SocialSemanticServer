@@ -36,8 +36,8 @@ public class SSSolrSearchPar extends SSServPar{
     
     try{
       if(pars != null){
-        this.keyword    = (SSSolrKeywordLabel)  pars.get(SSVarU.keyword);
-        this.maxResults = (Integer)             pars.get(SSVarU.maxResults);
+        keyword    = (SSSolrKeywordLabel)  pars.get(SSVarU.keyword);
+        maxResults = (Integer)             pars.get(SSVarU.maxResults);
       }
       
     }catch(Exception error){

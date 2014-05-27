@@ -29,8 +29,8 @@ import java.util.List;
 
 public class SSSearchTagsWithinEntityPar extends SSServPar{
   
-  public SSUri         entityUri  = null;
-  public List<String>  tagLabels  = null;
+  public SSUri         entity  = null;
+  public List<String>  tags    = null;
     
   public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
       
@@ -38,13 +38,13 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
     
     try{
       if(pars != null){
-        entityUri            = (SSUri)                                          pars.get(SSVarU.entityUri);
-        tagLabels            = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tagLabels), SSStrU.comma);
+        entity       = (SSUri)                                          pars.get(SSVarU.entity);
+        tags         = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tags), SSStrU.comma);
       }
       
       if(clientPars != null){
-        entityUri         = SSUri.get                              (clientPars.get(SSVarU.entityUri));
-        tagLabels         = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tagLabels), SSStrU.comma);
+        entity       = SSUri.get                              (clientPars.get(SSVarU.entity));
+        tags         = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tags), SSStrU.comma);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

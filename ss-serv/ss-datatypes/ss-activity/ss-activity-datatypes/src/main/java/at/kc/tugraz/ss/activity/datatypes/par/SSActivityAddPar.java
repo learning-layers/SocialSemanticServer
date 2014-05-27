@@ -31,11 +31,11 @@ import java.util.List;
 
 public class SSActivityAddPar extends SSServPar{
 
-  public SSActivityE            type             = null;
-  public List<SSUri>            userUris         = new ArrayList<SSUri>();
-  public List<SSUri>            sourceEntityUris = new ArrayList<SSUri>();
-  public List<SSUri>            targetEntityUris = new ArrayList<SSUri>();
-  public List<SSTextComment>    textComments     = new ArrayList<SSTextComment>();
+  public SSActivityE            type     = null;
+  public List<SSUri>            users            = new ArrayList<SSUri>();
+  public List<SSUri>            sourceEntities   = new ArrayList<SSUri>();
+  public List<SSUri>            targetEntities   = new ArrayList<SSUri>();
+  public List<SSTextComment>    comments         = new ArrayList<SSTextComment>();
   
   public SSActivityAddPar(final SSServPar par) throws Exception{
     
@@ -48,19 +48,19 @@ public class SSActivityAddPar extends SSServPar{
         type = (SSActivityE) pars.get(SSVarU.type);
           
         try{
-          userUris             = (List<SSUri>)         pars.get(SSVarU.userUris);
+          users             = (List<SSUri>)         pars.get(SSVarU.users);
         }catch(Exception error){}
         
         try{
-          sourceEntityUris     = (List<SSUri>)         pars.get(SSVarU.sourceEntityUris);
+          sourceEntities     = (List<SSUri>)         pars.get(SSVarU.sourceEntities);
         }catch(Exception error){}
         
         try{
-          targetEntityUris     = (List<SSUri>)         pars.get(SSVarU.targetEntityUris);
+          targetEntities     = (List<SSUri>)         pars.get(SSVarU.targetEntities);
         }catch(Exception error){}
         
         try{
-          textComments         = (List<SSTextComment>) pars.get(SSVarU.textComments);
+          comments         = (List<SSTextComment>) pars.get(SSVarU.comments);
         }catch(Exception error){}
       }
       

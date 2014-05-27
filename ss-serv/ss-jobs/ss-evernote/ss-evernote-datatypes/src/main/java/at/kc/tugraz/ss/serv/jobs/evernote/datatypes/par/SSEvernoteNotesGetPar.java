@@ -27,7 +27,7 @@ import com.evernote.clients.NoteStoreClient;
 
 public class SSEvernoteNotesGetPar extends SSServPar{
 
-  public NoteStoreClient  noteStore     = null;
+  public NoteStoreClient  noteStore      = null;
   public String           notebookGuid   = null;
   
   public SSEvernoteNotesGetPar(SSServPar par) throws Exception{

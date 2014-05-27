@@ -71,14 +71,14 @@ public class SSDataImportEvernoteHelper {
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
-    this.evernoteInfo    = SSServCaller.getEvernoteInfo (par.user, par.authToken);
-    this.userName        = evernoteHelper.getUserName   (evernoteInfo);
-    this.userUri         = SSServCaller.authRegisterUser(par.user, userName, "1234", false);
+    this.evernoteInfo    = SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
+    this.userName        = evernoteHelper.getUserName        (evernoteInfo);
+    this.userUri         = SSServCaller.authRegisterUser     (par.user, userName, "1234", false);
   }
   
   public void handleSharedNotebooks() throws Exception{
-    sharedNotebooks     = SSServCaller.getEvernoteSharedNotebooks (evernoteInfo.noteStore);
-    sharedNotebookGuids = evernoteHelper.getSharedNotebookGuids  (sharedNotebooks);
+    sharedNotebooks     = SSServCaller.evernoteNotebooksSharedGet (evernoteInfo.noteStore);
+    sharedNotebookGuids = evernoteHelper.getSharedNotebookGuids   (sharedNotebooks);
   }
   
   public void handleNotebooks(SSDataImportEvernotePar par) throws Exception{
@@ -87,7 +87,7 @@ public class SSDataImportEvernoteHelper {
     SSLabel  notebookLabel;
     Boolean     isSharedNotebook;
     
-    for(Notebook notebook : SSServCaller.getEvernoteNotebooks(evernoteInfo.noteStore)){
+    for(Notebook notebook : SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore)){
       
       notebookUri      = evernoteHelper.uriHelper.getNormalOrSharedNotebookUri      (userName,    notebook, sharedNotebookGuids);
       isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
@@ -123,7 +123,7 @@ public class SSDataImportEvernoteHelper {
     SSUri                   resourceUri;
     SSLabel              resourceLabel;
     
-    for(LinkedNotebook linkedNotebook : SSServCaller.getEvernoteLinkedNotebooks(evernoteInfo.noteStore)){
+    for(LinkedNotebook linkedNotebook : SSServCaller.evernoteNotebooksLinkedGet(evernoteInfo.noteStore)){
       
       notebookUri   = evernoteHelper.uriHelper.getLinkedNotebookUri     (linkedNotebook);
       notebookLabel = SSEvernoteLabelHelper.getLinkedNotebookLabel      (linkedNotebook, notebookUri);
@@ -156,7 +156,7 @@ public class SSDataImportEvernoteHelper {
 //          creationTimeForLinkedNotebook,
 //          SSEntityEnum.evernoteNote);
 //        
-//        SSServCaller.addUEAtCreationTime(
+//        SSServCaller.uEAddAtCreationTime(
 //          userUri,
 //          noteUri,
 //          SSUEEnum.evernoteNoteFollow,
@@ -178,7 +178,7 @@ public class SSDataImportEvernoteHelper {
 //              note.getUpdated(),
 //              SSEntityEnum.evernoteResource);
 //            
-//            SSServCaller.addUEAtCreationTime(
+//            SSServCaller.uEAddAtCreationTime(
 //              userUri,
 //              resourceUri,
 //              SSUEEnum.evernoteResourceFollow,
@@ -200,7 +200,7 @@ public class SSDataImportEvernoteHelper {
     SSUri      noteUri;
     SSLabel noteLabel;
     
-    for(Note note : SSServCaller.getEvernoteNotes(evernoteInfo.noteStore, notebook.getGuid())){
+    for(Note note : SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid())){
       
       noteUri   = evernoteHelper.uriHelper.getNormalOrSharedNoteUri   (evernoteInfo, note);
       noteLabel = SSEvernoteLabelHelper.getNoteLabel                  (note,         noteUri);

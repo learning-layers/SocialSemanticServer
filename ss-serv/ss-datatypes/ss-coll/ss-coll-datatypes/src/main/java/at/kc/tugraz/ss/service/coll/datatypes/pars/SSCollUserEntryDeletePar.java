@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserEntryDeletePar extends SSServPar{
   
-  public SSUri       coll         = null;
-  public SSUri       collEntry    = null;
+  public SSUri       coll     = null;
+  public SSUri       entry    = null;
       
   public SSCollUserEntryDeletePar(SSServPar par) throws Exception{
     
@@ -37,13 +37,13 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     try{
       
       if(pars != null){
-        coll       = (SSUri)       pars.get(SSVarU.coll);
-        collEntry  = (SSUri)       pars.get(SSVarU.collEntry);
+        coll   = (SSUri)       pars.get(SSVarU.coll);
+        entry  = (SSUri)       pars.get(SSVarU.entry);
       }
       
       if(clientPars != null){
-        coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
-        collEntry  = SSUri.get        ((String)clientPars.get(SSVarU.collEntry));
+        coll    = SSUri.get        (clientPars.get(SSVarU.coll));
+        entry   = SSUri.get        (clientPars.get(SSVarU.entry));
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

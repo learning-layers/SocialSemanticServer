@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEGetPar extends SSServPar{
   
-  public SSUri ueUri       = null;
+  public SSUri ue       = null;
   
   public SSUEGetPar(SSServPar par) throws Exception{
 
@@ -36,11 +36,11 @@ public class SSUEGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        ueUri   = (SSUri)    pars.get(SSVarU.ueUri);
+        ue   = (SSUri)    pars.get(SSVarU.ue);
       }      
       
       if(clientPars != null){
-        ueUri   = SSUri.get    (clientPars.get(SSVarU.ueUri));
+        ue   = SSUri.get    (clientPars.get(SSVarU.ue));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

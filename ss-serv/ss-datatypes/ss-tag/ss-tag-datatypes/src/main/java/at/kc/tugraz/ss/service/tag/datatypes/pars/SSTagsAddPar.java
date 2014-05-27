@@ -32,9 +32,9 @@ import java.util.List;
 
 public class SSTagsAddPar extends SSServPar{
   
-  public SSUri             resource       = null;
-  public List<SSTagLabel>  tagStrings     = new ArrayList<SSTagLabel>();
-  public SSSpaceE          space          = null;
+  public SSUri             entity       = null;
+  public List<SSTagLabel>  labels       = new ArrayList<SSTagLabel>();
+  public SSSpaceE          space        = null;
   
   public SSTagsAddPar(SSServPar par) throws Exception{
     
@@ -43,16 +43,16 @@ public class SSTagsAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.tagStrings.addAll((List<SSTagLabel>)  pars.get(SSVarU.tagStrings));
-        this.resource     =  (SSUri)               pars.get(SSVarU.resource);
-        this.space        =  (SSSpaceE)         pars.get(SSVarU.space);
+        labels.addAll((List<SSTagLabel>)  pars.get(SSVarU.labels));
+        entity       =  (SSUri)           pars.get(SSVarU.entity);
+        space        =  (SSSpaceE)        pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
         
-        resource   = SSUri.get        (clientPars.get(SSVarU.resource));
-        space      = SSSpaceE.get     (clientPars.get(SSVarU.space));
-        tagStrings = SSTagLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tagStrings), SSStrU.comma));
+        entity   = SSUri.get        (clientPars.get(SSVarU.entity));
+        space    = SSSpaceE.get     (clientPars.get(SSVarU.space));
+        labels   = SSTagLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

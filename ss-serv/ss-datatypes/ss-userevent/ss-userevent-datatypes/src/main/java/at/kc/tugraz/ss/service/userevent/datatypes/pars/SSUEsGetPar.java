@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEsGetPar extends SSServPar{
   
-  public SSUri           resource       = null;
-  public SSUEE        eventType      = null;
+  public SSUri           entity         = null;
+  public SSUEE           type           = null;
   public Long            startTime      = null;
   public Long            endTime        = null;
   public SSUri           forUser        = null;
@@ -41,8 +41,8 @@ public class SSUEsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        resource   = (SSUri)    pars.get(SSVarU.resource);
-        eventType  = (SSUEE) pars.get(SSVarU.eventType);
+        entity     = (SSUri)    pars.get(SSVarU.entity);
+        type       = (SSUEE)    pars.get(SSVarU.type);
         startTime  = (Long)     pars.get(SSVarU.startTime);
         forUser    = (SSUri)    pars.get(SSVarU.forUser);
         
@@ -58,19 +58,19 @@ public class SSUEsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          resource   = SSUri.get    ((String)clientPars.get(SSVarU.resource));
+          entity   = SSUri.get    (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          eventType  = SSUEE.get ((String)clientPars.get(SSVarU.eventType));
+          type  = SSUEE.get (clientPars.get(SSVarU.type));
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf ((String)clientPars.get(SSVarU.startTime));
+          startTime  = Long.valueOf (clientPars.get(SSVarU.startTime));
         }catch(Exception error){}
         
         try{
-          endTime  = Long.valueOf ((String)clientPars.get(SSVarU.endTime));
+          endTime  = Long.valueOf (clientPars.get(SSVarU.endTime));
         }catch(Exception error){}
       }
     }catch(Exception error){

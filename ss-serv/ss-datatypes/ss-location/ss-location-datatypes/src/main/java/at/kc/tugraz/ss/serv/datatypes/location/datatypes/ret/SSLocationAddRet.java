@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSLocationAddRet extends SSServRetI{
 
-  public SSUri uri = null;
+  public SSUri entity = null;
 
   public static SSLocationAddRet get(SSUri uri, SSMethU op){
     return new SSLocationAddRet(uri, op);
@@ -40,7 +40,7 @@ public class SSLocationAddRet extends SSServRetI{
     
     super(op);
     
-    this.uri = uri;
+    this.entity = uri;
   }
 
   @Override
@@ -48,13 +48,13 @@ public class SSLocationAddRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  /* getters to allow for json enconding */
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 }

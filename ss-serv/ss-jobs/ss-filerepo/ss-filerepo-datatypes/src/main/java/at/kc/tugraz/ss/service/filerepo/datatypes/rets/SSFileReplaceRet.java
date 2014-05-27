@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSFileReplaceRet extends SSServRetI{
   
-  public  SSUri         uri;
+  public  SSUri         file;
   public  SSUri         user;
   public  String        status;
 
@@ -42,7 +42,7 @@ public class SSFileReplaceRet extends SSServRetI{
     
     super(op);
     
-    this.uri           = uri;
+    this.file           = uri;
     this.user          = user;
     this.status        = status;
   }
@@ -52,16 +52,16 @@ public class SSFileReplaceRet extends SSServRetI{
     
     Map<String, Object> ld           = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.status,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  /* getters to allow for json enconding */
+  public String getFile() throws Exception{
+    return SSUri.toStrWithoutSlash(file);
   }
 
   public String getUser() throws Exception{

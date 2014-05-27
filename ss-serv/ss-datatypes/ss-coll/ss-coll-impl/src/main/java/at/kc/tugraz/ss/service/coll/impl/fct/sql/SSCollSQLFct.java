@@ -641,7 +641,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.pos);
       column   (columns,   SSSQLVarU.label);
       column   (columns,   SSSQLVarU.type);
-      where    (wheres,    SSSQLVarU.collId,  coll.uri);
+      where    (wheres,    SSSQLVarU.collId,  coll.id);
       tableCon (tableCons, collEntryPosTable, SSSQLVarU.entryId, entityTable, SSSQLVarU.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons.get(0), SSSQLVarU.pos, "ASC");

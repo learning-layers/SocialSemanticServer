@@ -31,8 +31,8 @@ import java.util.Map;
 
 public class SSAuthCheckCredRet extends SSServRetI{
 
-  public SSUri  uri = null;
-  public String key = null;
+  public SSUri  user = null;
+  public String key  = null;
   
   public static SSAuthCheckCredRet get(
     final String  key, 
@@ -49,7 +49,7 @@ public class SSAuthCheckCredRet extends SSServRetI{
     super(op);
     
     this.key = key;
-    this.uri = uri;
+    this.user = uri;
   }
 
   @Override
@@ -57,8 +57,8 @@ public class SSAuthCheckCredRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.key, SSLinkU.xsd + SSStrU.valueString);
-    ld.put(SSVarU.uri, SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.key,  SSLinkU.xsd + SSStrU.valueString);
+    ld.put(SSVarU.user, SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
@@ -69,7 +69,7 @@ public class SSAuthCheckCredRet extends SSServRetI{
     return key;
   }  
   
-  public String getUri() {
-    return SSUri.toStr(uri);
+  public String getUser() {
+    return SSUri.toStr(user);
   }  
 }

@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSRatingUserSetPar extends SSServPar{
   
   public Integer   value        = -1;
-  public SSUri     resource     = null;
+  public SSUri     entity       = null;
       
   public SSRatingUserSetPar(SSServPar par) throws Exception{
       
@@ -36,13 +36,13 @@ public class SSRatingUserSetPar extends SSServPar{
     
     try{
       if(pars != null){
-        this.resource = (SSUri)   pars.get(SSVarU.resource);
-        value         = (Integer) pars.get(SSVarU.value);
+        entity    = (SSUri)   pars.get(SSVarU.entity);
+        value     = (Integer) pars.get(SSVarU.value);
       }
       
       if(clientPars != null){
-        this.resource = SSUri.get       ((String)clientPars.get(SSVarU.resource));
-        value         = Integer.valueOf ((String)clientPars.get(SSVarU.value));
+        entity    = SSUri.get       (clientPars.get(SSVarU.entity));
+        value     = Integer.valueOf (clientPars.get(SSVarU.value));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

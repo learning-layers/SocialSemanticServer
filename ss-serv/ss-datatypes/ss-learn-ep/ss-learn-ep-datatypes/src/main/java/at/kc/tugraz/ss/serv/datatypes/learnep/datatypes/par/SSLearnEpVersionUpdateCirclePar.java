@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
   
-  public SSUri         learnEpCircleUri  = null;
-  public SSLabel    label             = null;
+  public SSUri         learnEpCircle     = null;
+  public SSLabel       label             = null;
   public Float         xLabel            = null;
   public Float         yLabel            = null;
   public Float         xR                = null;
@@ -44,8 +44,8 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpCircleUri  = (SSUri) pars.get(SSVarU.learnEpCircleUri);
-        label             = (SSLabel) pars.get(SSVarU.label);
+        learnEpCircle     = (SSUri)    pars.get(SSVarU.learnEpCircle);
+        label             = (SSLabel)  pars.get(SSVarU.label);
         xLabel            = (Float)    pars.get(SSVarU.xLabel);
         yLabel            = (Float)    pars.get(SSVarU.yLabel);
         xR                = (Float)    pars.get(SSVarU.xR);
@@ -55,8 +55,8 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
       }
       
       if(clientPars != null){
-        learnEpCircleUri  = SSUri.get        (clientPars.get(SSVarU.learnEpCircleUri));
-        label             = SSLabel.get   (clientPars.get(SSVarU.label));
+        learnEpCircle     = SSUri.get        (clientPars.get(SSVarU.learnEpCircle));
+        label             = SSLabel.get      (clientPars.get(SSVarU.label));
         xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
         yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
         xR                = Float.parseFloat (clientPars.get(SSVarU.xR));

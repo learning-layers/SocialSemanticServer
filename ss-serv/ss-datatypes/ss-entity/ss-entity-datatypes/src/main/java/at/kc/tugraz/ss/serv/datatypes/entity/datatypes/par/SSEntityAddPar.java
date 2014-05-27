@@ -29,9 +29,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityAddPar extends SSServPar{
   
-  public SSUri        entityUri  = null;
-  public SSLabel   label      = null;
-  public SSEntityE entityType = null;
+  public SSUri     entity  = null;
+  public SSLabel   label   = null;
+  public SSEntityE type    = null;
     
   public SSEntityAddPar(SSServPar par) throws Exception{
       
@@ -40,9 +40,9 @@ public class SSEntityAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri   = (SSUri)        pars.get(SSVarU.entityUri);
-        label       = (SSLabel)   pars.get(SSVarU.label);
-        entityType  = (SSEntityE) pars.get(SSVarU.entityType);
+        entity   = (SSUri)     pars.get(SSVarU.entity);
+        label    = (SSLabel)   pars.get(SSVarU.label);
+        type     = (SSEntityE) pars.get(SSVarU.type);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

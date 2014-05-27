@@ -495,7 +495,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		
 		for(SSModelUEResource otherResource : resources.values()){
 			
-			if(SSUri.contains(otherResource.editors, resource.resourceUrl)){
+			if(SSUri.contains(otherResource.editors, resource.id)){
 			
 				resource.counters.put(
 						SSModelUEResourceCounterEnum.counterIsEditor.toString(),
@@ -516,7 +516,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 				if(
 						SSUEE.contains(SSModelUEU.contributeToDiscussionEventTypes, otherResourceEvent.type) &&
-						SSUri.equals(otherResourceEvent.user, resource.resourceUrl)){
+						SSUri.equals(otherResourceEvent.user, resource.id)){
 
 					resource.counters.put(
 							SSModelUEResourceCounterEnum.counterContributedDiscussion.toString(),
@@ -557,7 +557,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 				if(
 						SSUEE.contains(SSModelUEU.participationEventTypes, otherResourceEvent.type) &&
-						SSUri.equals(otherResourceEvent.user, resource.resourceUrl)){
+						SSUri.equals(otherResourceEvent.user, resource.id)){
 
 					resource.counters.put(
 							SSModelUEResourceCounterEnum.counterParticipated.toString(),

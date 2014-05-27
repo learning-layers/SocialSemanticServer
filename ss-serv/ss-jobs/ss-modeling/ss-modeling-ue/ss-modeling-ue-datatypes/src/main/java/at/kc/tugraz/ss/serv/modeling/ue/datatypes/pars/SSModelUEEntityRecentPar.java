@@ -18,43 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
+package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommTagsTemporalUsagePatternsPar extends SSServPar{
+public class SSModelUEEntityRecentPar extends SSServPar{
   
-  public SSUri         forUser   = null;
-  public SSUri         entityUri = null;
-  public Integer       maxTags   = 10;
+  public SSUri entity = null;
   
-  public SSRecommTagsTemporalUsagePatternsPar(final SSServPar par) throws Exception{
+  public SSModelUEEntityRecentPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       if(pars != null){
-        this.forUser   =  (SSUri)         pars.get(SSVarU.forUser);
-        this.entityUri =  (SSUri)         pars.get(SSVarU.entityUri);
-        this.maxTags   =  (Integer)       pars.get(SSVarU.maxTags);
+        entity = (SSUri) pars.get(SSVarU.entity);
       }
       
       if(clientPars != null){
-        
-        try{
-          this.forUser   = SSUri.get         (clientPars.get(SSVarU.forUser));
-        }catch(Exception error){}
-        
-        try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
-        }catch(Exception error){}
-        
-        try{
-          this.maxTags   = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
-        }catch(Exception error){}
+        entity = SSUri.get(clientPars.get(SSVarU.entity));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -200,7 +200,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       final SSUsersGetPar par   = new SSUsersGetPar(parA);
       final List<SSUser>  users = new ArrayList<SSUser>();
       
-      for(SSUri userUri : par.userUris){
+      for(SSUri userUri : par.users){
         users.add(sqlFct.getUser(userUri));
       }
       

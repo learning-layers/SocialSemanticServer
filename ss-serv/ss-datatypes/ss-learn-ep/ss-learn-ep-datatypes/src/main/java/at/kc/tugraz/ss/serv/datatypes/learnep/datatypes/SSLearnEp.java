@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class SSLearnEp extends SSEntityA {
 
-  public SSUri       learnEpUri = null;
+  public SSUri       id         = null;
   public SSUri       user       = null;
   public SSLabel     label      = null;
 
@@ -44,7 +44,7 @@ public class SSLearnEp extends SSEntityA {
     super(learnEpUri);
     
     this.user        = user;
-    this.learnEpUri  = learnEpUri;
+    this.id  = learnEpUri;
     this.label       = label;
   }
   
@@ -54,7 +54,7 @@ public class SSLearnEp extends SSEntityA {
     Map<String, Object> ld         = new HashMap<String, Object>();
     
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.learnEpUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     
     return ld;
@@ -65,8 +65,8 @@ public class SSLearnEp extends SSEntityA {
     return SSUri.toStrWithoutSlash(user);
   }
 
-  public String getLearnEpUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpUri);
+  public String getId() throws Exception {
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getLabel() {

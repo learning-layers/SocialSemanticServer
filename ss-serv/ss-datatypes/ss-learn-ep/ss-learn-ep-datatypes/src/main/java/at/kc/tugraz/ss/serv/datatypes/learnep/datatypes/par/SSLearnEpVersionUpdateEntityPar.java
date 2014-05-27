@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
   
-  public SSUri    learnEpEntityUri   = null;
-  public SSUri    entityUri          = null;
+  public SSUri    learnEpEntity      = null;
+  public SSUri    entity             = null;
   public Float    x                  = null;
   public Float    y                  = null;
   
@@ -39,15 +39,15 @@ public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpEntityUri   = (SSUri)      pars.get(SSVarU.learnEpEntityUri); 
-        entityUri          = (SSUri)      pars.get(SSVarU.entityUri);
+        learnEpEntity      = (SSUri)    pars.get(SSVarU.learnEpEntity); 
+        entity             = (SSUri)    pars.get(SSVarU.entity);
         x                  = (Float)    pars.get(SSVarU.x);
         y                  = (Float)    pars.get(SSVarU.y);
       }
       
       if(clientPars != null){
-        learnEpEntityUri  = SSUri.get        (clientPars.get(SSVarU.learnEpEntityUri));
-        entityUri         = SSUri.get        (clientPars.get(SSVarU.entityUri));
+        learnEpEntity     = SSUri.get        (clientPars.get(SSVarU.learnEpEntity));
+        entity            = SSUri.get        (clientPars.get(SSVarU.entity));
         x                 = Float.parseFloat (clientPars.get(SSVarU.x));
         y                 = Float.parseFloat (clientPars.get(SSVarU.y));
       }

@@ -30,8 +30,8 @@ import java.util.Map;
 
 public class SSLearnEpCircle extends SSEntityA {
   
-  public SSUri         learnEpCircleUri = null;
-  public SSLabel    label            = null;
+  public SSUri         id               = null;
+  public SSLabel       label            = null;
   public Float         xLabel           = null;
   public Float         yLabel           = null;
   public Float         xR               = null;
@@ -39,14 +39,15 @@ public class SSLearnEpCircle extends SSEntityA {
   public Float         xC               = null;
   public Float         yC               = null;
   
-  public static SSLearnEpCircle get(SSUri learnEpCircleUri, SSLabel label, Float xLabel, Float yLabel, Float xR, Float yR, Float xC, Float yC) throws Exception{
-    return new SSLearnEpCircle(learnEpCircleUri, label, xLabel, yLabel, xR, yR, xC, yC);
+  public static SSLearnEpCircle get(SSUri id, SSLabel label, Float xLabel, Float yLabel, Float xR, Float yR, Float xC, Float yC) throws Exception{
+    return new SSLearnEpCircle(id, label, xLabel, yLabel, xR, yR, xC, yC);
   }
   
-  private SSLearnEpCircle(SSUri learnEpCircleUri, SSLabel label, Float xLabel, Float yLabel, Float xR, Float yR, Float xC, Float yC)throws Exception{
-    super(learnEpCircleUri);
+  private SSLearnEpCircle(SSUri id, SSLabel label, Float xLabel, Float yLabel, Float xR, Float yR, Float xC, Float yC)throws Exception{
     
-    this.learnEpCircleUri    = learnEpCircleUri;
+    super(id);
+    
+    this.id                  = id;
     this.label               = label;
     this.xLabel              = xLabel;
     this.yLabel              = yLabel;
@@ -61,7 +62,7 @@ public class SSLearnEpCircle extends SSEntityA {
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpCircleUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,               SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,            SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarU.xLabel,           SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
     ld.put(SSVarU.yLabel,           SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
@@ -73,9 +74,9 @@ public class SSLearnEpCircle extends SSEntityA {
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpCircleUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpCircleUri);
+  /* getters to allow for json enconding */
+  public String getId() throws Exception {
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getLabel() {

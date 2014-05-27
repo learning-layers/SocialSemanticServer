@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSRecommTagsCollaborativeFilteringOnUserSimilarityPar extends SSServPar{
   
   public SSUri         forUser   = null;
-  public SSUri         entityUri = null;
+  public SSUri         entity    = null;
   public Integer       maxTags   = 10;
   
   public SSRecommTagsCollaborativeFilteringOnUserSimilarityPar(final SSServPar par) throws Exception{
@@ -37,23 +37,23 @@ public class SSRecommTagsCollaborativeFilteringOnUserSimilarityPar extends SSSer
     
     try{
       if(pars != null){
-        this.forUser   =  (SSUri)         pars.get(SSVarU.forUser);
-        this.entityUri =  (SSUri)         pars.get(SSVarU.entityUri);
-        this.maxTags   =  (Integer)       pars.get(SSVarU.maxTags);
+        forUser   =  (SSUri)         pars.get(SSVarU.forUser);
+        entity    =  (SSUri)         pars.get(SSVarU.entity);
+        maxTags   =  (Integer)       pars.get(SSVarU.maxTags);
       }
       
       if(clientPars != null){
         
         try{
-          this.forUser   = SSUri.get         (clientPars.get(SSVarU.forUser));
+          forUser   = SSUri.get         (clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
         try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
+          entity = SSUri.get         (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          this.maxTags   = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
+          maxTags   = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
         }catch(Exception error){}
       }
     }catch(Exception error){

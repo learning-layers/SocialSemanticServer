@@ -26,8 +26,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSI5CloudFileUploadPar extends SSServPar{
   
-  public String xAuthToken  = null;
-  public String fileName    = null;
+  public String authToken   = null;
+  public String label       = null;
   public String space       = null;
   
   public SSI5CloudFileUploadPar(final SSServPar par) throws Exception{
@@ -36,8 +36,8 @@ public class SSI5CloudFileUploadPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileName        = (String) pars.get(SSVarU.fileName);
-        xAuthToken      = (String) pars.get(SSVarU.xAuthToken);
+        label           = (String) pars.get(SSVarU.label);
+        authToken       = (String) pars.get(SSVarU.authToken);
         space           = (String) pars.get(SSVarU.space);
       }
     }catch(Exception error){

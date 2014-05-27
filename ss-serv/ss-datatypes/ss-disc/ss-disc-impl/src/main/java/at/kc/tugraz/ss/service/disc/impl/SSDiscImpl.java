@@ -224,11 +224,11 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try{
       final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
       
-      if(!SSServCaller.entityUserCanRead(par.user, par.entityUri)){
+      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
         return new ArrayList<SSUri>();
       }
     
-      return sqlFct.getDiscURIs(par.user, par.entityUri);
+      return sqlFct.getDiscURIs(par.user, par.entity);
     } catch (Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -241,22 +241,22 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try {
       final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
       
-      if(!SSServCaller.entityUserCanAll(par.user, par.discUri)){
+      if(!SSServCaller.entityUserCanAll(par.user, par.disc)){
         throw new Exception("user cannot remove disc");
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      switch(SSServCaller.entityMostOpenCircleTypeGet(par.discUri)){
+      switch(SSServCaller.entityMostOpenCircleTypeGet(par.disc)){
       
-        case priv: sqlFct.deleteDisc(par.discUri);          break;
+        case priv: sqlFct.deleteDisc(par.disc);          break;
         case group: 
-        case pub: sqlFct.unlinkDisc(par.user, par.discUri); break;
+        case pub: sqlFct.unlinkDisc(par.user, par.disc); break;
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.discUri;
+      return par.disc;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -290,31 +290,31 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       
       if(par.addNewDisc){
         
-        par.discUri = SSServCaller.vocURICreate();
+        par.disc = SSServCaller.vocURICreate();
         
         SSDiscUserEntryAddFct.addDisc(
           sqlFct,
-          par.discUri,
+          par.disc,
           par.user,
-          par.targetUri,
-          par.discType,
-          par.discLabel);
+          par.entity,
+          par.type,
+          par.label);
       }      
       
-      if(par.content != null){
+      if(par.entry != null){
         
         discEntryUri = 
           SSDiscUserEntryAddFct.addDiscEntry(
             sqlFct,
             par.user,
-            par.discUri,
-            par.content);
+            par.disc,
+            par.entry);
       }
       
       dbSQL.commit(par.shouldCommit);
       
       return SSDiscUserEntryAddRet.get(
-        par.discUri, 
+        par.disc, 
         discEntryUri, 
         par.op);
       
@@ -392,8 +392,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         discsWithEntries.add(
           SSServCaller.discUserWithEntriesGet(
             par.user,
-            disc.uri,
-            par.maxDiscEntries));
+            disc.id,
+            par.maxEntries));
       }
 
       return discsWithEntries;

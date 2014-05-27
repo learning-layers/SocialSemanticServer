@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import static at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA.contains;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -32,7 +31,7 @@ import java.util.*;
 
 public class SSSearchResult extends SSEntityA{
 
-  public  SSUri                   uri                             = null;
+  public  SSUri                   entity                          = null;
   public  SSSpaceE                space                           = null;
   public  String                  label                           = null;
   public  SSEntityE               type                            = null;
@@ -43,7 +42,7 @@ public class SSSearchResult extends SSEntityA{
     
     super(uri);
     
-    this.uri    = uri;
+    this.entity    = uri;
     this.space  = space;
   }
   
@@ -52,7 +51,7 @@ public class SSSearchResult extends SSEntityA{
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,           SSVarU.sss + SSStrU.colon  + SSUri.class.getName());
+    ld.put(SSVarU.entity,        SSVarU.sss + SSStrU.colon  + SSUri.class.getName());
     ld.put(SSVarU.space,         SSVarU.sss + SSStrU.colon  + SSSpaceE.class.getName());
     ld.put(SSVarU.label,         SSVarU.xsd + SSStrU.colon  + SSStrU.valueString);
     ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon  + SSEntityE.class.getName());
@@ -77,8 +76,8 @@ public class SSSearchResult extends SSEntityA{
   }
   
   /* getters to allow for json enconding */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public String getSpace(){

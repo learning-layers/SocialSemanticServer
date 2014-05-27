@@ -215,29 +215,29 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     try{
       
       final SSTagAddPar par       = new SSTagAddPar(parA);
-      final Boolean     existsTag = sqlFct.existsTagLabel    (par.tagString);
-      final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.tagString);
+      final Boolean     existsTag = sqlFct.existsTagLabel    (par.label);
+      final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
 
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
         par.user,
         tagUri,       
-        SSLabel.get(SSTagLabel.toStr(par.tagString)), 
+        SSLabel.get(SSTagLabel.toStr(par.label)), 
         SSEntityE.tag,
         false);
 
       SSServCaller.entityAdd(
         par.user,
-        par.resource, 
-        SSLabel.get(SSUri.toStr(par.resource)),
+        par.entity, 
+        SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
         false);
       
         sqlFct.addTagAssIfNotExists(
           tagUri, 
           par.user, 
-          par.resource, 
+          par.entity, 
           par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -266,30 +266,30 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     try{
       
       final SSTagAddAtCreationTimePar par       = new SSTagAddAtCreationTimePar(parA);
-      final Boolean                   existsTag = sqlFct.existsTagLabel   (par.tagString);
-      final SSUri                     tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.tagString); 
+      final Boolean                   existsTag = sqlFct.existsTagLabel   (par.label);
+      final SSUri                     tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label); 
 
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAddAtCreationTime(
         par.user,
         tagUri,
-        SSLabel.get(SSStrU.toString(par.tagString)),
+        SSLabel.get(SSStrU.toString(par.label)),
         par.creationTime,
         SSEntityE.tag,
         false);
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(par.resource.toString()),
+        par.entity,
+        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
         false);
       
       sqlFct.addTagAssIfNotExists(
         tagUri, 
         par.user, 
-        par.resource, 
+        par.entity, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -318,8 +318,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
 
       final SSTagsAddPar par    = new SSTagsAddPar(parA);
       
-      for(SSTagLabel tagString : par.tagStrings) {
-        SSServCaller.tagAdd(par.user, par.resource, tagString, par.space, par.shouldCommit);
+      for(SSTagLabel tagString : par.labels) {
+        SSServCaller.tagAdd(par.user, par.entity, tagString, par.space, par.shouldCommit);
       }
       
       return true;
@@ -348,11 +348,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSTagLabel tagString : par.tagStrings) {
+      for(SSTagLabel tagString : par.labels) {
        
         SSServCaller.tagAddAtCreationTime(
           par.user, 
-          par.resource, 
+          par.entity, 
           SSTagLabel.toStr(tagString), 
           par.space, 
           par.creationTime, 
@@ -389,8 +389,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       sqlFct.removeTagAsss (
         par.forUser, 
-        par.entityUri, 
-        par.tagLabel, 
+        par.entity, 
+        par.label, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -425,12 +425,12 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(
         par.space    == null &&
-        par.resource == null){
+        par.entity == null){
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss(par.user, null, par.tagString, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss(par.user, null, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -438,11 +438,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
        if(
          par.space    != null &&
-         par.resource == null){
+         par.entity == null){
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeTagAsss(par.user, null, par.tagString, par.space);
+         sqlFct.removeTagAsss(par.user, null, par.label, par.space);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -450,12 +450,12 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(
         par.space    == null &&
-        par.resource != null){
+        par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.user, par.resource, par.tagString, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss (null,     par.resource, par.tagString, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -463,11 +463,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(
         par.space    != null &&
-        par.resource != null){
+        par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
       
-        sqlFct.removeTagAsss(null, par.resource, par.tagString, par.space);
+        sqlFct.removeTagAsss(null, par.entity, par.label, par.space);
 
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -509,13 +509,13 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         entityUris.addAll(
           sqlFct.getEntitiesForTagLabel(
           par.user,
-          par.tagString,
+          par.label,
           SSSpaceE.privateSpace));
         
         entityUris.addAll(
           sqlFct.getEntitiesForTagLabel(
           null,
-          par.tagString,
+          par.label,
           SSSpaceE.sharedSpace));
         
         return SSUri.distinct(entityUris);
@@ -525,7 +525,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         
         return sqlFct.getEntitiesForTagLabel(
           null,
-          par.tagString,
+          par.label,
           par.space);
       }
         
@@ -533,7 +533,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         
         return sqlFct.getEntitiesForTagLabel(
           par.user,
-          par.tagString,
+          par.label,
           par.space);
       }
       
@@ -560,18 +560,18 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         
         final List<SSTag>      tags = new ArrayList<SSTag>();
         
-        tags.addAll (sqlFct.getTagAsss(par.user, par.resource, par.tagString, SSSpaceE.privateSpace));
-        tags.addAll (sqlFct.getTagAsss(null,     par.resource, par.tagString, SSSpaceE.sharedSpace));
+        tags.addAll (sqlFct.getTagAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
+        tags.addAll (sqlFct.getTagAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
         
         return tags;
       }
       
       if(SSSpaceE.isPrivate(par.space)){
-        return sqlFct.getTagAsss(par.user, par.resource, par.tagString, par.space);
+        return sqlFct.getTagAsss(par.user, par.entity, par.label, par.space);
       }
       
       if(SSSpaceE.isShared(par.space)){
-        return sqlFct.getTagAsss(null, par.resource, par.tagString, par.space);
+        return sqlFct.getTagAsss(null, par.entity, par.label, par.space);
       }
       
       throw new Exception("reached not reachable code");
@@ -592,8 +592,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       tags = 
         SSServCaller.tagsUserGet(
           par.user,
-          par.resource, 
-          SSTagLabel.toStr(par.tagString), 
+          par.entity, 
+          SSTagLabel.toStr(par.label), 
           par.space);
       
       return SSTagMiscFct.getTagFrequsFromTags (tags, par.space);

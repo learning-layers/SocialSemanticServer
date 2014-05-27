@@ -18,33 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
+package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommCreateLDASamplesPar extends SSServPar{
-
-  public String  sampleName  = null;
-  public Integer sampleCount = null;
-  public Integer topics      = null;
-    
-  public SSRecommCreateLDASamplesPar(SSServPar par) throws Exception{
+public class SSFileUriFromIDPar extends SSServPar{
+  
+  public String   id    = null;
+  
+  public SSFileUriFromIDPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
+      
       if(pars != null){
-        this.sampleName  = (String)pars.get(SSVarU.sampleName);
-        this.sampleCount = (Integer)pars.get(SSVarU.sampleCount);
-        this.topics      = (Integer)pars.get(SSVarU.topics);
+        id   = (String) pars.get(SSVarU.id);
       }
       
       if(clientPars != null){
-        this.sampleName  = clientPars.get  (SSVarU.sampleName);
-        this.sampleCount = Integer.valueOf (clientPars.get(SSVarU.sampleCount));
-        this.topics      = Integer.valueOf (clientPars.get(SSVarU.topics));
+        id   = clientPars.get(SSVarU.id);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

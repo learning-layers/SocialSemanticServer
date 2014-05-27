@@ -29,7 +29,7 @@ import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
-  public List<SSUri>      userUris   = new ArrayList<SSUri>();
+  public List<SSUri> users   = new ArrayList<SSUri>();
   
   public SSUsersGetPar(SSServPar par) throws Exception{
    
@@ -38,7 +38,7 @@ public class SSUsersGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.userUris   = (List<SSUri>) pars.get(SSVarU.userUris);
+        users   = (List<SSUri>) pars.get(SSVarU.users);
       }
       
     }catch(Exception error){

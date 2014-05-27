@@ -213,11 +213,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      for(String tagLabel : par.tagLabels){
+      for(String tagLabel : par.tags){
         
         searchResultsForOneKeyword.clear();
         
-        for(SSUri entityUri : SSServCaller.entitySearchWithKeywordWithin(par.user, par.entityUri, tagLabel)){
+        for(SSUri entityUri : SSServCaller.entitySearchWithKeywordWithin(par.user, par.entity, tagLabel)){
          
           SSSearchMiscFct.getPublicAndPrivateResults(
             par.user,

@@ -30,8 +30,8 @@ import java.util.List;
 
 public class SSCollUserEntriesDeletePar extends SSServPar{
   
-  public SSUri       coll         = null;
-  public List<SSUri> collEntries  = new ArrayList<SSUri>();
+  public SSUri       coll     = null;
+  public List<SSUri> entries  = new ArrayList<SSUri>();
       
   public SSCollUserEntriesDeletePar(SSServPar par) throws Exception{
     
@@ -40,14 +40,14 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
     try{
       
       if(pars != null){
-        coll         = (SSUri)       pars.get(SSVarU.coll);
-        collEntries  = (List<SSUri>) pars.get(SSVarU.collEntries);
+        coll     = (SSUri)       pars.get(SSVarU.coll);
+        entries  = (List<SSUri>) pars.get(SSVarU.entries);
       }
       
       if(clientPars != null){
         
-        coll        = SSUri.get  ((String)clientPars.get(SSVarU.coll));
-        collEntries = SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.collEntries), SSStrU.comma));
+        coll    = SSUri.get  (clientPars.get(SSVarU.coll));
+        entries = SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entries), SSStrU.comma));
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserHierarchyGetPar extends SSServPar{
   
-  public SSUri             collUri              = null;
+  public SSUri  coll = null;
       
   public SSCollUserHierarchyGetPar(SSServPar par) throws Exception{
     
@@ -36,11 +36,11 @@ public class SSCollUserHierarchyGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        collUri        = (SSUri) pars.get(SSVarU.collUri);
+        coll = (SSUri) pars.get(SSVarU.coll);
       }
       
       if(clientPars != null){
-        collUri = SSUri.get((String)clientPars.get(SSVarU.collUri));
+        coll = SSUri.get(clientPars.get(SSVarU.coll));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

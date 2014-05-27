@@ -50,7 +50,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
     NoteAttributes       noteAttr;
     ResourceAttributes   resourceAttr;
     
-    evernoteInfo = SSServCaller.getEvernoteInfo(SSUserGlobals.systemUser, ((SSEvernoteConf)conf).authTokens.get(0));
+    evernoteInfo = SSServCaller.evernoteNoteStoreGet(SSUserGlobals.systemUser, ((SSEvernoteConf)conf).authTokens.get(0));
     
     //      opPars = new HashMap<String, Object>();
     //      opPars.put(SSVarU.shouldCommit,  false);
@@ -82,7 +82,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
     //
     //      System.out.println();
 
-    for(Notebook notebook : SSServCaller.getEvernoteNotebooks(evernoteInfo.noteStore)){
+    for(Notebook notebook : SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore)){
       
       System.out.println("notebook");
       System.out.println(notebook.getName());
@@ -96,7 +96,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
       System.out.println(notebook.getContact());
       System.out.println();
       
-      for(Note note : SSServCaller.getEvernoteNotes(evernoteInfo.noteStore, notebook.getGuid())){
+      for(Note note : SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid())){
         
         System.out.println("note");
         System.out.println(note.getTitle());

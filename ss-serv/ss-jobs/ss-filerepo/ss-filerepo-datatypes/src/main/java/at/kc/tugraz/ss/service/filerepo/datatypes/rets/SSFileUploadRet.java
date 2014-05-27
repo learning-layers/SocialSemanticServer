@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSFileUploadRet extends SSServRetI{
 
-  public  SSUri         uri     = null;
+  public  SSUri         file     = null;
   public  String        status  = null;
 
   public static SSFileUploadRet get(
@@ -48,7 +48,7 @@ public class SSFileUploadRet extends SSServRetI{
     
     super(op);
     
-    this.uri          = uri;
+    this.file          = uri;
     this.status       = status;
   }
 
@@ -57,15 +57,15 @@ public class SSFileUploadRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.status, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.status,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
    
   /* getters to allow for json enconding */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getFile() throws Exception{
+    return SSUri.toStrWithoutSlash(file);
   }
 
   public String getStatus(){

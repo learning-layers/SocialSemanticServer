@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSLearnEpVersionAddCircleRet extends SSServRetI{
 
-  public SSUri learnEpCircleUri = null;
+  public SSUri learnEpCircle = null;
 
   public static SSLearnEpVersionAddCircleRet get(SSUri learnEpCircleUri, SSMethU op){
     return new SSLearnEpVersionAddCircleRet(learnEpCircleUri, op);
@@ -39,7 +39,7 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
   private SSLearnEpVersionAddCircleRet(SSUri learnEpCircleUri, SSMethU op){
     
     super(op);
-    this.learnEpCircleUri = learnEpCircleUri;
+    this.learnEpCircle = learnEpCircleUri;
   }
 
   @Override
@@ -47,13 +47,13 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpCircleUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEpCircle, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpCircleUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpCircleUri);
+  /* getters to allow for json enconding */
+  public String getLearnEpCircle() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEpCircle);
   }
 }

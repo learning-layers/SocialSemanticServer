@@ -26,5 +26,6 @@ public class SSCollsUserWithEntriesPar extends SSServPar{
   
   public SSCollsUserWithEntriesPar(SSServPar par) throws Exception{
     super(par);
+    
   }
 }

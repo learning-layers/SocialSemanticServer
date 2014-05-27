@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCategoryUserEntitiesForCategoryGetPar extends SSServPar{
   
-  public SSCategoryLabel  categoryLabel  = null;
-  public SSSpaceE         space          = null;
+  public SSCategoryLabel  label  = null;
+  public SSSpaceE         space  = null;
   
   public SSCategoryUserEntitiesForCategoryGetPar(SSServPar par) throws Exception{
     
@@ -37,12 +37,12 @@ public class SSCategoryUserEntitiesForCategoryGetPar extends SSServPar{
     try{
      
       if(pars != null){
-        categoryLabel  = SSCategoryLabel.get ((String) pars.get(SSVarU.categoryLabel));
-        space          = (SSSpaceE)                    pars.get(SSVarU.space);
+        label  = SSCategoryLabel.get ((String) pars.get(SSVarU.label));
+        space  = (SSSpaceE)                    pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
-        categoryLabel  = SSCategoryLabel.get   (clientPars.get(SSVarU.categoryLabel));
+        label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
         
         try{
           space        = SSSpaceE.get  (clientPars.get(SSVarU.space));

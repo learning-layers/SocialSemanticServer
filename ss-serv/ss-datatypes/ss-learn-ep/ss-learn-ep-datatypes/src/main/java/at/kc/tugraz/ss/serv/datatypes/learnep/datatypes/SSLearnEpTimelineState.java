@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class SSLearnEpTimelineState extends SSEntityA {
 
-  public SSUri learnEpTimelineStateUri = null;
-  public SSUri learnEpVersionUri       = null;
+  public SSUri id                      = null;
+  public SSUri learnEpVersion          = null;
   public Long  startTime               = null;
   public Long  endTime                 = null;
   
@@ -42,8 +42,8 @@ public class SSLearnEpTimelineState extends SSEntityA {
     
     super(learnEpTimelineStateUri);
     
-    this.learnEpTimelineStateUri = learnEpTimelineStateUri;
-    this.learnEpVersionUri       = learnEpVersionUri;
+    this.id = learnEpTimelineStateUri;
+    this.learnEpVersion       = learnEpVersionUri;
     this.startTime               = startTime;
     this.endTime                 = endTime;
   }
@@ -53,20 +53,21 @@ public class SSLearnEpTimelineState extends SSEntityA {
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpTimelineStateUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,                      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEpVersion,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.startTime,               SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     ld.put(SSVarU.endTime,                 SSVarU.sss + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpTimelineStateUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpTimelineStateUri);
+  /* getters to allow for json enconding  */
+  public String getId() throws Exception {
+    return SSUri.toStrWithoutSlash(id);
   }
   
-   public String getLearnEpVersionUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpVersionUri);
+   public String getLearnEpVersion() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEpVersion);
   }
 
   public Long getStartTime() {

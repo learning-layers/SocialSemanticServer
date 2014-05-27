@@ -31,11 +31,11 @@ import java.util.*;
 
 public class SSDisc extends SSEntityA {
   
-  public  SSUri             uri      = null;
+  public  SSUri             id       = null;
   public  SSLabel           label    = null;
   public  SSUri             author   = null;
-  public  SSUri             target   = null;
-  public  SSEntityE         discType = null;
+  public  SSUri             entity   = null;
+  public  SSEntityE         type     = null;
   public  List<SSDiscEntry> entries  = new ArrayList<SSDiscEntry>();
 
   public static SSDisc get(
@@ -59,11 +59,11 @@ public class SSDisc extends SSEntityA {
     
     super(uri);
     
-    this.uri      = uri;
+    this.id       = uri;
     this.label    = label;
     this.author   = author;
-    this.target   = target;
-    this.discType = discType;
+    this.entity   = target;
+    this.type     = discType;
     
     if(entries != null){
       this.entries.addAll(entries);
@@ -76,7 +76,7 @@ public class SSDisc extends SSEntityA {
     final Map<String, Object> ld         = new HashMap<String, Object>();
     final Map<String, Object> entriesObj = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSDiscEntry.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -84,16 +84,16 @@ public class SSDisc extends SSEntityA {
     ld.put(SSVarU.entries, entriesObj);
     
     ld.put(SSVarU.author,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.target,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,    SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.discType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.type,     SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     
     return ld;
   }
 
   /* getters to allow for jason enconding */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getLabel(){
@@ -104,12 +104,12 @@ public class SSDisc extends SSEntityA {
     return SSUri.toStrWithoutSlash(author);
   }
 
-  public String getTarget() throws Exception{
-    return SSUri.toStrWithoutSlash(target);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
   
-  public String getDiscType() throws Exception{
-    return SSEntityE.toStr(discType);
+  public String getType() throws Exception{
+    return SSEntityE.toStr(type);
   }
 
   public List<SSDiscEntry> getEntries(){

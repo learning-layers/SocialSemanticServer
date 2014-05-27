@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
   
-  public SSUri    learnEpVersionUri = null;
+  public SSUri    learnEpVersion    = null;
   public Long     startTime         = null;
   public Long     endTime           = null;
   
@@ -38,13 +38,13 @@ public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpVersionUri  = (SSUri)   pars.get(SSVarU.learnEpVersionUri); 
+        learnEpVersion     = (SSUri)   pars.get(SSVarU.learnEpVersion); 
         startTime          = (Long)    pars.get(SSVarU.startTime);
         endTime            = (Long)    pars.get(SSVarU.endTime);
       }
       
       if(clientPars != null){
-        learnEpVersionUri = SSUri.get       (clientPars.get(SSVarU.learnEpVersionUri));
+        learnEpVersion    = SSUri.get       (clientPars.get(SSVarU.learnEpVersion));
         startTime         = Long.parseLong  (clientPars.get(SSVarU.startTime));
         endTime           = Long.parseLong  (clientPars.get(SSVarU.endTime));
       } 

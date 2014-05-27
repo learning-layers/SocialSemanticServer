@@ -132,8 +132,7 @@ public enum SSMethU{
   //
   categoriesAdd                                             ,
   categoriesAddAtCreationTime                               ,
-  categoriesRemove                                          , 
-  categoriesUserRemove                                      ,
+  categoriesUserRemove                                      , 
   categoriesUserGet                                         ,
   categoryUserEntitiesForCategoryGet                       ,
   categoryUserFrequsGet                                    ,

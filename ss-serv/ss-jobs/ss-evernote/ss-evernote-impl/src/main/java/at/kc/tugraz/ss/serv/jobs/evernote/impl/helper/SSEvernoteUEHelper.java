@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -39,7 +38,7 @@ public class SSEvernoteUEHelper {
     SSUri notebookUri,
     Notebook notebook) throws Exception {
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       notebookUri,
       SSUEE.evernoteNotebookCreate,
@@ -47,7 +46,7 @@ public class SSEvernoteUEHelper {
       notebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
       false);
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       notebookUri,
       SSUEE.evernoteNotebookUpdate,
@@ -71,7 +70,7 @@ public class SSEvernoteUEHelper {
       
       if(notebook.getGuid().equals(sharedNotebook.getNotebookGuid())){
         
-        SSServCaller.addUEAtCreationTime(
+        SSServCaller.uEAddAtCreationTime(
           userUri,
           notebookUri,
           SSUEE.evernoteNotebookShare,
@@ -91,7 +90,7 @@ public class SSEvernoteUEHelper {
       return;
     }
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       noteUri,
       SSUEE.evernoteNoteCreate,
@@ -99,7 +98,7 @@ public class SSEvernoteUEHelper {
       note.getCreated() + SSEvernoteTimestampCounter.get(),
       false);
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       noteUri,
       SSUEE.evernoteNoteUpdate,
@@ -109,7 +108,7 @@ public class SSEvernoteUEHelper {
     
     if(note.getDeleted() != 0L){
       
-      SSServCaller.addUEAtCreationTime(
+      SSServCaller.uEAddAtCreationTime(
         userUri,
         noteUri,
         SSUEE.evernoteNoteDelete,
@@ -132,7 +131,7 @@ public class SSEvernoteUEHelper {
       
       for(String tagName : note.getTagNames()){
         
-        SSServCaller.addUEAtCreationTime(
+        SSServCaller.uEAddAtCreationTime(
           userUri,
           noteUri,
           SSUEE.addPrivateTag,
@@ -160,7 +159,7 @@ public class SSEvernoteUEHelper {
       
       if(notebook.getGuid().equals(sharedNotebook.getNotebookGuid())){
         
-        SSServCaller.addUEAtCreationTime(
+        SSServCaller.uEAddAtCreationTime(
           userUri,
           noteUri,
           SSUEE.evernoteNoteShare,
@@ -192,7 +191,7 @@ public class SSEvernoteUEHelper {
     
     if(noteAttr.getShareDate() != 0L){
       
-      SSServCaller.addUEAtCreationTime(
+      SSServCaller.uEAddAtCreationTime(
         userUri,
         noteUri,
         SSUEE.evernoteNoteShare,
@@ -203,7 +202,7 @@ public class SSEvernoteUEHelper {
     
     if(noteAttr.getReminderDoneTime() != 0L){
       
-      SSServCaller.addUEAtCreationTime(
+      SSServCaller.uEAddAtCreationTime(
         userUri,
         noteUri,
         SSUEE.evernoteReminderDone,
@@ -214,7 +213,7 @@ public class SSEvernoteUEHelper {
     
     if(noteAttr.getReminderTime() != 0L){
       
-      SSServCaller.addUEAtCreationTime(
+      SSServCaller.uEAddAtCreationTime(
         userUri,
         noteUri,
         SSUEE.evernoteReminderCreate,
@@ -235,7 +234,7 @@ public class SSEvernoteUEHelper {
       return;
     }
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       resourceUri,
       SSUEE.evernoteResourceAdd,
@@ -262,7 +261,7 @@ public class SSEvernoteUEHelper {
       
       if(notebook.getGuid().equals(sharedNotebook.getNotebookGuid())){
         
-        SSServCaller.addUEAtCreationTime(
+        SSServCaller.uEAddAtCreationTime(
           userUri,
           resourceUri,
           SSUEE.evernoteResourceShare,
@@ -278,7 +277,7 @@ public class SSEvernoteUEHelper {
     SSUri notebookUri,
     Long creationTimeForLinkedNotebook) throws Exception {
     
-    SSServCaller.addUEAtCreationTime(
+    SSServCaller.uEAddAtCreationTime(
       userUri,
       notebookUri,
       SSUEE.evernoteNotebookFollow,

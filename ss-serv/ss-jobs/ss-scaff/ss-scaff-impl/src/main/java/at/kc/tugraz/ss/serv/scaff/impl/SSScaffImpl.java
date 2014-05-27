@@ -79,8 +79,8 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     return SSServCaller.recommTagsLanguageModelBasedOnUserEntityTag(
       par.user,
-      par.forUserUri,
-      par.entityUri,
+      par.forUser,
+      par.entity,
       par.maxTags);
   }
   
@@ -91,8 +91,8 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     return SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
       par.user,
-      par.forUserUri,
-      par.entityUri,
+      par.forUser,
+      par.entity,
       par.maxTags);
   }
   
@@ -103,8 +103,8 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategory(
       par.user,
-      par.forUserUri,
-      par.entityUri,
+      par.forUser,
+      par.entity,
       par.categories,
       par.maxTags);
   }
@@ -116,8 +116,8 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
       par.user,
-      par.forUserUri,
-      par.entityUri,
+      par.forUser,
+      par.entity,
       par.categories,
       par.maxTags);
   }

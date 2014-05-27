@@ -35,9 +35,9 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEditorsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEMIsForEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEModelRelationsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUERelatedPersonsPar;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEResourceDetailsPar;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEResourceRecentPar;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEResourcesContributedPar;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityRecentPar;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntitiesContributedPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntitiesForForMiGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicScoresPar;
@@ -94,16 +94,16 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   @Override
   public SSModelUEResourceDetailsRet modelUEResourceDetails(SSServPar parI) throws Exception {
     
-    SSModelUEResourceDetailsPar par = new SSModelUEResourceDetailsPar(parI);
+    SSModelUEEntityDetailsPar par = new SSModelUEEntityDetailsPar(parI);
     
     return new SSModelUEResourceDetailsRet(
-      par.resource,
+      par.entity,
       modelUERelatedPersons       (new SSModelUERelatedPersonsPar(par)),
       modelUEMIsForEntityGet      (new SSModelUEMIsForEntityGetPar(par)),
       modelUEEditors              (new SSModelUEEditorsPar(par)),
-      modelUEResourceRecent       (new SSModelUEResourceRecentPar(par)),
+      modelUEResourceRecent       (new SSModelUEEntityRecentPar(par)),
       modelUETopicRecent          (new SSModelUETopicRecentPar(par)),
-      modelUEResourcesContributed (new SSModelUEResourcesContributedPar(par)),
+      modelUEResourcesContributed (new SSModelUEEntitiesContributedPar(par)),
       modelUETopicScores          (new SSModelUETopicScoresPar(par)), 
       par.op);
   }
@@ -115,11 +115,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     List<SSUri>       result   = new ArrayList<SSUri>();
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return result;
     }
     
-    SSModelUEResource resource = resources.get(par.resource.toString());
+    SSModelUEResource resource = resources.get(par.entity.toString());
     
     if(resource != null){
       
@@ -140,11 +140,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     final SSModelUEMIsForEntityGetPar par = new SSModelUEMIsForEntityGetPar(parA);
     
-    if(SSObjU.isNull(par.entityUri, resources.get(par.entityUri.toString()))){
+    if(SSObjU.isNull(par.entity, resources.get(par.entity.toString()))){
       return new ArrayList<String>();
     }
     
-    return resources.get(par.entityUri.toString()).mIs;
+    return resources.get(par.entity.toString()).mIs;
   }
   
   @Override
@@ -168,7 +168,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       for (SSModelUEResource resource : resources.values()){
 
-        resource.type = SSServCaller.entityGet(resource.resourceUrl).type;
+        resource.type = SSServCaller.entityGet(resource.id).type;
 
         resourcePropertySetter.setResourceIndependentProperties                 (resource);
 
@@ -211,8 +211,8 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     for(SSModelUEResource resource : resources.values()){
       
-      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.resourceUrl).contains(par.mi.toString())){
-        entityUris.add(resource.resourceUrl);
+      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.id).contains(par.mi.toString())){
+        entityUris.add(resource.id);
       }
     }
     
@@ -237,12 +237,12 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     SSModelUEEditorsPar par = new SSModelUEEditorsPar(parI);
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return new ArrayList<SSUri>();
     }
     
-    if(SSObjU.isNotNull(resources.get(SSStrU.toString(par.resource)))){
-      return resources.get(SSStrU.toString(par.resource)).editors;
+    if(SSObjU.isNotNull(resources.get(SSStrU.toString(par.entity)))){
+      return resources.get(SSStrU.toString(par.entity)).editors;
     }else{
       return new ArrayList<SSUri>();
     }
@@ -251,13 +251,13 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   @Override
   public SSUri modelUEResourceRecent(SSServPar parI) throws Exception {
     
-    SSModelUEResourceRecentPar par = new SSModelUEResourceRecentPar(parI);
+    SSModelUEEntityRecentPar par = new SSModelUEEntityRecentPar(parI);
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return null;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.resource));
+    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       return resource.personsRecentArtifact;
@@ -271,11 +271,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     final SSModelUETopicRecentPar par = new SSModelUETopicRecentPar(parI);
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return null;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.resource));
+    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       return resource.personsRecentTopic;
@@ -287,15 +287,15 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   @Override
   public List<SSUri> modelUEResourcesContributed(SSServPar parI) throws Exception {
     
-    SSModelUEResourcesContributedPar par = new SSModelUEResourcesContributedPar(parI);
+    SSModelUEEntitiesContributedPar par = new SSModelUEEntitiesContributedPar(parI);
     
     List<SSUri>   result    = new ArrayList<SSUri>();
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return result;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.resource));
+    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       result = resource.personsRelatedResources;
@@ -311,11 +311,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     List<SSModelUETopicScore> result    = new ArrayList<SSModelUETopicScore>();
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return result;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.resource));
+    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       result = resource.personsTopicScores;
@@ -332,14 +332,14 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     List<SSModelUERelation>  result        = new ArrayList<SSModelUERelation>();
     SSModelUEResource        modelResource;
     
-    if(SSObjU.isNull(par.resource)){
+    if(SSObjU.isNull(par.entity)){
       return result;
     }
     
-    modelResource = resources.get(SSStrU.toString(par.resource));
+    modelResource = resources.get(SSStrU.toString(par.entity));
     
-    if(SSObjU.isNotNull(par.resource)){
-      result = modelResource.getRelationsForType(par.relationType);
+    if(SSObjU.isNotNull(par.entity)){
+      result = modelResource.getRelationsForType(par.type);
     }
     
     return fillModelRelationLabels(result);

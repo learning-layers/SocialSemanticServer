@@ -401,7 +401,7 @@ public class SSModelUEMISetter {
 				
 					for(SSUE event :	maturingIndicatorSetterHelper.getResourceEventsOfType(resource, SSModelUEU.changingEventTypes)){
 						
-						if(SSUri.equals(event.user, resource.resourceUrl)){
+						if(SSUri.equals(event.user, resource.id)){
 							
 							otherResource.mIChangeReputablePersonNot = false;
 							otherResource.mIChangeReputablePerson    = true;

@@ -101,7 +101,7 @@ public class SSDiscUserEntryAddFct{
         
         SSServCaller.entityEntitiesToCircleAdd(
           userUri,
-          entityUserCircle.circleUri,
+          entityUserCircle.id,
           discEntryUri,
           false);
       }
@@ -124,11 +124,11 @@ public class SSDiscUserEntryAddFct{
     
     try{
       
-      if(SSObjU.isNull(par.discLabel, par.discType)){
+      if(SSObjU.isNull(par.label, par.type)){
         throw new Exception("label or disc type null");
       }
       
-      switch(par.discType){
+      switch(par.type){
         case disc:
         case qa:
         case chat: break;
@@ -136,15 +136,15 @@ public class SSDiscUserEntryAddFct{
       }
       
       if(
-        SSEntityE.equals (par.discType, SSEntityE.qa) &&
-        SSObjU.isNull    (par.content)){
+        SSEntityE.equals (par.type, SSEntityE.qa) &&
+        SSObjU.isNull    (par.entry)){
         
         throw new Exception("question content null");
       }
       
       if(
-        !SSObjU.isNull(par.targetUri) &&
-        !SSServCaller.entityUserCanRead(par.user, par.targetUri)){
+        !SSObjU.isNull(par.entity) &&
+        !SSServCaller.entityUserCanRead(par.user, par.entity)){
         throw new Exception("user cannot edit disc target");
       }
       
@@ -158,11 +158,11 @@ public class SSDiscUserEntryAddFct{
     
     try{
      
-      if(SSObjU.isNull(par.content)){
+      if(SSObjU.isNull(par.entry)){
         throw new Exception("content missing");
       }
       
-      if(!SSServCaller.entityUserCanEdit(par.user, par.discUri)){
+      if(!SSServCaller.entityUserCanEdit(par.user, par.disc)){
         throw new Exception("user cannot edit discussion");
       }
       

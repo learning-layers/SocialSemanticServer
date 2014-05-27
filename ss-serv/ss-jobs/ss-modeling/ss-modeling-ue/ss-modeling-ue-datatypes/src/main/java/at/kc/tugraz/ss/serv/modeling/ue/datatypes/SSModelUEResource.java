@@ -35,13 +35,13 @@ public class SSModelUEResource extends SSEntityA{
   /*
 	 * resource and user/user common properties
 	 */
-	public final SSUri                               resourceUrl;
+	public final SSUri                               id;
 	public final List<SSUri>                         relatedPersons            = new ArrayList<SSUri>();
 	public final List<SSUE>                          events                    = new ArrayList<SSUE>();
 	public final List<String>                        mIs                       = new ArrayList<String>();
 	public final Map<String,Integer>                 mIDayCounts               = new HashMap<String, Integer>();
 	public final List<SSUri>                         editors                   = new ArrayList<SSUri>();
-  public SSEntityE                              type;
+  public SSEntityE                                 type;
 	
 	/*
 	 * user/user related properties
@@ -202,7 +202,7 @@ public class SSModelUEResource extends SSEntityA{
 		
     super(uri);
     
-		this.resourceUrl = uri;
+		this.id = uri;
 		
 		resetCalculatedProperties();
 	}
@@ -326,7 +326,7 @@ public class SSModelUEResource extends SSEntityA{
 				
 				result.add(
           new SSModelUERelation(
-          SSStrU.toString(resourceUrl),
+          SSStrU.toString(id),
           null,
           topicScore.topic,
           null,
@@ -346,7 +346,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							discussion.toString(),
 							null,
@@ -365,7 +365,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							createdTopic,
 							null,
@@ -384,7 +384,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							usedTopic.toString(),
 							null,
@@ -403,7 +403,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							topicScore.topic.toString(),
 							null,
@@ -422,7 +422,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							relatedDigitalResource.toString(),
 							null,
@@ -441,7 +441,7 @@ public class SSModelUEResource extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							maturingIndicator,
 							null,
@@ -461,7 +461,7 @@ public class SSModelUEResource extends SSEntityA{
 
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(resourceUrl),
+							SSStrU.toString(id),
 							null,
 							editor.toString(),
 							null,
@@ -483,7 +483,7 @@ public class SSModelUEResource extends SSEntityA{
         
         result.add(
             new SSModelUERelation(
-                SSStrU.toString(resourceUrl),
+                SSStrU.toString(id),
                 null,
                 relatedPerson.toString(),
                 null,
@@ -503,7 +503,7 @@ public class SSModelUEResource extends SSEntityA{
       
       result.add(
         new SSModelUERelation(
-          SSStrU.toString(resourceUrl),
+          SSStrU.toString(id),
           null,
           relatedPerson.toString(),
           null,

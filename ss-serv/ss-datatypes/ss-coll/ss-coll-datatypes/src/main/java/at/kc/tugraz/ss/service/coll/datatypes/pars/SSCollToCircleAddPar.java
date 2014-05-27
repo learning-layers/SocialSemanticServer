@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollToCircleAddPar extends SSServPar{
 
-  public SSUri collUri         = null;
-  public SSUri collCircleUri   = null;
+  public SSUri coll     = null;
+  public SSUri circle   = null;
   
   public SSCollToCircleAddPar(SSServPar par) throws Exception{
     
@@ -37,8 +37,8 @@ public class SSCollToCircleAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        collUri       = (SSUri)       pars.get(SSVarU.collUri);
-        collCircleUri = (SSUri)       pars.get(SSVarU.collCircleUri);
+        coll    = (SSUri)       pars.get(SSVarU.coll);
+        circle  = (SSUri)       pars.get(SSVarU.circle);
       }
       
     }catch(Exception error){

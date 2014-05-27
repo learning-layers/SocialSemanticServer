@@ -25,8 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 public class SSDataImportUserResourceTagFromWikipediaPar extends SSServPar{
   
   public SSDataImportUserResourceTagFromWikipediaPar(SSServPar par) throws Exception{
-   
     super(par);
-    
   }  
 }

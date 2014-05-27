@@ -33,7 +33,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUriFromID;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUriFromIDPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
@@ -247,7 +247,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileCreateUriPar par = new SSFileCreateUriPar(parA);
 
-    return fct.createFileUri(par.fileExtension);
+    return fct.createFileUri(par.fileExt);
   }
 
   @Override
@@ -258,7 +258,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     
     try{
       
-      result = SSServCaller.fileIDFromURI(par.user, par.fileUri);
+      result = SSServCaller.fileIDFromURI(par.user, par.file);
       result = SSStrU.subString(result, SSStrU.lastIndexOf(result, SSStrU.dot) + 1, SSStrU.length(result));
       
       return result;
@@ -291,8 +291,8 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     result = new SSFileGetEditingFilesRet(par.op, SSUri.toDistinctStringArray(fileUris), null);
 
-    for(String fileUri : result.fileUris){
-      result.fileNames.add(SSLabel.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
+    for(String fileUri : result.files){
+      result.labels.add(SSLabel.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
     }
 
     return result;
@@ -302,9 +302,9 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   public SSFileCanWriteRet fileCanWrite(SSServPar parI) throws Exception{
 
     SSFileCanWritePar par = new SSFileCanWritePar(parI);
-    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toString(par.uri), par.op);
+    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toString(par.file), par.op);
 
-    result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.uri);
+    result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.file);
 
     return result;
   }
@@ -314,9 +314,9 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileSetReaderOrWriterPar par = new SSFileSetReaderOrWriterPar(parI);
 
-    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toString(par.uri), par.op);
+    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toString(par.file), par.op);
 
-    result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.uri, par.write);
+    result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
 
     return result;
   }
@@ -326,9 +326,9 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileRemoveReaderOrWriterPar par = new SSFileRemoveReaderOrWriterPar(parI);
 
-    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toString(par.uri), par.op);
+    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toString(par.file), par.op);
 
-    result.wasSuccessful = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.uri, par.write);
+    result.worked = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
 
     return result;
   }
@@ -338,9 +338,9 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileWritingMinutesLeftPar par = new SSFileWritingMinutesLeftPar(parI);
 
-    SSFileWritingMinutesLeftRet result = new SSFileWritingMinutesLeftRet(par.uri, par.op);
+    SSFileWritingMinutesLeftRet result = new SSFileWritingMinutesLeftRet(par.file, par.op);
 
-    result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.uri);
+    result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.file);
 
     return result;
   }
@@ -348,7 +348,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   @Override
   public SSUri fileUriFromID(SSServPar parA) throws Exception{
 
-    SSFileUriFromID par = new SSFileUriFromID(parA);
+    SSFileUriFromIDPar par = new SSFileUriFromIDPar(parA);
 
     if(SSStrU.isEmpty(par.id)){
       return null;
@@ -364,7 +364,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     String result;
 
     try{
-      result = SSStrU.removeTrailingSlash(SSStrU.toString(par.fileUri));
+      result = SSStrU.removeTrailingSlash(SSStrU.toString(par.file));
       result = result.substring(result.lastIndexOf(SSStrU.slash) + 1);
 
       return result;

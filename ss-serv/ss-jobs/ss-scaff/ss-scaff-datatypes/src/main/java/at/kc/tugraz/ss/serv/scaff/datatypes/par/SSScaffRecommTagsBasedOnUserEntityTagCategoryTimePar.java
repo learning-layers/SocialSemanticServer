@@ -25,8 +25,8 @@ import java.util.List;
 
 public class SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar extends SSServPar{
   
-  public SSUri            forUserUri    = null;
-  public SSUri            entityUri     = null;
+  public SSUri            forUser       = null;
+  public SSUri            entity        = null;
   public List<String>     categories    = new ArrayList<String>();
   public Integer          maxTags       = 10;
   
@@ -36,28 +36,28 @@ public class SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar extends SSServ
     
     try{
       if(pars != null){
-        this.forUserUri  = (SSUri)         pars.get(SSVarU.forUserUri);
-        this.entityUri   = (SSUri)         pars.get(SSVarU.entityUri);
-        this.categories  = (List<String>)  pars.get(SSVarU.categories);
-        this.maxTags     = (Integer)       pars.get(SSVarU.maxTags);
+        forUser     = (SSUri)         pars.get(SSVarU.forUser);
+        entity      = (SSUri)         pars.get(SSVarU.entity);
+        categories  = (List<String>)  pars.get(SSVarU.categories);
+        maxTags     = (Integer)       pars.get(SSVarU.maxTags);
       }
       
       if(clientPars != null){
         
         try{
-          this.forUserUri = SSUri.get          (clientPars.get(SSVarU.forUserUri));
+          forUser = SSUri.get          (clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
         try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
+          entity = SSUri.get         (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          this.categories = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.categories), SSStrU.comma);
+          categories = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.categories), SSStrU.comma);
         }catch(Exception error){}
         
         try{
-          this.maxTags  = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
+          maxTags  = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
         }catch(Exception error){}
       }
     }catch(Exception error){

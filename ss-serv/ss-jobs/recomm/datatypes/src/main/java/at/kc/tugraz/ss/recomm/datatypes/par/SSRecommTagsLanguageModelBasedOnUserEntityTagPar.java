@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSRecommTagsLanguageModelBasedOnUserEntityTagPar extends SSServPar{
   
   public SSUri         forUser   = null;
-  public SSUri         entityUri = null;
+  public SSUri         entity    = null;
   public Integer       maxTags   = 10;
   
   public SSRecommTagsLanguageModelBasedOnUserEntityTagPar(final SSServPar par) throws Exception{
@@ -38,7 +38,7 @@ public class SSRecommTagsLanguageModelBasedOnUserEntityTagPar extends SSServPar{
     try{
       if(pars != null){
         this.forUser   =  (SSUri)         pars.get(SSVarU.forUser);
-        this.entityUri =  (SSUri)         pars.get(SSVarU.entityUri);
+        this.entity    =  (SSUri)         pars.get(SSVarU.entity);
         this.maxTags   =  (Integer)       pars.get(SSVarU.maxTags);
       }
       
@@ -49,7 +49,7 @@ public class SSRecommTagsLanguageModelBasedOnUserEntityTagPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
+          this.entity = SSUri.get         (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{

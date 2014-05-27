@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
 
-  public SSUri entityUri = null;
+  public SSUri entity = null;
 
   public static SSEntityUserDirectlyAdjoinedEntitiesRemoveRet get(SSUri entityUri, SSMethU op){
     return new SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(entityUri, op);
@@ -39,7 +39,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
   private SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(SSUri entityUri, SSMethU op){
     
     super(op);
-    this.entityUri = entityUri;
+    this.entity = entityUri;
   }
 
   @Override
@@ -47,12 +47,12 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.entityUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getEntityUri() throws Exception {
-    return SSUri.toStrWithoutSlash(entityUri);
+  public String getEntity() throws Exception {
+    return SSUri.toStrWithoutSlash(entity);
   }
 }

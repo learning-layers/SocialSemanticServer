@@ -81,10 +81,10 @@ public class SSAdapterRest{
   @GET
   @Consumes(MediaType.TEXT_HTML)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.entityType + SSStrU.curlyBracketClose)
-  public String jsonLD(@PathParam(SSVarU.entityType) String entityType){
+  @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.type + SSStrU.curlyBracketClose)
+  public String jsonLD(@PathParam(SSVarU.type) String type){
     
-    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"entityType\":\"" + entityType + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
     
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
     

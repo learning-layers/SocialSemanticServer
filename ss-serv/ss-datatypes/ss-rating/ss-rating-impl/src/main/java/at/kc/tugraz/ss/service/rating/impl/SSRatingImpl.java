@@ -203,7 +203,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.deleteRatingAss(par.user, par.entityUri);
+      sqlFct.deleteRatingAss(par.user, par.entity);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -230,7 +230,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     try{
       final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
     
-      if(sqlFct.hasUserRatedEntity(par.user, par.resource)){
+      if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;
       }
       
@@ -247,12 +247,12 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(SSUri.toStr(par.resource)),
+        par.entity,
+        SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
         false);
       
-      sqlFct.rateEntityByUser (ratingUri, par.user, par.resource, par.value);
+      sqlFct.rateEntityByUser (ratingUri, par.user, par.entity, par.value);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -280,7 +280,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     Integer            result = 0;
     
     try{
-      result = sqlFct.getUserRating(par.user, par.resource);
+      result = sqlFct.getUserRating(par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -295,7 +295,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     SSRatingOverall       result  = null;
     
     try{
-      result = sqlFct.getOverallRating(par.resource);
+      result = sqlFct.getOverallRating(par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUserAddPar extends SSServPar{
   
-  public SSUri      userUri   = null;
-  public SSLabel userLabel = null;
+  public SSUri      forUser  = null;
+  public SSLabel    label    = null;
   
   public SSUserAddPar(SSServPar par) throws Exception{
    
@@ -38,8 +38,8 @@ public class SSUserAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.userUri   = (SSUri)      pars.get(SSVarU.userUri);
-        this.userLabel = (SSLabel) pars.get(SSVarU.userLabel);
+        this.forUser = (SSUri)   pars.get(SSVarU.forUser);
+        this.label   = (SSLabel) pars.get(SSVarU.label);
       }
       
     }catch(Exception error){

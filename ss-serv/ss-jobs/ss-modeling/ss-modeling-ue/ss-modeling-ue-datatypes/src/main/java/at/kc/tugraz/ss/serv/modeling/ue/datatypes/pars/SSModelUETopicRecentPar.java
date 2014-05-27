@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSModelUETopicRecentPar extends SSServPar{
   
-  public SSUri resource = null;
+  public SSUri entity = null;
   
   public SSModelUETopicRecentPar(SSServPar par) throws Exception{
       
@@ -35,11 +35,11 @@ public class SSModelUETopicRecentPar extends SSServPar{
     
     try{
       if(pars != null){
-        this.resource = (SSUri) pars.get(SSVarU.resource);
+        entity = (SSUri) pars.get(SSVarU.entity);
       }
       
       if(clientPars != null){
-        this.resource = SSUri.get((String)clientPars.get(SSVarU.resource));
+        entity = SSUri.get(clientPars.get(SSVarU.entity));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

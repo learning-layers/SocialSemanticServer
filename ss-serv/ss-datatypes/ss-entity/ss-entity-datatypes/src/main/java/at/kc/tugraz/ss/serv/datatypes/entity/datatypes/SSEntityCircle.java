@@ -28,12 +28,12 @@ import java.util.Map;
 
 public class SSEntityCircle extends SSEntityA{
  
-  public SSUri                          circleUri    = null;
+  public SSUri                          id           = null;
   public SSLabel                        label        = null;
-  public SSCircleE                      circleType   = null;
-  public List<SSCircleRightE>           circleRights = new ArrayList<SSCircleRightE>();
-  public List<SSUri>                    userUris     = new ArrayList<SSUri>();
-  public List<SSUri>                    entityUris   = new ArrayList<SSUri>();
+  public SSCircleE                      type         = null;
+  public List<SSCircleRightE>           accessRights = new ArrayList<SSCircleRightE>();
+  public List<SSUri>                    users        = new ArrayList<SSUri>();
+  public List<SSUri>                    entities     = new ArrayList<SSUri>();
   
   public static SSEntityCircle get(
     final SSUri                          circleUri,
@@ -56,20 +56,20 @@ public class SSEntityCircle extends SSEntityA{
     
     super(SSUri.toStr(circleUri));
     
-    this.circleUri    = circleUri;
+    this.id    = circleUri;
     this.label        = label;
-    this.circleType   = circleType;
+    this.type   = circleType;
     
     if(circleRights != null){
-      this.circleRights.addAll(circleRights);
+      this.accessRights.addAll(circleRights);
     }
     
     if(userUris != null){
-      this.userUris.addAll(userUris);
+      this.users.addAll(userUris);
     }
     
     if(entityUris != null){
-      this.entityUris.addAll(entityUris);
+      this.entities.addAll(entityUris);
     }    
   }
 
@@ -80,51 +80,51 @@ public class SSEntityCircle extends SSEntityA{
     final Map<String, Object> userUrisObj     = new HashMap<String, Object>();
     final Map<String, Object> entityUrisObj   = new HashMap<String, Object>();
     
-    ld.put(SSVarU.circleUri,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.circleType, SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     
     circleRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleRightE.class.getName());
     circleRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circleRights, circleRightsObj);
+    ld.put(SSVarU.accessRights, circleRightsObj);
     
     userUrisObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     userUrisObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.userUris, userUrisObj);
+    ld.put(SSVarU.users, userUrisObj);
     
     entityUrisObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     entityUrisObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.entityUris, entityUrisObj);
+    ld.put(SSVarU.entities, entityUrisObj);
     
     return ld;
   }
 
   /* getters to allow for json enconding  */
   
-  public String getCircleUri(){
-    return SSUri.toStrWithoutSlash(circleUri);
+  public String getId(){
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getLabel(){
     return SSLabel.toStr(label);
   }
 
-  public SSCircleE getCircleType(){
-    return circleType;
+  public SSCircleE getType(){
+    return type;
   }
 
-  public List<SSCircleRightE> getCircleRights(){
-    return circleRights;
+  public List<SSCircleRightE> getAccessRights(){
+    return accessRights;
   }
 
-  public List<String> getUserUris(){
-    return SSUri.toStrWithoutSlash(userUris);
+  public List<String> getUsers(){
+    return SSUri.toStrWithoutSlash(users);
   }
 
-  public List<String> getEntityUris(){
-    return SSUri.toStrWithoutSlash(entityUris);
+  public List<String> getEntities(){
+    return SSUri.toStrWithoutSlash(entities);
   }
 }

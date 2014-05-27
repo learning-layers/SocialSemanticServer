@@ -22,7 +22,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityUserEntityCircleTypesGetPar extends SSServPar{
 
-  public SSUri entityUri = null;
+  public SSUri entity = null;
   
   public SSEntityUserEntityCircleTypesGetPar(final SSServPar par) throws Exception{
     
@@ -31,7 +31,7 @@ public class SSEntityUserEntityCircleTypesGetPar extends SSServPar{
     try{
     
       if(pars != null){
-        entityUri        = (SSUri)         pars.get(SSVarU.entityUri);
+        entity        = (SSUri)         pars.get(SSVarU.entity);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

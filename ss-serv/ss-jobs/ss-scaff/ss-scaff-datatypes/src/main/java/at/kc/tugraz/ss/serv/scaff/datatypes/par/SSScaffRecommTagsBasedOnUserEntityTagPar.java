@@ -22,9 +22,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSScaffRecommTagsBasedOnUserEntityTagPar extends SSServPar{
   
-  public SSUri            forUserUri    = null;
-  public SSUri            entityUri     = null;
-  public Integer          maxTags       = 10;
+  public SSUri            forUser    = null;
+  public SSUri            entity     = null;
+  public Integer          maxTags    = 10;
     
   public SSScaffRecommTagsBasedOnUserEntityTagPar(SSServPar par) throws Exception{
     
@@ -32,23 +32,23 @@ public class SSScaffRecommTagsBasedOnUserEntityTagPar extends SSServPar{
     
     try{
       if(pars != null){
-        this.forUserUri    = (SSUri)      pars.get(SSVarU.forUserUri);
-        this.entityUri   = (SSUri)        pars.get(SSVarU.entityUri);
-        this.maxTags    = (Integer)       pars.get(SSVarU.maxTags);
+        forUser    = (SSUri)      pars.get(SSVarU.forUser);
+        entity     = (SSUri)      pars.get(SSVarU.entity);
+        maxTags    = (Integer)    pars.get(SSVarU.maxTags);
       }
       
       if(clientPars != null){
         
         try{
-          this.forUserUri = SSUri.get          (clientPars.get(SSVarU.forUserUri));
+          forUser = SSUri.get          (clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
         try{
-          this.entityUri = SSUri.get         (clientPars.get(SSVarU.entityUri));
+          entity = SSUri.get         (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          this.maxTags  = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
+          maxTags  = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
         }catch(Exception error){}
       }
     }catch(Exception error){

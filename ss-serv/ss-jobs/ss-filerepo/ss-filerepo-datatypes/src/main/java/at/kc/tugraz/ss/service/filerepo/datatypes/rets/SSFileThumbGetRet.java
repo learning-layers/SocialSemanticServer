@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class SSFileThumbGetRet extends SSServRetI{
   
-  public  String fileId;
+  public String file;
 
   public SSFileThumbGetRet(String fileId, SSMethU op){
     
     super(op);
     
-    this.fileId = fileId;
+    this.file = fileId;
   }
 
   @Override
@@ -43,13 +43,13 @@ public class SSFileThumbGetRet extends SSServRetI{
     
     Map<String, Object> ld           = new HashMap<String, Object>();
     
-    ld.put(SSVarU.fileId,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.file,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getFileId(){
-    return fileId;
+  /* getters to allow for json enconding */
+  public String getFile(){
+    return file;
   }
 }

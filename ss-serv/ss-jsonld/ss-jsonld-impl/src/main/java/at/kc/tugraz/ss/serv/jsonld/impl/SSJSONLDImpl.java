@@ -52,7 +52,7 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
     
     SSJSONLDPar par = new SSJSONLDPar(parA);
     
-    Class<?> clz    = Class.forName(par.entityType);
+    Class<?> clz    = Class.forName(par.type);
     Object[] consts = clz.getEnumConstants();
     
     if(SSObjU.isNotNull(consts)){

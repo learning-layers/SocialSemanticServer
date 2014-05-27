@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class SSEntityUserUsersToCircleAddRet extends SSServRetI{
 
-  public SSUri circleUri = null;
+  public SSUri circle = null;
 
   public static SSEntityUserUsersToCircleAddRet get(
     final SSUri circleUri, 
@@ -40,7 +40,7 @@ public class SSEntityUserUsersToCircleAddRet extends SSServRetI{
 
     super(op);
     
-    this.circleUri = circleUri;
+    this.circle = circleUri;
   }
 
   @Override
@@ -48,12 +48,12 @@ public class SSEntityUserUsersToCircleAddRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.circleUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.circle, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getCircleUri() {
-    return SSUri.toStrWithoutSlash(circleUri);
+  public String getCircle() {
+    return SSUri.toStrWithoutSlash(circle);
   }
 }

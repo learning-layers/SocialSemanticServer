@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityGetPar extends SSServPar{
   
-  public SSUri          entityUri    = null;
+  public SSUri          entity       = null;
   public SSLabel        label        = null;
   public SSEntityE      type         = null;
     
@@ -40,7 +40,7 @@ public class SSEntityGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri        = (SSUri)     pars.get(SSVarU.entityUri);
+        entity           = (SSUri)     pars.get(SSVarU.entity);
         label            = (SSLabel)   pars.get(SSVarU.label);
         type             = (SSEntityE) pars.get(SSVarU.type);
       }

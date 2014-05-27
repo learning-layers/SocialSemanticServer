@@ -51,7 +51,7 @@ public class SSRatingUserGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public Integer getRating() {
     return rating;
   }

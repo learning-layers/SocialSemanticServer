@@ -30,11 +30,11 @@ import java.util.*;
 
 public class SSColl extends SSEntityA{
 
-  public  SSUri                           uri         = null;
+  public  SSUri                           id          = null;
 	public  List<SSCollEntry>               entries     = new ArrayList<SSCollEntry>();
 	public  SSUri                           author      = null;
 	public  String                          label       = null;
-	public  List<SSCircleE>       circleTypes = new ArrayList<SSCircleE>();
+	public  List<SSCircleE>                 circleTypes = new ArrayList<SSCircleE>();
 	
   public static SSColl get(
     SSUri                           uri    ,
@@ -51,11 +51,11 @@ public class SSColl extends SSEntityA{
     List<SSCollEntry>               entries,
     SSUri                           author ,
     String                          label  ,
-    List<SSCircleE>       circleTypes) throws Exception{
+    List<SSCircleE>                 circleTypes) throws Exception{
 
     super(uri);
     
-    this.uri      = uri;
+    this.id       = uri;
     this.author   = author;
     this.label    = label;
     
@@ -79,7 +79,7 @@ public class SSColl extends SSEntityA{
     Map<String, Object> entriesObj     = new HashMap<String, Object>();
     Map<String, Object> circleTypesObj = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCollEntry.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -103,8 +103,8 @@ public class SSColl extends SSEntityA{
   
   /* getters to allow for json enconding */
   
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public List<SSCollEntry> getEntries(){

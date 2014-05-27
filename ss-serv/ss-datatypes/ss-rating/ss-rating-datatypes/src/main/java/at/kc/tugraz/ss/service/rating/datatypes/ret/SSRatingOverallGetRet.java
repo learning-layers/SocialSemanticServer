@@ -53,7 +53,7 @@ public class SSRatingOverallGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public SSRatingOverall getRatingOverall() {
     return ratingOverall;
   }

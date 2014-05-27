@@ -90,7 +90,7 @@ public class SSModelUEPersonPropertySetter {
         if(currentTopicCreators.containsKey(event.content)){
           
           //user is author of topic
-          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toString(user.resourceUrl))){
+          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toString(user.id))){
             
             addTopicUsingEvent(user,event);
             
@@ -104,7 +104,7 @@ public class SSModelUEPersonPropertySetter {
           }
         }else{//topic is new
           
-          currentTopicCreators.put(event.content, SSStrU.toString(user.resourceUrl));
+          currentTopicCreators.put(event.content, SSStrU.toString(user.id));
           
           addTopicCreationEvent(user,event);
         }
@@ -191,7 +191,7 @@ public class SSModelUEPersonPropertySetter {
     resource.personsTopicFrequencies.clear();
     resource.personsTopicScores.clear();
     
-    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.resourceUrl, null, null, null)){
+    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.id, null, null, null)){
       
       topic = SSStrU.toString(tagAssignment.label);
       
@@ -244,7 +244,7 @@ public class SSModelUEPersonPropertySetter {
       for(SSUri personUrl : resources.get(SSStrU.toString(relatedResourceUrl)).relatedPersons){
         
         if (
-          !SSUri.equals   (personUrl, resource.resourceUrl) &&
+          !SSUri.equals   (personUrl, resource.id) &&
           !SSUri.contains (resource.personsRelatedPersons, personUrl)){
           
           resource.personsRelatedPersons.add(personUrl);
@@ -260,7 +260,7 @@ public class SSModelUEPersonPropertySetter {
     
     if (event.timestamp > recentTimeStamps.get(0)){
       
-      resource.personsRecentArtifact   = event.resource;
+      resource.personsRecentArtifact   = event.entity;
       recentTimeStamps.set(0,event.timestamp);
     }
     
@@ -279,9 +279,9 @@ public class SSModelUEPersonPropertySetter {
     
     if(
       SSUEE.isSame(event.type, SSUEE.addDiscussionComment) &&
-      SSUri.contains(resource.personsDiscussions, event.resource)){
+      SSUri.contains(resource.personsDiscussions, event.entity)){
       
-      resource.personsDiscussions.add(event.resource);
+      resource.personsDiscussions.add(event.entity);
     }
   }
   
@@ -291,13 +291,13 @@ public class SSModelUEPersonPropertySetter {
     
     if(
       SSUEE.contains (SSModelUEU.relateResourceEventTypes, event.type) &&
-      !SSUri.contains (resource.personsRelatedResources,    event.resource)){
+      !SSUri.contains (resource.personsRelatedResources,    event.entity)){
       
       resource.counters.put(
         SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString(),
         resource.counters.get(SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString()) + 1);
       
-      resource.personsRelatedResources.add(event.resource);
+      resource.personsRelatedResources.add(event.entity);
     }
   }
 }

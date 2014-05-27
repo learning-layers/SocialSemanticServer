@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -25,8 +24,8 @@ import java.util.List;
 
 public class SSEntityEntitiesToCircleAddPar extends SSServPar{
 
-  public SSUri       circleUri  = null;
-  public List<SSUri> entityUris = new ArrayList<SSUri>();
+  public SSUri       circle   = null;
+  public List<SSUri> entities = new ArrayList<SSUri>();
   
   public SSEntityEntitiesToCircleAddPar(final SSServPar par) throws Exception{
     
@@ -35,8 +34,8 @@ public class SSEntityEntitiesToCircleAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circleUri        = (SSUri)         pars.get(SSVarU.circleUri);
-        entityUris       = (List<SSUri>)   pars.get(SSVarU.entityUris);
+        circle         = (SSUri)         pars.get(SSVarU.circle);
+        entities       = (List<SSUri>)   pars.get(SSVarU.entities);
       }
       
     }catch(Exception error){

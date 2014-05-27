@@ -20,12 +20,13 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityUserUsersToCircleAddPar extends SSServPar{
 
-  public SSUri       circleUri  = null;
-  public List<SSUri> userUris   = null;
+  public SSUri       circle  = null;
+  public List<SSUri> users   = new ArrayList<SSUri>();
   
   public SSEntityUserUsersToCircleAddPar(final SSServPar par) throws Exception{
     
@@ -34,13 +35,13 @@ public class SSEntityUserUsersToCircleAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circleUri        = (SSUri)         pars.get(SSVarU.circleUri);
-        userUris         = (List<SSUri>)   pars.get(SSVarU.userUris);
+        circle        = (SSUri)         pars.get(SSVarU.circle);
+        users         = (List<SSUri>)   pars.get(SSVarU.users);
       }
       
       if(clientPars != null){
-        circleUri        = SSUri.get (clientPars.get(SSVarU.circleUri));
-        userUris         = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.userUris),   SSStrU.comma));
+        circle        = SSUri.get (clientPars.get(SSVarU.circle));
+        users         = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users),   SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

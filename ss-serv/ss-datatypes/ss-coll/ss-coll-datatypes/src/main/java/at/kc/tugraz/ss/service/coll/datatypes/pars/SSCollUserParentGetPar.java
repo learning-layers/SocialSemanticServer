@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserParentGetPar extends SSServPar{
 
-  public SSUri coll         = null;
+  public SSUri coll = null;
   
   public SSCollUserParentGetPar(SSServPar par) throws Exception{
     
@@ -40,7 +40,7 @@ public class SSCollUserParentGetPar extends SSServPar{
       }
       
       if(clientPars != null){
-        coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
+        coll       = SSUri.get        (clientPars.get(SSVarU.coll));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

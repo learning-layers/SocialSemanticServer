@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSDiscUserWithEntriesGetPar extends SSServPar{
   
   public SSUri  disc                 = null;
-  public int    maxDiscEntries       = 10;
+  public int    maxEntries       = 10;
       
   public SSDiscUserWithEntriesGetPar(SSServPar par) throws Exception{
     
@@ -37,13 +37,13 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        disc             = (SSUri)   pars.get(SSVarU.disc);
-        maxDiscEntries   = (Integer) pars.get(SSVarU.maxDiscEntries);
+        disc         = (SSUri)   pars.get(SSVarU.disc);
+        maxEntries   = (Integer) pars.get(SSVarU.maxEntries);
       }
       
       if(clientPars != null){
-        disc             = SSUri.get       ((String)clientPars.get(SSVarU.disc));
-        maxDiscEntries   = Integer.valueOf ((String)clientPars.get(SSVarU.maxDiscEntries));
+        disc         = SSUri.get       (clientPars.get(SSVarU.disc));
+        maxEntries   = Integer.valueOf (clientPars.get(SSVarU.maxEntries));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

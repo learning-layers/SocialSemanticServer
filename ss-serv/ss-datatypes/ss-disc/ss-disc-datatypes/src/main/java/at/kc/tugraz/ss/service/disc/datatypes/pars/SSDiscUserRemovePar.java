@@ -22,7 +22,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSDiscUserRemovePar extends SSServPar{
   
-  public SSUri discUri         = null;
+  public SSUri disc         = null;
   
   public SSDiscUserRemovePar(SSServPar par) throws Exception{
     
@@ -31,11 +31,11 @@ public class SSDiscUserRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        discUri        = (SSUri)       pars.get(SSVarU.discUri);
+        disc        = (SSUri)       pars.get(SSVarU.disc);
       }
       
       if(clientPars != null){
-        discUri        = SSUri.get     (clientPars.get(SSVarU.discUri));
+        disc        = SSUri.get     (clientPars.get(SSVarU.disc));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

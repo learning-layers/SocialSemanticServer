@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class SSRatingOverall extends SSEntityA{
    
-  public Double  score      = -1d;
-  public Integer frequency  = -1;
+  public Double  score  = -1d;
+  public Integer frequ  = -1;
 
   public static SSRatingOverall get(
     Double score,
@@ -45,7 +45,7 @@ public class SSRatingOverall extends SSEntityA{
     super(score);
     
     this.score      = score;
-    this.frequency  = frequency;
+    this.frequ      = frequency;
   }
   
   @Override
@@ -54,7 +54,7 @@ public class SSRatingOverall extends SSEntityA{
     Map<String, Object> ld = new HashMap<String, Object>();
     
     ld.put(SSVarU.score,     SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
-    ld.put(SSVarU.frequency, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarU.frequ,     SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
@@ -64,7 +64,7 @@ public class SSRatingOverall extends SSEntityA{
     return score;
   }
 
-  public int getFrequency() {
-    return frequency;
+  public int getFrequ() {
+    return frequ;
   }  
 }
