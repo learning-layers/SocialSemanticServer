@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -46,12 +47,19 @@ public class SSDiscUserEntryAddFct{
     
     try{
       
-      final SSUri tmpTargetUri;
+      final SSUri         tmpTargetUri;
+      final SSTextComment tmpExplanation;
       
       if(targetUri == null){
         tmpTargetUri = discUri;
       }else{
         tmpTargetUri = targetUri;
+      }
+      
+      if(explanation == null){
+        tmpExplanation = SSTextComment.get(SSStrU.empty);
+      }else{
+        tmpExplanation = explanation;
       }
       
       SSServCaller.entityAdd(
@@ -81,7 +89,7 @@ public class SSDiscUserEntryAddFct{
         userUri, 
         discUri, 
         tmpTargetUri,
-        explanation);
+        tmpExplanation);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -140,8 +148,8 @@ public class SSDiscUserEntryAddFct{
     
     try{
       
-      if(SSObjU.isNull(par.discLabel, par.discType, par.explanation)){
-        throw new Exception("label, disc type or explanation null");
+      if(SSObjU.isNull(par.discLabel, par.discType)){
+        throw new Exception("label, disc type null");
       }
       
       switch(par.discType){

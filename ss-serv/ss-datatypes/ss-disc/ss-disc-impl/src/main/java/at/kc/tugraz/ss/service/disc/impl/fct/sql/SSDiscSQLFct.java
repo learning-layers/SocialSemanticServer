@@ -302,6 +302,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       column    (columns,   SSSQLVarU.target);
       column    (columns,   SSSQLVarU.type);
       column    (columns,   SSSQLVarU.explanation);
+      column    (columns,   SSSQLVarU.creationTime);
       where     (wheres,    SSSQLVarU.discId, discUri);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
@@ -316,7 +317,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         bindingStrToUri        (resultSet, SSSQLVarU.target),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
         null,
-        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.explanation)));
+        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.explanation)),
+        bindingStrToLong(resultSet, SSSQLVarU.creationTime));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

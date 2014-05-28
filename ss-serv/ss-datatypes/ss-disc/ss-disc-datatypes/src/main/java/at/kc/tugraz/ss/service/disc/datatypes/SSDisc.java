@@ -32,13 +32,14 @@ import java.util.*;
 
 public class SSDisc extends SSEntityA {
   
-  public  SSUri             uri         = null;
-  public  SSLabel           label       = null;
-  public  SSUri             author      = null;
-  public  SSUri             target      = null;
-  public  SSEntityE         discType    = null;
-  public  List<SSDiscEntry> entries     = new ArrayList<SSDiscEntry>();
-  public  SSTextComment     explanation = null;
+  public  SSUri             uri          = null;
+  public  SSLabel           label        = null;
+  public  SSUri             author       = null;
+  public  SSUri             target       = null;
+  public  SSEntityE         discType     = null;
+  public  List<SSDiscEntry> entries      = new ArrayList<SSDiscEntry>();
+  public  SSTextComment     explanation  = null;
+  public  Long              creationTime = null;
 
   public static SSDisc get(
     final SSUri             uri,
@@ -47,9 +48,10 @@ public class SSDisc extends SSEntityA {
     final SSUri             target,
     final SSEntityE         discType,
     final List<SSDiscEntry> entries,
-    final SSTextComment     explanation) throws Exception{
+    final SSTextComment     explanation,
+    final Long              creationTime) throws Exception{
     
-    return new SSDisc(uri, label, author, target, discType, entries, explanation);
+    return new SSDisc(uri, label, author, target, discType, entries, explanation, creationTime);
   }
 
   private SSDisc(
@@ -59,16 +61,18 @@ public class SSDisc extends SSEntityA {
     final SSUri             target,
     final SSEntityE         discType,
     final List<SSDiscEntry> entries, 
-    final SSTextComment     explanation)throws Exception{
+    final SSTextComment     explanation,
+    final Long              creationTime) throws Exception{
     
     super(uri);
     
-    this.uri         = uri;
-    this.label       = label;
-    this.author      = author;
-    this.target      = target;
-    this.discType    = discType;
-    this.explanation = explanation;
+    this.uri          = uri;
+    this.label        = label;
+    this.author       = author;
+    this.target       = target;
+    this.discType     = discType;
+    this.explanation  = explanation;
+    this.creationTime = creationTime;
     
     if(entries != null){
       this.entries.addAll(entries);
@@ -88,11 +92,12 @@ public class SSDisc extends SSEntityA {
     
     ld.put(SSVarU.entries, entriesObj);
     
-    ld.put(SSVarU.author,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.target,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,       SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.discType,    SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarU.explanation, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarU.author,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.target,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.label,        SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.discType,     SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.explanation,  SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarU.creationTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }
@@ -124,5 +129,9 @@ public class SSDisc extends SSEntityA {
   
   public String getExplanation() throws Exception{
     return SSTextComment.toStr(explanation);
+  }
+  
+  public Long getCreationTime() throws Exception{
+    return creationTime;
   }
 }
