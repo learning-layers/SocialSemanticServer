@@ -130,6 +130,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           par.label,
           SSEntityE.user,
           false);
+        
+        SSServCaller.entityEntitiesToCircleAdd(
+          par.user, 
+          SSServCaller.entityCircleURIPublicGet(), 
+          userUri, 
+          false);
       }
       
       if(!sqlFct.hasKey(userUri)){

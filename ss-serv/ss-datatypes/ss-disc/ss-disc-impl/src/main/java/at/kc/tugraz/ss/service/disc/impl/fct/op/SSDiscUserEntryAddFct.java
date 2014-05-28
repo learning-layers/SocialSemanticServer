@@ -1,9 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+/**
+* Code contributed to the Learning Layers project
+* http://www.learning-layers.eu
+* Development is partly funded by the FP7 Programme of the European Commission under
+* Grant Agreement FP7-ICT-318209.
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
@@ -22,12 +36,13 @@ import java.util.ArrayList;
 public class SSDiscUserEntryAddFct{
   
   public static void addDisc(
-    final SSDiscSQLFct sqlFct,
-    final SSUri        discUri,
-    final SSUri        userUri, 
-    final SSUri        targetUri,
-    final SSEntityE    discType, 
-    final SSLabel      discLabel) throws Exception{
+    final SSDiscSQLFct  sqlFct,
+    final SSUri         discUri,
+    final SSUri         userUri, 
+    final SSUri         targetUri,
+    final SSEntityE     discType, 
+    final SSLabel       discLabel,
+    final SSTextComment explanation) throws Exception{
     
     try{
       
@@ -41,16 +56,16 @@ public class SSDiscUserEntryAddFct{
       
       SSServCaller.entityAdd(
         userUri,
-        tmpTargetUri,
-        SSLabel.get(tmpTargetUri),
-        SSEntityE.entity,
+        discUri,
+        discLabel,
+        discType,
         false);
       
       SSServCaller.entityAdd(
         userUri,
-        discUri,
-        discLabel,
-        discType,
+        tmpTargetUri,
+        SSLabel.get(tmpTargetUri),
+        SSEntityE.entity,
         false);
       
       SSServCaller.entityCircleCreate(
@@ -65,7 +80,8 @@ public class SSDiscUserEntryAddFct{
       sqlFct.addDisc(
         userUri, 
         discUri, 
-        tmpTargetUri);
+        tmpTargetUri,
+        explanation);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -124,8 +140,8 @@ public class SSDiscUserEntryAddFct{
     
     try{
       
-      if(SSObjU.isNull(par.discLabel, par.discType)){
-        throw new Exception("label or disc type null");
+      if(SSObjU.isNull(par.discLabel, par.discType, par.explanation)){
+        throw new Exception("label, disc type or explanation null");
       }
       
       switch(par.discType){
@@ -133,13 +149,6 @@ public class SSDiscUserEntryAddFct{
         case qa:
         case chat: break;
         default: throw new Exception("disc type not valid");
-      }
-      
-      if(
-        SSEntityE.equals (par.discType, SSEntityE.qa) &&
-        SSObjU.isNull    (par.content)){
-        
-        throw new Exception("question content null");
       }
       
       if(

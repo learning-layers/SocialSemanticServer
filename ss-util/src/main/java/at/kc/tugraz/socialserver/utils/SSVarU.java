@@ -23,7 +23,7 @@ package at.kc.tugraz.socialserver.utils;
 public class SSVarU{
   
   private SSVarU(){}
-
+  public static final String explanation                                    = "explanation";
   public static final String discUris                                       = "discUris";
   public static final String ids                                            = "ids";
   public static final String serv                                           = "serv";

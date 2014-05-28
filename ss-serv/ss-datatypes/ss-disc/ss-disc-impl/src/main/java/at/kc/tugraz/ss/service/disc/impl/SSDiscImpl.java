@@ -81,7 +81,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityE   entityType,
+    final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -298,7 +298,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.user,
           par.targetUri,
           par.discType,
-          par.discLabel);
+          par.discLabel,
+          par.explanation);
       }      
       
       if(par.content != null){

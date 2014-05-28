@@ -403,6 +403,7 @@ DROP TABLE IF EXISTS `disc`;
 CREATE TABLE `disc` (
   `discId` varchar(200) NOT NULL,
   `target` varchar(200) NOT NULL,
+  `explanation` varchar(400) NOT NULL,
   PRIMARY KEY (`discId`,`target`),
   KEY `discIdFKdisc_idx` (`discId`),
   KEY `targetFKdisc_idx` (`target`),
@@ -483,8 +484,8 @@ CREATE TABLE `discuser` (
   `userId` varchar(100) NOT NULL,
   PRIMARY KEY (`discId`,`userId`),
   KEY `userIdFKdiscuser_idx` (`userId`),
-  CONSTRAINT `userIdFKdiscuser` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `discIdFKdiscuser` FOREIGN KEY (`discId`) REFERENCES `disc` (`discId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `discIdFKdiscuser` FOREIGN KEY (`discId`) REFERENCES `disc` (`discId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKdiscuser` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -966,4 +967,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-19 16:26:19
+-- Dump completed on 2014-05-28 10:42:20

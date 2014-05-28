@@ -36,6 +36,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public Boolean             addNewDisc     = null;
   public SSEntityE           discType       = null;
   public SSLabel             discLabel      = null;
+  public SSTextComment       explanation    = null;
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
       
@@ -50,6 +51,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         addNewDisc    = (Boolean)            pars.get(SSVarU.addNewDisc);
         discType      = (SSEntityE)          pars.get(SSVarU.discType);
         discLabel     = (SSLabel)            pars.get(SSVarU.discLabel);
+        explanation   = (SSTextComment)      pars.get(SSVarU.explanation);
       }
       
       if(clientPars != null){
@@ -76,6 +78,10 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         
         try{
           discLabel     = SSLabel.get(clientPars.get(SSVarU.discLabel));
+        }catch(Exception error){}
+        
+        try{
+          explanation   = SSTextComment.get(clientPars.get(SSVarU.explanation));
         }catch(Exception error){}
       }
     }catch(Exception error){

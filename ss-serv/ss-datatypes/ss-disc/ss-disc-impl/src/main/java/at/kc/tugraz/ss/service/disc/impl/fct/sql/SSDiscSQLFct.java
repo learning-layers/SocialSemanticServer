@@ -131,15 +131,17 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   }
   
   public void addDisc(
-    final SSUri     userUri,
-    final SSUri     discUri,
-    final SSUri     targetUri) throws Exception{
+    final SSUri         userUri,
+    final SSUri         discUri,
+    final SSUri         targetUri,
+    final SSTextComment explanation) throws Exception{
     
     try{
       final Map<String, String> inserts =  new HashMap<String,String>();
       
-      insert(inserts, SSSQLVarU.discId,   discUri);
-      insert(inserts, SSSQLVarU.target,   targetUri);
+      insert(inserts, SSSQLVarU.discId,      discUri);
+      insert(inserts, SSSQLVarU.target,      targetUri);
+      insert(inserts, SSSQLVarU.explanation, explanation);
       
       dbSQL.insert(discTable, inserts);
       
@@ -299,6 +301,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       column    (columns,   SSSQLVarU.discId);
       column    (columns,   SSSQLVarU.target);
       column    (columns,   SSSQLVarU.type);
+      column    (columns,   SSSQLVarU.explanation);
       where     (wheres,    SSSQLVarU.discId, discUri);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
@@ -312,7 +315,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         bindingStrToUri        (resultSet, SSSQLVarU.author),
         bindingStrToUri        (resultSet, SSSQLVarU.target),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
-        null);
+        null,
+        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.explanation)));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

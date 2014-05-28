@@ -23,6 +23,7 @@
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -31,12 +32,13 @@ import java.util.*;
 
 public class SSDisc extends SSEntityA {
   
-  public  SSUri             uri      = null;
-  public  SSLabel           label    = null;
-  public  SSUri             author   = null;
-  public  SSUri             target   = null;
-  public  SSEntityE         discType = null;
-  public  List<SSDiscEntry> entries  = new ArrayList<SSDiscEntry>();
+  public  SSUri             uri         = null;
+  public  SSLabel           label       = null;
+  public  SSUri             author      = null;
+  public  SSUri             target      = null;
+  public  SSEntityE         discType    = null;
+  public  List<SSDiscEntry> entries     = new ArrayList<SSDiscEntry>();
+  public  SSTextComment     explanation = null;
 
   public static SSDisc get(
     final SSUri             uri,
@@ -44,9 +46,10 @@ public class SSDisc extends SSEntityA {
     final SSUri             author,
     final SSUri             target,
     final SSEntityE         discType,
-    final List<SSDiscEntry> entries) throws Exception{
+    final List<SSDiscEntry> entries,
+    final SSTextComment     explanation) throws Exception{
     
-    return new SSDisc(uri, label, author, target, discType, entries);
+    return new SSDisc(uri, label, author, target, discType, entries, explanation);
   }
 
   private SSDisc(
@@ -55,15 +58,17 @@ public class SSDisc extends SSEntityA {
     final SSUri             author,
     final SSUri             target,
     final SSEntityE         discType,
-    final List<SSDiscEntry> entries)throws Exception{
+    final List<SSDiscEntry> entries, 
+    final SSTextComment     explanation)throws Exception{
     
     super(uri);
     
-    this.uri      = uri;
-    this.label    = label;
-    this.author   = author;
-    this.target   = target;
-    this.discType = discType;
+    this.uri         = uri;
+    this.label       = label;
+    this.author      = author;
+    this.target      = target;
+    this.discType    = discType;
+    this.explanation = explanation;
     
     if(entries != null){
       this.entries.addAll(entries);
@@ -83,10 +88,11 @@ public class SSDisc extends SSEntityA {
     
     ld.put(SSVarU.entries, entriesObj);
     
-    ld.put(SSVarU.author,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.target,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,    SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.discType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.author,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.target,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.label,       SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.discType,    SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.explanation, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;
   }
@@ -114,5 +120,9 @@ public class SSDisc extends SSEntityA {
 
   public List<SSDiscEntry> getEntries(){
     return entries;
+  }
+  
+  public String getExplanation() throws Exception{
+    return SSTextComment.toStr(explanation);
   }
 }
