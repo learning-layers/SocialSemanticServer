@@ -25,11 +25,11 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSCollUserCummulatedTagsGetPar extends SSServPar{
+public class SSCollUserCumulatedTagsGetPar extends SSServPar{
   
   public SSUri coll = null;
       
-  public SSCollUserCummulatedTagsGetPar(SSServPar par) throws Exception{
+  public SSCollUserCumulatedTagsGetPar(SSServPar par) throws Exception{
     
     super(par);
     

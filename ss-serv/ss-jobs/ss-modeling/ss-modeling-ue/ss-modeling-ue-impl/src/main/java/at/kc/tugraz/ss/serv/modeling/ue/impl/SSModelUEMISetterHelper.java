@@ -22,7 +22,7 @@
 
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.socialserver.utils.SSNumberU;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SSModelUEMISetterHelper {
   private static List<String> usedMis = new ArrayList<String>();
   
 	public boolean getNumberOfTimesMaturingIndicator(
-			SSModelUEResource resource,
+			SSModelUEEntity resource,
 			int           counter,
 			double        collectionThreshold,
 			double        discussionThreshold,
@@ -70,7 +70,7 @@ public class SSModelUEMISetterHelper {
 
 
 	public boolean getLessNumberOfTimesMaturityIndicator(
-			SSModelUEResource resource,
+			SSModelUEEntity resource,
 			int        counter,
 			double     collectionThreshold,
 			double     discussionThreshold,
@@ -102,7 +102,7 @@ public class SSModelUEMISetterHelper {
 	 * 0 returns events from resource's event history matching given event types
 	 */
 	public List<SSUE> getResourceEventsOfType(
-			SSModelUEResource              resource,
+			SSModelUEEntity              resource,
 			List<SSUEE>      eventTypes) {
 
 		List<SSUE> result = new ArrayList<SSUE>();
@@ -122,7 +122,7 @@ public class SSModelUEMISetterHelper {
 	}
 	
 	public void addIndicator(
-			SSModelUEResource  resource,
+			SSModelUEEntity  resource,
 			List<String>       indicatorsForCurrentDay,
 			String             indicator){
 		

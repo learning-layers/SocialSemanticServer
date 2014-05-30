@@ -139,6 +139,7 @@ public enum SSMethU{
   categoryAdd                                              ,
   categoryAddAtCreationTime                                ,
   categoryFrequsGet,
+  categoriesRemove,
   
   //solr
   solrAddDoc                                          ,

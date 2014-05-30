@@ -31,15 +31,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCollUserCummulatedTagsGetRet extends SSServRetI{
+public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
 
   public final List<SSTagFrequ> tagFrequs = new ArrayList<SSTagFrequ>();
 
-  public static SSCollUserCummulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSMethU op){
-    return new SSCollUserCummulatedTagsGetRet(tagFrequs, op);
+  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSMethU op){
+    return new SSCollUserCumulatedTagsGetRet(tagFrequs, op);
   }
   
-  private SSCollUserCummulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSMethU op) {
+  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSMethU op) {
 
     super(op);
     

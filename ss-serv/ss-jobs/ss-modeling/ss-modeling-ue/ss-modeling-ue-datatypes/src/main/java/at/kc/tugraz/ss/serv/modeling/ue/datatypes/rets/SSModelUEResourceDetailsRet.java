@@ -53,13 +53,13 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     
     super(op);
 
-    this.entity                                        = uri;
+    this.entity                                     = uri;
 	  this.relatedPersons                             = relatedPersons;
-	  this.mIs                         = maturingIndicators;
+	  this.mIs                                        = maturingIndicators;
 	  this.editors                                    = editors;
 	  this.recentArtifact                             = recentArtifact;
 	  this.recentTopic                                = recentTopic;
-	  this.contributedEntities                       = contributedResources;
+	  this.contributedEntities                        = contributedResources;
 	  this.topicScores                                = topicScores;    
   }
   
@@ -73,7 +73,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     Map<String, Object> topicScoresObj          = new HashMap<String, Object>();
     Map<String, Object> mIObj                   = new HashMap<String, Object>();
     
-    ld.put(SSVarU.entity,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.recentArtifact, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.recentTopic,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);

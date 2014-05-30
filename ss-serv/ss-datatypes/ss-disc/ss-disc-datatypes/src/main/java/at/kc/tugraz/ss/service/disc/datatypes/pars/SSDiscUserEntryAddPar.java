@@ -35,7 +35,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public SSTextComment       entry          = null;
   public Boolean             addNewDisc     = null;
   public SSEntityE           type           = null;
-  public SSLabel             label      = null;
+  public SSLabel             label          = null;
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
       

@@ -22,7 +22,7 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
@@ -33,12 +33,12 @@ import java.util.Map;
 
 public class SSModelUEUESetter{
 
-  private final Map<String, SSModelUEResource>        resources;
+  private final Map<String, SSModelUEEntity>        resources;
   private final SSServImplA                           serv;
   
   public SSModelUEUESetter(
     final SSServImplA              serv,
-    Map<String, SSModelUEResource> resources){
+    Map<String, SSModelUEEntity> resources){
     
     this.resources = resources;
     this.serv      = serv;
@@ -49,7 +49,7 @@ public class SSModelUEUESetter{
 	 */
 	public void removeOldEventsFromModel(){
 		
-		for(SSModelUEResource resource : resources.values()){
+		for(SSModelUEEntity resource : resources.values()){
 			resource.events.clear();       
 			resource.personsEvents.clear();
 		}
@@ -60,7 +60,7 @@ public class SSModelUEUESetter{
 
 		HashMap<String, List<SSUE>>  eventsPerResource;
 		HashMap<String, List<SSUE>>  eventsPerUser;
-		SSModelUEResource            foundOrCreatedResource;
+		SSModelUEEntity            foundOrCreatedResource;
     List<SSUE>                   newEvents;
     List<SSUE>                   sortedEventsSinceLastUpdate;
     
@@ -91,14 +91,14 @@ public class SSModelUEUESetter{
   /**
 	 *	0 find the resource/user with this url OR create a new one if it not exists <br>
 	 */
-  private SSModelUEResource findResourceOrUserOrAddNewOne(
+  private SSModelUEEntity findResourceOrUserOrAddNewOne(
 			String resourceOrUserUrl) throws Exception{
 		
-		SSModelUEResource foundOrCreatedResourceOrUser;
+		SSModelUEEntity foundOrCreatedResourceOrUser;
 		
 		if(resources.containsKey(resourceOrUserUrl) == false){
 			
-			foundOrCreatedResourceOrUser = new SSModelUEResource(SSUri.get(resourceOrUserUrl));
+			foundOrCreatedResourceOrUser = new SSModelUEEntity(SSUri.get(resourceOrUserUrl));
 			
 			resources.put(resourceOrUserUrl, foundOrCreatedResourceOrUser);
 			

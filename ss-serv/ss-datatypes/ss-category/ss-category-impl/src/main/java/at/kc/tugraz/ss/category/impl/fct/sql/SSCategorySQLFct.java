@@ -250,7 +250,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.entityId, entity);
       }
       
-      if(categoryUri != null){
+      if(categoryLabel != null){
         where(wheres, SSSQLVarU.categoryId, categoryUri);
       }
       

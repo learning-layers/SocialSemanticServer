@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
 import at.kc.tugraz.socialserver.utils.SSNumberU;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -38,7 +38,7 @@ public class SSModelUEMISetter {
 	/**
 	 * 0 set maturing indicators text representation for the resource <br>
 	 */
-	public void setTextualMI(SSModelUEResource resource) {
+	public void setTextualMI(SSModelUEEntity resource) {
 
 		ArrayList<String>    result    = new ArrayList<String>();
 			
@@ -325,7 +325,7 @@ public class SSModelUEMISetter {
 	/**
 	 * 0 calculate independent MI <br>
 	 */
-	public void calculateIndependentMI(SSModelUEResource resource){
+	public void calculateIndependentMI(SSModelUEEntity resource){
 		
 		/*
 		 * MI of this resource not depending on other MI of this resource
@@ -371,8 +371,8 @@ public class SSModelUEMISetter {
 	 * calculate MI depending on other MI of all resources <br>
 	 */	
 	public void calculateDependentMI(
-			SSModelUEResource                    resource,
-			 Map<String,SSModelUEResource>  resources){
+			SSModelUEEntity                    resource,
+			 Map<String,SSModelUEEntity>  resources){
 		
 		resource.mIChangeReputablePersonNot = true;
 		resource.mIChangeReputablePerson    = false; 
@@ -386,8 +386,8 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't changed by a reputable person <br>
 	 **/
 	private void setChangeReputablePerson(
-			Map<String, SSModelUEResource> resources, 
-			SSModelUEResource                    resource) {
+			Map<String, SSModelUEEntity> resources, 
+			SSModelUEEntity                    resource) {
 
 		if(
 				SSEntityE.isUser(resource.type) &&
@@ -395,13 +395,13 @@ public class SSModelUEMISetter {
 				(resource.mIUseWide                                              ||
 				 resource.mIAware                                               )){
 			
-			for(SSModelUEResource otherResource : resources.values()){
+			for(SSModelUEEntity otherResource : resources.values()){
 				
 				if(otherResource.mIChangeReputablePerson == false){
 				
 					for(SSUE event :	maturingIndicatorSetterHelper.getResourceEventsOfType(resource, SSModelUEU.changingEventTypes)){
 						
-						if(SSUri.equals(event.user, resource.id)){
+						if(SSUri.equals(event.user, resource.entity)){
 							
 							otherResource.mIChangeReputablePersonNot = false;
 							otherResource.mIChangeReputablePerson    = true;
@@ -418,7 +418,7 @@ public class SSModelUEMISetter {
 	 * 0 became standard <br>
 	 * - whether the resource became standard <br>
 	 **/
-	private void setStandard(SSModelUEResource resource){
+	private void setStandard(SSModelUEEntity resource){
 		
 		int counter = 0;
 		
@@ -469,7 +469,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource got not recommended <br>
 	 * - whether the resource got recommended number of times <br>
 	 **/
-	private void setRecommend(SSModelUEResource resource){
+	private void setRecommend(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -503,7 +503,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource isn't an author/editor of a document <br>
 	 * - whether the resource is an author/editor of a number of documents <br>
 	 **/
-	private void setIsEditor(SSModelUEResource resource){
+	private void setIsEditor(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -537,7 +537,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource didn't contribute to a discussion <br>
 	 * - whether the resource contributed to a number of discussions <br>
 	 **/
-	private void setContributedDiscussion(SSModelUEResource resource){
+	private void setContributedDiscussion(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -571,7 +571,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource didn't participate <br>
 	 * - whether the resource participated number of times <br>
 	 **/
-	private void setParticipated(SSModelUEResource resource){
+	private void setParticipated(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -604,7 +604,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource got not referred by another one <br>
 	 * - whether the resource got referred by a number of resources <br>
 	 **/
-	private void setReferredBy(SSModelUEResource resource){
+	private void setReferredBy(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -636,7 +636,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource reached high awareness <br>
 	 * - whether the resource reached no high awareness <br>
 	 **/
-	private void setAware(SSModelUEResource resource){
+	private void setAware(SSModelUEEntity resource){
 
 		resource.mIAware = 
 			maturingIndicatorSetterHelper.getNumberOfTimesMaturingIndicator(
@@ -656,7 +656,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource got not collaborately worked on <br>
 	 * - whether the resource got collaborately worked on number of times <br>
 	 **/
-	private void setCollaborateCollection(SSModelUEResource resource){
+	private void setCollaborateCollection(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -696,7 +696,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource got not collaborately worked on <br>
 	 * - whether the resource got collaborately worked on number of times <br>
 	 **/
-	private void setCollaborateDiscussion(SSModelUEResource resource){
+	private void setCollaborateDiscussion(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -736,7 +736,7 @@ public class SSModelUEMISetter {
 	 * - whether the collection wasn't organized <br>
 	 * - whether the collection was organized number of times <br>
 	 **/
-	private void setOrganizeCollection(SSModelUEResource resource){
+	private void setOrganizeCollection(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -769,7 +769,7 @@ public class SSModelUEMISetter {
 	 * 0 has number of associated persons <br>
 	 * - whether the resource has a number of persons associated <br>
 	 **/
-	private void setAssociatePerson(SSModelUEResource resource){
+	private void setAssociatePerson(SSModelUEEntity resource){
 		
 		resource.mIAssociatePersonNumberOf = 
 			maturingIndicatorSetterHelper.getNumberOfTimesMaturingIndicator(
@@ -788,7 +788,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource changed number of times <br>
 	 * (- whether the resource changed not recently after intensive editing) <br>
 	 **/
-	private void setChange(SSModelUEResource resource){
+	private void setChange(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -831,7 +831,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource was not tagged <br>
 	 * - whether the resource was tagged number of times <br>
 	 **/ 
-	private void setTag(SSModelUEResource resource){
+	private void setTag(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -864,7 +864,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource was just created (has just a number of events so far) <br>
 	 * - whether the resource wasn't just created <br>
 	 **/
-	private void setCreateJust(SSModelUEResource resource){
+	private void setCreateJust(SSModelUEEntity resource){
 		
 		resource.mICreateJust =
 			maturingIndicatorSetterHelper.getLessNumberOfTimesMaturityIndicator(
@@ -880,7 +880,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource is used widely (has average number of events) <br>
 	 * - whether the resource isn't used widely (has average number of events) <br>
 	 **/
-	private void setUseWide(SSModelUEResource resource){
+	private void setUseWide(SSModelUEEntity resource){
 		
 		resource.mIUseWide =
 			maturingIndicatorSetterHelper.getNumberOfTimesMaturingIndicator(
@@ -898,7 +898,7 @@ public class SSModelUEMISetter {
 	 * 0 active periods <br>
 	 * - whether the resource has a number of active periods <br>
 	 **/
-	private void setActivePeriod(SSModelUEResource resource){
+	private void setActivePeriod(SSModelUEEntity resource){
 		
 		resource.mIActivePeriodNumberOf =
 			maturingIndicatorSetterHelper.getNumberOfTimesMaturingIndicator(
@@ -918,7 +918,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't changed by a person <br>
 	 * - whether the resource was changed by a number of different persons <br>
 	 **/
-	private void setChangePerson(SSModelUEResource resource){
+	private void setChangePerson(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -952,7 +952,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't changed by one adding/deleting step <br>
 	 * - whether the resource was changed by a number of adding/deleting steps <br>
 	 **/
-	private void setChangeByAddOrDelete(SSModelUEResource resource){
+	private void setChangeByAddOrDelete(SSModelUEEntity resource){
 	
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -985,7 +985,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource has a discussion <br>
 	 * - whether the resource has no discussion <br>
 	 **/
-	private void setDiscuss(SSModelUEResource resource){
+	private void setDiscuss(SSModelUEEntity resource){
 	
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1009,7 +1009,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource is in number of collections <br>
 	 * - whether the resource is in no collection <br>
 	 **/
-	private void setCollect(SSModelUEResource resource){
+	private void setCollect(SSModelUEEntity resource){
 
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1043,7 +1043,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource is not in a collection with... <br>
 	 * - whether the resource is in a collection with... number of times <br>
 	 **/
-	private void setCollectSimilar(SSModelUEResource resource){
+	private void setCollectSimilar(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1077,7 +1077,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource isn't presented to influential audience <br>
 	 * - whether the resource is present to influential audience number of times <br>
 	 **/
-	private void setPresentAudience(SSModelUEResource resource){
+	private void setPresentAudience(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1111,7 +1111,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource isn't made out of integrating parts <br>
 	 * - whether the resource is made out of a number of integrating parts <br>
 	 **/
-	private void setMadeOutOf(SSModelUEResource resource){
+	private void setMadeOutOf(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1145,7 +1145,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't shared with community <br>
 	 * - whether the resource was shared with community number of times <br>
 	 **/
-	private void setShareCommunity(SSModelUEResource resource){
+	private void setShareCommunity(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1179,7 +1179,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't viewed by a persons <br>
 	 * - whether the resource was viewed by number of different persons <br>
 	 **/
-	private void setViewPerson(SSModelUEResource resource){
+	private void setViewPerson(SSModelUEEntity resource){
 
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1212,7 +1212,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't viewed <br>
 	 * - whether the resource was viewed number of times <br> 
 	 **/
-	private void setView(SSModelUEResource resource){
+	private void setView(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1246,7 +1246,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't rated highly <br>
 	 * - whether the resource was rated highly a number of times<br>
 	 **/
-	private void setRateHigh(SSModelUEResource resource){
+	private void setRateHigh(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1280,7 +1280,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't rated <br>
 	 * - whether the resource was rated a number of times<br>
 	 **/
-	private void setGotRated(SSModelUEResource resource){
+	private void setGotRated(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1314,7 +1314,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't assessed by a person <br>
 	 * - whether the resource was assessed number of times by <br>
 	 **/
-	private void setAssess(SSModelUEResource resource){
+	private void setAssess(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(
@@ -1384,7 +1384,7 @@ public class SSModelUEMISetter {
 	 * - whether the resource wasn't selected from others <br>
 	 * - whether the resource was selected from others number of times <br>
 	 **/
-	private void setSelectFromOther(SSModelUEResource resource){
+	private void setSelectFromOther(SSModelUEEntity resource){
 		
 		if(
 				SSNumberU.isLessThanOrEqual(

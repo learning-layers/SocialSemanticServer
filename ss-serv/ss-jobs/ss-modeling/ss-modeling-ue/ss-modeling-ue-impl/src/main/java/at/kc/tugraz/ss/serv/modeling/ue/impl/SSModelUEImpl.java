@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
@@ -54,9 +54,9 @@ import java.util.*;
 
 public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, SSModelUEServerI{
   
-  private final Map<String, SSModelUEResource> resources;
+  private final Map<String, SSModelUEEntity> resources;
   
-  public SSModelUEImpl(final SSConfA conf, final Map<String, SSModelUEResource> resources) throws Exception{
+  public SSModelUEImpl(final SSConfA conf, final Map<String, SSModelUEEntity> resources) throws Exception{
     
     super(conf);
     
@@ -119,7 +119,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return result;
     }
     
-    SSModelUEResource resource = resources.get(par.entity.toString());
+    SSModelUEEntity resource = resources.get(par.entity.toString());
     
     if(resource != null){
       
@@ -166,9 +166,9 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       SSModelUEU.lastUpdateTime = new Date().getTime();
 
-      for (SSModelUEResource resource : resources.values()){
+      for (SSModelUEEntity resource : resources.values()){
 
-        resource.type = SSServCaller.entityGet(resource.id).type;
+        resource.type = SSServCaller.entityGet(resource.entity).type;
 
         resourcePropertySetter.setResourceIndependentProperties                 (resource);
 
@@ -181,11 +181,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       thresholdSetter.calculateThresholds();
 
-      for(SSModelUEResource resource : resources.values()){
+      for(SSModelUEEntity resource : resources.values()){
         maturingIndicatorSetter.calculateIndependentMI(resource);
       }
 
-      for(SSModelUEResource resource : resources.values()){
+      for(SSModelUEEntity resource : resources.values()){
 
         maturingIndicatorSetter.calculateDependentMI(resource, resources);
 
@@ -209,10 +209,10 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return entityUris;
     }
     
-    for(SSModelUEResource resource : resources.values()){
+    for(SSModelUEEntity resource : resources.values()){
       
-      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.id).contains(par.mi.toString())){
-        entityUris.add(resource.id);
+      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.entity).contains(par.mi.toString())){
+        entityUris.add(resource.entity);
       }
     }
     
@@ -257,7 +257,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return null;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
+    SSModelUEEntity resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       return resource.personsRecentArtifact;
@@ -275,7 +275,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return null;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
+    SSModelUEEntity resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       return resource.personsRecentTopic;
@@ -295,7 +295,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return result;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
+    SSModelUEEntity resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       result = resource.personsRelatedResources;
@@ -315,7 +315,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
       return result;
     }
     
-    SSModelUEResource resource = resources.get(SSStrU.toString(par.entity));
+    SSModelUEEntity resource = resources.get(SSStrU.toString(par.entity));
     
     if(SSObjU.isNotNull(resource)){
       result = resource.personsTopicScores;
@@ -330,7 +330,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     SSModelUEModelRelationsPar par = new SSModelUEModelRelationsPar(parI);
     
     List<SSModelUERelation>  result        = new ArrayList<SSModelUERelation>();
-    SSModelUEResource        modelResource;
+    SSModelUEEntity        modelResource;
     
     if(SSObjU.isNull(par.entity)){
       return result;

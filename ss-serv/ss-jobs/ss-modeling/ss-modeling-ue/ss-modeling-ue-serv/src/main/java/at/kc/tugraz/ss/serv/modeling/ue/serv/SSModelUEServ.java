@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.impl.SSModelUEImpl;
 import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -38,7 +38,7 @@ import java.util.List;
 
 public class SSModelUEServ extends SSServA{
   
-  public static final HashMap<String, SSModelUEResource> resources = new HashMap<String, SSModelUEResource>();
+  public static final HashMap<String, SSModelUEEntity> resources = new HashMap<String, SSModelUEEntity>();
   public static final SSModelUEServ                      inst      = new SSModelUEServ(SSModelUEClientI.class, SSModelUEServerI.class);
    
   protected SSModelUEServ(
