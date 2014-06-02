@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSEntityDescGetRet extends SSServRetI{
 
-  public SSEntityDescA entityDesc = null;
+  public SSEntityDescA desc = null;
 
   public static SSEntityDescGetRet get(
     final SSEntityDescA entityDesc, 
@@ -45,7 +45,7 @@ public class SSEntityDescGetRet extends SSServRetI{
     
     super(op);
     
-    this.entityDesc = entityDesc;
+    this.desc = entityDesc;
   }
 
   @Override
@@ -53,12 +53,12 @@ public class SSEntityDescGetRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.entityDesc, SSVarU.sss + SSStrU.colon + SSEntityDescA.class.getName());
+    ld.put(SSVarU.desc, SSVarU.sss + SSStrU.colon + SSEntityDescA.class.getName());
     
     return ld;
   }
   
-  public SSEntityDescA getEntityDesc() {
-    return entityDesc;
+  public SSEntityDescA getDesc() {
+    return desc;
   }
 }

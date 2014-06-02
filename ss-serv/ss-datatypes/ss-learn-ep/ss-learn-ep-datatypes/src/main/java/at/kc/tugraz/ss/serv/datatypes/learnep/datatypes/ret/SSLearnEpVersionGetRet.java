@@ -52,7 +52,7 @@ public class SSLearnEpVersionGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public SSLearnEpVersion getLearnEpVersion() {
     return learnEpVersion;
   }

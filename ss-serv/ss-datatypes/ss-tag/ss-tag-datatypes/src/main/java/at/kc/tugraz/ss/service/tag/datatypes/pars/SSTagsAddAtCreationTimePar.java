@@ -32,8 +32,8 @@ import java.util.List;
 
 public class SSTagsAddAtCreationTimePar extends SSServPar{
   
-  public SSUri             resource       = null;
-  public List<SSTagLabel>  tagStrings     = new ArrayList<SSTagLabel>();
+  public SSUri             entity         = null;
+  public List<SSTagLabel>  labels         = new ArrayList<SSTagLabel>();
   public SSSpaceE          space          = null;
   public Long              creationTime   = null;
   
@@ -44,8 +44,8 @@ public class SSTagsAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        this.tagStrings   =  SSTagLabel.get (SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.tagStrings)));
-        this.resource     =  (SSUri)                        pars.get(SSVarU.resource);
+        this.labels       =  SSTagLabel.get (SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.labels)));
+        this.entity       =  (SSUri)                        pars.get(SSVarU.entity);
         this.space        =  (SSSpaceE)                     pars.get(SSVarU.space);
         this.creationTime =  (Long)                         pars.get(SSVarU.creationTime);
       }

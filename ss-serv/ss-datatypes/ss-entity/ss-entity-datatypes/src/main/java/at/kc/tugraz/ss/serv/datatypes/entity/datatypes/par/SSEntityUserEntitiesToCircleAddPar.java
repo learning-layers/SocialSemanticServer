@@ -25,8 +25,8 @@ import java.util.List;
 
 public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
 
-  public SSUri       circleUri  = null;
-  public List<SSUri> entityUris = new ArrayList<SSUri>();
+  public SSUri       circle  = null;
+  public List<SSUri> entities = new ArrayList<SSUri>();
   
   public SSEntityUserEntitiesToCircleAddPar(final SSServPar par) throws Exception{
     
@@ -35,13 +35,13 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circleUri        = (SSUri)         pars.get(SSVarU.circleUri);
-        entityUris       = (List<SSUri>)   pars.get(SSVarU.entityUris);
+        circle         = (SSUri)         pars.get(SSVarU.circle);
+        entities       = (List<SSUri>)   pars.get(SSVarU.entities);
       }
       
       if(clientPars != null){
-        circleUri        = SSUri.get (clientPars.get(SSVarU.circleUri));
-        entityUris       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entityUris), SSStrU.comma));
+        circle         = SSUri.get (clientPars.get(SSVarU.circle));
+        entities       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

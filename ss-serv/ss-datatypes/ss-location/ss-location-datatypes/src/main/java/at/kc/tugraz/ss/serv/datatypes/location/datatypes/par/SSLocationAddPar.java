@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLocationAddPar extends SSServPar{
   
-  public SSUri             entityUri    = null;
+  public SSUri             entity       = null;
   public String            location     = null;
     
   public SSLocationAddPar(SSServPar par) throws Exception{
@@ -37,12 +37,12 @@ public class SSLocationAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri  = (SSUri)  pars.get(SSVarU.entityUri);
+        entity     = (SSUri)  pars.get(SSVarU.entity);
         location   = (String) pars.get(SSVarU.location);
       }
       
       if(clientPars != null){
-        entityUri  = SSUri.get      (clientPars.get(SSVarU.entityUri));
+        entity     = SSUri.get      (clientPars.get(SSVarU.entity));
         location   = clientPars.get (SSVarU.location);
       }
     }catch(Exception error){

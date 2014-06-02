@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSSolrAddDocPar extends SSServPar{
   
-  public String          id                = null;
+  public String id                = null;
   
   public SSSolrAddDocPar(SSServPar par) throws Exception{
     

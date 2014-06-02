@@ -31,15 +31,15 @@ import java.util.*;
 
 public class SSModelUEResourceDetailsRet extends SSServRetI{
   
-  public  SSUri                             uri                                        = null;
-  public  SSUri                             recentArtifact                             = null;
-  public  String                            recentTopic                                = null;
-	public  List<SSUri>                       relatedPersons                             = null;
-  public  List<SSUri>                       editors                                    = null;
-  public  List<SSUri>                       contributedResources                       = null;
-  public  List<SSModelUETopicScore>         topicScores                                = null;
-  public  List<String>                      maturingIndicators                         = null;
-  
+  public  SSUri                             entity                      = null;
+  public  SSUri                             recentArtifact              = null;
+  public  String                            recentTopic                 = null;
+	public  List<SSUri>                       relatedPersons              = null;
+  public  List<SSUri>                       editors                     = null;
+  public  List<SSUri>                       contributedEntities         = null;
+  public  List<SSModelUETopicScore>         topicScores                 = null;
+  public  List<String>                      mIs                         = null;
+
   public SSModelUEResourceDetailsRet(
     SSUri                         uri                                        ,
 	  List<SSUri>                   relatedPersons                             ,
@@ -53,13 +53,13 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     
     super(op);
 
-    this.uri                                        = uri;
+    this.entity                                     = uri;
 	  this.relatedPersons                             = relatedPersons;
-	  this.maturingIndicators                         = maturingIndicators;
+	  this.mIs                                        = maturingIndicators;
 	  this.editors                                    = editors;
 	  this.recentArtifact                             = recentArtifact;
 	  this.recentTopic                                = recentTopic;
-	  this.contributedResources                       = contributedResources;
+	  this.contributedEntities                        = contributedResources;
 	  this.topicScores                                = topicScores;    
   }
   
@@ -73,7 +73,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     Map<String, Object> topicScoresObj          = new HashMap<String, Object>();
     Map<String, Object> mIObj                   = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.recentArtifact, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.recentTopic,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
@@ -91,7 +91,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     contributedResourcesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     contributedResourcesObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.contributedResources, contributedResourcesObj);
+    ld.put(SSVarU.contributedEntities, contributedResourcesObj);
     
     topicScoresObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSModelUETopicScore.class.getName());
     topicScoresObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -101,22 +101,18 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     mIObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     mIObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.topicScores, mIObj);
+    ld.put(SSVarU.mIs, mIObj);
       
     return ld;
   }
   
   /* getters to allow for json enconding  */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public List<String> getRelatedPersons(){
     return SSUri.toDistinctStringArray(relatedPersons);
-  }
-
-  public List<String> getMaturingIndicators(){
-    return maturingIndicators;
   }
 
   public List<String> getEditors(){
@@ -131,11 +127,15 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     return recentTopic;
   }
 
-  public List<String> getContributedResources(){
-    return SSUri.toDistinctStringArray(contributedResources);
+  public List<String> getContributedEntities(){
+    return SSUri.toDistinctStringArray(contributedEntities);
   }
 
   public List<SSModelUETopicScore> getTopicScores(){
     return topicScores;
+  }
+  
+  public List<String> getmIs(){
+    return mIs;
   }
 }

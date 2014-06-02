@@ -354,11 +354,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.setLearnEpCurrentVersion(par.user, par.learnEpVersionUri);
+      sqlFct.setLearnEpCurrentVersion(par.user, par.learnEpVersion);
           
       dbSQL.commit(par.shouldCommit);
       
-      return par.learnEpVersionUri;
+      return par.learnEpVersion;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -394,7 +394,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       sqlFct.setLearnEpVersionTimelineState(
         learnEpTimelineStateUri, 
-        par.learnEpVersionUri, 
+        par.learnEpVersion, 
         par.startTime, 
         par.endTime);
       
@@ -426,7 +426,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeCircle(par.learnEpCircleUri);
+      sqlFct.removeCircle(par.learnEpCircle);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -456,7 +456,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeEntity(par.learnEpEntityUri);
+      sqlFct.removeEntity(par.learnEpEntity);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -487,12 +487,12 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityLabelSet(
-        par.learnEpCircleUri, 
+        par.learnEpCircle, 
         par.label, 
         false);
       
       sqlFct.updateCircle(
-        par.learnEpCircleUri, 
+        par.learnEpCircle, 
         par.label, 
         par.xLabel,
         par.yLabel,
@@ -531,12 +531,12 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       SSServCaller.entityAdd(
         par.user,
-        par.entityUri,
-        SSLabel.get(SSStrU.toString(par.entityUri)), 
+        par.entity,
+        SSLabel.get(SSStrU.toString(par.entity)), 
         SSEntityE.entity,
         false);
       
-      sqlFct.updateEntity(par.learnEpEntityUri, par.entityUri, par.x, par.y);
+      sqlFct.updateEntity(par.learnEpEntity, par.entity, par.x, par.y);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -610,7 +610,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         SSEntityE.learnEpVersion,
         false);
       
-      sqlFct.createLearnEpVersion(learnEpVersionUri, par.learnEpUri);
+      sqlFct.createLearnEpVersion(learnEpVersionUri, par.learnEp);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -649,7 +649,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       sqlFct.addCircleToLearnEpVersion(
         circleUri,
-        par.learnEpVersionUri,
+        par.learnEpVersion,
         par.label,
         par.xLabel,
         par.yLabel,
@@ -695,15 +695,15 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       SSServCaller.entityAdd(
         par.user,
-        par.entityUri,
-        SSLabel.get(par.entityUri.toString()),
+        par.entity,
+        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
         false);
       
       sqlFct.addEntityToLearnEpVersion(
         learnEpEntityUri, 
-        par.learnEpVersionUri, 
-        par.entityUri, 
+        par.learnEpVersion, 
+        par.entity, 
         par.x, 
         par.y);
       
@@ -734,11 +734,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSLearnEpVersion       learnEpVersion = null;
     
     try{
-      learnEpVersion           = sqlFct.getLearnEpVersion(par.learnEpVersionUri);
-      learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.learnEpVersionUri).creationTime.toString();
+      learnEpVersion           = sqlFct.getLearnEpVersion(par.learnEpVersion);
+      learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.id).creationTime.toString();
       
       for(SSLearnEpCircle circle : learnEpVersion.circles){
-        circle.label = SSServCaller.entityGet(circle.learnEpCircleUri).label;
+        circle.label = SSServCaller.entityGet(circle.id).label;
       }
       
     }catch(Exception error){
@@ -756,14 +756,14 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     
     try{
       
-      learnEpVersions = sqlFct.getLearnEpVersions(par.learnEpUri);
+      learnEpVersions = sqlFct.getLearnEpVersions(par.learnEp);
       
       for(SSLearnEpVersion learnEpVersion: learnEpVersions){
         
-        learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.learnEpVersionUri).creationTime.toString();
+        learnEpVersion.timestamp = SSServCaller.entityGet(learnEpVersion.id).creationTime.toString();
         
         for(SSLearnEpCircle circle : learnEpVersion.circles){
-          circle.label = SSServCaller.entityGet(circle.learnEpCircleUri).label;
+          circle.label = SSServCaller.entityGet(circle.id).label;
         }
       }
       
@@ -785,7 +785,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       learnEps = sqlFct.getLearnEpsForUser(par.user);
       
       for(SSLearnEp learnEp : learnEps){
-        learnEp.label = SSServCaller.entityGet(learnEp.learnEpUri).label;
+        learnEp.label = SSServCaller.entityGet(learnEp.id).label;
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -801,7 +801,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSLearnEpVersion              result = null;
 
     try{
-      result = SSServCaller.getLearnEpVersion(par.user, sqlFct.getLearnEpCurrentVersionUri(par.user));
+      result = SSServCaller.learnEpVersionGet(par.user, sqlFct.getLearnEpCurrentVersionUri(par.user));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -816,7 +816,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSLearnEpTimelineState              result = null;
     
     try{
-      result = sqlFct.getLearnEpVersionTimelineState(par.learnEpVersionUri);
+      result = sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

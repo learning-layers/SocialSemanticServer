@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSLearnEpCreateRet extends SSServRetI{
 
-  public SSUri learnEpUri = null;
+  public SSUri learnEp = null;
 
   public static SSLearnEpCreateRet get(SSUri learnEpUri, SSMethU op){
     return new SSLearnEpCreateRet(learnEpUri, op);
@@ -40,7 +40,7 @@ public class SSLearnEpCreateRet extends SSServRetI{
     
     super(op);
     
-    this.learnEpUri = learnEpUri;
+    this.learnEp = learnEpUri;
   }
 
   @Override
@@ -48,13 +48,13 @@ public class SSLearnEpCreateRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEp, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpUri);
+  /* getters to allow for json enconding */
+  public String getLearnEp() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEp);
   }
 }

@@ -46,10 +46,10 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
     final SSColl           rootCollAfterEntriesDelete;
     
     for(SSCollEntry collEntry : rootColl.entries){
-      collEntryUris.add(collEntry.uri);
+      collEntryUris.add(collEntry.id);
     }
     
-    SSServCaller.collUserEntriesDelete(SSUserGlobals.systemUser, rootColl.uri, collEntryUris, true);
+    SSServCaller.collUserEntriesDelete(SSUserGlobals.systemUser, rootColl.id, collEntryUris, true);
     
     rootCollAfterEntriesDelete = SSServCaller.collUserRootGet(SSUserGlobals.systemUser);
       

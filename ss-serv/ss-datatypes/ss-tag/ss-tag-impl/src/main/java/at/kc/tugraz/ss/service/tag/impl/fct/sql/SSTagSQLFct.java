@@ -250,7 +250,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.entityId, entity);
       }
       
-      if(tagURI != null){
+      if(tagString != null){
         where(wheres, SSSQLVarU.tagId, tagURI);
       }
       

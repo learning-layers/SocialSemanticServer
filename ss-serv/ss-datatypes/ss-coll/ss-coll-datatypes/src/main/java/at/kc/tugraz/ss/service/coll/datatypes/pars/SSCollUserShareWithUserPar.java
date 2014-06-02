@@ -22,9 +22,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserShareWithUserPar extends SSServPar{
   
-  public SSUri userUriToShareWith = null;
-  public SSUri entityUri          = null;
-  public SSUri entityCircleUri    = null;
+  public SSUri forUser   = null;
+  public SSUri entity    = null;
+  public SSUri circle    = null;
       
   public SSCollUserShareWithUserPar(final SSServPar par) throws Exception{
     
@@ -33,9 +33,9 @@ public class SSCollUserShareWithUserPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri             = (SSUri)     pars.get(SSVarU.entityUri);
-        userUriToShareWith    = (SSUri)       pars.get(SSVarU.userUriToShareWith);
-        entityCircleUri       = (SSUri)     pars.get(SSVarU.entityCircleUri);
+        entity       = (SSUri)     pars.get(SSVarU.entity);
+        forUser      = (SSUri)     pars.get(SSVarU.forUser);
+        circle       = (SSUri)     pars.get(SSVarU.circle);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

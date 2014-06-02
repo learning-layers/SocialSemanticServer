@@ -18,34 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+ package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
-
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommCalcMulanPar extends SSServPar{
-
-  public String  sampleName  = null;
-  public Integer sampleCount = null;
+public class SSModelUEEntitiesAllPar extends SSServPar{
   
-  public SSRecommCalcMulanPar(SSServPar par) throws Exception{
-    
+  public SSModelUEEntitiesAllPar(SSServPar par) throws Exception{
     super(par);
-    
-    try{
-      if(pars != null){
-        this.sampleName  = (String)  pars.get(SSVarU.sampleName);
-        this.sampleCount = (Integer) pars.get(SSVarU.sampleCount);
-      }
-      
-      if(clientPars != null){
-        this.sampleName  = clientPars.get  (SSVarU.sampleName);
-        this.sampleCount = Integer.valueOf (clientPars.get(SSVarU.sampleCount));
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

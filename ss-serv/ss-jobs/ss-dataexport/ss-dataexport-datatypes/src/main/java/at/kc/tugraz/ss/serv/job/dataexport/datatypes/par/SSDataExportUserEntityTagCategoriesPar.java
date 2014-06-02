@@ -40,10 +40,10 @@ public class SSDataExportUserEntityTagCategoriesPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.fileName              = (String)                     pars.get(SSVarU.fileName);
-        this.tagsPerEntities       = (Map<String, List<String>>)  pars.get(SSVarU.tagsPerEntities);
-        this.categoriesPerEntities = (Map<String, List<String>>)  pars.get(SSVarU.categoriesPerEntities);
-        this.wasLastLine           = (Boolean)                    pars.get(SSVarU.wasLastLine);
+        fileName              = (String)                     pars.get(SSVarU.fileName);
+        tagsPerEntities       = (Map<String, List<String>>)  pars.get(SSVarU.tagsPerEntities);
+        categoriesPerEntities = (Map<String, List<String>>)  pars.get(SSVarU.categoriesPerEntities);
+        wasLastLine           = (Boolean)                    pars.get(SSVarU.wasLastLine);
       }
       
     }catch(Exception error){

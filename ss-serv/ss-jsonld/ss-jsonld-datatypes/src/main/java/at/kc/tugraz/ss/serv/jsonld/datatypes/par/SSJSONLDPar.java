@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSJSONLDPar extends SSServPar{
   
-  public String       entityType         = null;
+  public String       type         = null;
       
   public SSJSONLDPar(SSServPar par) throws Exception{
     
@@ -35,7 +35,7 @@ public class SSJSONLDPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityType       = (String)       pars.get(SSVarU.entityType);
+        type       = (String)       pars.get(SSVarU.type);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

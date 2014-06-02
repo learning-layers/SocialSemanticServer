@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
@@ -31,9 +31,9 @@ import java.util.List;
 
 public class SSCategoriesAddPar extends SSServPar{
   
-  public SSUri                  resource       = null;
-  public List<SSCategoryLabel>  categoryLabels = new ArrayList<SSCategoryLabel>();
-  public SSSpaceE               space          = null;
+  public SSUri                  entity  = null;
+  public List<SSCategoryLabel>  labels  = new ArrayList<SSCategoryLabel>();
+  public SSSpaceE               space   = null;
   
   public SSCategoriesAddPar(SSServPar par) throws Exception{
     
@@ -42,16 +42,16 @@ public class SSCategoriesAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.categoryLabels.addAll((List<SSCategoryLabel>)  pars.get(SSVarU.categoryLabels));
-        this.resource     =  (SSUri)                        pars.get(SSVarU.resource);
-        this.space        =  (SSSpaceE)                     pars.get(SSVarU.space);
+        labels.addAll((List<SSCategoryLabel>)  pars.get(SSVarU.labels));
+        entity        =  (SSUri)               pars.get(SSVarU.entity);
+        space         =  (SSSpaceE)            pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
         
-        resource       = SSUri.get             (clientPars.get(SSVarU.resource));
-        space          = SSSpaceE.get          (clientPars.get(SSVarU.space));
-        categoryLabels = SSCategoryLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.categoryLabels), SSStrU.comma));
+        entity  = SSUri.get             (clientPars.get(SSVarU.entity));
+        space   = SSSpaceE.get          (clientPars.get(SSVarU.space));
+        labels  = SSCategoryLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

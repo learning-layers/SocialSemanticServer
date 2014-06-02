@@ -33,7 +33,7 @@ public class SSFileSysLocalAddTextToFilesNamesAtBeginInDirTest extends SSServOpT
   
   @Override
   protected void test() throws Exception{
-    SSServCaller.addTextToFileNamesAtBeginInDir();
+    SSServCaller.fileSysLocalAddTextToFilesNamesAtBeginInDir();
   }
 
   @Override

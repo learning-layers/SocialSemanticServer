@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntitySearchWithKeywordWithinPar extends SSServPar{
   
-  public SSUri     entityUri = null;
+  public SSUri     entity    = null;
   public String    keyword   = null;
     
   public SSEntitySearchWithKeywordWithinPar(SSServPar par) throws Exception{
@@ -37,7 +37,7 @@ public class SSEntitySearchWithKeywordWithinPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri   = (SSUri)  pars.get(SSVarU.entityUri);
+        entity      = (SSUri)  pars.get(SSVarU.entity);
         keyword     = (String) pars.get(SSVarU.keyword);
       }
       

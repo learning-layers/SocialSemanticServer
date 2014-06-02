@@ -221,18 +221,18 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      entity = sqlFct.getEntity(par.entityUri);
+      entity = sqlFct.getEntity(par.entity);
       
       if(par.getOverallRating){
-        overallRating = SSServCaller.ratingOverallGet   (par.user, par.entityUri);
+        overallRating = SSServCaller.ratingOverallGet   (par.user, par.entity);
       }
       
-      if(par.getDiscUris){
-        discUris = SSServCaller.discUserDiscURIsForTargetGet(par.user, par.entityUri);
+      if(par.getDiscs){
+        discUris = SSServCaller.discUserDiscURIsForTargetGet(par.user, par.entity);
       }
       
       if(par.getTags){
-        tags = SSEntityA.toStr(SSServCaller.tagsUserGet(par.user, par.entityUri, null, null));
+        tags = SSEntityA.toStr(SSServCaller.tagsUserGet(par.user, par.entity, null, null));
       }
       
       return SSEntityMiscFct.getDescForEntityByEntityHandlers(
@@ -254,9 +254,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserGetPar par = new SSEntityUserGetPar(parA);
       
-      SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.entityUri);
+      SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.entity);
       
-      return sqlFct.getEntity(par.entityUri);
+      return sqlFct.getEntity(par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -270,8 +270,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityGetPar par = new SSEntityGetPar(parA);
       
-      if(par.entityUri != null){
-        return sqlFct.getEntity(par.entityUri);
+      if(par.entity != null){
+        return sqlFct.getEntity(par.entity);
       }
       
       if(!SSObjU.isNull(par.label, par.type)){
@@ -293,8 +293,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityExistsPar par = new SSEntityExistsPar(parA);
       
-      if(par.entityUri != null){
-        sqlFct.getEntity(par.entityUri);
+      if(par.entity != null){
+        sqlFct.getEntity(par.entity);
         return true;
       }
       
@@ -318,7 +318,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par    = new SSEntityUserDirectlyAdjoinedEntitiesRemovePar(parA);
-      final SSEntity                                      entity = sqlFct.getEntity(par.entityUri);
+      final SSEntity                                      entity = sqlFct.getEntity(par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -326,7 +326,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -350,9 +350,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityLabelSetPar par = new SSEntityLabelSetPar(parA);
       
-      sqlFct.updateEntityLabelIfExists(par.entityUri, par.label);
+      sqlFct.updateEntityLabelIfExists(par.entity, par.label);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -377,12 +377,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
 
       sqlFct.addEntityIfNotExists(
-        par.entityUri, 
+        par.entity, 
         par.label, 
-        par.entityType, 
+        par.type, 
         par.user);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -407,13 +407,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityAddAtCreationTimePar par = new SSEntityAddAtCreationTimePar(parA);
 
       sqlFct.addEntityAtCreationTimeIfNotExists(
-        par.entityUri, 
+        par.entity, 
         par.label, 
         par.creationTime, 
-        par.entityType, 
+        par.type, 
         par.user);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -437,9 +437,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityRemovePar par = new SSEntityRemovePar(parA);
       
-      sqlFct.deleteEntityIfExists(par.entityUri);
+      sqlFct.deleteEntityIfExists(par.entity);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -519,9 +519,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         circle              = sqlFct.getCircle                (circleUri);
-        circle.circleRights = SSEntityMiscFct.getCircleRights (circle.circleType);
-        circle.userUris     = sqlFct.getCircleUserURIs        (circleUri);
-        circle.entityUris   = sqlFct.getCircleEntityURIs      (circleUri);
+        circle.accessRights = SSEntityMiscFct.getCircleRights (circle.type);
+        circle.users     = sqlFct.getCircleUserURIs        (circleUri);
+        circle.entities   = sqlFct.getCircleEntityURIs      (circleUri);
           
         circles.add(circle);
       }
@@ -541,24 +541,24 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUserCircleCreatePar par = new SSEntityUserCircleCreatePar(parA);
       
-      SSEntityMiscFct.checkWhetherCircleIsGroupCircle (par.circleType);
-      SSEntityMiscFct.checkWhetherUserCanEditEntities (par.user, par.entityUris);
+      SSEntityMiscFct.checkWhetherCircleIsGroupCircle (par.type);
+      SSEntityMiscFct.checkWhetherUserCanEditEntities (par.user, par.entities);
       
       dbSQL.startTrans(par.shouldCommit);
       
       final SSUri circleUri =
         SSServCaller.entityCircleCreate(
           par.user,
-          par.entityUris,
-          par.userUris,
-          par.circleType,
+          par.entities,
+          par.users,
+          par.type,
           par.label,
           par.user,
           false);
       
       SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
         par.user,
-        par.entityUris,
+        par.entities,
         circleUri);
       
       dbSQL.commit(par.shouldCommit);
@@ -592,14 +592,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSUri circleUri = 
         SSEntityMiscFct.createCircle(
           sqlFct, 
-          par.circleAuthor, 
-          par.circleType, 
+          par.author, 
+          par.type, 
           par.label);
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user, 
         circleUri,    
-        par.entityUris, 
+        par.entities, 
         false);
       
       sqlFct.addUserToCircleIfNotExists(
@@ -609,7 +609,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSServCaller.entityUsersToCircleAdd(
         par.user, 
         circleUri,   
-        par.userUris,  
+        par.users,  
         false);
       
       dbSQL.commit(par.shouldCommit);
@@ -638,17 +638,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUsersToCircleAddPar par = new SSEntityUsersToCircleAddPar(parA);
       
-      SSEntityMiscFct.checkWhetherEntitiesExist(sqlFct, par.userUris, SSEntityE.user);
+      SSEntityMiscFct.checkWhetherEntitiesExist(sqlFct, par.users, SSEntityE.user);
         
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri userUri : par.userUris){
-        sqlFct.addUserToCircleIfNotExists(par.circleUri, userUri);
+      for(SSUri userUri : par.users){
+        sqlFct.addUserToCircleIfNotExists(par.circle, userUri);
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.circleUri;
+      return par.circle;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -673,19 +673,19 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
       
-      SSEntityMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circleUri);
+      SSEntityMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circle);
         
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityUsersToCircleAdd(
         par.user, 
-        par.circleUri, 
-        par.userUris, 
+        par.circle, 
+        par.users, 
         false);
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.circleUri;
+      return par.circle;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -711,7 +711,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSCircleE                    mostOpenCircleType = SSCircleE.priv;
       
       
-      for(SSCircleE circleType : sqlFct.getCircleTypesForEntity(par.entityUri)){
+      for(SSCircleE circleType : sqlFct.getCircleTypesForEntity(par.entity)){
         
         switch(circleType){
           
@@ -735,7 +735,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserEntityCircleTypesGetPar par         = new SSEntityUserEntityCircleTypesGetPar(parA);
       
-      return sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entityUri);
+      return sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -750,7 +750,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
 
       final SSEntityUserEntityCirclesGetPar par = new SSEntityUserEntityCirclesGetPar(parA);
       
-      return sqlFct.getCirclesCommonForUserAndEntity(par.user, par.entityUri);
+      return sqlFct.getCirclesCommonForUserAndEntity(par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -765,15 +765,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             
       dbSQL.startTrans(par.shouldCommit);
       
-      SSEntityMiscFct.updateEntities     (par.user, par.entityUris);
+      SSEntityMiscFct.updateEntities     (par.user, par.entities);
       
-      for(SSUri entityUri : par.entityUris){
-        sqlFct.addEntityToCircleIfNotExists(par.circleUri, entityUri);
+      for(SSUri entityUri : par.entities){
+        sqlFct.addEntityToCircleIfNotExists(par.circle, entityUri);
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.circleUri;
+      return par.circle;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -797,25 +797,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUserEntitiesToCircleAddPar par = new SSEntityUserEntitiesToCircleAddPar(parA);
       
-      SSEntityMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circleUri);
-      SSEntityMiscFct.checkWhetherUserCanEditEntities       (par.user, par.entityUris);
+      SSEntityMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circle);
+      SSEntityMiscFct.checkWhetherUserCanEditEntities       (par.user, par.entities);
       
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user, 
-        par.circleUri, 
-        par.entityUris, 
+        par.circle, 
+        par.entities, 
         false);
       
       SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
         par.user, 
-        par.entityUris,
-        par.circleUri);
+        par.entities,
+        par.circle);
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.circleUri;
+      return par.circle;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -839,11 +839,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      switch(SSServCaller.entityGet(par.entityUri).type){
+      switch(SSServCaller.entityGet(par.entity).type){
         case entity: return true;
       }
       
-      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entityUri)){
+      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity)){
        
         switch(circleType){
           case priv: return true;
@@ -880,16 +880,16 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
 
       final SSEntityUserPublicSetPar par = new SSEntityUserPublicSetPar(parA);
       
-      SSServCaller.entityUserCanEdit(par.user, par.entityUri);
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.addEntityToCircleIfNotExists        (publicCircleUri, par.entityUri);
-      SSEntityMiscFct.setPublicByEntityHandlers  (par.user,        par.entityUri, publicCircleUri);
+      sqlFct.addEntityToCircleIfNotExists        (publicCircleUri, par.entity);
+      SSEntityMiscFct.setPublicByEntityHandlers  (par.user,        par.entity, publicCircleUri);
 
       dbSQL.commit(par.shouldCommit);
       
-      return par.entityUri;
+      return par.entity;
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
@@ -921,25 +921,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
     
     try{
-      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entityUri);
-      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.userUris);
+      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entity);
+      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.users);
       
       dbSQL.startTrans(par.shouldCommit);
       
       final SSUri circleUri =
         SSServCaller.entityCircleCreate(
           par.user,
-          par.entityUri,
-          par.userUris,
+          par.entity,
+          par.users,
           SSCircleE.group,
-          SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entityUri)),
+          SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entity)),
           SSUserGlobals.systemUser,
           false);
       
       SSEntityMiscFct.shareByEntityHandlers(
         par.user,
-        par.userUris,
-        par.entityUri,
+        par.users,
+        par.entity,
         circleUri);
       
       dbSQL.commit(par.shouldCommit);
@@ -970,7 +970,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user);
       final List<SSEntity>                users           = new ArrayList<SSEntity>();
       
-      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entityUri)){
+      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
         
         switch(sqlFct.getCircleType(circleUri)){
           
@@ -1035,11 +1035,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitySearchWithKeywordWithinPar par = new SSEntitySearchWithKeywordWithinPar(parA);
       
-      SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entityUri);
+      SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entity);
       
       return SSEntityMiscFct.searchWithKeywordWithinByEntityHandlers(
         par.user, 
-        par.entityUri, 
+        par.entity, 
         par.keyword);
       
     }catch(Exception error){

@@ -51,7 +51,7 @@ public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
     final SSUri                                serverServResult =
       SSServCaller.learnEpVersionSetTimelineState(
         serverServPar.user,
-        serverServPar.learnEpVersionUri,
+        serverServPar.learnEpVersion,
         serverServPar.startTime,
         serverServPar.endTime,
         true);

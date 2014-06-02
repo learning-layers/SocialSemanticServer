@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class SSBroadcast implements SSJSONLDPropI{
 
-  public SSUri             resource  = null;
+  public SSUri             entity    = null;
   public SSBroadcastEnum   type      = null;
   public SSUri             user      = null;
   public Long              timestamp = -1L;
@@ -50,7 +50,7 @@ public class SSBroadcast implements SSJSONLDPropI{
     SSUri              user){
     
     this.type      = type;
-    this.resource  = resource;
+    this.entity  = resource;
     this.user      = user;
     this.timestamp = System.currentTimeMillis();
   }
@@ -62,7 +62,7 @@ public class SSBroadcast implements SSJSONLDPropI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.resource,    SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,      SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,        SSVarU.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
     ld.put(SSVarU.user,        SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.timestamp,   SSLinkU.xsd + SSStrU.valueLong);

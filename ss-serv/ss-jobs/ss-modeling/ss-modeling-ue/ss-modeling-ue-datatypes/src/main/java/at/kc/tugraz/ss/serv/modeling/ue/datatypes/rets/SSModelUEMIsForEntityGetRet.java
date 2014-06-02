@@ -60,7 +60,7 @@ public class SSModelUEMIsForEntityGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* getters to allow for json enconding */
   public List<String> getmIs() {
     return mIs;
   }

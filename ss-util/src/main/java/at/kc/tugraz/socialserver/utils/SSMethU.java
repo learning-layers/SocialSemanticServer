@@ -132,14 +132,14 @@ public enum SSMethU{
   //
   categoriesAdd                                             ,
   categoriesAddAtCreationTime                               ,
-  categoriesRemove                                          , 
-  categoriesUserRemove                                      ,
+  categoriesUserRemove                                      , 
   categoriesUserGet                                         ,
   categoryUserEntitiesForCategoryGet                       ,
   categoryUserFrequsGet                                    ,
   categoryAdd                                              ,
   categoryAddAtCreationTime                                ,
   categoryFrequsGet,
+  categoriesRemove,
   
   //solr
   solrAddDoc                                          ,

@@ -30,13 +30,13 @@ import java.util.Map;
 
 public class SSFileDownloadRet extends SSServRetI{
   
-  public  SSUri         uri;
+  public  SSUri file;
 
   public SSFileDownloadRet(SSUri uri, SSMethU op){
     
     super(op);
     
-    this.uri = uri;
+    this.file = uri;
   }
 
   @Override
@@ -44,13 +44,13 @@ public class SSFileDownloadRet extends SSServRetI{
     
     Map<String, Object> ld           = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.file,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  /* getters to allow for json enconding */
+  public String getFile() throws Exception{
+    return SSUri.toStrWithoutSlash(file);
   }
 }

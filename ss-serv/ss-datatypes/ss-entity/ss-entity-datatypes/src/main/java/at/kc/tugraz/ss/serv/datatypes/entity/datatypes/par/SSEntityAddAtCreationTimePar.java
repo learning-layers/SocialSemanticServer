@@ -29,10 +29,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityAddAtCreationTimePar extends SSServPar{
   
-  public SSUri        entityUri    = null;
+  public SSUri     entity       = null;
   public SSLabel   label        = null;
-  public Long         creationTime = null;
-  public SSEntityE entityType   = null;
+  public Long      creationTime = null;
+  public SSEntityE type         = null;
     
   public SSEntityAddAtCreationTimePar(SSServPar par) throws Exception{
       
@@ -41,10 +41,10 @@ public class SSEntityAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri    = (SSUri)        pars.get(SSVarU.entityUri);
-        label        = (SSLabel)   pars.get(SSVarU.label);
+        entity       = (SSUri)        pars.get(SSVarU.entity);
+        label        = (SSLabel)      pars.get(SSVarU.label);
         creationTime = (Long)         pars.get(SSVarU.creationTime);
-        entityType   = (SSEntityE) pars.get(SSVarU.entityType);
+        type         = (SSEntityE)    pars.get(SSVarU.type);
       }
       
     }catch(Exception error){

@@ -43,21 +43,21 @@ public class SSCollEntryAddFct{
       default:   isParentCollSharedOrPublic = true;
     }
     
-    par.collEntry = sqlFct.createCollURI();
+    par.entry = sqlFct.createCollURI();
     
     SSServCaller.entityAdd(
       par.user,
-      par.collEntry,
-      par.collEntryLabel,
+      par.entry,
+      par.label,
       SSEntityE.coll, 
       false);
     
-    sqlFct.addColl(par.collEntry);
+    sqlFct.addColl(par.entry);
     
     sqlFct.addCollToColl(
       par.user, 
       par.coll, 
-      par.collEntry, 
+      par.entry, 
       isParentCollSharedOrPublic, 
       false);
     
@@ -65,19 +65,19 @@ public class SSCollEntryAddFct{
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
-        entityUserCircle.circleUri,
-        par.collEntry,
+        entityUserCircle.id,
+        par.entry,
         false);
     }
     
-    return par.collEntry;
+    return par.entry;
   }
   
   public static SSUri addPublicColl(
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSCircleE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.collEntry), SSCircleE.pub)){
+    if(!SSCircleE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.entry), SSCircleE.pub)){
       throw new Exception("coll to add is not public");
     }
     
@@ -86,22 +86,22 @@ public class SSCollEntryAddFct{
       default:   throw new Exception("cannot add shared or public coll to shared / public parent coll");
     }
     
-    if(sqlFct.ownsUserColl(par.user, par.collEntry)){
+    if(sqlFct.ownsUserColl(par.user, par.entry)){
       throw new Exception("coll is already followed by user");
     }
     
-    if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.user, par.collEntry)){
+    if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.user, par.entry)){
       throw new Exception("a sub coll is already followed");
     }
     
     sqlFct.addCollToColl(
       par.user, 
       par.coll, 
-      par.collEntry, 
+      par.entry, 
       false,
       true);
     
-    return par.collEntry;
+    return par.entry;
   }
   
   public static SSUri addCollEntry(
@@ -110,24 +110,24 @@ public class SSCollEntryAddFct{
   
     SSServCaller.entityAdd(
       par.user,
-      par.collEntry,
-      par.collEntryLabel,
+      par.entry,
+      par.label,
       SSEntityE.entity,
       false);
     
-    sqlFct.addCollEntry(par.coll, par.collEntry);
+    sqlFct.addCollEntry(par.coll, par.entry);
     
     for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
-        circle.circleUri,
-        par.collEntry,
+        circle.id,
+        par.entry,
         false);
     }
     
     SSCollUEFct.collUserEntryAdd(par);
     
-    return par.collEntry;
+    return par.entry;
   }
 }

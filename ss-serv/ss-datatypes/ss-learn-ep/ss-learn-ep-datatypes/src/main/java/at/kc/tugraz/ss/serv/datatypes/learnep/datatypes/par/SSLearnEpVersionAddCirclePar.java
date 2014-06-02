@@ -28,14 +28,14 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionAddCirclePar extends SSServPar{
   
-  public SSUri         learnEpVersionUri = null;
+  public SSUri      learnEpVersion    = null;
   public SSLabel    label             = null;
-  public Float         xLabel            = null;
-  public Float       yLabel            = null;
-  public Float       xR                = null;
-  public Float       yR                = null;
-  public Float       xC                = null;
-  public Float       yC                = null;
+  public Float      xLabel            = null;
+  public Float      yLabel            = null;
+  public Float      xR                = null;
+  public Float      yR                = null;
+  public Float      xC                = null;
+  public Float      yC                = null;
   
   public SSLearnEpVersionAddCirclePar(SSServPar par) throws Exception{
       
@@ -44,8 +44,8 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpVersionUri = (SSUri) pars.get(SSVarU.learnEpVersionUri);
-        label             = (SSLabel) pars.get(SSVarU.label);
+        learnEpVersion    = (SSUri)   pars.get(SSVarU.learnEpVersion);
+        label             = (SSLabel)  pars.get(SSVarU.label);
         xLabel            = (Float)    pars.get(SSVarU.xLabel);
         yLabel            = (Float)    pars.get(SSVarU.yLabel);
         xR                = (Float)    pars.get(SSVarU.xR);
@@ -55,8 +55,8 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
       }
       
       if(clientPars != null){
-        learnEpVersionUri = SSUri.get        (clientPars.get(SSVarU.learnEpVersionUri));
-        label             = SSLabel.get   (clientPars.get(SSVarU.label));
+        learnEpVersion    = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
+        label             = SSLabel.get      (clientPars.get(SSVarU.label));
         xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
         yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
         xR                = Float.parseFloat (clientPars.get(SSVarU.xR));

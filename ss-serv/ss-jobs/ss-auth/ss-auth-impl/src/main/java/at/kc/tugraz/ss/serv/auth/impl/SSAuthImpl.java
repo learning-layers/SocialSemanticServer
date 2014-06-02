@@ -119,7 +119,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       dbSQL.startTrans(par.shouldCommit);
       
       if(SSServCaller.entityExists(SSEntityE.user, par.label)){
-        userUri = SSServCaller.entityGet(SSEntityE.user, par.label).uri;
+        userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
       }else{
         
         userUri = SSServCaller.vocURICreate();
@@ -175,8 +175,8 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         userUri =
           SSServCaller.authRegisterUser(
             SSUserGlobals.systemUser,
-            par.userLabel,
-            par.pass,
+            par.label,
+            par.password,
             true);
         
         return SSAuthCheckCredRet.get(noAuthKey, userUri, SSMethU.authCheckCred);
@@ -185,7 +185,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       case csvFileAuth:{
         
         try{
-          userUri = SSServCaller.entityGet(SSEntityE.user, par.userLabel).uri;
+          userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
         }catch(SSNoResultFoundErr error){
           throw new Exception("user not registered");
         }
@@ -198,8 +198,8 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           SSAuthMiscFct.checkAndGetKey(
             sqlFct,
             userUri,
-            par.userLabel,
-            par.pass),
+            par.label,
+            par.password),
           userUri, 
           SSMethU.authCheckCred);
       }

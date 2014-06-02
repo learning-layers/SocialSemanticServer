@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
@@ -37,14 +37,14 @@ import java.util.*;
 public class SSModelUEPersonPropertySetter {
   
   private final List<SSUE>                     sortedEventsSinceLastUpdate;
-  private final Map<String, SSModelUEResource> resources;
+  private final Map<String, SSModelUEEntity> resources;
   private final Map<String, String>            currentTopicCreators;
   private final SSServImplA                    serv;
   
   public SSModelUEPersonPropertySetter(
     final SSServImplA              serv,
     final List<SSUE>                     sortedEventsSinceLastUpdate,
-    final Map<String, SSModelUEResource> resources){
+    final Map<String, SSModelUEEntity> resources){
     
     this.sortedEventsSinceLastUpdate  = sortedEventsSinceLastUpdate;
     this.resources                    = resources;
@@ -53,7 +53,7 @@ public class SSModelUEPersonPropertySetter {
   }
   
   public void setPersonIndependentProperties(
-    SSModelUEResource     resource) throws Exception{
+    SSModelUEEntity     resource) throws Exception{
     
     List<Long> recentTimeStamps = new ArrayList<Long>();
     
@@ -78,7 +78,7 @@ public class SSModelUEPersonPropertySetter {
     
     //		String                 creatorUrl         = null;
     
-    SSModelUEResource user;
+    SSModelUEEntity user;
     
     for (SSUE event : sortedEventsSinceLastUpdate){
       
@@ -90,7 +90,7 @@ public class SSModelUEPersonPropertySetter {
         if(currentTopicCreators.containsKey(event.content)){
           
           //user is author of topic
-          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toString(user.resourceUrl))){
+          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toString(user.entity))){
             
             addTopicUsingEvent(user,event);
             
@@ -104,7 +104,7 @@ public class SSModelUEPersonPropertySetter {
           }
         }else{//topic is new
           
-          currentTopicCreators.put(event.content, SSStrU.toString(user.resourceUrl));
+          currentTopicCreators.put(event.content, SSStrU.toString(user.entity));
           
           addTopicCreationEvent(user,event);
         }
@@ -113,7 +113,7 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void addTopicUsingEvent(
-    SSModelUEResource  user,
+    SSModelUEEntity  user,
     SSUE          event){
     
     List<SSUE> events;
@@ -137,7 +137,7 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void addTopicCreationEvent(
-    SSModelUEResource  user,
+    SSModelUEEntity  user,
     SSUE          event){
     
     List<SSUE> events;
@@ -181,7 +181,7 @@ public class SSModelUEPersonPropertySetter {
 //			}
 //		}
 //	}
-  private void setPersonsTopics(SSModelUEResource resource) throws Exception{
+  private void setPersonsTopics(SSModelUEEntity resource) throws Exception{
     
     double                   maxTopicFrequency   = -1;
     double                   thirdThreshold;
@@ -191,7 +191,7 @@ public class SSModelUEPersonPropertySetter {
     resource.personsTopicFrequencies.clear();
     resource.personsTopicScores.clear();
     
-    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.resourceUrl, null, null, null)){
+    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, null, null, null)){
       
       topic = SSStrU.toString(tagAssignment.label);
       
@@ -235,7 +235,7 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void setPersonsRelatedPersons(
-    SSModelUEResource resource){
+    SSModelUEEntity resource){
     
     resource.personsRelatedPersons.clear();
     
@@ -244,7 +244,7 @@ public class SSModelUEPersonPropertySetter {
       for(SSUri personUrl : resources.get(SSStrU.toString(relatedResourceUrl)).relatedPersons){
         
         if (
-          !SSUri.equals   (personUrl, resource.resourceUrl) &&
+          !SSUri.equals   (personUrl, resource.entity) &&
           !SSUri.contains (resource.personsRelatedPersons, personUrl)){
           
           resource.personsRelatedPersons.add(personUrl);
@@ -254,13 +254,13 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void setRecentProperties(
-    SSModelUEResource   resource,
+    SSModelUEEntity   resource,
     SSUE                event,
     List<Long>          recentTimeStamps) throws Exception{
     
     if (event.timestamp > recentTimeStamps.get(0)){
       
-      resource.personsRecentArtifact   = event.resource;
+      resource.personsRecentArtifact   = event.entity;
       recentTimeStamps.set(0,event.timestamp);
     }
     
@@ -274,30 +274,30 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void increaseCountersDiscussionOf(
-    SSModelUEResource  resource,
+    SSModelUEEntity  resource,
     SSUE    event) {
     
     if(
       SSUEE.isSame(event.type, SSUEE.addDiscussionComment) &&
-      SSUri.contains(resource.personsDiscussions, event.resource)){
+      SSUri.contains(resource.personsDiscussions, event.entity)){
       
-      resource.personsDiscussions.add(event.resource);
+      resource.personsDiscussions.add(event.entity);
     }
   }
   
   private void increaseCountersRelateResource(
-    SSModelUEResource  resource,
+    SSModelUEEntity  resource,
     SSUE          event){
     
     if(
       SSUEE.contains (SSModelUEU.relateResourceEventTypes, event.type) &&
-      !SSUri.contains (resource.personsRelatedResources,    event.resource)){
+      !SSUri.contains (resource.personsRelatedResources,    event.entity)){
       
       resource.counters.put(
         SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString(),
         resource.counters.get(SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString()) + 1);
       
-      resource.personsRelatedResources.add(event.resource);
+      resource.personsRelatedResources.add(event.entity);
     }
   }
 }

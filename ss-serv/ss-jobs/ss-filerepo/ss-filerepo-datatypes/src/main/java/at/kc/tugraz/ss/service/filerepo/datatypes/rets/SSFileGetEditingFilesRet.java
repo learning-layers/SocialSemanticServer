@@ -32,19 +32,19 @@ import java.util.Map;
 
 public class SSFileGetEditingFilesRet extends SSServRetI{
 
-	public List<String> fileUris  = new ArrayList<String>();
-	public List<String> fileNames = new ArrayList<String>();
+	public List<String> files  = new ArrayList<String>();
+	public List<String> labels = new ArrayList<String>();
 	
 	public SSFileGetEditingFilesRet(SSMethU op, List<String> fileUris, List<String> fileNames){
     
     super(op);
     
     if(fileUris != null){
-      this.fileUris = fileUris;
+      this.files = fileUris;
     }
     
     if(fileNames != null){
-      this.fileNames = fileNames;
+      this.labels = fileNames;
     }
   }
   
@@ -58,22 +58,22 @@ public class SSFileGetEditingFilesRet extends SSServRetI{
     fileUrisObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     fileUrisObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.fileUris, fileUrisObj);
+    ld.put(SSVarU.files, fileUrisObj);
     
     fileNamesObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     fileNamesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.fileNames, fileNamesObj);
+    ld.put(SSVarU.labels, fileNamesObj);
     
     return ld;
   }
 
-  /*************** getters to allow for json enconding ********************/
-  public List<String> getFileUris() {
-		return fileUris;
+  /* getters to allow for json enconding */
+  public List<String> getFiles() {
+		return files;
 	}
 
-	public List<String> getFileNames() {
-		return fileNames;
+	public List<String> getLabels() {
+		return labels;
 	}
 }

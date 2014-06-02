@@ -35,8 +35,8 @@ public class SSTagFrequ implements SSJSONLDPropI{
 
   public static SSTagFrequ get(
     SSTagLabel    label,
-    SSSpaceE    space,
-    Integer        frequ){
+    SSSpaceE      space,
+    Integer       frequ){
     
     return new SSTagFrequ(label, space, frequ);
   }  

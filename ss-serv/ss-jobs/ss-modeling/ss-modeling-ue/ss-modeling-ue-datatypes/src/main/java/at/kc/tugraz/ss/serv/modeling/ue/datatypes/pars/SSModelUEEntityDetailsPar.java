@@ -18,31 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
+ package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommCreateLanguageModelSamplesPar extends SSServPar{
-
-  public String  sampleName  = null;
-  public Integer sampleCount = null;
+public class SSModelUEEntityDetailsPar extends SSServPar{
   
-  public SSRecommCreateLanguageModelSamplesPar(SSServPar par) throws Exception{
-    
+  public SSUri  entity = null;
+
+  public SSModelUEEntityDetailsPar(SSServPar par) throws Exception{
+      
     super(par);
     
     try{
       if(pars != null){
-        this.sampleName  = (String)pars.get(SSVarU.sampleName);
-        this.sampleCount = (Integer)pars.get(SSVarU.sampleCount);
+        entity = (SSUri) pars.get(SSVarU.entity);
       }
       
       if(clientPars != null){
-        this.sampleName  = clientPars.get  (SSVarU.sampleName);
-        this.sampleCount = Integer.valueOf (clientPars.get(SSVarU.sampleCount));
+        entity = SSUri.get(clientPars.get(SSVarU.entity));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

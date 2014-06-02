@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -28,10 +28,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCategoriesRemovePar extends SSServPar{
   
-  public SSUri             forUser       = null;
-  public SSUri             entityUri     = null;
-  public SSCategoryLabel   categoryLabel = null;
-  public SSSpaceE          space         = null;
+  public SSUri             forUser   = null;
+  public SSUri             entity    = null;
+  public SSCategoryLabel   label     = null;
+  public SSSpaceE          space     = null;
       
   public SSCategoriesRemovePar(SSServPar par) throws Exception{
       
@@ -40,10 +40,10 @@ public class SSCategoriesRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser          = (SSUri)             pars.get(SSVarU.forUser);
-        entityUri        = (SSUri)             pars.get(SSVarU.entityUri);
-        categoryLabel    = (SSCategoryLabel)   pars.get(SSVarU.categoryLabel);
-        space            = (SSSpaceE)          pars.get(SSVarU.space);
+        forUser  = (SSUri)             pars.get(SSVarU.forUser);
+        entity   = (SSUri)             pars.get(SSVarU.entity);
+        label    = (SSCategoryLabel)   pars.get(SSVarU.label);
+        space    = (SSSpaceE)          pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
@@ -53,11 +53,11 @@ public class SSCategoriesRemovePar extends SSServPar{
         }catch(Exception error){}
          
         try{
-          entityUri   = SSUri.get        (clientPars.get(SSVarU.entityUri));
+          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          categoryLabel  = SSCategoryLabel.get   (clientPars.get(SSVarU.categoryLabel));
+          label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
          }catch(Exception error){} 
         
         try{

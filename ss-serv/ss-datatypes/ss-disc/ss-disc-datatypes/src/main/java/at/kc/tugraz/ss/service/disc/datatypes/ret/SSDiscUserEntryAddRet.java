@@ -30,8 +30,8 @@ import java.util.Map;
 
 public class SSDiscUserEntryAddRet extends SSServRetI{
   
-  public SSUri disc      = null; 
-  public SSUri discEntry = null;
+  public SSUri disc   = null; 
+  public SSUri entry  = null;
   
   public static SSDiscUserEntryAddRet get(
     final SSUri   disc, 
@@ -48,8 +48,8 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
     
     super(op);
     
-    this.disc      = disc;
-    this.discEntry = discEntry;
+    this.disc  = disc;
+    this.entry = discEntry;
   }
   
   @Override
@@ -57,8 +57,8 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
     
     final Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.disc,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.discEntry, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.disc,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entry, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
@@ -69,7 +69,7 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
     return SSUri.toStrWithoutSlash(disc);
   }
     
-  public String getDiscEntry() throws Exception {
-    return SSUri.toStrWithoutSlash(discEntry);
+  public String getEntry() throws Exception {
+    return SSUri.toStrWithoutSlash(entry);
   }
 }

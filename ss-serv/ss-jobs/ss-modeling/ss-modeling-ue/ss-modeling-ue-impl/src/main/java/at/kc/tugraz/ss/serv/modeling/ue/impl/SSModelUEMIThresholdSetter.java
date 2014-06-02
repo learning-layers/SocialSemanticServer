@@ -22,16 +22,16 @@
 
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import java.util.*;
 
 public class SSModelUEMIThresholdSetter {
 
-  private final Map<String, SSModelUEResource> resources;
+  private final Map<String, SSModelUEEntity> resources;
   
-  public SSModelUEMIThresholdSetter(Map<String, SSModelUEResource> resources){
+  public SSModelUEMIThresholdSetter(Map<String, SSModelUEEntity> resources){
     this.resources = resources;
   }
   
@@ -44,7 +44,7 @@ public class SSModelUEMIThresholdSetter {
 		int                 index;
     String              counterIdString = SSStrU.toString(counterId);
 		
-		for(SSModelUEResource resource : resources.values()){
+		for(SSModelUEEntity resource : resources.values()){
 		
 			if(!SSEntityE.equals(resource.type, resourceType)){
 				

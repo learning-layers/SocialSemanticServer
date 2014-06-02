@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSLearnEpVersionAddEntityRet extends SSServRetI{
 
-  public SSUri learnEpEntityUri = null;
+  public SSUri learnEpEntity = null;
 
   public static SSLearnEpVersionAddEntityRet get(SSUri learnEpEntityUri, SSMethU op){
     return new SSLearnEpVersionAddEntityRet(learnEpEntityUri, op);
@@ -39,7 +39,7 @@ public class SSLearnEpVersionAddEntityRet extends SSServRetI{
   private SSLearnEpVersionAddEntityRet(SSUri learnEpEntityUri, SSMethU op){
     
     super(op);
-    this.learnEpEntityUri = learnEpEntityUri;
+    this.learnEpEntity = learnEpEntityUri;
   }
 
   @Override
@@ -47,13 +47,13 @@ public class SSLearnEpVersionAddEntityRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpEntityUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEpEntity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpEntityUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpEntityUri);
+  /* getters to allow for json enconding */
+  public String getLearnEpEntity() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEpEntity);
   }
 }

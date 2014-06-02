@@ -80,7 +80,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
     
     SSBroadcastUpdatePar par = new SSBroadcastUpdatePar(parI);
     
-    updateList.add(SSBroadcast.get(par.type, par.resource, par.user));
+    updateList.add(SSBroadcast.get(par.type, par.entity, par.user));
     
     return true;
   }

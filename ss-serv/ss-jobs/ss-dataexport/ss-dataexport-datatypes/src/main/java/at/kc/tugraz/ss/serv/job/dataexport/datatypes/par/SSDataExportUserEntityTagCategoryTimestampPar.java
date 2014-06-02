@@ -41,11 +41,11 @@ public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.fileName              = (String)                     pars.get(SSVarU.fileName);
-        this.tagsPerEntities       = (Map<String, List<String>>)  pars.get(SSVarU.tagsPerEntities);
-        this.categoriesPerEntities = (Map<String, List<String>>)  pars.get(SSVarU.categoriesPerEntities);
-        this.timestamp             = (Long)                       pars.get(SSVarU.timestamp);
-        this.wasLastLine           = (Boolean)                    pars.get(SSVarU.wasLastLine);
+        fileName              = (String)                     pars.get(SSVarU.fileName);
+        tagsPerEntities       = (Map<String, List<String>>)  pars.get(SSVarU.tagsPerEntities);
+        categoriesPerEntities = (Map<String, List<String>>)  pars.get(SSVarU.categoriesPerEntities);
+        timestamp             = (Long)                       pars.get(SSVarU.timestamp);
+        wasLastLine           = (Boolean)                    pars.get(SSVarU.wasLastLine);
       }
       
     }catch(Exception error){

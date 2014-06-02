@@ -26,8 +26,8 @@ import java.util.List;
 
 public class SSEntityUserSharePar extends SSServPar{
   
-  public SSUri         entityUri       = null;
-  public List<SSUri>   userUris        = new ArrayList<SSUri>();
+  public SSUri         entity          = null;
+  public List<SSUri>   users           = new ArrayList<SSUri>();
   public SSTextComment comment         = null;
 
   public SSEntityUserSharePar(SSServPar par) throws Exception{
@@ -37,17 +37,17 @@ public class SSEntityUserSharePar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri       = (SSUri)                   pars.get(SSVarU.entityUri);
-        userUris        = (List<SSUri>)             pars.get(SSVarU.userUris);
+        entity       = (SSUri)                   pars.get(SSVarU.entity);
+        users        = (List<SSUri>)             pars.get(SSVarU.users);
         
         try{
-          comment         = SSTextComment.get((String)pars.get(SSVarU.comment));
+          comment    = SSTextComment.get((String)pars.get(SSVarU.comment));
         }catch(Exception error){}
       }
       
       if(clientPars != null){
-        entityUri    = SSUri.get        (clientPars.get(SSVarU.entityUri));
-        userUris     = SSUri.get        (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.userUris), SSStrU.comma));
+        entity    = SSUri.get        (clientPars.get(SSVarU.entity));
+        users     = SSUri.get        (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
         
         try{
           comment     = SSTextComment.get(clientPars.get(SSVarU.comment));

@@ -347,7 +347,7 @@ public class SSEntityMiscFct{
       
       SSEntityDescA result = 
         SSEntityDesc.get(
-            entity.uri,
+            entity.id,
             entity.label,
             entity.creationTime,
             tags,
@@ -367,7 +367,7 @@ public class SSEntityMiscFct{
               ((SSEntityHandlerImplI) serv.serv()).getDescForEntity(
                 entity.type,
                 userUri,
-                entity.uri,
+                entity.id,
                 entity.label,
                 entity.creationTime,
                 tags,
@@ -375,7 +375,7 @@ public class SSEntityMiscFct{
                 discUris,
                 entity.author);
             
-            if(!SSEntityE.equals(result.entityDescType, SSEntityE.entityDesc)){
+            if(!SSEntityE.equals(result.descType, SSEntityE.entityDesc)){
               break;
             }
           }
@@ -419,7 +419,7 @@ public class SSEntityMiscFct{
         ((SSEntityHandlerImplI) serv.serv()).removeDirectlyAdjoinedEntitiesForUser(
           par.user,
           entity.type,
-          entity.uri,
+          entity.id,
           par.removeUserTags,
           par.removeUserRatings,
           par.removeFromUserColls,

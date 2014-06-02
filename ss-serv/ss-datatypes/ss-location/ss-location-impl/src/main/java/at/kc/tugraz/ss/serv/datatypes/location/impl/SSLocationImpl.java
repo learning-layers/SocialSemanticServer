@@ -188,7 +188,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.deleteLocationAss(par.user, par.entityUri);
+      sqlFct.deleteLocationAss(par.user, par.entity);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -228,7 +228,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       
       SSServCaller.entityAdd(
         par.user,
-        par.entityUri,
+        par.entity,
         SSLabel.get(SSStrU.empty),
         SSEntityE.entity,
         false);
@@ -237,13 +237,13 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
         sqlFct.addLocation(locationUri);
       }
       
-      if(!sqlFct.existsLocationAss(par.user, par.entityUri, locationUri)){
-        sqlFct.addLocationAss(par.user, par.entityUri, locationUri);
+      if(!sqlFct.existsLocationAss(par.user, par.entity, locationUri)){
+        sqlFct.addLocationAss(par.user, par.entity, locationUri);
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.entityUri;
+      return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -266,7 +266,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     SSLocationsGetPar par = new SSLocationsGetPar(parI);
     
     try{
-      return sqlFct.getLocationAsss(null, par.entityUri, null);
+      return sqlFct.getLocationAsss(null, par.entity, null);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

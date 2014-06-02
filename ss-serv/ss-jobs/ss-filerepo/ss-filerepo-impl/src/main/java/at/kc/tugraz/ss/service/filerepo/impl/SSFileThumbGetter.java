@@ -55,7 +55,7 @@ public class SSFileThumbGetter extends SSServImplStartA{
     
     switch(fileRepoConf.fileRepoType){
         case fileSys:
-          fileReader = new DataInputStream (new FileInputStream(new File(fileRepoConf.getPath() + this.par.fileId)));
+          fileReader = new DataInputStream (new FileInputStream(new File(fileRepoConf.getPath() + this.par.file)));
           break;
         default:
           throw new UnsupportedOperationException("impl. currently not supported");
@@ -67,7 +67,7 @@ public class SSFileThumbGetter extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileThumbGetRet(par.fileId, par.op));
+      sSCon.writeRetFullToClient(new SSFileThumbGetRet(par.file, par.op));
       
       while(true){
         

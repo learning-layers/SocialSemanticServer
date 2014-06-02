@@ -29,10 +29,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSTagsRemovePar extends SSServPar{
   
-  public SSUri        forUser       = null;
-  public SSUri        entityUri     = null;
-  public SSTagLabel   tagLabel      = null;
-  public SSSpaceE  space         = null;
+  public SSUri        forUser    = null;
+  public SSUri        entity     = null;
+  public SSTagLabel   label      = null;
+  public SSSpaceE     space      = null;
       
   public SSTagsRemovePar(SSServPar par) throws Exception{
       
@@ -41,10 +41,10 @@ public class SSTagsRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser     = (SSUri)        pars.get(SSVarU.forUser);
-        entityUri   = (SSUri)        pars.get(SSVarU.entityUri);
-        tagLabel    = (SSTagLabel)   pars.get(SSVarU.tagLabel);
-        space       = (SSSpaceE)  pars.get(SSVarU.space);
+        forUser  = (SSUri)        pars.get(SSVarU.forUser);
+        entity   = (SSUri)        pars.get(SSVarU.entity);
+        label    = (SSTagLabel)   pars.get(SSVarU.label);
+        space    = (SSSpaceE)     pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
@@ -54,11 +54,11 @@ public class SSTagsRemovePar extends SSServPar{
         }catch(Exception error){}
          
         try{
-          entityUri   = SSUri.get        (clientPars.get(SSVarU.entityUri));
+          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
-          tagLabel  = SSTagLabel.get   (clientPars.get(SSVarU.tagLabel));
+          label  = SSTagLabel.get   (clientPars.get(SSVarU.label));
          }catch(Exception error){} 
         
         try{

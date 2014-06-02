@@ -35,11 +35,11 @@ import java.util.Map;
 
 public class SSCollEntry extends SSEntityA {
 
-  public  SSUri                           uri         = null;
+  public  SSUri                           id          = null;
   public  Integer                         pos         = -1;
   public  List<SSCircleE>                 circleTypes = new ArrayList<SSCircleE>();
   public  String                          label       = null;
-  public  SSEntityE                       entityType  = null;
+  public  SSEntityE                       type        = null;
 
   public static SSCollEntry get(
     SSUri         uri,
@@ -60,10 +60,10 @@ public class SSCollEntry extends SSEntityA {
 
     super(uri);
     
-    this.uri        = uri;
+    this.id         = uri;
     this.label      = label;
     this.pos        = pos;
-    this.entityType = entityType;
+    this.type       = entityType;
     
     if(circleTypes != null){
       this.circleTypes.addAll(circleTypes);
@@ -85,18 +85,18 @@ public class SSCollEntry extends SSEntityA {
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
     
-    ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.pos,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     ld.put(SSVarU.label,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.entityType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     
     return ld;
   }
   
   /* getters to allow for jason enconding */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public int getPos(){
@@ -111,7 +111,7 @@ public class SSCollEntry extends SSEntityA {
     return label;
   }
   
-  public String getEntityType(){
-    return SSEntityE.toStr(entityType);
+  public String getType(){
+    return SSEntityE.toStr(type);
   }
 }

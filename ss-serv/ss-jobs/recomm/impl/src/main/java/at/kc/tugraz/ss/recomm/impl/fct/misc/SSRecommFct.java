@@ -42,14 +42,14 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
       }
       
       SSServCaller.dataExportUserEntityTags(
-        user.uri,
+        user.id,
         tagsPerEntities,
         fileName,
         false);
@@ -78,7 +78,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -88,9 +88,9 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagTimestamps(
-        user.uri,
+        user.id,
         tagsPerEntities,
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.uri, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -119,7 +119,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -129,7 +129,7 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagCategories(
-        user.uri,
+        user.id,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
         fileName,
@@ -160,7 +160,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.uri, SSSpaceE.sharedSpace);
+      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -170,10 +170,10 @@ public class SSRecommFct{
       //TODO dtheiler: allow more than one file per algo
       //TODO dtheiler: for categories try out all tags of a resource as long as we have no category information
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
-        user.uri,
+        user.id,
         tagsPerEntities,
         SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.uri, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -235,6 +235,6 @@ public class SSRecommFct{
       return 0L;
     }
     
-    return SSServCaller.entityGet(tags.get(0).uri).creationTime / 1000;
+    return SSServCaller.entityGet(tags.get(0).id).creationTime / 1000;
   }
 }

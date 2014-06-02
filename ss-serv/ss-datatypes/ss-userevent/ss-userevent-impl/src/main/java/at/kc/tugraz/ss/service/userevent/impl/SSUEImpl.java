@@ -205,16 +205,16 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(par.resource.toString()),
+        par.entity,
+        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
         false);
       
       sqlFct.addUE(
         ueUri, 
         par.user, 
-        par.resource, 
-        par.eventType, 
+        par.entity, 
+        par.type, 
         par.content);
       
       dbSQL.commit(par.shouldCommit);
@@ -243,8 +243,8 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     SSUri            ueUri;
     
     try{
-      if(par.resource == null){
-        par.resource = SSUri.get(SSLinkU.dummyUri);
+      if(par.entity == null){
+        par.entity = SSUri.get(SSLinkU.dummyUri);
       }
       
       if(SSStrU.isEmpty(par.content)){
@@ -257,8 +257,8 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(par.resource.toString()),
+        par.entity,
+        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
         false);
       
@@ -272,8 +272,8 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       sqlFct.addUE(
         ueUri,
         par.user,
-        par.resource,
-        par.eventType,
+        par.entity,
+        par.type,
         par.content);
       
       dbSQL.commit(par.shouldCommit);
@@ -302,7 +302,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     SSUE       result  = null;
     
     try{
-      result = sqlFct.getUE(par.ueUri);
+      result = sqlFct.getUE(par.ue);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -320,8 +320,8 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       
       return sqlFct.getUEs(
         par.forUser,
-        par.resource,
-        par.eventType,
+        par.entity,
+        par.type,
         par.startTime,
         par.endTime);
       

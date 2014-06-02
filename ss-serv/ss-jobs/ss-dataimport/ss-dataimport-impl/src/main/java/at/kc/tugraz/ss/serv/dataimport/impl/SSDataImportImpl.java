@@ -214,7 +214,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         
         SSServCaller.entityAddAtCreationTime(
           authorUri, 
-          video.uri,
+          video.id,
           video.label, 
           video.creationTime,
           SSEntityE.entity, 
@@ -222,7 +222,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         
         SSServCaller.tagsAddAtCreationTime(
           authorUri, 
-          video.uri,
+          video.id,
           video.keywords,
           SSSpaceE.sharedSpace, 
           video.creationTime, 
@@ -241,7 +241,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         
         SSServCaller.categoriesAddAtCreationTime(
           authorUri, 
-          video.uri,
+          video.id,
           categoryLabels,
           SSSpaceE.sharedSpace, 
           video.creationTime, 

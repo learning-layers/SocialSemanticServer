@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class SSEntity extends SSEntityA{
 
-  public SSUri        uri          = null;
+  public SSUri        id          = null;
   public SSLabel      label        = null;
   public Long         creationTime = null;
   public SSEntityE    type         = null;
@@ -46,7 +46,7 @@ public class SSEntity extends SSEntityA{
     
     super(uri);
     
-    this.uri          = uri;
+    this.id          = uri;
     this.label        = label;
     this.creationTime = creationTime;
     this.type         = type;
@@ -68,7 +68,7 @@ public class SSEntity extends SSEntityA{
    
     final Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarU.creationTime,   SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     ld.put(SSVarU.type,           SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
@@ -79,8 +79,8 @@ public class SSEntity extends SSEntityA{
 
   /* getters for json */
   
-  public String getUri(){
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId(){
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getLabel(){

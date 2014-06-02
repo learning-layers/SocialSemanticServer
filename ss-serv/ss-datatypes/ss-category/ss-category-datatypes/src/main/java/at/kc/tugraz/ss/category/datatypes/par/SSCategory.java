@@ -29,8 +29,8 @@ import java.util.*;
 
 public class SSCategory extends SSEntityA {
 
-  public  SSUri               uri          = null;
-  public  SSUri               resource     = null;
+  public  SSUri               id           = null;
+  public  SSUri               entity       = null;
   public  SSUri               user         = null;
   public  SSSpaceE            space        = null;
   public  SSCategoryLabel     label        = null;
@@ -40,8 +40,8 @@ public class SSCategory extends SSEntityA {
   
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.resource,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
     ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSCategoryLabel.class.getName());    
@@ -65,8 +65,8 @@ public class SSCategory extends SSEntityA {
 		
 		for(SSCategory category : categorys){
 			
-			if(!SSUri.contains(result, category.resource)){
-				result.add(category.resource);
+			if(!SSUri.contains(result, category.entity)){
+				result.add(category.entity);
 			}
 		}
 		
@@ -81,7 +81,7 @@ public class SSCategory extends SSEntityA {
     
     for(SSCategory userTag : categorys){
       
-      entity = SSUri.toStr(userTag.resource);
+      entity = SSUri.toStr(userTag.entity);
       
       if(categorysPerEntity.containsKey(entity)){
         
@@ -114,8 +114,8 @@ public class SSCategory extends SSEntityA {
     
     super(label);
     
-    this.uri         = uri;
-    this.resource    = resource;
+    this.id          = uri;
+    this.entity      = resource;
     this.user        = user;
     this.space       = space;
     this.label       = label;
@@ -123,12 +123,12 @@ public class SSCategory extends SSEntityA {
   
   /* getters to allow for json enconding */
   
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
-  public String getResource() throws Exception{
-    return SSUri.toStrWithoutSlash(resource);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public String getUser() throws Exception{

@@ -290,8 +290,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
     
     for(SSLearnEpVersion learnEpVersion : learnEpVersions){
-      learnEpVersion.circles   = getLearnEpVersionCircles      (learnEpVersion.learnEpVersionUri);
-      learnEpVersion.entities  = getLearnEpVersionEntities     (learnEpVersion.learnEpVersionUri);
+      learnEpVersion.circles   = getLearnEpVersionCircles      (learnEpVersion.id);
+      learnEpVersion.entities  = getLearnEpVersionEntities     (learnEpVersion.id);
     }
     
     return learnEpVersions;

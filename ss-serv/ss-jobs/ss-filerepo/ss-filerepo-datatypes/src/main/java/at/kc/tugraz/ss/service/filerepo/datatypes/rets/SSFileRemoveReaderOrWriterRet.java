@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class SSFileRemoveReaderOrWriterRet extends SSServRetI{
 
-	public String  fileUriOrId              = null;
-	public boolean wasSuccessful            = false;
+	public String  file       = null;
+	public boolean worked     = false;
 	
 	public SSFileRemoveReaderOrWriterRet(String newFileUriOrId, SSMethU op){
     
     super(op);
-		this.fileUriOrId = newFileUriOrId;
+		this.file = newFileUriOrId;
 	}
   
   @Override
@@ -43,17 +43,17 @@ public class SSFileRemoveReaderOrWriterRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.fileUriOrId,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.wasSuccessful,      SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.file,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.worked,      SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }
 	
-	public boolean getWasSuccessful(){
-		return wasSuccessful;
+	public boolean getWorked(){
+		return worked;
 	}
 	
-	public String getFileUriOrId(){
-		return fileUriOrId;
+	public String getFile(){
+		return file;
 	}
 }

@@ -22,7 +22,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityCircleUserAddPar extends SSServPar{
 
-  public SSUri circleUri    = null;
+  public SSUri circle = null;
   
   public SSEntityCircleUserAddPar(final SSServPar par) throws Exception{
     
@@ -31,11 +31,11 @@ public class SSEntityCircleUserAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circleUri       = (SSUri)        pars.get(SSVarU.circleUri);
+        circle       = (SSUri)        pars.get(SSVarU.circle);
       }
       
       if(clientPars != null){
-        circleUri       = SSUri.get      (clientPars.get(SSVarU.circleUri));
+        circle       = SSUri.get      (clientPars.get(SSVarU.circle));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

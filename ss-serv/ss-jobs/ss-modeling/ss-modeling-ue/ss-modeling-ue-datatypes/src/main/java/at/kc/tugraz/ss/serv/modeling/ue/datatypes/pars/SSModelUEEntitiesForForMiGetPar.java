@@ -36,11 +36,11 @@ public class SSModelUEEntitiesForForMiGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.mi   = (SSModelUEMILabel) pars.get(SSVarU.mi);
+        mi   = (SSModelUEMILabel) pars.get(SSVarU.mi);
       }
       
       if(clientPars != null){
-        this.mi   = SSModelUEMILabel.get((String)clientPars.get(SSVarU.mi));
+        mi   = SSModelUEMILabel.get(clientPars.get(SSVarU.mi));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

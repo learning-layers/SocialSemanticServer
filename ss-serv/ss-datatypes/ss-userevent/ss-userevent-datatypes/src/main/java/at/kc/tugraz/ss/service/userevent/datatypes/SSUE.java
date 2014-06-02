@@ -32,10 +32,10 @@ import java.util.Map;
 
 public class SSUE extends SSEntityA {
 
-  public         SSUri            uri        = null;
+  public         SSUri            id         = null;
   public         SSUri            user       = null;
-  public         SSUri            resource   = null;
-  public         SSUEE         type       = null;
+  public         SSUri            entity     = null;
+  public         SSUEE            type       = null;
   public         String           content    = null;
   public         Long             timestamp  = -1L;
 
@@ -55,9 +55,9 @@ public class SSUE extends SSEntityA {
     
     Map<String, Object> ld = new HashMap<String, Object>();
 
-    ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.resource,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSUEE.class.getName());
     ld.put(SSVarU.content,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.timestamp,  SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
@@ -118,17 +118,17 @@ public class SSUE extends SSEntityA {
 
     super(SSStrU.toString(type));
     
-    this.uri        = uri;
+    this.id        = uri;
     this.user       = user;
     this.type       = type;
-    this.resource   = resource;
+    this.entity   = resource;
     this.content    = content;
     this.timestamp  = timestamp;
   }
 
   /* getters to allow for json enconding */
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
   public String getUser() throws Exception{
@@ -139,8 +139,8 @@ public class SSUE extends SSEntityA {
     return SSUEE.toStr(type);
   }
 
-  public String getResource() throws Exception{
-    return SSUri.toStrWithoutSlash(resource);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public String getContent(){

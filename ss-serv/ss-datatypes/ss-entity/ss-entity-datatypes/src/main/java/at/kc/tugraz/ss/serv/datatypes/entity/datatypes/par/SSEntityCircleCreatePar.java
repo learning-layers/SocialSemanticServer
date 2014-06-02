@@ -26,11 +26,11 @@ import java.util.List;
 
 public class SSEntityCircleCreatePar extends SSServPar{
 
-  public List<SSUri>               entityUris   = new ArrayList<SSUri>();
-  public List<SSUri>               userUris     = new ArrayList<SSUri>();
-  public SSCircleE       circleType   = null;
-  public SSLabel                label        = null;
-  public SSUri                     circleAuthor = null;
+  public List<SSUri>           entities     = new ArrayList<SSUri>();
+  public List<SSUri>           users        = new ArrayList<SSUri>();
+  public SSCircleE             type         = null;
+  public SSLabel               label        = null;
+  public SSUri                 author       = null;
   
   public SSEntityCircleCreatePar(final SSServPar par) throws Exception{
     
@@ -39,11 +39,11 @@ public class SSEntityCircleCreatePar extends SSServPar{
     try{
     
       if(pars != null){
-        circleType       = (SSCircleE)       pars.get(SSVarU.circleType);
-        label            = (SSLabel)                pars.get(SSVarU.label);
-        entityUris       = (List<SSUri>)               pars.get(SSVarU.entityUris);
-        userUris         = (List<SSUri>)               pars.get(SSVarU.userUris);
-        circleAuthor     = (SSUri)                     pars.get(SSVarU.circleAuthor);
+        type             = (SSCircleE)       pars.get(SSVarU.type);
+        label            = (SSLabel)         pars.get(SSVarU.label);
+        entities         = (List<SSUri>)     pars.get(SSVarU.entities);
+        users            = (List<SSUri>)     pars.get(SSVarU.users);
+        author           = (SSUri)           pars.get(SSVarU.author);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

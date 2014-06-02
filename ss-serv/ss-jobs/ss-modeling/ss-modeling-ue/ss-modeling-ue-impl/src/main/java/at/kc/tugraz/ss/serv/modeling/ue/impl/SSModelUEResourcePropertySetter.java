@@ -20,16 +20,16 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEResource;
+import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.Map;
 
 public class SSModelUEResourcePropertySetter {
 
-  private final Map<String, SSModelUEResource>        resources;
+  private final Map<String, SSModelUEEntity>        resources;
 	private final SSModelUEResourcePropertySetterHelper propertySetterHelper;
 
-  public SSModelUEResourcePropertySetter(Map<String, SSModelUEResource> resources){
+  public SSModelUEResourcePropertySetter(Map<String, SSModelUEEntity> resources){
     
     this.resources            = resources;
     this.propertySetterHelper = new SSModelUEResourcePropertySetterHelper(resources);
@@ -66,7 +66,7 @@ public class SSModelUEResourcePropertySetter {
 	 * 0 counters and properties are needed for calculating thresholds for MI calculation and MI calculation itself <br>
 	 */
 	public void setResourceIndependentProperties(
-			SSModelUEResource resource) throws Exception{
+			SSModelUEEntity resource) throws Exception{
 		
 		propertySetterHelper.setCounterEvent         (resource);
 		propertySetterHelper.increaseActivePeriod    (resource);
@@ -106,7 +106,7 @@ public class SSModelUEResourcePropertySetter {
 	 */
 	public void setResourceDependentProperties() throws Exception {
 		
-		for (SSModelUEResource resource : resources.values()){
+		for (SSModelUEEntity resource : resources.values()){
 			
 			propertySetterHelper.increaseCountersCollectionSimilar     (resource);
 			propertySetterHelper.increaseCountersContributedDiscussion (resource);

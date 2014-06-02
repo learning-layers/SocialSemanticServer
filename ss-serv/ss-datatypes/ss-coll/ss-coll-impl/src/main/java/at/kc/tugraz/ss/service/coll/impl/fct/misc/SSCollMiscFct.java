@@ -74,7 +74,7 @@ public class SSCollMiscFct{
 
       for(SSCollEntry entry : coll.entries){
         entry.circleTypes.clear();
-        entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.uri));
+        entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.id));
       }
 
       return coll;
@@ -117,14 +117,14 @@ public class SSCollMiscFct{
       final List<SSUri> collAndCollEntryUris = new ArrayList<SSUri>();
 
       //add coll and coll direct entry uris
-      collAndCollEntryUris.add(startColl.uri);
+      collAndCollEntryUris.add(startColl.id);
 
       for(SSCollEntry collEntry : startColl.entries){
-        collAndCollEntryUris.add(collEntry.uri);
+        collAndCollEntryUris.add(collEntry.id);
       }
 
       //add all coll sub coll und entry uris
-      getAllChildCollURIs(sqlFct, SSUri.toStr(startColl.uri), SSUri.toStr(startColl.uri), subCollUris);
+      getAllChildCollURIs(sqlFct, SSUri.toStr(startColl.id), SSUri.toStr(startColl.id), subCollUris);
 
       for(String subCollUri : subCollUris){
 
@@ -134,8 +134,8 @@ public class SSCollMiscFct{
 
         for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<SSCircleE>()).entries){
 
-          if(!SSUri.contains(collAndCollEntryUris, collEntry.uri)){
-            collAndCollEntryUris.add(collEntry.uri);
+          if(!SSUri.contains(collAndCollEntryUris, collEntry.id)){
+            collAndCollEntryUris.add(collEntry.id);
           }
         }
       }

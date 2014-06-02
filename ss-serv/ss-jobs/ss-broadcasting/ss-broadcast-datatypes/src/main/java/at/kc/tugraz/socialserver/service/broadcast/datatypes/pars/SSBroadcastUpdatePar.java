@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSBroadcastUpdatePar extends SSServPar{
   
-  public SSUri             resource = null;
+  public SSUri             entity   = null;
   public SSBroadcastEnum   type     = null;
   
   public SSBroadcastUpdatePar(SSServPar par) throws Exception{
@@ -38,13 +38,13 @@ public class SSBroadcastUpdatePar extends SSServPar{
     try{
       
       if(pars != null){
-        resource   = (SSUri)            pars.get(SSVarU.resource);
+        entity     = (SSUri)            pars.get(SSVarU.entity);
         type       = (SSBroadcastEnum)  pars.get(SSVarU.type);
       }
       
       if(clientPars != null){
-        resource   = SSUri.get           ((String)clientPars.get(SSVarU.resource));
-        type       = SSBroadcastEnum.get ((String)clientPars.get(SSVarU.type));
+        entity     = SSUri.get           (clientPars.get(SSVarU.entity));
+        type       = SSBroadcastEnum.get (clientPars.get(SSVarU.type));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

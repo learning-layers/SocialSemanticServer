@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 public class SSCollsUserCouldSubscribeGetPar extends SSServPar{
   
   public SSCollsUserCouldSubscribeGetPar(final SSServPar par) throws Exception{
-    
     super(par);
   }
 }

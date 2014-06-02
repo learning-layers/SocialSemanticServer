@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollSearchWithKeywordWithinPar extends SSServPar{
 
-  public SSUri      collUri   = null;
+  public SSUri      coll      = null;
   public String     keyword   = null;
   
   public SSCollSearchWithKeywordWithinPar(final SSServPar par) throws Exception{
@@ -37,7 +37,7 @@ public class SSCollSearchWithKeywordWithinPar extends SSServPar{
     try{
     
       if(pars != null){
-        collUri    = (SSUri)       pars.get(SSVarU.collUri);
+        coll       = (SSUri)       pars.get(SSVarU.coll);
         keyword    = (String)      pars.get(SSVarU.keyword);
       }
       

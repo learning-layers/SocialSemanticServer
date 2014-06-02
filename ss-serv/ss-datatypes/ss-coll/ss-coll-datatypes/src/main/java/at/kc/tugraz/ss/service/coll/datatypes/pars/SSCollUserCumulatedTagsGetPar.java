@@ -18,28 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommTrainTestSizePar extends SSServPar{
-
-  public String sample = null;
-    
-  public SSRecommTrainTestSizePar(SSServPar par) throws Exception{
+public class SSCollUserCumulatedTagsGetPar extends SSServPar{
+  
+  public SSUri coll = null;
+      
+  public SSCollUserCumulatedTagsGetPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
+      
       if(pars != null){
-        this.sample = (String) pars.get(SSVarU.sample);
+        coll       = (SSUri)       pars.get(SSVarU.coll);
       }
       
       if(clientPars != null){
-        this.sample = clientPars.get(SSVarU.sample);
-      }
+        coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
+      }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

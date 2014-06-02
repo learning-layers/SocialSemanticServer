@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class SSEntityUserPublicSetRet extends SSServRetI{
 
-  public SSUri entityUri = null;
+  public SSUri entity = null;
 
   public static SSEntityUserPublicSetRet get(
     final SSUri entityUri, 
@@ -40,7 +40,7 @@ public class SSEntityUserPublicSetRet extends SSServRetI{
     
     super(op);
     
-    this.entityUri = entityUri;
+    this.entity = entityUri;
   }
 
   @Override
@@ -48,12 +48,12 @@ public class SSEntityUserPublicSetRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.entityUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getEntityUri() throws Exception {
-    return SSUri.toStrWithoutSlash(entityUri);
+  public String getEntity() throws Exception {
+    return SSUri.toStrWithoutSlash(entity);
   }
 }

@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSDiscUserRemoveRet extends SSServRetI{
 
-  public SSUri discUri = null;
+  public SSUri disc = null;
 
   public static SSDiscUserRemoveRet get(
     final SSUri   discUri, 
@@ -44,7 +44,7 @@ public class SSDiscUserRemoveRet extends SSServRetI{
     
     super(op);
     
-    this.discUri = discUri;
+    this.disc = discUri;
   }
 
   @Override
@@ -52,12 +52,12 @@ public class SSDiscUserRemoveRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.discUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.disc, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String isWorked() {
-    return SSUri.toStrWithoutSlash(discUri);
+  public String getDisc() {
+    return SSUri.toStrWithoutSlash(disc);
   }
 }

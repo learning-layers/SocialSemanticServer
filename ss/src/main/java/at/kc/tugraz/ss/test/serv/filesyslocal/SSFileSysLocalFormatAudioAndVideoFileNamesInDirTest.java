@@ -33,7 +33,7 @@ public class SSFileSysLocalFormatAudioAndVideoFileNamesInDirTest extends SSServO
   
   @Override
   protected void test() throws Exception{
-    SSServCaller.formatAudioAndVideoFileNamesInDir();
+    SSServCaller.fileSysLocalFormatAudioAndVideoFileNamesInDir();
   }
 
   @Override

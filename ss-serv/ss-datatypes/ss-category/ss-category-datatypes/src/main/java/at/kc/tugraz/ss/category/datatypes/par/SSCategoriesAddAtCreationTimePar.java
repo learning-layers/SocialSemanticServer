@@ -31,10 +31,10 @@ import java.util.List;
 
 public class SSCategoriesAddAtCreationTimePar extends SSServPar{
   
-  public SSUri                  resource        = null;
-  public List<SSCategoryLabel>  categoryLabels  = new ArrayList<SSCategoryLabel>();
-  public SSSpaceE               space           = null;
-  public Long                  creationTime     = null;
+  public SSUri                  entity           = null;
+  public List<SSCategoryLabel>  labels           = new ArrayList<SSCategoryLabel>();
+  public SSSpaceE               space            = null;
+  public Long                   creationTime     = null;
   
   public SSCategoriesAddAtCreationTimePar(SSServPar par) throws Exception{
     
@@ -43,10 +43,10 @@ public class SSCategoriesAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        this.categoryLabels   =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.categoryLabels)));
-        this.resource         =  (SSUri)                        pars.get(SSVarU.resource);
-        this.space            =  (SSSpaceE)                     pars.get(SSVarU.space);
-        this.creationTime     =  (Long)                         pars.get(SSVarU.creationTime);
+        labels           =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.labels)));
+        entity           =  (SSUri)                        pars.get(SSVarU.entity);
+        space            =  (SSSpaceE)                     pars.get(SSVarU.space);
+        creationTime     =  (Long)                         pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

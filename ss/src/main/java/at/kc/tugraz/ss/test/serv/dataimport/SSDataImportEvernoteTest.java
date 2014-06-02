@@ -42,7 +42,7 @@ public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
       
       SSLogU.info("start " + op + "Test number " + counter);
       
-      SSServCaller.importDataFromEvernote(SSUserGlobals.systemUser, authToken, true);
+      SSServCaller.dataImportEvernote(SSUserGlobals.systemUser, authToken, true);
       
       SSLogU.info("end " + op + "Test number " + counter++);
     }

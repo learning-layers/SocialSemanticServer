@@ -56,7 +56,7 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
     entryLabels.add(SSLabel.get("second entry"));
     entryLabels.add(SSLabel.get("third entry"));
         
-    SSServCaller.collUserEntriesAdd(SSUserGlobals.systemUser, rootColl.uri, entries, entryLabels, false, true);
+    SSServCaller.collUserEntriesAdd(SSUserGlobals.systemUser, rootColl.id, entries, entryLabels, false, true);
     
     rootCollAfterAddingEntries = SSServCaller.collUserRootGet      (SSUserGlobals.systemUser);
     
@@ -75,7 +75,7 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
         serverServPar.user,
         serverServPar.coll,
         serverServPar.entries,
-        serverServPar.entryLabels,
+        serverServPar.labels,
         true,
         true);
     

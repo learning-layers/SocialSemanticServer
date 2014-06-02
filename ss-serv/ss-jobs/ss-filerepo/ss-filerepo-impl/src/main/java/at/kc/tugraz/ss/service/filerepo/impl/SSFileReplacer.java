@@ -63,7 +63,7 @@ public class SSFileReplacer extends SSServImplStartA{
     this.sSCon                = sSCon;
     this.par                  = new SSFileReplacePar(par);
     this.localWorkPath        = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
-    this.fileId               = SSServCaller.fileIDFromURI               (this.par.user, this.par.uri);
+    this.fileId               = SSServCaller.fileIDFromURI               (this.par.user, this.par.file);
     this.fileOutputStream     = SSFileU.openOrCreateFileWithPathForWrite (localWorkPath + fileId);
   }
   
@@ -73,7 +73,7 @@ public class SSFileReplacer extends SSServImplStartA{
     try{
       
       //check whether WebSocket connections need this:
-      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.uri, par.user, null, par.op));
+      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, null, par.op));
       
       while(true){
         
@@ -92,7 +92,7 @@ public class SSFileReplacer extends SSServImplStartA{
         
         synchronized(fileAccessProperties){
           
-          if(SSServCaller.fileCanWrite(par.user, par.uri).canWrite){
+          if(SSServCaller.fileCanWrite(par.user, par.file).canWrite){
             
             switch(((SSFileRepoConf)conf).fileRepoType){
               case fileSys: moveFileToLocalRepo();  break;
@@ -100,7 +100,7 @@ public class SSFileReplacer extends SSServImplStartA{
               case i5Cloud: uploadFileToI5Cloud();  break;
             }
             
-            SSServCaller.fileRemoveReaderOrWriter(par.user, par.uri, true, true);
+            SSServCaller.fileRemoveReaderOrWriter(par.user, par.file, true, true);
             
             replaceFileInSolr();
           }
@@ -108,7 +108,7 @@ public class SSFileReplacer extends SSServImplStartA{
         
         removeFileFromLocalWorkFolder();
         
-        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.uri, par.user, SSStrU.valueFinished, par.op));
+        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, SSStrU.valueFinished, par.op));
         return;
       }
     }catch(Exception error1){

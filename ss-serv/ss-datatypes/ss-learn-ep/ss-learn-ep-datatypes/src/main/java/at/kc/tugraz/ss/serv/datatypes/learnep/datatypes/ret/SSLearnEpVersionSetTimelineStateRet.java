@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
 
-  public SSUri learnEpTimelineStateUri = null;
+  public SSUri learnEpTimelineState = null;
 
   public static SSLearnEpVersionSetTimelineStateRet get(SSUri learnEpTimelineStateUri, SSMethU op){
     return new SSLearnEpVersionSetTimelineStateRet(learnEpTimelineStateUri, op);
@@ -39,7 +39,7 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
   private SSLearnEpVersionSetTimelineStateRet(SSUri learnEpTimelineStateUri, SSMethU op){
     
     super(op);
-    this.learnEpTimelineStateUri = learnEpTimelineStateUri;
+    this.learnEpTimelineState = learnEpTimelineStateUri;
   }
 
   @Override
@@ -47,13 +47,13 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpTimelineStateUri, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEpTimelineState, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpTimelineStateUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpTimelineStateUri);
+  /* getters to allow for json enconding */
+  public String getLearnEpTimelineState() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEpTimelineState);
   }
 }

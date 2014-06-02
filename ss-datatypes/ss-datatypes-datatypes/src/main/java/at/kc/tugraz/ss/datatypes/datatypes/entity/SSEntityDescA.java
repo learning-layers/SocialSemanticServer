@@ -34,9 +34,9 @@ public abstract class SSEntityDescA extends SSEntityA{
 
 	public SSLabel          label           = null;
 	public Long             creationTime    = null;
-  public SSUri            entityUri       = null;
-  public SSEntityE        entityType      = null;
-  public SSEntityE        entityDescType  = null;
+  public SSUri            entity          = null;
+  public SSEntityE        type            = null;
+  public SSEntityE        descType        = null;
   public SSUri            author          = null;
   public SSEntityA        overallRating   = null;
   public List<String>     tags            = new ArrayList<String>();
@@ -55,11 +55,11 @@ public abstract class SSEntityDescA extends SSEntityA{
     
     super(entityUri);
     
-    this.entityUri      = entityUri;
+    this.entity         = entityUri;
     this.label          = label;
     this.creationTime   = creationTime;
-    this.entityType     = entityType;
-    this.entityDescType = entityDescType;
+    this.type           = entityType;
+    this.descType       = entityDescType;
     this.author         = author;
     this.overallRating  = overallRating;
     
@@ -89,11 +89,11 @@ public abstract class SSEntityDescA extends SSEntityA{
 
     ld.put(SSVarU.discs,      discsObj);
     
-    ld.put(SSVarU.entityUri,      SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss  + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarU.creationTime,   SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.entityType,     SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarU.entityDescType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.descType,       SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.overallRating,  SSVarU.sss + SSStrU.colon + SSEntityA.class.getName()); //TODO dtheiler: change this, as its SSRatingOverall
     
@@ -101,8 +101,8 @@ public abstract class SSEntityDescA extends SSEntityA{
   }
   
   /* getters to allow for json enconding */
-  public String getEntityUri(){
-    return SSUri.toStrWithoutSlash(entityUri);
+  public String getEntity(){
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public String getLabel() {
@@ -113,12 +113,12 @@ public abstract class SSEntityDescA extends SSEntityA{
     return creationTime;
   }
 
-  public String getEntityType() {
-    return SSEntityE.toStr(entityType);
+  public String getType() {
+    return SSEntityE.toStr(type);
   }
 
-  public String getEntityDescType() {
-    return SSEntityE.toStr(entityDescType);
+  public String getDescType() {
+    return SSEntityE.toStr(descType);
   }
   
   public String getAuthor() throws Exception {

@@ -29,19 +29,19 @@ import java.util.*;
 
 public class SSTag extends SSEntityA {
 
-  public  SSUri               uri          = null;
-  public  SSUri               resource     = null;
+  public  SSUri               id           = null;
+  public  SSUri               entity       = null;
   public  SSUri               user         = null;
-  public  SSSpaceE           space        = null;
-  public  SSTagLabel         label        = null;
+  public  SSSpaceE            space        = null;
+  public  SSTagLabel          label        = null;
 
   @Override
   public Object jsonLDDesc() {
   
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.resource,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
     ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());    
@@ -65,8 +65,8 @@ public class SSTag extends SSEntityA {
 		
 		for(SSTag tag : tags){
 			
-			if(!SSUri.contains(result, tag.resource)){
-				result.add(tag.resource);
+			if(!SSUri.contains(result, tag.entity)){
+				result.add(tag.entity);
 			}
 		}
 		
@@ -81,7 +81,7 @@ public class SSTag extends SSEntityA {
     
     for(SSTag userTag : tags){
       
-      entity = SSUri.toStr(userTag.resource);
+      entity = SSUri.toStr(userTag.entity);
       
       if(tagsPerEntity.containsKey(entity)){
         
@@ -114,8 +114,8 @@ public class SSTag extends SSEntityA {
     
     super(label);
     
-    this.uri         = uri;
-    this.resource    = resource;
+    this.id          = uri;
+    this.entity     = resource;
     this.user        = user;
     this.space       = space;
     this.label       = label;
@@ -123,12 +123,12 @@ public class SSTag extends SSEntityA {
   
   /* getters to allow for json enconding */
   
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
 
-  public String getResource() throws Exception{
-    return SSUri.toStrWithoutSlash(resource);
+  public String getEntity() throws Exception{
+    return SSUri.toStrWithoutSlash(entity);
   }
 
   public String getUser() throws Exception{

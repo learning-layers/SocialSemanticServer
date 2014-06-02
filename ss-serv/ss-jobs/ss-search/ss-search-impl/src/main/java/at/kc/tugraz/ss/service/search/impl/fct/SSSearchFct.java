@@ -44,7 +44,7 @@ public class SSSearchFct {
 
       for(SSSearchResult searchResult : searchResults){
 
-        entity = SSServCaller.entityGet(searchResult.uri);
+        entity = SSServCaller.entityGet(searchResult.entity);
 
         searchResult.type          = entity.type;
         searchResult.label         = SSLabel.toStr(entity.label);
@@ -72,9 +72,9 @@ public class SSSearchFct {
         
         for(SSSearchResult outerSearchResult : outerSearchResultForOneKeyword) {
           
-          if(!SSUri.contains(checkEntityUris, outerSearchResult.uri)){
+          if(!SSUri.contains(checkEntityUris, outerSearchResult.entity)){
             
-            checkEntityUris.add(outerSearchResult.uri);
+            checkEntityUris.add(outerSearchResult.entity);
             
             resourceExistsForEachTag = true;
             
@@ -82,7 +82,7 @@ public class SSSearchFct {
               
               for(SSSearchResult innerSearchResult : innerSearchResultForOneKeyword) {
                 
-                if(!SSUri.equals(innerSearchResult.uri, outerSearchResult.uri)) {
+                if(!SSUri.equals(innerSearchResult.entity, outerSearchResult.entity)) {
                   resourceExistsForEachTag = false;
                   break;
                 }

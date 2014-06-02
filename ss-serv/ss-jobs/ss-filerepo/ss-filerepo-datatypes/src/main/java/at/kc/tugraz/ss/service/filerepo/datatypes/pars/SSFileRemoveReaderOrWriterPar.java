@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileRemoveReaderOrWriterPar extends SSServPar{
   
-  public SSUri   uri    = null;
-  public Boolean write  = false;
+  public SSUri   file    = null;
+  public Boolean write   = false;
   
    public SSFileRemoveReaderOrWriterPar(SSServPar par) throws Exception{
     
@@ -37,13 +37,13 @@ public class SSFileRemoveReaderOrWriterPar extends SSServPar{
     try{
       
       if(pars != null){
-        uri   = (SSUri)  pars.get(SSVarU.uri);
-        write = (Boolean)pars.get(SSVarU.write);
+        file   = (SSUri)   pars.get(SSVarU.file);
+        write  = (Boolean) pars.get(SSVarU.write);
       }
       
       if(clientPars != null){
-        uri   = SSUri.get       ((String)clientPars.get(SSVarU.uri));
-        write = Boolean.valueOf ((String)clientPars.get(SSVarU.write));
+        file   = SSUri.get       (clientPars.get(SSVarU.file));
+        write  = Boolean.valueOf (clientPars.get(SSVarU.write));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

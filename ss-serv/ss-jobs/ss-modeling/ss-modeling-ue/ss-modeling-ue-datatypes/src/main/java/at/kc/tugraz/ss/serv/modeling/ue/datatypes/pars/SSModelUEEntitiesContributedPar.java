@@ -18,40 +18,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.datatypes.par.notImpl;
+ package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSRecommWriteMetricsMulanPar extends SSServPar{
-
-  public String  sampleDir   = null;
-  public String  sampleName  = null;
-  public Integer sampleCount = null;
-  public Integer k           = null;
+public class SSModelUEEntitiesContributedPar extends SSServPar{
+  
+  public SSUri entity = null;
+  
+  public SSModelUEEntitiesContributedPar(SSServPar par) throws Exception{
       
-  public SSRecommWriteMetricsMulanPar(SSServPar par) throws Exception{
-    
     super(par);
     
     try{
       if(pars != null){
-        this.sampleDir   = (String)  pars.get(SSVarU.sampleDir);
-        this.sampleName  = (String)  pars.get(SSVarU.sampleName);
-        this.sampleCount = (Integer) pars.get(SSVarU.sampleCount);
-        this.k           = (Integer) pars.get(SSVarU.k);
+        entity = (SSUri) pars.get(SSVarU.entity);
       }
       
       if(clientPars != null){
-        this.sampleDir   = clientPars.get  (SSVarU.sampleDir);
-        this.sampleName  = clientPars.get  (SSVarU.sampleName);
-        this.sampleCount = Integer.valueOf (clientPars.get(SSVarU.sampleCount));
-        this.k           = Integer.valueOf (clientPars.get(SSVarU.k));
+        entity = SSUri.get(clientPars.get(SSVarU.entity));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 }
-

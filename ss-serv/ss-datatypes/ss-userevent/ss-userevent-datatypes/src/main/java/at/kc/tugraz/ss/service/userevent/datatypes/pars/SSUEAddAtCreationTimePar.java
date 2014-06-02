@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEAddAtCreationTimePar extends SSServPar{
   
-  public SSUri            resource     = null;
-  public SSUEE         eventType    = null;
+  public SSUri            entity       = null;
+  public SSUEE            type         = null;
   public String           content      = null;
   public Long             creationTime = null;
   
@@ -40,8 +40,8 @@ public class SSUEAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        resource     = (SSUri)    pars.get(SSVarU.resource);
-        eventType    = (SSUEE) pars.get(SSVarU.eventType);
+        entity       = (SSUri)    pars.get(SSVarU.entity);
+        type         = (SSUEE)    pars.get(SSVarU.type);
         content      = (String)   pars.get(SSVarU.content);
         creationTime = (Long)     pars.get(SSVarU.creationTime);
       }

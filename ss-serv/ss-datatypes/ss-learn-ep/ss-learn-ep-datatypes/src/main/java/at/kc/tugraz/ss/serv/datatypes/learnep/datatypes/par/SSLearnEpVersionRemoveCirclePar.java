@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpVersionRemoveCirclePar extends SSServPar{
   
-  public SSUri  learnEpCircleUri = null;
+  public SSUri  learnEpCircle = null;
   
   public SSLearnEpVersionRemoveCirclePar(SSServPar par) throws Exception{
       
@@ -36,11 +36,11 @@ public class SSLearnEpVersionRemoveCirclePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpCircleUri   = (SSUri) pars.get(SSVarU.learnEpCircleUri);
+        learnEpCircle   = (SSUri) pars.get(SSVarU.learnEpCircle);
       }
       
       if(clientPars != null){
-        learnEpCircleUri   = SSUri.get(clientPars.get(SSVarU.learnEpCircleUri));
+        learnEpCircle   = SSUri.get(clientPars.get(SSVarU.learnEpCircle));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

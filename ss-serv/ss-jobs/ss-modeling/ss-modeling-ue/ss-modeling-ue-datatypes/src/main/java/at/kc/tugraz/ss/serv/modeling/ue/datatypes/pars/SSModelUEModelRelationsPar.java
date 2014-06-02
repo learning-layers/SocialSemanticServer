@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSModelUEModelRelationsPar extends SSServPar{
   
-  public SSUri                 resource     = null;
-  public SSModelUERelationEnum relationType = null;
+  public SSUri                 entity   = null;
+  public SSModelUERelationEnum type     = null;
   
   public SSModelUEModelRelationsPar(SSServPar par) throws Exception{
       
@@ -37,13 +37,13 @@ public class SSModelUEModelRelationsPar extends SSServPar{
     
     try{
       if(pars != null){
-        this.resource          = (SSUri)                 pars.get(SSVarU.resource);
-        this.relationType      = (SSModelUERelationEnum) pars.get(SSVarU.relationType);
+        entity    = (SSUri)                 pars.get(SSVarU.entity);
+        type      = (SSModelUERelationEnum) pars.get(SSVarU.type);
       }
       
       if(clientPars != null){
-        this.resource          = SSUri.get                 ((String)clientPars.get(SSVarU.resource));
-        this.relationType      = SSModelUERelationEnum.get ((String)clientPars.get(SSVarU.relationType));
+        entity    = SSUri.get                 (clientPars.get(SSVarU.entity));
+        type      = SSModelUERelationEnum.get (clientPars.get(SSVarU.type));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

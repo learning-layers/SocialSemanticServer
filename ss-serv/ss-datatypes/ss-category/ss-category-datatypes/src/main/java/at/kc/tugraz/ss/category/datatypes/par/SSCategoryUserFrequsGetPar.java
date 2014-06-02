@@ -28,9 +28,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCategoryUserFrequsGetPar extends SSServPar{
   
-  public SSUri            resource         = null;
-  public SSCategoryLabel  categoryLabel    = null;
-  public SSSpaceE         space            = null;
+  public SSUri            entity   = null;
+  public SSCategoryLabel  label    = null;
+  public SSSpaceE         space    = null;
   
   public SSCategoryUserFrequsGetPar(SSServPar par) throws Exception{
       
@@ -39,15 +39,15 @@ public class SSCategoryUserFrequsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        resource       = (SSUri)            pars.get(SSVarU.resource);
-        categoryLabel  = (SSCategoryLabel)  pars.get(SSVarU.categoryLabel);
-        space          = (SSSpaceE)         pars.get(SSVarU.space);
+        entity    = (SSUri)            pars.get(SSVarU.entity);
+        label     = (SSCategoryLabel)  pars.get(SSVarU.label);
+        space     = (SSSpaceE)         pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
         
         try{
-          resource   = SSUri.get        (clientPars.get(SSVarU.resource));
+          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
         }catch(Exception error){}
         
         try{
@@ -55,7 +55,7 @@ public class SSCategoryUserFrequsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          categoryLabel  = SSCategoryLabel.get (clientPars.get(SSVarU.categoryLabel));
+          label  = SSCategoryLabel.get (clientPars.get(SSVarU.label));
         }catch(Exception error){}
       }
     }catch(Exception error){

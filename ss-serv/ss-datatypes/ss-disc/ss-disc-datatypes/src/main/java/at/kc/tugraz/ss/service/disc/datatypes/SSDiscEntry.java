@@ -31,12 +31,12 @@ import java.util.Map;
 
 public class SSDiscEntry extends SSEntityA{
   
-  public  SSUri               uri;
+  public  SSUri               id;
   public  Integer             pos;
   public  SSTextComment       content;
   public  SSUri               author;
   public  Long                timestamp; 
-  public  SSEntityE           discEntryType;
+  public  SSEntityE           type;
 
   public static SSDiscEntry get(
     final SSUri                 uri,
@@ -59,8 +59,8 @@ public class SSDiscEntry extends SSEntityA{
     
     super(uri);
     
-    this.uri           = uri;
-    this.discEntryType = discEntryType;
+    this.id           = uri;
+    this.type = discEntryType;
     this.pos           = pos;
     this.content       = content;
     this.author        = author;
@@ -72,8 +72,8 @@ public class SSDiscEntry extends SSEntityA{
     
     final Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.discEntryType, SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.id,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.pos,           SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     ld.put(SSVarU.content,       SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     ld.put(SSVarU.author,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -84,12 +84,12 @@ public class SSDiscEntry extends SSEntityA{
 
   /* getters to allow for json enconding */
   
-  public String getUri() throws Exception{
-    return SSUri.toStrWithoutSlash(uri);
+  public String getId() throws Exception{
+    return SSUri.toStrWithoutSlash(id);
   }
   
-  public String getDiscEntryType() throws Exception{
-    return SSEntityE.toStr(discEntryType);
+  public String getType() throws Exception{
+    return SSEntityE.toStr(type);
   }
 
   public int getPos(){

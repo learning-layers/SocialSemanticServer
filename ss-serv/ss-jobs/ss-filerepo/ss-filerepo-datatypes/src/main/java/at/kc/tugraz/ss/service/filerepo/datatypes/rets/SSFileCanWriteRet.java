@@ -29,29 +29,29 @@ import java.util.Map;
 
 public class SSFileCanWriteRet extends SSServRetI{
 
-	public String  fileUriOrId    = null;
+	public String  file           = null;
 	public boolean canWrite       = false;
 	
 	public SSFileCanWriteRet(String newFileUriOrId, SSMethU op){
     
     super(op);
     
-		fileUriOrId = newFileUriOrId;
+		file = newFileUriOrId;
 	}
 	
   @Override
   public Map<String, Object> jsonLDDesc(){
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.fileUriOrId, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.file,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.canWrite,    SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getFileUriOrId(){
-		return fileUriOrId;
+  /* getters to allow for json enconding */
+  public String getFile(){
+		return file;
 	}
 	
   public boolean getCanWrite(){

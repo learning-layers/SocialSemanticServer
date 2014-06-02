@@ -22,8 +22,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserSetPublicPar extends SSServPar{
 
-  public SSUri collUri           = null;
-  public SSUri publicCircleUri   = null;
+  public SSUri coll     = null;
+  public SSUri circle   = null;
   
   public SSCollUserSetPublicPar(SSServPar par) throws Exception{
     
@@ -32,8 +32,8 @@ public class SSCollUserSetPublicPar extends SSServPar{
     try{
     
       if(pars != null){
-        collUri           = (SSUri)       pars.get(SSVarU.collUri);
-        publicCircleUri   = (SSUri)       pars.get(SSVarU.publicCircleUri);
+        coll     = (SSUri)       pars.get(SSVarU.coll);
+        circle   = (SSUri)       pars.get(SSVarU.circle);
       }
       
     }catch(Exception error){

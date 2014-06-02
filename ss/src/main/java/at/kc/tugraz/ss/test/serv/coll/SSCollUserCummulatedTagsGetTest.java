@@ -40,7 +40,7 @@ public class SSCollUserCummulatedTagsGetTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
     final SSColl           rootColl                 = SSServCaller.collUserRootGet          (SSUserGlobals.systemUser);
-    final List<SSTagFrequ> collUserCumulatedTagsGet = SSServCaller.collUserCumulatedTagsGet (SSUserGlobals.systemUser, rootColl.uri);
+    final List<SSTagFrequ> collUserCumulatedTagsGet = SSServCaller.collUserCumulatedTagsGet (SSUserGlobals.systemUser, rootColl.id);
     
     System.out.println (op + " test end");
   }

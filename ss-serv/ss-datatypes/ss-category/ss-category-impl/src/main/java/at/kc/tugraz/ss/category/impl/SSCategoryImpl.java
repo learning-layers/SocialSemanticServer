@@ -218,29 +218,29 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     try{
       
       final SSCategoryAddPar par            = new SSCategoryAddPar(parA);
-      final Boolean          existsCategory = sqlFct.existsCategoryLabel    (par.categoryLabel);
-      final SSUri            categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.categoryLabel);
+      final Boolean          existsCategory = sqlFct.existsCategoryLabel    (par.label);
+      final SSUri            categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label);
 
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
         par.user,
         categoryUri,       
-        SSLabel.get(SSCategoryLabel.toStr(par.categoryLabel)), 
+        SSLabel.get(SSCategoryLabel.toStr(par.label)), 
         SSEntityE.category,
         false);
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(SSUri.toStr(par.resource)),
+        par.entity,
+        SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
         false);
       
       sqlFct.addCategoryAssIfNotExists(
         categoryUri,
         par.user,
-        par.resource,
+        par.entity,
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -269,30 +269,30 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     try{
       
       final SSCategoryAddAtCreationTimePar par            = new SSCategoryAddAtCreationTimePar(parA);
-      final Boolean                        existsCategory = sqlFct.existsCategoryLabel   (par.categoryLabel);
-      final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.categoryLabel); 
+      final Boolean                        existsCategory = sqlFct.existsCategoryLabel   (par.label);
+      final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
 
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAddAtCreationTime(
         par.user,
         categoryUri,
-        SSLabel.get(SSStrU.toString(par.categoryLabel)),
+        SSLabel.get(SSStrU.toString(par.label)),
         par.creationTime,
         SSEntityE.category,
         false);
       
       SSServCaller.entityAdd(
         par.user,
-        par.resource,
-        SSLabel.get(par.resource.toString()),
+        par.entity,
+        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
         false);
       
       sqlFct.addCategoryAssIfNotExists(
         categoryUri, 
         par.user, 
-        par.resource, 
+        par.entity, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -321,11 +321,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
 
       final SSCategoriesAddPar par    = new SSCategoriesAddPar(parA);
       
-      for(SSCategoryLabel categoryLabel : par.categoryLabels) {
+      for(SSCategoryLabel categoryLabel : par.labels) {
         
         SSServCaller.categoryAdd(
           par.user, 
-          par.resource, 
+          par.entity, 
           categoryLabel, 
           par.space, 
           par.shouldCommit);
@@ -357,11 +357,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSCategoryLabel categoryLabel : par.categoryLabels) {
+      for(SSCategoryLabel categoryLabel : par.labels) {
        
         SSServCaller.categoryAddAtCreationTime(
           par.user, 
-          par.resource, 
+          par.entity, 
           SSCategoryLabel.toStr(categoryLabel), 
           par.space, 
           par.creationTime, 
@@ -398,8 +398,8 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       sqlFct.removeCategoryAsss (
         par.forUser, 
-        par.entityUri, 
-        par.categoryLabel, 
+        par.entity, 
+        par.label, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -434,12 +434,12 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(
         par.space    == null &&
-        par.resource == null){
+        par.entity == null){
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeCategoryAsss(par.user, null, par.categoryLabel, SSSpaceE.privateSpace);
-        sqlFct.removeCategoryAsss(par.user, null, par.categoryLabel, SSSpaceE.sharedSpace);
+        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -447,11 +447,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
        if(
          par.space    != null &&
-         par.resource == null){
+         par.entity == null){
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeCategoryAsss(par.user, null, par.categoryLabel, par.space);
+         sqlFct.removeCategoryAsss(par.user, null, par.label, par.space);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -459,12 +459,12 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(
         par.space    == null &&
-        par.resource != null){
+        par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeCategoryAsss (par.user, par.resource, par.categoryLabel, SSSpaceE.privateSpace);
-        sqlFct.removeCategoryAsss (null,     par.resource, par.categoryLabel, SSSpaceE.sharedSpace);
+        sqlFct.removeCategoryAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -472,11 +472,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(
         par.space    != null &&
-        par.resource != null){
+        par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
       
-        sqlFct.removeCategoryAsss(null, par.resource, par.categoryLabel, par.space);
+        sqlFct.removeCategoryAsss(null, par.entity, par.label, par.space);
 
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -518,13 +518,13 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         entityUris.addAll(
           sqlFct.getEntitiesForCategoryLabel(
           par.user,
-          par.categoryLabel,
+          par.label,
           SSSpaceE.privateSpace));
         
         entityUris.addAll(
           sqlFct.getEntitiesForCategoryLabel(
           null,
-          par.categoryLabel,
+          par.label,
           SSSpaceE.sharedSpace));
         
         return SSUri.distinct(entityUris);
@@ -534,7 +534,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         
         return sqlFct.getEntitiesForCategoryLabel(
           null,
-          par.categoryLabel,
+          par.label,
           par.space);
       }
         
@@ -542,7 +542,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         
         return sqlFct.getEntitiesForCategoryLabel(
           par.user,
-          par.categoryLabel,
+          par.label,
           par.space);
       }
       
@@ -569,18 +569,18 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         
         final List<SSCategory>      categories = new ArrayList<SSCategory>();
         
-        categories.addAll (sqlFct.getCategoryAsss(par.user, par.resource, par.categoryLabel, SSSpaceE.privateSpace));
-        categories.addAll (sqlFct.getCategoryAsss(null,     par.resource, par.categoryLabel, SSSpaceE.sharedSpace));
+        categories.addAll (sqlFct.getCategoryAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
+        categories.addAll (sqlFct.getCategoryAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
         
         return categories;
       }
       
       if(SSSpaceE.isPrivate(par.space)){
-        return sqlFct.getCategoryAsss(par.user, par.resource, par.categoryLabel, par.space);
+        return sqlFct.getCategoryAsss(par.user, par.entity, par.label, par.space);
       }
       
       if(SSSpaceE.isShared(par.space)){
-        return sqlFct.getCategoryAsss(null, par.resource, par.categoryLabel, par.space);
+        return sqlFct.getCategoryAsss(null, par.entity, par.label, par.space);
       }
       
       throw new Exception("reached not reachable code");
@@ -601,8 +601,8 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       categories = 
         SSServCaller.categoriesUserGet(
           par.user,
-          par.resource, 
-          SSCategoryLabel.toStr(par.categoryLabel), 
+          par.entity, 
+          SSCategoryLabel.toStr(par.label), 
           par.space);
       
       return SSCategoryMiscFct.getCategoryFrequsFromCategorys (categories, par.space);

@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCategoryAddAtCreationTimePar extends SSServPar{
   
-  public SSUri             resource      = null;
-  public SSCategoryLabel   categoryLabel = null;
+  public SSUri             entity        = null;
+  public SSCategoryLabel   label         = null;
   public SSSpaceE          space         = null;
   public Long              creationTime  = null;
   
@@ -40,10 +40,10 @@ public class SSCategoryAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        resource         = (SSUri)                      pars.get(SSVarU.resource);
-        categoryLabel    = SSCategoryLabel.get((String) pars.get(SSVarU.categoryLabel));
-        space            = (SSSpaceE)                   pars.get(SSVarU.space);
-        creationTime     = (Long)                       pars.get(SSVarU.creationTime);
+        entity         = (SSUri)                      pars.get(SSVarU.entity);
+        label          = SSCategoryLabel.get((String) pars.get(SSVarU.label));
+        space          = (SSSpaceE)                   pars.get(SSVarU.space);
+        creationTime   = (Long)                       pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

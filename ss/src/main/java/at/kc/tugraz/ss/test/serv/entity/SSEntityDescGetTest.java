@@ -62,7 +62,7 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     final SSEntityDescA       serverServResult = 
       SSServCaller.entityDescGet(
       serverServPar.user, 
-      serverServPar.entityUri,
+      serverServPar.entity,
       true, 
       true, 
       true);

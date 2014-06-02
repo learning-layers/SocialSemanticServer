@@ -28,8 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSTagUserEntitiesForTagGetPar extends SSServPar{
   
-  public SSTagLabel  tagString    = null;
-  public SSSpaceE    space        = null;
+  public SSTagLabel  label    = null;
+  public SSSpaceE    space    = null;
   
   public SSTagUserEntitiesForTagGetPar(SSServPar par) throws Exception{
     
@@ -38,12 +38,12 @@ public class SSTagUserEntitiesForTagGetPar extends SSServPar{
     try{
      
       if(pars != null){
-        tagString  = SSTagLabel.get((String)pars.get(SSVarU.tagString));
-        space      = (SSSpaceE)             pars.get(SSVarU.space);
+        label      = SSTagLabel.get((String) pars.get(SSVarU.label));
+        space      = (SSSpaceE)              pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
-        tagString  = SSTagLabel.get   (clientPars.get(SSVarU.tagString));
+        label  = SSTagLabel.get   (clientPars.get(SSVarU.label));
         
         try{
           space      = SSSpaceE.get  (clientPars.get(SSVarU.space));

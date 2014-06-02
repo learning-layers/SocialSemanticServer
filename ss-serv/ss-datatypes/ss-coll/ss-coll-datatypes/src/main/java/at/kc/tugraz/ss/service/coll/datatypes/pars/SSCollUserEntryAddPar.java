@@ -28,10 +28,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSCollUserEntryAddPar extends SSServPar{
   
-  public SSUri        coll               = null;
-  public SSUri        collEntry          = null;
-  public SSLabel      collEntryLabel     = null;
-  public Boolean      addNewColl         = null;
+  public SSUri        coll        = null;
+  public SSUri        entry       = null;
+  public SSLabel      label       = null;
+  public Boolean      addNewColl  = null;
   
   public SSCollUserEntryAddPar(final SSServPar par) throws Exception{
     
@@ -41,21 +41,21 @@ public class SSCollUserEntryAddPar extends SSServPar{
       
       if(pars != null){
         coll           = (SSUri)       pars.get(SSVarU.coll);
-        collEntry      = (SSUri)       pars.get(SSVarU.collEntry);
-        collEntryLabel = (SSLabel)     pars.get(SSVarU.collEntryLabel);
+        entry          = (SSUri)       pars.get(SSVarU.entry);
+        label          = (SSLabel)     pars.get(SSVarU.label);
         addNewColl     = (Boolean)     pars.get(SSVarU.addNewColl);
       }
       
       if(clientPars != null){
-        coll           = SSUri.get       (clientPars.get(SSVarU.coll));
-        collEntryLabel = SSLabel.get  (clientPars.get(SSVarU.collEntryLabel));
+        coll  = SSUri.get       (clientPars.get(SSVarU.coll));
+        label = SSLabel.get     (clientPars.get(SSVarU.label));
         
         try{
           addNewColl     = Boolean.valueOf (clientPars.get(SSVarU.addNewColl));
         }catch(Exception error){}
         
         try{
-          collEntry      = SSUri.get       (clientPars.get(SSVarU.collEntry));
+          entry      = SSUri.get       (clientPars.get(SSVarU.entry));
         }catch(Exception error){}
       }
     }catch(Exception error){

@@ -28,9 +28,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEAddPar extends SSServPar{
   
-  public SSUri            resource     = null;
-  public SSUEE         eventType    = null;
-  public String           content      = null;
+  public SSUri            entity     = null;
+  public SSUEE            type       = null;
+  public String           content    = null;
   
    public SSUEAddPar(SSServPar par) throws Exception{
 
@@ -39,15 +39,15 @@ public class SSUEAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        resource   = (SSUri)    pars.get(SSVarU.resource);
-        eventType  = (SSUEE) pars.get(SSVarU.eventType);
-        content    = (String)   pars.get(SSVarU.content);
+        entity   = (SSUri)    pars.get(SSVarU.entity);
+        type     = (SSUEE)    pars.get(SSVarU.type);
+        content  = (String)   pars.get(SSVarU.content);
       }
       
       if(clientPars != null){
-        resource   = SSUri.get    ((String)clientPars.get(SSVarU.resource));
-        eventType  = SSUEE.get ((String)clientPars.get(SSVarU.eventType));
-        content    =               (String)clientPars.get(SSVarU.content);
+        entity   = SSUri.get     (clientPars.get(SSVarU.entity));
+        type     = SSUEE.get     (clientPars.get(SSVarU.type));
+        content  =                clientPars.get(SSVarU.content);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

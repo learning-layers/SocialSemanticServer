@@ -27,8 +27,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileUploadPar extends SSServPar{
 
-  public String      mimeType  = null;
-  public SSLabel  fileName  = null;
+  public String   mimeType  = null;
+  public SSLabel  label     = null;
   
   public SSFileUploadPar(final SSServPar par) throws Exception{
      
@@ -38,12 +38,12 @@ public class SSFileUploadPar extends SSServPar{
       
       if(pars != null){
         mimeType   = (String)     pars.get(SSVarU.mimeType);
-        fileName   = (SSLabel) pars.get(SSVarU.fileName);
+        label      = (SSLabel)    pars.get(SSVarU.label);
       }
       
       if(clientPars != null){
-        mimeType =                 clientPars.get (SSVarU.mimeType);
-        fileName = SSLabel.get (clientPars.get (SSVarU.fileName));
+        mimeType =              clientPars.get (SSVarU.mimeType);
+        label    = SSLabel.get (clientPars.get (SSVarU.label));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

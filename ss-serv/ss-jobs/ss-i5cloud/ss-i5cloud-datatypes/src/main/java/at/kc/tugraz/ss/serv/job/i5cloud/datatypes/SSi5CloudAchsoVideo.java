@@ -28,7 +28,7 @@ import java.util.List;
 
 public class SSi5CloudAchsoVideo extends SSEntityA{
   
-  public SSUri        uri            = null;
+  public SSUri        id            = null;
   public SSLabel      label          = null;
   public SSLabel      author         = null;
   public Long         creationTime   = null;
@@ -63,7 +63,7 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
     super(uri);
     
     this.label        = label;
-    this.uri          = uri;
+    this.id          = uri;
     this.author       = author;
     this.creationTime = creationTime;
     

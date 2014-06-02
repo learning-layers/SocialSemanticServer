@@ -29,9 +29,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSTagAddPar extends SSServPar{
   
-  public SSUri        resource     = null;
-  public SSTagLabel   tagString    = null;
-  public SSSpaceE  space        = null;
+  public SSUri        entity     = null;
+  public SSTagLabel   label      = null;
+  public SSSpaceE     space      = null;
   
   public SSTagAddPar(SSServPar par) throws Exception{
     
@@ -40,15 +40,15 @@ public class SSTagAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        resource   = (SSUri)       pars.get(SSVarU.resource);
-        tagString  = (SSTagLabel)  pars.get(SSVarU.tagString);
-        space      = (SSSpaceE) pars.get(SSVarU.space);
+        entity     = (SSUri)       pars.get(SSVarU.entity);
+        label      = (SSTagLabel)  pars.get(SSVarU.label);
+        space      = (SSSpaceE)    pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
-        resource   = SSUri.get        (clientPars.get(SSVarU.resource));
-        tagString  = SSTagLabel.get   (clientPars.get(SSVarU.tagString));
-        space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
+        entity     = SSUri.get        (clientPars.get(SSVarU.entity));
+        label      = SSTagLabel.get   (clientPars.get(SSVarU.label));
+        space      = SSSpaceE.get     (clientPars.get(SSVarU.space));
       }
       
     }catch(Exception error){

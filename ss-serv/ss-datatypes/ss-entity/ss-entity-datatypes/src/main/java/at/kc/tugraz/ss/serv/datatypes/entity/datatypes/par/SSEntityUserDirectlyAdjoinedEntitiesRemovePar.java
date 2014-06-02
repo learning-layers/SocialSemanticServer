@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
   
-  public SSUri   entityUri           = null;
+  public SSUri   entity              = null;
   public Boolean removeUserTags      = null;
   public Boolean removeUserRatings   = null;
   public Boolean removeFromUserColls = null;
@@ -40,7 +40,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri            = (SSUri)     pars.get(SSVarU.entityUri);
+        entity               = (SSUri)     pars.get(SSVarU.entity);
         removeUserTags       = (Boolean)   pars.get(SSVarU.removeUserTags);
         removeUserRatings    = (Boolean)   pars.get(SSVarU.removeUserRatings);
         removeFromUserColls  = (Boolean)   pars.get(SSVarU.removeFromUserColls);
@@ -48,7 +48,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
       }
       
       if(clientPars != null){
-        entityUri     = SSUri.get      (clientPars.get(SSVarU.entityUri));
+        entity     = SSUri.get      (clientPars.get(SSVarU.entity));
         
         try{
           removeUserTags   = Boolean.valueOf(clientPars.get(SSVarU.removeUserTags));

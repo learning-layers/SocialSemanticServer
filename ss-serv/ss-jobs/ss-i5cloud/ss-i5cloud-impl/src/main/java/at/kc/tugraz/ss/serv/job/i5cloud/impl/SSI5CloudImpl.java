@@ -101,16 +101,16 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
             "storage/"   + 
             par.space    + 
             SSStrU.slash +  
-            par.fileName).openConnection();
+            par.label).openConnection();
       
       i5CloudCon.setDoOutput         (true);
       i5CloudCon.setRequestMethod    (SSHTMLU.put);
-      i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.xAuthToken);
+      i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.authToken);
       i5CloudCon.setRequestProperty  (SSHTMLU.contentType, SSMimeTypeU.multipartFormData);
       
       SSFileU.readFileBytes(
         i5CloudCon.getOutputStream(),
-        SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.fileName));
+        SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.label));
       
       SSFileU.readStreamText(i5CloudCon.getInputStream());
       
@@ -129,12 +129,12 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     
     try{
       
-      i5CloudCon = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "storage/" + par.space + SSStrU.slash + par.fileName).openConnection();
+      i5CloudCon = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "storage/" + par.space + SSStrU.slash + par.label).openConnection();
 
-      i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.xAuthToken);
+      i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.authToken);
     
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(SSFileU.dirWorkingTmp() + par.fileName), 
+        SSFileU.openOrCreateFileWithPathForWrite(SSFileU.dirWorkingTmp() + par.label), 
         i5CloudCon.getInputStream());
 
       return true;

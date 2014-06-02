@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSFileThumbGetPar extends SSServPar{
   
-  public String   fileId    = null;
+  public String   file    = null;
   
   public SSFileThumbGetPar(SSServPar par) throws Exception{
     
@@ -35,11 +35,11 @@ public class SSFileThumbGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileId   = (String) pars.get(SSVarU.fileId);
+        file   = (String) pars.get(SSVarU.file);
       }
       
       if(clientPars != null){
-        fileId   = clientPars.get(SSVarU.fileId);
+        file   = clientPars.get(SSVarU.file);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

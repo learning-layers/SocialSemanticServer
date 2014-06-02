@@ -81,10 +81,10 @@ public class SSAdapterRest{
   @GET
   @Consumes(MediaType.TEXT_HTML)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.entityType + SSStrU.curlyBracketClose)
-  public String jsonLD(@PathParam(SSVarU.entityType) String entityType){
+  @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.type + SSStrU.curlyBracketClose)
+  public String jsonLD(@PathParam(SSVarU.type) String type){
     
-    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"entityType\":\"" + entityType + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
     
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
     
@@ -828,8 +828,8 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path(SSStrU.slash + "fileReplace")
   public Response fileReplace(
-    @FormDataParam(SSVarU.jsonRequ) String      jsonRequ,
-    @FormDataParam(SSVarU.file)     InputStream file){
+    @FormDataParam(SSVarU.jsonRequ)   String      jsonRequ,
+    @FormDataParam(SSVarU.fileHandle) InputStream fileHandle){
     
     Response result = null;
     byte[]   bytes  = new byte[SSSocketU.socketTranmissionSize];
@@ -842,7 +842,7 @@ public class SSAdapterRest{
       sSCon.writeRequFullToSS ();
       sSCon.readMsgFullFromSS();
       
-      while ((read = file.read(bytes)) != -1){
+      while ((read = fileHandle.read(bytes)) != -1){
         sSCon.writeFileChunkToSS  (bytes, read);
 //        sSCon.readMsgFullFromSS   ();
       }
@@ -872,8 +872,8 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path(SSStrU.slash + "fileUpload")
   public Response fileUpload(
-    @FormDataParam(SSVarU.jsonRequ) String      jsonRequ,
-    @FormDataParam(SSVarU.file)     InputStream file){
+    @FormDataParam(SSVarU.jsonRequ)   String      jsonRequ,
+    @FormDataParam(SSVarU.fileHandle) InputStream fileHandle){
     
     Response result = null;
     byte[]   bytes  = new byte[SSSocketU.socketTranmissionSize];
@@ -886,7 +886,7 @@ public class SSAdapterRest{
       sSCon.writeRequFullToSS  ();
       sSCon.readMsgFullFromSS  ();
 
-      while ((read = file.read(bytes)) != -1) {
+      while ((read = fileHandle.read(bytes)) != -1) {
         sSCon.writeFileChunkToSS   (bytes, read);
 //        sSCon.readMsgFullFromSS    ();
       }

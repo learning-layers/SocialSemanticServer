@@ -39,8 +39,8 @@ public class SSEntityActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.share,
-        par.userUris,
-        par.entityUri,
+        par.users,
+        par.entity,
         new ArrayList<SSUri>(),
         par.comment,
         false);

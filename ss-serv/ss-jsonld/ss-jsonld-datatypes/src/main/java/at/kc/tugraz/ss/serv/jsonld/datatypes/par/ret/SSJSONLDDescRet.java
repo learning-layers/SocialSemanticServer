@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSJSONLDDescRet extends SSServRetI{
 
-  public Object jsonLDDesc = null;
+  public Object desc = null;
 
   public static SSJSONLDDescRet get(Object jsonLDDesc, SSMethU op){
     return new SSJSONLDDescRet(jsonLDDesc, op);
@@ -39,7 +39,7 @@ public class SSJSONLDDescRet extends SSServRetI{
 
     super(op);
     
-    this.jsonLDDesc = jsonLDDesc;
+    this.desc = jsonLDDesc;
   }
 
   @Override
@@ -47,11 +47,11 @@ public class SSJSONLDDescRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.jsonLDDesc, SSVarU.xsd + SSStrU.colon + SSStrU.valueObject);
+    ld.put(SSVarU.desc, SSVarU.xsd + SSStrU.colon + SSStrU.valueObject);
     return ld;
   }
   
-  public Object getJsonLDDesc(){
-    return jsonLDDesc;
+  public Object getDesc(){
+    return desc;
   }
 }

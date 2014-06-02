@@ -39,7 +39,7 @@ public class SSSearchMiscFct{
       
       for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(userUri, searchResultUri)){
         
-        switch(circle.circleType){
+        switch(circle.type){
           case priv:{
             
             if(!SSUri.contains(publicAddedUris, searchResultUri)){

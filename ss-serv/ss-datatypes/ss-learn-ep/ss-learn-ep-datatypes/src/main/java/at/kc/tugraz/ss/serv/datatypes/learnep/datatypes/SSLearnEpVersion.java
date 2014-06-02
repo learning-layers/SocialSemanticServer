@@ -33,22 +33,22 @@ import java.util.Map;
 
 public class SSLearnEpVersion extends SSEntityA {
 
-  public SSUri                 learnEpVersionUri          = null;
-  public SSUri                 learnEpUri                 = null;
-  public String                timestamp                  = null;
-  public List<SSLearnEpEntity> entities                   = new ArrayList<SSLearnEpEntity>();
-  public List<SSLearnEpCircle> circles                    = new ArrayList<SSLearnEpCircle>();
+  public SSUri                 id           = null;
+  public SSUri                 learnEp      = null;
+  public String                timestamp    = null;
+  public List<SSLearnEpEntity> entities     = new ArrayList<SSLearnEpEntity>();
+  public List<SSLearnEpCircle> circles      = new ArrayList<SSLearnEpCircle>();
 
-  public static SSLearnEpVersion get(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles)throws Exception{
+  public static SSLearnEpVersion get(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles) throws Exception{
     return new SSLearnEpVersion(learnEpVersionUri, learnEpUri, timestamp, entities, circles);
   }
   
-  private SSLearnEpVersion(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles)throws Exception{
+  private SSLearnEpVersion(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles) throws Exception{
     
     super(learnEpVersionUri);
     
-    this.learnEpVersionUri   = learnEpVersionUri;
-    this.learnEpUri          = learnEpUri;
+    this.id   = learnEpVersionUri;
+    this.learnEp          = learnEpUri;
     this.timestamp           = timestamp;
     
     if(SSObjU.isNotNull(entities)){
@@ -65,9 +65,9 @@ public class SSLearnEpVersion extends SSEntityA {
     
     Map<String, Object> ld         = new HashMap<String, Object>();
     
-    ld.put(SSVarU.learnEpVersionUri,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.learnEpUri,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp,          SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.id,              SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEp,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.timestamp,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     Map<String, Object> entitiesObj = new HashMap<String, Object>();
     
@@ -86,13 +86,13 @@ public class SSLearnEpVersion extends SSEntityA {
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public String getLearnEpVersionUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpVersionUri);
+  /* getters to allow for json enconding */
+  public String getId() throws Exception {
+    return SSUri.toStrWithoutSlash(id);
   }
 
-  public String getLearnEpUri() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpUri);
+  public String getLearnEp() throws Exception {
+    return SSUri.toStrWithoutSlash(learnEp);
   }
 
   public String getTimestamp() {

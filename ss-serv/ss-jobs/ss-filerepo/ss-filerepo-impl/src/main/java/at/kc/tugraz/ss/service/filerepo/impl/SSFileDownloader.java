@@ -55,7 +55,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     this.sSCon             = sSCon;
     this.par               = new SSFileDownloadPar(par);
-    this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.uri);
+    this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.file);
   }
   
   @Override
@@ -63,7 +63,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.uri, par.op));
+      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file, par.op));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
         case i5Cloud: downloadFromI5Cloud(); break;    

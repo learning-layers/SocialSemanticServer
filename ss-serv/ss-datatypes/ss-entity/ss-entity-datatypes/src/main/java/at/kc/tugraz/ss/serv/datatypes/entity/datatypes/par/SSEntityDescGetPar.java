@@ -27,10 +27,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityDescGetPar extends SSServPar{
   
-  public SSUri    entityUri         = null;
+  public SSUri    entity            = null;
   public Boolean  getTags           = null;
   public Boolean  getOverallRating  = null;
-  public Boolean  getDiscUris       = null;
+  public Boolean  getDiscs          = null;
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{
       
@@ -39,14 +39,14 @@ public class SSEntityDescGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entityUri        = (SSUri)   pars.get(SSVarU.entityUri);
+        entity           = (SSUri)   pars.get(SSVarU.entity);
         getTags          = (Boolean) pars.get(SSVarU.getTags);
         getOverallRating = (Boolean) pars.get(SSVarU.getOverallRating);
-        getDiscUris      = (Boolean) pars.get(SSVarU.getDiscUris);
+        getDiscs         = (Boolean) pars.get(SSVarU.getDiscs);
       }
       
       if(clientPars != null){
-        entityUri          = SSUri.get        (clientPars.get(SSVarU.entityUri));
+        entity          = SSUri.get        (clientPars.get(SSVarU.entity));
         
         try{
           getTags            = Boolean.valueOf  (clientPars.get(SSVarU.getTags));
@@ -57,7 +57,7 @@ public class SSEntityDescGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          getDiscUris        = Boolean.valueOf  (clientPars.get(SSVarU.getDiscUris));
+          getDiscs        = Boolean.valueOf  (clientPars.get(SSVarU.getDiscs));
         }catch(Exception error){}
       }
     }catch(Exception error){

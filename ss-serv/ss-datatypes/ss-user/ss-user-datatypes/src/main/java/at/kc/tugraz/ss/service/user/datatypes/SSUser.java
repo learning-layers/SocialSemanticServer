@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSUser extends SSEntityA {
 
-  public         SSUri        uri     = null;
+  public         SSUri        id     = null;
   public         SSLabel      label   = null;
   
   public static SSUser get(
@@ -45,7 +45,7 @@ public class SSUser extends SSEntityA {
     
     super(userUri);
     
-    this.uri   = userUri;
+    this.id   = userUri;
     this.label = label;
   }
   
@@ -54,7 +54,7 @@ public class SSUser extends SSEntityA {
     
     final Map<String, Object> ld = new HashMap<String, Object>();
     
-    ld.put(SSVarU.uri,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
@@ -62,8 +62,8 @@ public class SSUser extends SSEntityA {
   
   /* getters to allow for json enconding  */
   
-  public String getUri(){
-    return SSUri.toStr(uri);
+  public String getId(){
+    return SSUri.toStr(id);
   }
 
   public String getLabel(){

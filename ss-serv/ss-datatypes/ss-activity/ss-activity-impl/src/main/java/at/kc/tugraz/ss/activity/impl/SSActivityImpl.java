@@ -165,10 +165,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       sqlFct.addActivity(
         activityUri, 
         par.type, 
-        par.userUris, 
-        par.sourceEntityUris, 
-        par.targetEntityUris, 
-        par.textComments);
+        par.users, 
+        par.sourceEntities, 
+        par.targetEntities, 
+        par.comments);
       
       dbSQL.commit(par.shouldCommit);
 
