@@ -900,7 +900,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             collUri,
             null,
             null,
-            SSLabel.toStr(SSServCaller.entityGet(collUri)),
+            SSLabel.toStr(SSServCaller.entityGet(collUri).label),
             null));
       }
 

@@ -60,11 +60,11 @@ public class SSDiscEntry extends SSEntityA{
     super(uri);
     
     this.id           = uri;
-    this.type = discEntryType;
-    this.pos           = pos;
-    this.content       = content;
-    this.author        = author;
-    this.timestamp     = timestamp;
+    this.type         = discEntryType;
+    this.pos          = pos;
+    this.content      = content;
+    this.author       = author;
+    this.timestamp    = timestamp;
   }
   
   @Override

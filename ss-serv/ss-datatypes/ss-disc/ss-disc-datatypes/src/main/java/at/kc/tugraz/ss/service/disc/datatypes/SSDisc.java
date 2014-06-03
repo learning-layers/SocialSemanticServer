@@ -32,11 +32,11 @@ import java.util.*;
 
 public class SSDisc extends SSEntityA {
   
-  public  SSUri             id       = null;
+  public  SSUri             id           = null;
   public  SSLabel           label        = null;
   public  SSUri             author       = null;
-  public  SSUri             entity   = null;
-  public  SSEntityE         type     = null;
+  public  SSUri             entity       = null;
+  public  SSEntityE         type         = null;
   public  List<SSDiscEntry> entries      = new ArrayList<SSDiscEntry>();
   public  SSTextComment     explanation  = null;
   public  Long              creationTime = null;
