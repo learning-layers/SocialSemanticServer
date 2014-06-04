@@ -1003,7 +1003,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
 
       for(String coll : SSStrU.retainAll(collUris, userCollUris)){
-        colls.add(sqlFct.getCollWithEntries(SSUri.get(coll), new ArrayList<SSCircleE>()));
+        colls.add(SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, SSUri.get(coll)));
       }
 
       return colls;
