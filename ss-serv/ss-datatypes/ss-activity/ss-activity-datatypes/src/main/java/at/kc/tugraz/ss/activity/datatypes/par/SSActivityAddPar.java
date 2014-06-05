@@ -31,10 +31,9 @@ import java.util.List;
 
 public class SSActivityAddPar extends SSServPar{
 
-  public SSActivityE            type     = null;
+  public SSActivityE            type             = null;
   public List<SSUri>            users            = new ArrayList<SSUri>();
-  public List<SSUri>            sourceEntities   = new ArrayList<SSUri>();
-  public List<SSUri>            targetEntities   = new ArrayList<SSUri>();
+  public List<SSUri>            entities         = new ArrayList<SSUri>();
   public List<SSTextComment>    comments         = new ArrayList<SSTextComment>();
   
   public SSActivityAddPar(final SSServPar par) throws Exception{
@@ -52,11 +51,7 @@ public class SSActivityAddPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          sourceEntities     = (List<SSUri>)         pars.get(SSVarU.sourceEntities);
-        }catch(Exception error){}
-        
-        try{
-          targetEntities     = (List<SSUri>)         pars.get(SSVarU.targetEntities);
+          entities     = (List<SSUri>)         pars.get(SSVarU.entities);
         }catch(Exception error){}
         
         try{

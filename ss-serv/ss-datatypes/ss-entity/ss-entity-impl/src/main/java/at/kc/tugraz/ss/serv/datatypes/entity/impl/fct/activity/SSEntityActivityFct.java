@@ -23,12 +23,12 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
-import java.util.ArrayList;
 
 public class SSEntityActivityFct{
   
@@ -36,13 +36,13 @@ public class SSEntityActivityFct{
     final SSEntityUserSharePar par) throws Exception{
     
     try{
+      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.share,
         par.users,
-        par.entity,
-        new ArrayList<SSUri>(),
-        par.comment,
+        SSUri.asList(par.entity),
+        SSTextComment.asList(par.comment),
         false);
       
     }catch(SSServerServNotAvailableErr error){

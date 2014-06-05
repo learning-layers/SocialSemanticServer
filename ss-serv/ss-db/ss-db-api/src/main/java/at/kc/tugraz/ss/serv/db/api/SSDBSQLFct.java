@@ -49,8 +49,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   entityTable                         = "entity";
   protected static final String   activityTable                       = "activity";
   protected static final String   activityUsersTable                  = "activityusers";
-  protected static final String   activitySourceEntitiesTable         = "activitysourceentities";
-  protected static final String   activityTargetEntitiesTable         = "activitytargetentities";
+  protected static final String   activityEntitiesTable               = "activityentities";
   protected static final String   locationTable                       = "location";
   protected static final String   locationsTable                      = "locations";
   protected static final String   tagAssTable                         = "tagass";
@@ -237,11 +236,37 @@ public class SSDBSQLFct extends SSDBFct{
   
   protected static void where(
     final Map<String, String> wheres,
+    final String              table, 
+    final String              key,
+    final SSEntityA           value) throws Exception{
+    
+    try{
+      wheres.put(table + SSStrU.dot + key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void where(
+    final Map<String, String> wheres,
     final String              key,
     final Enum                value) throws Exception{
     
     try{
       wheres.put(key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void where(
+    final Map<String, String> wheres,
+    final String              table,
+    final String              key,
+    final Enum                value) throws Exception{
+    
+    try{
+      wheres.put(table + SSStrU.dot + key, value.toString());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

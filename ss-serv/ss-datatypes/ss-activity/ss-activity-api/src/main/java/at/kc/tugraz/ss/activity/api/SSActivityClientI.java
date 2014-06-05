@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.api;
 
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+
 public interface SSActivityClientI{
-  
+  public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

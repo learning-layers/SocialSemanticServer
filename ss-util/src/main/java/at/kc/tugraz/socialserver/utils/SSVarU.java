@@ -23,6 +23,9 @@ package at.kc.tugraz.socialserver.utils;
 public class SSVarU{
   
   private SSVarU(){}
+
+  public static final String activities                                     = "activities";
+  public static final String types                                          = "types";
   public static final String explanation                                    = "explanation";
   public static final String files                                          = "files";
   public static final String accessRights                                   = "accessRights";
@@ -42,8 +45,6 @@ public class SSVarU{
   public static final String comment                                        = "comment";
   public static final String comments                                       = "comments";
   public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
-  public static final String sourceEntities                                 = "sourceEntities";
-  public static final String targetEntities                                 = "targetEntities";
   public static final String username                                       = "username";
   public static final String password                                       = "password";
   public static final String fileExt                                        = "fileExt";

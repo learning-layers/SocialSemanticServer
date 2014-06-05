@@ -20,9 +20,12 @@
 */
 package at.kc.tugraz.ss.activity.api;
 
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import java.util.List;
 
 public interface SSActivityServerI{
-  public SSUri activityAdd(final SSServPar parA) throws Exception;
+  public SSUri            activityAdd      (final SSServPar parA) throws Exception;
+  public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception;
 }

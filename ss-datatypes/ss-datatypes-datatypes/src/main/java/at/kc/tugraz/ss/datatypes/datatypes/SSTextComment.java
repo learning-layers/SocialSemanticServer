@@ -23,6 +23,9 @@ package at.kc.tugraz.ss.datatypes.datatypes;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SSTextComment extends SSEntityA {
 
@@ -37,6 +40,10 @@ public class SSTextComment extends SSEntityA {
 
   private SSTextComment(final String value) throws Exception{
     super(value);
+  }
+  
+  public static List<SSTextComment> asList(final SSTextComment... comments){
+    return new ArrayList<SSTextComment>(Arrays.asList(comments));
   }
 
   @Override

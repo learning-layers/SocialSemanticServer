@@ -130,6 +130,68 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
+    final List<String>              tables,
+    final List<String>              columns,
+    final List<Map<String, String>> wheres,
+    final List<String>              tableCons) throws Exception{
+    
+    String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    Iterator<Map.Entry<String, String>> iterator;
+    int                                 counter = 1;
+    PreparedStatement                   stmt;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      
+    for(Map<String, String> where : wheres){
+      
+      iterator = where.entrySet().iterator();
+      
+      query += "(";
+        
+      while(iterator.hasNext()){
+        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+      }
+      
+      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+    }
+    
+    query = SSStrU.removeTrailingString(query, " AND ");
+      
+    if(!wheres.isEmpty()){
+      query += " AND ";
+    }
+    
+    for(String tableCon : tableCons){
+      query += tableCon + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    stmt           = connector.prepareStatement(query);
+    
+    for(Map<String, String> where : wheres){
+      
+      iterator = where.entrySet().iterator();
+      
+      while(iterator.hasNext()){
+        stmt.setObject(counter++, iterator.next().getValue());
+      }
+    }
+
+    return stmt.executeQuery();
+  }
+    
+  @Override
+  public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
     final Map<String, String> wheres, 

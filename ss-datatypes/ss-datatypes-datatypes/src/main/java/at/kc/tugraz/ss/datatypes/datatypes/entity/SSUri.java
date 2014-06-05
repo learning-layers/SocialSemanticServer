@@ -141,6 +141,10 @@ public class SSUri extends SSEntityA{
     return SSStrU.removeTrailingSlash(uri.toString());
   }
 
+  public static List<SSUri> asList(final SSUri... entities){
+    return new ArrayList<SSUri>(Arrays.asList(entities));
+  }
+
   private SSUri(final String value) throws Exception{
     super(SSStrU.addTrailingSlash(value));
   }

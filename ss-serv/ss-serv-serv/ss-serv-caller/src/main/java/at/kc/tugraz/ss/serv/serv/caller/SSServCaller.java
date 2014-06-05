@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEn
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
@@ -2146,71 +2147,43 @@ public class SSServCaller {
   /* activity */
   
   public static SSUri activityAdd(
-    final SSUri          user, 
-    final SSActivityE    type, 
-    final SSUri          sourceEntity, 
-    final SSUri          targetEntity,
-    final SSTextComment  comment, 
-    final Boolean        shouldCommit) throws Exception{
+    final SSUri               user, 
+    final SSActivityE         type, 
+    final List<SSUri>         users, 
+    final List<SSUri>         entities,
+    final List<SSTextComment> comments, 
+    final Boolean             shouldCommit) throws Exception{
    
-    final Map<String, Object>  opPars         = new HashMap<String, Object>();
-    final List<SSUri>          sourceEntities = new ArrayList<SSUri>();
-    final List<SSUri>          targetEntities = new ArrayList<SSUri>();
-    final List<SSTextComment>  comments       = new ArrayList<SSTextComment>();
-    
-    if(sourceEntity != null){
-      sourceEntities.add(sourceEntity);
-    }
-    
-    if(comment != null){
-      comments.add(comment);
-    }
-    
-    if(targetEntity != null){
-      targetEntities.add(targetEntity);
-    }
+    final Map<String, Object>  opPars           = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,             user);
     opPars.put(SSVarU.type,             type);
-    opPars.put(SSVarU.users,         new ArrayList<SSUri>());
-    opPars.put(SSVarU.sourceEntities,   sourceEntities);
-    opPars.put(SSVarU.targetEntities,   targetEntities);
+    opPars.put(SSVarU.users,            users);
+    opPars.put(SSVarU.entities,         entities);
     opPars.put(SSVarU.comments,         comments);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityAdd, opPars));
   }
   
-  public static SSUri activityAdd(
-    final SSUri          user, 
-    final SSActivityE    type, 
-    final List<SSUri>    users, 
-    final SSUri          sourceEntity, 
-    final List<SSUri>    targetEntities,
-    final SSTextComment  comment, 
-    final Boolean        shouldCommit) throws Exception{
+  public static List<SSActivity> activitiesUserGet(
+    final SSUri               user, 
+    final List<SSActivityE>   types, 
+    final List<SSUri>         users, 
+    final List<SSUri>         entities,
+    final Long                startTime,
+    final Long                endTime) throws Exception{
    
     final Map<String, Object>  opPars           = new HashMap<String, Object>();
-    final List<SSUri>          sourceEntities   = new ArrayList<SSUri>();
-    final List<SSTextComment>  comments         = new ArrayList<SSTextComment>();
-    
-    if(sourceEntity != null){
-      sourceEntities.add(sourceEntity);
-    }
-    
-    if(comment != null){
-      comments.add(comment);
-    }
     
     opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.type,             type);
-    opPars.put(SSVarU.users,         users);
-    opPars.put(SSVarU.sourceEntities,   sourceEntities);
-    opPars.put(SSVarU.targetEntities,   targetEntities);
-    opPars.put(SSVarU.comments,         comments);
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarU.types,            types);
+    opPars.put(SSVarU.users,            users);
+    opPars.put(SSVarU.entities,         entities);
+    opPars.put(SSVarU.startTime,        startTime);
+    opPars.put(SSVarU.endTime,          endTime);
     
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityAdd, opPars));
+    return (List<SSActivity>) SSServA.callServViaServer(new SSServPar(SSMethU.activitiesUserGet, opPars));
   }
 }
 

@@ -22,11 +22,14 @@ package at.kc.tugraz.ss.service.disc.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
+import java.util.ArrayList;
 
 public class SSDiscActivityFct{
 
@@ -41,26 +44,26 @@ public class SSDiscActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.discussEntity,
-          par.entity,
-          ret.disc,
-          null,
+          SSUri.asList(par.user), 
+          SSUri.asList(par.entity, ret.disc),
+          SSTextComment.asList(),
           false);
         
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.newDiscussionByDiscussEntity,
-          ret.disc,
-          par.entity,
-          null,
+          SSUri.asList(par.user),
+          SSUri.asList(par.entity, ret.disc),
+          SSTextComment.asList(),
           false);
         
       }else{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.addDiscussionComment,
-          ret.disc,
-          ret.entry,
-          null,
+          SSUri.asList(par.user),
+          SSUri.asList(par.entity, ret.disc),
+          SSTextComment.asList(),
           false);
       }
     }catch(SSServerServNotAvailableErr error){

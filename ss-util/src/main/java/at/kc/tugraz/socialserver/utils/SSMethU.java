@@ -289,7 +289,9 @@ public enum SSMethU{
   i5CloudAchsoSemanticAnnotationsSetGet,
   
   //activity
-  activityAdd;
+  activityAdd,
+  activitiesGet,
+  activitiesUserGet;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

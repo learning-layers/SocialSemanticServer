@@ -22,9 +22,13 @@ package at.kc.tugraz.ss.activity.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -134,14 +138,15 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       author);
   }
 
-  /* SSActivityClientI */
-//  @Override
-//  public void collUserParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
-//
-//    SSServCaller.checkKey(parA);
-//
-//    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collUserParentGet(parA), parA.op));
-//  }
+   /* SSActivityClientI */
+  
+  @Override
+  public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), parA.op));
+  }
   
    /*  SSActivityServerI */
   
@@ -151,7 +156,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     try{
       final SSActivityAddPar par = new SSActivityAddPar(parA);
       
-      final SSUri activityUri = sqlFct.createActivityURI();
+      final SSUri activityUri = sqlFct.createActivityUri();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -166,8 +171,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         activityUri, 
         par.type, 
         par.users, 
-        par.sourceEntities, 
-        par.targetEntities, 
+        par.entities, 
         par.comments);
       
       dbSQL.commit(par.shouldCommit);
@@ -184,6 +188,25 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
 
     }catch(Exception error){
       dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
+   
+    try{
+      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
+      
+      return sqlFct.getActivities(
+        par.users, 
+        par.entities, 
+        par.types, 
+        par.startTime, 
+        par.endTime);
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
