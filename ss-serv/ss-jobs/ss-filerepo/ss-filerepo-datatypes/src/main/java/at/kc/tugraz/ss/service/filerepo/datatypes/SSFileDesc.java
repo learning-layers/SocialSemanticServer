@@ -32,6 +32,7 @@ import java.util.Map;
 
 public class SSFileDesc extends SSEntityDescA{
   
+  public String fileExt  = null;
   public String mimeType = null;
   
   private SSFileDesc(
@@ -42,10 +43,12 @@ public class SSFileDesc extends SSEntityDescA{
     final SSEntityA        overallRating,
     final List<SSUri>      discs,
     final SSUri            author,
+    final String           fileExt,
     final String           mimeType) throws Exception{
     
     super(entityUri, entityLabel, creationTime, SSEntityE.file, SSEntityE.fileDesc, author, overallRating, tags, discs);
     
+    this.fileExt  = fileExt;
     this.mimeType = mimeType;
   }
   
@@ -57,9 +60,10 @@ public class SSFileDesc extends SSEntityDescA{
     final SSEntityA       overallRating,
     final List<SSUri>     discs,
     final SSUri           author,
+    final String          fileExt,
     final String          mimeType) throws Exception{
     
-    return new SSFileDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, discs, author, mimeType);
+    return new SSFileDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, discs, author, fileExt, mimeType);
   }
   
   @Override
@@ -68,6 +72,7 @@ public class SSFileDesc extends SSEntityDescA{
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
     ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.fileExt,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

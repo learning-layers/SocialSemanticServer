@@ -151,6 +151,8 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
     }
 
+    final String fileExt = SSServCaller.fileExtGet(userUri, entityUri);
+    
     return SSFileDesc.get(
       entityUri,
       label,
@@ -159,10 +161,8 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       overallRating,
       discUris,
       author,
-      SSMimeTypeU.mimeTypeForFileExt(
-        SSServCaller.fileExtGet(
-          userUri, 
-          entityUri)));
+      fileExt,
+      SSMimeTypeU.mimeTypeForFileExt(fileExt));
   }
 
   /* SSFileRepoClientI */
