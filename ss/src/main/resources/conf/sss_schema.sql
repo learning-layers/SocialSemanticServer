@@ -42,37 +42,13 @@ LOCK TABLES `activity` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `activitysourceentities`
+-- Table structure for table `activityentities`
 --
 
-DROP TABLE IF EXISTS `activitysourceentities`;
+DROP TABLE IF EXISTS `activityentities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `activitysourceentities` (
-  `activityId` varchar(100) NOT NULL,
-  `entityId` varchar(100) NOT NULL,
-  PRIMARY KEY (`activityId`,`entityId`),
-  CONSTRAINT `activityIdactivitysourceentities` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `activitysourceentities`
---
-
-LOCK TABLES `activitysourceentities` WRITE;
-/*!40000 ALTER TABLE `activitysourceentities` DISABLE KEYS */;
-/*!40000 ALTER TABLE `activitysourceentities` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `activitytargetentities`
---
-
-DROP TABLE IF EXISTS `activitytargetentities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `activitytargetentities` (
+CREATE TABLE `activityentities` (
   `activityId` varchar(100) NOT NULL,
   `entityId` varchar(100) NOT NULL,
   PRIMARY KEY (`activityId`,`entityId`),
@@ -81,12 +57,12 @@ CREATE TABLE `activitytargetentities` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `activitytargetentities`
+-- Dumping data for table `activityentities`
 --
 
-LOCK TABLES `activitytargetentities` WRITE;
-/*!40000 ALTER TABLE `activitytargetentities` DISABLE KEYS */;
-/*!40000 ALTER TABLE `activitytargetentities` ENABLE KEYS */;
+LOCK TABLES `activityentities` WRITE;
+/*!40000 ALTER TABLE `activityentities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activityentities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -967,4 +943,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-28 10:42:20
+-- Dump completed on 2014-06-05 15:06:13
