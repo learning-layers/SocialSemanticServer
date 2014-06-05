@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
@@ -157,7 +158,11 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       tags,
       overallRating,
       discUris,
-      author);
+      author,
+      SSMimeTypeU.mimeTypeForFileExt(
+        SSServCaller.fileExtGet(
+          userUri, 
+          entityUri)));
   }
 
   /* SSFileRepoClientI */

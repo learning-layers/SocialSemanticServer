@@ -42,7 +42,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -78,7 +78,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -90,7 +90,7 @@ public class SSRecommFct{
       SSServCaller.dataExportUserEntityTagTimestamps(
         user.id,
         tagsPerEntities,
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -119,7 +119,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -131,7 +131,7 @@ public class SSRecommFct{
       SSServCaller.dataExportUserEntityTagCategories(
         user.id,
         tagsPerEntities,
-        SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
+        getCategoriesPerEntities                  (tagsPerEntities.size()),
         fileName,
         false);
       
@@ -160,7 +160,7 @@ public class SSRecommFct{
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = SSRecommFct.getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -172,8 +172,8 @@ public class SSRecommFct{
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
         user.id,
         tagsPerEntities,
-        SSRecommFct.getCategoriesPerEntities                  (tagsPerEntities.size()),
-        SSRecommFct.getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
+        getCategoriesPerEntities                  (tagsPerEntities.size()),
+        getTimestampInMillisecOfAUserTagForEntity (user.id, tagsPerEntities.entrySet().iterator().next().getKey(), SSSpaceE.sharedSpace),
         fileName,
         false);
       
@@ -197,7 +197,7 @@ public class SSRecommFct{
   
   private static Map<String, List<String>> getTagsOfUserPerEntities(
     final SSUri       userUri, 
-    final SSSpaceE space) throws Exception{
+    final SSSpaceE    space) throws Exception{
     
     return SSTag.getTagLabelsPerEntities(
       SSServCaller.tagsUserGet(

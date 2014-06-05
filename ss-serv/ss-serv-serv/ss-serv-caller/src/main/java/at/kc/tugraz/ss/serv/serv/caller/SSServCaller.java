@@ -1903,6 +1903,18 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.fileCreateUri, opPars));
   }
   
+  public static String fileExtGet(
+    final SSUri  user,
+    final SSUri  file) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.user,    user);
+    opPars.put(SSVarU.file,    file);
+    
+    return (String) SSServA.callServViaServer(new SSServPar(SSMethU.fileExtGet, opPars));
+  }
+    
   public static String fileIDFromURI(
     final SSUri user, 
     final SSUri file) throws Exception{

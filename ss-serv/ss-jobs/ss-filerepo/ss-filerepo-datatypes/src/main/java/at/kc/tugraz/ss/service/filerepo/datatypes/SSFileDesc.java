@@ -20,25 +20,33 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import java.util.List;
+import java.util.Map;
 
 public class SSFileDesc extends SSEntityDescA{
   
-  public SSFileDesc(
+  public String mimeType = null;
+  
+  private SSFileDesc(
     final SSUri            entityUri,
     final SSLabel          entityLabel, 
     final Long             creationTime,
     final List<String>     tags, 
     final SSEntityA        overallRating,
     final List<SSUri>      discs,
-    final SSUri            author) throws Exception{
+    final SSUri            author,
+    final String           mimeType) throws Exception{
     
     super(entityUri, entityLabel, creationTime, SSEntityE.file, SSEntityE.fileDesc, author, overallRating, tags, discs);
+    
+    this.mimeType = mimeType;
   }
   
   public static SSFileDesc get(
@@ -48,8 +56,19 @@ public class SSFileDesc extends SSEntityDescA{
     final List<String>    tags, 
     final SSEntityA       overallRating,
     final List<SSUri>     discs,
-    final SSUri           author) throws Exception{
+    final SSUri           author,
+    final String          mimeType) throws Exception{
     
-    return new SSFileDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, discs, author);
+    return new SSFileDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, discs, author, mimeType);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+    
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    
+    return ld;
   }
 }

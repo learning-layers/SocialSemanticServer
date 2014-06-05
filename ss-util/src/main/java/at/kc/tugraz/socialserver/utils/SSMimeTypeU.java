@@ -56,12 +56,14 @@ public class SSMimeTypeU {
 	public final static String                 audioMidi                                                  = "audio/midi";
   
   public       static Map<String, String>    mimeTypesFileExt                                           = null;
+  public       static Map<String, String>    fileExtForMimTypes                                         = null;
   
   private SSMimeTypeU(){}
   
   public static synchronized void init() throws Exception{
     
-    mimeTypesFileExt = new HashMap<String, String>();
+    mimeTypesFileExt   = new HashMap<String, String>();
+    fileExtForMimTypes = new HashMap<String, String>();
       
     mimeTypesFileExt.put(applicationPdf,           SSFileExtU.pdf);
     mimeTypesFileExt.put(applicationMsword,        SSFileExtU.doc);
@@ -90,6 +92,35 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(imageSvg,                 SSFileExtU.svg);
     mimeTypesFileExt.put(applicationRdf,           SSFileExtU.rdf);
     mimeTypesFileExt.put(applicationOgg,           SSFileExtU.ogg);
+    
+    
+    fileExtForMimTypes.put(SSFileExtU.pdf,   applicationPdf);
+    fileExtForMimTypes.put(SSFileExtU.doc,   applicationMsword);
+    fileExtForMimTypes.put(SSFileExtU.ppt,   applicationMspowerpoint);
+    fileExtForMimTypes.put(SSFileExtU.mdb,   applicationMsaccess);
+    fileExtForMimTypes.put(SSFileExtU.xls,   applicationMsexcel);
+    fileExtForMimTypes.put(SSFileExtU.docx,  applicationMsword2007);
+    fileExtForMimTypes.put(SSFileExtU.accdb, applicationMsaccess2007);
+    fileExtForMimTypes.put(SSFileExtU.xlsx,  applicationMsexcel2007);
+    fileExtForMimTypes.put(SSFileExtU.txt,   textPlain);
+    fileExtForMimTypes.put(SSFileExtU.jpg,   imageJpeg);
+    fileExtForMimTypes.put(SSFileExtU.png,   imagePng);
+    fileExtForMimTypes.put(SSFileExtU.mp3,   audioMp3);
+    fileExtForMimTypes.put(SSFileExtU.avi,   videoAvi);
+    fileExtForMimTypes.put(SSFileExtU.mp4,   videoMp4);
+    fileExtForMimTypes.put(SSFileExtU.mpeg,  videoMpeg);
+    fileExtForMimTypes.put(SSFileExtU.mov,   videoQuicktime);
+    fileExtForMimTypes.put(SSFileExtU.midi,  audioMidi);
+    fileExtForMimTypes.put(SSFileExtU.ico,   imageIcon);
+    fileExtForMimTypes.put(SSFileExtU.html,  textHtml);
+    fileExtForMimTypes.put(SSFileExtU.gif,   imageGif);
+    fileExtForMimTypes.put(SSFileExtU.css,   textCss);
+    fileExtForMimTypes.put(SSFileExtU.bmp,   imageBmp);
+    fileExtForMimTypes.put(SSFileExtU.atom,  applicationAtom);
+    fileExtForMimTypes.put(SSFileExtU.latex, applicationLatex);
+    fileExtForMimTypes.put(SSFileExtU.svg,   imageSvg);
+    fileExtForMimTypes.put(SSFileExtU.rdf,   applicationRdf);
+    fileExtForMimTypes.put(SSFileExtU.ogg,   applicationOgg);
   }
   
   public static String fileExtForMimeType(String mimeType) throws Exception{
@@ -99,6 +130,16 @@ public class SSMimeTypeU {
     }
     
 		SSLogU.errThrow(new Exception("file ext not found for mime type"));
+    return null;
+	}
+  
+  public static String mimeTypeForFileExt(String ext) throws Exception{
+		
+    if(fileExtForMimTypes.containsKey(ext)){
+      return fileExtForMimTypes.get(ext);
+    }
+    
+		SSLogU.errThrow(new Exception("mime type not found for file ext"));
     return null;
 	}
 }
