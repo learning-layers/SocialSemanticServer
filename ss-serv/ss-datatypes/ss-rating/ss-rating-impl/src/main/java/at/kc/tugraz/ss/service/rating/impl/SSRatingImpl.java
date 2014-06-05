@@ -243,6 +243,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         ratingUri,
         SSLabel.get(ratingUri.toString()),
         SSEntityE.rating,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -250,6 +251,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         par.entity,
         SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.rateEntityByUser (ratingUri, par.user, par.entity, par.value);

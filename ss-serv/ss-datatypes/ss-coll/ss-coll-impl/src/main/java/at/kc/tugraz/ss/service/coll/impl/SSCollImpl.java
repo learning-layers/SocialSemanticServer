@@ -387,6 +387,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         rootCollUri,
         SSLabel.get(SSStrU.valueRoot),
         SSEntityE.coll,
+        null,
         false);
       
       sqlFct.addColl (rootCollUri);

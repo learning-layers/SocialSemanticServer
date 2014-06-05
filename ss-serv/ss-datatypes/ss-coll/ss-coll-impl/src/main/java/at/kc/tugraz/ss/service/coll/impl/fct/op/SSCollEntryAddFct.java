@@ -50,6 +50,7 @@ public class SSCollEntryAddFct{
       par.entry,
       par.label,
       SSEntityE.coll, 
+      null,
       false);
     
     sqlFct.addColl(par.entry);
@@ -113,6 +114,7 @@ public class SSCollEntryAddFct{
       par.entry,
       par.label,
       SSEntityE.entity,
+      null,
       false);
     
     sqlFct.addCollEntry(par.coll, par.entry);

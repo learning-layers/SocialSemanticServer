@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -29,9 +30,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityAddPar extends SSServPar{
   
-  public SSUri     entity  = null;
-  public SSLabel   label   = null;
-  public SSEntityE type    = null;
+  public SSUri         entity         = null;
+  public SSLabel       label          = null;
+  public SSEntityE     type           = null;
+  public SSTextComment description    = null;
     
   public SSEntityAddPar(SSServPar par) throws Exception{
       
@@ -40,9 +42,10 @@ public class SSEntityAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity   = (SSUri)     pars.get(SSVarU.entity);
-        label    = (SSLabel)   pars.get(SSVarU.label);
-        type     = (SSEntityE) pars.get(SSVarU.type);
+        entity          = (SSUri)         pars.get(SSVarU.entity);
+        label           = (SSLabel)       pars.get(SSVarU.label);
+        type            = (SSEntityE)     pars.get(SSVarU.type);
+        description     = (SSTextComment) pars.get(SSVarU.description);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

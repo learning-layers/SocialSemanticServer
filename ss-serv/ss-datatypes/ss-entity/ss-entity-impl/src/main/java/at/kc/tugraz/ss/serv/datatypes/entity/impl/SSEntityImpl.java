@@ -112,9 +112,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(true);
       
-      parA.shouldCommit = false;
+      final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
       
-      final SSEntityUserSharePar par       = new SSEntityUserSharePar(parA);
+      par.shouldCommit = false;
+      
       final SSUri                entityUri = entityUserShare(par);
       
       SSEntityActivityFct.entityShare(par);
@@ -123,7 +124,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUri, parA.op));
       
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        entityShare(sSCon, parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+      }
+      
     }catch(Exception error){
+      
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -380,7 +391,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.entity, 
         par.label, 
         par.type, 
-        par.user);
+        par.user, 
+        par.description);
       
       return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
@@ -411,7 +423,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.label, 
         par.creationTime, 
         par.type, 
-        par.user);
+        par.user, 
+        par.description);
       
       return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
@@ -912,7 +925,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       return entityUserShare(new SSEntityUserSharePar(parA));
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserShare(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -945,17 +968,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       dbSQL.commit(par.shouldCommit);
       
       return circleUri;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(par)){
-        return entityUserShare(par);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
     }catch(Exception error){
-      dbSQL.rollBack(par);
       SSServErrReg.regErrThrow(error);
       return null;
     }

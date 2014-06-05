@@ -218,6 +218,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           video.label, 
           video.creationTime,
           SSEntityE.entity, 
+          null,
           true);
         
         SSServCaller.tagsAddAtCreationTime(

@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -29,10 +30,11 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityAddAtCreationTimePar extends SSServPar{
   
-  public SSUri     entity       = null;
-  public SSLabel   label        = null;
-  public Long      creationTime = null;
-  public SSEntityE type         = null;
+  public SSUri         entity       = null;
+  public SSLabel       label        = null;
+  public Long          creationTime = null;
+  public SSEntityE     type         = null;
+  public SSTextComment description  = null;
     
   public SSEntityAddAtCreationTimePar(SSServPar par) throws Exception{
       
@@ -41,10 +43,11 @@ public class SSEntityAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)        pars.get(SSVarU.entity);
-        label        = (SSLabel)      pars.get(SSVarU.label);
-        creationTime = (Long)         pars.get(SSVarU.creationTime);
-        type         = (SSEntityE)    pars.get(SSVarU.type);
+        entity       = (SSUri)            pars.get(SSVarU.entity);
+        label        = (SSLabel)          pars.get(SSVarU.label);
+        creationTime = (Long)             pars.get(SSVarU.creationTime);
+        type         = (SSEntityE)        pars.get(SSVarU.type);
+        description  = (SSTextComment)    pars.get(SSVarU.description);
       }
       
     }catch(Exception error){

@@ -99,6 +99,7 @@ public class SSDataImportEvernoteHelper {
         notebookLabel,
         notebook.getServiceCreated(),
         SSEntityE.evernoteNotebook,
+        null,
         false);
       
       evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
@@ -137,6 +138,7 @@ public class SSDataImportEvernoteHelper {
         notebookLabel,
         creationTimeForLinkedNotebook,
         SSEntityE.evernoteNotebook,
+        null,
         false);
       
       evernoteHelper.ueHelper.addUEsForLinkedNotebook(
@@ -211,6 +213,7 @@ public class SSDataImportEvernoteHelper {
         noteLabel,
         note.getCreated(),
         SSEntityE.evernoteNote,
+        null,
         false);
       
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
@@ -250,6 +253,7 @@ public class SSDataImportEvernoteHelper {
         resourceLabel,
         note.getUpdated(),
         SSEntityE.evernoteResource,
+        null,
         false);
       
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);

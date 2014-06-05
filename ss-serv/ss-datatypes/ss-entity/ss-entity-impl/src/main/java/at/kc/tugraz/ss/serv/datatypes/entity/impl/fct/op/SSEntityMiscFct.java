@@ -159,6 +159,7 @@ public class SSEntityMiscFct{
         circleUri,
         circleLabel,
         SSEntityE.circle,
+        null,
         false);
       
       switch(circleType){
@@ -189,6 +190,7 @@ public class SSEntityMiscFct{
           entityUri,
           SSLabel.get(SSUri.toStr(entityUri)),
           SSEntityE.entity,
+          null,
           false);
       }
     }catch(Exception error){

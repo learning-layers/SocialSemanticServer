@@ -217,6 +217,7 @@ public class SSFileUploader extends SSServImplStartA{
       uri, 
       par.label, 
       SSEntityE.file, 
+      null,
       true);
   }
 }

@@ -165,6 +165,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         activityUri,
         SSLabel.get(SSActivityE.toStr(par.type)),
         SSEntityE.activity,
+        null,
         false);
       
       sqlFct.addActivity(

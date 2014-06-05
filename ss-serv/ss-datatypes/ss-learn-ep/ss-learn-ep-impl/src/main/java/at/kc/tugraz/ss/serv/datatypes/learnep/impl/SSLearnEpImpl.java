@@ -390,6 +390,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         learnEpTimelineStateUri,
         SSLabel.get(learnEpTimelineStateUri.toString()),
         SSEntityE.learnEpTimelineState,
+        null,
         false);
       
       sqlFct.setLearnEpVersionTimelineState(
@@ -534,6 +535,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.entity,
         SSLabel.get(SSStrU.toString(par.entity)), 
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.updateEntity(par.learnEpEntity, par.entity, par.x, par.y);
@@ -571,6 +573,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         learnEpUri,
         par.label,
         SSEntityE.learnEp,
+        null,
         false);
       
       sqlFct.createLearnEp(learnEpUri, par.user, par.space);
@@ -608,6 +611,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         learnEpVersionUri,
         SSLabel.get(learnEpVersionUri.toString()),
         SSEntityE.learnEpVersion,
+        null,
         false);
       
       sqlFct.createLearnEpVersion(learnEpVersionUri, par.learnEp);
@@ -645,6 +649,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         circleUri,
         par.label,
         SSEntityE.learnEpCircle,
+        null,
         false);
       
       sqlFct.addCircleToLearnEpVersion(
@@ -691,6 +696,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         learnEpEntityUri,
         SSLabel.get(learnEpEntityUri.toString()),
         SSEntityE.learnEpEntity,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -698,6 +704,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.entity,
         SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.addEntityToLearnEpVersion(

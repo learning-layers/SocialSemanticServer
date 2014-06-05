@@ -228,6 +228,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         categoryUri,       
         SSLabel.get(SSCategoryLabel.toStr(par.label)), 
         SSEntityE.category,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -235,6 +236,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         par.entity,
         SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.addCategoryAssIfNotExists(
@@ -280,6 +282,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         SSLabel.get(SSStrU.toString(par.label)),
         par.creationTime,
         SSEntityE.category,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -287,6 +290,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         par.entity,
         SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.addCategoryAssIfNotExists(

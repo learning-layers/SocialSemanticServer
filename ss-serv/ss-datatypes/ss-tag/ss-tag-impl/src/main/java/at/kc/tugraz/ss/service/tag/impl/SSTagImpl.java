@@ -225,6 +225,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         tagUri,       
         SSLabel.get(SSTagLabel.toStr(par.label)), 
         SSEntityE.tag,
+        null,
         false);
 
       SSServCaller.entityAdd(
@@ -232,6 +233,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         par.entity, 
         SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
+        null,
         false);
       
         sqlFct.addTagAssIfNotExists(
@@ -277,6 +279,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSLabel.get(SSStrU.toString(par.label)),
         par.creationTime,
         SSEntityE.tag,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -284,6 +287,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         par.entity,
         SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.addTagAssIfNotExists(

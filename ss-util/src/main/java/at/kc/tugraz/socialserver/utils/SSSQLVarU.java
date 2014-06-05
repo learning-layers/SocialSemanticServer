@@ -22,7 +22,7 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
-  public static final String explanation                                    = "explanation";
+  public static final String description                                    = "description";
   public static final String authKey                                        = "authKey";
   public static final String accessRight                                    = "accessRight";
   public static final String circleType                                     = "circleType";
@@ -33,7 +33,6 @@ public class SSSQLVarU{
   public static final String learnEpTimelineStateId                         = "learnEpTimelineStateId";
   public static final String discEntryContent                               = "discEntryContent";
   public static final String discEntryId                                    = "discEntryId";
-  public static final String target                                         = "target";
   public static final String discId                                         = "discId";
 //  public static final String discLabel                                      = "discLabel";
   public static final String learnEpEntityId                                = "learnEpEntityId";

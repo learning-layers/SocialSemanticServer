@@ -378,13 +378,12 @@ DROP TABLE IF EXISTS `disc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disc` (
   `discId` varchar(200) NOT NULL,
-  `target` varchar(200) NOT NULL,
-  `explanation` varchar(400) NOT NULL,
-  PRIMARY KEY (`discId`,`target`),
+  `entityId` varchar(200) NOT NULL,
+  PRIMARY KEY (`discId`,`entityId`),
   KEY `discIdFKdisc_idx` (`discId`),
-  KEY `targetFKdisc_idx` (`target`),
-  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `targetFKdisc` FOREIGN KEY (`target`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `targetFKdisc_idx` (`entityId`),
+  CONSTRAINT `entityIdFKdisc` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -487,6 +486,7 @@ CREATE TABLE `entity` (
   `creationTime` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
+  `description` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -943,4 +943,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-05 15:06:13
+-- Dump completed on 2014-06-05 17:11:53

@@ -114,10 +114,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       table     (tables,    discUserTable);
       table     (tables,    discTable);     
-      column    (columns,   discUserTable,    SSSQLVarU.discId);
-      where     (wheres,    SSSQLVarU.userId, userUri);
-      where     (wheres,    SSSQLVarU.target, targetUri);
-      tableCon  (tableCons, discTable,        SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
+      column    (columns,   discUserTable,      SSSQLVarU.discId);
+      where     (wheres,    SSSQLVarU.userId,   userUri);
+      where     (wheres,    SSSQLVarU.entityId, targetUri);
+      tableCon  (tableCons, discTable,          SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
@@ -133,15 +133,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   public void addDisc(
     final SSUri         userUri,
     final SSUri         discUri,
-    final SSUri         targetUri,
-    final SSTextComment explanation) throws Exception{
+    final SSUri         targetUri) throws Exception{
     
     try{
       final Map<String, String> inserts =  new HashMap<String,String>();
       
       insert(inserts, SSSQLVarU.discId,      discUri);
-      insert(inserts, SSSQLVarU.target,      targetUri);
-      insert(inserts, SSSQLVarU.explanation, explanation);
+      insert(inserts, SSSQLVarU.entityId,    targetUri);
       
       dbSQL.insert(discTable, inserts);
       
@@ -299,9 +297,9 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       column    (columns,   SSSQLVarU.label);
       column    (columns,   SSSQLVarU.author);
       column    (columns,   SSSQLVarU.discId);
-      column    (columns,   SSSQLVarU.target);
+      column    (columns,   SSSQLVarU.entityId);
       column    (columns,   SSSQLVarU.type);
-      column    (columns,   SSSQLVarU.explanation);
+      column    (columns,   SSSQLVarU.description);
       column    (columns,   SSSQLVarU.creationTime);
       where     (wheres,    SSSQLVarU.discId, discUri);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
@@ -314,10 +312,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         discUri,
         bindingStrToLabel      (resultSet, SSSQLVarU.label),
         bindingStrToUri        (resultSet, SSSQLVarU.author),
-        bindingStrToUri        (resultSet, SSSQLVarU.target),
+        bindingStrToUri        (resultSet, SSSQLVarU.entityId),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
         null,
-        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.explanation)),
+        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
         bindingStrToLong(resultSet, SSSQLVarU.creationTime));
       
     }catch(Exception error){

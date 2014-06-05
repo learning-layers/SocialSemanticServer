@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -116,11 +117,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public void addEntityAtCreationTimeIfNotExists(
-    final SSUri        entityUri, 
-    final SSEntityA    label, 
-    final Long         creationTime, 
-    final SSEntityE    entityType, 
-    final SSUri        authorUri) throws Exception{
+    final SSUri         entityUri, 
+    final SSEntityA     label, 
+    final Long          creationTime, 
+    final SSEntityE     entityType, 
+    final SSUri         authorUri,
+    final SSTextComment description) throws Exception{
 
     try{
       final Map<String, String> inserts     = new HashMap<String, String>();
@@ -148,6 +150,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         insert(inserts, SSSQLVarU.author, authorUri);
       }
       
+      if(description == null){
+        insert(inserts, SSSQLVarU.description, SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarU.description, description);
+      }
+      
       dbSQL.insertIfNotExists(entityTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -155,10 +163,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public void addEntityIfNotExists(
-    final SSUri        entityUri,
-    final SSEntityA    label,
-    final SSEntityE    entityType,
-    final SSUri        authorUri) throws Exception{
+    final SSUri         entityUri,
+    final SSEntityA     label,
+    final SSEntityE     entityType,
+    final SSUri         authorUri,
+    final SSTextComment description) throws Exception{
     
     try{
       final Map<String, String> inserts    = new HashMap<String, String>();
@@ -184,6 +193,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         insert(inserts, SSSQLVarU.author, SSStrU.empty);
       }else{
         insert(inserts, SSSQLVarU.author, authorUri);
+      }
+      
+      if(description == null){
+        insert(inserts, SSSQLVarU.description, SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarU.description, description);
       }
       
       dbSQL.insertIfNotExists(entityTable, inserts, uniqueKeys);
@@ -292,7 +307,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         circleUri, 
         SSLabel.get(SSStrU.empty), 
         SSEntityE.circle, 
-        SSUserGlobals.systemUser);
+        SSUserGlobals.systemUser,
+        null);
 
       insert(inserts, SSSQLVarU.circleId,   circleUri);
       insert(inserts, SSSQLVarU.circleType, SSCircleE.pub);

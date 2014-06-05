@@ -224,6 +224,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
         locationUri,
         SSLabel.get(par.location),
         SSEntityE.location,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -231,6 +232,7 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
         par.entity,
         SSLabel.get(SSStrU.empty),
         SSEntityE.entity,
+        null,
         false);
       
       if(!existsLocation){

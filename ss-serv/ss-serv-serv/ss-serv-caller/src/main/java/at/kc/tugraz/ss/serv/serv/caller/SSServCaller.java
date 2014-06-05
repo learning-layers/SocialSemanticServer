@@ -192,12 +192,13 @@ public class SSServCaller {
   }
   
   public static void entityAddAtCreationTime(
-    final SSUri        user,
-    final SSUri        entity,
-    final SSLabel      label,
-    final Long         creationTime,
-    final SSEntityE    type,
-    final Boolean      shouldCommit) throws Exception{
+    final SSUri         user,
+    final SSUri         entity,
+    final SSLabel       label,
+    final Long          creationTime,
+    final SSEntityE     type,
+    final SSTextComment description,
+    final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -206,17 +207,19 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.creationTime, creationTime);
     opPars.put(SSVarU.type,         type);
+    opPars.put(SSVarU.description,  description);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityAddAtCreationTime, opPars));
   }
   
   public static void entityAdd(
-    final SSUri        user,
-    final SSUri        entity,
-    final SSLabel      label,
-    final SSEntityE    type,
-    final Boolean      shouldCommit) throws Exception{
+    final SSUri         user,
+    final SSUri         entity,
+    final SSLabel       label,
+    final SSEntityE     type,
+    final SSTextComment description, 
+    final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
@@ -224,6 +227,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.type,         type);
+    opPars.put(SSVarU.description,  description);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));

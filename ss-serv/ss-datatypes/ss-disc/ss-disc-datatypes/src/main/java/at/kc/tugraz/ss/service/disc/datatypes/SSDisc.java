@@ -45,20 +45,20 @@ public class SSDisc extends SSEntityA {
     final SSUri             uri,
     final SSLabel           label,
     final SSUri             author,
-    final SSUri             target,
+    final SSUri             entity,
     final SSEntityE         discType,
     final List<SSDiscEntry> entries,
     final SSTextComment     explanation,
     final Long              creationTime) throws Exception{
     
-    return new SSDisc(uri, label, author, target, discType, entries, explanation, creationTime);
+    return new SSDisc(uri, label, author, entity, discType, entries, explanation, creationTime);
   }
 
   private SSDisc(
     final SSUri             uri,
     final SSLabel           label,
     final SSUri             author,
-    final SSUri             target,
+    final SSUri             entity,
     final SSEntityE         discType,
     final List<SSDiscEntry> entries, 
     final SSTextComment     explanation,
@@ -69,7 +69,7 @@ public class SSDisc extends SSEntityA {
     this.id       = uri;
     this.label        = label;
     this.author       = author;
-    this.entity   = target;
+    this.entity   = entity;
     this.type     = discType;
     this.explanation  = explanation;
     this.creationTime = creationTime;

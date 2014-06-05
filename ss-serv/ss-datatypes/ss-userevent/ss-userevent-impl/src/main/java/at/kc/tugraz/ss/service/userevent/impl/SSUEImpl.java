@@ -201,6 +201,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         SSLabel.get(ueUri.toString()),
         par.creationTime,
         SSEntityE.userEvent,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -208,6 +209,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.entity,
         SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
         false);
       
       sqlFct.addUE(
@@ -260,6 +262,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.entity,
         SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
         false);
       
       SSServCaller.entityAdd(
@@ -267,6 +270,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         ueUri,
         SSLabel.get(ueUri.toString()),
         SSEntityE.userEvent,
+        null,
         false);
       
       sqlFct.addUE(

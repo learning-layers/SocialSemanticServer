@@ -129,6 +129,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           userUri,
           par.label,
           SSEntityE.user,
+          null,
           false);
         
         SSServCaller.entityEntitiesToCircleAdd(

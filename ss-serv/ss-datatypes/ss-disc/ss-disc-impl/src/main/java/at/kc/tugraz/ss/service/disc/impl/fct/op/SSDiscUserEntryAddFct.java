@@ -67,6 +67,7 @@ public class SSDiscUserEntryAddFct{
         discUri,
         discLabel,
         discType,
+        explanation,
         false);
       
       SSServCaller.entityAdd(
@@ -74,6 +75,7 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri,
         SSLabel.get(tmpTargetUri),
         SSEntityE.entity,
+        null,
         false);
       
       SSServCaller.entityCircleCreate(
@@ -88,8 +90,7 @@ public class SSDiscUserEntryAddFct{
       sqlFct.addDisc(
         userUri, 
         discUri, 
-        tmpTargetUri,
-        tmpExplanation);
+        tmpTargetUri);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -119,6 +120,7 @@ public class SSDiscUserEntryAddFct{
         discEntryUri,
         SSLabel.get(discEntryUri),
         discEntryType,
+        null,
         false);
       
       for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(userUri, discUri)){
