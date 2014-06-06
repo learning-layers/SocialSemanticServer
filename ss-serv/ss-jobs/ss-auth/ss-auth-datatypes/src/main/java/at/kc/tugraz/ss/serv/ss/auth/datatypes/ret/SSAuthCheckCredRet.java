@@ -70,6 +70,6 @@ public class SSAuthCheckCredRet extends SSServRetI{
   }  
   
   public String getUser() {
-    return SSUri.toStr(user);
+    return SSUri.toStrWithoutSlash(user);
   }  
 }
