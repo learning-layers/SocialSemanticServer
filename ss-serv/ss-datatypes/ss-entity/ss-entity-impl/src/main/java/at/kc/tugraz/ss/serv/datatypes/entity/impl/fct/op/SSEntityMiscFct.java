@@ -22,13 +22,11 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
@@ -308,30 +306,31 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static List<SSUri> searchWithKeywordWithinByEntityHandlers(
-    final SSUri      userUri, 
-    final SSUri      entityUri, 
-    final String     keyword) throws Exception{
+  public static List<SSUri> subEntitiesGetByEntityHandlers(
+    final SSUri      user, 
+    final SSUri      entity) throws Exception{
     
     try{
       
-      final SSEntityE    entityType = SSServCaller.entityGet(entityUri).type;
+      final SSEntityE    type = SSServCaller.entityGet(entity).type;
       List<SSUri>        entityUris;
       
-      if(SSEntityE.equals(entityType, SSEntityE.entity)){
+      if(SSEntityE.equals(type, SSEntityE.entity)){
         return new ArrayList<SSUri>();
       }
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
-        entityUris = ((SSEntityHandlerImplI) serv.serv()).searchWithKeywordWithin(userUri, entityUri, keyword, entityType);
+        entityUris = ((SSEntityHandlerImplI) serv.serv()).getSubEntities(user, entity, type);
         
         if(!SSObjU.isNull(entityUris)){
           return entityUris;
         }
       }
       
-      throw new Exception("entity couldnt be searched within by entity handlers");
+      SSLogU.warn("entity couldnt be searched within by entity handlers");
+      
+      return new ArrayList<SSUri>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

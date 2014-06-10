@@ -25,12 +25,11 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntitySearchWithKeywordWithinPar extends SSServPar{
+public class SSEntitySubEntitiesGetPar extends SSServPar{
   
   public SSUri     entity    = null;
-  public String    keyword   = null;
     
-  public SSEntitySearchWithKeywordWithinPar(SSServPar par) throws Exception{
+  public SSEntitySubEntitiesGetPar(SSServPar par) throws Exception{
       
     super(par);
     
@@ -38,7 +37,6 @@ public class SSEntitySearchWithKeywordWithinPar extends SSServPar{
       
       if(pars != null){
         entity      = (SSUri)  pars.get(SSVarU.entity);
-        keyword     = (String) pars.get(SSVarU.keyword);
       }
       
     }catch(Exception error){

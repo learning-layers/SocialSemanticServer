@@ -72,13 +72,13 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   /* SSEntityHandlerImplI */
-  
-  public List<SSUri> searchWithKeywordWithin(
-    final SSUri         userUri,
-    final SSUri         entityUri,
-    final String        keyword,
-    final SSEntityE     entityType) throws Exception{
-    
+
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+
     return null;
   }
   

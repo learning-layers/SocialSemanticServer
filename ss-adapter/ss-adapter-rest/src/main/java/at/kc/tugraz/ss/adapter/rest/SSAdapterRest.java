@@ -645,12 +645,22 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "searchCombined")
+  public String searchCombined(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchCombined);
+  }
+  
+  @POST
+  @Deprecated
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "searchTagsWithinEntity")
   public String searchTagsWithinEntity(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchTagsWithinEntity);
   }
   
   @POST
+  @Deprecated
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "searchMIs")
@@ -659,6 +669,7 @@ public class SSAdapterRest{
   }
   
   @POST
+  @Deprecated
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "searchSolr")
@@ -667,6 +678,7 @@ public class SSAdapterRest{
   }
   
   @POST
+  @Deprecated 
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "searchTags")

@@ -76,7 +76,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySearchWithKeywordWithinPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -1047,17 +1047,16 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSUri> entitySearchWithKeywordWithin(final SSServPar parA) throws Exception{
+  public List<SSUri> entitySubEntitiesGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntitySearchWithKeywordWithinPar par = new SSEntitySearchWithKeywordWithinPar(parA);
+      final SSEntitySubEntitiesGetPar par = new SSEntitySubEntitiesGetPar(parA);
       
-      SSEntityMiscFct.checkWhetherUserCanEditEntity(par.user, par.entity);
+      SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.entity);
       
-      return SSEntityMiscFct.searchWithKeywordWithinByEntityHandlers(
+      return SSEntityMiscFct.subEntitiesGetByEntityHandlers(
         par.user, 
-        par.entity, 
-        par.keyword);
+        par.entity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

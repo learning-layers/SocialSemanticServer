@@ -105,16 +105,12 @@ public class SSCollMiscFct{
 
   public static List<SSUri> getCollSubCollAndEntryURIs(
     final SSCollSQLFct sqlFct,
-    final SSColl startColl) throws Exception{
+    final SSColl       startColl) throws Exception{
 
     try{
 
-      if(SSObjU.isNull(startColl)){
-        throw new Exception("pars null");
-      }
-
       final List<String> subCollUris = new ArrayList<String>();
-      final List<SSUri> collAndCollEntryUris = new ArrayList<SSUri>();
+      final List<SSUri>  collAndCollEntryUris = new ArrayList<SSUri>();
 
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.id);

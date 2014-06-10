@@ -523,20 +523,6 @@ public class SSServCaller {
   
   /* colls */
   
-  public static List<SSUri> collSearchWithKeywordWithin(
-    final SSUri      user, 
-    final SSUri      coll, 
-    final String     keyword) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<String, Object>();
-    
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.coll,            coll);
-    opPars.put(SSVarU.keyword,         keyword);
-    
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.collSearchWithKeywordWithin, opPars)); 
-  }
-    
   public static SSUri collToCircleAdd(
     final SSUri   user, 
     final SSUri   circle, 
@@ -930,18 +916,16 @@ public class SSServCaller {
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
   }
   
-  public static List<SSUri> entitySearchWithKeywordWithin(
+  public static List<SSUri> entitySubEntitiesGet(
     final SSUri      user, 
-    final SSUri      entity, 
-    final String     keyword) throws Exception{
+    final SSUri      entity) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.entity, entity);
-    opPars.put(SSVarU.keyword,   keyword);
+    opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySearchWithKeywordWithin, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySubEntitiesGet, opPars));
   }
   
   public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(

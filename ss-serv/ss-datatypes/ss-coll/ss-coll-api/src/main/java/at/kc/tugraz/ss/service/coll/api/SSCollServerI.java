@@ -28,7 +28,6 @@ import java.util.List;
 
 public interface SSCollServerI{
   
-  public List<SSUri>                collSearchWithKeywordWithin                   (final SSServPar parA) throws Exception;
   public SSUri                      collToCircleAdd                               (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;

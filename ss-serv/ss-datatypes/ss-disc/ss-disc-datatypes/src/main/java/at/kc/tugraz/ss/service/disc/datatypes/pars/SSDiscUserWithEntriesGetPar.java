@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSDiscUserWithEntriesGetPar extends SSServPar{
   
-  public SSUri  disc                 = null;
+  public SSUri  disc             = null;
   public int    maxEntries       = 10;
       
   public SSDiscUserWithEntriesGetPar(SSServPar par) throws Exception{

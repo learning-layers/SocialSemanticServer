@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -72,11 +71,10 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   /* SSEntityHandlerImplI */
   
   @Override
-  public List<SSUri> searchWithKeywordWithin(
-    final SSUri         userUri,
-    final SSUri         entityUri,
-    final String        keyword,
-    final SSEntityE     entityType) throws Exception{
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
 
     return null;
   }

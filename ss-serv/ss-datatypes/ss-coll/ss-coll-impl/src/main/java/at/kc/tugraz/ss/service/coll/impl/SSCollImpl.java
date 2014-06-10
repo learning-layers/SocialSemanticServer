@@ -61,7 +61,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollSearchWithKeywordWithinPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -94,20 +93,27 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   
   /* SSEntityHandlerImplI */
 
-  public List<SSUri> searchWithKeywordWithin(
-    final SSUri         userUri,
-    final SSUri         entityUri,
-    final String        keyword,
-    final SSEntityE     entityType) throws Exception{
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
     
-    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
+    if(!SSEntityE.equals(type, SSEntityE.coll)){
       return null;
     }
     
-    return SSServCaller.collSearchWithKeywordWithin(
-      userUri,
-      entityUri,
-      keyword);
+    try{
+      
+      return SSCollMiscFct.getCollSubCollAndEntryURIs(
+        sqlFct,
+        sqlFct.getCollWithEntries(
+          entity,
+          new ArrayList<SSCircleE>()));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
       
   @Override
@@ -1072,43 +1078,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     }catch(Exception error){
       dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> collSearchWithKeywordWithin(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSCollSearchWithKeywordWithinPar   par               = new SSCollSearchWithKeywordWithinPar(parA);
-      final List<SSUri>                        searchResultUris  = new ArrayList<SSUri>();
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user is not allowed to search within collection");
-      }
-      
-      final List<SSUri> collSubCollAndEntryUris =
-        SSCollMiscFct.getCollSubCollAndEntryURIs(
-          sqlFct,
-          sqlFct.getCollWithEntries(
-            par.coll,
-            new ArrayList<SSCircleE>()));
-      
-      for(SSUri entityUri : collSubCollAndEntryUris){
-        
-        if(SSUri.contains(searchResultUris, entityUri)){
-          continue;
-        }
-        
-        if(!SSServCaller.tagsUserGet(par.user, entityUri, par.keyword, null).isEmpty()){
-          searchResultUris.add(entityUri);
-        }
-      }
-      
-      return searchResultUris;
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
