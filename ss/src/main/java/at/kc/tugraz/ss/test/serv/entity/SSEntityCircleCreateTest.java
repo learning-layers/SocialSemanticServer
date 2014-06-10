@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
@@ -45,11 +46,12 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
     final SSUri circleUri = 
       SSServCaller.entityCircleCreate(
         SSUserGlobals.systemUser, 
-        SSUri.get("http://www.google.at"), 
+        SSUri.asList(SSUri.get("http://www.google.at")), 
         userUris, 
         SSCircleE.priv,
         SSLabel.get("dieter priv circle"),
         SSUserGlobals.systemUser,
+        SSTextComment.get("circle description"),
         true);
     
     SSLogU.info("end " + op + "Test");

@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -27,10 +28,12 @@ import java.util.List;
 
 public class SSEntityUserCircleCreatePar extends SSServPar{
 
-  public List<SSUri>            entities    = new ArrayList<SSUri>();
-  public List<SSUri>            users       = new ArrayList<SSUri>();
-  public SSCircleE              type        = null;
-  public SSLabel                label       = null;
+  public List<SSUri>            entities     = new ArrayList<SSUri>();
+  public List<SSUri>            users        = new ArrayList<SSUri>();
+  public SSCircleE              type         = null;
+  public SSLabel                label        = null;
+  public SSTextComment          description  = null;
+  
   
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
     
@@ -39,10 +42,11 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     try{
     
       if(pars != null){
-        type       = (SSCircleE)       pars.get(SSVarU.type);
-        label      = (SSLabel)         pars.get(SSVarU.label);
-        entities   = (List<SSUri>)     pars.get(SSVarU.entities);
-        users      = (List<SSUri>)     pars.get(SSVarU.users);
+        type        = (SSCircleE)       pars.get(SSVarU.type);
+        label       = (SSLabel)         pars.get(SSVarU.label);
+        entities    = (List<SSUri>)     pars.get(SSVarU.entities);
+        users       = (List<SSUri>)     pars.get(SSVarU.users);
+        description = (SSTextComment)   pars.get(SSVarU.description);
       }
       
       if(clientPars != null){
@@ -55,6 +59,10 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
         
         try{
           users         = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          description         = SSTextComment.get(clientPars.get(SSVarU.description));
         }catch(Exception error){}
       }
     }catch(Exception error){

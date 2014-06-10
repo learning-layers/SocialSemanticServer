@@ -16,6 +16,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -31,6 +32,7 @@ public class SSEntityCircleCreatePar extends SSServPar{
   public SSCircleE             type         = null;
   public SSLabel               label        = null;
   public SSUri                 author       = null;
+  public SSTextComment         description  = null;
   
   public SSEntityCircleCreatePar(final SSServPar par) throws Exception{
     
@@ -44,6 +46,7 @@ public class SSEntityCircleCreatePar extends SSServPar{
         entities         = (List<SSUri>)     pars.get(SSVarU.entities);
         users            = (List<SSUri>)     pars.get(SSVarU.users);
         author           = (SSUri)           pars.get(SSVarU.author);
+        description      = (SSTextComment)   pars.get(SSVarU.description);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

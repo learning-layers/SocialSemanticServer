@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -33,6 +34,7 @@ public class SSUri extends SSEntityA{
     
     //    new URL(uriString); //import java.net.URL;
     if(uri == null){
+      SSLogU.err(new Exception("tried to create uri from null"));
       return null;
     }
     
@@ -50,6 +52,7 @@ public class SSUri extends SSEntityA{
     SSUri newUri = null;
     
     if(SSObjU.isNull(uri, append)){
+      SSLogU.err(new Exception("tried to create uri from null"));
       return null;
     }
     

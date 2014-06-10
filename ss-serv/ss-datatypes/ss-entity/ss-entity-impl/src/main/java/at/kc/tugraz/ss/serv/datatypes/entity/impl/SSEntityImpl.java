@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -567,6 +568,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.type,
           par.label,
           par.user,
+          par.description,
           false);
       
       SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
@@ -607,7 +609,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           sqlFct, 
           par.author, 
           par.type, 
-          par.label);
+          par.label, 
+          par.description);
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user, 
@@ -952,11 +955,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSUri circleUri =
         SSServCaller.entityCircleCreate(
           par.user,
-          par.entity,
+          SSUri.asList(par.entity),
           par.users,
           SSCircleE.group,
           SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entity)),
           SSUserGlobals.systemUser,
+          SSTextComment.get("system circle"),
           false);
       
       SSEntityMiscFct.shareByEntityHandlers(

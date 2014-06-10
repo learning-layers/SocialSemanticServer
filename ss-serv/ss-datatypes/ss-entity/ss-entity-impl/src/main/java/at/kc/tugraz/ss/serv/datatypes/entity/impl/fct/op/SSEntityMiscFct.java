@@ -148,7 +148,8 @@ public class SSEntityMiscFct{
     final SSEntitySQLFct          sqlFct,
     final SSUri                   circleAuthor,
     final SSCircleE               circleType,
-    final SSLabel                 circleLabel) throws Exception{
+    final SSLabel                 circleLabel,
+    final SSTextComment           description) throws Exception{
     
     try{
       
@@ -159,7 +160,7 @@ public class SSEntityMiscFct{
         circleUri,
         circleLabel,
         SSEntityE.circle,
-        null,
+        description,
         false);
       
       switch(circleType){

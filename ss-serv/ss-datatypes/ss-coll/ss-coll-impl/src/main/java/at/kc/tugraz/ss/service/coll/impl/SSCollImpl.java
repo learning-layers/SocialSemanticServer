@@ -394,11 +394,12 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       SSServCaller.entityCircleCreate(
         par.user,
-        rootCollUri,
+        SSUri.asList(rootCollUri),
         new ArrayList<SSUri>(),
         SSCircleE.priv,
         SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
         SSUserGlobals.systemUser,
+        null,
         false);
 
       SSServCaller.entityUsersToCircleAdd(

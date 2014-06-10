@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -48,18 +47,11 @@ public class SSDiscUserEntryAddFct{
     try{
       
       final SSUri         tmpTargetUri;
-      final SSTextComment tmpExplanation;
       
       if(targetUri == null){
         tmpTargetUri = discUri;
       }else{
         tmpTargetUri = targetUri;
-      }
-      
-      if(explanation == null){
-        tmpExplanation = SSTextComment.get(SSStrU.empty);
-      }else{
-        tmpExplanation = explanation;
       }
       
       SSServCaller.entityAdd(
@@ -80,11 +72,12 @@ public class SSDiscUserEntryAddFct{
       
       SSServCaller.entityCircleCreate(
         userUri, 
-        discUri,
+        SSUri.asList(discUri),
         new ArrayList<SSUri>(), 
         SSCircleE.priv, 
         discLabel, 
-        userUri, 
+        userUri,
+        null,
         false);
       
       sqlFct.addDisc(
