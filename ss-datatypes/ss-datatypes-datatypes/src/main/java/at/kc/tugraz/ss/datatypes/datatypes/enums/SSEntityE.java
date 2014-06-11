@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import java.util.ArrayList;
 import java.util.List;
 
 public enum SSEntityE implements SSJSONLDPropI{
@@ -70,6 +71,17 @@ public enum SSEntityE implements SSJSONLDPropI{
   userDesc, 
   locationDesc;
 
+  public static List<SSEntityE> get(final List<String> values){
+  
+    final List<SSEntityE> result = new ArrayList<SSEntityE>();
+    
+    for(String value : values){
+      result.add(get(value));
+    }
+    
+    return result;
+  }
+  
   public static SSEntityE get(final String value) {
     return SSEntityE.valueOf(value);
   }

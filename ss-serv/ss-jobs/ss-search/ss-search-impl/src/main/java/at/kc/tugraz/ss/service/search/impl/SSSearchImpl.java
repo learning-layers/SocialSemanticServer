@@ -25,7 +25,9 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -272,6 +274,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       final List<SSSearchResult> searchResults        = new ArrayList<SSSearchResult>();
       final List<SSSearchResult> searchResultsForUser = new ArrayList<SSSearchResult>();
       final List<SSUri>          subEntities          = new ArrayList<SSUri>();
+      SSEntity                   entityToCheckType;
       
       if(par.onlySubEntities){
       
@@ -347,6 +350,15 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           continue;
         }
         
+        if(!par.types.isEmpty()){
+          
+          entityToCheckType = SSServCaller.entityGet(searchResult.entity);
+        
+          if(!SSEntityE.contains(par.types, entityToCheckType.type)){
+            continue;
+          }
+        }
+
         searchResultsForUser.add(searchResult);
       }
       
