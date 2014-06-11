@@ -22,14 +22,16 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchSolrPar  extends SSServPar{
   
-  public List<SSSolrKeywordLabel>  keywords   = null;
+  public List<SSSolrKeywordLabel>  keywords   = new ArrayList<SSSolrKeywordLabel>();
   public String                    searchOp   = null;
     
   public SSSearchSolrPar(SSServPar par) throws Exception{
@@ -49,5 +51,26 @@ public class SSSearchSolrPar  extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  public static SSSearchSolrPar get(
+    final SSUri        user,
+    final List<String> keywords,
+    final String       searchOp) throws Exception{
+    
+    return new SSSearchSolrPar(user, keywords, searchOp);
+  }
+  
+  private SSSearchSolrPar(
+    final SSUri        user,
+    final List<String> keywords,
+    final String       searchOp) throws Exception{
+    
+    super();
+    
+    this.user     = user;
+    this.searchOp = searchOp;
+    
+    this.keywords.addAll(SSSolrKeywordLabel.get(SSStrU.distinctWithoutEmptyAndNull(keywords)));
   }
 }

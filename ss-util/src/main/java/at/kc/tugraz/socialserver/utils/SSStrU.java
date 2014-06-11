@@ -56,6 +56,7 @@ public class SSStrU{
   public  static final String backslashN                                      = "\n";
   public  static final String backslashR                                      = "\r";
   public  static final String backslashRBackslashN                            = "\r\n";
+  public  static final String singleQuote                                     = "'";
   
   //characters encoded
   public  static final String ampersandEncoded                                = "&amp;";

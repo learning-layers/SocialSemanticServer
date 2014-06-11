@@ -154,6 +154,8 @@ public class SSServPar{
     this.pars         = par.pars;
     this.clientPars   = par.clientPars;
   }
+  
+  protected SSServPar(){}
 }
 //public class SSRequ {
 //	

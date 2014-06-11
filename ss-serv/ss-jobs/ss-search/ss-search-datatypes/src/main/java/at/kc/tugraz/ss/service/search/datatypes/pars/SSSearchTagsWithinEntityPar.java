@@ -25,12 +25,13 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchTagsWithinEntityPar extends SSServPar{
   
   public SSUri         entity  = null;
-  public List<String>  tags    = null;
+  public List<String>  tags    = new ArrayList<String>();
     
   public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
       
@@ -48,6 +49,29 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static SSSearchTagsWithinEntityPar get(
+    final SSUri        user,
+    final SSUri        entity, 
+    final List<String> tags) throws Exception{
+    
+    return new SSSearchTagsWithinEntityPar(user, entity, tags);
+  }
+  
+  private SSSearchTagsWithinEntityPar(
+    final SSUri        user,
+    final SSUri        entity,
+    final List<String> tags) throws Exception{
+    
+    super();
+    
+    this.user   = user;
+    this.entity = entity;
+    
+    if(tags != null){
+      this.tags.addAll(tags);
     }
   }
 }

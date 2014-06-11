@@ -306,7 +306,7 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static List<SSUri> subEntitiesGetByEntityHandlers(
+  public static List<SSUri> getSubEntitiesByEntityHandlers(
     final SSUri      user, 
     final SSUri      entity) throws Exception{
     

@@ -51,4 +51,21 @@ public class SSSearchMIsPar extends SSServPar{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public static SSSearchMIsPar get(
+    final List<String> mIs,
+    final String       searchOp) throws Exception{
+    
+    return new SSSearchMIsPar(mIs, searchOp);
+  }
+  
+  private SSSearchMIsPar(
+    final List<String> mIs,
+    final String       searchOp) throws Exception{
+    
+    super();
+    
+    this.searchOp = searchOp;
+    this.mIs      = SSModelUEMILabel.get(SSStrU.distinctWithoutEmptyAndNull(mIs));
+  }   
 }

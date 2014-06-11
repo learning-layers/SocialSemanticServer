@@ -67,6 +67,12 @@ public class SSVarU{
   public static final String learnEpTimelineState                           = "learnEpTimelineState";
   public static final String learnEpVersion                                 = "learnEpVersion";
   public static final String entities                                       = "entities";
+  public static final String onlySubEntities                                = "onlySubEntities";
+  public static final String includeDescription                             = "includeDescription";
+  public static final String includeMIs                                     = "includeMIs";
+  public static final String includeTags                                    = "includeTags";
+  public static final String includeLabel                                   = "includeLabel";
+  public static final String includeTextualContent                          = "includeTextualContent";
   public static final String circles                                        = "circles";
   public static final String learnEpVersions                                = "learnEpVersions";
   public static final String learnEps                                       = "learnEps";

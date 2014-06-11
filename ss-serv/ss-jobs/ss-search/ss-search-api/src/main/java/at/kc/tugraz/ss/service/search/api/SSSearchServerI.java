@@ -26,6 +26,7 @@ import java.util.List;
 
 public interface SSSearchServerI {
 
+  public List<SSSearchResult> searchCombined         (final SSServPar parA) throws Exception;
   public List<SSSearchResult> searchTags             (final SSServPar parA) throws Exception;
   public List<SSSearchResult> searchTagsWithinEntity (final SSServPar parA) throws Exception;
   public List<SSSearchResult> searchMIs              (final SSServPar parA) throws Exception;

@@ -877,7 +877,37 @@ public class SSServCaller {
   }
   
   /* entity */
-
+  
+  public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
+    final List<String> keywords) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.keywords, keywords);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForLabelsAndDescriptionsGet, opPars));
+  }
+  
+  public static List<SSEntity> entitiesForLabelsGet(
+    final List<String> keywords) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.keywords, keywords);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForLabelsGet, opPars));
+  }
+  
+  public static List<SSEntity> entitiesForDescriptionsGet(
+    final List<String> keywords) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<String, Object>();
+    
+    opPars.put(SSVarU.keywords, keywords);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForDescriptionsGet, opPars));
+  }
+  
   public static Boolean entityExists(
     final SSEntityE  type,
     final SSLabel    label) throws Exception{
@@ -916,7 +946,7 @@ public class SSServCaller {
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
   }
   
-  public static List<SSUri> entitySubEntitiesGet(
+  public static List<SSUri> entityUserSubEntitiesGet(
     final SSUri      user, 
     final SSUri      entity) throws Exception{
     
@@ -925,7 +955,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entitySubEntitiesGet, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserSubEntitiesGet, opPars));
   }
   
   public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(

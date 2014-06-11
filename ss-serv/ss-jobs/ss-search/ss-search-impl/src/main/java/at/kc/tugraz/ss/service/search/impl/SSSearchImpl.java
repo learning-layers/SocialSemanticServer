@@ -34,9 +34,11 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCombinedPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
+import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchCombinedRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchMIsRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchSolrRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsRet;
@@ -54,6 +56,14 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   /* SSSearchClientI */
   
   @Override
+  public void searchCombined(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSSearchCombinedRet.get(searchCombined(parA), parA.op));
+  }
+  
+  @Override
   public void searchTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCaller.checkKey(parA);
@@ -66,9 +76,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     SSServCaller.checkKey(parA);
     
-    List<SSSearchResult> searchResults = searchMIs(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchMIsRet.get(searchResults, parA.op));
+    sSCon.writeRetFullToClient(SSSearchMIsRet.get(searchMIs(parA), parA.op));
   }
   
   @Override
@@ -91,13 +99,38 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Override
   public List<SSSearchResult> searchTags(final SSServPar parA) throws Exception {
-    
-    final SSSearchTagsPar                   par                 = new SSSearchTagsPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerTag = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              result;
-    List<SSSearchResult>                    searchResultsForTagOneTag;
+    return searchTags(new SSSearchTagsPar(parA));
+  }
+  
+  @Override
+  public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
+    return searchSolr(new SSSearchSolrPar(parA));
+  }
+  
+  @Override
+  public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
+    return searchMIs(new SSSearchMIsPar(parA));
+  }
+  
+  @Override
+  public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
+    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
+  }
+  
+  @Override
+  public List<SSSearchResult> searchCombined(final SSServPar parA) throws Exception {
+    return searchCombined(new SSSearchCombinedPar(parA));
+  }
+  
+  /* protected */
+
+  protected List<SSSearchResult> searchTags(final SSSearchTagsPar par) throws Exception {
     
     try{
+      
+      final Map<String, List<SSSearchResult>> searchResultsPerTag = new HashMap<String, List<SSSearchResult>>();
+      final List<SSSearchResult>              result;
+      List<SSSearchResult>                    searchResultsForTagOneTag;
       
       for(String tagLabel : par.tags){
         
@@ -111,7 +144,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             SSSpaceE.sharedSpace)){
           
           searchResultsForTagOneTag.add(
-            new SSSearchResult(
+            SSSearchResult.get(
               foundEntity,
               SSSpaceE.sharedSpace));
         }
@@ -124,7 +157,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             SSSpaceE.privateSpace)){
           
           searchResultsForTagOneTag.add(
-            new SSSearchResult(
+            SSSearchResult.get(
               foundEntity,
               SSSpaceE.privateSpace));
         }
@@ -142,17 +175,15 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
-  @Override
-  public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
-    
-    final SSSearchSolrPar                   par                        = new SSSearchSolrPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
-    
-    try{
-    
-      for(SSSolrKeywordLabel keyword : par.keywords){
+  protected List<SSSearchResult> searchSolr(final SSSearchSolrPar par) throws Exception{
 
+    try{
+      
+      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+      
+      for(SSSolrKeywordLabel keyword : par.keywords){
+        
         searchResultsForOneKeyword.clear();
         
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
@@ -163,7 +194,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             searchResultsForOneKeyword);
         }
 
-        searchResultsPerKeyword.put(SSSolrKeywordLabel.toStr(keyword), searchResultsForOneKeyword);
+        searchResultsPerKeyword.put(SSSolrKeywordLabel.toStr(keyword), new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
@@ -173,28 +204,26 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
-  @Override
-  public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
-    
-    final SSSearchMIsPar                    par                        = new SSSearchMIsPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+  protected List<SSSearchResult> searchMIs(final SSSearchMIsPar par) throws Exception{
     
     try{
       
+      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+     
       for(SSModelUEMILabel mi : par.mIs){
         
         searchResultsForOneKeyword.clear();
         
         for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
-         
+          
           SSSearchMiscFct.getPublicAndPrivateResults(
             par.user,
             entityUri,
             searchResultsForOneKeyword);
         }
-
-        searchResultsPerKeyword.put(SSModelUEMILabel.toStr(mi), searchResultsForOneKeyword);
+        
+        searchResultsPerKeyword.put(SSModelUEMILabel.toStr(mi), new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
@@ -204,21 +233,19 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
-  @Override
-  public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
-    
-    final SSSearchTagsWithinEntityPar       par                        = new SSSearchTagsWithinEntityPar(parA);
-    final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<String, List<SSSearchResult>>();
-    final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+  protected List<SSSearchResult> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
     
     try{
+      
+      final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<String, List<SSSearchResult>>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
       
       for(String tag : par.tags){
         
         searchResultsForOneKeyword.clear();
         
-        for(SSUri entityUri : SSServCaller.entitySubEntitiesGet(par.user, par.entity)){
-         
+        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asList(par.entity))){
+          
           if(SSServCaller.tagsUserGet(par.user, entityUri, tag, null).isEmpty()){
             continue;
           }
@@ -228,11 +255,102 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             entityUri,
             searchResultsForOneKeyword);
         }
-
-        searchResultsPerTag.put(tag, searchResultsForOneKeyword);
+        
+        searchResultsPerTag.put(tag, new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, SSStrU.valueOr, searchResultsPerTag);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  protected List<SSSearchResult> searchCombined(final SSSearchCombinedPar par) throws Exception{
+    
+    try{
+      final List<SSSearchResult> searchResults        = new ArrayList<SSSearchResult>();
+      final List<SSSearchResult> searchResultsForUser = new ArrayList<SSSearchResult>();
+      final List<SSUri>          subEntities          = new ArrayList<SSUri>();
+      
+      if(par.onlySubEntities){
+      
+        subEntities.addAll(
+          SSSearchMiscFct.getSubEntities(
+            par.user, 
+            par.entities));
+
+        if(par.includeTags){
+      
+          for(SSUri entity : subEntities){
+            
+            searchResults.addAll(
+              searchTagsWithinEntity(
+                SSSearchTagsWithinEntityPar.get(
+                  par.user,
+                  entity,
+                  par.keywords)));
+          }
+        }
+      }
+      
+      if(
+        par.includeTags &&
+        !par.onlySubEntities){
+        
+        searchResults.addAll(
+          searchTags(
+            SSSearchTagsPar.get(
+              par.user,
+              par.keywords,
+              SSStrU.valueOr,
+              10)));
+      }
+      
+      if(par.includeTextualContent){
+        
+        searchResults.addAll(
+          SSSearchMiscFct.filterSearchResultsForSubEntitySearch(
+            searchSolr(
+              SSSearchSolrPar.get(
+                par.user,
+                par.keywords,
+                SSStrU.valueOr)),
+            par.onlySubEntities,
+            subEntities));
+      }
+      
+      if(par.includeMIs){
+        
+        searchResults.addAll(
+          SSSearchMiscFct.filterSearchResultsForSubEntitySearch(
+            searchMIs(
+              SSSearchMIsPar.get(
+                par.keywords,
+                SSStrU.valueOr)),
+            par.onlySubEntities,
+            subEntities));
+      }
+      
+      searchResults.addAll(
+        SSSearchMiscFct.filterSearchResultsForSubEntitySearch(
+          SSSearchMiscFct.searchForLabelAndDescription(
+            par.keywords,
+            par.includeDescription,
+            par.includeLabel),
+          par.onlySubEntities,
+          subEntities));
+      
+      for(SSSearchResult searchResult : SSSearchResult.distinct(searchResults)){
+        
+        if(!SSServCaller.entityUserCanRead(par.user, searchResult.entity)){
+          continue;
+        }
+        
+        searchResultsForUser.add(searchResult);
+      }
+      
+      return searchResultsForUser;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -27,6 +27,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.*;
 
 public class SSSearchResult extends SSEntityA{
@@ -36,14 +38,50 @@ public class SSSearchResult extends SSEntityA{
   public  String                  label                           = null;
   public  SSEntityE               type                            = null;
 
-  public SSSearchResult(
-    SSUri       uri,
+  public static List<SSSearchResult> get(
+    final List<SSEntity> entities) throws Exception{
+    
+    final List<SSSearchResult> results = new ArrayList<SSSearchResult>();
+    
+    for(SSEntity entity : entities){
+      results.add(get(entity));
+    }
+    
+    return results;
+  }
+  
+  public static SSSearchResult get(
+    final SSEntity entity) throws Exception{
+    
+    return new SSSearchResult(entity);
+  }
+   
+  public static SSSearchResult get(
+    final SSUri       entity,
+    final SSSpaceE    space) throws Exception{
+    
+    return new SSSearchResult(entity, space);
+  }
+ 
+  private SSSearchResult(
+    final SSEntity entity) throws Exception{
+    
+    super(entity);
+    
+    this.entity    = entity.id;
+    this.label     = SSLabel.toStr(entity.label);
+    this.type      = entity.type;
+    this.space     = SSSpaceE.sharedSpace;
+  }
+  
+  private SSSearchResult(
+    SSUri       entity,
     SSSpaceE    space) throws Exception{
     
-    super(uri);
+    super(entity);
     
-    this.entity    = uri;
-    this.space  = space;
+    this.entity    = entity;
+    this.space     = space;
   }
   
   @Override
@@ -57,6 +95,32 @@ public class SSSearchResult extends SSEntityA{
     ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon  + SSEntityE.class.getName());
     
     return ld;
+  }
+  
+  public static List<SSSearchResult> distinct(
+    final List<SSSearchResult> searchResults) throws Exception{
+    
+    final List<SSSearchResult> result = new ArrayList<SSSearchResult>();
+    
+    if(searchResults == null){
+      return result;
+    }
+    
+    final List<String> foundEntities = new ArrayList<String>();
+    
+    for(SSSearchResult searchResult : searchResults){
+      
+      if(
+        searchResult == null ||
+        foundEntities.contains(searchResult.toString())) {
+        continue;
+      }
+      
+      result.add        (searchResult);
+      foundEntities.add (searchResult.toString());
+    }
+    
+    return result;
   }
 
   public static void addDistinct(

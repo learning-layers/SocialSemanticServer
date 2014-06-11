@@ -49,6 +49,9 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyA
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
@@ -76,7 +79,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitySubEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -223,15 +226,54 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   /* SSEntityServerI */
   
   @Override
-  public SSEntityDescA entityDescGet(final SSServPar parA) throws Exception{
-    
-    final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
-    List<String>              tags          = new ArrayList<String>();
-    List<SSUri>               discUris      = null;
-    SSRatingOverall           overallRating = null;
-    final SSEntity            entity;
+  public List<SSEntity> entitiesForLabelsAndDescriptionsGet(final SSServPar parA) throws Exception{
     
     try{
+      final SSEntitiesForLabelsAndDescriptionsGetPar  par      = new SSEntitiesForLabelsAndDescriptionsGetPar(parA);
+      
+      return sqlFct.getEntitiesForLabelsAndDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> entitiesForLabelsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntitiesForLabelsGetPar  par      = new SSEntitiesForLabelsGetPar(parA);
+      
+      return sqlFct.getEntitiesForLabels(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> entitiesForDescriptionsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntitiesForDescriptionsGetPar  par      = new SSEntitiesForDescriptionsGetPar(parA);
+      
+      return sqlFct.getEntitiesForDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSEntityDescA entityDescGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
+      List<String>              tags          = new ArrayList<String>();
+      List<SSUri>               discUris      = null;
+      SSRatingOverall           overallRating = null;
+      final SSEntity            entity;
       
       entity = sqlFct.getEntity(par.entity);
       
@@ -1047,14 +1089,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSUri> entitySubEntitiesGet(final SSServPar parA) throws Exception{
+  public List<SSUri> entityUserSubEntitiesGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntitySubEntitiesGetPar par = new SSEntitySubEntitiesGetPar(parA);
+      final SSEntityUserSubEntitiesGetPar par = new SSEntityUserSubEntitiesGetPar(parA);
       
       SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.entity);
       
-      return SSEntityMiscFct.subEntitiesGetByEntityHandlers(
+      return SSEntityMiscFct.getSubEntitiesByEntityHandlers(
         par.user, 
         par.entity);
       

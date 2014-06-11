@@ -41,13 +41,16 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
+  entitiesForLabelsAndDescriptionsGet,
+  entitiesForLabelsGet,
+  entitiesForDescriptionsGet,
   entityPublicSet,
   entityDescGet                                       ,
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
   entityGet                                           ,
   entityExists,
-  entitySubEntitiesGet                                ,                         
+  entityUserSubEntitiesGet                            ,                         
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityLabelSet                                      ,

@@ -84,13 +84,14 @@ public class SSUri extends SSEntityA{
   
   public static List<SSUri> distinct(
     final List<SSUri> uris) throws Exception{
+
+    final List<SSUri> result = new ArrayList<SSUri>();
     
     if(uris == null){
-      return uris;
+      return result;
     }
     
     final List<String>     foundEntities = new ArrayList<String>();
-    final List<SSUri>      result        = new ArrayList<SSUri>();
     
     for(SSUri uri : uris){
       

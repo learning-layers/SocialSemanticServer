@@ -43,10 +43,13 @@ public interface SSEntityServerI {
   public List<SSCircleE>                 entityUserEntityCircleTypesGet           (final SSServPar parA) throws Exception;
   public List<SSEntityCircle>            entityUserEntityCirclesGet               (final SSServPar parA) throws Exception; 
   public List<SSEntity>                  entityUserEntityUsersGet                 (final SSServPar parA) throws Exception;
+  public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   
+  public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
+  public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
+  public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
   public Boolean                         entityExists                             (final SSServPar parA) throws Exception;
   public SSEntity                        entityGet                                (final SSServPar parA) throws Exception;
-  public List<SSUri>                     entitySubEntitiesGet                     (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleURIPublicGet                 (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleCreate                       (final SSServPar parA) throws Exception;
   public SSUri                           entityCirclePublicAdd                    (final SSServPar parA) throws Exception;

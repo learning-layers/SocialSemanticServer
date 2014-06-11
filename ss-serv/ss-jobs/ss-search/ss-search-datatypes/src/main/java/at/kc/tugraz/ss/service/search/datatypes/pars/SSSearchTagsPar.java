@@ -22,13 +22,15 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchTagsPar extends SSServPar{
   
-  public List<String>      tags             = null;
+  public List<String>      tags             = new ArrayList<String>();
   public String            searchOp         = null;
   public int               maxResultsPerTag = 0;
     
@@ -51,6 +53,32 @@ public class SSSearchTagsPar extends SSServPar{
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static SSSearchTagsPar get(
+    final SSUri             user,
+    final List<String>      tags,
+    final String            searchOp,
+    final Integer           maxResultsPerTag){
+    
+    return new SSSearchTagsPar(user, tags, searchOp, maxResultsPerTag);
+  }
+  
+  private SSSearchTagsPar(
+    final SSUri             user,
+    final List<String>      tags,
+    final String            searchOp,
+    final Integer           maxResultsPerTag){
+    
+    super();
+
+    this.user             = user;
+    this.searchOp         = searchOp;
+    this.maxResultsPerTag = maxResultsPerTag;
+    
+    if(tags != null){
+      this.tags.addAll(tags);
     }
   }
 }

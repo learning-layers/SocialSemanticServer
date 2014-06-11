@@ -727,18 +727,143 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public List<SSEntity> getEntitiesForLabelsAndDescriptions(
+    final List<String> keywords) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<String>              columns   = new ArrayList<String>();
+      final List<String>              matches   = new ArrayList<String>();
+      final List<String>              againsts  = new ArrayList<String>();
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.description);
+      column (columns, SSSQLVarU.type);
+      match  (matches, SSSQLVarU.label);
+      match  (matches, SSSQLVarU.description);
+      
+      againsts.addAll(keywords);
+      
+      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      
+      while(resultSet.next()){
+      
+        entities.add(
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+            null, 
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            null));
+      }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntitiesForLabels(
+    final List<String> keywords) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<String>              columns   = new ArrayList<String>();
+      final List<String>              matches   = new ArrayList<String>();
+      final List<String>              againsts  = new ArrayList<String>();
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.type);
+      match  (matches, SSSQLVarU.label);
+      
+      againsts.addAll(keywords);
+      
+      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      
+      while(resultSet.next()){
+        
+        entities.add(
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+            null,
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            null));
+      }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntitiesForDescriptions(
+    final List<String> keywords) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<String>              columns   = new ArrayList<String>();
+      final List<String>              matches   = new ArrayList<String>();
+      final List<String>              againsts  = new ArrayList<String>();
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.type);
+      match  (matches, SSSQLVarU.description);
+      
+      againsts.addAll(keywords);
+      
+      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      
+      while(resultSet.next()){
+        
+        entities.add(
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+            null,
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            null));
+      }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 }
 
 
 //  public void entityAddOrUpdateLabel(SSUri entity, SSEntityA label) throws Exception {
-//    
+//
 //    Map<String, String>      parNamesAndValues;
 //    HashMap<String, String>  newValues;
-//    
+//
 //    if(entityExists(entity)){
 //      newValues = new HashMap<String, String>();
 //      newValues.put(SSSQLVarU.label,    label.toString());
-//      
+//
 //      parNamesAndValues = new HashMap<String, String>();
 //      
 //      parNamesAndValues.put(SSSQLVarU.id, entity.toString());

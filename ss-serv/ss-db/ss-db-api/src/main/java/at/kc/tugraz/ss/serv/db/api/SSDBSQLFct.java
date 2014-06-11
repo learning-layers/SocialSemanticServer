@@ -210,6 +210,17 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
+   protected static void match(
+     final List<String> matches, 
+     final String       key) throws Exception{
+     
+     try{
+       matches.add(key);
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+   }
+   
   protected static void where(
     final Map<String, String> wheres,
     final String              key,

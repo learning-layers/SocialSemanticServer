@@ -18,25 +18,26 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSEntitySubEntitiesGetPar extends SSServPar{
+public class SSEntitiesForLabelsAndDescriptionsGetPar extends SSServPar{
   
-  public SSUri     entity    = null;
+  public List<String> keywords = new ArrayList<String>();
     
-  public SSEntitySubEntitiesGetPar(SSServPar par) throws Exception{
+  public SSEntitiesForLabelsAndDescriptionsGetPar(SSServPar par) throws Exception{
       
     super(par);
     
     try{
       
       if(pars != null){
-        entity      = (SSUri)  pars.get(SSVarU.entity);
+        keywords       = (List<String>)            pars.get(SSVarU.keywords);
       }
       
     }catch(Exception error){
