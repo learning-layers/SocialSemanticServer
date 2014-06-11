@@ -38,13 +38,13 @@ public class SSEvernoteUEHelper {
     SSUri notebookUri,
     Notebook notebook) throws Exception {
     
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      notebookUri,
-      SSUEE.evernoteNotebookCreate,
-      SSStrU.empty,
-      notebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
-      false);
+//    SSServCaller.uEAddAtCreationTime(
+//      userUri,
+//      notebookUri,
+//      SSUEE.evernoteNotebookCreate,
+//      SSStrU.empty,
+//      notebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
+//      false);
     
     SSServCaller.uEAddAtCreationTime(
       userUri,
@@ -90,13 +90,13 @@ public class SSEvernoteUEHelper {
       return;
     }
     
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      noteUri,
-      SSUEE.evernoteNoteCreate,
-      SSStrU.empty,
-      note.getCreated() + SSEvernoteTimestampCounter.get(),
-      false);
+//    SSServCaller.uEAddAtCreationTime(
+//      userUri,
+//      noteUri,
+//      SSUEE.evernoteNoteCreate,
+//      SSStrU.empty,
+//      note.getCreated() + SSEvernoteTimestampCounter.get(),
+//      false);
     
     SSServCaller.uEAddAtCreationTime(
       userUri,
