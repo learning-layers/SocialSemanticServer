@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
-import java.util.ArrayList;
+import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
 
 public class SSDiscUserEntryAddFct{
   
@@ -73,10 +73,10 @@ public class SSDiscUserEntryAddFct{
       SSServCaller.entityCircleCreate(
         userUri, 
         SSUri.asListWithoutNullAndEmpty(discUri),
-        new ArrayList<SSUri>(), 
+        SSUri.asListWithoutNullAndEmpty(),
         SSCircleE.priv, 
-        discLabel, 
-        userUri,
+        discLabel,
+        SSUserGlobals.systemUser,
         null,
         false);
       
