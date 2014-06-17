@@ -46,7 +46,7 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
     final SSUri circleUri = 
       SSServCaller.entityCircleCreate(
         SSUserGlobals.systemUser, 
-        SSUri.asList(SSUri.get("http://www.google.at")), 
+        SSUri.asListWithoutNullAndEmpty(SSUri.get("http://www.google.at")), 
         userUris, 
         SSCircleE.priv,
         SSLabel.get("dieter priv circle"),

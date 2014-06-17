@@ -41,8 +41,8 @@ public class SSEntityActivityFct{
         par.user,
         SSActivityE.share,
         par.users,
-        SSUri.asList(par.entity),
-        SSTextComment.asList(par.comment),
+        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSTextComment.asListWithoutNullAndEmpty(par.comment),
         false);
       
     }catch(SSServerServNotAvailableErr error){

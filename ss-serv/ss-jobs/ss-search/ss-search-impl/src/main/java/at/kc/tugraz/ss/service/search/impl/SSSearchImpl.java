@@ -246,7 +246,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         searchResultsForOneKeyword.clear();
         
-        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asList(par.entity))){
+        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
           
           if(SSServCaller.tagsUserGet(par.user, entityUri, tag, null).isEmpty()){
             continue;

@@ -197,7 +197,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
         return i5CloudAchsoSemanticAnnotationsSetGet(parA);
       }
       
-      for(String annotation : SSStrU.toList(annotations)){
+      for(String annotation : SSStrU.asListWithoutNullAndEmpty(annotations)){
         finalAnnotations.addAll(SSStrU.split(annotation, SSStrU.comma));
       }
       

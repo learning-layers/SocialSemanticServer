@@ -997,7 +997,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSUri circleUri =
         SSServCaller.entityCircleCreate(
           par.user,
-          SSUri.asList(par.entity),
+          SSUri.asListWithoutNullAndEmpty(par.entity),
           par.users,
           SSCircleE.group,
           SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entity)),

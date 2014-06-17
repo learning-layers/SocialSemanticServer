@@ -201,7 +201,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
             bindingStrToUri  (resultSet, SSSQLVarU.author), 
             users, 
             entities, 
-            SSTextComment.asList(SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment)))));
+            SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment)))));
       }
       
       if(

@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SSTextComment extends SSEntityA {
@@ -42,8 +41,21 @@ public class SSTextComment extends SSEntityA {
     super(value);
   }
   
-  public static List<SSTextComment> asList(final SSTextComment... comments){
-    return new ArrayList<SSTextComment>(Arrays.asList(comments));
+  public static List<SSTextComment> asListWithoutNullAndEmpty(final SSTextComment... comments){
+    
+    final List<SSTextComment> result = new ArrayList<SSTextComment>();
+    
+    for(SSTextComment comment : comments){
+      
+      if(SSStrU.isEmpty(comment)){
+        continue;
+      }
+      
+      result.add(comment);
+    }
+    
+    
+    return result;
   }
 
   @Override

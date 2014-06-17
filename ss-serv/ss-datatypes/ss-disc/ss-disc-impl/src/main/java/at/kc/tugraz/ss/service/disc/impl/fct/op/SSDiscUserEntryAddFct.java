@@ -72,7 +72,7 @@ public class SSDiscUserEntryAddFct{
       
       SSServCaller.entityCircleCreate(
         userUri, 
-        SSUri.asList(discUri),
+        SSUri.asListWithoutNullAndEmpty(discUri),
         new ArrayList<SSUri>(), 
         SSCircleE.priv, 
         discLabel, 

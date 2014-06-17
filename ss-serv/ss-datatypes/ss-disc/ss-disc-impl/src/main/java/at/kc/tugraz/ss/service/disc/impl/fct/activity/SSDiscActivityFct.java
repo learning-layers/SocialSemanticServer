@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
-import java.util.ArrayList;
 
 public class SSDiscActivityFct{
 
@@ -44,26 +43,26 @@ public class SSDiscActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.discussEntity,
-          SSUri.asList(par.user), 
-          SSUri.asList(par.entity, ret.disc),
-          SSTextComment.asList(),
+          SSUri.asListWithoutNullAndEmpty(par.user), 
+          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
+          SSTextComment.asListWithoutNullAndEmpty(),
           false);
         
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.newDiscussionByDiscussEntity,
-          SSUri.asList(par.user),
-          SSUri.asList(par.entity, ret.disc),
-          SSTextComment.asList(),
+          SSUri.asListWithoutNullAndEmpty(par.user),
+          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
+          SSTextComment.asListWithoutNullAndEmpty(),
           false);
         
       }else{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.addDiscussionComment,
-          SSUri.asList(par.user),
-          SSUri.asList(par.entity, ret.disc),
-          SSTextComment.asList(),
+          SSUri.asListWithoutNullAndEmpty(par.user),
+          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
+          SSTextComment.asListWithoutNullAndEmpty(),
           false);
       }
     }catch(SSServerServNotAvailableErr error){

@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.*;
 import org.apache.commons.httpclient.util.URIUtil;
@@ -145,8 +146,21 @@ public class SSUri extends SSEntityA{
     return SSStrU.removeTrailingSlash(uri.toString());
   }
 
-  public static List<SSUri> asList(final SSUri... entities){
-    return new ArrayList<SSUri>(Arrays.asList(entities));
+  public static List<SSUri> asListWithoutNullAndEmpty(final SSUri... entities){
+   
+    final List<SSUri> result = new ArrayList<SSUri>();
+    
+    for(SSUri entity : entities){
+      
+      if(SSStrU.isEmpty(entity)){
+        continue;
+      }
+      
+      result.add(entity);
+    }
+    
+    
+    return result;
   }
 
   private SSUri(final String value) throws Exception{

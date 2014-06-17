@@ -395,27 +395,21 @@ public class SSStrU{
     return !isEmpty(string);
   }
   
-  /**
-   * checks if a string is empty (null, "", " ")
-   *
-   * @param s
-   * @return
-   */
-  public static boolean isEmpty(final String s) {
+  public static boolean isEmpty(final Object object) {
     
     if(
-      s == null ||
-      s.trim().isEmpty()) {
+      object == null ||
+      object.toString().trim().isEmpty()) {
       return true;
     }
     
     return false;
   }
   
-  public static boolean isEmpty(final String... s) {
+  public static boolean isEmpty(final Object... objects) {
     
-    for (String a : s) {
-      if (isEmpty(a)) {
+    for(Object object : objects){
+      if(isEmpty(object)){
         return true;
       }
     }
@@ -484,8 +478,20 @@ public class SSStrU{
     return (String[]) toConvert.toArray(new String[toConvert.size()]);
   }
   
-  public static List<String> toList(final String[] strings){
-    return new ArrayList<String>(Arrays.asList(strings));
+  public static List<String> asListWithoutNullAndEmpty(final String[] strings){
+    
+     final List<String> result = new ArrayList<String>();
+    
+    for(String string : strings){
+      
+      if(isEmpty(string)){
+        continue;
+      }
+      
+      result.add(string);
+    }
+    
+    return result;
   }
   
   public static boolean startsWith(final String string, final String prefix){
