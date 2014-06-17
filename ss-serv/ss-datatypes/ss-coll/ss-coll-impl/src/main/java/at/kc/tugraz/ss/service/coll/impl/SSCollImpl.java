@@ -151,8 +151,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSEntityE      entityType) throws Exception{
     
     try{
+      
       if(
         !SSEntityE.equals(entityType, SSEntityE.coll) &&
+        !SSEntityE.equals(entityType, SSEntityE.file) &&
         !SSEntityE.equals(entityType, SSEntityE.entity)){
         return false;
       }
@@ -979,11 +981,12 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       }
 
       for(Map.Entry<String, Integer> entry : tagLabelFrequs.entrySet()){
-
-        tagFrequs.add(SSTagFrequ.get(
-          SSTagLabel.get(entry.getKey()),
-          null,
-          entry.getValue()));
+        
+        tagFrequs.add(
+          SSTagFrequ.get(
+            SSTagLabel.get(entry.getKey()),
+            null,
+            entry.getValue()));
       }
 
       return tagFrequs;

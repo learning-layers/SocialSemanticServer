@@ -33,8 +33,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
@@ -57,6 +55,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
@@ -1571,9 +1570,10 @@ public class SSServCaller {
   
   /* tag */
  
-  public static void tagsAdd(final SSUri user, 
+  public static void tagsAdd(
+    final SSUri            user, 
     final SSUri            entity, 
-    final List<SSTagLabel> tagList, 
+    final List<String>     tagList, 
     final SSSpaceE         space, 
     final Boolean          shouldCommit) throws Exception{
     
@@ -1606,15 +1606,15 @@ public class SSServCaller {
   
   public static List<SSTagFrequ> tagUserFrequsGet(
     final SSUri       user, 
-    final SSUri       entity, 
-    final SSTagLabel label, 
-    final SSSpaceE space) throws Exception{
+    final SSUri       entity,
+    final String      label, 
+    final SSSpaceE    space) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.label,   label);
+    opPars.put(SSVarU.entity,      entity);
+    opPars.put(SSVarU.label,       label);
     opPars.put(SSVarU.space,       space);
     
     return (List<SSTagFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.tagUserFrequsGet, opPars));
@@ -1628,7 +1628,7 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.label,  label);
+    opPars.put(SSVarU.label,      label);
     opPars.put(SSVarU.space,      space);
     
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.tagUserEntitiesForTagGet, opPars));
@@ -1637,7 +1637,7 @@ public class SSServCaller {
   public static void tagsRemove(
     final SSUri         forUser,   
     final SSUri         entity,
-    final SSTagLabel    label,
+    final String        label,
     final SSSpaceE      space,
     final Boolean       shouldCommit) throws Exception{
     
@@ -1655,16 +1655,16 @@ public class SSServCaller {
   public static void tagsUserRemove(
     final SSUri         user,
     final SSUri         entity,
-    final SSTagLabel   label,
-    final SSSpaceE   space,
+    final String        label,
+    final SSSpaceE      space,
     final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.entity,     entity);
-    opPars.put(SSVarU.label,    label);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.tagsUserRemove, opPars));
@@ -1673,17 +1673,17 @@ public class SSServCaller {
   public static void tagAdd(
     final SSUri       user,
     final SSUri       entity,
-    final SSTagLabel  label,
-    final SSSpaceE space,
+    final String      label,
+    final SSSpaceE    space,
     final Boolean     shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<String, Object>();
     
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,     entity);
+    opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.label,    label);
+    opPars.put(SSVarU.label,        label);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.tagAdd, opPars));
   }
@@ -1700,8 +1700,8 @@ public class SSServCaller {
     
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,     entity);
-    opPars.put(SSVarU.label,    label);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
    

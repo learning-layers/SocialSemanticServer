@@ -177,12 +177,13 @@ public class SSLOMExtractorOutHandler{
       
       for(String keyword : SSLOMKeyword.toDistinctStringArray (resource.keywords)){
         
-        tags.add(SSTag.get(
-          null, 
-          SSUri.get(resource.id),
-          null, 
-          null, 
-          SSTagLabel.get(keyword)));
+        tags.add(
+          SSTag.get(
+            null,
+            SSUri.get(resource.id),
+            null,
+            null,
+            SSTagLabel.get(keyword)));
       }
       
       tagsPerEntities       = SSTag.getTagLabelsPerEntities(tags);

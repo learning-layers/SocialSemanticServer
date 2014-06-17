@@ -41,7 +41,11 @@ public class SSTagsUserRemovePar extends SSServPar{
       
       if(pars != null){
         entity   = (SSUri)        pars.get(SSVarU.entity);
-        label    = (SSTagLabel)   pars.get(SSVarU.label);
+        
+        try{
+          label    = SSTagLabel.get((String) pars.get(SSVarU.label));
+        }catch(Exception error){}
+        
         space    = (SSSpaceE)     pars.get(SSVarU.space);
       }
       
@@ -53,7 +57,7 @@ public class SSTagsUserRemovePar extends SSServPar{
         
         try{
           label  = SSTagLabel.get   (clientPars.get(SSVarU.label));
-         }catch(Exception error){} 
+        }catch(Exception error){}
         
         try{
           space      = SSSpaceE.get  (clientPars.get(SSVarU.space));

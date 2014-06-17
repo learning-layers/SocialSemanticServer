@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.err.SSTagInvalidTagErr;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,10 +31,6 @@ public class SSTagLabel extends SSEntityA{
 
   public static SSTagLabel get(
     final String string) throws Exception{
-    
-    if(string == null){
-      return null;
-    }
     
     return new SSTagLabel(SSStrU.replace(string, SSStrU.blank, SSStrU.underline));
   }
@@ -51,18 +48,18 @@ public class SSTagLabel extends SSEntityA{
   }
   
   public static void checkTagLabel(
-    final String tagLabel) throws Exception {
+    final String string) throws Exception {
 
-    if(SSStrU.isEmpty(tagLabel)){
-      throw new Exception("Invalid tag (null or empty): " + tagLabel);
+    if(SSStrU.isEmpty(string)){
+      throw new SSTagInvalidTagErr(string + " not a valid tag");
     }
     
-    final String tmpTagLabel = tagLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+    final String tmpTagLabel = string.replaceAll("[/\\*\\?<>]", SSStrU.empty);
     
     if(
       SSStrU.isEmpty(tmpTagLabel) ||
       !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTagLabel)){
-      throw new Exception("Invalid tag: " + tmpTagLabel);
+      throw new SSTagInvalidTagErr(tmpTagLabel + " not a valid tag");
     }
   }
   

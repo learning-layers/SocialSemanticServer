@@ -40,9 +40,9 @@ public class SSTagAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity     = (SSUri)       pars.get(SSVarU.entity);
-        label      = (SSTagLabel)  pars.get(SSVarU.label);
-        space      = (SSSpaceE)    pars.get(SSVarU.space);
+        entity     = (SSUri)                 pars.get(SSVarU.entity);
+        label      = SSTagLabel.get((String) pars.get(SSVarU.label));
+        space      = (SSSpaceE)              pars.get(SSVarU.space);
       }
       
       if(clientPars != null){

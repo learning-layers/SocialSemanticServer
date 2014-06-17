@@ -43,7 +43,11 @@ public class SSTagsRemovePar extends SSServPar{
       if(pars != null){
         forUser  = (SSUri)        pars.get(SSVarU.forUser);
         entity   = (SSUri)        pars.get(SSVarU.entity);
-        label    = (SSTagLabel)   pars.get(SSVarU.label);
+        
+        try{
+          label    = SSTagLabel.get((String)pars.get(SSVarU.label));
+        }catch(Exception error){}
+        
         space    = (SSSpaceE)     pars.get(SSVarU.space);
       }
       

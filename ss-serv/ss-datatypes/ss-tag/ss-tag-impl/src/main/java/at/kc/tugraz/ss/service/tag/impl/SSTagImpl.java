@@ -222,25 +222,25 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       SSServCaller.entityAdd(
         par.user,
-        tagUri,       
-        SSLabel.get(SSTagLabel.toStr(par.label)), 
+        tagUri,
+        SSLabel.get(SSTagLabel.toStr(par.label)),
         SSEntityE.tag,
         null,
         false);
-
+      
       SSServCaller.entityAdd(
         par.user,
-        par.entity, 
+        par.entity,
         SSLabel.get(SSUri.toStr(par.entity)),
         SSEntityE.entity,
         null,
         false);
       
-        sqlFct.addTagAssIfNotExists(
-          tagUri, 
-          par.user, 
-          par.entity, 
-          par.space);
+      sqlFct.addTagAssIfNotExists(
+        tagUri,
+        par.user,
+        par.entity,
+        par.space);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -322,8 +322,14 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
 
       final SSTagsAddPar par    = new SSTagsAddPar(parA);
       
-      for(SSTagLabel tagString : par.labels) {
-        SSServCaller.tagAdd(par.user, par.entity, tagString, par.space, par.shouldCommit);
+      for(SSTagLabel tagLabel : par.labels) {
+        
+        SSServCaller.tagAdd(
+          par.user, 
+          par.entity, 
+          SSTagLabel.toStr(tagLabel), 
+          par.space, 
+          par.shouldCommit);
       }
       
       return true;

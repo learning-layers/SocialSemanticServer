@@ -43,6 +43,7 @@ public class SSTagUserEntitiesForTagGetPar extends SSServPar{
       }
       
       if(clientPars != null){
+        
         label  = SSTagLabel.get   (clientPars.get(SSVarU.label));
         
         try{

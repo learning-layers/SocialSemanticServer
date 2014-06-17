@@ -43,7 +43,7 @@ public class SSTagsAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        labels.addAll((List<SSTagLabel>)  pars.get(SSVarU.labels));
+        labels.addAll(SSTagLabel.get((List<String>) pars.get(SSVarU.labels)));
         entity       =  (SSUri)           pars.get(SSVarU.entity);
         space        =  (SSSpaceE)        pars.get(SSVarU.space);
       }

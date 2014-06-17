@@ -276,8 +276,9 @@ public class SSDBGraphFct extends SSDBFct{
     
     if(
       SSObjU.isNull  (context) ||
-      SSObjU.isNull  (pars)    ||
-      SSStrU.isEmpty (pars.toArray(new String[pars.size()]))){
+      SSObjU.isNull  (pars)
+      /* TODO dtheiler: check ||
+      SSStrU.isEmpty (pars.toArray(new String[pars.size()]))*/){
       
       SSServErrReg.regErrThrow(new Exception("from context and/or select parameters must not be null"));
     }
@@ -330,8 +331,9 @@ public class SSDBGraphFct extends SSDBFct{
    
     if(
       SSObjU.isNull(context) ||
-      SSObjU.isNull(pars)    ||
-      SSStrU.isEmpty(pars.toArray(new String[pars.size()]))){
+      SSObjU.isNull(pars)
+      /*TODO dtheiler: check ||
+      SSStrU.isEmpty(pars.toArray(new String[pars.size()]))*/){
       
       SSServErrReg.regErrThrow(new Exception("from context and/or select parameters must not be null"));
     }
