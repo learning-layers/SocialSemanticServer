@@ -52,7 +52,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
     
     evernoteInfo = SSServCaller.evernoteNoteStoreGet(SSUserGlobals.systemUser, ((SSEvernoteConf)conf).authTokens.get(0));
     
-    //      opPars = new HashMap<String, Object>();
+    //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.shouldCommit,  false);
     //      opPars.put(SSVarU.noteStore,     evernoteInfo.noteStore);
     

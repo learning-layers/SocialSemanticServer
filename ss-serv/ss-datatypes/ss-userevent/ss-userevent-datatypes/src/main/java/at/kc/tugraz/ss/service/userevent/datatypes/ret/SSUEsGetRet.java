@@ -49,8 +49,8 @@ public class SSUEsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> uEsObj     = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> uEsObj     = new HashMap<>();
     
     uEsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUE.class.getName());
     uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);

@@ -23,10 +23,12 @@ package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSI5CloudAchsoSemanticAnnotationsSetGetPar extends SSServPar{
   
-  public String[] ids = new String[0];
+  public List<String> ids = new ArrayList<>();
   
   public SSI5CloudAchsoSemanticAnnotationsSetGetPar(final SSServPar par) throws Exception{
     super(par);
@@ -34,7 +36,7 @@ public class SSI5CloudAchsoSemanticAnnotationsSetGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        ids        = (String[]) pars.get(SSVarU.ids);
+        ids        = (List<String>) pars.get(SSVarU.ids);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -45,7 +45,7 @@ public class SSDiscUserWithEntriesRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.disc, SSVarU.sss + SSStrU.colon + SSDisc.class.getName());
     

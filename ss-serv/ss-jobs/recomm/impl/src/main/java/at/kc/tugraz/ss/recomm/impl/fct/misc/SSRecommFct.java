@@ -210,7 +210,7 @@ public class SSRecommFct{
   private static Map<String, List<String>> getCategoriesPerEntities(
     final Integer numberOfEntities){
     
-    final Map<String, List<String>> categoriesPerEntities = new HashMap<String, List<String>>();
+    final Map<String, List<String>> categoriesPerEntities = new HashMap<>();
     
     for(Integer counter = 0; counter < numberOfEntities; counter++){
       categoriesPerEntities.put(SSLinkU.dummyUri + SSStrU.underline + counter.toString(), new ArrayList<String>());

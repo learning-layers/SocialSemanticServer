@@ -31,10 +31,10 @@ import java.util.List;
 
 public class SSSearchCombinedPar extends SSServPar{
   
-  public List<String>    keywords              = new ArrayList<String>();
-  public List<SSUri>     entities              = new ArrayList<SSUri>();
+  public List<String>    keywords              = new ArrayList<>();
+  public List<SSUri>     entities              = new ArrayList<>();
   public Boolean         onlySubEntities       = null;
-  public List<SSEntityE> types                 = new ArrayList<SSEntityE>();
+  public List<SSEntityE> types                 = new ArrayList<>();
   public Boolean         includeTags           = null;
   public Boolean         includeTextualContent = null;
   public Boolean         includeLabel          = null;

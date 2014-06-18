@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSCategoryUserFrequsGetRet extends SSServRetI{
   
-  public List<SSCategoryFrequ> categoryFrequs = new ArrayList<SSCategoryFrequ>();
+  public List<SSCategoryFrequ> categoryFrequs = new ArrayList<>();
   
   public static SSCategoryUserFrequsGetRet get(
     final List<SSCategoryFrequ> categoryFrequs,
@@ -56,8 +56,8 @@ public class SSCategoryUserFrequsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld                      = new HashMap<String, Object>();
-    final Map<String, Object> categoriesFrequsObj     = new HashMap<String, Object>();
+    final Map<String, Object> ld                      = new HashMap<>();
+    final Map<String, Object> categoriesFrequsObj     = new HashMap<>();
     
     categoriesFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
     categoriesFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);

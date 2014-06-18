@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.misc;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
@@ -35,13 +36,13 @@ public class SSCategoryMiscFct{
     final List<SSCategory> categorys, 
     final SSSpaceE    space) throws Exception{
     
-    final Map<String, Integer> counterPerCategorys = new HashMap<String, Integer>();
+    final Map<String, Integer> counterPerCategorys = new HashMap<>();
     
     String categoryLabel;
 
     for (SSCategory category : categorys) {
 
-      categoryLabel = SSCategoryLabel.toStr(category.label);
+      categoryLabel = SSStrU.toStr(category.label);
         
       if(counterPerCategorys.containsKey(categoryLabel)){
         counterPerCategorys.put(categoryLabel, counterPerCategorys.get(categoryLabel) + 1);
@@ -50,7 +51,7 @@ public class SSCategoryMiscFct{
       }
     }
 
-    final List<SSCategoryFrequ> outList = new ArrayList<SSCategoryFrequ>(counterPerCategorys.size());
+    final List<SSCategoryFrequ> outList = new ArrayList<>(counterPerCategorys.size());
 
     for(String key : counterPerCategorys.keySet()){
       

@@ -263,9 +263,14 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     try{
       
       result = SSServCaller.fileIDFromURI(par.user, par.file);
-      result = SSStrU.subString(result, SSStrU.lastIndexOf(result, SSStrU.dot) + 1, SSStrU.length(result));
       
-      return result;
+      if(
+        result                         == null ||
+        result.lastIndexOf(SSStrU.dot) == -1){
+        throw new Exception("file id from uri not found");
+      }
+      
+      return result.substring(result.lastIndexOf(SSStrU.dot) + 1, result.length());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -289,14 +294,18 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileUserFileWritesPar par = new SSFileUserFileWritesPar(parI);
     final SSFileGetEditingFilesRet result;
-    List<SSUri> fileUris = new ArrayList<SSUri>();
+    List<SSUri> fileUris = new ArrayList<>();
 
     SSFileFct.getEditingFileUris(fileAccessProps, par.user, fileUris);
 
-    result = new SSFileGetEditingFilesRet(par.op, SSUri.toDistinctStringArray(fileUris), null);
+    result = 
+      new SSFileGetEditingFilesRet(
+        par.op, 
+        SSStrU.distinctWithoutEmptyAndNull(fileUris), 
+        null);
 
     for(String fileUri : result.files){
-      result.labels.add(SSLabel.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
+      result.labels.add(SSStrU.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
     }
 
     return result;
@@ -306,7 +315,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   public SSFileCanWriteRet fileCanWrite(SSServPar parI) throws Exception{
 
     SSFileCanWritePar par = new SSFileCanWritePar(parI);
-    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toString(par.file), par.op);
+    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toStr(par.file), par.op);
 
     result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.file);
 
@@ -318,7 +327,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileSetReaderOrWriterPar par = new SSFileSetReaderOrWriterPar(parI);
 
-    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toString(par.file), par.op);
+    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
 
     result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
 
@@ -330,7 +339,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileRemoveReaderOrWriterPar par = new SSFileRemoveReaderOrWriterPar(parI);
 
-    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toString(par.file), par.op);
+    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
 
     result.worked = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
 
@@ -368,7 +377,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     String result;
 
     try{
-      result = SSStrU.removeTrailingSlash(SSStrU.toString(par.file));
+      result = SSStrU.removeTrailingSlash(SSStrU.toStr(par.file));
       result = result.substring(result.lastIndexOf(SSStrU.slash) + 1);
 
       return result;

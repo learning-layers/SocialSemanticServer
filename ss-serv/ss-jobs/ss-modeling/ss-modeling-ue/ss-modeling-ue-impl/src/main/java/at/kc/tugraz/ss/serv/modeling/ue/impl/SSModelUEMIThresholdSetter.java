@@ -39,10 +39,10 @@ public class SSModelUEMIThresholdSetter {
 			SSEntityE                       resourceType,
 			SSModelUEResourceCounterEnum       counterId){
 		
-		List<Integer>       distinctFrequencies      = new ArrayList<Integer>();
+		List<Integer>       distinctFrequencies      = new ArrayList<>();
 		Integer[]           distinctFrequenciesArray;
 		int                 index;
-    String              counterIdString = SSStrU.toString(counterId);
+    String              counterIdString = SSStrU.toStr(counterId);
 		
 		for(SSModelUEEntity resource : resources.values()){
 		

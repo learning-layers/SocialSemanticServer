@@ -30,7 +30,7 @@ public enum SSAuthEnum {
   csvFileAuth;
 
   public static String toStr(final SSAuthEnum value) {
-    return SSStrU.toString(value);
+    return SSStrU.toStr(value);
   }
   
   public static SSAuthEnum get(final String type) {

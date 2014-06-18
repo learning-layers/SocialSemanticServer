@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSCollsUserEntityIsInGetRet extends SSServRetI{
 
-  public List<SSColl> colls = new ArrayList<SSColl>();
+  public List<SSColl> colls = new ArrayList<>();
 
   public static SSCollsUserEntityIsInGetRet get(
     final List<SSColl> colls,
@@ -55,8 +55,8 @@ public class SSCollsUserEntityIsInGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> collsObj   = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> collsObj   = new HashMap<>();
     
     collsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSColl.class.getName());
     collsObj.put(SSJSONLDU.container, SSJSONLDU.set);

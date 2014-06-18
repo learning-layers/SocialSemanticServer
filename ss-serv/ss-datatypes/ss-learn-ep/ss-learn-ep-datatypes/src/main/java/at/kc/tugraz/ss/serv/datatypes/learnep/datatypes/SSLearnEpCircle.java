@@ -60,7 +60,7 @@ public class SSLearnEpCircle extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.id,               SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,            SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
@@ -76,11 +76,11 @@ public class SSLearnEpCircle extends SSEntityA {
   
   /* getters to allow for json enconding */
   public String getId() throws Exception {
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getLabel() {
-    return SSLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 
   public Float getxLabel() {

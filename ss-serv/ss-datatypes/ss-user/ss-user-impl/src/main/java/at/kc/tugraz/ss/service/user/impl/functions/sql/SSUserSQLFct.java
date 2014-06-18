@@ -46,7 +46,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     
     try{
       final List<SSUser>        users  = new ArrayList<SSUser>();
-      final Map<String, String> wheres  = new HashMap<String, String>();
+      final Map<String, String> wheres  = new HashMap<>();
       
       where(wheres, SSSQLVarU.type, SSEntityE.user);
       
@@ -75,7 +75,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.id,   userUri);
       where(wheres, SSSQLVarU.type, SSEntityE.user);
@@ -97,7 +97,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.label,  label);
       where(wheres, SSSQLVarU.type,   SSEntityE.user);
@@ -121,7 +121,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.id, userUri);
       

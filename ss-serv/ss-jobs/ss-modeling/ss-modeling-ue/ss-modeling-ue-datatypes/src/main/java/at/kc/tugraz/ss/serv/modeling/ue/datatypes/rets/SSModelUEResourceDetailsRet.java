@@ -66,12 +66,12 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld                      = new HashMap<String, Object>();
-    Map<String, Object> relatedPersonsObj       = new HashMap<String, Object>();
-    Map<String, Object> editorsObj              = new HashMap<String, Object>();
-    Map<String, Object> contributedResourcesObj = new HashMap<String, Object>();
-    Map<String, Object> topicScoresObj          = new HashMap<String, Object>();
-    Map<String, Object> mIObj                   = new HashMap<String, Object>();
+    Map<String, Object> ld                      = new HashMap<>();
+    Map<String, Object> relatedPersonsObj       = new HashMap<>();
+    Map<String, Object> editorsObj              = new HashMap<>();
+    Map<String, Object> contributedResourcesObj = new HashMap<>();
+    Map<String, Object> topicScoresObj          = new HashMap<>();
+    Map<String, Object> mIObj                   = new HashMap<>();
     
     ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -108,27 +108,27 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
   
   /* getters to allow for json enconding  */
   public String getEntity() throws Exception{
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 
-  public List<String> getRelatedPersons(){
-    return SSUri.toDistinctStringArray(relatedPersons);
+  public List<String> getRelatedPersons() throws Exception{
+    return SSStrU.removeTrailingSlash(relatedPersons);
   }
 
-  public List<String> getEditors(){
-    return SSUri.toDistinctStringArray(editors);
+  public List<String> getEditors() throws Exception{
+    return SSStrU.removeTrailingSlash(editors);
   }
 
   public String getRecentArtifact() throws Exception{
-    return SSUri.toStrWithoutSlash(recentArtifact);
+    return SSStrU.removeTrailingSlash(recentArtifact);
   }
 
   public String getRecentTopic(){
     return recentTopic;
   }
 
-  public List<String> getContributedEntities(){
-    return SSUri.toDistinctStringArray(contributedEntities);
+  public List<String> getContributedEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(contributedEntities);
   }
 
   public List<SSModelUETopicScore> getTopicScores(){

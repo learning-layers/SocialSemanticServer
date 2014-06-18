@@ -41,7 +41,7 @@ public class SSFileExtGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.fileExt, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     

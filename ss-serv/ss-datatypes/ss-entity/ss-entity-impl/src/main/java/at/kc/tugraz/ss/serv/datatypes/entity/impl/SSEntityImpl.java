@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -87,6 +86,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -270,7 +270,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
-      List<String>              tags          = new ArrayList<String>();
+      List<String>              tags          = new ArrayList<>();
       List<SSUri>               discUris      = null;
       SSRatingOverall           overallRating = null;
       final SSEntity            entity;
@@ -286,7 +286,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       if(par.getTags){
-        tags = SSEntityA.toStr(SSServCaller.tagsUserGet(par.user, par.entity, null, null));
+        tags = SSStrU.toStr(SSServCaller.tagsUserGet(par.user, par.entity, null, null));
       }
       
       return SSEntityMiscFct.getDescForEntityByEntityHandlers(
@@ -1000,7 +1000,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           SSUri.asListWithoutNullAndEmpty(par.entity),
           par.users,
           SSCircleE.group,
-          SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSUri.toStr(par.entity)),
+          SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.toStr(par.entity)),
           SSUserGlobals.systemUser,
           SSTextComment.get("system circle"),
           false);
@@ -1025,7 +1025,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
-      final List<SSUri>                   userUris        = new ArrayList<SSUri>();
+      final List<SSUri>                   userUris        = new ArrayList<>();
       final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user);
       final List<SSEntity>                users           = new ArrayList<SSEntity>();
       
@@ -1035,11 +1035,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           
           case priv:{
             
-            if(!SSUri.contains(userCircleUris, circleUri)){
+            if(!SSStrU.contains(userCircleUris, circleUri)){
               continue;
             }
             
-            if(!SSUri.contains(userUris, par.user)){
+            if(!SSStrU.contains(userUris, par.user)){
               userUris.add(par.user);
             }
             
@@ -1050,7 +1050,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             
             for(SSUri userUri : sqlFct.getCircleUserURIs(circleUri)){
               
-              if(!SSUri.contains(userUris, userUri)){
+              if(!SSStrU.contains(userUris, userUri)){
                 userUris.add(userUri);
               }
             }
@@ -1060,13 +1060,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           
           case group:{
             
-            if(!SSUri.contains(userCircleUris, circleUri)){
+            if(!SSStrU.contains(userCircleUris, circleUri)){
               continue;
             }
             
             for(SSUri userUri : sqlFct.getCircleUserURIs(circleUri)){
               
-              if(!SSUri.contains(userUris, userUri)){
+              if(!SSStrU.contains(userUris, userUri)){
                 userUris.add(userUri);
               }
             }

@@ -48,7 +48,7 @@ public class SSModelUEPersonPropertySetter {
     
     this.sortedEventsSinceLastUpdate  = sortedEventsSinceLastUpdate;
     this.resources                    = resources;
-    this.currentTopicCreators         = new HashMap<String, String>();
+    this.currentTopicCreators         = new HashMap<>();
     this.serv                         = serv;
   }
   
@@ -74,7 +74,7 @@ public class SSModelUEPersonPropertySetter {
     }
   }
   
-  public void setSomething() {
+  public void setSomething() throws Exception {
     
     //		String                 creatorUrl         = null;
     
@@ -84,13 +84,13 @@ public class SSModelUEPersonPropertySetter {
       
       if(SSUEE.contains(SSModelUEU.useTopicEventTypes, event.type)){
         
-        user = resources.get(SSStrU.toString(event.user));
+        user = resources.get(SSStrU.toStr(event.user));
         
         //topic of event does already exist
         if(currentTopicCreators.containsKey(event.content)){
           
           //user is author of topic
-          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toString(user.entity))){
+          if(SSStrU.equals(currentTopicCreators.get(event.content), SSStrU.toStr(user.entity))){
             
             addTopicUsingEvent(user,event);
             
@@ -104,7 +104,7 @@ public class SSModelUEPersonPropertySetter {
           }
         }else{//topic is new
           
-          currentTopicCreators.put(event.content, SSStrU.toString(user.entity));
+          currentTopicCreators.put(event.content, SSStrU.toStr(user.entity));
           
           addTopicCreationEvent(user,event);
         }
@@ -164,9 +164,9 @@ public class SSModelUEPersonPropertySetter {
 //	 */
 //	private void setPersonsOwnedCollections(SSModelUEResource resource) throws Exception{
 //
-//		resource.personsCollections             = new ArrayList<SSColl>();
-//		resource.personsSharedCollections       = new ArrayList<SSColl>();
-//		resource.personsFollowedCollections     = new ArrayList<SSColl>();
+//		resource.personsCollections             = new ArrayList<>();
+//		resource.personsSharedCollections       = new ArrayList<>();
+//		resource.personsFollowedCollections     = new ArrayList<>();
 //
 //		resource.personsCollections = SSServCaller.collsUserWithEntries(resource.resourceUrl);
 //
@@ -193,7 +193,7 @@ public class SSModelUEPersonPropertySetter {
     
     for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, null, null, null)){
       
-      topic = SSStrU.toString(tagAssignment.label);
+      topic = SSStrU.toStr(tagAssignment.label);
       
       if(resource.personsTopicFrequencies.containsKey(topic) == false){
         
@@ -235,17 +235,17 @@ public class SSModelUEPersonPropertySetter {
   }
   
   private void setPersonsRelatedPersons(
-    SSModelUEEntity resource){
+    SSModelUEEntity resource) throws Exception{
     
     resource.personsRelatedPersons.clear();
     
     for(SSUri relatedResourceUrl : resource.personsRelatedResources){
       
-      for(SSUri personUrl : resources.get(SSStrU.toString(relatedResourceUrl)).relatedPersons){
+      for(SSUri personUrl : resources.get(SSStrU.toStr(relatedResourceUrl)).relatedPersons){
         
         if (
-          !SSUri.equals   (personUrl, resource.entity) &&
-          !SSUri.contains (resource.personsRelatedPersons, personUrl)){
+          !SSStrU.equals   (personUrl, resource.entity) &&
+          !SSStrU.contains (resource.personsRelatedPersons, personUrl)){
           
           resource.personsRelatedPersons.add(personUrl);
         }
@@ -275,11 +275,11 @@ public class SSModelUEPersonPropertySetter {
   
   private void increaseCountersDiscussionOf(
     SSModelUEEntity  resource,
-    SSUE    event) {
+    SSUE    event) throws Exception {
     
     if(
-      SSUEE.isSame(event.type, SSUEE.addDiscussionComment) &&
-      SSUri.contains(resource.personsDiscussions, event.entity)){
+      SSUEE.equals(event.type, SSUEE.addDiscussionComment) &&
+      SSStrU.contains(resource.personsDiscussions, event.entity)){
       
       resource.personsDiscussions.add(event.entity);
     }
@@ -287,11 +287,11 @@ public class SSModelUEPersonPropertySetter {
   
   private void increaseCountersRelateResource(
     SSModelUEEntity  resource,
-    SSUE          event){
+    SSUE          event) throws Exception{
     
     if(
-      SSUEE.contains (SSModelUEU.relateResourceEventTypes, event.type) &&
-      !SSUri.contains (resource.personsRelatedResources,    event.entity)){
+      SSUEE.contains            (SSModelUEU.relateResourceEventTypes, event.type) &&
+      !SSStrU.contains(resource.personsRelatedResources,    event.entity)){
       
       resource.counters.put(
         SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString(),

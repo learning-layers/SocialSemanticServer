@@ -46,16 +46,16 @@ public class SSLOMConceptRelation extends SSEntityA{
   
   public static List<SSLOMConceptRelation> distinctRelations(List<SSLOMConceptRelation> conceptRelations){
     
-    List<String>               conceptRelationCombis = new ArrayList<String>();
+    List<String>               conceptRelationCombis = new ArrayList<>();
     List<SSLOMConceptRelation> result                = new ArrayList<SSLOMConceptRelation>();
     
     for(SSLOMConceptRelation conceptRelation : conceptRelations){
       
-      conceptRelation.relation = SSStrU.replace(conceptRelation.relation, SSLinkU.ccUahEsIeOntOeOaae, SSStrU.empty);
-      conceptRelation.concept  = SSStrU.replace(conceptRelation.concept,  SSLinkU.ccUahEsIeOntOeOaae, SSStrU.empty);
+      conceptRelation.relation = SSStrU.replaceAll(conceptRelation.relation, SSLinkU.ccUahEsIeOntOeOaae, SSStrU.empty);
+      conceptRelation.concept  = SSStrU.replaceAll(conceptRelation.concept,  SSLinkU.ccUahEsIeOntOeOaae, SSStrU.empty);
       
       if(
-        SSStrU.isNotEmpty              (conceptRelation.relation + conceptRelation.concept) &&
+        !SSStrU.isEmpty                 (conceptRelation.relation + conceptRelation.concept) &&
         !conceptRelationCombis.contains (conceptRelation.relation + conceptRelation.concept)){
         
         conceptRelationCombis.add  (conceptRelation.relation + conceptRelation.concept);
@@ -68,7 +68,7 @@ public class SSLOMConceptRelation extends SSEntityA{
   
   public static List<String> concepts(List<SSLOMConceptRelation> conceptRelations){
    
-    List<String> concepts = new ArrayList<String>();
+    List<String> concepts = new ArrayList<>();
     
     for(SSLOMConceptRelation conceptRelation : conceptRelations){
       concepts.add(conceptRelation.concept);

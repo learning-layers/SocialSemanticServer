@@ -66,7 +66,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         throw new Exception("pars null");
       }
       
-      final Map<String, String> inserts    = new HashMap<String, String>();
+      final Map<String, String> inserts    = new HashMap<>();
       
       insert(inserts, SSSQLVarU.activityId,     activity);
       insert(inserts, SSSQLVarU.activityType,   type);
@@ -112,11 +112,11 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSActivity>          activities     = new ArrayList<SSActivity>();
-      final List<Map<String, String>> wheres         = new ArrayList<Map<String, String>>();
-      final List<String>              tables         = new ArrayList<String>();
-      final List<String>              columns        = new ArrayList<String>();
-      final List<String>              tableCons      = new ArrayList<String>();
+      final List<SSActivity>          activities     = new ArrayList<>();
+      final List<Map<String, String>> wheres         = new ArrayList<>();
+      final List<String>              tables         = new ArrayList<>();
+      final List<String>              columns        = new ArrayList<>();
+      final List<String>              tableCons      = new ArrayList<>();
       Long                            timestamp;
 
       table    (tables,    activityTable);
@@ -137,7 +137,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         table    (tables,    activityUsersTable);
         tableCon (tableCons, activityUsersTable,    SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
         
-        final Map<String, String> whereUsers = new HashMap<String, String>();
+        final Map<String, String> whereUsers = new HashMap<>();
         
         for(SSUri user : users){
           where(whereUsers, activityUsersTable, SSSQLVarU.userId, user);
@@ -153,7 +153,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         table    (tables,    activityEntitiesTable);
         tableCon (tableCons, activityEntitiesTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
       
-        final Map<String, String> whereEntities = new HashMap<String, String>();
+        final Map<String, String> whereEntities = new HashMap<>();
         
         for(SSUri entity : entities){
           where(whereEntities, activityEntitiesTable, SSSQLVarU.entityId, entity);
@@ -166,7 +166,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         types != null &&
         !types.isEmpty()){
         
-        final Map<String, String> whereTypes = new HashMap<String, String>();
+        final Map<String, String> whereTypes = new HashMap<>();
         
         for(SSActivityE type : types){
           where(whereTypes, activityTable, SSSQLVarU.activityType, type);
@@ -237,10 +237,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     
     try{
     
-      final List<String>              tables         = new ArrayList<String>();
-      final List<String>              columns        = new ArrayList<String>();
-      final Map<String, String>       wheres         = new HashMap<String, String>();
-      final List<String>              tableCons      = new ArrayList<String>();
+      final List<String>              tables         = new ArrayList<>();
+      final List<String>              columns        = new ArrayList<>();
+      final Map<String, String>       wheres         = new HashMap<>();
+      final List<String>              tableCons      = new ArrayList<>();
       
       table    (tables,    activityTable);
       table    (tables,    activityUsersTable);
@@ -265,10 +265,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     
     try{
     
-      final List<String>              tables         = new ArrayList<String>();
-      final List<String>              columns        = new ArrayList<String>();
-      final Map<String, String>       wheres         = new HashMap<String, String>();
-      final List<String>              tableCons      = new ArrayList<String>();
+      final List<String>              tables         = new ArrayList<>();
+      final List<String>              columns        = new ArrayList<>();
+      final Map<String, String>       wheres         = new HashMap<>();
+      final List<String>              tableCons      = new ArrayList<>();
       
       table    (tables,    activityTable);
       table    (tables,    activityEntitiesTable);

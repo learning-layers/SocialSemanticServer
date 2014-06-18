@@ -45,7 +45,7 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.learnEpCircle, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -54,6 +54,6 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   public String getLearnEpCircle() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpCircle);
+    return SSStrU.removeTrailingSlash(learnEpCircle);
   }
 }

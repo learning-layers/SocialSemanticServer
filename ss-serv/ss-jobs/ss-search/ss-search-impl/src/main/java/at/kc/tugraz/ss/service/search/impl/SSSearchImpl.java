@@ -29,11 +29,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCombinedPar;
@@ -130,13 +128,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerTag = new HashMap<String, List<SSSearchResult>>();
+      final Map<String, List<SSSearchResult>> searchResultsPerTag = new HashMap<>();
       final List<SSSearchResult>              result;
       List<SSSearchResult>                    searchResultsForTagOneTag;
       
       for(String tagLabel : par.tags){
         
-        searchResultsForTagOneTag = new ArrayList<SSSearchResult>();
+        searchResultsForTagOneTag = new ArrayList<>();
         
         for(SSUri foundEntity :
           
@@ -181,10 +179,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
 
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
       
-      for(SSSolrKeywordLabel keyword : par.keywords){
+      for(String keyword : par.keywords){
         
         searchResultsForOneKeyword.clear();
         
@@ -196,7 +194,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             searchResultsForOneKeyword);
         }
 
-        searchResultsPerKeyword.put(SSSolrKeywordLabel.toStr(keyword), new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
+        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
@@ -210,10 +208,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<String, List<SSSearchResult>>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
      
-      for(SSModelUEMILabel mi : par.mIs){
+      for(String mi : par.mIs){
         
         searchResultsForOneKeyword.clear();
         
@@ -225,7 +223,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             searchResultsForOneKeyword);
         }
         
-        searchResultsPerKeyword.put(SSModelUEMILabel.toStr(mi), new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
+        searchResultsPerKeyword.put(mi, new ArrayList<>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
@@ -239,8 +237,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<String, List<SSSearchResult>>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<SSSearchResult>();
+      final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
       
       for(String tag : par.tags){
         
@@ -258,7 +256,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             searchResultsForOneKeyword);
         }
         
-        searchResultsPerTag.put(tag, new ArrayList<SSSearchResult>(searchResultsForOneKeyword));
+        searchResultsPerTag.put(tag, new ArrayList<>(searchResultsForOneKeyword));
       }
       
       return SSSearchFct.selectAndFillSearchResults(par.user, SSStrU.valueOr, searchResultsPerTag);
@@ -271,9 +269,9 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   protected List<SSSearchResult> searchCombined(final SSSearchCombinedPar par) throws Exception{
     
     try{
-      final List<SSSearchResult> searchResults        = new ArrayList<SSSearchResult>();
-      final List<SSSearchResult> searchResultsForUser = new ArrayList<SSSearchResult>();
-      final List<SSUri>          subEntities          = new ArrayList<SSUri>();
+      final List<SSSearchResult> searchResults        = new ArrayList<>();
+      final List<SSSearchResult> searchResultsForUser = new ArrayList<>();
+      final List<SSUri>          subEntities          = new ArrayList<>();
       SSEntity                   entityToCheckType;
       
       if(par.onlySubEntities){
@@ -344,7 +342,9 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           par.onlySubEntities,
           subEntities));
       
-      for(SSSearchResult searchResult : SSSearchResult.distinct(searchResults)){
+      SSStrU.distinctWithoutEmptyAndNull2(searchResults);
+      
+      for(SSSearchResult searchResult : searchResults){
         
         if(!SSServCaller.entityUserCanRead(par.user, searchResult.entity)){
           continue;

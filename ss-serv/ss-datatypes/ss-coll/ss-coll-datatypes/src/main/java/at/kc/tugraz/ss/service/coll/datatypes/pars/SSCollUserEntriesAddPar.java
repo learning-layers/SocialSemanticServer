@@ -32,8 +32,8 @@ import java.util.List;
 public class SSCollUserEntriesAddPar extends SSServPar{
   
   public SSUri             coll          = null;
-  public List<SSUri>       entries       = new ArrayList<SSUri>();
-  public List<SSLabel>     labels        = new ArrayList<SSLabel>();
+  public List<SSUri>       entries       = new ArrayList<>();
+  public List<SSLabel>     labels        = new ArrayList<>();
       
   public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
     

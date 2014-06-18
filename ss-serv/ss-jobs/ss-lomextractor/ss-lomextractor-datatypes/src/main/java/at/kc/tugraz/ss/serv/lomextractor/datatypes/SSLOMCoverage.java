@@ -42,13 +42,13 @@ public class SSLOMCoverage extends SSEntityA{
   
   public static List<SSLOMCoverage> distinctCoverages(List<SSLOMCoverage> coverages){
     
-    List<String>        coverageLabels = new ArrayList<String>();
+    List<String>        coverageLabels = new ArrayList<>();
     List<SSLOMCoverage> result         = new ArrayList<SSLOMCoverage>();
     
     for(SSLOMCoverage coverage : coverages){
       
       if(
-        SSStrU.isNotEmpty       (coverage.label) &&
+        !SSStrU.isEmpty          (coverage.label) &&
         !coverageLabels.contains (coverage.label)){
         
         coverageLabels.add  (coverage.label);

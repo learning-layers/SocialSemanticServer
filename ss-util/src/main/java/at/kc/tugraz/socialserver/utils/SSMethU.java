@@ -332,7 +332,7 @@ public enum SSMethU{
   }
 
   public static String toStr(SSMethU op){
-    return SSStrU.toString(op);
+    return SSStrU.toStr(op);
   
   }
   public static Boolean equals(SSMethU op1, SSMethU op2){

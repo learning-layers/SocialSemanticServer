@@ -14,7 +14,7 @@ public class ResourceFiltering {
 	/*
 	public WikipediaReader filterOrphans(int level, boolean tagLevel) {
 		List<Integer> resCountList = (tagLevel ? this.reader.getResourceTagCounts() : this.reader.getResourceCounts());
-		List<Integer> removeIDs = new ArrayList<Integer>();
+		List<Integer> removeIDs = new ArrayList<>();
 		for (int resID = 0; resID < resCountList.size(); resID++) {
 			if (resCountList.get(resID) < level) {
 				removeIDs.add(resID);

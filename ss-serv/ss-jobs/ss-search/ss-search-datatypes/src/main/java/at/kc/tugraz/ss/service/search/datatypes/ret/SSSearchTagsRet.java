@@ -56,8 +56,8 @@ public class SSSearchTagsRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld               = new HashMap<String, Object>();
-    final Map<String, Object> searchResultsObj = new HashMap<String, Object>();
+    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> searchResultsObj = new HashMap<>();
     
     searchResultsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSSearchResult.class.getName());
     searchResultsObj.put(SSJSONLDU.container, SSJSONLDU.set);

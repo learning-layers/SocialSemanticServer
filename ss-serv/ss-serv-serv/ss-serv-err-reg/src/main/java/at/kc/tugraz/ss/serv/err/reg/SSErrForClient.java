@@ -75,14 +75,14 @@ public class SSErrForClient {
   
   public static List<String> linesWhereThrown(List<SSErrForClient> errors) {
     
-    List<String> linesWhereThrown = new ArrayList<String>();
+    List<String> linesWhereThrown = new ArrayList<>();
     
     if(errors == null){
       return linesWhereThrown;
     }
     
     for(SSErrForClient error: errors){
-      linesWhereThrown.add(SSStrU.toString(error.lineWhereThrown));
+      linesWhereThrown.add(SSStrU.toStr(error.lineWhereThrown));
     }
     
     return linesWhereThrown;
@@ -90,14 +90,14 @@ public class SSErrForClient {
   
   public static List<String> methodsWhereThrown(List<SSErrForClient> errors) {
     
-    List<String> methodsWhereThrown = new ArrayList<String>();
+    List<String> methodsWhereThrown = new ArrayList<>();
     
     if(errors == null){
       return methodsWhereThrown;
     }
     
     for(SSErrForClient error: errors){
-      methodsWhereThrown.add(SSStrU.toString(error.methodWhereThrown));
+      methodsWhereThrown.add(SSStrU.toStr(error.methodWhereThrown));
     }
     
     return methodsWhereThrown;
@@ -105,14 +105,14 @@ public class SSErrForClient {
   
   public static List<String> classesWhereThrown(List<SSErrForClient> errors) {
     
-    List<String> classesWhereThrown = new ArrayList<String>();
+    List<String> classesWhereThrown = new ArrayList<>();
     
     if(errors == null){
       return classesWhereThrown;
     }
     
     for(SSErrForClient error: errors){
-      classesWhereThrown.add(SSStrU.toString(error.classWhereThrown));
+      classesWhereThrown.add(SSStrU.toStr(error.classWhereThrown));
     }
     
     return classesWhereThrown;
@@ -120,14 +120,14 @@ public class SSErrForClient {
   
   public static List<String> threadsWhereThrown(List<SSErrForClient> errors) {
     
-    List<String> threadsWhereThrown = new ArrayList<String>();
+    List<String> threadsWhereThrown = new ArrayList<>();
     
     if(errors == null){
       return threadsWhereThrown;
     }
     
     for(SSErrForClient error: errors){
-      threadsWhereThrown.add(SSStrU.toString(error.threadWhereThrown));
+      threadsWhereThrown.add(SSStrU.toStr(error.threadWhereThrown));
     }
     
     return threadsWhereThrown;
@@ -135,7 +135,7 @@ public class SSErrForClient {
   
   public static List<String> messages(List<SSErrForClient> errors) {
     
-    List<String> messages = new ArrayList<String>();
+    List<String> messages = new ArrayList<>();
     
     if(errors == null){
       return messages;
@@ -150,7 +150,7 @@ public class SSErrForClient {
   
   public static List<String> classNames(List<SSErrForClient> errors) {
     
-    List<String> classNames = new ArrayList<String>();
+    List<String> classNames = new ArrayList<>();
     
     if(errors == null){
       return classNames;

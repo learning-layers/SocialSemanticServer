@@ -33,7 +33,7 @@ public class Utilities {
 	}
 	
 	public static List<Integer> getRandomIndices(int from, int to) {
-		List<Integer> indices = new ArrayList<Integer>();
+		List<Integer> indices = new ArrayList<>();
 		for (int j = from; j <= to; j++) {
 			indices.add(j);
 		}
@@ -114,7 +114,7 @@ public class Utilities {
 	}
 	
 	public static List<String> getTagNames(List<Integer> tagIDs, WikipediaReader reader) {
-		List<String> tagNames = new ArrayList<String>();
+		List<String> tagNames = new ArrayList<>();
 		for (int id : tagIDs) {
 			tagNames.add(reader.getTags().get(id));
 		}

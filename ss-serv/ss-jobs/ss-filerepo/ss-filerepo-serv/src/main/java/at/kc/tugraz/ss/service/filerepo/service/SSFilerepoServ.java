@@ -38,7 +38,7 @@ import java.util.Map;
 public class SSFilerepoServ extends SSServA{
   
   public  static final SSFilerepoServ                            inst            = new SSFilerepoServ(SSFileRepoClientI.class, SSFileRepoServerI.class);
-  private static final Map<String, SSFileRepoFileAccessProperty> fileAccessProps = new HashMap<String, SSFileRepoFileAccessProperty>();
+  private static final Map<String, SSFileRepoFileAccessProperty> fileAccessProps = new HashMap<>();
   
   protected SSFilerepoServ(
     final Class servImplClientInteraceClass, 

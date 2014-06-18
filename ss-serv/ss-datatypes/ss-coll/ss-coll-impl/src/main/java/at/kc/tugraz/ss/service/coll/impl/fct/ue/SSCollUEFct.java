@@ -42,14 +42,14 @@ public class SSCollUEFct {
         par.user,
         par.entry,
         SSUEE.removeCollectionItem,
-        SSUri.toStr(par.coll),
+        SSStrU.toStr(par.coll),
         false);
       
       SSServCaller.ueAdd(
         par.user,
         par.coll,
         SSUEE.changeCollectionByRemoveCollectionItem,
-        SSUri.toStr(par.entry),
+        SSStrU.toStr(par.entry),
         false);
       
     }catch(Exception error){
@@ -164,14 +164,14 @@ public class SSCollUEFct {
 //          par.user,
 //          par.collEntry,
 //          SSUEEnum.addSharedCollectionItem,
-//          SSUri.toStr(par.coll),
+//          SSStrU.toStr(par.coll),
 //          par.shouldCommit);
 //        
 //        SSServCaller.ueAdd(
 //          par.user,
 //          par.coll,
 //          SSUEEnum.changeCollectionByAddSharedCollectionItem,
-//          SSUri.toStr(par.collEntry),
+//          SSStrU.toStr(par.collEntry),
 //          par.shouldCommit);
 //      }
 //      
@@ -181,14 +181,14 @@ public class SSCollUEFct {
 //          par.user,
 //          par.collEntry,
 //          SSUEEnum.addPrivateCollectionItem,
-//          SSUri.toStr(par.coll),
+//          SSStrU.toStr(par.coll),
 //          par.shouldCommit);
 //        
 //        SSServCaller.ueAdd(
 //          par.user,
 //          par.coll,
 //          SSUEEnum.changeCollectionByAddPrivateCollectionItem,
-//          SSUri.toStr(par.collEntry),
+//          SSStrU.toStr(par.collEntry),
 //          par.shouldCommit);
 //      }
 //      

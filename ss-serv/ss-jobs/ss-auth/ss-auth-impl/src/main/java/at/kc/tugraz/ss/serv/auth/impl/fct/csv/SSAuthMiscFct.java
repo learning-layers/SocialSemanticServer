@@ -66,7 +66,7 @@ public class SSAuthMiscFct{
       
       final String key = sqlFct.getKey(userUri);
       
-      if(!key.equals(genKey(SSLabel.toStr(userLabel) + pass))){
+      if(!key.equals(genKey(SSStrU.toStr(userLabel) + pass))){
         throw new Exception("user key wrong");
       }
       
@@ -85,7 +85,7 @@ public class SSAuthMiscFct{
 //    final String              password) throws Exception{
 //    
 //    try{
-//      final String userStr = SSLabel.toStr(userLabel);
+//      final String userStr = SSStrU.toStr(userLabel);
 //      
 //      if(
 //        !SSStrU.equals(password, passwordPerUser.get(userStr)) ||

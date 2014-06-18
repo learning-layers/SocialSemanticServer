@@ -116,9 +116,9 @@ public class SSModelUEUESetter{
 		
 		for(SSUE userEvent : sortedUserEvents){
 			
-			if(eventsPerUser.containsKey(SSStrU.toString(userEvent.user))){
+			if(eventsPerUser.containsKey(SSStrU.toStr(userEvent.user))){
 				
-				eventsPerUser.get(SSStrU.toString(userEvent.user)).add(userEvent);
+				eventsPerUser.get(SSStrU.toStr(userEvent.user)).add(userEvent);
 				
 			}else{
 			
@@ -126,7 +126,7 @@ public class SSModelUEUESetter{
 				
 				eventsForResource.add(userEvent);
 				
-				eventsPerUser.put(SSStrU.toString(userEvent.user), eventsForResource);
+				eventsPerUser.put(SSStrU.toStr(userEvent.user), eventsForResource);
 			}
 		}
 		
@@ -140,9 +140,9 @@ public class SSModelUEUESetter{
 		
 		for(SSUE userEvent : sortedUserEvents){
 			
-			if(eventsPerResource.containsKey(SSStrU.toString(userEvent.entity))){
+			if(eventsPerResource.containsKey(SSStrU.toStr(userEvent.entity))){
 				
-				eventsPerResource.get(SSStrU.toString(userEvent.entity)).add(userEvent);
+				eventsPerResource.get(SSStrU.toStr(userEvent.entity)).add(userEvent);
 				
 			}else{
 			
@@ -150,7 +150,7 @@ public class SSModelUEUESetter{
 				
 				eventsForResource.add(userEvent);
 				
-				eventsPerResource.put(SSStrU.toString(userEvent.entity), eventsForResource);
+				eventsPerResource.put(SSStrU.toStr(userEvent.entity), eventsForResource);
 			}
 		}
 		

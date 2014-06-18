@@ -38,9 +38,9 @@ public class SSActivity extends SSEntityA{
   public SSActivityE         type         = null;
   public Long                creationTime = null;
   public SSUri               author       = null;
-  public List<SSUri>         users        = new ArrayList<SSUri>();
-  public List<SSUri>         entities     = new ArrayList<SSUri>();
-  public List<SSTextComment> comments     = new ArrayList<SSTextComment>();
+  public List<SSUri>         users        = new ArrayList<>();
+  public List<SSUri>         entities     = new ArrayList<>();
+  public List<SSTextComment> comments     = new ArrayList<>();
 
   public static SSActivity get(
     final SSUri               id,
@@ -86,10 +86,10 @@ public class SSActivity extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld              = new HashMap<String, Object>();
-    final Map<String, Object> entitiesObj     = new HashMap<String, Object>();
-    final Map<String, Object> usersObj        = new HashMap<String, Object>();
-    final Map<String, Object> commentsObj     = new HashMap<String, Object>();
+    final Map<String, Object> ld              = new HashMap<>();
+    final Map<String, Object> entitiesObj     = new HashMap<>();
+    final Map<String, Object> usersObj        = new HashMap<>();
+    final Map<String, Object> commentsObj     = new HashMap<>();
     
     ld.put(SSVarU.id,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,         SSVarU.sss + SSStrU.colon + SSActivityE.class.getName());
@@ -117,8 +117,8 @@ public class SSActivity extends SSEntityA{
   
   /* json getters */
 
-  public String getId(){
-    return SSUri.toStrWithoutSlash(id);
+  public String getId() throws Exception{
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getType(){
@@ -129,19 +129,19 @@ public class SSActivity extends SSEntityA{
     return creationTime;
   }
 
-  public String getAuthor(){
-    return SSUri.toStrWithoutSlash(author);
+  public String getAuthor() throws Exception{
+    return SSStrU.removeTrailingSlash(author);
   }
 
-  public List<String> getUsers(){
-    return SSUri.toStrWithoutSlash(users);
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
   }
 
-  public List<String> getEntities(){
-    return SSUri.toStrWithoutSlash(entities);
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
 
-  public List<String> getComments(){
-    return SSTextComment.toStr(comments);
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
   }
 }

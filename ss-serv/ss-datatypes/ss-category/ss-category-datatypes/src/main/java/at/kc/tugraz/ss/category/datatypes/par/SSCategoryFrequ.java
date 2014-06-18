@@ -54,7 +54,7 @@ public class SSCategoryFrequ implements SSJSONLDPropI{
   @Override
   public Object jsonLDDesc() {
   
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSCategoryLabel.class.getName());
     ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
@@ -65,7 +65,7 @@ public class SSCategoryFrequ implements SSJSONLDPropI{
   
   /* getters to allow for json enconding */
   public String getLabel() {
-		return SSCategoryLabel.toStr(label);
+		return SSStrU.toStr(label);
 	}
   
   public String getSpace() {

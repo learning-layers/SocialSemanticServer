@@ -45,7 +45,7 @@ public class SSJSONLDDescRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.desc, SSVarU.xsd + SSStrU.colon + SSStrU.valueObject);
     return ld;

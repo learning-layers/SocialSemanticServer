@@ -30,7 +30,7 @@ import java.util.List;
 
 public class SSModelUEMISetterHelper {
 
-  private static List<String> usedMis = new ArrayList<String>();
+  private static List<String> usedMis = new ArrayList<>();
   
 	public boolean getNumberOfTimesMaturingIndicator(
 			SSModelUEEntity resource,
@@ -111,7 +111,7 @@ public class SSModelUEMISetterHelper {
 			
 			for(SSUEE eventType : eventTypes){
 				
-				if(SSUEE.isSame(event.type, eventType)){
+				if(SSUEE.equals(event.type, eventType)){
 					
 					result.add(event);
 				}

@@ -24,28 +24,19 @@ public class SSObjU {
   
   private SSObjU(){}
   
-	public static Boolean isNotNull(final Object object){
-		
-		if(object != null){
-			return true;
-		}
-		
-		return false;
-	}
-  
-  public static Boolean isNull(final Object... objs) {
+  public static Boolean isNull(final Object... objects) {
     
-    for(Object obj : objs){
+    if(objects == null){
+      return true;
+    }
+    
+    for(Object object : objects){
       
-      if(obj == null){
+      if(object == null){
         return true;
       }
     }
     
     return false;
   }
-	
-	public static Boolean isNull(final Object obj){
-		return obj == null;
-	}
 }

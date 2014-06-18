@@ -22,10 +22,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
-import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +34,16 @@ public class SSSearchMiscFct{
     
     try{
       
-      final List<SSUri> privateAddedUris = new ArrayList<SSUri>();
-      final List<SSUri> publicAddedUris  = new ArrayList<SSUri>();
+      final List<SSUri> privateAddedUris = new ArrayList<>();
+      final List<SSUri> publicAddedUris  = new ArrayList<>();
       
       for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(userUri, searchResultUri)){
         
         switch(circle.type){
           case priv:{
             
-            if(!SSUri.contains(publicAddedUris, searchResultUri)){
-              SSUri.addDistinct(privateAddedUris, searchResultUri);
+            if(!SSStrU.contains(publicAddedUris, searchResultUri)){
+              SSUri.addDistinctWithoutNull(privateAddedUris, searchResultUri);
             }
 
             break;
@@ -56,8 +52,8 @@ public class SSSearchMiscFct{
           case pub:
           default:{
             
-            SSUri.remove      (privateAddedUris, searchResultUri);
-            SSUri.addDistinct (publicAddedUris,  searchResultUri);
+            SSStrU.remove(privateAddedUris, searchResultUri);
+            SSUri.addDistinctWithoutNull(publicAddedUris,  searchResultUri);
           }
         }
       }
@@ -80,13 +76,15 @@ public class SSSearchMiscFct{
     
     try{
     
-      final List<SSUri> subEntities  = new ArrayList<SSUri>();
+      final List<SSUri> subEntities  = new ArrayList<>();
       
       for(SSUri entity : entities){
         subEntities.addAll(SSServCaller.entityUserSubEntitiesGet(user, entity));
       }
       
-      return SSUri.distinct(subEntities);
+      SSStrU.distinctWithoutNull2(subEntities);
+      
+      return subEntities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -104,11 +102,11 @@ public class SSSearchMiscFct{
         return searchResults;
       }
       
-      final List<SSSearchResult> filteredResults = new ArrayList<SSSearchResult>();
+      final List<SSSearchResult> filteredResults = new ArrayList<>();
       
       for(SSSearchResult mIResult : searchResults){
         
-        if(!SSSearchResult.contains(subEntities, mIResult.entity)){
+        if(!SSStrU.contains(subEntities, mIResult.entity)){
           continue;
         }
         
@@ -129,7 +127,7 @@ public class SSSearchMiscFct{
     final Boolean      includeLabel) throws Exception{
     
     try{
-      final List<SSSearchResult> labelAndDescSearchResults = new ArrayList<SSSearchResult>();
+      final List<SSSearchResult> labelAndDescSearchResults = new ArrayList<>();
       
       if(
         includeDescription &&

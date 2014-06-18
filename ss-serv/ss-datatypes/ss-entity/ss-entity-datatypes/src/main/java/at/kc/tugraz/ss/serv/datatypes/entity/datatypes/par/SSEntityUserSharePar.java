@@ -27,7 +27,7 @@ import java.util.List;
 public class SSEntityUserSharePar extends SSServPar{
   
   public SSUri         entity          = null;
-  public List<SSUri>   users           = new ArrayList<SSUri>();
+  public List<SSUri>   users           = new ArrayList<>();
   public SSTextComment comment         = null;
 
   public SSEntityUserSharePar(SSServPar par) throws Exception{

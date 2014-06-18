@@ -62,8 +62,8 @@ public class SSMimeTypeU {
   
   public static synchronized void init() throws Exception{
     
-    mimeTypesFileExt   = new HashMap<String, String>();
-    fileExtForMimTypes = new HashMap<String, String>();
+    mimeTypesFileExt   = new HashMap<>();
+    fileExtForMimTypes = new HashMap<>();
       
     mimeTypesFileExt.put(applicationPdf,           SSFileExtU.pdf);
     mimeTypesFileExt.put(applicationMsword,        SSFileExtU.doc);

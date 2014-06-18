@@ -22,9 +22,7 @@ package at.kc.tugraz.ss.serv.lomextractor.impl;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorClientI;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorServerI;
 import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
@@ -42,16 +40,12 @@ public class SSLOMExtractorImpl extends SSServImplMiscA implements SSLOMExtracto
     super(conf);
   }
   
-  /****** SSLOMExtractorClientI ******/
-  
-  /****** SSLOMExtractorServerI ******/
-  
   @Override
   public boolean lomExtractFromDir(SSServPar par) throws Exception {
     
     SSLOMExtractorOutHandler   out       = new SSLOMExtractorOutHandler(this);
     SSLOMExtractorStats        stat      = new SSLOMExtractorStats();
-    Map<String, SSLOMResource> resources = new HashMap<String, SSLOMResource>();
+    Map<String, SSLOMResource> resources = new HashMap<>();
     Date                       start     = new Date();
     
     extractFromDir                      (resources, SSFileU.filesForDirPath(((SSLOMExtractorConf)conf).inputDirPath), stat);
@@ -87,7 +81,7 @@ public class SSLOMExtractorImpl extends SSServImplMiscA implements SSLOMExtracto
       if(file.isDirectory()){
         
         if(
-          SSStrU.notEquals(file.getName(), SSStrU.valueOEORGANICEPRINTS) &&
+          !SSStrU.equals(file.getName(), SSStrU.valueOEORGANICEPRINTS) &&
           ((SSLOMExtractorConf)conf).useEdunet){
           extractFromDir(resources, file.listFiles(), stat);  
         }

@@ -27,7 +27,7 @@ public class SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar extends SSServ
   
   public SSUri            forUser       = null;
   public SSUri            entity        = null;
-  public List<String>     categories    = new ArrayList<String>();
+  public List<String>     categories    = new ArrayList<>();
   public Integer          maxTags       = 10;
   
   public SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(SSServPar par) throws Exception{

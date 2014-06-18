@@ -124,7 +124,7 @@ public abstract class SSServImplA{
 
   //  public List<String> recommendTagsWithLanguageModel(SSUri userUri, SSUri entityUri, Integer maxTags) throws Exception {
   //
-  //    HashMap<String, Object> opPars = new HashMap<String, Object>();
+  //    HashMap<String, Object> opPars = new HashMap<>();
   //
   //    opPars.put(SSVarU.user,           userUri);
   //    opPars.put(SSVarU.resource,       entityUri);

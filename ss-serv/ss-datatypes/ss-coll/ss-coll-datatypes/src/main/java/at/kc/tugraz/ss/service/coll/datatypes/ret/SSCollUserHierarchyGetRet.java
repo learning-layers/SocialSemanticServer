@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSCollUserHierarchyGetRet extends SSServRetI{
 
-  public List<SSColl> colls = new ArrayList<SSColl>();
+  public List<SSColl> colls = new ArrayList<>();
 
   public static SSCollUserHierarchyGetRet get(List<SSColl> colls, SSMethU op){
     return new SSCollUserHierarchyGetRet(colls, op);
@@ -51,8 +51,8 @@ public class SSCollUserHierarchyGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld            = new HashMap<String, Object>();
-    Map<String, Object> collsObj   = new HashMap<String, Object>();
+    Map<String, Object> ld            = new HashMap<>();
+    Map<String, Object> collsObj   = new HashMap<>();
     
     collsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSColl.class.getName());
     collsObj.put(SSJSONLDU.container, SSJSONLDU.set);

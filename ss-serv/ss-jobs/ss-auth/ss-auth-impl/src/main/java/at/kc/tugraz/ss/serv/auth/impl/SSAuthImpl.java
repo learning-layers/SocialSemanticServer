@@ -22,6 +22,7 @@
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -52,7 +53,7 @@ import java.util.Map;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
-  private static final List<String>          keys      = new ArrayList<String>();
+  private static final List<String>          keys      = new ArrayList<>();
   private static final String                noAuthKey = "FischersFritzFischtFrischeFische";
   private        final SSAuthSQLFct          sqlFct;
   
@@ -82,7 +83,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     
     try{
       final SSAuthUsersFromCSVFileAddPar par                          = new SSAuthUsersFromCSVFileAddPar(parA);
-      final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<String, String>();
+      final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<>();
         
       try{
         passwordsForUsersFromCSVFile.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
@@ -144,7 +145,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         keys.add(
           sqlFct.addKey(
             userUri,
-            SSAuthMiscFct.genKey(SSLabel.toStr(par.label) + par.password)));
+            SSAuthMiscFct.genKey(SSStrU.toStr(par.label) + par.password)));
       }
       
       try{
@@ -287,7 +288,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
 //private static String key;
 //private static Date keyDate;
-//private static Map<String, String> passwords = new HashMap<String, String>();
+//private static Map<String, String> passwords = new HashMap<>();
 //private static String credPath = "/home/nweber/workspace/Dem1Files/";
 //private MessageDigest md5;
 //  @Deprecated
@@ -367,7 +368,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
 //  private boolean checkToken(String token) {
 //    boolean found = false;
-//    List<String> tokenList = new ArrayList<String>();
+//    List<String> tokenList = new ArrayList<>();
 //    try {
 //
 //      boolean exists = (new File(credPath + "tokens.txt")).exists();

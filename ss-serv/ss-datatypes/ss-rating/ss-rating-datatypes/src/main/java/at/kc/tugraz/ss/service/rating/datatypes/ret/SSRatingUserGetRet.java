@@ -44,7 +44,7 @@ public class SSRatingUserGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.rating, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     

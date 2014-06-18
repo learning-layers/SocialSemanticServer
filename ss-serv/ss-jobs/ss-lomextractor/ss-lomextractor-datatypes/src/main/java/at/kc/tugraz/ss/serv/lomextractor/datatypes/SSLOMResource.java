@@ -34,10 +34,10 @@ public class SSLOMResource extends SSEntityA{
   public List<SSLOMTitle>           titles                = new ArrayList<SSLOMTitle>();
   public List<SSLOMKeyword>         keywords              = new ArrayList<SSLOMKeyword>();
   public List<SSLOMDesc>            descs                 = new ArrayList<SSLOMDesc>();
-  public List<String>               formats               = new ArrayList<String>();
-  public List<String>               learningResourceTypes = new ArrayList<String>();
-  public List<String>               intendedEndUserRoles  = new ArrayList<String>();
-  public List<String>               contexts              = new ArrayList<String>();
+  public List<String>               formats               = new ArrayList<>();
+  public List<String>               learningResourceTypes = new ArrayList<>();
+  public List<String>               intendedEndUserRoles  = new ArrayList<>();
+  public List<String>               contexts              = new ArrayList<>();
   public List<SSLOMConceptRelation> conceptRelatios       = new ArrayList<SSLOMConceptRelation>();
   public List<SSLOMCoverage>        coverages             = new ArrayList<SSLOMCoverage>();
   

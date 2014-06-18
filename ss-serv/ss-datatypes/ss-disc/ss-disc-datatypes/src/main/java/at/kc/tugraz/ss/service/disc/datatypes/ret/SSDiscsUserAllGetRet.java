@@ -50,8 +50,8 @@ public class SSDiscsUserAllGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> discsObj   = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> discsObj   = new HashMap<>();
     
     discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSDisc.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);

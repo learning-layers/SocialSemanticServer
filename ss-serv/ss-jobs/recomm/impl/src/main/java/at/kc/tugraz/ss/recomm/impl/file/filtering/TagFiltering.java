@@ -13,7 +13,7 @@ public class TagFiltering {
 	// dkowald: solve
 	/*
 	public WikipediaReader filterOrphans(int level) {
-		List<Integer> removeIDs = new ArrayList<Integer>();
+		List<Integer> removeIDs = new ArrayList<>();
 		for (int tagID = 0; tagID < this.reader.getTagCounts().size(); tagID++) {
 			if (this.reader.getTagCounts().get(tagID) < level) {
 				removeIDs.add(tagID);

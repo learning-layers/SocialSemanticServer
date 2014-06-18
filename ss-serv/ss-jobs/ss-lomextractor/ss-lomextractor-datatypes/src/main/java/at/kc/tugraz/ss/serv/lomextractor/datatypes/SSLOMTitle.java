@@ -40,13 +40,13 @@ public class SSLOMTitle extends SSEntityA{
   
   public static List<SSLOMTitle> distinctTitles(List<SSLOMTitle> titles){
     
-    List<String>     titleLabels = new ArrayList<String>();
+    List<String>     titleLabels = new ArrayList<>();
     List<SSLOMTitle> result      = new ArrayList<SSLOMTitle>();
     
     for(SSLOMTitle title : titles){
       
       if(
-        SSStrU.isNotEmpty     (title.label) &&
+        !SSStrU.isEmpty       (title.label) &&
         !titleLabels.contains (title.label)){
         
         titleLabels.add (title.label);
@@ -63,14 +63,14 @@ public class SSLOMTitle extends SSEntityA{
       
       if(
         SSStrU.equals     (title.lang, lang) &&
-        SSStrU.isNotEmpty (title.label)){
+        !SSStrU.isEmpty   (title.label)){
         return title;
       }
     }
     
     for(SSLOMTitle title : titles){
       
-       if(SSStrU.isNotEmpty (title.label)){
+       if(!SSStrU.isEmpty (title.label)){
          return title;
        }
     }
@@ -84,7 +84,7 @@ public class SSLOMTitle extends SSEntityA{
       
       if(
         SSStrU.equals     (title.lang, lang) &&
-        SSStrU.isNotEmpty (title.label)){
+        !SSStrU.isEmpty   (title.label)){
         return title;
       }
     }

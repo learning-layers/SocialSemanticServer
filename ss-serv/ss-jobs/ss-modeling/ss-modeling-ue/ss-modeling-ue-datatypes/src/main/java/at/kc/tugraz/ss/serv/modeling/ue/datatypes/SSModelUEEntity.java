@@ -36,22 +36,22 @@ public class SSModelUEEntity extends SSEntityA{
 	 * resource and user/user common properties
 	 */
 	public final SSUri                               entity;
-	public final List<SSUri>                         relatedPersons            = new ArrayList<SSUri>();
+	public final List<SSUri>                         relatedPersons            = new ArrayList<>();
 	public final List<SSUE>                          events                    = new ArrayList<SSUE>();
-	public final List<String>                        mIs                       = new ArrayList<String>();
-	public final Map<String,Integer>                 mIDayCounts               = new HashMap<String, Integer>();
-	public final List<SSUri>                         editors                   = new ArrayList<SSUri>();
+	public final List<String>                        mIs                       = new ArrayList<>();
+	public final Map<String,Integer>                 mIDayCounts               = new HashMap<>();
+	public final List<SSUri>                         editors                   = new ArrayList<>();
   public SSEntityE                                 type;
 	
 	/*
 	 * user/user related properties
 	 */
 	public final List<SSUE>                          personsEvents                      = new ArrayList<SSUE>();
-	public final  List<SSUri>                        personsDiscussions                 = new ArrayList<SSUri>();
-	public final  List<SSUri>                        personsRelatedResources            = new ArrayList<SSUri>();
-	public final  List<SSUri>                        personsRelatedPersons              = new ArrayList<SSUri>();
+	public final  List<SSUri>                        personsDiscussions                 = new ArrayList<>();
+	public final  List<SSUri>                        personsRelatedResources            = new ArrayList<>();
+	public final  List<SSUri>                        personsRelatedPersons              = new ArrayList<>();
 	public final  List<SSModelUETopicScore>          personsTopicScores                 = new ArrayList<SSModelUETopicScore>();
-  public final  Map<String,Integer>                personsTopicFrequencies            = new HashMap<String, Integer>();
+  public final  Map<String,Integer>                personsTopicFrequencies            = new HashMap<>();
   public final  Map<String,List<SSUE>>             personsCreatedTopicEvents          = new HashMap<String, List<SSUE>>();
   public final  Map<String,List<SSUE>>             personsUsingTopicEvents            = new HashMap<String, List<SSUE>>();
   public final  Map<String,Double>                 personsRawTopicFrequencies         = new HashMap<String, Double>();
@@ -61,9 +61,9 @@ public class SSModelUEEntity extends SSEntityA{
   /*
 	 * mi calculation helpers
 	 */
-  public final Map<String, Integer>                counters                           = new HashMap<String, Integer>();
-	public final List<SSUri>                         personsChanged                     = new ArrayList<SSUri>();
-	public final List<SSUri>                         personsView                        = new ArrayList<SSUri>();
+  public final Map<String, Integer>                counters                           = new HashMap<>();
+	public final List<SSUri>                         personsChanged                     = new ArrayList<>();
+	public final List<SSUri>                         personsView                        = new ArrayList<>();
 	
 	/**
  	 * mis
@@ -326,7 +326,7 @@ public class SSModelUEEntity extends SSEntityA{
 				
 				result.add(
           new SSModelUERelation(
-          SSStrU.toString(entity),
+          SSStrU.toStr(entity),
           null,
           topicScore.topic,
           null,
@@ -346,7 +346,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							discussion.toString(),
 							null,
@@ -365,7 +365,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							createdTopic,
 							null,
@@ -384,7 +384,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							usedTopic.toString(),
 							null,
@@ -403,7 +403,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							topicScore.topic.toString(),
 							null,
@@ -422,7 +422,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							relatedDigitalResource.toString(),
 							null,
@@ -441,7 +441,7 @@ public class SSModelUEEntity extends SSEntityA{
 			
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							maturingIndicator,
 							null,
@@ -461,7 +461,7 @@ public class SSModelUEEntity extends SSEntityA{
 
 			result.add(
 					new SSModelUERelation(
-							SSStrU.toString(entity),
+							SSStrU.toStr(entity),
 							null,
 							editor.toString(),
 							null,
@@ -475,15 +475,15 @@ public class SSModelUEEntity extends SSEntityA{
 			SSModelUERelationEnum relationType){
 		
 		List<SSModelUERelation>  result              = new ArrayList<SSModelUERelation>();
-		List<String>         alreadyAddedPersons = new ArrayList<String>();
+		List<String>         alreadyAddedPersons = new ArrayList<>();
 		
 		for(SSUri relatedPerson : personsRelatedPersons){
 
-      if(SSObjU.isNotNull(relatedPerson)){
+      if(relatedPerson != null){
         
         result.add(
             new SSModelUERelation(
-                SSStrU.toString(entity),
+                SSStrU.toStr(entity),
                 null,
                 relatedPerson.toString(),
                 null,
@@ -503,7 +503,7 @@ public class SSModelUEEntity extends SSEntityA{
       
       result.add(
         new SSModelUERelation(
-          SSStrU.toString(entity),
+          SSStrU.toStr(entity),
           null,
           relatedPerson.toString(),
           null,

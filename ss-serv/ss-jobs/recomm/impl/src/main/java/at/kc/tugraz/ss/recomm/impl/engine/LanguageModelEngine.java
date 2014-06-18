@@ -20,22 +20,22 @@ public class LanguageModelEngine {
 	
   public LanguageModelEngine(){
     
-    this.userMaps = new HashMap<String, Map<Integer, Double>>();
-    this.resMaps  = new HashMap<String, Map<Integer, Double>>();
+    this.userMaps = new HashMap<>();
+    this.resMaps  = new HashMap<>();
     
     reader = new WikipediaReader(0, false);
   }
   
 	public void loadFile(String filename) throws Exception{
-		Map<String, Map<Integer, Double>> userMaps = new HashMap<String, Map<Integer, Double>>();
-		Map<String, Map<Integer, Double>> resMaps = new HashMap<String, Map<Integer, Double>>();
+		Map<String, Map<Integer, Double>> userMaps = new HashMap<>();
+		Map<String, Map<Integer, Double>> resMaps = new HashMap<>();
 		  WikipediaReader reader = new WikipediaReader(0, false);
 		reader.readFile(filename);
 		
 		List<Map<Integer, Integer>> userStats = Utilities.getUserMaps(reader.getUserLines());
 		int i = 0;
 		for (Map<Integer, Integer> map : userStats) {
-			Map<Integer, Double> resultMap = new HashMap<Integer, Double>();
+			Map<Integer, Double> resultMap = new HashMap<>();
 			for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 				resultMap.put(entry.getKey(), (double)entry.getValue() / (double)Utilities.getMapCount(map));
 			}
@@ -44,7 +44,7 @@ public class LanguageModelEngine {
 		List<Map<Integer, Integer>> resStats = Utilities.getResMaps(reader.getUserLines());
 		i = 0;
 		for (Map<Integer, Integer> map : resStats) {
-			Map<Integer, Double> resultMap = new HashMap<Integer, Double>();
+			Map<Integer, Double> resultMap = new HashMap<>();
 			for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 				resultMap.put(entry.getKey(), (double)entry.getValue() / (double)Utilities.getMapCount(map));
 			}
@@ -92,7 +92,7 @@ public class LanguageModelEngine {
 		Map<Integer, Double> sortedResultMap = new TreeMap<Integer, Double>(new DoubleMapComparator(resultMap));
 		sortedResultMap.putAll(resultMap);		
 		int i = 0;
-		List<String> tagList = new ArrayList<String>();
+		List<String> tagList = new ArrayList<>();
 		for (Integer key : sortedResultMap.keySet()) {
 			if (i++ < count) {
 				tagList.add(this.reader.getTags().get(key));
@@ -119,7 +119,7 @@ public class LanguageModelEngine {
 	}
 	
 	private List<String> getTopTags(int count) {
-		List<String> tagList = new ArrayList<String>();
+		List<String> tagList = new ArrayList<>();
 		Map<Integer, Integer> countMap = new LinkedHashMap<Integer, Integer>();
 		for (int i = 0; i < this.reader.getTagCounts().size(); i++) {
 			countMap.put(i, this.reader.getTagCounts().get(i));

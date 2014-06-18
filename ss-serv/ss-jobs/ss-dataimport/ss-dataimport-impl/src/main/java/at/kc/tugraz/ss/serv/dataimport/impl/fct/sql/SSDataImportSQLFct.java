@@ -42,7 +42,7 @@ public class SSDataImportSQLFct extends SSDBSQLFct{
     ResultSet    resultSet               = null;
     
     try{
-      final Map<String, String>          whereParNamesWithValues = new HashMap<String, String>();
+      final Map<String, String>          whereParNamesWithValues = new HashMap<>();
       final Statement                    statement               = dbSQL.getConnection().createStatement();
       
       statement.execute("INSERT INTO user (user_name,user_options,user_password,user_email,user_newpassword) values ('" + userName + "','','','','');");

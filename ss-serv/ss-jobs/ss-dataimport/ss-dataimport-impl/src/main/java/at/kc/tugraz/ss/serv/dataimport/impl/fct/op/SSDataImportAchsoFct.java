@@ -67,8 +67,8 @@ public class SSDataImportAchsoFct{
         video_uri          = null;
         creator            = null;
         created_at         = null;
-        annotations        = new ArrayList<String>();
-        keywords           = new ArrayList<String>();
+        annotations        = new ArrayList<>();
+        keywords           = new ArrayList<>();
         
         while(vidContentIterator.hasNext()){
           
@@ -109,7 +109,7 @@ public class SSDataImportAchsoFct{
   
   private static List<String> getKeywords(Iterator keywordsIterator){
     
-    final List<String> keywords = new ArrayList<String>();
+    final List<String> keywords = new ArrayList<>();
     
     while(keywordsIterator.hasNext()){
       keywords.add((String)((Element) keywordsIterator.next()).getData());
@@ -120,7 +120,7 @@ public class SSDataImportAchsoFct{
   
   private static List<String> getAnnotations(final Iterator annotationsIterator) throws Exception{
     
-    final List<String> annotations = new ArrayList<String>();
+    final List<String> annotations = new ArrayList<>();
     Iterator           annotContentIterator;
     Element            annotation;
     
@@ -142,8 +142,7 @@ public class SSDataImportAchsoFct{
     
     return SSStrU.distinctWithoutEmptyAndNull(
       SSServCaller.i5CloudAchsoSemanticAnnotationsSetGet(
-        SSStrU.toStringArray(
-          SSStrU.distinctWithoutEmptyAndNull(annotations))));
+          SSStrU.distinctWithoutEmptyAndNull(annotations)));
   }
   
   private static Long getCreationTime(

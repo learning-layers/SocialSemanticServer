@@ -31,9 +31,9 @@ import java.util.List;
 
 public class SSActivitiesUserGetPar extends SSServPar{
 
-  public List<SSActivityE>      types            = new ArrayList<SSActivityE>();
-  public List<SSUri>            users            = new ArrayList<SSUri>();
-  public List<SSUri>            entities         = new ArrayList<SSUri>();
+  public List<SSActivityE>      types            = new ArrayList<>();
+  public List<SSUri>            users            = new ArrayList<>();
+  public List<SSUri>            entities         = new ArrayList<>();
   public Long                   startTime        = null; 
   public Long                   endTime          = null;
 

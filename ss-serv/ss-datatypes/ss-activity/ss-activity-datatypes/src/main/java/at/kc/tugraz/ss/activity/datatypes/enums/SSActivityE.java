@@ -11,7 +11,7 @@ public enum SSActivityE{
   addDiscussionComment;
 
   public static String toStr(final SSActivityE type){
-    return SSStrU.toString(type);
+    return SSStrU.toStr(type);
   }
   
   public static SSActivityE get(final String value){
@@ -20,7 +20,7 @@ public enum SSActivityE{
   
   public static List<SSActivityE> get(final List<String> values){
     
-    final List<SSActivityE> result = new ArrayList<SSActivityE>();
+    final List<SSActivityE> result = new ArrayList<>();
     
     for(String value : values){
       result.add(get(value));

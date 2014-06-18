@@ -222,7 +222,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //      return null;
 //    }
 //    
-//    userUri = SSStrU.removeTrailingSlash(SSStrU.toString(par.user));
+//    userUri = SSStrU.removeTrailingSlash(SSStrU.toStr(par.user));
 //    
 //    return userUri.substring(userUri.lastIndexOf(SSStrU.slash) + 1, userUri.length());
 //  }

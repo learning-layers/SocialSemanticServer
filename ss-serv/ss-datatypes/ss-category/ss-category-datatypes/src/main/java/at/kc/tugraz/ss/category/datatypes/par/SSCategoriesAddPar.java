@@ -32,7 +32,7 @@ import java.util.List;
 public class SSCategoriesAddPar extends SSServPar{
   
   public SSUri                  entity  = null;
-  public List<SSCategoryLabel>  labels  = new ArrayList<SSCategoryLabel>();
+  public List<SSCategoryLabel>  labels  = new ArrayList<>();
   public SSSpaceE               space   = null;
   
   public SSCategoriesAddPar(SSServPar par) throws Exception{

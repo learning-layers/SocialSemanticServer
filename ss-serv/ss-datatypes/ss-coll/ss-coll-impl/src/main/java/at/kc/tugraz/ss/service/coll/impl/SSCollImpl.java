@@ -93,6 +93,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   
   /* SSEntityHandlerImplI */
 
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,
@@ -108,7 +109,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         sqlFct,
         sqlFct.getCollWithEntries(
           entity,
-          new ArrayList<SSCircleE>()));
+          new ArrayList<>()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -403,9 +404,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       SSServCaller.entityCircleCreate(
         par.user,
         SSUri.asListWithoutNullAndEmpty(rootCollUri),
-        new ArrayList<SSUri>(),
+        new ArrayList<>(),
         SSCircleE.priv,
-        SSLabel.get(SSUri.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
+        SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
         SSUserGlobals.systemUser,
         null,
         false);
@@ -731,7 +732,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         sqlFct.getCollWithEntries(
           par.coll, 
-          new ArrayList<SSCircleE>()),
+          new ArrayList<>()),
         par.circle);
 
       dbSQL.commit(par.shouldCommit);
@@ -757,8 +758,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
 
     final SSCollUserEntryChangePosPar par         = new SSCollUserEntryChangePosPar(parA);
-    final List<SSUri>                 collEntries = new ArrayList<SSUri>();
-    final List<Integer>               order       = new ArrayList<Integer>();
+    final List<SSUri>                 collEntries = new ArrayList<>();
+    final List<Integer>               order       = new ArrayList<>();
     Integer                           counter     = 0;
 
     try{
@@ -818,7 +819,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
-      final List<SSColl>              userCollsWithEntries = new ArrayList<SSColl>();
+      final List<SSColl>              userCollsWithEntries = new ArrayList<>();
       
       for(String collUri : sqlFct.getCollURIsForUser(par.user)){
 
@@ -882,8 +883,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       final SSCollUserHierarchyGetPar par            = new SSCollUserHierarchyGetPar(parA);
-      final List<SSUri>               hierarchy      = new ArrayList<SSUri>();
-      final List<SSColl>              colls          = new ArrayList<SSColl>();
+      final List<SSUri>               hierarchy      = new ArrayList<>();
+      final List<SSColl>              colls          = new ArrayList<>();
       final SSUri                     rootCollUri;
       SSUri                           directPartentCollUri;
 
@@ -894,7 +895,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
       directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
 
-      while(!SSUri.equals(rootCollUri, directPartentCollUri)){
+      while(!SSStrU.equals(rootCollUri, directPartentCollUri)){
 
         hierarchy.add(directPartentCollUri);
 
@@ -910,7 +911,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             collUri,
             null,
             null,
-            SSLabel.toStr(SSServCaller.entityGet(collUri).label),
+            SSStrU.toStr(SSServCaller.entityGet(collUri).label),
             null));
       }
 
@@ -928,8 +929,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       final SSCollUserCumulatedTagsGetPar   par            = new SSCollUserCumulatedTagsGetPar(parA);
-      final Map<String, Integer>            tagLabelFrequs = new HashMap<String, Integer>();
-      final List<SSTagFrequ>                tagFrequs      = new ArrayList<SSTagFrequ>();
+      final Map<String, Integer>            tagLabelFrequs = new HashMap<>();
+      final List<SSTagFrequ>                tagFrequs      = new ArrayList<>();
       SSColl                                coll;
       String                                tagLabel;
       
@@ -937,7 +938,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         throw new Exception("user cannot access this collection");
       }
 
-      coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<SSCircleE>());
+      coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
       for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, par.coll, null, null)){
 
@@ -1000,7 +1001,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
 
     final SSCollsUserEntityIsInGetPar par           = new SSCollsUserEntityIsInGetPar(parA);
-    final List<SSColl>                colls         = new ArrayList<SSColl>();
+    final List<SSColl>                colls         = new ArrayList<>();
     final List<String>                collUris;
     final List<String>                userCollUris;
 
@@ -1030,11 +1031,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
       final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
-      final List<SSColl>                    publicColls  = new ArrayList<SSColl>();
+      final List<SSColl>                    publicColls  = new ArrayList<>();
 
       for(SSColl publicColl : sqlFct.getCollsPublic()){
 
-        if(!userCollUris.contains(SSUri.toStr(publicColl.id))){
+        if(!userCollUris.contains(SSStrU.toStr(publicColl.id))){
           publicColls.add(publicColl);
         }
       }
@@ -1064,7 +1065,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         par.user,
         sqlFct.getCollWithEntries(
           par.coll, 
-          new ArrayList<SSCircleE>()),
+          new ArrayList<>()),
         par.circle);
 
       dbSQL.commit(par.shouldCommit);

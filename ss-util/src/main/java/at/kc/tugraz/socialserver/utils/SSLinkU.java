@@ -45,14 +45,14 @@ public class SSLinkU{
 //BufferedReader       recommIn;
 //String               userLabel; 
 //String               inputLine;
-// List<String>         result         = new ArrayList<String>();
-//String               resourceString = SSStrU.toString(par.resource);
-//    if(SSStrU.contains(SSStrU.toString(par.resource), SSLinkU.wikipediaEn.toString())){
+// List<String>         result         = new ArrayList<>();
+//String               resourceString = SSStrU.toStr(par.resource);
+//    if(SSStrU.contains(SSStrU.toStr(par.resource), SSLinkU.wikipediaEn.toString())){
 //      resourceString = SSStrU.removeStringFromBegin(resourceString, SSLinkU.wikipediaEn.toString());
 //    }else{
 //      resourceString = null;
 //    }
-//opPars = new HashMap<String, Object>();
+//opPars = new HashMap<>();
 //    opPars.put(SSVarU.user, par.user);
 //opPars.put(SSVarU.resource, par.user);
 //    

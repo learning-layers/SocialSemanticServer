@@ -532,7 +532,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(SSStrU.toString(par.entity)), 
+        SSLabel.get(SSStrU.toStr(par.entity)), 
         SSEntityE.entity,
         null,
         false);

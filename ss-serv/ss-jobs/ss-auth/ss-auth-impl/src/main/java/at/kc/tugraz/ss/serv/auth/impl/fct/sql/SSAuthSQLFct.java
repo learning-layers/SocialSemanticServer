@@ -43,7 +43,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -69,7 +69,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -92,7 +92,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     final String authKey) throws Exception{
     
      try{
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.userId,  userUri);
       insert(inserts, SSSQLVarU.authKey, authKey);

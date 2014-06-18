@@ -89,7 +89,7 @@ public class SSAdapterRest{
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
     
     
-//    Map<String, Object> ret = new HashMap<String, Object>();
+//    Map<String, Object> ret = new HashMap<>();
 //    
 //    try{
 //      ret.put(SSVarU.op,                  SSMethU.jsonLD);
@@ -121,7 +121,7 @@ public class SSAdapterRest{
   public Response fileThumbGet(@PathParam(SSVarU.id) String fileID){
     
     String     jsonRequ       = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"user\":\"http://eval.bp/user/dt/\",\"fileId\":\"" + fileID + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
-    List<Byte> bytesFromSS   = new ArrayList<Byte>();
+    List<Byte> bytesFromSS   = new ArrayList<>();
     String     imageString   = null;
     byte[]     bytes;
     Byte[]     nonPrimBytes;
@@ -950,7 +950,7 @@ public class SSAdapterRest{
     
     }catch(Exception error){
       
-      final List<SSErrForClient> errors = new ArrayList<SSErrForClient>();
+      final List<SSErrForClient> errors = new ArrayList<>();
       
       try{
         

@@ -248,7 +248,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(SSUri.toStr(par.entity)),
+        SSLabel.get(par.entity),
         SSEntityE.entity,
         null,
         false);
@@ -306,7 +306,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
 
 //  private void saveRatingUserSetUE(SSServPar parA) throws Exception {
 //    
-//    Map<String, Object> opPars = new HashMap<String, Object>();
+//    Map<String, Object> opPars = new HashMap<>();
 //    SSRatingUserSetPar par = new SSRatingUserSetPar(parA);
 //    
 //    opPars.put(SSVarU.shouldCommit, true);

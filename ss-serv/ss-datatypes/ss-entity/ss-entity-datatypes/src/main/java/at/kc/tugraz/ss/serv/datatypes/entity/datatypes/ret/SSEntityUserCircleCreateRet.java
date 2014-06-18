@@ -41,14 +41,14 @@ public class SSEntityUserCircleCreateRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.circle, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getCircle() {
-    return SSUri.toStrWithoutSlash(circle);
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
   }
 }

@@ -95,7 +95,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     
     CharBuffer buffer = CharBuffer.allocate(clientResult.length());
     
-    buffer.put(SSStrU.toString(clientResult));
+    buffer.put(SSStrU.toStr(clientResult));
     buffer.position(0);
     
     wsOutbound.writeTextMessage(buffer);
@@ -109,7 +109,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
   
   private void writeErrorToClient(Exception error) throws Exception{
     
-    final List<SSErrForClient> errors = new ArrayList<SSErrForClient>();
+    final List<SSErrForClient> errors = new ArrayList<>();
     String              errorMsg;  
     CharBuffer          charBuffer;  
       

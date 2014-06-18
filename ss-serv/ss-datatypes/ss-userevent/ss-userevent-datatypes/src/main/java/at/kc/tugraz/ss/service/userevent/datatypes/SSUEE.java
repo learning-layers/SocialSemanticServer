@@ -114,7 +114,7 @@ public enum SSUEE implements SSJSONLDPropI{
   renameSharedCollectionItemByRenameSharedCollection; //"renameSharedCollectionItemRenameSharedCollection
 
   public static String toStr(final SSUEE eventType){
-    return SSStrU.toString(eventType);
+    return SSStrU.toStr(eventType);
   }
   
   @Override
@@ -122,13 +122,11 @@ public enum SSUEE implements SSJSONLDPropI{
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static boolean isSame(
+  public static Boolean equals(
     SSUEE event1,
     SSUEE event2){
     
-    if(
-      SSObjU.isNull(event1) ||
-      SSObjU.isNull(event2)){
+    if(SSObjU.isNull(event1, event2)){
       return false;
     }
     
@@ -138,17 +136,13 @@ public enum SSUEE implements SSJSONLDPropI{
   public static SSUEE get(
     String event){
     
-    if(SSStrU.isEmpty(event)){
-      return null;
-    }
-    
     return SSUEE.valueOf(event);
   }
   
   public static List<SSUEE> get(
     List<String> events){
     
-    List<SSUEE> result = new ArrayList<SSUEE>();
+    final List<SSUEE> result = new ArrayList<SSUEE>();
     
     for (String event : events){
       result.add(get(event));
@@ -157,13 +151,17 @@ public enum SSUEE implements SSJSONLDPropI{
     return result;
   }
   
-  public static boolean contains(
+  public static Boolean contains(
     List<SSUEE> eventTypes,
-    SSUEE       actionType){
+    SSUEE       actionType) throws Exception{
+    
+    if(eventTypes == null){
+      throw new Exception("pars null");
+    }
     
     for(SSUEE event : eventTypes){
       
-      if(isSame(event, actionType)){
+      if(equals(event, actionType)){
         return true;
       }
     }

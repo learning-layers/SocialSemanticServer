@@ -33,6 +33,6 @@ public class SSUserGlobals {
     final SSUri vocPrefix) throws Exception{
     
     systemUserLabel = SSLabel.get (SSStrU.valueSystem);
-    systemUser      = SSUri.get   (SSUri.toStr(vocPrefix) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
+    systemUser      = SSUri.get   (SSStrU.toStr(vocPrefix) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
   }
 }

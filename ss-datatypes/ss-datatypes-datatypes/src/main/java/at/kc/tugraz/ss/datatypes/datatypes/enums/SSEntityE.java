@@ -73,7 +73,7 @@ public enum SSEntityE implements SSJSONLDPropI{
 
   public static List<SSEntityE> get(final List<String> values){
   
-    final List<SSEntityE> result = new ArrayList<SSEntityE>();
+    final List<SSEntityE> result = new ArrayList<>();
     
     for(String value : values){
       result.add(get(value));
@@ -105,7 +105,7 @@ public enum SSEntityE implements SSJSONLDPropI{
   }
   
   public static String toStr(final SSEntityE entityType){
-    return SSStrU.toString(entityType);
+    return SSStrU.toStr(entityType);
   }
   
 //    socialServer("at.tug.kc.socialServer"),

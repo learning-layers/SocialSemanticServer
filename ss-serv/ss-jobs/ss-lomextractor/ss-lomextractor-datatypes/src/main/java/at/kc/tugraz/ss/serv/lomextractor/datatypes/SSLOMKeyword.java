@@ -42,13 +42,13 @@ public class SSLOMKeyword extends SSEntityA{
   
   public static List<SSLOMKeyword> distinctKeywords(List<SSLOMKeyword> keywords){
     
-    List<String>       keywordLabels = new ArrayList<String>();
+    List<String>       keywordLabels = new ArrayList<>();
     List<SSLOMKeyword> result        = new ArrayList<SSLOMKeyword>();
     
     for(SSLOMKeyword keyword : keywords){
       
       if(
-        SSStrU.isNotEmpty      (keyword.label) &&
+        !SSStrU.isEmpty         (keyword.label) &&
         !keywordLabels.contains (keyword.label)){
         
         keywordLabels.add (keyword.label);

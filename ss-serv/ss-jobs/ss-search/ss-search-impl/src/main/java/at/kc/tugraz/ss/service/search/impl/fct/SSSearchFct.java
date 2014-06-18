@@ -47,7 +47,7 @@ public class SSSearchFct {
         entity = SSServCaller.entityGet(searchResult.entity);
 
         searchResult.type          = entity.type;
-        searchResult.label         = SSLabel.toStr(entity.label);
+        searchResult.label         = SSStrU.toStr(entity.label);
       }
 
       return searchResults;
@@ -60,10 +60,10 @@ public class SSSearchFct {
   
   private static List<SSSearchResult> selectSearchResultsWithRegardToSearchOp(
     final String                            searchOp,
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword){
+    final Map<String, List<SSSearchResult>> searchResultsPerKeyword) throws Exception{
     
     final List<SSSearchResult>      searchResults               = new ArrayList<SSSearchResult>();
-    final List<SSUri>               checkEntityUris             = new ArrayList<SSUri>();
+    final List<SSUri>               checkEntityUris             = new ArrayList<>();
     Boolean                         resourceExistsForEachTag;
     
     if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueAnd)) {
@@ -72,7 +72,7 @@ public class SSSearchFct {
         
         for(SSSearchResult outerSearchResult : outerSearchResultForOneKeyword) {
           
-          if(!SSUri.contains(checkEntityUris, outerSearchResult.entity)){
+          if(!SSStrU.contains(checkEntityUris, outerSearchResult.entity)){
             
             checkEntityUris.add(outerSearchResult.entity);
             
@@ -82,7 +82,7 @@ public class SSSearchFct {
               
               for(SSSearchResult innerSearchResult : innerSearchResultForOneKeyword) {
                 
-                if(!SSUri.equals(innerSearchResult.entity, outerSearchResult.entity)) {
+                if(!SSStrU.equals(innerSearchResult.entity, outerSearchResult.entity)) {
                   resourceExistsForEachTag = false;
                   break;
                 }

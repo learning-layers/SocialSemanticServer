@@ -51,7 +51,7 @@ public class SSLearnEp extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -62,14 +62,14 @@ public class SSLearnEp extends SSEntityA {
   
   /* getters to allow for json enconding */
   public String getUser() throws Exception {
-    return SSUri.toStrWithoutSlash(user);
+    return SSStrU.removeTrailingSlash(user);
   }
 
   public String getId() throws Exception {
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getLabel() {
-    return SSLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 }

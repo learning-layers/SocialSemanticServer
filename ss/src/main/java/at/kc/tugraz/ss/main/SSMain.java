@@ -105,13 +105,13 @@ public class SSMain{
   //      SSUri user;
   //      SSUri resource;
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //      opPars.put(SSVarU.userLabel,  SSLabelStr.get("833086"));
   //
   //      user     = (SSUri) SSServReg.callServServer(new SSServPar(SSMethU.userCreateUri, opPars));
   //      resource = SSUri.get(SSStrU.addAtBegin("Technological_singularity", SSLinkU.wikipediaEn.toString()));
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //      opPars.put(SSVarU.user,     user);
   //      opPars.put(SSVarU.resource, resource);
   //      opPars.put(SSVarU.maxTags,  10);
@@ -124,7 +124,7 @@ public class SSMain{
   //
   //    if(SSStrU.equals(args[0], SSMethU.dataImportUserResourceTagFromWikipedia)){
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //
   //      SSServReg.callServServer(new SSServPar(SSMethU.dataImportUserResourceTagFromWikipedia, opPars));
   //    }
@@ -134,7 +134,7 @@ public class SSMain{
   //
   //    if(SSStrU.equals(args[0], SSMethU.lomExtractFromDir)){
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //
   //      SSServReg.callServServer(new SSServPar(SSMethU.lomExtractFromDir, opPars));
   //    }
@@ -144,7 +144,7 @@ public class SSMain{
   //
   //    if(SSStrU.equals(args[0], SSMethU.solrRemoveDocsAll)){
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //
   //      SSServReg.callServServer(new SSServPar(SSMethU.solrRemoveDocsAll, opPars));
   //    }

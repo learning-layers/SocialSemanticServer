@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -187,7 +188,7 @@ public class SSEntityMiscFct{
         SSServCaller.entityAdd(
           userUri,
           entityUri,
-          SSLabel.get(SSUri.toStr(entityUri)),
+          SSLabel.get(entityUri),
           SSEntityE.entity,
           null,
           false);
@@ -402,7 +403,7 @@ public class SSEntityMiscFct{
         throw new Exception("pars null");
       }
       
-      if(SSUri.contains(userUrisToShareWith, userUri)){
+      if(SSStrU.contains(userUrisToShareWith, userUri)){
         throw new Exception("user cannot share with himself");
       }
       

@@ -37,7 +37,7 @@ public class SSCollEntry extends SSEntityA {
 
   public  SSUri                           id          = null;
   public  Integer                         pos         = -1;
-  public  List<SSCircleE>                 circleTypes = new ArrayList<SSCircleE>();
+  public  List<SSCircleE>                 circleTypes = new ArrayList<>();
   public  String                          label       = null;
   public  SSEntityE                       type        = null;
 
@@ -77,8 +77,8 @@ public class SSCollEntry extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld             = new HashMap<String, Object>();
-    final Map<String, Object> circleTypesObj = new HashMap<String, Object>();
+    final Map<String, Object> ld             = new HashMap<>();
+    final Map<String, Object> circleTypesObj = new HashMap<>();
     
     circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -96,7 +96,7 @@ public class SSCollEntry extends SSEntityA {
   
   /* getters to allow for jason enconding */
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public int getPos(){

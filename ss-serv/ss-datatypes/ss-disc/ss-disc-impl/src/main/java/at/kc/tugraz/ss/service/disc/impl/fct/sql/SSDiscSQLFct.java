@@ -63,7 +63,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
 //    ResultSet resultSet = null;
 //
 //    try{
-//      final Map<String, String> wheres = new HashMap<String, String>();
+//      final Map<String, String> wheres = new HashMap<>();
 //      
 //      where(wheres, SSSQLVarU.target, targetUri);
 //      
@@ -84,7 +84,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
 
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -107,10 +107,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
       
-      final List<String>        tables    = new ArrayList<String>();
-      final Map<String, String> wheres    = new HashMap<String, String>();
-      final List<String>        columns   = new ArrayList<String>();
-      final List<String>        tableCons = new ArrayList<String>();
+      final List<String>        tables    = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
       
       table     (tables,    discUserTable);
       table     (tables,    discTable);     
@@ -159,7 +159,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final SSTextComment content) throws Exception{
     
     try{
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       Integer                   discEntryCount;
       
       insert(inserts, SSSQLVarU.discEntryId,      discEntryUri);
@@ -188,7 +188,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet      = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.discId, discUri);
       
@@ -212,10 +212,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet   = null;
     
     try{
-      final List<String>        tables    = new ArrayList<String>();
-      final Map<String, String> wheres    = new HashMap<String, String>();
-      final List<String>        columns   = new ArrayList<String>();
-      final List<String>        tableCons = new ArrayList<String>();
+      final List<String>        tables    = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
       
       table     (tables,    entityTable);
       table     (tables,    discTable);      
@@ -265,7 +265,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet   = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.discEntryId, entityUri);
       
@@ -287,10 +287,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final List<String>        tables     = new ArrayList<String>();
-      final List<String>        columns    = new ArrayList<String>();
-      final List<String>        tableCons  = new ArrayList<String>();
-      final Map<String, String> wheres     = new HashMap<String, String>();
+      final List<String>        tables     = new ArrayList<>();
+      final List<String>        columns    = new ArrayList<>();
+      final List<String>        tableCons  = new ArrayList<>();
+      final Map<String, String> wheres     = new HashMap<>();
       
       table     (tables, entityTable);
       table     (tables, discTable);
@@ -330,7 +330,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final SSUri discUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<String, String>();
+      final Map<String, String> deletes = new HashMap<>();
       
       delete(deletes, SSSQLVarU.discId, discUri);
       
@@ -345,7 +345,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final SSUri discUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<String, String>();
+      final Map<String, String> deletes = new HashMap<>();
       
       delete(deletes, SSSQLVarU.userId, userUri);
       delete(deletes, SSSQLVarU.discId, discUri);
@@ -363,10 +363,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
       final List<SSDiscEntry>   discEntries   = new ArrayList<SSDiscEntry>();
-      final List<String>        tables        = new ArrayList<String>();
-      final List<String>        columns       = new ArrayList<String>();
-      final List<String>        tableCons     = new ArrayList<String>();
-      final Map<String, String> wheres        = new HashMap<String, String>();
+      final List<String>        tables        = new ArrayList<>();
+      final List<String>        columns       = new ArrayList<>();
+      final List<String>        tableCons     = new ArrayList<>();
+      final Map<String, String> wheres        = new HashMap<>();
       final SSDisc              disc          = getDiscWithoutEntries(discUri);
       
       table(tables, entityTable);

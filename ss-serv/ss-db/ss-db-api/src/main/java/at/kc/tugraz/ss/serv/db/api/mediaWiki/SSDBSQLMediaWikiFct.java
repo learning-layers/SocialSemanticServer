@@ -38,7 +38,7 @@ public class SSDBSQLMediaWikiFct extends SSDBSQLFct{
   public void insertRevision (String tableName, SSMediaWikiRevision revision) throws Exception{
     
     Map<String, String> parNamesAndValues;
-    parNamesAndValues = new HashMap<String, String>();
+    parNamesAndValues = new HashMap<>();
     
     parNamesAndValues.put(SSMediaWikiU.userID,    revision.userID);
     parNamesAndValues.put(SSMediaWikiU.timestamp, revision.timestamp);
@@ -52,7 +52,7 @@ public class SSDBSQLMediaWikiFct extends SSDBSQLFct{
   public SSMediaWikiRevision revision(String tableName, String userID, String timestamp, String wikiID) throws Exception{
     
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     SSMediaWikiRevision revision   = null;
     
     selectPars.put(SSMediaWikiU.userID,    userID);

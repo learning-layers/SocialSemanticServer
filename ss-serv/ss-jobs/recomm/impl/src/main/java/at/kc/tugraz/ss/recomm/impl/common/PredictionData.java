@@ -73,7 +73,7 @@ public class PredictionData {
 	
 	private double getPrecisionK(int k) {
 		if (k != 0 && k <= this.predictionData.size()) {
-			List<String> foundRelevantDocs = new ArrayList<String>(this.realData);
+			List<String> foundRelevantDocs = new ArrayList<>(this.realData);
 			foundRelevantDocs.retainAll(this.predictionData.subList(0, k));
 			double numFoundRelevantDocs = foundRelevantDocs.size();
 			return numFoundRelevantDocs / k;
@@ -89,7 +89,7 @@ public class PredictionData {
 	}
 	
 	private void determineRelevantDocs() {
-		List<String> foundRelevantDocs = new ArrayList<String>(this.realData);
+		List<String> foundRelevantDocs = new ArrayList<>(this.realData);
 		foundRelevantDocs.retainAll(this.predictionData);
 		this.numFoundRelevantDocs = foundRelevantDocs.size();
 	}

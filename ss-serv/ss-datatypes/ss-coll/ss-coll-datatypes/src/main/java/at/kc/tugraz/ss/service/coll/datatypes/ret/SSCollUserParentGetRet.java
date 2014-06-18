@@ -47,7 +47,7 @@ public class SSCollUserParentGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.coll, SSVarU.sss + SSStrU.colon + SSColl.class.getName());
     

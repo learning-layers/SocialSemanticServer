@@ -85,7 +85,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       return null;
     }
       
-    final Map<String, String> passwordPerUser = new HashMap<String, String>();
+    final Map<String, String> passwordPerUser = new HashMap<>();
     
     try{
       
@@ -229,15 +229,15 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           video.creationTime, 
           true);
         
-        final List<String> categoryLabels = new ArrayList<String>();
+        final List<String> categoryLabels = new ArrayList<>();
         
         for(String annotation : video.annotations){
           
-          try{
-            SSCategoryLabel.checkCategoryLabel(annotation);
-            
-            categoryLabels.add(annotation);
-          }catch(SSCategoryLabelErr error){}
+          if(!SSCategoryLabel.isCategoryLabel(annotation)){
+            continue;
+          }
+          
+          categoryLabels.add(annotation);
         }
         
         SSServCaller.categoriesAddAtCreationTime(
@@ -284,9 +284,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       while(line != null){
         
-        line       = SSStrU.removeDoubleQuotes(line); //        line       = SSStrU.replace(line, SSStrU.dot,     SSStrU.empty);
-        line       = SSStrU.replace      (line, SSStrU.percent, SSStrU.empty);
-        lineSplit  = SSStrU.split(line, SSStrU.semiColon);
+        line       = SSStrU.removeDoubleQuotes(line); //        line       = SSStrU.replaceAll(line, SSStrU.dot,     SSStrU.empty);
+        line       = SSStrU.replaceAll        (line, SSStrU.percent, SSStrU.empty);
+        lineSplit  = SSStrU.split             (line, SSStrU.semiColon);
         
         if(
           lineSplit == null ||

@@ -57,7 +57,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> where = new HashMap<String, String>();
+      final Map<String, String> where = new HashMap<>();
       
       where(where, SSSQLVarU.id, entityUri);
       
@@ -90,7 +90,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> where = new HashMap<String, String>();
+      final Map<String, String> where = new HashMap<>();
       
       where(where, SSSQLVarU.label, label);
       where(where, SSSQLVarU.type,  type);
@@ -125,8 +125,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSTextComment description) throws Exception{
 
     try{
-      final Map<String, String> inserts     = new HashMap<String, String>();
-      final Map<String, String> uniqueKeys  = new HashMap<String, String>();
+      final Map<String, String> inserts     = new HashMap<>();
+      final Map<String, String> uniqueKeys  = new HashMap<>();
       
       uniqueKey (uniqueKeys,  SSSQLVarU.id,           entityUri);
       insert    (inserts,     SSSQLVarU.id,           entityUri);
@@ -170,8 +170,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSTextComment description) throws Exception{
     
     try{
-      final Map<String, String> inserts    = new HashMap<String, String>();
-      final Map<String, String> uniqueKeys = new HashMap<String, String>();
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       uniqueKey (uniqueKeys,  SSSQLVarU.id,           entityUri);
       insert    (inserts,     SSSQLVarU.id,           entityUri);
@@ -212,8 +212,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSLabel    label) throws Exception {
     
     try{
-      final Map<String, String>  wheres   = new HashMap<String, String>();
-      final Map<String, String>  updates  = new HashMap<String, String>();
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
       
       where(wheres, SSSQLVarU.id, entityUri);
       
@@ -233,7 +233,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri entityUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<String, String>();
+      final Map<String, String> deletes = new HashMap<>();
       
       delete(deletes, SSSQLVarU.id, entityUri);
       
@@ -259,7 +259,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres      = new HashMap<String, String>();
+      final Map<String, String> wheres      = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -280,7 +280,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.circleId,   circleUri);
       insert(inserts, SSSQLVarU.circleType, circleType);
@@ -300,7 +300,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         return getCirclePublicURI();
       }catch(SSNoResultFoundErr error){}
 
-      final Map<String, String> inserts    = new HashMap<String, String>();
+      final Map<String, String> inserts    = new HashMap<>();
       final SSUri               circleUri  = createCircleURI();
       
       addEntityIfNotExists(
@@ -332,7 +332,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         return;
       }
       
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.circleId, circleUri);
       insert(inserts, SSSQLVarU.userId,   userUri);
@@ -354,7 +354,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         return;
       }
       
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.circleId, circleUri);
       insert(inserts, SSSQLVarU.entityId, entityUri);
@@ -373,7 +373,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String>   wheres    = new HashMap<String, String>();
+      final Map<String, String>   wheres    = new HashMap<>();
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
@@ -395,10 +395,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<String>              tables            = new ArrayList<String>();
-      final Map<String, String>       wheres            = new HashMap<String, String>();
-      final List<String>              columns           = new ArrayList<String>();
-      final List<String>              tableCons         = new ArrayList<String>();
+      final List<String>              tables            = new ArrayList<>();
+      final Map<String, String>       wheres            = new HashMap<>();
+      final List<String>              columns           = new ArrayList<>();
+      final List<String>              tableCons         = new ArrayList<>();
       
       table    (tables,    circleEntitiesTable);
       table    (tables,    circleTable);
@@ -429,10 +429,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<String>              tables       = new ArrayList<String>();
-      final Map<String, String>       wheres       = new HashMap<String, String>();
-      final List<String>              columns      = new ArrayList<String>();
-      final List<String>              tableCons    = new ArrayList<String>();
+      final List<String>              tables       = new ArrayList<>();
+      final Map<String, String>       wheres       = new HashMap<>();
+      final List<String>              columns      = new ArrayList<>();
+      final List<String>              tableCons    = new ArrayList<>();
       
       table    (tables,    circleUsersTable);
       table    (tables,    circleEntitiesTable);
@@ -463,10 +463,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
       
       final List<SSEntityCircle>      circles    = new ArrayList<SSEntityCircle>();
-      final List<String>              tables     = new ArrayList<String>();
-      final Map<String, String>       wheres     = new HashMap<String, String>();
-      final List<String>              columns    = new ArrayList<String>();
-      final List<String>              tableCons  = new ArrayList<String>();
+      final List<String>              tables     = new ArrayList<>();
+      final Map<String, String>       wheres     = new HashMap<>();
+      final List<String>              columns    = new ArrayList<>();
+      final List<String>              tableCons  = new ArrayList<>();
       
       table     (tables,  circleUsersTable);
       table     (tables,  circleEntitiesTable);
@@ -510,10 +510,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<String>        tables            = new ArrayList<String>();
-      final List<String>        columns           = new ArrayList<String>();
-      final List<String>        tableCons         = new ArrayList<String>();
-      final Map<String, String> wheres            = new HashMap<String, String>();
+      final List<String>        tables            = new ArrayList<>();
+      final List<String>        columns           = new ArrayList<>();
+      final List<String>        tableCons         = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
       
       table    (tables,    circleTable);
       table    (tables,    entityTable);
@@ -549,8 +549,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String>   wheres      = new HashMap<String, String>();
-      final List<String>          columns     = new ArrayList<String>();
+      final Map<String, String>   wheres      = new HashMap<>();
+      final List<String>          columns     = new ArrayList<>();
       
       column (columns, SSSQLVarU.circleId);
       where  (wheres,  SSSQLVarU.entityId, entityUri);
@@ -573,7 +573,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String>   wheres      = new HashMap<String, String>();
+      final Map<String, String>   wheres      = new HashMap<>();
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
@@ -595,7 +595,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String>   wheres = new HashMap<String, String>();
+      final Map<String, String>   wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
@@ -617,7 +617,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri          circleUri) throws Exception{
   
     try{
-      return SSUri.contains (getCircleURIsForUser(userUri), circleUri);
+      return SSStrU.contains(getCircleURIsForUser(userUri), circleUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -639,7 +639,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSUri.equals(getEntity(circleUri).author, SSUserGlobals.systemUser);
+      return SSStrU.equals(getEntity(circleUri).author, SSUserGlobals.systemUser);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -662,7 +662,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       where(wheres, SSSQLVarU.entityId, entityUri);
@@ -686,7 +686,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       where(wheres, SSSQLVarU.userId,   userUri);
@@ -708,7 +708,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
 
       where(wheres, SSSQLVarU.circleType, SSCircleE.pub);
 
@@ -735,9 +735,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       final List<SSEntity>            entities  = new ArrayList<SSEntity>();
-      final List<String>              columns   = new ArrayList<String>();
-      final List<String>              matches   = new ArrayList<String>();
-      final List<String>              againsts  = new ArrayList<String>();
+      final List<String>              columns   = new ArrayList<>();
+      final List<String>              matches   = new ArrayList<>();
+      final List<String>              againsts  = new ArrayList<>();
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -778,9 +778,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       final List<SSEntity>            entities  = new ArrayList<SSEntity>();
-      final List<String>              columns   = new ArrayList<String>();
-      final List<String>              matches   = new ArrayList<String>();
-      final List<String>              againsts  = new ArrayList<String>();
+      final List<String>              columns   = new ArrayList<>();
+      final List<String>              matches   = new ArrayList<>();
+      final List<String>              againsts  = new ArrayList<>();
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -819,9 +819,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       final List<SSEntity>            entities  = new ArrayList<SSEntity>();
-      final List<String>              columns   = new ArrayList<String>();
-      final List<String>              matches   = new ArrayList<String>();
-      final List<String>              againsts  = new ArrayList<String>();
+      final List<String>              columns   = new ArrayList<>();
+      final List<String>              matches   = new ArrayList<>();
+      final List<String>              againsts  = new ArrayList<>();
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -861,17 +861,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 //    HashMap<String, String>  newValues;
 //
 //    if(entityExists(entity)){
-//      newValues = new HashMap<String, String>();
+//      newValues = new HashMap<>();
 //      newValues.put(SSSQLVarU.label,    label.toString());
 //
-//      parNamesAndValues = new HashMap<String, String>();
+//      parNamesAndValues = new HashMap<>();
 //      
 //      parNamesAndValues.put(SSSQLVarU.id, entity.toString());
 //      
 //      dbSQL.dbSQLUpdateWhere(entityTable, parNamesAndValues, newValues);
 //    }else{
 //    
-//      parNamesAndValues = new HashMap<String, String>();
+//      parNamesAndValues = new HashMap<>();
 //      
 //      parNamesAndValues.put(SSSQLVarU.id,            entity.toString());
 //      parNamesAndValues.put(SSSQLVarU.label,         label.toString());
@@ -888,8 +888,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //    
-//    final Map<String, String> where      = new HashMap<String, String>();
-//    final List<String>        columns    = new ArrayList<String>();
+//    final Map<String, String> where      = new HashMap<>();
+//    final List<String>        columns    = new ArrayList<>();
 //    ResultSet                 resultSet  = null;
 //    
 //    columns.add (SSSQLVarU.id);

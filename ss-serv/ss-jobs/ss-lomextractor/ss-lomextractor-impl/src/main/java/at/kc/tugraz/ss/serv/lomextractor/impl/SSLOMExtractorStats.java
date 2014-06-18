@@ -70,21 +70,21 @@ public class SSLOMExtractorStats {
   
   public int                        totalUsedResourcesCount      = 0;
   
-  public Map<String, Integer>       resourcesKeywordCount        = new HashMap<String, Integer>();
-  public Map<String, Integer>       resourcesConceptCount        = new HashMap<String, Integer>();
+  public Map<String, Integer>       resourcesKeywordCount        = new HashMap<>();
+  public Map<String, Integer>       resourcesConceptCount        = new HashMap<>();
   
-  public List<String>               conceptsDistinct             = new ArrayList<String>();
-  public List<String>               relationsDistinct            = new ArrayList<String>();
+  public List<String>               conceptsDistinct             = new ArrayList<>();
+  public List<String>               relationsDistinct            = new ArrayList<>();
   
-  public List<String>               usersDistinct                = new ArrayList<String>();
-  public Map<String, Integer>       usersResourceCount           = new HashMap<String, Integer>();
-  public Map<String, Integer>       usersKeywordCount            = new HashMap<String, Integer>();
+  public List<String>               usersDistinct                = new ArrayList<>();
+  public Map<String, Integer>       usersResourceCount           = new HashMap<>();
+  public Map<String, Integer>       usersKeywordCount            = new HashMap<>();
   
-  public List<String>               keywordsDistinct             = new ArrayList<String>();
+  public List<String>               keywordsDistinct             = new ArrayList<>();
   
-  public List<String>               langDistinct                 = new ArrayList<String>();
-  public Map<String, Integer>       langTitleCount               = new HashMap<String, Integer>();
-  public Map<String, Integer>       langDescCount                = new HashMap<String, Integer>();
+  public List<String>               langDistinct                 = new ArrayList<>();
+  public Map<String, Integer>       langTitleCount               = new HashMap<>();
+  public Map<String, Integer>       langDescCount                = new HashMap<>();
   
   public void calc(Map<String, SSLOMResource> resources) {
     
@@ -131,8 +131,8 @@ public class SSLOMExtractorStats {
   
   private void lang(SSLOMResource resource){
     
-    List<String> langTitleResourceDistinct = new ArrayList<String>();
-    List<String> langDescResourceDistinct  = new ArrayList<String>();
+    List<String> langTitleResourceDistinct = new ArrayList<>();
+    List<String> langDescResourceDistinct  = new ArrayList<>();
     
     if(!langDistinct.contains(resource.lang)){
       langDistinct.add(resource.lang);

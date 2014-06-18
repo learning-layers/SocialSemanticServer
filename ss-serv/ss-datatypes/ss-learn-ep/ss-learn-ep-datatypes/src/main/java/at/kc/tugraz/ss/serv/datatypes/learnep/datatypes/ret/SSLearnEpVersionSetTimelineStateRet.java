@@ -45,7 +45,7 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.learnEpTimelineState, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -54,6 +54,6 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   public String getLearnEpTimelineState() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpTimelineState);
+    return SSStrU.removeTrailingSlash(learnEpTimelineState);
   }
 }

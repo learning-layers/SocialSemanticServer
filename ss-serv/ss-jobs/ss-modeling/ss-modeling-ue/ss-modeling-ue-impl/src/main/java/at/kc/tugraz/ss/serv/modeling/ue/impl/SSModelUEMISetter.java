@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
 import at.kc.tugraz.socialserver.utils.SSNumberU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
@@ -40,7 +41,7 @@ public class SSModelUEMISetter {
 	 */
 	public void setTextualMI(SSModelUEEntity resource) {
 
-		ArrayList<String>    result    = new ArrayList<String>();
+		ArrayList<String>    result    = new ArrayList<>();
 			
 		if(SSEntityE.isColl(resource.type)){
 			
@@ -401,7 +402,7 @@ public class SSModelUEMISetter {
 				
 					for(SSUE event :	maturingIndicatorSetterHelper.getResourceEventsOfType(resource, SSModelUEU.changingEventTypes)){
 						
-						if(SSUri.equals(event.user, resource.entity)){
+						if(SSStrU.equals(event.user, resource.entity)){
 							
 							otherResource.mIChangeReputablePersonNot = false;
 							otherResource.mIChangeReputablePerson    = true;

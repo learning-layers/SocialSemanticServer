@@ -42,7 +42,7 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
     final SSColl           rootColl      = SSServCaller.collUserRootGet          (SSUserGlobals.systemUser);
-    final List<SSUri>      collEntryUris = new ArrayList<SSUri>();
+    final List<SSUri>      collEntryUris = new ArrayList<>();
     final SSColl           rootCollAfterEntriesDelete;
     
     for(SSCollEntry collEntry : rootColl.entries){

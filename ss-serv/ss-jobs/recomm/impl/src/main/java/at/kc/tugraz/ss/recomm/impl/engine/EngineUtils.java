@@ -13,7 +13,7 @@ import at.kc.tugraz.ss.recomm.impl.file.WikipediaReader;
 public class EngineUtils {
 
 	public static List<String> calcTopTags(WikipediaReader reader) {
-		List<String> tagList = new ArrayList<String>();
+		List<String> tagList = new ArrayList<>();
 		Map<Integer, Integer> countMap = new LinkedHashMap<Integer, Integer>();
 		for (int i = 0; i < reader.getTagCounts().size(); i++) {
 			countMap.put(i, reader.getTagCounts().get(i));

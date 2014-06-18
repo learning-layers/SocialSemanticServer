@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
 
-  public List<SSUri> discs = new ArrayList<SSUri>();
+  public List<SSUri> discs = new ArrayList<>();
 
   public static SSDiscUserDiscURIsForTargetGetRet get(
     final List<SSUri>   discUris, 
@@ -56,8 +56,8 @@ public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
 @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<String, Object>();
-    final Map<String, Object> discsObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> discsObj   = new HashMap<>();
     
     discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -69,7 +69,7 @@ public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
 
   /* json getters */
   
-  public List<String> getDiscs(){
-    return SSUri.toStrWithoutSlash(discs);
+  public List<String> getDiscs() throws Exception{
+    return SSStrU.removeTrailingSlash(discs);
   }
 }

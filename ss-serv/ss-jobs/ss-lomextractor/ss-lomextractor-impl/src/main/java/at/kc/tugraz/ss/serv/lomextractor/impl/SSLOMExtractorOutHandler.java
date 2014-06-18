@@ -69,7 +69,7 @@ public class SSLOMExtractorOutHandler{
         continue;
       }
       
-      lineParts     = new ArrayList<String>();
+      lineParts     = new ArrayList<>();
       descString    = SSStrU.empty;
       
       lineParts.add(resource.uri);
@@ -80,7 +80,7 @@ public class SSLOMExtractorOutHandler{
       if(resource.descs.size() >= 1){
 
         descString = resource.descs.get(0).descInLang(resource.descs,  langToPrint).label;
-        descString = SSStrU.replaceLineFeedsWithTextualRepr(descString);
+        descString = SSStrU.replaceAllLineFeedsWithTextualRepr(descString);
       }
       
       lineParts.add(descString);
@@ -114,7 +114,7 @@ public class SSLOMExtractorOutHandler{
         continue;
       }
       
-      lineParts     = new ArrayList<String>();
+      lineParts     = new ArrayList<>();
       keywordString = SSStrU.empty;
       conceptString = SSStrU.empty;
       descString    = SSStrU.empty;
@@ -122,14 +122,14 @@ public class SSLOMExtractorOutHandler{
       lineParts.add(resource.id);
       
       titleString = resource.titles.get(0).titleInLangWithDefault(resource.titles, SSStrU.valueEn).label;
-      titleString = SSStrU.replaceLineFeedsWithTextualRepr(titleString);
+      titleString = SSStrU.replaceAllLineFeedsWithTextualRepr(titleString);
       
       lineParts.add(titleString);                           
       
       if(resource.descs.size() >= 1){
 
         descString = resource.descs.get(0).descInLangWithDefault  (resource.descs,  SSStrU.valueEn).label;
-        descString = SSStrU.replaceLineFeedsWithTextualRepr(descString);
+        descString = SSStrU.replaceAllLineFeedsWithTextualRepr(descString);
       }
       
       lineParts.add(descString);
@@ -175,7 +175,7 @@ public class SSLOMExtractorOutHandler{
       
       tags = new ArrayList<SSTag>();
       
-      for(String keyword : SSLOMKeyword.toDistinctStringArray (resource.keywords)){
+      for(String keyword : SSStrU.distinctWithoutEmptyAndNull(resource.keywords)){
         
         tags.add(
           SSTag.get(
@@ -187,7 +187,7 @@ public class SSLOMExtractorOutHandler{
       }
       
       tagsPerEntities       = SSTag.getTagLabelsPerEntities(tags);
-      categoriesPerEntities = new HashMap<String, List<String>>();
+      categoriesPerEntities = new HashMap<>();
         
       categoriesPerEntities.put(resource.id, SSLOMConceptRelation.concepts (resource.conceptRelatios));
       

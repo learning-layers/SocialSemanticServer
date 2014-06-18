@@ -31,7 +31,7 @@ public class SSUserGraphFct extends SSDBGraphFct{
   
 //  public List<SSUri> userAll() throws Exception {
 //    
-//    List<SSUri> userlist  = new ArrayList<SSUri>();
+//    List<SSUri> userlist  = new ArrayList<>();
 //
 //    for(SSStatement statem : db.get(null, predType(), objUser(), namedGraphUri)) {
 //      userlist.add(statem.subject);
@@ -62,7 +62,7 @@ public class SSUserGraphFct extends SSDBGraphFct{
 
 
 //public String[] getUserHistory(String user, int count) {
-//    List<String> outList = new ArrayList<String>();
+//    List<String> outList = new ArrayList<>();
 //    try {
 //
 //      String from = new SSUri(Vocabulary.getInstance().getGraphUri() + VocNamespace.EVENTGRAPH); //SemanticVocabulary.MATURENS + "_eventgraph");

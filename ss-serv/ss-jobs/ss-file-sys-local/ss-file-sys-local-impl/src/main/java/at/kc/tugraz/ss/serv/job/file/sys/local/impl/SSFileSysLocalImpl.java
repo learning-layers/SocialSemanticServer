@@ -117,7 +117,7 @@ public class SSFileSysLocalImpl extends SSServImplMiscA implements SSFileSysLoca
       return;
     }
     
-    fileName = SSStrU.replaceBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
+    fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
 
     try{
       Files.move(pathToFile, pathToFile.resolveSibling(fileName));

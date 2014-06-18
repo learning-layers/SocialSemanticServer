@@ -36,7 +36,7 @@ public enum SSCircleRightE implements SSJSONLDPropI{
   }
   
   public static String toStr(final SSCircleRightE accessRight){
-    return SSStrU.toString(accessRight);
+    return SSStrU.toStr(accessRight);
   }
   
   public static Boolean equals(

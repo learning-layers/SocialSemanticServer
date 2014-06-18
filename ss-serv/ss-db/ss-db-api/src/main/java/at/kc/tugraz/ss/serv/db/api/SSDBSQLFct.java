@@ -351,7 +351,7 @@ public class SSDBSQLFct extends SSDBFct{
     final ResultSet result,
     final String    key) throws Exception{
     
-    final List<String> strings = new ArrayList<String>();
+    final List<String> strings = new ArrayList<>();
     
     while(result.next()){
       strings.add(bindingStr(result, key));
@@ -364,7 +364,7 @@ public class SSDBSQLFct extends SSDBFct{
     final ResultSet result,
     final String    key) throws Exception{
     
-    final List<SSUri> uris = new ArrayList<SSUri>();
+    final List<SSUri> uris = new ArrayList<>();
     
     while(result.next()){
       uris.add(bindingStrToUri(result, key));

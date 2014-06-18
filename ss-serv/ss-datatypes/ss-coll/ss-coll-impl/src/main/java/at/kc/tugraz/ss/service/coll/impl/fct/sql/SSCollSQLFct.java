@@ -49,7 +49,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri collUri) throws Exception{
     
     try{
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.collId, collUri);
       
@@ -68,7 +68,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
 
       //add coll to coll root table
       insert (inserts, SSSQLVarU.userId, userUri);
@@ -95,7 +95,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collId, collUri);
       
@@ -118,7 +118,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
 
       //add coll to special coll table
       insert(inserts, SSSQLVarU.userId, userUri);
@@ -138,7 +138,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collId, collUri);
       
@@ -161,7 +161,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
      
      try{
       
-       final Map<String, String> wheres = new HashMap<String, String>();
+       final Map<String, String> wheres = new HashMap<>();
        
        where(wheres, SSSQLVarU.userId, userUri);
        
@@ -185,7 +185,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collId, entityUri);
       
@@ -205,7 +205,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri      collEntry) throws Exception{
     
     try{
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       //add coll entry to coll entry pos table
       Integer collEntryCount = getCollEntryCount(collParent);
@@ -228,7 +228,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collId, collUri);
       
@@ -251,11 +251,11 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
     
-      final List<String>        tables      = new ArrayList<String>();
-      final List<String>        columns     = new ArrayList<String>();
-      final Map<String, String> wheres      = new HashMap<String, String>();
-      final List<String>        tableCons   = new ArrayList<String>();
-      final List<SSColl>        publicColls = new ArrayList<SSColl>();
+      final List<String>        tables      = new ArrayList<>();
+      final List<String>        columns     = new ArrayList<>();
+      final Map<String, String> wheres      = new HashMap<>();
+      final List<String>        tableCons   = new ArrayList<>();
+      final List<SSColl>        publicColls = new ArrayList<>();
       
       table(tables, collTable);
       table(tables, entityTable);
@@ -304,7 +304,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres   = new HashMap<String, String>();
+      final Map<String, String> wheres   = new HashMap<>();
     
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -327,7 +327,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId, userUri);
       where(wheres, SSSQLVarU.collId, collUri);
@@ -356,7 +356,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
         throw new Exception("cannot add to shared coll and add shared/public coll at the same time");
       }
       
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       //add relation of coll parent to child coll to hierarchy table
       inserts.clear();
@@ -403,7 +403,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       //add sub colls of shared / pub coll for this user as well
       if(addedCollIsSharedOrPublic){
         
-        final List<String> subCollUris = new ArrayList<String>();
+        final List<String> subCollUris = new ArrayList<>();
         
         SSCollMiscFct.getAllChildCollURIs(this, collChild.toString(), collChild.toString(), subCollUris);
         
@@ -429,8 +429,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri collUri) throws Exception{
     
     try{
-      final Map<String, String> deletes     = new HashMap<String, String>();
-      final List<String>        subCollUris = new ArrayList<String>();
+      final Map<String, String> deletes     = new HashMap<>();
+      final List<String>        subCollUris = new ArrayList<>();
       
       //remove sub colls of followed coll from user coll table as well
       SSCollMiscFct.getAllChildCollURIs(this, collUri.toString(), collUri.toString(), subCollUris);
@@ -476,7 +476,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres   = new HashMap<String, String>();
+      final Map<String, String> wheres   = new HashMap<>();
       
       where(wheres, SSSQLVarU.collParentId, collUri);
       
@@ -498,7 +498,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collChildId, collUri);
       
@@ -520,7 +520,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> deletes             = new HashMap<String, String>();
+      final Map<String, String> deletes             = new HashMap<>();
       final List<String>        directChildCollURIs = getDirectChildCollURIs(collUri.toString());
       
       //unlink all direct sub colls (and hence their sub colls as well)
@@ -542,7 +542,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri collEntryUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<String, String>();
+      final Map<String, String> deletes = new HashMap<>();
       
       //remove coll entry from coll entry pos table
       delete(deletes, SSSQLVarU.collId,  collUri);
@@ -560,8 +560,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final List<Integer> order) throws Exception{
     
     try{
-      final Map<String, String> wheres   = new HashMap<String, String>();
-      final Map<String, String> updates  = new HashMap<String, String>();
+      final Map<String, String> wheres   = new HashMap<>();
+      final Map<String, String> updates  = new HashMap<>();
       Integer                   counter  = 0;
       
       where(wheres, SSSQLVarU.collId, collUri);
@@ -588,10 +588,10 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<String>        tables     = new ArrayList<String>();
-      final List<String>        columns    = new ArrayList<String>();
-      final List<String>        tableCons  = new ArrayList<String>();
-      final Map<String, String> wheres     = new HashMap<String, String>();
+      final List<String>        tables     = new ArrayList<>();
+      final List<String>        columns    = new ArrayList<>();
+      final List<String>        tableCons  = new ArrayList<>();
+      final Map<String, String> wheres     = new HashMap<>();
       
       table    (tables,    collTable);
       table    (tables,    entityTable);
@@ -628,10 +628,10 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<String>        tables    = new ArrayList<String>();
-      final List<String>        columns   = new ArrayList<String>();
-      final List<String>        tableCons = new ArrayList<String>();
-      final Map<String, String> wheres    = new HashMap<String, String>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
       final SSColl              coll      = getColl(collUri, circleTypes);
       SSCollEntry               collEntry;
 
@@ -652,7 +652,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
           SSCollEntry.get(
             bindingStrToUri        (resultSet, SSSQLVarU.entryId),
             bindingStr             (resultSet, SSSQLVarU.label),
-            new ArrayList<SSCircleE>(),
+            new ArrayList<>(),
             bindingStrToInteger    (resultSet, SSSQLVarU.pos),
             bindingStrToEntityType (resultSet, SSSQLVarU.type));
         
@@ -674,7 +674,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
 
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -698,7 +698,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.collId,  collUri);
       where(wheres, SSSQLVarU.entryId, collEntryUri);
@@ -721,7 +721,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
 
       where(wheres, SSSQLVarU.userId, userUri);
       
@@ -743,7 +743,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres       = new HashMap<String, String>();
+      final Map<String, String> wheres       = new HashMap<>();
 
       where(wheres, SSSQLVarU.collId, collUri);
       
@@ -765,7 +765,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.entryId, entityUri);
       
@@ -792,7 +792,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 
 //  public SSSpaceEnum getUserCollSpace(SSUri user, SSUri coll) throws Exception{
 //    
-//    Map<String, String> selectPars    = new HashMap<String, String>();
+//    Map<String, String> selectPars    = new HashMap<>();
 //    ResultSet           resultSet     = null;
 //    SSSpaceEnum         userCollSpace = null;
 //    
@@ -817,8 +817,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
 
 //private Boolean ownsUserCollByHierarchy(SSUri userUri, SSUri collUri) throws Exception{
 //    
-//    final List<String> collParents    = new ArrayList<String>();
-//    final List<String> newCollParents = new ArrayList<String>();
+//    final List<String> collParents    = new ArrayList<>();
+//    final List<String> newCollParents = new ArrayList<>();
 //    
 //    try{
 //      
@@ -867,7 +867,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //        
-//    Map<String, String> selectPars  = new HashMap<String, String>();
+//    Map<String, String> selectPars  = new HashMap<>();
 //    ResultSet           resultSet   = null;
 //    SSSpaceEnum         collSpace   = null;
 //    
@@ -895,9 +895,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
 
 // public Boolean isEntityInPrivateUserColl(SSUri user, SSUri entity) throws Exception{
 //
-//    Map<String, String> selectPars                = new HashMap<String, String>();
+//    Map<String, String> selectPars                = new HashMap<>();
 //    ResultSet           resultSet                 = null;
-//    List<String>        parentCollUris            = new ArrayList<String>();
+//    List<String>        parentCollUris            = new ArrayList<>();
 //    Boolean             isEntityInPrivateUserColl;
 //    
 //    if(isColl(entity)){
@@ -922,7 +922,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      }
 //    }
 //    
-//    selectPars = new HashMap<String, String>();
+//    selectPars = new HashMap<>();
 //    selectPars.put(SSSQLVarU.entryId, entity.toString());
 //    
 //    try{
@@ -942,7 +942,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //    
-//    selectPars = new HashMap<String, String>();
+//    selectPars = new HashMap<>();
 //    
 //    for(String parentCollUri : parentCollUris){
 //      
@@ -970,12 +970,12 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //
 //    Map<String, String> selectPars;
 //    ResultSet           resultSet                            = null;
-//    List<String>        parentCollUris                       = new ArrayList<String>();
+//    List<String>        parentCollUris                       = new ArrayList<>();
 //    Boolean             isEntityInSharedOrFollowedUserColl;
 //    
 //    if(isColl(entity)){
 //
-//      selectPars = new HashMap<String, String>();
+//      selectPars = new HashMap<>();
 //      selectPars.put(SSSQLVarU.userId, user.toString());
 //      selectPars.put(SSSQLVarU.collId, entity.toString());
 //      
@@ -995,7 +995,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      }
 //    }
 //    
-//    selectPars = new HashMap<String, String>();
+//    selectPars = new HashMap<>();
 //    selectPars.put(SSSQLVarU.entryId, entity.toString());
 //    
 //    try{
@@ -1014,7 +1014,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //    
-//    selectPars = new HashMap<String, String>();
+//    selectPars = new HashMap<>();
 //    
 //    for(String parentCollUri : parentCollUris){
 //      
@@ -1127,8 +1127,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return;
 //    }
 //    
-//    final List<String>        subCollUris = new ArrayList<String>();
-//    final Map<String, String> deletePars  = new HashMap<String, String>();
+//    final List<String>        subCollUris = new ArrayList<>();
+//    final Map<String, String> deletePars  = new HashMap<>();
 //    
 //    try{
 //      
@@ -1150,12 +1150,12 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      }
 //      
 //      deletePars.clear();
-//      deletePars.put(SSSQLVarU.collId, SSUri.toStr(collUri));
+//      deletePars.put(SSSQLVarU.collId, SSStrU.toStr(collUri));
 //
 //      dbSQL.deleteWhere(collTable, deletePars);
 //      
 //      deletePars.clear();
-//      deletePars.put(SSSQLVarU.entryId, SSUri.toStr(collUri));
+//      deletePars.put(SSSQLVarU.entryId, SSStrU.toStr(collUri));
 //
 //      dbSQL.deleteWhere(collEntryPosTable, deletePars);
 //      
@@ -1174,7 +1174,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //        
-//    final List<String> subCollUris    = new ArrayList<String>();
+//    final List<String> subCollUris    = new ArrayList<>();
 //    
 //    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
 //    
@@ -1198,7 +1198,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //        
-//    final List<String> superCollUris = new ArrayList<String>();
+//    final List<String> superCollUris = new ArrayList<>();
 //    
 //    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
 //    
@@ -1221,7 +1221,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //        
-//    final List<String> superCollUris = new ArrayList<String>();
+//    final List<String> superCollUris = new ArrayList<>();
 //    
 //    getAllParentCollURIs(collUri.toString(), collUri.toString(), superCollUris);
 //    
@@ -1246,7 +1246,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //    
-//    final Map<String, String> whereParNamesWithValues  = new HashMap<String, String>();
+//    final Map<String, String> whereParNamesWithValues  = new HashMap<>();
 //    ResultSet                 resultSet                = null;
 //    
 //    try{
@@ -1270,9 +1270,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //  }
 //  public List<SSUri> getAllSharedCollURIs() throws Exception{
 //    
-//    final List<SSUri>         sharedCollURIs          = new ArrayList<SSUri>();
-//    final List<String>        columnNames             = new ArrayList<String>();
-//    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+//    final List<SSUri>         sharedCollURIs          = new ArrayList<>();
+//    final List<String>        columnNames             = new ArrayList<>();
+//    final Map<String, String> whereParNamesWithValues = new HashMap<>();
 //    ResultSet                 resultSet               = null;
 //    
 //    //get all colls from user table where space is shared (distinct)
@@ -1304,9 +1304,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return;
 //    }
 //  
-//    final Map<String, String> updatePars = new HashMap<String, String>();
-//    final Map<String, String> newValues  = new HashMap<String, String>();
-//    final List<String>        subCollUris = new ArrayList<String>();
+//    final Map<String, String> updatePars = new HashMap<>();
+//    final Map<String, String> newValues  = new HashMap<>();
+//    final List<String>        subCollUris = new ArrayList<>();
 //    
 //    getAllChildCollURIs(collUri.toString(), collUri.toString(), subCollUris);
 //    
@@ -1335,9 +1335,9 @@ public class SSCollSQLFct extends SSDBSQLFct{
 //      return null;
 //    }
 //    
-//    final List<String>        tableNames              = new ArrayList<String>();
-//    final List<String>        columnNames             = new ArrayList<String>();
-//    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+//    final List<String>        tableNames              = new ArrayList<>();
+//    final List<String>        columnNames             = new ArrayList<>();
+//    final Map<String, String> whereParNamesWithValues = new HashMap<>();
 //    SSColl                    coll                    = null;
 //    ResultSet                 resultSet               = null;
 //    

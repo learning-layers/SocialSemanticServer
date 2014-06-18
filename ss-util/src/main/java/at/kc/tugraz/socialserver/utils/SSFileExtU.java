@@ -71,10 +71,10 @@ public class SSFileExtU {
   public final static String                 rar             = "rar";
   public final static String                 zip             = "zip";
   
-  public final static List<String> videoFileExts = new ArrayList<String>();
-  public final static List<String> audioFileExts = new ArrayList<String>();
-  public final static List<String> imageFileExts = new ArrayList<String>();
-  public final static List<String> zipFileExts   = new ArrayList<String>();
+  public final static List<String> videoFileExts = new ArrayList<>();
+  public final static List<String> audioFileExts = new ArrayList<>();
+  public final static List<String> imageFileExts = new ArrayList<>();
+  public final static List<String> zipFileExts   = new ArrayList<>();
   
   private static SSFileExtU inst = new SSFileExtU();
 

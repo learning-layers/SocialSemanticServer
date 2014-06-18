@@ -135,7 +135,7 @@ public class SSDBGraphFct extends SSDBFct{
 //  protected SSUri objUserEvent() throws Exception{
 //    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityEnum.userEvent.toString());
 //  }
-  //  SSLiteral.get(SSStrU.toString(actionType))
+  //  SSLiteral.get(SSStrU.toStr(actionType))
 
 //  protected SSUri createEvent() throws Exception{
 //    return SSUri.get(objUserEvent() + SSDateU.dateAsNano().toString());
@@ -166,17 +166,17 @@ public class SSDBGraphFct extends SSDBFct{
   protected SSLiteral objHasLabel(
     String value) throws Exception{
     
-    return SSLiteral.get(SSStrU.toString(value));
+    return SSLiteral.get(SSStrU.toStr(value));
   }
   
   protected SSLiteral objContent(String value) throws Exception{
-    return SSLiteral.get(SSStrU.toString(value));
+    return SSLiteral.get(SSStrU.toStr(value));
   }
   
   protected SSLiteral objSpace(
     SSSpaceE value) throws Exception{
     
-    return SSLiteral.get(SSStrU.toString(value));
+    return SSLiteral.get(SSStrU.toStr(value));
   }
   
 //  protected SSUri objTagSet() throws Exception{
@@ -547,7 +547,7 @@ public class SSDBGraphFct extends SSDBFct{
 //  }
   
 //  protected List<String> splitObject(Object object) throws Exception{
-//    return SSStrU.split(SSStrU.removeDoubleQuotes(SSStrU.toString(object)), SSStrU.pipe);
+//    return SSStrU.split(SSStrU.removeDoubleQuotes(SSStrU.toStr(object)), SSStrU.pipe);
 //  }
   
   protected long getLongFromGraphDoubleString(String string){
@@ -566,7 +566,7 @@ public class SSDBGraphFct extends SSDBFct{
 
 
 
-//private static Map<String, String> contentMap = new HashMap<String, String>();
+//private static Map<String, String> contentMap = new HashMap<>();
 //
 //  public void setContent(String user, String content) {
 //    String plain = content.replaceAll("\\<[a-zA-Z0-9 ]+\\>", "").replaceAll("\\</[a-zA-Z0-9 ]+\\>", "");

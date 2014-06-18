@@ -24,13 +24,12 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
 import java.util.List;
 
 public class SSSearchMIsPar extends SSServPar{
   
-  public List<SSModelUEMILabel> mIs        = null;
-  public String                 searchOp   = null;
+  public List<String> mIs        = null;
+  public String       searchOp   = null;
   
   public SSSearchMIsPar(SSServPar par) throws Exception{
   
@@ -39,13 +38,13 @@ public class SSSearchMIsPar extends SSServPar{
     try{
       
       if(pars != null){
-        searchOp   = (String)                 pars.get(SSVarU.searchOp);
-        mIs        = (List<SSModelUEMILabel>) pars.get(SSVarU.mIs);
+        searchOp   = (String)       pars.get(SSVarU.searchOp);
+        mIs        = (List<String>) pars.get(SSVarU.mIs);
       }
       
       if(clientPars != null){
         searchOp   = clientPars.get(SSVarU.searchOp);
-        mIs        = SSModelUEMILabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.mIs), SSStrU.comma));
+        mIs        = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.mIs), SSStrU.comma);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -66,6 +65,6 @@ public class SSSearchMIsPar extends SSServPar{
     super();
     
     this.searchOp = searchOp;
-    this.mIs      = SSModelUEMILabel.get(SSStrU.distinctWithoutEmptyAndNull(mIs));
+    this.mIs      = SSStrU.distinctWithoutEmptyAndNull(mIs);
   }   
 }

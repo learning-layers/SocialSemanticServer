@@ -88,7 +88,7 @@ public class PredictionFileWriter {
 						
 			int correctResourceRecommendation = 0;
 			int noMatchOfResources = 0;
-			List<Integer> positions = new ArrayList<Integer>();
+			List<Integer> positions = new ArrayList<>();
 			
 			int i=0;
 			String helpString = "";

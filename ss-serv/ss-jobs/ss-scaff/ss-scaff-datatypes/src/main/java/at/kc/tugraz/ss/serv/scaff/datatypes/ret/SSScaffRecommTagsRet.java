@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class SSScaffRecommTagsRet extends SSServRetI{
 
-  public List<String> tags = new ArrayList<String>();
+  public List<String> tags = new ArrayList<>();
 
   public static SSScaffRecommTagsRet get(List<String> tags, SSMethU op){
     return new SSScaffRecommTagsRet(tags, op);
@@ -48,8 +48,8 @@ public class SSScaffRecommTagsRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> tagsObj    = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> tagsObj    = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);

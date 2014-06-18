@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.*;
 
 public class SSSearchResult extends SSEntityA{
@@ -62,14 +63,70 @@ public class SSSearchResult extends SSEntityA{
     
     return new SSSearchResult(entity, space);
   }
- 
+  
+  
+  public static void addDistinct(
+    final List<SSSearchResult>     entities,  
+    final SSSearchResult           entity) throws Exception{
+    
+    try{
+      
+      if(entities == null){
+        throw new Exception("pars null");
+      }
+      
+      if(entity == null){
+        return;
+      }
+      
+      if(SSStrU.contains(entities, entity)){
+        return;
+      }
+      
+      entities.add(entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void addDistinct(
+    final List<SSSearchResult>  entities,
+    final List<SSSearchResult>  toAddEntities) throws Exception{
+    
+    try{
+      
+      if(entities == null){
+        throw new Exception("pars null");
+      }
+      
+      if(toAddEntities == null){
+        return;
+      }
+      
+      for(SSSearchResult entity : toAddEntities){
+        
+        if(entity == null){
+          continue;
+        }
+        
+        if(!SSStrU.contains(entities, entity)){
+          entities.add(entity);
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   private SSSearchResult(
     final SSEntity entity) throws Exception{
     
     super(entity);
     
     this.entity    = entity.id;
-    this.label     = SSLabel.toStr(entity.label);
+    this.label     = SSStrU.toStr(entity.label);
     this.type      = entity.type;
     this.space     = SSSpaceE.sharedSpace;
   }
@@ -87,7 +144,7 @@ public class SSSearchResult extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.entity,        SSVarU.sss + SSStrU.colon  + SSUri.class.getName());
     ld.put(SSVarU.space,         SSVarU.sss + SSStrU.colon  + SSSpaceE.class.getName());
@@ -97,51 +154,9 @@ public class SSSearchResult extends SSEntityA{
     return ld;
   }
   
-  public static List<SSSearchResult> distinct(
-    final List<SSSearchResult> searchResults) throws Exception{
-    
-    final List<SSSearchResult> result = new ArrayList<SSSearchResult>();
-    
-    if(searchResults == null){
-      return result;
-    }
-    
-    final List<String> foundEntities = new ArrayList<String>();
-    
-    for(SSSearchResult searchResult : searchResults){
-      
-      if(
-        searchResult == null ||
-        foundEntities.contains(searchResult.toString())) {
-        continue;
-      }
-      
-      result.add        (searchResult);
-      foundEntities.add (searchResult.toString());
-    }
-    
-    return result;
-  }
-
-  public static void addDistinct(
-    final List<SSSearchResult> entities,
-    final List<SSSearchResult> toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSSearchResult entity : toAddEntities){
-
-      if(!contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
-  }
-  
   /* getters to allow for json enconding */
   public String getEntity() throws Exception{
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 
   public String getSpace(){

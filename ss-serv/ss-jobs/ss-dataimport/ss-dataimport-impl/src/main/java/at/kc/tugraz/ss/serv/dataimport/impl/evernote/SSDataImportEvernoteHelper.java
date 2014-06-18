@@ -171,7 +171,7 @@ public class SSDataImportEvernoteHelper {
 //          for(Resource resource : note.getResources()){
 //            
 //            resourceUri   = SSUri.get     (linkedNotebook.getWebApiUrlPrefix() + "share/" + linkedNotebook.getShareKey() + "/res/" + resource.getGuid());
-//            resourceLabel = SSLabelStr.get(SSStrU.toString(resourceUri));
+//            resourceLabel = SSLabelStr.get(SSStrU.toStr(resourceUri));
 //            
 //            SSServCaller.addEntityAtCreationTime(
 //              userUri,

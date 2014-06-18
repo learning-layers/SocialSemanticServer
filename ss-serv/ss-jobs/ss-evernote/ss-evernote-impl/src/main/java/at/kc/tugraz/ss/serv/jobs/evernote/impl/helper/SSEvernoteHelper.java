@@ -44,7 +44,7 @@ public class SSEvernoteHelper {
 
   public List<String> getSharedNotebookGuids(List<SharedNotebook> sharedNotebooks) {
     
-    List<String> sharedNotebookGuids = new ArrayList<String>();
+    List<String> sharedNotebookGuids = new ArrayList<>();
     
     if(sharedNotebooks == null){
       return sharedNotebookGuids;

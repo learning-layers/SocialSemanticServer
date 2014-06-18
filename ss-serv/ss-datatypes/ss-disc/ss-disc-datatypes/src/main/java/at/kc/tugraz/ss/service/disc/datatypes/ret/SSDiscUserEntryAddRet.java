@@ -55,7 +55,7 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.disc,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entry, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -66,10 +66,10 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   /* json getters */
   
   public String getDisc() throws Exception {
-    return SSUri.toStrWithoutSlash(disc);
+    return SSStrU.removeTrailingSlash(disc);
   }
     
   public String getEntry() throws Exception {
-    return SSUri.toStrWithoutSlash(entry);
+    return SSStrU.removeTrailingSlash(entry);
   }
 }

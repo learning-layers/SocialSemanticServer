@@ -38,7 +38,7 @@ public class SSCategory extends SSEntityA {
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -59,44 +59,41 @@ public class SSCategory extends SSEntityA {
     return new SSCategory(uri, resource, user, space, label);
   }
   
-  public static List<SSUri> getDistinctResources(final List<SSCategory> categorys){
-    
-    final List<SSUri> result = new ArrayList<SSUri>();
-		
-		for(SSCategory category : categorys){
-			
-			if(!SSUri.contains(result, category.entity)){
-				result.add(category.entity);
-			}
-		}
-		
-		return result;
-  }
+//  public static List<SSUri> getDistinctResources(final List<SSCategory> categories) throws Exception{
+//    
+//    final List<SSUri> result = new ArrayList<>();
+//		
+//		for(SSCategory category : categories){
+//      SSUri.addDistinctWithoutNull(result, category.entity);
+//		}
+//		
+//		return result;
+//  }
   
-  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSCategory> categorys){
+  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSCategory> categorys) throws Exception{
     
-    final Map<String, List<String>>     categorysPerEntity = new HashMap<String,  List<String>>();
+    final Map<String, List<String>>     categorysPerEntity = new HashMap<>();
     List<String>                        categoryLabels;
     String                              entity;
     
     for(SSCategory userTag : categorys){
       
-      entity = SSUri.toStr(userTag.entity);
+      entity = SSStrU.toStr(userTag.entity);
       
       if(categorysPerEntity.containsKey(entity)){
         
         categoryLabels = categorysPerEntity.get(entity);
         
-        if(categoryLabels.contains(SSCategoryLabel.toStr(userTag.label))){
+        if(SSStrU.contains(categoryLabels, userTag.label)){
           continue;
         }
         
         categoryLabels.add(userTag.label.toString());
       }else{
         
-        categoryLabels = new ArrayList<String>();
+        categoryLabels = new ArrayList<>();
         
-        categoryLabels.add(SSCategoryLabel.toStr(userTag.label));
+        categoryLabels.add(SSStrU.toStr(userTag.label));
         
         categorysPerEntity.put(entity, categoryLabels);
       }
@@ -124,15 +121,15 @@ public class SSCategory extends SSEntityA {
   /* getters to allow for json enconding */
   
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getEntity() throws Exception{
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 
   public String getUser() throws Exception{
-    return SSUri.toStrWithoutSlash(user);
+    return SSStrU.removeTrailingSlash(user);
   }
 
   public String getSpace(){
@@ -140,6 +137,6 @@ public class SSCategory extends SSEntityA {
   }
 
   public String getLabel(){
-    return SSCategoryLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 }

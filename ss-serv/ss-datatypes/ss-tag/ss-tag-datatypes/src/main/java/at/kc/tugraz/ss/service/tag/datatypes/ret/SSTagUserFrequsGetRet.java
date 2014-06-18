@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSTagUserFrequsGetRet extends SSServRetI{
   
-  public List<SSTagFrequ> tagFrequs = new ArrayList<SSTagFrequ>();
+  public List<SSTagFrequ> tagFrequs = new ArrayList<>();
   
   public static SSTagUserFrequsGetRet get(List<SSTagFrequ> tagFrequs, SSMethU op){
     return new SSTagUserFrequsGetRet(tagFrequs, op);
@@ -51,8 +51,8 @@ public class SSTagUserFrequsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld               = new HashMap<String, Object>();
-    Map<String, Object> tagFrequsObj     = new HashMap<String, Object>();
+    Map<String, Object> ld               = new HashMap<>();
+    Map<String, Object> tagFrequsObj     = new HashMap<>();
     
     tagFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTagFrequ.class.getName());
     tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);

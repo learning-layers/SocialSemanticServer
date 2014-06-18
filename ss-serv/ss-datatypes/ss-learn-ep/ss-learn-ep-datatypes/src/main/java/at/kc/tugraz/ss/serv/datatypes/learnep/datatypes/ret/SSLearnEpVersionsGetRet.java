@@ -47,8 +47,8 @@ public class SSLearnEpVersionsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld                  = new HashMap<String, Object>();
-    Map<String, Object> learnEpVersionsObj  = new HashMap<String, Object>();
+    Map<String, Object> ld                  = new HashMap<>();
+    Map<String, Object> learnEpVersionsObj  = new HashMap<>();
     
     learnEpVersionsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
     learnEpVersionsObj.put(SSJSONLDU.container, SSJSONLDU.set);

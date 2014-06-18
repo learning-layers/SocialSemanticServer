@@ -32,7 +32,7 @@ public class SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryPar extends SSSe
   
   public SSUri         forUser    = null;
   public SSUri         entity     = null;
-  public List<String>  categories = new ArrayList<String>();
+  public List<String>  categories = new ArrayList<>();
   public Integer       maxTags    = 10;
   
   public SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryPar(final SSServPar par) throws Exception{

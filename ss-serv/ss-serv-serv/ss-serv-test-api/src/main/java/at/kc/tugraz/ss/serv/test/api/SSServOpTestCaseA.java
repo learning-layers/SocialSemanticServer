@@ -54,7 +54,7 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
   
   protected void createJSONClientRetStr(final SSServRetI clientServResult) throws Exception{
     
-    final Map<String, Object> ret = new HashMap<String, Object>();
+    final Map<String, Object> ret = new HashMap<>();
     
     try{
       ret.put(SSVarU.op,                            SSMethU.toStr(op));

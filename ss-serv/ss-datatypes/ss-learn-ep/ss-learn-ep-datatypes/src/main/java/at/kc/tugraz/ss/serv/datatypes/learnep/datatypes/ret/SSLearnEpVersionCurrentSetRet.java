@@ -45,7 +45,7 @@ public class SSLearnEpVersionCurrentSetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.learnEpVersion, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -54,6 +54,6 @@ public class SSLearnEpVersionCurrentSetRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   public String getLearnEpVersion() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpVersion);
+    return SSStrU.removeTrailingSlash(learnEpVersion);
   }
 }

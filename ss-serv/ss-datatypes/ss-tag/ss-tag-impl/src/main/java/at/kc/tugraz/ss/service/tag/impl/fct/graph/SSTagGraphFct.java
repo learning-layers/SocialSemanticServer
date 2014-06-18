@@ -36,7 +36,7 @@ public class SSTagGraphFct extends SSDBGraphFct{
 //    SSSpaceEnum space) throws Exception {
 //
 //    List<SSTag>     result     = new ArrayList<SSTag>(); 
-//    List<String>    selectPars = new ArrayList<String>();
+//    List<String>    selectPars = new ArrayList<>();
 //    String          queryString, tag, tagSet, label;
 //    Boolean         useGivenResource = true;
 //    
@@ -104,7 +104,7 @@ public class SSTagGraphFct extends SSDBGraphFct{
 //      if(SSObjU.isNull(tagString)) {
 //        label = SSStrU.removeDoubleQuotes(binding(item, bindLabel));
 //      }else{
-//        label = SSStrU.toString(tagString);
+//        label = SSStrU.toStr(tagString);
 //    }
 //
 //      tag     = binding(item, bindTag);
@@ -128,7 +128,7 @@ public class SSTagGraphFct extends SSDBGraphFct{
 //    int          maxResults) throws Exception {
 //
 //    List<SSTag>  result                = new ArrayList<SSTag>();
-//    List<String> selectPars            = new ArrayList<String>();
+//    List<String> selectPars            = new ArrayList<>();
 //    boolean      useResourceFromResult = false;
 //    String       queryString;
 //    
@@ -260,7 +260,7 @@ public class SSTagGraphFct extends SSDBGraphFct{
 //  }
 
 //  public String[] getResourceTags(String user, String page, int mode, boolean onlyuser)  {
-//    List<String> outList = new ArrayList<String>();
+//    List<String> outList = new ArrayList<>();
 //    String queryString;
 //    String from = Vocabulary.getInstance().getGraphUri(VocNamespace.COMMON).toString(); //SemanticVocabulary.MATURENS + "common";
 //

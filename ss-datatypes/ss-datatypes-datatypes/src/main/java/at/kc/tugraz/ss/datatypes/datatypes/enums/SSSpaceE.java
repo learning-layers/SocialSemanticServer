@@ -32,7 +32,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
   privateSpace;
   
   public static String toStr(final SSSpaceE space){
-    return SSStrU.toString(space);
+    return SSStrU.toStr(space);
   }
   
   public static SSSpaceE get(final String space) throws Exception{
@@ -41,7 +41,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
   
   public static List<SSSpaceE> get(final List<String> strings) throws Exception{
 
-    final List<SSSpaceE> result = new ArrayList<SSSpaceE>();
+    final List<SSSpaceE> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));

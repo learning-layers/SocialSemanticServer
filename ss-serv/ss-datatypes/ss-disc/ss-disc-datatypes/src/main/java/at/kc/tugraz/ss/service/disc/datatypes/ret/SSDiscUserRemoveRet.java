@@ -50,7 +50,7 @@ public class SSDiscUserRemoveRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.disc, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -58,6 +58,6 @@ public class SSDiscUserRemoveRet extends SSServRetI{
   }
   
   public String getDisc() {
-    return SSUri.toStrWithoutSlash(disc);
+    return SSStrU.removeTrailingSlash(disc);
   }
 }

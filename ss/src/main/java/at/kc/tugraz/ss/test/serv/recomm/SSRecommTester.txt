@@ -49,7 +49,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     
 //    if(SSMethU.equals(op, SSMethU.recommLanguageModel)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.user,           null);
 //      opPars.put(SSVarU.fileName,       "wiki_sample_core_user_15_c16");
 //      opPars.put(SSVarU.resource,       null);
@@ -60,7 +60,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
 //    
 //    if(SSMethU.equals(op, SSMethU.recommSplitSample)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.dataSet,        recommConf.dataSet);
 //      opPars.put(SSVarU.sampleName,     recommConf.sampleName);
 //      opPars.put(SSVarU.sampleCount,    recommConf.sampleCount);
@@ -73,7 +73,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
 //    
 //    if(SSMethU.equals(op, SSMethU.recommCalcThreeLayers)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.sampleName,        recommConf.sampleName);
 //      opPars.put(SSVarU.sampleCount,       recommConf.sampleCount);
 //      opPars.put(SSVarU.prefix,            recommConf.prefix);
@@ -81,7 +81,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
 //      
 //      SSServReg.callServServer(new SSServPar(SSMethU.recommCalcThreeLayers, opPars));
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
 //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
 //      opPars.put(SSVarU.prefix,           "3layers");
@@ -94,7 +94,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
 //    
 //    if(SSMethU.equals(op, SSMethU.recommCalcLDA)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
 //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
 //      opPars.put(SSVarU.topics,           recommConf.topics);
@@ -105,7 +105,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     
     //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcCFTAG)){
     //
-    //      opPars = new HashMap<String, Object>();
+    //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
     //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
@@ -117,7 +117,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     //
     //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcFolkRank)){
     //
-    //      opPars = new HashMap<String, Object>();
+    //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
     //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
@@ -127,7 +127,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     //
     //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcAct)){
     //
-    //      opPars = new HashMap<String, Object>();
+    //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
     //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
@@ -139,7 +139,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     //
     //    if(SSStrU.equals(recommConf.op, SSMethU.recommCalcLDAModel)){
     //
-    //      opPars = new HashMap<String, Object>();
+    //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
     //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //      opPars.put(SSVarU.topics,           recommConf.topics);
@@ -152,7 +152,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     //
     //     if(SSStrU.equals(recommConf.op, SSMethU.recommCalcLanguageModel)){
     //
-    //       opPars = new HashMap<String, Object>();
+    //       opPars = new HashMap<>();
     //       opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
     //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
@@ -163,7 +163,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     
 //    if(SSMethU.equals(recommConf.op, SSMethU.recommBaseline)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.sampleDir,        recommConf.sampleDir);
 //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
 //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
@@ -173,7 +173,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
 //    
 //    if(SSMethU.equals(recommConf.op, SSMethU.recommCreateLDASamples)){
 //      
-//      Map<String, Object> opPars = new HashMap<String, Object>();
+//      Map<String, Object> opPars = new HashMap<>();
 //      opPars.put(SSVarU.sampleName,       recommConf.sampleName);
 //      opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
 //      opPars.put(SSVarU.topics,           recommConf.topics);
@@ -183,7 +183,7 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     
     //     if(SSStrU.equals(recommConf.op, SSMethU.recommCreateLanguageModelSamples)){
     //
-    //       opPars = new HashMap<String, Object>();
+    //       opPars = new HashMap<>();
     //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
     //
@@ -192,13 +192,13 @@ public class SSRecommTester extends SSServImplA implements Runnable{
     
     //     if(SSStrU.equals(recommConf.op, SSMethU.recommCalcMulan)){
     //
-    //       opPars = new HashMap<String, Object>();
+    //       opPars = new HashMap<>();
     //       opPars.put(SSVarU.sampleName,       recommConf.sampleName);
     //       opPars.put(SSVarU.sampleCount,      recommConf.sampleCount);
     //
     //       SSServReg.callServServer(new SSServPar(SSMethU.recommCalcMulan, opPars));
     //
-    //       opPars = new HashMap<String, Object>();
+    //       opPars = new HashMap<>();
     //       opPars.put(SSVarU.sampleDir,       recommConf.sampleDir);
     //       opPars.put(SSVarU.sampleName,      recommConf.sampleName);
     //       opPars.put(SSVarU.sampleCount,     recommConf.sampleCount);

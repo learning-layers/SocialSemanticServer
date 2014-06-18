@@ -53,7 +53,7 @@ public class SSUE extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
 
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -104,8 +104,8 @@ public class SSUE extends SSEntityA {
     return result;
   }
   
-	public static boolean isContentCorrect(final SSUE event) {
-		return SSStrU.notEquals(event.content, SSStrU.valueNA);
+	public static Boolean isContentCorrect(final SSUE event) {
+		return !SSStrU.equals(event.content, SSStrU.valueNA);
 	}
   
   private SSUE(
@@ -116,7 +116,7 @@ public class SSUE extends SSEntityA {
     String          content,
     Long            timestamp) throws Exception{
 
-    super(SSStrU.toString(type));
+    super(SSStrU.toStr(type));
     
     this.id        = uri;
     this.user       = user;
@@ -128,11 +128,11 @@ public class SSUE extends SSEntityA {
 
   /* getters to allow for json enconding */
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getUser() throws Exception{
-    return SSUri.toStrWithoutSlash(user);
+    return SSStrU.removeTrailingSlash(user);
   }
 
   public String getType(){
@@ -140,7 +140,7 @@ public class SSUE extends SSEntityA {
   }
 
   public String getEntity() throws Exception{
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 
   public String getContent(){

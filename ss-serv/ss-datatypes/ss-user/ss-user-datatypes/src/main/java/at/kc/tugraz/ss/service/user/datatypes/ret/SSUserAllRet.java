@@ -56,8 +56,8 @@ public class SSUserAllRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<String, Object>();
-    final Map<String, Object> usersObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> usersObj   = new HashMap<>();
     
     usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUser.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);

@@ -226,7 +226,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       SSServCaller.entityAdd(
         par.user,
         categoryUri,       
-        SSLabel.get(SSCategoryLabel.toStr(par.label)), 
+        SSLabel.get(SSStrU.toStr(par.label)), 
         SSEntityE.category,
         null,
         false);
@@ -234,7 +234,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(SSUri.toStr(par.entity)),
+        SSLabel.get(SSStrU.toStr(par.entity)),
         SSEntityE.entity,
         null,
         false);
@@ -279,7 +279,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       SSServCaller.entityAddAtCreationTime(
         par.user,
         categoryUri,
-        SSLabel.get(SSStrU.toString(par.label)),
+        SSLabel.get(SSStrU.toStr(par.label)),
         par.creationTime,
         SSEntityE.category,
         null,
@@ -366,7 +366,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         SSServCaller.categoryAddAtCreationTime(
           par.user, 
           par.entity, 
-          SSCategoryLabel.toStr(categoryLabel), 
+          SSStrU.toStr(categoryLabel), 
           par.space, 
           par.creationTime, 
           false);
@@ -517,7 +517,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(par.space == null){
         
-        final List<SSUri> entityUris = new ArrayList<SSUri>();
+        final List<SSUri> entityUris = new ArrayList<>();
         
         entityUris.addAll(
           sqlFct.getEntitiesForCategoryLabel(
@@ -531,7 +531,9 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
           par.label,
           SSSpaceE.sharedSpace));
         
-        return SSUri.distinct(entityUris);
+        SSStrU.distinctWithoutEmptyAndNull2(entityUris);
+        
+        return entityUris;
       }
       
       if(SSSpaceE.isShared(par.space)){
@@ -571,7 +573,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       
       if(par.space == null){
         
-        final List<SSCategory>      categories = new ArrayList<SSCategory>();
+        final List<SSCategory>      categories = new ArrayList<>();
         
         categories.addAll (sqlFct.getCategoryAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
         categories.addAll (sqlFct.getCategoryAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
@@ -606,7 +608,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         SSServCaller.categoriesUserGet(
           par.user,
           par.entity, 
-          SSCategoryLabel.toStr(par.label), 
+          SSStrU.toStr(par.label), 
           par.space);
       
       return SSCategoryMiscFct.getCategoryFrequsFromCategorys (categories, par.space);

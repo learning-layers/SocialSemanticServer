@@ -39,7 +39,7 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    final List<SSUri> userUris   = new ArrayList<SSUri>();
+    final List<SSUri> userUris   = new ArrayList<>();
     
     userUris.add   (SSUri.get("http://test.dt/user/dk/"));
     

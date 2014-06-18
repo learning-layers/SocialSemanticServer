@@ -45,7 +45,7 @@ public class SSUESQLFct extends SSDBSQLFct{
 
   public SSUE getUE(SSUri ueUri) throws Exception{
     
-    Map<String, String>  selectPars = new HashMap<String, String>();
+    Map<String, String>  selectPars = new HashMap<>();
     ResultSet            resultSet  = null;
     SSUE                 ue         = null;
     
@@ -85,10 +85,10 @@ public class SSUESQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<String>         tables       = new ArrayList<String>();
-      final List<String>         columns      = new ArrayList<String>();
-      final List<String>         tableCons    = new ArrayList<String>();
-      final Map<String, String>  wheres       = new HashMap<String, String>();
+      final List<String>         tables       = new ArrayList<>();
+      final List<String>         columns      = new ArrayList<>();
+      final List<String>         tableCons    = new ArrayList<>();
+      final Map<String, String>  wheres       = new HashMap<>();
       final List<SSUE>           ues          = new ArrayList<SSUE>();
       
       SSUEE                      eventTypeFromDB;
@@ -172,7 +172,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       return;
     }
     
-    final Map<String, String> insert = new HashMap<String, String>();
+    final Map<String, String> insert = new HashMap<>();
     
     try{
       insert.put(SSSQLVarU.userEventId,   ueUri.toString());

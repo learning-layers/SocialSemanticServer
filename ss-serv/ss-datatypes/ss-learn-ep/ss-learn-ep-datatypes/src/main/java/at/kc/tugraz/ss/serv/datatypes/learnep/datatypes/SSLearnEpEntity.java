@@ -50,7 +50,7 @@ public class SSLearnEpEntity extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -62,11 +62,11 @@ public class SSLearnEpEntity extends SSEntityA {
   
   /* getters to allow for json enconding */
   public String getId() throws Exception {
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
   
   public String getEntity() throws Exception {
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
   
   public Float getX() {

@@ -11,7 +11,7 @@ public class ThreeLayersEngine {
   
   private WikipediaReader reader = null;
   private ThreeLTCalculator calculator = null;
-  private List<String> topTags = new ArrayList<String>();
+  private List<String> topTags = new ArrayList<>();
   
   public void loadFile(String filename) throws Exception{
     
@@ -29,13 +29,13 @@ public class ThreeLayersEngine {
   }
   
   public synchronized List<String> getTags(String user, String resource, List<String> topics, int limit, boolean timeBased) {
-    List<String> tags = new ArrayList<String>();
+    List<String> tags = new ArrayList<>();
     if (this.reader == null || this.calculator == null) {
       return tags;
     }
     int userID = this.reader.getUsers().indexOf(user);
     int resID = this.reader.getResources().indexOf(resource);
-    List<Integer> topicIDs = new ArrayList<Integer>();
+    List<Integer> topicIDs = new ArrayList<>();
     if (topics != null) {
       for (String t : topics) {
         int tID = this.reader.getCategories().indexOf(t);

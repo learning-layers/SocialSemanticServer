@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import java.util.List;
@@ -114,7 +115,7 @@ public class SSFileFct {
           continue;
         }
         
-        if(SSUri.equals(fileAccessProperty.getWriter(), user)){
+        if(SSStrU.equals(fileAccessProperty.getWriter(), user)){
           files.add(fileAccessProperty.file);
         }
       }

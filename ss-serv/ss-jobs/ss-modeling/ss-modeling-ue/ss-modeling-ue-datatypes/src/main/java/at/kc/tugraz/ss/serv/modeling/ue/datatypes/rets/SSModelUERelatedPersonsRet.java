@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSModelUERelatedPersonsRet extends SSServRetI{
 
-  public List<SSUri> relatedPersons = new ArrayList<SSUri>();
+  public List<SSUri> relatedPersons = new ArrayList<>();
 
   public static SSModelUERelatedPersonsRet get(List<SSUri> relatedPersons, SSMethU op){
     return new SSModelUERelatedPersonsRet(relatedPersons, op);
@@ -49,8 +49,8 @@ public class SSModelUERelatedPersonsRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc() {
     
-    Map<String, Object> ld                      = new HashMap<String, Object>();
-    Map<String, Object> relatedPersonsObj       = new HashMap<String, Object>();
+    Map<String, Object> ld                      = new HashMap<>();
+    Map<String, Object> relatedPersonsObj       = new HashMap<>();
     
     relatedPersonsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     relatedPersonsObj.put(SSJSONLDU.container, SSJSONLDU.set);

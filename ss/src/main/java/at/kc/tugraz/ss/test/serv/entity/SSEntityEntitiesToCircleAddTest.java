@@ -37,7 +37,7 @@ public class SSEntityEntitiesToCircleAddTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + "Test");
     
-    final List<SSUri> entityUris = new ArrayList<SSUri>();
+    final List<SSUri> entityUris = new ArrayList<>();
     
     entityUris.add (SSUri.get("http://www.google.at"));
     

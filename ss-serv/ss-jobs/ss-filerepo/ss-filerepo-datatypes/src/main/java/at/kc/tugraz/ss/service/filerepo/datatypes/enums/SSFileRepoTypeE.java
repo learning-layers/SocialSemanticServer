@@ -30,7 +30,7 @@ public enum SSFileRepoTypeE {
   i5Cloud;
   
   public static String toStr(final SSFileRepoTypeE value){
-    return SSStrU.toString(value);
+    return SSStrU.toStr(value);
   } 
   
   public static SSFileRepoTypeE get(

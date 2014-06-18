@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.socialserver.utils;
 
-import java.security.*;
 import java.util.*;
 
 public class SSStrU{
@@ -104,159 +103,203 @@ public class SSStrU{
   public  static final String        valueUser                                = "user";
   public  static final String        valueSystem                              = "system";
   
-  public static int lastIndexOf(final String string, final String what){
+  public static String[] toArray(final List<String> toConverts) {
     
-    if(SSObjU.isNull(string, what)){
-      return -1;
+    if(toConverts == null){
+      return new String[0];
     }
     
-    return string.lastIndexOf(what);
+    return (String[]) toConverts.toArray(new String[toConverts.size()]);
   }
   
-  public static String addTrailingSlash(final String string){
+  public static String[] toArrayWithoutEmptyAndNull(final List<String> toConverts) {
+    
+    if(toConverts == null){
+      return new String[0];
+    }
+    
+    final List<String> result = new ArrayList<>();
+    
+    for(String toConvert : toConverts){
+      
+      if(!isEmpty(toConvert)){
+        result.add(toConvert);
+      }
+    }
+    
+    return (String[]) result.toArray(new String[result.size()]);
+  }
+  
+  public static String addTrailingSlash(final Object object){
+    
+    if(object == null){
+      return null;
+    }
+      
+    if(object.toString().isEmpty()){
+      return slash;
+    }
+    
+    if(object.toString().lastIndexOf(slash) == object.toString().length() - 1){
+      return object.toString();
+    }
+    
+    return object.toString() + slash;
+  }
+  
+  public static String removeTrailingSlash(final Object object){
+    
+    if(object == null){
+      return null;
+    }
     
     if(
-      string == null ||
-      string.lastIndexOf(slash) == string.length() - 1){
-      return string;
+      object.toString().isEmpty() ||
+      object.toString().lastIndexOf(slash) != object.toString().length() - 1){
+      return object.toString();
     }
     
-    return string + slash;
+    return object.toString().substring(0, object.toString().length() - 1);
   }
   
-  public static String removeTrailingSlash(final String string){
+  public static List<String> removeTrailingSlash(
+    final List<? extends Object> objects) throws Exception{
+      
+    final List<String> result = new ArrayList<>();
     
-    if(
-      isEmpty(string)  ||
-      string.lastIndexOf(slash) != string.length() - 1){
-      return string;
+    if(objects == null){
+      return result;
     }
     
-    return string.substring(0, string.length() - 1);
-  }
-  
-  public static String removeTrailingString(final String string, final String trail) {
-    
-    if(
-      isEmpty(string)  ||
-      string.lastIndexOf(trail) != string.length() - trail.length()){
-      return string;
+    for(Object object : objects){
+      result.add(removeTrailingSlash(object));
     }
     
-    return string.substring(0, string.length() - trail.length());
+    return result;
   }
   
-  public static String addAtBegin(final String string, final String add){
+  public static String removeTrailingString(
+    final Object object,
+    final String trail) {
     
-    if(
-      SSObjU.isNull(string)        ||
-      isEmpty(add)                 ||
-      string.startsWith(add)){
-      return string;
+    if(object == null){
+      return null;
     }
     
-    return add + string;
-  }
-  
-  public static String addAtEnd(final String string, final String add){
-    
-    if(
-      SSObjU.isNull(string) ||
-      isEmpty(add)                 ||
-      string.substring(string.length() - 1, string.length()).equals(add)){
-      return string;
+    if(object.toString().isEmpty()){
+      return empty;
     }
     
-    return string + add;
-  }
-  
-  public static String removeStringFromBegin(final String string, final String begin){
-    
-    if(
-      isEmpty (string) ||
-      isEmpty (begin)  ||
-      !string.startsWith(begin)){
-      return string;
+    if(object.toString().lastIndexOf(trail) != object.toString().length() - trail.length()){
+      return object.toString();
     }
     
-    return string.substring(begin.length(), string.length());
-  }
-  
-  public static boolean hasNotLength(final List<String> list, final int desiredLength) throws Exception{
-    
-    return !hasLength(list, desiredLength);
-  }
-  
-  public static boolean hasLength(
-    final List<String> list,
-    final int          desiredLength) throws Exception{
-    
-    if(
-      SSObjU.isNull(list) ||
-      list.size() != desiredLength){
-      return false;
-    }
-    
-    return true;
-  }
-  
-  public static boolean hasNotLengthAtLeast(
-    final List<String> list,
-    final int          desiredLength) throws Exception{
-    
-    return !hasLengthAtLeast(list, desiredLength);
-  }
-  
-  public static boolean hasLengthAtLeast(
-    final List<String> list,
-    final int          desiredLength) throws Exception{
-    
-    if(
-      SSObjU.isNull(list) ||
-      list.size() < desiredLength){
-      return false;
-    }
-    
-    return true;
-  }
-  
-  public static String getHashFromString(
-    final String string) throws NoSuchAlgorithmException{
-    
-    StringBuffer   stringBuffer     = new StringBuffer();
-    Formatter      stringFormatter  = new Formatter(stringBuffer);
-    MessageDigest  messageHash      = MessageDigest.getInstance(valueMD5);
-    
-    messageHash.update(string.getBytes());
-    
-    for (byte hashByte : messageHash.digest()) {
-      stringFormatter.format("%02x", hashByte);
-    }
-    
-    return stringBuffer.toString();
+    return object.toString().substring(0, object.toString().length() - trail.length());
   }
   
   public static Boolean contains(
-    final String       string1,
-    final String       string2){
+    final Object object1,
+    final Object object2){
     
     if(
-      SSObjU.isNull(string1) ||
-      SSObjU.isNull(string2)){
+      object1 == null ||
+      object2 == null){
       return false;
     }
     
-    return string1.contains(string2);
+    return object1.toString().contains(object2.toString());
   }
   
-  public static boolean contains(
-    final List<Integer> list,
-    final Integer       integer){
+  public static Boolean contains(
+    final List<? extends Object>  objects,
+    final Object                  objectToContain) throws Exception{
     
-    return list.contains(integer);
+    if(objects == null){
+      return false;
+    }
+    
+    if(objectToContain == null){
+      return objects.contains(null);
+    }
+    
+    for(Object object : objects){
+     
+      if(equals(object, objectToContain)){
+        return true;
+      }
+    }
+    
+    return false;
   }
   
-  public static String toString(final Object object){
+  public static void remove(
+    final List<? extends Object>  objects,
+    final Object                  objectToRemove) throws Exception{
+    
+    if(objects == null){
+      return;
+    }
+    
+    if(objectToRemove == null){
+      objects.remove(objectToRemove);
+      return;
+    }
+    
+    for(Object object : objects) {
+      
+      if(equals(object, objectToRemove)){
+        
+        objects.remove   (object);
+        remove           (objects, objectToRemove);
+        return;
+      }
+    }
+  }
+  
+  public static List<String> toStr(
+    final List<? extends Object> objects) throws Exception{
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(object == null){
+        result.add(null);
+        continue;
+      }
+      
+      result.add(object.toString());
+    }
+    
+    return result;
+  }
+  
+  public static List<String> toStrWithoutEmptyAndNull(
+    final List<? extends Object> objects) throws Exception{
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(isEmpty(object)){
+        continue;
+      }
+      
+      result.add(object.toString());
+    }
+    
+    return result;
+  }
+  
+  public static String toStr(final Object object){
     
     if(object == null){
       return null;
@@ -265,7 +308,7 @@ public class SSStrU{
     return object.toString();
   }
   
-  public static String toString(final int val){
+  public static String toStr(final int val){
     
     if(val == -1){
       return null;
@@ -276,16 +319,16 @@ public class SSStrU{
   
   public static String removeDoubleQuotes(final String string){
     
-    if(SSObjU.isNull(string)){
+    if(string == null){
       return null;
     }
     
-    return replace(string, doubleQuote, empty);
+    return replaceAll(string, doubleQuote, empty);
   }
   
   public static String surroundWithDoubleQuotes(final String string){
     
-    if(SSObjU.isNull(string)){
+    if(string == null){
       return null;
     }
     
@@ -300,7 +343,9 @@ public class SSStrU{
     return "\"" + string + "\"";
   }
   
-  public static String replaceBlanksSpecialCharactersDoubleDots(final String string, String with) {
+  public static String replaceAllBlanksSpecialCharactersDoubleDots(
+    final String string, 
+    final String with) {
     
     String result;
     
@@ -318,14 +363,17 @@ public class SSStrU{
     return result.replaceAll (SSStrU.blank, with);
   }
   
-  public static String replaceLineFeedsWithTextualRepr(final String string){
+  public static String replaceAllLineFeedsWithTextualRepr(final String string){
     
-    String tmp = replace(string, SSStrU.backslashN, SSStrU.backSlashBackSlashN);
+    String tmp = replaceAll(string, SSStrU.backslashN, SSStrU.backSlashBackSlashN);
     
-    return replace(tmp, SSStrU.backslashR, SSStrU.empty);
+    return replaceAll(tmp, SSStrU.backslashR, SSStrU.empty);
   }
   
-  public static String replace(final String string, final String find, final String with){
+  public static String replaceAll(
+    final String string, 
+    final String find, 
+    final String with){
     
     if(SSObjU.isNull(string, find, with)){
       return string;
@@ -334,40 +382,6 @@ public class SSStrU{
     return string.replace(find, with);
   }
   
-  public static String strFromList(List<String> list) {
-    
-    String result = SSStrU.empty;
-    
-    for(String string : list){
-      result += string + SSStrU.comma;
-    }
-    
-    return removeTrailingString(result, SSStrU.comma);
-  }
-  
-//  SSStrU.distinctWithoutEmptyAndNull(SSStrU.split(
-//  new ArrayList<String>(new LinkedHashSet<String>(split(toSplit, splitter)));
-//  Set<String> temp = new HashSet<String>(strings);
-//  return Arrays.asList(temp.toArray(new String[temp.size()]));
-  
-  public static List<String> distinctWithoutEmptyAndNull(
-    final List<String> strings) {
-    
-    final List<String> result = new ArrayList<String>();
-    
-    for(String string : strings){
-      
-      if(
-        !isEmpty        (string) &&
-        !result.contains(string)){
-        
-        result.add(string);
-      }
-    }
-    
-    return result;
-  }
-
   public static List<String> splitDistinctWithoutEmptyAndNull(
     final String toSplit, 
     final String splitter) throws Exception{
@@ -379,36 +393,27 @@ public class SSStrU{
     final String toSplit, 
     final String splitter) throws Exception{
     
-    if(isEmpty(splitter)){
-      SSLogU.errThrow(new Exception("cannot split distinct on null or empty splitter"));
-      return null;
-    }
-    
-    if(isEmpty(toSplit)){
-      return new ArrayList<String>();
+    if(
+      isEmpty(toSplit) ||
+      isEmpty(splitter)){
+      return new ArrayList<>();
     }
     
     return Arrays.asList(toSplit.split("\\Q" + splitter + "\\E"));
   }
   
-  public static boolean isNotEmpty(final String string){
-    return !isEmpty(string);
+  public static Boolean isEmpty(final Object object) {
+    return object == null || object.toString().trim().isEmpty();
   }
   
-  public static boolean isEmpty(final Object object) {
+  public static Boolean isEmpty(final Object... objects) {
     
-    if(
-      object == null ||
-      object.toString().trim().isEmpty()) {
+    if(objects == null){
       return true;
     }
     
-    return false;
-  }
-  
-  public static boolean isEmpty(final Object... objects) {
-    
     for(Object object : objects){
+      
       if(isEmpty(object)){
         return true;
       }
@@ -417,109 +422,137 @@ public class SSStrU{
     return false;
   }
   
-  public static String removeSlashFromEnd(final String string) {
-    if (isEmpty(string)) {
-      return string;
-    }
-    
-    if (string.endsWith("/")) {
-      return string.substring(0, string.length() - 1);
-    }
-    
-    return string;
-  }
-  
-  public static boolean equals(
-    final String string1,
-    final String string2) {
+  public static Boolean equals(
+    final Object object1,
+    final Object object2) {
     
     if(
-      SSObjU.isNull(string1) ||
-      SSObjU.isNull(string2)){
+      object1 == null ||
+      object2 == null){
       return false;
     }
     
-    if (string1.equals(string2)) {
-      return true;
+    return object1.toString().equals(object2.toString());
+  }
+  
+  public static List<String> distinctWithoutNull(
+    final List<? extends Object> objects) throws Exception{
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
     }
     
-    return false;
-  }
-  
-  public static boolean notEquals(
-    final String string1,
-    final String string2){
-    
-    return !equals(string1, string2);
-  }
-  
-  public static int length(String string) {
-    
-    if(string == null) {
-      return -1;
-    }
-    
-    return string.length();
-  }
-  
-  public static String subString(final String string, final  int from, final  int to) {
-    
-    if(
-      isEmpty(string)              ||
-      SSNumberU.isLess(from, 0)   ||
-      SSNumberU.isLess(string.length(), to)){
-      return null;
-    }
-    
-    return string.substring(from, to);
-  }
-  
-  public static String[] toStringArray(final Collection<String> toConvert) {
-    return (String[]) toConvert.toArray(new String[toConvert.size()]);
-  }
-  
-  public static List<String> asListWithoutNullAndEmpty(final String[] strings){
-    
-     final List<String> result = new ArrayList<String>();
-    
-    for(String string : strings){
+    for (Object object : objects) {
       
-      if(isEmpty(string)){
-        continue;
+      if(
+        object != null &&
+        !result.contains(object.toString())){
+        
+        result.add(object.toString());
       }
-      
-      result.add(string);
     }
     
     return result;
   }
   
-  public static boolean startsWith(final String string, final String prefix){
+  public static void distinctWithoutNull2(
+    final List<? extends Object> objects) throws Exception{
     
-    if(
-      isEmpty(string) ||
-      isEmpty(prefix)){
-      return false;
+    if(objects == null){
+      return;
     }
     
-    return string.startsWith(prefix);
+    final List<String> foundEntities = new ArrayList<>();
+    
+    for(Object object : objects){
+      
+      if(
+        object == null ||
+        foundEntities.contains(object.toString())){
+        
+        objects.remove(object);
+        distinctWithoutNull2(objects);
+        return;
+      }
+
+      foundEntities.add(object.toString());
+    }
   }
   
-  //  public static List<String> split(
-  //    CharBuffer string,
-  //    char       splitter){
-  //
-  //    if(SSObjectUtils.isNull(string)){
-  //      return null;
-  //    }
-  //
-  //    return split(string.toString(), splitter);
-  //  }
+  public static List<String> distinctWithoutEmptyAndNull(
+    final List<? extends Object> objects){
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(
+        !isEmpty        (object) &&
+        !result.contains(object.toString())){
+        
+        result.add(object.toString());
+      }
+    }
+    
+    return result;
+  }
   
-  public static String filterNumbers(
+  public static List<String> distinctWithoutEmptyAndNull(
+    final Object[] objects) {
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(
+        !isEmpty        (object) &&
+        !result.contains(object.toString())){
+        
+        result.add(object.toString());
+      }
+    }
+    
+    return result;
+  }
+  
+  public static void distinctWithoutEmptyAndNull2(
+    final List<? extends Object> objects) {
+    
+    if(objects == null){
+      return;
+    }
+    
+    final List<String> foundEntities = new ArrayList<>();
+    
+    for(Object object : objects){
+      
+      if(
+        isEmpty(object) ||
+        foundEntities.contains(object.toString())){
+        
+        objects.remove(object);
+        distinctWithoutEmptyAndNull2(objects);
+        return;
+      }
+
+      foundEntities.add(object.toString());
+    }
+  }
+  
+  public static String removeNumbers(
     final String string){
     
-    if(SSObjU.isNull(string)){
+    if(string == null){
       return null;
     }
     
@@ -530,10 +563,8 @@ public class SSStrU{
     final List<String> list, 
     final List<String> toRemove){
     
-    if(
-      list     == null ||
-      toRemove == null){
-      return new ArrayList<String>();
+    if(list == null){
+      return new ArrayList<>();
     }
     
     list.removeAll(toRemove);
@@ -545,15 +576,17 @@ public class SSStrU{
     final List<String> list, 
     final List<String> toRetain){
     
-    if(
-      list     == null ||
-      toRetain == null){
-      return new ArrayList<String>();
+    if(list == null){
+      return new ArrayList<>();
+    }
+    
+    if(toRetain == null){
+      return list;
     }
     
     list.retainAll(toRetain);
-    return list;
     
+    return list;
   }
 }
 
@@ -604,12 +637,12 @@ public class SSStrU{
 //	public List<String> getDistinctTagLabelsFromTagAssignments(
 //			List<SSTag> tagAssignments){
 //
-//		List<String> result = new ArrayList<String>();
+//		List<String> result = new ArrayList<>();
 //
 //		for(SSTag tagAssignment : tagAssignments){
 //
 //			if(SSTagString.containsNot(result, tagAssignment.label)){
-//				result.add(SSStrU.toString(tagAssignment.label));
+//				result.add(SSStrU.toStr(tagAssignment.label));
 //			}
 //		}
 //
@@ -681,7 +714,7 @@ public class SSStrU{
   //
   //    if(isEmpty(String.valueOf(splitter))){
   //
-  //      List<String> noSplit = new ArrayList<String>();
+  //      List<String> noSplit = new ArrayList<>();
   //
   //      noSplit.add(toSplit);
   //
@@ -689,4 +722,36 @@ public class SSStrU{
   //    }
   //
   //    return Arrays.asList(toSplit.split("\\" + splitter));
+  //  }
+
+//public static String getHashFromString(
+//    final String string) throws NoSuchAlgorithmException{
+//    
+//    StringBuffer   stringBuffer     = new StringBuffer();
+//    Formatter      stringFormatter  = new Formatter(stringBuffer);
+//    MessageDigest  messageHash      = MessageDigest.getInstance(valueMD5);
+//    
+//    messageHash.update(string.getBytes());
+//    
+//    for (byte hashByte : messageHash.digest()) {
+//      stringFormatter.format("%02x", hashByte);
+//    }
+//    
+//    return stringBuffer.toString();
+//  }
+
+//  SSStrU.distinctWithoutEmptyAndNull(SSStrU.split(
+//  new ArrayList<String>(new LinkedHashSet<String>(split(toSplit, splitter)));
+//  Set<String> temp = new HashSet<String>(strings);
+//  return Arrays.asList(temp.toArray(new String[temp.size()]));
+
+  //  public static List<String> split(
+  //    CharBuffer string,
+  //    char       splitter){
+  //
+  //    if(SSObjectUtils.isNull(string)){
+  //      return null;
+  //    }
+  //
+  //    return split(string.toString(), splitter);
   //  }

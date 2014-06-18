@@ -46,10 +46,10 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     ResultSet               resultSet          = null;
     
     try{
-      final List<String>            tables         = new ArrayList<String>();
-      final List<String>            columns        = new ArrayList<String>();
-      final List<String>            tableCons      = new ArrayList<String>();
-      final Map<String, String>     wheres         = new HashMap<String, String>();
+      final List<String>            tables         = new ArrayList<>();
+      final List<String>            columns        = new ArrayList<>();
+      final List<String>            tableCons      = new ArrayList<>();
+      final Map<String, String>     wheres         = new HashMap<>();
       
       table  (tables,     locationTable);
       table  (tables,     entityTable);
@@ -83,10 +83,10 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<String>            tables     = new ArrayList<String>();
-      final List<String>            columns    = new ArrayList<String>();
-      final List<String>            tableCons  = new ArrayList<String>();
-      final Map<String, String>     wheres     = new HashMap<String, String>();
+      final List<String>            tables     = new ArrayList<>();
+      final List<String>            columns    = new ArrayList<>();
+      final List<String>            tableCons  = new ArrayList<>();
+      final Map<String, String>     wheres     = new HashMap<>();
       
       table    (tables,    locationTable);
       table    (tables,    entityTable);
@@ -114,7 +114,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     final SSUri locationUri) throws Exception{
     
     try{
-      final Map<String, String> inserts  = new HashMap<String, String>();
+      final Map<String, String> inserts  = new HashMap<>();
       
       insert(inserts, SSSQLVarU.locationId, locationUri);
       
@@ -132,7 +132,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.locationId,   locationUri);
       where(wheres, SSSQLVarU.entityId,     entityUri);
@@ -155,7 +155,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     final SSUri locationUri) throws Exception{
   
     try{
-      final Map<String, String> inserts = new HashMap<String, String>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert (inserts, SSSQLVarU.locationId, locationUri);
       insert (inserts, SSSQLVarU.entityId,   entityUri);
@@ -173,7 +173,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.entityId, entityUri);
       
@@ -194,7 +194,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     final SSUri entityUri) throws Exception{
     
     try{
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       if(userUri != null){
         where(wheres, SSSQLVarU.userId,   userUri);
@@ -222,10 +222,10 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<String>        tables         = new ArrayList<String>();
-      final List<String>        columns        = new ArrayList<String>();
-      final List<String>        tableCons      = new ArrayList<String>();
-      final Map<String, String> wheres         = new HashMap<String, String>();
+      final List<String>        tables         = new ArrayList<>();
+      final List<String>        columns        = new ArrayList<>();
+      final List<String>        tableCons      = new ArrayList<>();
+      final Map<String, String> wheres         = new HashMap<>();
       final SSUri               locationUri    = getOrCreateLocationURI(existsLocationString(locationString), locationString);
       
       table    (tables,    locationsTable);

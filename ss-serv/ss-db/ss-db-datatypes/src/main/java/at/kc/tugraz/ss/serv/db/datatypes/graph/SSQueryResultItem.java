@@ -27,7 +27,7 @@ public class SSQueryResultItem {
   private HashMap<String, String> set = null;
 
   public SSQueryResultItem() {
-    this.set = new HashMap<String, String>();
+    this.set = new HashMap<>();
   }
 
   public void setBinding(String key, String value) {

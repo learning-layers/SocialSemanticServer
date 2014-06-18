@@ -47,7 +47,7 @@ public class SSCollUserEntryAddRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -55,6 +55,6 @@ public class SSCollUserEntryAddRet extends SSServRetI{
   }
   
   public String getEntity() throws Exception {
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

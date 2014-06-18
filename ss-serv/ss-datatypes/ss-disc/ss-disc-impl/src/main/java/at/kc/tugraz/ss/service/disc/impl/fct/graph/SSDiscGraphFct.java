@@ -41,7 +41,7 @@ public class SSDiscGraphFct extends SSDBGraphFct{
 //      db.add(discEntry, predType(),        objDiscEntry(),                       namedGraphUri);
 //      db.add(disc,      predHasEntry(),    discEntry,                            namedGraphUri);
 //      db.add(discEntry, predTime(),        objTime(),                            namedGraphUri);
-//      db.add(discEntry, predHasContent(),  objContent(SSStrU.toString(content)), namedGraphUri);
+//      db.add(discEntry, predHasContent(),  objContent(SSStrU.toStr(content)), namedGraphUri);
 //      db.add(user,      predIsAuthor(),    discEntry,                            namedGraphUri);
 //
 //      return discEntry;
@@ -65,7 +65,7 @@ public class SSDiscGraphFct extends SSDBGraphFct{
 //      disc   = binding(item, bindDisc);
 //      target = binding(item, bindTarget);
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(disc));
 //      
 //      label = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));

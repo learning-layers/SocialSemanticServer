@@ -21,60 +21,50 @@
 package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.*;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSUri extends SSEntityA{
   
-  public static SSUri get(final String uri) throws Exception{
+  public static Boolean isURI(final String string) throws Exception{
     
-    //    new URL(uriString); //import java.net.URL;
-    if(uri == null){
-      SSLogU.err(new Exception("tried to create uri from null"));
+    try{
+  //    new URL(uriString); //import java.net.URL;
+      
+      return string == null || !java.net.URI.create(URIUtil.encodeQuery(string)).isAbsolute();
+      
+    }catch(URIException error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
-    
-    if(!java.net.URI.create(URIUtil.encodeQuery(uri)).isAbsolute()){
-      throw new Exception("uri not java.net.URI conform");
-    }
-    
-    return new SSUri(uri);
   }
   
-  public static SSUri get(final SSUri uri, final String append) throws Exception{
-    
-    //    new URL(uriString); //import java.net.URL;
-    
-    SSUri newUri = null;
+  public static SSUri get(final String string) throws Exception{
+    return new SSUri(string);
+  }
+  
+  public static SSUri get(
+    final SSUri  uri, 
+    final String append) throws Exception{
     
     if(SSObjU.isNull(uri, append)){
-      SSLogU.err(new Exception("tried to create uri from null"));
-      return null;
+      throw new Exception("invalid uri " + uri + " " + append);
     }
     
-    //    uri = strU.removeSlashFromEnd(uri);
-    
-    if (java.net.URI.create(uri.toString() + append).isAbsolute()) {
-      newUri = new SSUri(uri.toString() + append);
-    }else{
-      SSServErrReg.regErrThrow(new Exception("coudn't create SSUri from " + uri + " and " + append));
-    }
-    
-    return newUri;
+    return new SSUri(uri.toString() + append);
   }
   
   public static List<SSUri> get(final List<String> strings) throws Exception{
 
-    final List<SSUri> result = new ArrayList<SSUri>();
-    
     if(strings == null){
-      return result;
+      throw new Exception("pars null");
     }
+    
+    final List<SSUri> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));
@@ -83,72 +73,68 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
-  public static List<SSUri> distinct(
-    final List<SSUri> uris) throws Exception{
-
-    final List<SSUri> result = new ArrayList<SSUri>();
+  public static void addDistinctWithoutNull(
+    final List<SSUri>     entities,  
+    final SSUri           entity) throws Exception{
     
-    if(uris == null){
-      return result;
-    }
-    
-    final List<String>     foundEntities = new ArrayList<String>();
-    
-    for(SSUri uri : uris){
+    try{
       
-      if(
-        uri == null ||
-        foundEntities.contains(uri.toString())) {
-        continue;
+      if(entities == null){
+        throw new Exception("pars null");
       }
       
-      result.add        (uri);
-      foundEntities.add (uri.toString());
+      if(entity == null){
+        return;
+      }
+      
+      if(SSStrU.contains(entities, entity)){
+        return;
+      }
+      
+      entities.add(entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    return result;
   }
   
-  public static void addDistinct(
-    final List<SSUri> uris,
-    final SSUri       uriToAdd){
+  public static void addDistinctWithoutNull(
+    final List<SSUri>  entities,
+    final List<SSUri>  toAddEntities) throws Exception{
     
-    if(
-      SSObjU.isNull(uris, uriToAdd) ||
-      contains     (uris, uriToAdd)){
-      return;
+    try{
+      
+      if(entities == null){
+        throw new Exception("pars null");
+      }
+      
+      if(toAddEntities == null){
+        return;
+      }
+      
+      for(SSUri entity : toAddEntities){
+        
+        if(entity == null){
+          continue;
+        }
+        
+        if(!SSStrU.contains(entities, entity)){
+          entities.add(entity);
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    uris.add(uriToAdd);
-  }
-  
-  public static List<String> toStrWithoutSlash(final List<SSUri> uris){
-
-    if(uris == null){
-      return new ArrayList<String>();
-    }
-    
-    final List<String> result = new ArrayList<String>();
-    
-    for(SSUri uri : uris){
-      result.add(toStrWithoutSlash(uri));
-    }
-    
-    return result;
-  }
-  
-  public static String toStrWithoutSlash(final SSUri uri){
-    
-    if(uri == null){
-      return null;
-    }
-    
-    return SSStrU.removeTrailingSlash(uri.toString());
   }
 
   public static List<SSUri> asListWithoutNullAndEmpty(final SSUri... entities){
    
-    final List<SSUri> result = new ArrayList<SSUri>();
+    final List<SSUri> result = new ArrayList<>();
+    
+    if(entities == null){
+      return result;
+    }
     
     for(SSUri entity : entities){
       
@@ -159,12 +145,16 @@ public class SSUri extends SSEntityA{
       result.add(entity);
     }
     
-    
     return result;
   }
 
-  private SSUri(final String value) throws Exception{
-    super(SSStrU.addTrailingSlash(value));
+  private SSUri(final String string) throws Exception{
+   
+    super(SSStrU.addTrailingSlash(string));
+    
+    if(!isURI(val)){
+      throw new Exception("invalid uri " + val);
+    }
   }
   
   @Override
@@ -172,6 +162,34 @@ public class SSUri extends SSEntityA{
     return SSLinkU.schemaOrgUrl;
   }
 }
+
+//public static List<SSUri> distinctWithoutNull(
+//    final List<SSUri> uris) throws Exception{
+//
+//    try{
+//      
+//      if(uris == null){
+//        throw new Exception("pars null");
+//      }
+//      
+//      final List<SSUri> result = new ArrayList<>();
+//      
+//      for (SSUri uri : uris) {
+//        
+//        if(
+//          uri != null &&
+//          !result.contains(uri.toString())){
+//          
+//          result.add(uri);
+//        }
+//      }
+//      
+//      return result;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
 
 //  public URI createUncheckedURI(String uri) {
 //
@@ -185,7 +203,7 @@ public class SSUri extends SSEntityA{
 
 //  public static List<SSUri> get(final Collection<String> uris) throws Exception{
 //    
-//    List<SSUri> result = new ArrayList<SSUri>();
+//    List<SSUri> result = new ArrayList<>();
 //    
 //    for (String uri : uris) {
 //      result.add(get(uri));

@@ -281,7 +281,7 @@ public abstract class SSServA{
     final SSServPar   parA,
     final SSServA     serv) throws Exception{
     
-    final Map<String, Object> opPars = new HashMap<String, Object>();
+    final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user, parA.user);
     opPars.put(SSVarU.serv, serv);

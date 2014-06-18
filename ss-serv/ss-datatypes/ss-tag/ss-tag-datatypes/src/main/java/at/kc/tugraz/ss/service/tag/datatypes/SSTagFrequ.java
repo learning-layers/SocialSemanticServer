@@ -54,7 +54,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
     ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
@@ -65,7 +65,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
   
   /*************** getters to allow for json enconding ********************/
   public String getLabel() {
-		return SSTagLabel.toStr(label);
+		return SSStrU.toStr(label);
 	}
   
   public String getSpace() {

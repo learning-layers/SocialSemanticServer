@@ -64,7 +64,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public Boolean isLearnEp(SSUri entityUri) throws Exception{
     
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     Boolean             isLearnEp  = false;
     
     selectPars.put(SSSQLVarU.learnEpId, entityUri.toString());
@@ -86,7 +86,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
     
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     Boolean             isVersion  = false;
     
     selectPars.put(SSSQLVarU.learnEpVersionId, entityUri.toString());
@@ -108,7 +108,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
     
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     Boolean             isCircle   = false;
     
     selectPars.put(SSSQLVarU.learnEpCircleId, entityUri.toString());
@@ -130,7 +130,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
     
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     Boolean             isEntity   = false;
     
     selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
@@ -152,7 +152,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
     
     ResultSet           resultSet         = null;
-    Map<String, String> selectPars        = new HashMap<String, String>();
+    Map<String, String> selectPars        = new HashMap<>();
     Boolean             isTimelineState   = false;
     
     selectPars.put(SSSQLVarU.learnEpTimelineStateId, entityUri.toString());
@@ -175,7 +175,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     List<SSLearnEp>     learnEps   = new ArrayList<SSLearnEp>();
     ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     
     selectPars.put(SSSQLVarU.userId, user.toString());
     
@@ -201,7 +201,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public SSUri getLearnEpCurrentVersionUri(SSUri user) throws Exception {
    
     ResultSet                  resultSet                = null;
-    Map<String, String>        selectPars               = new HashMap<String, String>();
+    Map<String, String>        selectPars               = new HashMap<>();
     SSUri                      currentLearnEpVersionUri = null;
     
     selectPars.put(SSSQLVarU.userId, user.toString());
@@ -227,7 +227,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public SSLearnEpVersion getLearnEpVersion(SSUri learnEpVersionUri) throws Exception {
     
     ResultSet                  resultSet       = null;
-    Map<String, String>        selectPars      = new HashMap<String, String>();
+    Map<String, String>        selectPars      = new HashMap<>();
     SSLearnEpVersion           learnEpVersion  = null;
     
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
@@ -265,7 +265,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     List<SSLearnEpVersion>     learnEpVersions = new ArrayList<SSLearnEpVersion>();
     ResultSet                  resultSet       = null;
-    Map<String, String>        selectPars      = new HashMap<String, String>();
+    Map<String, String>        selectPars      = new HashMap<>();
     
     selectPars.put(SSSQLVarU.learnEpId, learnEpUri.toString());
     
@@ -300,9 +300,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   private List<SSLearnEpCircle> getLearnEpVersionCircles(SSUri learnEpVersionUri) throws Exception{
     
     List<SSLearnEpCircle>      learnEpCircles     = new ArrayList<SSLearnEpCircle>();
-    List<SSUri>                learnEpCirclesUris = new ArrayList<SSUri>();
+    List<SSUri>                learnEpCirclesUris = new ArrayList<>();
     ResultSet                  resultSet          = null;
-    Map<String, String>        selectPars         = new HashMap<String, String>();
+    Map<String, String>        selectPars         = new HashMap<>();
     
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
@@ -328,9 +328,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   private List<SSLearnEpEntity> getLearnEpVersionEntities(SSUri learnEpVersionUri) throws Exception{
     
     List<SSLearnEpEntity>      learnEpEntities    = new ArrayList<SSLearnEpEntity>();
-    List<SSUri>                learnEpEntityUris  = new ArrayList<SSUri>();
+    List<SSUri>                learnEpEntityUris  = new ArrayList<>();
     ResultSet                  resultSet          = null;
-    Map<String, String>        selectPars         = new HashMap<String, String>();
+    Map<String, String>        selectPars         = new HashMap<>();
     
     selectPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
@@ -356,7 +356,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   private SSLearnEpCircle getLearnEpCircle(SSUri circleUri) throws Exception {
     
     ResultSet                  resultSet     = null;
-    Map<String, String>        selectPars    = new HashMap<String, String>();
+    Map<String, String>        selectPars    = new HashMap<>();
     SSLearnEpCircle            learnEpCircle = null;
     
     selectPars.put(SSSQLVarU.learnEpCircleId, circleUri.toString());
@@ -389,7 +389,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   private SSLearnEpEntity getLearnEpEntity(SSUri entityUri) throws Exception {
     
     ResultSet                  resultSet     = null;
-    Map<String, String>        selectPars    = new HashMap<String, String>();
+    Map<String, String>        selectPars    = new HashMap<>();
     SSLearnEpEntity            learnEpEntity = null;
     
     selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
@@ -419,12 +419,12 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     Map<String, String> insertPars;
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
     dbSQL.insert(learnEpVersionTable, insertPars);
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.learnEpId,        learnEpUri.toString());
     insertPars.put(SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
     
@@ -447,7 +447,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     try{
       Map<String, String> insertPars;
       
-      insertPars = new HashMap<String, String>();
+      insertPars = new HashMap<>();
       insertPars.put(SSSQLVarU.learnEpCircleId,    learnEpCircleUri.toString());
       insertPars.put(SSSQLVarU.xLabel,             xLabel.toString());
       insertPars.put(SSSQLVarU.yLabel,             yLabel.toString());
@@ -458,7 +458,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       dbSQL.insert(learnEpCircleTable, insertPars);
       
-      insertPars = new HashMap<String, String>();
+      insertPars = new HashMap<>();
       insertPars.put(SSSQLVarU.learnEpVersionId,   learnEpVersionUri.toString());
       insertPars.put(SSSQLVarU.learnEpCircleId,    learnEpCircleUri.toString());
       
@@ -475,11 +475,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       return;
     }
     
-    Map<String, String> deletePars = new HashMap<String, String>();
+    Map<String, String> deletePars = new HashMap<>();
     
     try{
     
-      deletePars.put(SSSQLVarU.learnEpEntityId, SSUri.toStr(entityUri));
+      deletePars.put(SSSQLVarU.learnEpEntityId, SSStrU.toStr(entityUri));
       
       dbSQL.delete(learnEpEntityTable, deletePars);
     }catch(Exception error){
@@ -494,11 +494,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       return;
     }
     
-    Map<String, String> deletePars = new HashMap<String, String>();
+    Map<String, String> deletePars = new HashMap<>();
     
     try{
     
-      deletePars.put(SSSQLVarU.learnEpCircleId, SSUri.toStr(circleUri));
+      deletePars.put(SSSQLVarU.learnEpCircleId, SSStrU.toStr(circleUri));
       
       dbSQL.delete(learnEpCircleTable, deletePars);
     }catch(Exception error){
@@ -519,8 +519,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     Map<String, String> updatePars;
     Map<String, String> newValues;
     
-    updatePars = new HashMap<String, String>();
-    newValues  = new HashMap<String, String>();
+    updatePars = new HashMap<>();
+    newValues  = new HashMap<>();
     updatePars.put(SSSQLVarU.learnEpCircleId,   learnEpCircleUri.toString());
     newValues.put(SSSQLVarU.xLabel,             xLabel.toString());
     newValues.put(SSSQLVarU.yLabel,             yLabel.toString());
@@ -541,8 +541,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     Map<String, String> updatePars;
     Map<String, String> newValues;
     
-    updatePars = new HashMap<String, String>();
-    newValues = new HashMap<String, String>();
+    updatePars = new HashMap<>();
+    newValues = new HashMap<>();
     updatePars.put(SSSQLVarU.learnEpEntityId,   learnEpEntityUri.toString());
     newValues.put(SSSQLVarU.entityId,           entityUri.toString());
     newValues.put(SSSQLVarU.x,                  x.toString());
@@ -560,7 +560,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     Map<String, String> insertPars;
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.learnEpEntityId,    learnEpEntityUri.toString());
     insertPars.put(SSSQLVarU.entityId,           entityUri.toString());
     insertPars.put(SSSQLVarU.x,                  x.toString());
@@ -568,7 +568,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     dbSQL.insert(learnEpEntityTable, insertPars);
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.learnEpVersionId,   learnEpVersionUri.toString());
     insertPars.put(SSSQLVarU.learnEpEntityId,    learnEpEntityUri.toString());
     
@@ -579,12 +579,12 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     Map<String, String> insertPars;
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.learnEpId,    learnEpUri.toString());
     
     dbSQL.insert(learnEpTable, insertPars);
     
-    insertPars = new HashMap<String, String>();
+    insertPars = new HashMap<>();
     insertPars.put(SSSQLVarU.userId,       user.toString());
     insertPars.put(SSSQLVarU.learnEpId,    learnEpUri.toString());
     insertPars.put(SSSQLVarU.learnEpSpace, space.toString());
@@ -594,7 +594,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   
   public void setLearnEpCurrentVersion(SSUri user, SSUri learnEpVersionUri) throws Exception {
     
-    Map<String, String> selectPars = new HashMap<String, String>();
+    Map<String, String> selectPars = new HashMap<>();
     ResultSet           resultSet  = null;
     Map<String, String> updatePars;
     Map<String, String> insertPars;
@@ -607,15 +607,15 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       if(resultSet.first()){
         
-        updatePars = new HashMap<String, String>();
-        newValues  = new HashMap<String, String>();
+        updatePars = new HashMap<>();
+        newValues  = new HashMap<>();
         updatePars.put (SSSQLVarU.userId,           user.toString());
         newValues.put  (SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
         
         dbSQL.update(learnEpVersionCurrentTable, updatePars, newValues);
       }else{
         
-        insertPars = new HashMap<String, String>();
+        insertPars = new HashMap<>();
         insertPars.put (SSSQLVarU.userId,           user.toString());
         insertPars.put (SSSQLVarU.learnEpVersionId, learnEpVersionUri.toString());
         
@@ -640,8 +640,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       return null;
     }
     
-    final Map<String, String> insertPars = new HashMap<String, String>();
-    final Map<String, String> deletePars = new HashMap<String, String>();
+    final Map<String, String> insertPars = new HashMap<>();
+    final Map<String, String> deletePars = new HashMap<>();
     
     try{
       insertPars.put(SSSQLVarU.learnEpTimelineStateId, learnEpTimelineStateUri.toString());
@@ -671,7 +671,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   
   public SSLearnEpTimelineState getLearnEpVersionTimelineState(SSUri learnEpVersionUri) throws Exception{
     
-    Map<String, String>    selectPars       = new HashMap<String, String>();
+    Map<String, String>    selectPars       = new HashMap<>();
     ResultSet              resultSet        = null;
     SSLearnEpTimelineState timelineState    = null;
     SSUri                  timelineStateUri = null;
@@ -692,8 +692,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
     
-    selectPars = new HashMap<String, String>();
-    selectPars.put(SSSQLVarU.learnEpTimelineStateId, SSStrU.toString(timelineStateUri));
+    selectPars = new HashMap<>();
+    selectPars.put(SSSQLVarU.learnEpTimelineStateId, SSStrU.toStr(timelineStateUri));
     
     try{
       resultSet = dbSQL.select(learnEpTimelineStateTable, selectPars);

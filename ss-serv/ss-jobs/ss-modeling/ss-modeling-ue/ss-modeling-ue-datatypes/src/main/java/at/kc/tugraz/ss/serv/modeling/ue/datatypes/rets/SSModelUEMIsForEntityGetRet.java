@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSModelUEMIsForEntityGetRet extends SSServRetI{
 
-  public List<String> mIs = new ArrayList<String>();
+  public List<String> mIs = new ArrayList<>();
 
   public static SSModelUEMIsForEntityGetRet get(List<String> mIs, SSMethU op){
     return new SSModelUEMIsForEntityGetRet(mIs, op);
@@ -49,8 +49,8 @@ public class SSModelUEMIsForEntityGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc() {
     
-    Map<String, Object> ld                      = new HashMap<String, Object>();
-    Map<String, Object> mIsObj       = new HashMap<String, Object>();
+    Map<String, Object> ld                      = new HashMap<>();
+    Map<String, Object> mIsObj       = new HashMap<>();
     
     mIsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     mIsObj.put(SSJSONLDU.container, SSJSONLDU.set);

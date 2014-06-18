@@ -51,7 +51,7 @@ public class SSRatingOverall extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.score,     SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
     ld.put(SSVarU.frequ,     SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);

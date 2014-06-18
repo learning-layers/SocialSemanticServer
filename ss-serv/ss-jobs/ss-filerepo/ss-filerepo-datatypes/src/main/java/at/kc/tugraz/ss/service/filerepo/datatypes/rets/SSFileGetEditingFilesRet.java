@@ -32,8 +32,8 @@ import java.util.Map;
 
 public class SSFileGetEditingFilesRet extends SSServRetI{
 
-	public List<String> files  = new ArrayList<String>();
-	public List<String> labels = new ArrayList<String>();
+	public List<String> files  = new ArrayList<>();
+	public List<String> labels = new ArrayList<>();
 	
 	public SSFileGetEditingFilesRet(SSMethU op, List<String> fileUris, List<String> fileNames){
     
@@ -51,9 +51,9 @@ public class SSFileGetEditingFilesRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld           = new HashMap<String, Object>();
-    Map<String, Object> fileUrisObj  = new HashMap<String, Object>();
-    Map<String, Object> fileNamesObj = new HashMap<String, Object>();
+    Map<String, Object> ld           = new HashMap<>();
+    Map<String, Object> fileUrisObj  = new HashMap<>();
+    Map<String, Object> fileNamesObj = new HashMap<>();
     
     fileUrisObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     fileUrisObj.put(SSJSONLDU.container, SSJSONLDU.set);

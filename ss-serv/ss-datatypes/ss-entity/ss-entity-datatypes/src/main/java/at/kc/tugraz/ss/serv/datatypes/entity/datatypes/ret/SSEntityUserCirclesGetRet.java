@@ -51,8 +51,8 @@ public class SSEntityUserCirclesGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld           = new HashMap<String, Object>();
-    final Map<String, Object> circlesObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld           = new HashMap<>();
+    final Map<String, Object> circlesObj   = new HashMap<>();
     
     circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircle.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);

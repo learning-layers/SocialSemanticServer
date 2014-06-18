@@ -43,8 +43,8 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   @Override
   protected void test() throws Exception {
     
-    final List<SSUri>       entries      = new ArrayList<SSUri>(); 
-    final List<SSLabel>     entryLabels  = new ArrayList<SSLabel>(); 
+    final List<SSUri>       entries      = new ArrayList<>(); 
+    final List<SSLabel>     entryLabels  = new ArrayList<>(); 
     final SSColl            rootColl     = SSServCaller.collUserRootGet      (SSUserGlobals.systemUser);
     final SSColl            rootCollAfterAddingEntries;
     

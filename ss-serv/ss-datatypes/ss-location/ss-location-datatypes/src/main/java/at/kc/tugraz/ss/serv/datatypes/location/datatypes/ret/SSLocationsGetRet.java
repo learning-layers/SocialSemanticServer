@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class SSLocationsGetRet extends SSServRetI{
 
-  public List<String> locations = new ArrayList<String>();
+  public List<String> locations = new ArrayList<>();
 
   public static SSLocationsGetRet get(List<String> locations, SSMethU op){
     return new SSLocationsGetRet(locations, op);
@@ -50,8 +50,8 @@ public class SSLocationsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld            = new HashMap<String, Object>();
-    Map<String, Object> locationsObj  = new HashMap<String, Object>();
+    Map<String, Object> ld            = new HashMap<>();
+    Map<String, Object> locationsObj  = new HashMap<>();
     
     locationsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     locationsObj.put(SSJSONLDU.container, SSJSONLDU.set);

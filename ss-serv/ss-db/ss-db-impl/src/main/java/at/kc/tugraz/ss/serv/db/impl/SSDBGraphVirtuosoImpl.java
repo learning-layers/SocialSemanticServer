@@ -177,16 +177,16 @@ public class SSDBGraphVirtuosoImpl extends SSServImplDBA implements SSDBGraphI{
 //        if (st.getObject() instanceof org.openrdf.model.URI) {
 //          
 //          state = SSStatement.get(
-//            SSUri.get              (SSStrU.toString(st.getSubject())),
-//            SSUri.get              (SSStrU.toString(st.getPredicate())),
-//            SSUri.get              (SSStrU.toString(st.getObject())));
+//            SSUri.get              (SSStrU.toStr(st.getSubject())),
+//            SSUri.get              (SSStrU.toStr(st.getPredicate())),
+//            SSUri.get              (SSStrU.toStr(st.getObject())));
 //          
 //        } else {
 //          
 //          state = SSStatement.get(
 //            SSUri.get             (SSStrU.toString            (st.getSubject())),
 //            SSUri.get             (SSStrU.toString            (st.getPredicate())),
-//            SSLiteral.get         (SSStrU.removeDoubleQuotes  (SSStrU.toString(st.getObject()))));
+//            SSLiteral.get         (SSStrU.removeDoubleQuotes  (SSStrU.toStr(st.getObject()))));
 //        }
 //        
 //        result.add(state);
@@ -220,7 +220,7 @@ public class SSDBGraphVirtuosoImpl extends SSServImplDBA implements SSDBGraphI{
 //        String name = names.get(i);
 //        org.openrdf.model.Value value = pairs.getValue(name);
 //        
-//        item.setBinding(name, SSStrU.toString(value));
+//        item.setBinding(name, SSStrU.toStr(value));
 //      }
 //      
 //      result.add(item);

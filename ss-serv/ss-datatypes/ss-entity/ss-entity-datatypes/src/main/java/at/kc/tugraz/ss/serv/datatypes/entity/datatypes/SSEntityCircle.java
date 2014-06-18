@@ -32,8 +32,8 @@ public class SSEntityCircle extends SSEntityA{
   public SSLabel                        label        = null;
   public SSCircleE                      type         = null;
   public List<SSCircleRightE>           accessRights = new ArrayList<SSCircleRightE>();
-  public List<SSUri>                    users        = new ArrayList<SSUri>();
-  public List<SSUri>                    entities     = new ArrayList<SSUri>();
+  public List<SSUri>                    users        = new ArrayList<>();
+  public List<SSUri>                    entities     = new ArrayList<>();
   
   public static SSEntityCircle get(
     final SSUri                          circleUri,
@@ -54,7 +54,7 @@ public class SSEntityCircle extends SSEntityA{
     final List<SSUri>                     userUris,
     final List<SSUri>                     entityUris) throws Exception{
     
-    super(SSUri.toStr(circleUri));
+    super(SSStrU.toStr(circleUri));
     
     this.id    = circleUri;
     this.label        = label;
@@ -75,10 +75,10 @@ public class SSEntityCircle extends SSEntityA{
 
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld              = new HashMap<String, Object>();
-    final Map<String, Object> circleRightsObj = new HashMap<String, Object>();
-    final Map<String, Object> userUrisObj     = new HashMap<String, Object>();
-    final Map<String, Object> entityUrisObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld              = new HashMap<>();
+    final Map<String, Object> circleRightsObj = new HashMap<>();
+    final Map<String, Object> userUrisObj     = new HashMap<>();
+    final Map<String, Object> entityUrisObj   = new HashMap<>();
     
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
@@ -104,12 +104,12 @@ public class SSEntityCircle extends SSEntityA{
 
   /* getters to allow for json enconding  */
   
-  public String getId(){
-    return SSUri.toStrWithoutSlash(id);
+  public String getId() throws Exception{
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getLabel(){
-    return SSLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 
   public SSCircleE getType(){
@@ -120,11 +120,11 @@ public class SSEntityCircle extends SSEntityA{
     return accessRights;
   }
 
-  public List<String> getUsers(){
-    return SSUri.toStrWithoutSlash(users);
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
   }
 
-  public List<String> getEntities(){
-    return SSUri.toStrWithoutSlash(entities);
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
 }

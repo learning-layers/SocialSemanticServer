@@ -77,10 +77,10 @@ public class SSLOMExtractorInHandler {
     
     DocumentBuilderFactory     lomXMLFactory         = DocumentBuilderFactory.newInstance();
     DocumentBuilder            lomXMLBuilder         = lomXMLFactory.newDocumentBuilder();
-    List<String>               formats               = new ArrayList<String>();
-    List<String>               learningResourceTypes = new ArrayList<String>();
-    List<String>               intendedEndUserRoles  = new ArrayList<String>();
-    List<String>               contexts              = new ArrayList<String>();
+    List<String>               formats               = new ArrayList<>();
+    List<String>               learningResourceTypes = new ArrayList<>();
+    List<String>               intendedEndUserRoles  = new ArrayList<>();
+    List<String>               contexts              = new ArrayList<>();
     List<SSLOMConceptRelation> conceptRelations      = new ArrayList<SSLOMConceptRelation>();
     List<SSLOMUser>            users                 = new ArrayList<SSLOMUser>();
     String                     id                    = null;
@@ -102,7 +102,7 @@ public class SSLOMExtractorInHandler {
       
       try{
         fileText = SSFileU.readFileText(file,     Charset.forName(SSEncodingU.utf8));
-        fileText = SSStrU.replace      (fileText, SSStrU.ampersand, SSStrU.ampersandEncoded);
+        fileText = SSStrU.replaceAll   (fileText, SSStrU.ampersand, SSStrU.ampersandEncoded);
         
         SSFileU.writeFileText(file, fileText);
         
@@ -527,7 +527,7 @@ public class SSLOMExtractorInHandler {
   
   private List<String> getFormats(File file){
     
-    List<String>           result           = new ArrayList<String>();
+    List<String>           result           = new ArrayList<>();
     NodeList               formats;
     Node                   formatNode;
     
@@ -555,7 +555,7 @@ public class SSLOMExtractorInHandler {
   
   private List<String> getLearningResourceTypes(File file){
     
-    List<String>           result             = new ArrayList<String>();
+    List<String>           result             = new ArrayList<>();
     NodeList               learningResourceTypes;
     Node                   learningResourceTypeNode;
     Element                learningResourceTypeElement;
@@ -594,7 +594,7 @@ public class SSLOMExtractorInHandler {
   
   private List<String> getIntendedEndUserRoles(File file){
     
-    List<String>           result             = new ArrayList<String>();
+    List<String>           result             = new ArrayList<>();
     NodeList               intendedEndUserRoles;
     Node                   intendedEndUserRoleNode;
     Element                intendedEndUserRoleElement;
@@ -633,7 +633,7 @@ public class SSLOMExtractorInHandler {
   
   private List<String> getContexts(File file){
     
-    List<String>           result             = new ArrayList<String>();
+    List<String>           result             = new ArrayList<>();
     NodeList               contexts;
     Node                   contextNode;
     Element                contextElement;

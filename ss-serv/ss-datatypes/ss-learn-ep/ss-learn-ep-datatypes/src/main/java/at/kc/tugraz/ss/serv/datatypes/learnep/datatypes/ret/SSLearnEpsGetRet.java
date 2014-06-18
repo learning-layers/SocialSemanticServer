@@ -48,8 +48,8 @@ public class SSLearnEpsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld           = new HashMap<String, Object>();
-    Map<String, Object> learnEpsObj  = new HashMap<String, Object>();
+    Map<String, Object> ld           = new HashMap<>();
+    Map<String, Object> learnEpsObj  = new HashMap<>();
     
     learnEpsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEp.class.getName());
     learnEpsObj.put(SSJSONLDU.container, SSJSONLDU.set);

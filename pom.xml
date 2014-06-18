@@ -106,19 +106,35 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
+          <source>1.8</source>
+          <target>1.8</target>
+<!--          <meminitial>128m</meminitial>
+          <maxmem>512m</maxmem>-->
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.3</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  
   <properties>
     <ssVersion>1.0-SNAPSHOT</ssVersion>
     <log4jVersion>1.2.17</log4jVersion>
     <junitVersion>4.10</junitVersion>
     <snakeyamlVersion>1.10</snakeyamlVersion>
     <evernoteVersion>1.25.1</evernoteVersion>
+    <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <modules>

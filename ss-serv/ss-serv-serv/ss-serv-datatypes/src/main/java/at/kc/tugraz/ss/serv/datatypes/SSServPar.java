@@ -48,7 +48,7 @@ public class SSServPar{
     String     jKey;
     String     jValue;
       
-    clientPars = new HashMap<String, String>();
+    clientPars = new HashMap<>();
     
     try{
       jp = SSJSONU.jsonParser(jsonRequ);
@@ -160,7 +160,7 @@ public class SSServPar{
 //public class SSRequ {
 //	
 //  public  String	      op      = null;
-//	public  List<String>  pars    = new ArrayList<String>();
+//	public  List<String>  pars    = new ArrayList<>();
 //	
 //  public SSRequ(String requJSON) throws Exception{
 //    

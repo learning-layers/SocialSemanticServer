@@ -31,10 +31,10 @@ import java.util.*;
 public class SSColl extends SSEntityA{
 
   public  SSUri                           id          = null;
-	public  List<SSCollEntry>               entries     = new ArrayList<SSCollEntry>();
+	public  List<SSCollEntry>               entries     = new ArrayList<>();
 	public  SSUri                           author      = null;
 	public  String                          label       = null;
-	public  List<SSCircleE>                 circleTypes = new ArrayList<SSCircleE>();
+	public  List<SSCircleE>                 circleTypes = new ArrayList<>();
 	
   public static SSColl get(
     SSUri                           uri    ,
@@ -75,9 +75,9 @@ public class SSColl extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld             = new HashMap<String, Object>();
-    Map<String, Object> entriesObj     = new HashMap<String, Object>();
-    Map<String, Object> circleTypesObj = new HashMap<String, Object>();
+    Map<String, Object> ld             = new HashMap<>();
+    Map<String, Object> entriesObj     = new HashMap<>();
+    Map<String, Object> circleTypesObj = new HashMap<>();
     
     ld.put(SSVarU.id, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -104,7 +104,7 @@ public class SSColl extends SSEntityA{
   /* getters to allow for json enconding */
   
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public List<SSCollEntry> getEntries(){
@@ -112,7 +112,7 @@ public class SSColl extends SSEntityA{
   }
 
   public String getAuthor() throws Exception{
-    return SSUri.toStrWithoutSlash(author);
+    return SSStrU.removeTrailingSlash(author);
   }
 
   public String getLabel(){

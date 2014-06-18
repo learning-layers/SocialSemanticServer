@@ -45,7 +45,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      
 //      for(SSStatement stm : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
 //
-//        if(SSUri.equals(coll, splitObject(stm.object).get(0))){
+//        if(SSStrU.equals(coll, splitObject(stm.object).get(0))){
 //          db.remove(stm, namedGraphUri);
 //        }
 //      }
@@ -96,7 +96,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //   
 //    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
 //
-//      if(SSUri.equals(collUri, splitObject(stm.object).get(0))){
+//      if(SSStrU.equals(collUri, splitObject(stm.object).get(0))){
 //        db.remove(stm, namedGraphUri);
 //        changed = true;
 //      }
@@ -124,7 +124,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //    for(SSStatement state : db.get(collEntry, predHasCollectionPosition(), null, namedGraphUri)){
 //
-//      if(SSUri.equals(coll, splitObject(state.object).get(0))){
+//      if(SSStrU.equals(coll, splitObject(state.object).get(0))){
 //        db.remove(state, namedGraphUri);
 //        return true;
 //      }
@@ -183,7 +183,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //    for(SSStatement stm : db.get(collEntryUri, predHasEntryType(), null, namedGraphUri)){
 //
-//      if(SSUri.equals(collUri, splitObject(stm.object).get(0))){
+//      if(SSStrU.equals(collUri, splitObject(stm.object).get(0))){
 //        db.remove(stm, namedGraphUri);
 //      }
 //    }
@@ -207,11 +207,11 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //  private List<SSUri> getFollowCollUris(
 //    SSUri userUri) throws Exception{
 //
-//    List<SSUri> outUris = new ArrayList<SSUri>();
+//    List<SSUri> outUris = new ArrayList<>();
 //    
 //    for(SSStatement stm  : db.get(userUri, predFollows(), null, namedGraphUri)){
 //
-//      outUris.add(SSUri.get(SSStrU.toString(stm.object)));
+//      outUris.add(SSUri.get(SSStrU.toStr(stm.object)));
 //    }
 //
 //    return outUris;
@@ -234,7 +234,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      
 //      coll   = binding(item, bindColl);
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(coll));
 //      
 //      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
@@ -267,7 +267,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //  
 // public List<SSUri> collPossibleParentUris(SSUri userUri, SSUri collUri) throws Exception{
 //    
-//   List<SSUri> colls = new ArrayList<SSUri>();
+//   List<SSUri> colls = new ArrayList<>();
 //    String queryString;
 //    
 //    queryString = 
@@ -288,7 +288,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //    boolean sort) throws Exception {
 //
 //    List<SSUri>           entryUris  = getCollEntryUris(collUri, sort);
-//    List<SSCollEntry>     entries    = new ArrayList<SSCollEntry>();
+//    List<SSCollEntry>     entries    = new ArrayList<>();
 //    SSSpaceEnum           space;
 //    String                entryLabel;
 //    
@@ -296,7 +296,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      space      = getTypeOfEntry       (collUri, entryUri);
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, entryUri);
 //      
 //      entryLabel = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
@@ -331,7 +331,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      coll   = binding(item, bindColl);
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(coll));
 //      
 //      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
@@ -349,7 +349,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //    for(SSUri uri : getFollowCollUris(user)){
 //
-//      if(colls.containsKey(SSStrU.toString(uri))){
+//      if(colls.containsKey(SSStrU.toStr(uri))){
 //        colls.get(uri.toString()).space = SSSpaceEnum.followSpace;
 //      }else{
 //
@@ -357,7 +357,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //        collection.space = SSSpaceEnum.followSpace;
 //
-//        colls.put(SSStrU.toString(uri), collection);
+//        colls.put(SSStrU.toStr(uri), collection);
 //      }
 //    }
 //
@@ -380,7 +380,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      user  = SSStrU.removeDoubleQuotes(binding(item, bindUser));
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, collUri);
 //      
 //      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
@@ -428,7 +428,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      split = splitObject(state.object);
 //
-//      if(SSUri.equals(collUri, split.get(0))){
+//      if(SSStrU.equals(collUri, split.get(0))){
 //        result = Integer.parseInt(split.get(1));
 //      }
 //    }
@@ -446,7 +446,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      split = splitObject(state.object);
 //
-//      if(SSUri.equals(collUri, split.get(0))){
+//      if(SSStrU.equals(collUri, split.get(0))){
 //        return SSSpaceEnum.get(split.get(1));
 //      }
 //    }
@@ -474,7 +474,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      coll = SSUri.get(binding(item, bindColl));
 //      
-//      opPars = new HashMap<String, Object>();
+//      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, coll);
 //      
 //      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
@@ -496,7 +496,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //    SSUri   collUri,
 //    boolean sort) throws Exception{
 //
-//    HashMap<String, Integer> entryUriMap  = new HashMap<String, Integer>();
+//    HashMap<String, Integer> entryUriMap  = new HashMap<>();
 //    String                   collEntry;
 //    
 //    String queryString = 
@@ -508,7 +508,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //
 //      collEntry = binding(item, bindCollEntry);
 //
-//      entryUriMap.put(SSStrU.toString(SSUri.get(collEntry)), getCollEntryPosition(collUri, SSUri.get(collEntry)));
+//      entryUriMap.put(SSStrU.toStr(SSUri.get(collEntry)), getCollEntryPosition(collUri, SSUri.get(collEntry)));
 //    }
 //
 //    if(sort){
@@ -525,7 +525,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 
 
 //public String[] getUserCollections(String user) {
-//	List<String> outList = new ArrayList<String>();
+//	List<String> outList = new ArrayList<>();
 //
 //	String from = namedGraphURI.toString();
 //	String queryString = "SELECT ?col ?time FROM <" + from + "> WHERE{ " + "?col <" + SemanticVocabulary.RDFtype + "> <" + SemanticVocabulary.typeCollection + ">." + "?col <"
@@ -592,7 +592,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //return true;
 //}
 //private String[] getItemsFromCollectionUnsorted(String collectionId) {
-//	ArrayList<String> outList = new ArrayList<String>();
+//	ArrayList<String> outList = new ArrayList<>();
 //	String[] outString = null;
 //	try {
 //		String from = namedGraphURI.toString();

@@ -44,7 +44,7 @@ public class SSLearnEpVersionRemoveCircleRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     

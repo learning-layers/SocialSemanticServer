@@ -47,7 +47,7 @@ public class SSAuthWiki {
         hexString.append(Integer.toHexString(b));
       }
 
-      return SSStrU.toString(hexString);
+      return SSStrU.toStr(hexString);
       
     } catch (NoSuchAlgorithmException e) {
       log.error(e.getMessage(), e);

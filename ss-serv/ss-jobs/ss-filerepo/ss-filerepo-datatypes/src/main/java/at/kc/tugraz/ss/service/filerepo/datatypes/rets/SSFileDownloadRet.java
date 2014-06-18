@@ -42,7 +42,7 @@ public class SSFileDownloadRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld           = new HashMap<String, Object>();
+    Map<String, Object> ld           = new HashMap<>();
     
     ld.put(SSVarU.file,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -51,6 +51,6 @@ public class SSFileDownloadRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   public String getFile() throws Exception{
-    return SSUri.toStrWithoutSlash(file);
+    return SSStrU.removeTrailingSlash(file);
   }
 }

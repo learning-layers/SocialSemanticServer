@@ -33,17 +33,13 @@ public class SSCategoryLabel extends SSEntityA{
   public static SSCategoryLabel get(
     final String string) throws Exception{
     
-    if(string == null){
-      return null;
-    }
-    
-    return new SSCategoryLabel(SSStrU.replace(string, SSStrU.blank, SSStrU.underline));
+    return new SSCategoryLabel(SSStrU.replaceAll(string, SSStrU.blank, SSStrU.underline));
   }
   
   public static List<SSCategoryLabel> get(
     final List<String> strings) throws Exception{
 
-    final List<SSCategoryLabel> result = new ArrayList<SSCategoryLabel>();
+    final List<SSCategoryLabel> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));
@@ -52,25 +48,26 @@ public class SSCategoryLabel extends SSEntityA{
     return result;
   }
   
-  public static void checkCategoryLabel(
-    final String categoryLabel) throws Exception {
+  public static Boolean isCategoryLabel(
+    final String categoryLabel) throws Exception{
     
     try{
       if(SSStrU.isEmpty(categoryLabel)){
-        throw new SSCategoryLabelErr(categoryLabel);
+        return false;
       }
-      
+
       final String tmpCategoryLabel = categoryLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-      
+
       if(
         SSStrU.isEmpty(tmpCategoryLabel) ||
         !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpCategoryLabel)){
-        throw new SSCategoryLabelErr(tmpCategoryLabel);
+        return false;
       }
-    }catch(SSCategoryLabelErr error){
-      throw error;
+
+      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -83,14 +80,16 @@ public class SSCategoryLabel extends SSEntityA{
     
     super(label);
     
-    checkCategoryLabel(label);
+    if(!isCategoryLabel(label)){
+      throw new SSCategoryLabelErr("invalid category " + label);
+    }
   }
 }
 
 //public static Collection<String> toString(
 //    SSTagString[] tagStrings){
 //    
-//    List<String> result = new ArrayList<String>();
+//    List<String> result = new ArrayList<>();
 //    
 //    for (SSTagString tagString : tagStrings){
 //      result.add(tagString.toString());

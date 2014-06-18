@@ -55,7 +55,7 @@ public class SSFileUploadRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.status,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
@@ -65,7 +65,7 @@ public class SSFileUploadRet extends SSServRetI{
    
   /* getters to allow for json enconding */
   public String getFile() throws Exception{
-    return SSUri.toStrWithoutSlash(file);
+    return SSStrU.removeTrailingSlash(file);
   }
 
   public String getStatus(){

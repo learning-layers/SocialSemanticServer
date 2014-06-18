@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class SSActivitiesUserGetRet extends SSServRetI{
  
-  public List<SSActivity> activities = new ArrayList<SSActivity>();
+  public List<SSActivity> activities = new ArrayList<>();
 
   public static SSActivitiesUserGetRet get(final List<SSActivity> activities, final SSMethU op){
     return new SSActivitiesUserGetRet(activities, op);
@@ -37,8 +37,8 @@ public class SSActivitiesUserGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld              = new HashMap<String, Object>();
-    final Map<String, Object> activitiesObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld              = new HashMap<>();
+    final Map<String, Object> activitiesObj   = new HashMap<>();
     
     activitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSActivity.class.getName());
     activitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);

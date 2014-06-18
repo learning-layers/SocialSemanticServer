@@ -49,8 +49,8 @@ public class SSBroadcastUpdateTimeGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> updatesObj = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> updatesObj = new HashMap<>();
     
     updatesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSBroadcast.class.getName());
     updatesObj.put(SSJSONLDU.container, SSJSONLDU.set);

@@ -52,7 +52,7 @@ public class SSUser extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<String, Object>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
@@ -63,10 +63,10 @@ public class SSUser extends SSEntityA {
   /* getters to allow for json enconding  */
   
   public String getId(){
-    return SSUri.toStr(id);
+    return SSStrU.toStr(id);
   }
 
   public String getLabel(){
-    return SSLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 }

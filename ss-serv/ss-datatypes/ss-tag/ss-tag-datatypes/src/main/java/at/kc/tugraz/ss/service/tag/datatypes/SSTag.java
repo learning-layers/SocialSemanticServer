@@ -38,7 +38,7 @@ public class SSTag extends SSEntityA {
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -50,53 +50,51 @@ public class SSTag extends SSEntityA {
   } 
     
   public static SSTag get(
-    SSUri       uri      ,
-    SSUri       resource ,
-    SSUri       user     ,
-    SSSpaceE space    ,
-    SSTagLabel  label) throws Exception{
+    final SSUri       uri      ,
+    final SSUri       resource ,
+    final SSUri       user     ,
+    final SSSpaceE    space    ,
+    final SSTagLabel  label) throws Exception{
     
     return new SSTag(uri, resource, user, space, label);
   }
   
-  public static List<SSUri> getDistinctResources(final List<SSTag> tags){
+//  public static List<SSUri> getDistinctResources(
+//    final List<SSTag> tags) throws Exception{
+//    
+//    final List<SSEntityA> result = new ArrayList<>();
+//		
+//		for(SSTag tag : tags){
+//      SSUri.addDistinct(result, tag.entity);
+//		}
+//
+//    
+//  }
+//  
+  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSTag> tags) throws Exception{
     
-    final List<SSUri> result = new ArrayList<SSUri>();
-		
-		for(SSTag tag : tags){
-			
-			if(!SSUri.contains(result, tag.entity)){
-				result.add(tag.entity);
-			}
-		}
-		
-		return result;
-  }
-  
-  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSTag> tags){
-    
-    final Map<String, List<String>>     tagsPerEntity = new HashMap<String,  List<String>>();
+    final Map<String, List<String>>     tagsPerEntity = new HashMap<>();
     List<String>                        tagLabels;
     String                              entity;
     
     for(SSTag userTag : tags){
       
-      entity = SSUri.toStr(userTag.entity);
+      entity = SSStrU.toStr(userTag.entity);
       
       if(tagsPerEntity.containsKey(entity)){
         
         tagLabels = tagsPerEntity.get(entity);
         
-        if(tagLabels.contains(SSTagLabel.toStr(userTag.label))){
+        if(SSStrU.contains(tagLabels, userTag.label)){
           continue;
         }
         
         tagLabels.add(userTag.label.toString());
       }else{
         
-        tagLabels = new ArrayList<String>();
+        tagLabels = new ArrayList<>();
         
-        tagLabels.add(SSTagLabel.toStr(userTag.label));
+        tagLabels.add(SSStrU.toStr(userTag.label));
         
         tagsPerEntity.put(entity, tagLabels);
       }
@@ -109,7 +107,7 @@ public class SSTag extends SSEntityA {
     SSUri        uri,
     SSUri        resource,
     SSUri        user,
-    SSSpaceE  space,
+    SSSpaceE     space,
     SSTagLabel   label) throws Exception{
     
     super(label);
@@ -124,15 +122,15 @@ public class SSTag extends SSEntityA {
   /* getters to allow for json enconding */
   
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getEntity() throws Exception{
-    return SSUri.toStrWithoutSlash(entity);
+    return SSStrU.removeTrailingSlash(entity);
   }
 
   public String getUser() throws Exception{
-    return SSUri.toStrWithoutSlash(user);
+    return SSStrU.removeTrailingSlash(user);
   }
 
   public String getSpace(){
@@ -140,6 +138,6 @@ public class SSTag extends SSEntityA {
   }
 
   public String getLabel(){
-    return SSTagLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 }

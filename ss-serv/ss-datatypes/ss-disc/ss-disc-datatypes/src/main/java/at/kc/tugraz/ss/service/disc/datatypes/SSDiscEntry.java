@@ -70,7 +70,7 @@ public class SSDiscEntry extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.id,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
@@ -85,7 +85,7 @@ public class SSDiscEntry extends SSEntityA{
   /* getters to allow for json enconding */
   
   public String getId() throws Exception{
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
   
   public String getType() throws Exception{
@@ -97,11 +97,11 @@ public class SSDiscEntry extends SSEntityA{
   }
 
   public String getContent(){
-    return SSTextComment.toStr(content);
+    return SSStrU.toStr(content);
   }
 
   public String getAuthor() throws Exception{
-    return SSUri.toStrWithoutSlash(author);
+    return SSStrU.removeTrailingSlash(author);
   }
 
   public Long getTimestamp(){

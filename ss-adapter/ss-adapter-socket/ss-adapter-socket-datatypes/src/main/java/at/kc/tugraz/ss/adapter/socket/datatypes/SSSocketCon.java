@@ -82,7 +82,7 @@ public class SSSocketCon{
     final List<SSErrForClient> errors, 
     final SSMethU              op) throws Exception{
     
-    final Map<String, Object> ret    = new HashMap<String, Object>();
+    final Map<String, Object> ret    = new HashMap<>();
     
     ret.put(SSVarU.op,                      SSMethU.toStr(op));
     ret.put(SSVarU.error,                   true);
@@ -105,7 +105,7 @@ public class SSSocketCon{
   
   public void writeRetFullToClient(final SSServRetI result, final Boolean sendJSONLD) throws Exception{
   
-    final Map<String, Object> ret       = new HashMap<String, Object>();
+    final Map<String, Object> ret       = new HashMap<>();
     
     ret.put(SSVarU.op,                SSMethU.toStr(result.op));
     ret.put(SSVarU.error,             false);
@@ -120,7 +120,7 @@ public class SSSocketCon{
   
   public void writeRetFullToClient(final SSServRetI result) throws Exception{
   
-    final Map<String, Object> ret       = new HashMap<String, Object>();
+    final Map<String, Object> ret       = new HashMap<>();
     
     ret.put(SSVarU.op,                SSMethU.toStr(result.op));
     ret.put(SSVarU.error,             false);

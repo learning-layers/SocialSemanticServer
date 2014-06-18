@@ -51,11 +51,11 @@ public class SSLearnEpVersion extends SSEntityA {
     this.learnEp          = learnEpUri;
     this.timestamp           = timestamp;
     
-    if(SSObjU.isNotNull(entities)){
+    if(!SSObjU.isNull(entities)){
       this.entities = entities;
     }
     
-    if(SSObjU.isNotNull(circles)){
+    if(!SSObjU.isNull(circles)){
       this.circles = circles;
     }
   }
@@ -63,20 +63,20 @@ public class SSLearnEpVersion extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.id,              SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.learnEp,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.timestamp,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
-    Map<String, Object> entitiesObj = new HashMap<String, Object>();
+    Map<String, Object> entitiesObj = new HashMap<>();
     
     entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
     entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entities, entitiesObj);
     
-    Map<String, Object> circlesObj = new HashMap<String, Object>();
+    Map<String, Object> circlesObj = new HashMap<>();
     
     circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -88,11 +88,11 @@ public class SSLearnEpVersion extends SSEntityA {
   
   /* getters to allow for json enconding */
   public String getId() throws Exception {
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
 
   public String getLearnEp() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEp);
+    return SSStrU.removeTrailingSlash(learnEp);
   }
 
   public String getTimestamp() {

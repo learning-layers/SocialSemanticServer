@@ -57,7 +57,7 @@ public class SSUEGraphFct extends SSDBGraphFct{
 //      db.add(currentEvent, predBelongsTo(),   user,                                      eventGraphUri);
 //      db.add(currentEvent, predType(),        objUE(),                                  eventGraphUri);
 //      db.add(currentEvent, predTime(),        objTime(),                                 eventGraphUri);
-//      db.add(currentEvent, predEventType(),   objEventType(SSStrU.toString(eventType)),  eventGraphUri); 
+//      db.add(currentEvent, predEventType(),   objEventType(SSStrU.toStr(eventType)),  eventGraphUri); 
 //
 //      if (content.length() > 0) {
 //        db.add(currentEvent, predContent(), objContent(content),        eventGraphUri);
@@ -83,7 +83,7 @@ public class SSUEGraphFct extends SSDBGraphFct{
 //    Long            startTimestamp,
 //    Long            endTimestamp) throws Exception{
 //
-//    List<String>       pars        = new ArrayList<String>();
+//    List<String>       pars        = new ArrayList<>();
 //    List<SSUE>         eventList   = new ArrayList<SSUE>();
 //    String             queryString;
 //    SSUri              resultResource;
@@ -123,7 +123,7 @@ public class SSUEGraphFct extends SSDBGraphFct{
 //    if(SSObjU.isNull(resource)){
 //      queryString += and(bindEvent, predEventType(), bindEventType);
 //    } else {
-//      queryString += and(bindEvent, predEventType(), objEventType(SSStrU.toString(eventType)));
+//      queryString += and(bindEvent, predEventType(), objEventType(SSStrU.toStr(eventType)));
 //    }
 //
 //    if(SSObjU.isNull(user)) {

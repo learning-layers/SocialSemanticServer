@@ -39,8 +39,8 @@ public abstract class SSEntityDescA extends SSEntityA{
   public SSEntityE        descType        = null;
   public SSUri            author          = null;
   public SSEntityA        overallRating   = null;
-  public List<String>     tags            = new ArrayList<String>();
-  public List<SSUri>      discs           = new ArrayList<SSUri>();
+  public List<String>     tags            = new ArrayList<>();
+  public List<SSUri>      discs           = new ArrayList<>();
 	
   protected SSEntityDescA(
     final SSUri        entityUri, 
@@ -75,9 +75,9 @@ public abstract class SSEntityDescA extends SSEntityA{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld       = new HashMap<String, Object>();
-    final Map<String, Object> tagsObj  = new HashMap<String, Object>();
-    final Map<String, Object> discsObj = new HashMap<String, Object>();
+    final Map<String, Object> ld       = new HashMap<>();
+    final Map<String, Object> tagsObj  = new HashMap<>();
+    final Map<String, Object> discsObj = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -101,12 +101,12 @@ public abstract class SSEntityDescA extends SSEntityA{
   }
   
   /* getters to allow for json enconding */
-  public String getEntity(){
-    return SSUri.toStrWithoutSlash(entity);
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
   }
 
   public String getLabel() {
-    return SSLabel.toStr(label);
+    return SSStrU.toStr(label);
   }
 
   public Long getCreationTime() {
@@ -122,7 +122,7 @@ public abstract class SSEntityDescA extends SSEntityA{
   }
   
   public String getAuthor() throws Exception {
-    return SSUri.toStrWithoutSlash(author);
+    return SSStrU.removeTrailingSlash(author);
   }
   
   public List<String> getTags(){
@@ -133,7 +133,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     return overallRating;
   }
 
-  public List<String> getDiscs(){
-    return SSUri.toStrWithoutSlash(discs);
+  public List<String> getDiscs() throws Exception{
+    return SSStrU.removeTrailingSlash(discs);
   }
 }

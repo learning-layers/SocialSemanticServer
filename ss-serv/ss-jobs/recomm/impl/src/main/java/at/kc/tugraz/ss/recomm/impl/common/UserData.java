@@ -21,8 +21,8 @@ public class UserData implements Comparable<UserData> {
 		this.timestamp = timestamp;
 		this.rating = -2.0;
 		
-		this.categories = new ArrayList<Integer>();
-		this.tags = new ArrayList<Integer>();
+		this.categories = new ArrayList<>();
+		this.tags = new ArrayList<>();
 	}
 	
 	@Override

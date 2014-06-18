@@ -29,27 +29,16 @@ import java.util.List;
 public class SSLabel extends SSEntityA{
 
   public static SSLabel get(final String str) throws Exception{
-    
-    if(str == null){
-      return null;
-    }
-    
     return new SSLabel(str);
   }
   
   public static SSLabel get(final SSEntityA entity) throws Exception{
-    
-    if(entity == null){
-      return null;
-    }
-    
-    return new SSLabel(entity.toString());
+    return new SSLabel(SSStrU.toStr(entity));
   }
-  
   
   public static List<SSLabel> get(final List<String> strings) throws Exception{
     
-    final List<SSLabel> result = new ArrayList<SSLabel>();
+    final List<SSLabel> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));
@@ -57,9 +46,24 @@ public class SSLabel extends SSEntityA{
     
     return result;
   }
+  
+  public static Boolean isLabel(final String string) throws Exception{
+    
+    if(string == null){
+      return false;
+    }
+    
+    return true;
+  }
+    
    
-  protected SSLabel(final String str) throws Exception{
-    super(str);
+  protected SSLabel(final String string) throws Exception{
+    
+    super(string);
+    
+    if(!isLabel(string)){
+      throw new Exception("invalid label " + string);
+    }
   }
   
   @Override

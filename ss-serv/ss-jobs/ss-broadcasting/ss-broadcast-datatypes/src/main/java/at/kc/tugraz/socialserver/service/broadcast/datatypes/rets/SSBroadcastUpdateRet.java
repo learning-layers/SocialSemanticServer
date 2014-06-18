@@ -46,7 +46,7 @@ public class SSBroadcastUpdateRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc() {
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.worked, SSLinkU.xsd + SSStrU.valueBoolean);
     

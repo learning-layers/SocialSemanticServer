@@ -36,7 +36,7 @@ public class SSModelUEEntitiesForForMiGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        mi   = (SSModelUEMILabel) pars.get(SSVarU.mi);
+        mi   = SSModelUEMILabel.get((String) pars.get(SSVarU.mi));
       }
       
       if(clientPars != null){

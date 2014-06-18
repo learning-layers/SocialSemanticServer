@@ -42,13 +42,13 @@ public class SSLOMDesc extends SSEntityA{
   
   public List<SSLOMDesc> distinctDescs(List<SSLOMDesc> descs){
     
-    List<String>    descLabels = new ArrayList<String>();
+    List<String>    descLabels = new ArrayList<>();
     List<SSLOMDesc> result     = new ArrayList<SSLOMDesc>();
     
     for(SSLOMDesc desc : descs){
       
       if(
-        SSStrU.isNotEmpty   (desc.label) &&
+        !SSStrU.isEmpty      (desc.label) &&
         !descLabels.contains (desc.label)){
         
         descLabels.add  (desc.label);

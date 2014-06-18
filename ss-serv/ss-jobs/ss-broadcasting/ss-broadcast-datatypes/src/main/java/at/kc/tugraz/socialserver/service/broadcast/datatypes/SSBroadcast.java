@@ -60,7 +60,7 @@ public class SSBroadcast implements SSJSONLDPropI{
   @Override
   public Object jsonLDDesc() {
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.entity,      SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,        SSVarU.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());

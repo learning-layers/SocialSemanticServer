@@ -33,7 +33,7 @@ public enum SSCircleE implements SSJSONLDPropI{
   
   public static List<SSCircleE> get(final List<String> values) throws Exception{
     
-    final List<SSCircleE> result = new ArrayList<SSCircleE>();
+    final List<SSCircleE> result = new ArrayList<>();
     
     for(String value : values){
       result.add(get(value));
@@ -47,7 +47,7 @@ public enum SSCircleE implements SSJSONLDPropI{
   }
   
   public static String toStr(final SSCircleE circleType){
-    return SSStrU.toString(circleType);
+    return SSStrU.toStr(circleType);
   }
   
   public static Boolean equals(

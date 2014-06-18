@@ -30,7 +30,7 @@ public class SSLOMUser extends SSEntityA{
   public String                                  fullName  = null;
   public String                                  tempRole  = null;
 //  //role: resourceUri, resource
-//  public Map<String, Map<String, SSLOMResource>> resources = new HashMap<String, Map<String, SSLOMResource>>();
+//  public Map<String, Map<String, SSLOMResource>> resources = new HashMap<>();
   
   
   public SSLOMUser(
@@ -45,13 +45,13 @@ public class SSLOMUser extends SSEntityA{
 
   public static List<SSLOMUser> distinctUsers(List<SSLOMUser> users){
     
-    List<String>    userNames = new ArrayList<String>();
+    List<String>    userNames = new ArrayList<>();
     List<SSLOMUser> result    = new ArrayList<SSLOMUser>();
     
     for(SSLOMUser user : users){
       
       if(
-        SSStrU.isNotEmpty  (user.fullName) &&
+        !SSStrU.isEmpty     (user.fullName) &&
         !userNames.contains (user.fullName)){
         
         userNames.add (user.fullName);

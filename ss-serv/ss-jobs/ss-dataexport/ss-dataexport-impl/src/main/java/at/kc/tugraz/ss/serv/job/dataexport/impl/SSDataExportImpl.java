@@ -78,7 +78,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       fileWriterUserEntityTags                         = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
     }
     
-    final List<String>                              lineParts                    = new ArrayList<String>();
+    final List<String>                              lineParts                    = new ArrayList<>();
     final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
     Map.Entry<String, List<String>>                 entityAndTags;
     
@@ -88,7 +88,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
 
       lineParts.clear();
       
-      lineParts.add(SSUri.toStr     (par.user));
+      lineParts.add(SSStrU.toStr(par.user));
       lineParts.add(entityAndTags.getKey());
       lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
 
@@ -118,7 +118,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       fileWriterUserEntityTagTimestamps                = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
     }
     
-    final List<String>                              lineParts                    = new ArrayList<String>();
+    final List<String>                              lineParts                    = new ArrayList<>();
     final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
     Map.Entry<String, List<String>>                 entityAndTags;
     
@@ -128,7 +128,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
 
       lineParts.clear();
       
-      lineParts.add(SSUri.toStr     (par.user));
+      lineParts.add(SSStrU.toStr     (par.user));
       lineParts.add(entityAndTags.getKey());
       lineParts.add(Long.toString   (par.timestamp));
       lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
@@ -159,7 +159,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       fileWriterUserEntityTagCategories    = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
     }
     
-    final List<String>                              lineParts                    = new ArrayList<String>();
+    final List<String>                              lineParts                    = new ArrayList<>();
     final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
     final Iterator<Map.Entry<String, List<String>>> entitiesCategoriesIterator   = par.categoriesPerEntities.entrySet().iterator();
     Map.Entry<String, List<String>>                 entityAndTags;
@@ -172,7 +172,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
 
       lineParts.clear();
       
-      lineParts.add(SSUri.toStr     (par.user));
+      lineParts.add(SSStrU.toStr     (par.user));
       lineParts.add(entityAndTags.getKey());
       lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
       lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
@@ -203,7 +203,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       fileWriterUserEntityTagCategoryTimestamps    = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
     }
     
-    final List<String>                              lineParts                    = new ArrayList<String>();
+    final List<String>                              lineParts                    = new ArrayList<>();
     final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
     final Iterator<Map.Entry<String, List<String>>> entitiesCategoriesIterator   = par.categoriesPerEntities.entrySet().iterator();
     Map.Entry<String, List<String>>                 entityAndTags;
@@ -216,7 +216,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
 
       lineParts.clear();
       
-      lineParts.add(SSUri.toStr     (par.user));
+      lineParts.add(SSStrU.toStr     (par.user));
       lineParts.add(entityAndTags.getKey());
       lineParts.add(Long.toString   (par.timestamp));
       lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));

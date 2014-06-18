@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.service.filerepo.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 		}
 		
 		if(
-				SSUri.equals(writer, user) &&
+				SSStrU.equals(writer, user) &&
 				writingMinutesLeft > 0){
 			
 			return true;
@@ -67,9 +68,9 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 		return writer;
 	}
 
-	public boolean addReader(SSUri user){
+	public boolean addReader(SSUri user) throws Exception{
 		
-		if(!SSUri.contains(readers, user)){
+		if(!SSStrU.contains(readers, user)){
 			readers.add(user);
 		}
 		
@@ -78,9 +79,9 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 		return true;
 	}
 	
-	public boolean removeReader(SSUri user){
+	public boolean removeReader(SSUri user) throws Exception{
 		
-		if(!SSUri.contains(readers, user)){
+		if(!SSStrU.contains(readers, user)){
 			return true;
 		}
 		
@@ -124,7 +125,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 			return fileAccessPropertyMaxWritingMinutesCount;
 		}
 		
-		if(SSUri.equals(writer, user)){
+		if(SSStrU.equals(writer, user)){
 			return writingMinutesLeft;
 		}
 		
@@ -148,7 +149,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     //TODO dtheiler
     

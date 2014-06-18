@@ -30,7 +30,7 @@ import java.util.List;
 
 public class SSSearchTagsPar extends SSServPar{
   
-  public List<String>      tags             = new ArrayList<String>();
+  public List<String>      tags             = new ArrayList<>();
   public String            searchOp         = null;
   public int               maxResultsPerTag = 0;
     

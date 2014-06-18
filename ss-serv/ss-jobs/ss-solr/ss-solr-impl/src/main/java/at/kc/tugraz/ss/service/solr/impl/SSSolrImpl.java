@@ -118,7 +118,7 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
 	public List<String> solrSearch(final SSServPar parA) throws Exception {
 		
     final SSSolrSearchPar par           = new SSSolrSearchPar(parA);
-    final List<String>    searchResults = new ArrayList<String>();
+    final List<String>    searchResults = new ArrayList<>();
     final SSSolrQueryPars qp            = new SSSolrQueryPars(par.keyword, par.maxResults);
     
     for(SSSolrSearchResult result : SSSolrSearchResult.get(SSSolrFct.query(server, qp))){

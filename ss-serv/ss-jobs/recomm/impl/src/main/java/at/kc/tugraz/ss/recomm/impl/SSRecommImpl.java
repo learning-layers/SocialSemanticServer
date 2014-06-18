@@ -96,8 +96,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.getTags(
-          SSUri.toStr(par.forUser),
-          SSUri.toStr(par.entity),
+          SSStrU.toStr(par.forUser),
+          SSStrU.toStr(par.entity),
           par.maxTags));
       
     }catch(Exception error){
@@ -143,8 +143,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagLanguageModelBasedOnUserEntityTag.getTags(
-          SSUri.toStr (par.forUser),
-          SSUri.toStr (par.entity),
+          SSStrU.toStr (par.forUser),
+          SSStrU.toStr (par.entity),
           par.maxTags));
       
     }catch(Exception error){
@@ -190,8 +190,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
         return SSStrU.distinctWithoutEmptyAndNull(
           recommenderTagThreeLayersBasedOnUserEntityTagCategory.getTags(
-            SSUri.toStr (par.forUser),
-            SSUri.toStr (par.entity),
+            SSStrU.toStr (par.forUser),
+            SSStrU.toStr (par.entity),
             par.categories,
             par.maxTags,
             false));
@@ -238,8 +238,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     try{
       return SSStrU.distinctWithoutEmptyAndNull(
         recommenderTagThreeLayersBasedOnUserEntityTagCategoryTimestamp.getTags(
-          SSUri.toStr (par.forUser),
-          SSUri.toStr (par.entity),
+          SSStrU.toStr (par.forUser),
+          SSStrU.toStr (par.entity),
           par.categories,
           par.maxTags,
           true));
@@ -334,22 +334,22 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //    List<Integer>      dValues;
   //    List<Integer>      betaValues;
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.betaUpperBound, par.dUpperBound);
   //
   //    dValues   = recommBetaValues(new SSServPar(SSMethU.recommBetaValues, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.betaUpperBound, par.betaUpperBound);
   //
   //    betaValues = recommBetaValues(new SSServPar(SSMethU.recommBetaValues, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -388,17 +388,17 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //    SSRecommCalcLanguageModelPar par = new SSRecommCalcLanguageModelPar(parA);
   //    List<Integer>                betaValues;
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.betaUpperBound, par.betaUpperBound);
   //
   //    betaValues = recommBetaValues(new SSServPar(SSMethU.recommBetaValues, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -436,17 +436,17 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //    SSRecommCalcCFTagPar par = new SSRecommCalcCFTagPar(parA);
   //    List<Integer>        betaValues;
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.betaUpperBound, par.betaUpperBound);
   //
   //    betaValues = recommBetaValues(new SSServPar(SSMethU.recommBetaValues, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -483,7 +483,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //
   //    SSRecommCalcFolkRankPar par = new SSRecommCalcFolkRankPar(parA);
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
@@ -492,7 +492,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //      FolkRankCalculator.predictSample(par.sampleName + SSStrU.underline + counter, trainSize, testSize, true);
   //    }
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -513,7 +513,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //
   //    SSRecommCalcBaselinePar par = new SSRecommCalcBaselinePar(parA);
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
@@ -522,7 +522,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //      BaselineCalculator.predictPopularTags(par.sampleName + SSStrU.underline + counter, testSize);
   //    }
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.size);
@@ -539,7 +539,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //
   //    SSRecommCalcBLLCFPar par = new SSRecommCalcBLLCFPar(parA);
   //
-  //		opPars = new HashMap<String, Object>();
+  //		opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
@@ -548,7 +548,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //			   BllCfCalculator.predictSample(par.sampleName + SSStrU.underline + counter, trainSize, testSize, par.neighbors, par.dVal);
   //		}
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //    opPars.put(SSVarU.sampleName,   par.sampleName);
   //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -566,12 +566,12 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //    SSRecommCalcLDAModelPar par = new SSRecommCalcLDAModelPar(parA);
   //    List<Integer>           betaValues;
   //
-  //		opPars = new HashMap<String, Object>();
+  //		opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.betaUpperBound, par.betaUpperBound);
   //
   //    betaValues   = recommBetaValues(new SSServPar(SSMethU.recommBetaValues, opPars));
@@ -582,7 +582,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //        LanguageModelCalculator.predictModelLDASample(par.sampleName + SSStrU.underline + counter, trainSize, testSize, (short)par.topics.intValue(), beta, par.modelBeta);
   //      }
   //
-  //      opPars = new HashMap<String, Object>();
+  //      opPars = new HashMap<>();
   //      opPars.put(SSVarU.sampleDir,    par.sampleDir);
   //      opPars.put(SSVarU.sampleName,   par.sampleName);
   //      opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -614,7 +614,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   //
   //    SSRecommCreateLanguageModelSamplesPar par = new SSRecommCreateLanguageModelSamplesPar(parA);
   //
-  //    opPars = new HashMap<String, Object>();
+  //    opPars = new HashMap<>();
   //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
   //
   //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
@@ -636,7 +636,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
 //  public List<Integer> recommBetaValues(SSServPar parA) throws Exception{
 //    
 //    SSRecommBetaValuesPar par        = new SSRecommBetaValuesPar(parA);
-//    List<Integer>         betaValues = new ArrayList<Integer>();
+//    List<Integer>         betaValues = new ArrayList<>();
 //    
 //    if (par.betaUpperBound < 0) {
 //      betaValues.add(par.betaUpperBound * (-1));
@@ -708,7 +708,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
 //    SSRecommCalcLDAPar  par = new SSRecommCalcLDAPar(parA);
 //    Map<String, Object> opPars;
 //    
-//    opPars = new HashMap<String, Object>();
+//    opPars = new HashMap<>();
 //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
 //    
 //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));
@@ -717,7 +717,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
 //      LdaMergedCalculator.predictSample(par.sampleName + SSStrU.underline + counter, trainSize, testSize, (short)par.topics.intValue());
 //    }
 //    
-//    opPars = new HashMap<String, Object>();
+//    opPars = new HashMap<>();
 //    opPars.put(SSVarU.sampleDir,    par.sampleDir);
 //    opPars.put(SSVarU.sampleName,   par.sampleName);
 //    opPars.put(SSVarU.sampleCount,  par.sampleCount);
@@ -734,7 +734,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
 //    SSRecommCreateLDASamplesPar par = new SSRecommCreateLDASamplesPar(parA);
 //    Map<String, Object>         opPars;
 //    
-//    opPars = new HashMap<String, Object>();
+//    opPars = new HashMap<>();
 //    opPars.put(SSVarU.sample, par.sampleName + SSStrU.underline + 1);
 //    
 //    recommTrainTestSize(new SSServPar(SSMethU.recommTrainTestSize, opPars));

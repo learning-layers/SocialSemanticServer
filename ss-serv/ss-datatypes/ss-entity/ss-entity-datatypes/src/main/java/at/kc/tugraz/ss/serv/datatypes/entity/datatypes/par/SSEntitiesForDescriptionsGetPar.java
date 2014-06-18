@@ -28,7 +28,7 @@ import java.util.List;
 
 public class SSEntitiesForDescriptionsGetPar extends SSServPar{
   
-  public List<String> keywords = new ArrayList<String>();
+  public List<String> keywords = new ArrayList<>();
     
   public SSEntitiesForDescriptionsGetPar(SSServPar par) throws Exception{
       

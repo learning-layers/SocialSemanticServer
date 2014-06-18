@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -31,17 +31,12 @@ import java.util.regex.Pattern;
 public class SSModelUEMILabel extends SSEntityA{
 
   public static SSModelUEMILabel get(final String string) throws Exception{
-    
-    if(string == null){
-      return null;
-    }
-    
     return new SSModelUEMILabel(string);
   }
   
   public static List<SSModelUEMILabel> get(final List<String> strings) throws Exception{
     
-    final List<SSModelUEMILabel> result = new ArrayList<SSModelUEMILabel>();
+    final List<SSModelUEMILabel> result = new ArrayList<>();
     
     for(String string: strings){
       result.add(get(string));
@@ -50,20 +45,27 @@ public class SSModelUEMILabel extends SSEntityA{
     return result;
   }
   
-  public static void checkMILabel(
+  public static Boolean isMILabel(
     final String miLabel) throws Exception {
 
-    if(SSStrU.isEmpty(miLabel)){
-      SSLogU.errThrow(new Exception("Invalid mi (null or empty): " + miLabel));
-      return;
-    }
-    
-    final String tmpMILabel = miLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-    
-    if(
-      SSStrU.isEmpty  (tmpMILabel) ||
-      !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpMILabel)){
-      SSLogU.errThrow(new Exception("Invalid mi: " + tmpMILabel));
+    try{
+      
+      if(SSStrU.isEmpty(miLabel)){
+        return false;
+      }
+
+      final String tmpMILabel = miLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+
+      if(
+        SSStrU.isEmpty  (tmpMILabel) ||
+        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpMILabel)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -71,7 +73,9 @@ public class SSModelUEMILabel extends SSEntityA{
     
     super(label);
     
-    checkMILabel(label);
+    if(!isMILabel(label)){
+     throw new Exception("invald mi label " + label);
+    }
   }
   
   @Override

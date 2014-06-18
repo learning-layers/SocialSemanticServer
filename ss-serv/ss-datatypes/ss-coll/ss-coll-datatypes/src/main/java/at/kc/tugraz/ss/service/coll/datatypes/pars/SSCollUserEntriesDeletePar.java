@@ -31,7 +31,7 @@ import java.util.List;
 public class SSCollUserEntriesDeletePar extends SSServPar{
   
   public SSUri       coll     = null;
-  public List<SSUri> entries  = new ArrayList<SSUri>();
+  public List<SSUri> entries  = new ArrayList<>();
       
   public SSCollUserEntriesDeletePar(SSServPar par) throws Exception{
     

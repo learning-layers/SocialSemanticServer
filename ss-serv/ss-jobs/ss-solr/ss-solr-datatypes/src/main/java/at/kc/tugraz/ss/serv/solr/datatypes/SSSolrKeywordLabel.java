@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.solr.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -29,38 +30,41 @@ import java.util.regex.Pattern;
 public class SSSolrKeywordLabel extends SSEntityA{
 
   public static SSSolrKeywordLabel get(final String string) throws Exception{
-    
-    if(string == null){
-      return null;
-    }
-        
     return new SSSolrKeywordLabel(string);
   }
   
   public static List<SSSolrKeywordLabel> get(final List<String> strings) throws Exception{
     
-    final List<SSSolrKeywordLabel> result = new ArrayList<SSSolrKeywordLabel>();
+    final List<SSSolrKeywordLabel> result = new ArrayList<>();
     
-    for(String string: strings){
+    for(String string : strings){
       result.add(get(string));
     }
     
     return result;
   }
   
-  public static void checkKeywordLabel(
-    final String tag) throws Exception {
-
-    if(SSStrU.isEmpty(tag)){
-      throw new Exception("Invalid tag (null or empty): " + tag);
-    }
+  public static Boolean isSolrKeywordLabel(
+    final String string) throws Exception{
     
-    final String tmpTag = tag.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-    
-    if(
-      SSStrU.isEmpty  (tmpTag) ||
-      !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTag)){
-      throw new Exception("Invalid tag: " + tmpTag);
+    try{
+      if(SSStrU.isEmpty(string)){
+        return false;
+      }
+      
+      final String tmpTag = string.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+      
+      if(
+        SSStrU.isEmpty  (tmpTag) ||
+        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTag)){
+        return false;
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -68,7 +72,9 @@ public class SSSolrKeywordLabel extends SSEntityA{
     
     super(label);
     
-    checkKeywordLabel(label);
+    if(!isSolrKeywordLabel(label)){
+      throw new Exception("invalid solr keyword " + label);
+    }
   }
   
   @Override
@@ -80,7 +86,7 @@ public class SSSolrKeywordLabel extends SSEntityA{
 //public static Collection<String> toString(
 //    SSTagString[] tagStrings){
 //    
-//    List<String> result = new ArrayList<String>();
+//    List<String> result = new ArrayList<>();
 //    
 //    for (SSTagString tagString : tagStrings){
 //      result.add(tagString.toString());

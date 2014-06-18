@@ -46,7 +46,7 @@ public class SSLearnEpCreateRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.learnEp, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
@@ -55,6 +55,6 @@ public class SSLearnEpCreateRet extends SSServRetI{
   
   /* getters to allow for json enconding */
   public String getLearnEp() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEp);
+    return SSStrU.removeTrailingSlash(learnEp);
   }
 }

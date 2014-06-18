@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSCollsUserCouldSubscribeGetRet extends SSServRetI{
  
-  public List<SSColl> colls = new ArrayList<SSColl>();
+  public List<SSColl> colls = new ArrayList<>();
 
   public static SSCollsUserCouldSubscribeGetRet get(final List<SSColl> colls, final SSMethU op){
     return new SSCollsUserCouldSubscribeGetRet(colls, op);
@@ -51,8 +51,8 @@ public class SSCollsUserCouldSubscribeGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<String, Object>();
-    final Map<String, Object> collsObj   = new HashMap<String, Object>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> collsObj   = new HashMap<>();
     
     collsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSColl.class.getName());
     collsObj.put(SSJSONLDU.container, SSJSONLDU.set);

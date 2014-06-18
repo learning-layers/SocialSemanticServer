@@ -46,7 +46,7 @@ public void deleteRatingAss(
     final SSUri userUri,
     final SSUri entityUri) throws Exception{
     
-    final Map<String, String> whereParNamesWithValues = new HashMap<String, String>();
+    final Map<String, String> whereParNamesWithValues = new HashMap<>();
     
     if(userUri != null){
       whereParNamesWithValues.put(SSSQLVarU.userId,   userUri.toString());
@@ -72,7 +72,7 @@ public void deleteRatingAss(
       return null;
     }
      
-    final Map<String, String> selectPars  = new HashMap<String, String>();
+    final Map<String, String> selectPars  = new HashMap<>();
     ResultSet                 resultSet   = null;
     
     selectPars.put(SSSQLVarU.userId,   userUri.toString());
@@ -101,7 +101,7 @@ public void deleteRatingAss(
       return;
     }
         
-    final Map<String, String> insertPars = new HashMap<String, String>();
+    final Map<String, String> insertPars = new HashMap<>();
 
     insertPars.put(SSSQLVarU.ratingId,     ratingUri.toString());
     insertPars.put(SSSQLVarU.userId,       userUri.toString());
@@ -122,7 +122,7 @@ public void deleteRatingAss(
     
     Integer                 ratingValue = 0;
     int                     counter     = 0;
-    HashMap<String, String> selectPars  = new HashMap<String, String>();
+    HashMap<String, String> selectPars  = new HashMap<>();
     ResultSet               resultSet   = null;
     
     selectPars.put(SSSQLVarU.userId,   userUri.toString());
@@ -158,7 +158,7 @@ public void deleteRatingAss(
     
     Double                  ratingValue  = 0d;
     int                     counter      = 0;
-    HashMap<String, String> selectPars   = new HashMap<String, String>();
+    HashMap<String, String> selectPars   = new HashMap<>();
     ResultSet               resultSet    = null;
     
     selectPars.put(SSSQLVarU.entityId, entityUri.toString());

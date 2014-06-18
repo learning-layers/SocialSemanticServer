@@ -47,7 +47,7 @@ public class SSModelUETopicScore extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.topic, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.level, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);

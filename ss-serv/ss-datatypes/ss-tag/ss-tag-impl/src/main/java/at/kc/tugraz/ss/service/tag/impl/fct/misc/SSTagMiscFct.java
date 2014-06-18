@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.impl.fct.misc;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -35,13 +36,13 @@ public class SSTagMiscFct {
     final List<SSTag> tags, 
     final SSSpaceE    space) throws Exception{
     
-    final Map<String, Integer> counterPerTags = new HashMap<String, Integer>();
+    final Map<String, Integer> counterPerTags = new HashMap<>();
     
     String tagLabel;
 
     for (SSTag tag : tags) {
 
-      tagLabel = SSTagLabel.toStr(tag.label);
+      tagLabel = SSStrU.toStr(tag.label);
         
       if(counterPerTags.containsKey(tagLabel)){
         counterPerTags.put(tagLabel, counterPerTags.get(tagLabel) + 1);
@@ -50,7 +51,7 @@ public class SSTagMiscFct {
       }
     }
 
-    final List<SSTagFrequ> outList = new ArrayList<SSTagFrequ>(counterPerTags.size());
+    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
 
     for(String key : counterPerTags.keySet()){
       
@@ -67,22 +68,22 @@ public class SSTagMiscFct {
 
 //  private void saveUETagAdd(SSServPar parA) throws Exception {
 //    
-//    Map<String, Object> opPars = new HashMap<String, Object>();
+//    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAddPar par = new SSTagAddPar(parA);
 //    
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
 //    opPars.put(SSVarU.eventType,    SSUEEnum.useTag);
-//    opPars.put(SSVarU.content,      SSStrU.toString(par.tagString));
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
 //    
 //    SSServReg.callServServer(new SSServPar(SSMethU.uEAdd, opPars));
 //    
-//    opPars = new HashMap<String, Object>();
+//    opPars = new HashMap<>();
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
-//    opPars.put(SSVarU.content,      SSStrU.toString(par.tagString));
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
 //    
 //    if(SSSpaceEnum.isShared(par.space)) {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.addSharedTag);
@@ -95,13 +96,13 @@ public class SSTagMiscFct {
   
 //  private void saveUETagDelete(SSServPar parA) throws Exception{
 //    
-//    Map<String, Object> opPars = new HashMap<String, Object>();
+//    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAssRemovePar par = new SSTagAssRemovePar(parA);
 //    
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
-//    opPars.put(SSVarU.content,      SSStrU.toString(par.tagString));
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
 //    
 //    if (SSSpaceEnum.isShared(par.space)) {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.removeSharedTag);
@@ -141,7 +142,7 @@ public class SSTagMiscFct {
 
 //  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws Exception{
 //    
-//    final Map<String, Long> creationTimesPerTag = new HashMap<String, Long>();
+//    final Map<String, Long> creationTimesPerTag = new HashMap<>();
 //    
 //    for(SSTag tag : tags){
 //      creationTimesPerTag.put(tag.label.toString(), entityCreationTimeGet(tag.uri));

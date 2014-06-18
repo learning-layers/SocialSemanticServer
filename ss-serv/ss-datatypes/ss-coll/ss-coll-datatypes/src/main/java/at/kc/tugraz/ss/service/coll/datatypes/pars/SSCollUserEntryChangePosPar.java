@@ -31,7 +31,7 @@ import java.util.List;
 public class SSCollUserEntryChangePosPar extends SSServPar{
   
   public  SSUri         coll         = null;
-  public  List<String>  order        = new ArrayList<String>();
+  public  List<String>  order        = new ArrayList<>();
   
   public SSCollUserEntryChangePosPar(SSServPar par) throws Exception{
     

@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import i5.las.httpConnector.client.TimeoutException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -59,7 +60,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
   public Map<String, String> i5CloudAuth(final SSServPar parA) throws Exception{
     
     final SSI5CloudAuthPar    par         = new SSI5CloudAuthPar(parA);
-    final Map<String, String> messageBody = new HashMap<String, String>();
+    final Map<String, String> messageBody = new HashMap<>();
     final HttpURLConnection   con;
     OutputStream              out         = null;
     
@@ -172,7 +173,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
     
     try{
       final SSI5CloudAchsoSemanticAnnotationsSetGetPar par                     = new SSI5CloudAchsoSemanticAnnotationsSetGetPar(parA);
-      final List<String>                               finalAnnotations        = new ArrayList<String>();
+      final List<String>                               finalAnnotations        = new ArrayList<>();
       
       if(
         lasCon == null){
@@ -186,7 +187,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
           (String[]) lasCon.invoke(
             "videoinformation",
             "getSemanticAnnotationsSet",
-            new Object[]{par.ids});
+            new Object[]{SSStrU.toArray(par.ids)});
       }catch(TimeoutException error){
         
         if(lasCon != null){
@@ -197,7 +198,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
         return i5CloudAchsoSemanticAnnotationsSetGet(parA);
       }
       
-      for(String annotation : SSStrU.asListWithoutNullAndEmpty(annotations)){
+      for(String annotation : SSStrU.distinctWithoutEmptyAndNull(annotations)){
         finalAnnotations.addAll(SSStrU.split(annotation, SSStrU.comma));
       }
       

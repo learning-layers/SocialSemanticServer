@@ -29,21 +29,20 @@ import java.util.List;
 public class SSTextComment extends SSEntityA {
 
   public static SSTextComment get(final String comment) throws Exception{
-    
-    if(comment == null){
-      return null;
-    }
-    
-    return new SSTextComment(SSStrU.replaceLineFeedsWithTextualRepr(comment));
+    return new SSTextComment(SSStrU.replaceAllLineFeedsWithTextualRepr(comment));
   }
 
-  private SSTextComment(final String value) throws Exception{
-    super(value);
+  public static Boolean isTextComment(final String string) throws Exception{
+    return string == null;
   }
   
   public static List<SSTextComment> asListWithoutNullAndEmpty(final SSTextComment... comments){
     
-    final List<SSTextComment> result = new ArrayList<SSTextComment>();
+    final List<SSTextComment> result = new ArrayList<>();
+    
+    if(comments == null){
+      return result;
+    }
     
     for(SSTextComment comment : comments){
       
@@ -54,10 +53,17 @@ public class SSTextComment extends SSEntityA {
       result.add(comment);
     }
     
-    
     return result;
   }
 
+  private SSTextComment(final String value) throws Exception{
+    super(value);
+    
+    if(!isTextComment(value)){
+      throw new Exception("invalid text comment " + value);
+    }
+  }
+  
   @Override
   public Object jsonLDDesc() {
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;

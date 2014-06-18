@@ -41,7 +41,7 @@ public class SSFileCanWriteRet extends SSServRetI{
 	
   @Override
   public Map<String, Object> jsonLDDesc(){
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.file,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.canWrite,    SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);

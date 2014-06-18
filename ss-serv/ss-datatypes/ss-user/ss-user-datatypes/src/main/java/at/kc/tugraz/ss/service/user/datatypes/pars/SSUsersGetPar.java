@@ -29,7 +29,7 @@ import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
-  public List<SSUri> users   = new ArrayList<SSUri>();
+  public List<SSUri> users   = new ArrayList<>();
   
   public SSUsersGetPar(SSServPar par) throws Exception{
    

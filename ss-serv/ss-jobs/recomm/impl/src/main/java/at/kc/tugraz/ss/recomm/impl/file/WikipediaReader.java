@@ -33,24 +33,24 @@ public class WikipediaReader {
 	public WikipediaReader(int countLimit, boolean stemming) {
 		this.countLimit = countLimit;
 		this.userLines = new ArrayList<UserData>();
-		this.categories = new ArrayList<String>();
+		this.categories = new ArrayList<>();
 		
-		this.tags = new ArrayList<String>();
-		this.tagMap = new HashMap<String, Integer>();
-		this.tagCounts = new ArrayList<Integer>();
-		this.resources = new ArrayList<String>();
-		this.resourceMap = new HashMap<String, Integer>();
-		this.resourceCounts = new ArrayList<Integer>();
-		this.users = new ArrayList<String>();
-		this.userMap = new HashMap<String, Integer>();
-		this.userCounts = new ArrayList<Integer>();
+		this.tags = new ArrayList<>();
+		this.tagMap = new HashMap<>();
+		this.tagCounts = new ArrayList<>();
+		this.resources = new ArrayList<>();
+		this.resourceMap = new HashMap<>();
+		this.resourceCounts = new ArrayList<>();
+		this.users = new ArrayList<>();
+		this.userMap = new HashMap<>();
+		this.userCounts = new ArrayList<>();
 	}
 	
   public boolean readFile(String filename) throws Exception{
     
     FileReader reader = new FileReader(new File(SSFileU.dirWorkingDataCsv() + filename + ".txt"));
     BufferedReader br = new BufferedReader(reader);
-    List<String> categories = new ArrayList<String>(), tags = new ArrayList<String>();
+    List<String> categories = new ArrayList<>(), tags = new ArrayList<>();
     UserData userData = null;
     String userID = "", wikiID = "", timestamp = "";
     String[] lineParts = null;
@@ -219,7 +219,7 @@ public class WikipediaReader {
 			userList.add(data.getUserID());
 		}
 		
-		List<Integer> result = new ArrayList<Integer>(userList);
+		List<Integer> result = new ArrayList<>(userList);
 		//Collections.sort(result);		
 		return result;
 	}
@@ -237,7 +237,7 @@ public class WikipediaReader {
 			List<Integer> resources = resourcesMap.get(userID);
 			
 			if (resources == null) {
-				resources = new ArrayList<Integer>();
+				resources = new ArrayList<>();
 			}
 			
 			resources.add(data.getWikiID());

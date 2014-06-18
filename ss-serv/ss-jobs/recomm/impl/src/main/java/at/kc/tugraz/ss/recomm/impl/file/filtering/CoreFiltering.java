@@ -54,7 +54,7 @@ public class CoreFiltering {
 			int userID = data.getUserID();
 			if (resIDs.contains(resID) && userIDs.contains(userID)) {
 				if (tagLevel > 0) {
-					ArrayList<Integer> tags = new ArrayList<Integer>();
+					ArrayList<Integer> tags = new ArrayList<>();
 					for (Integer tag : data.getTags()) {
 						if (tagIDs.contains(tag)) {
 							tags.add(tag);

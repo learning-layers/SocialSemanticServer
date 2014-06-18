@@ -28,8 +28,8 @@ import java.util.List;
 
 public class SSEntityUserCircleCreatePar extends SSServPar{
 
-  public List<SSUri>            entities     = new ArrayList<SSUri>();
-  public List<SSUri>            users        = new ArrayList<SSUri>();
+  public List<SSUri>            entities     = new ArrayList<>();
+  public List<SSUri>            users        = new ArrayList<>();
   public SSCircleE              type         = null;
   public SSLabel                label        = null;
   public SSTextComment          description  = null;

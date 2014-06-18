@@ -51,8 +51,8 @@ public class SSTagAsssGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<String, Object>();
-    Map<String, Object> tagsObj     = new HashMap<String, Object>();
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> tagsObj     = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTag.class.getName());
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);

@@ -25,14 +25,13 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSSearchSolrPar  extends SSServPar{
+public class SSSearchSolrPar extends SSServPar{
   
-  public List<SSSolrKeywordLabel>  keywords   = new ArrayList<SSSolrKeywordLabel>();
-  public String                    searchOp   = null;
+  public List<String>  keywords   = new ArrayList<>();
+  public String        searchOp   = null;
     
   public SSSearchSolrPar(SSServPar par) throws Exception{
       
@@ -41,12 +40,12 @@ public class SSSearchSolrPar  extends SSServPar{
     try{
       if(pars != null){
         searchOp   = (String)                   pars.get(SSVarU.searchOp);
-        keywords   = (List<SSSolrKeywordLabel>) pars.get(SSVarU.keywords);
+        keywords   = (List<String>) pars.get(SSVarU.keywords);
       }
       
       if(clientPars != null){
         searchOp   = (String) clientPars.get(SSVarU.searchOp);
-        keywords   = SSSolrKeywordLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywords), SSStrU.comma));
+        keywords   = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywords), SSStrU.comma);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -71,6 +70,6 @@ public class SSSearchSolrPar  extends SSServPar{
     this.user     = user;
     this.searchOp = searchOp;
     
-    this.keywords.addAll(SSSolrKeywordLabel.get(SSStrU.distinctWithoutEmptyAndNull(keywords)));
+    this.keywords.addAll(SSStrU.distinctWithoutEmptyAndNull(keywords));
   }
 }

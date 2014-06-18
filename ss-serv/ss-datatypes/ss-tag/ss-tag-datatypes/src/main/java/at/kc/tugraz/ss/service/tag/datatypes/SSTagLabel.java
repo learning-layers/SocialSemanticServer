@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.err.SSTagInvalidTagErr;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SSTagLabel extends SSEntityA{
   public static SSTagLabel get(
     final String string) throws Exception{
     
-    return new SSTagLabel(SSStrU.replace(string, SSStrU.blank, SSStrU.underline));
+    return new SSTagLabel(SSStrU.replaceAll(string, SSStrU.blank, SSStrU.underline));
   }
   
   public static List<SSTagLabel> get(
@@ -47,19 +48,26 @@ public class SSTagLabel extends SSEntityA{
     return result;
   }
   
-  public static void checkTagLabel(
+  public static Boolean isTagLabel(
     final String string) throws Exception {
-
-    if(SSStrU.isEmpty(string)){
-      throw new SSTagInvalidTagErr(string + " not a valid tag");
-    }
     
-    final String tmpTagLabel = string.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-    
-    if(
-      SSStrU.isEmpty(tmpTagLabel) ||
-      !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTagLabel)){
-      throw new SSTagInvalidTagErr(tmpTagLabel + " not a valid tag");
+    try{
+      if(SSStrU.isEmpty(string)){
+        return false;
+      }
+      
+      final String tmpTagLabel = string.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+      
+      if(
+        SSStrU.isEmpty(tmpTagLabel) ||
+        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTagLabel)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -72,14 +80,16 @@ public class SSTagLabel extends SSEntityA{
     
     super(label);
     
-    checkTagLabel(label);
+    if(!isTagLabel(label)){
+      throw new SSTagInvalidTagErr("invalid tag " + label);
+    }
   }
 }
 
 //public static Collection<String> toString(
 //    SSTagString[] tagStrings){
 //    
-//    List<String> result = new ArrayList<String>();
+//    List<String> result = new ArrayList<>();
 //    
 //    for (SSTagString tagString : tagStrings){
 //      result.add(tagString.toString());

@@ -32,8 +32,8 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
   public SSLabel      label          = null;
   public SSLabel      author         = null;
   public Long         creationTime   = null;
-  public List<String> keywords       = new ArrayList<String>();
-  public List<String> annotations    = new ArrayList<String>();
+  public List<String> keywords       = new ArrayList<>();
+  public List<String> annotations    = new ArrayList<>();
   
   public static SSi5CloudAchsoVideo get(
     final SSLabel      title,

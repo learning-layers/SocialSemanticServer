@@ -23,7 +23,7 @@ public class PearsonSimilarityCalculator {
 		double userSquareDifferenceSum = 0.0;
 		double neighboorSquareDifferenceSum = 0.0;
 		
-		Map<Integer, List<Double>> coratedItems = new HashMap<Integer, List<Double>>();
+		Map<Integer, List<Double>> coratedItems = new HashMap<>();
 		
 		double userRatingAverage = calculateAverageAndFillCoratedItems(userRatings, coratedItems);
 		double neighboorRatingAverage = calculateAverageAndFillCoratedItems(neighborRatings, coratedItems);

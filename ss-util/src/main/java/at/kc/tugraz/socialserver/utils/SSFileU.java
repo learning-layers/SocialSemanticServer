@@ -78,7 +78,7 @@ public class SSFileU{
 			folder = SSStrU.empty;
 		}
     
-		folder = SSStrU.replace(folder, SSStrU.backSlash, SSStrU.slash);
+		folder = SSStrU.replaceAll(folder, SSStrU.backSlash, SSStrU.slash);
     
     if(
       folder.endsWith      (SSStrU.slash) ||

@@ -39,7 +39,7 @@ public class SSEvernoteUriHelper {
      
       if(
         sharedNotebookGuids.contains   (notebook.getGuid()) &&
-        SSStrU.isNotEmpty              (notebook.getName())){
+        !SSStrU.isEmpty                (notebook.getName())){
         return SSUri.get(createSharedNotebookUriStr(userName, notebook));
       }
       
@@ -86,7 +86,7 @@ public class SSEvernoteUriHelper {
   private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws Exception{
     
     //TODO dtheiler: check evernote environment to use here
-    return SSLinkU.httpsEvernote + "pub/" + SSStrU.toString(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)
+    return SSLinkU.httpsEvernote + "pub/" + SSStrU.toStr(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)
   }
   
   private SSUri getNotebookDefaultUri(Notebook notebook) throws Exception{

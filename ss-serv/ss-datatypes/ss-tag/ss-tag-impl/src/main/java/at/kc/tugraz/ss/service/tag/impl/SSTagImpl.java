@@ -223,7 +223,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServCaller.entityAdd(
         par.user,
         tagUri,
-        SSLabel.get(SSTagLabel.toStr(par.label)),
+        SSLabel.get(SSStrU.toStr(par.label)),
         SSEntityE.tag,
         null,
         false);
@@ -231,7 +231,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(SSUri.toStr(par.entity)),
+        SSLabel.get(SSStrU.toStr(par.entity)),
         SSEntityE.entity,
         null,
         false);
@@ -276,7 +276,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServCaller.entityAddAtCreationTime(
         par.user,
         tagUri,
-        SSLabel.get(SSStrU.toString(par.label)),
+        SSLabel.get(SSStrU.toStr(par.label)),
         par.creationTime,
         SSEntityE.tag,
         null,
@@ -327,7 +327,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSServCaller.tagAdd(
           par.user, 
           par.entity, 
-          SSTagLabel.toStr(tagLabel), 
+          SSStrU.toStr(tagLabel), 
           par.space, 
           par.shouldCommit);
       }
@@ -363,7 +363,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSServCaller.tagAddAtCreationTime(
           par.user, 
           par.entity, 
-          SSTagLabel.toStr(tagString), 
+          SSStrU.toStr(tagString), 
           par.space, 
           par.creationTime, 
           false);
@@ -514,7 +514,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(par.space == null){
         
-        final List<SSUri> entityUris = new ArrayList<SSUri>();
+        final List<SSUri> entityUris = new ArrayList<>();
         
         entityUris.addAll(
           sqlFct.getEntitiesForTagLabel(
@@ -528,7 +528,9 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
           par.label,
           SSSpaceE.sharedSpace));
         
-        return SSUri.distinct(entityUris);
+        SSStrU.distinctWithoutEmptyAndNull2(entityUris);
+        
+        return entityUris;
       }
       
       if(SSSpaceE.isShared(par.space)){
@@ -568,7 +570,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(par.space == null){
         
-        final List<SSTag>      tags = new ArrayList<SSTag>();
+        final List<SSTag> tags = new ArrayList<>();
         
         tags.addAll (sqlFct.getTagAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
         tags.addAll (sqlFct.getTagAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
@@ -603,7 +605,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSServCaller.tagsUserGet(
           par.user,
           par.entity, 
-          SSTagLabel.toStr(par.label), 
+          SSStrU.toStr(par.label), 
           par.space);
       
       return SSTagMiscFct.getTagFrequsFromTags (tags, par.space);

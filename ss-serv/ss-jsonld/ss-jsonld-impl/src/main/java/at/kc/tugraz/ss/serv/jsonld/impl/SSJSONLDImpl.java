@@ -55,7 +55,7 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
     Class<?> clz    = Class.forName(par.type);
     Object[] consts = clz.getEnumConstants();
     
-    if(SSObjU.isNotNull(consts)){
+    if(!SSObjU.isNull(consts)){
       return consts[0].getClass().getDeclaredMethod(SSMethU.toStr(SSMethU.jsonLD)).invoke(consts[0]);
     }
     

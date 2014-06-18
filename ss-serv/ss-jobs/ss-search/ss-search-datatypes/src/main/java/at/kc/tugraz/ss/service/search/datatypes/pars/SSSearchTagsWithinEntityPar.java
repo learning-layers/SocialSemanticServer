@@ -31,7 +31,7 @@ import java.util.List;
 public class SSSearchTagsWithinEntityPar extends SSServPar{
   
   public SSUri         entity  = null;
-  public List<String>  tags    = new ArrayList<String>();
+  public List<String>  tags    = new ArrayList<>();
     
   public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
       

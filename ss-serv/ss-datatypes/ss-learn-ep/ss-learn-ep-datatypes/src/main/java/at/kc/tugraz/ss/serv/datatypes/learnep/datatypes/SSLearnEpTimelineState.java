@@ -51,7 +51,7 @@ public class SSLearnEpTimelineState extends SSEntityA {
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<String, Object>();
+    Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.id,                      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.learnEpVersion,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -63,11 +63,11 @@ public class SSLearnEpTimelineState extends SSEntityA {
   
   /* getters to allow for json enconding  */
   public String getId() throws Exception {
-    return SSUri.toStrWithoutSlash(id);
+    return SSStrU.removeTrailingSlash(id);
   }
   
    public String getLearnEpVersion() throws Exception {
-    return SSUri.toStrWithoutSlash(learnEpVersion);
+    return SSStrU.removeTrailingSlash(learnEpVersion);
   }
 
   public Long getStartTime() {

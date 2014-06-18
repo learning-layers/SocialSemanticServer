@@ -55,7 +55,7 @@ public class SSCloudPublishServiceRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld            = new HashMap<String, Object>();
+    final Map<String, Object> ld            = new HashMap<>();
     
     ld.put(SSVarU.sssNodeHost, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.sssNodePort, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);

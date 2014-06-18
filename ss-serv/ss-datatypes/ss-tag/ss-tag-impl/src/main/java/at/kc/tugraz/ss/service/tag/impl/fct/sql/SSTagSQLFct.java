@@ -54,7 +54,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         return false;
       }
       
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.label, tagLabel);
       where(wheres, SSSQLVarU.type,  SSEntityE.tag);
@@ -82,7 +82,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         return createTagURI();
       }
       
-      final Map<String, String>  wheres = new HashMap<String, String>();
+      final Map<String, String>  wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.label, tagString);
       where(wheres, SSSQLVarU.type,  SSEntityE.tag);
@@ -107,8 +107,8 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSSpaceE    space) throws Exception{
     
     try{
-      final Map<String, String> inserts    = new HashMap<String, String>();
-      final Map<String, String> uniqueKeys = new HashMap<String, String>();
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert    (inserts,    SSSQLVarU.userId,    userUri);
       insert    (inserts,    SSSQLVarU.entityId,  entityUri);
@@ -135,7 +135,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     
     try{
     
-      final Map<String, String> wheres = new HashMap<String, String>();
+      final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarU.userId,       userUri);
       where(wheres, SSSQLVarU.entityId,     entityUri);
@@ -164,8 +164,8 @@ public class SSTagSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres  = new HashMap<String, String>();
-      final Map<String, String> deletes = new HashMap<String, String>();
+      final Map<String, String> wheres  = new HashMap<>();
+      final Map<String, String> deletes = new HashMap<>();
       SSUri                     tagURI  = null;
       
       if(tagString != null){
@@ -226,11 +226,11 @@ public class SSTagSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres         = new HashMap<String, String>();
+      final Map<String, String> wheres         = new HashMap<>();
       final List<SSTag>         tagAsss        = new ArrayList<SSTag>();
-      final List<String>        tables         = new ArrayList<String>();
-      final List<String>        columns        = new ArrayList<String>();
-      final List<String>        tableCons      = new ArrayList<String>();
+      final List<String>        tables         = new ArrayList<>();
+      final List<String>        columns        = new ArrayList<>();
+      final List<String>        tableCons      = new ArrayList<>();
       final SSUri               tagURI         = getOrCreateTagURI(existsTagLabel(tagString), tagString);
 
       table    (tables,    tagAssTable);
@@ -293,8 +293,8 @@ public class SSTagSQLFct extends SSDBSQLFct{
         return new ArrayList<SSUri>();
       }
       
-      final Map<String, String> wheres       = new HashMap<String, String>();
-      final List<String>        columns      = new ArrayList<String>();
+      final Map<String, String> wheres       = new HashMap<>();
+      final List<String>        columns      = new ArrayList<>();
       
       where(wheres, SSSQLVarU.tagId, getOrCreateTagURI(true, tagString));
       

@@ -26,7 +26,7 @@ import java.util.List;
 public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
 
   public SSUri       circle  = null;
-  public List<SSUri> entities = new ArrayList<SSUri>();
+  public List<SSUri> entities = new ArrayList<>();
   
   public SSEntityUserEntitiesToCircleAddPar(final SSServPar par) throws Exception{
     
