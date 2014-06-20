@@ -4,7 +4,7 @@ SocialSemanticServer
 [![BuildStatus](http://layers.dbis.rwth-aachen.de/jenkins/buildStatus/icon?job=SocialSemanticServer)](http://layers.dbis.rwth-aachen.de/jenkins/job/SocialSemanticServer/)
 
 ## Description
-The main goal of the Social Semantic Server (SSS) is to establish an informal learning service framework for handling Social Semantic Network data. 
+The main goal of the Social Semantic Server (SSS) is to establish a framework for informal learning services which handles Social Semantic Network data. 
 By creating an infrastructure that allows for social negotiation of semantic meaning and enabling meaningful learning, it will enable situated and contextualized learning in turn.
 
 ![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/bba6324551551b41f43e3b630e2376ecde83c807/desc.jpg)
@@ -16,21 +16,27 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## How-to-use
 ### Set-up
-Please have a look at the [Learning Layers Open Developer Library](http://developer.learning-layers.eu/documentation/social-semantic-server/) for set up and below or in project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) for REST API access. In order to deploy and run your own server instance of the SSS, please follow instructions below. 
+In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
+####Java
+* please use Java 8.x
+
 ####Apache Maven
 * install from [Maven Site](http://maven.apache.org/download.cg)
 * check out the Maven installation guide at [Maven Guides](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 ####Apache Solr
-install Solr following instructions at [Solr Wiki](http://wiki.apache.org/solr/SolrInstall)
+* install Solr following instructions at [Solr Wiki](http://wiki.apache.org/solr/SolrInstall)
+
 ####MySQL database
-* install MySQL from [MySQL Site](http://www.mysql.com/downloads/)
+* install MySQL 5.6 from [MySQL Site](http://www.mysql.com/downloads/)
 * run `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup MySQL database
 
 ####SSS and REST adapter
-download the Social Semantic Server containing its REST adapter as well from github
+* download the Social Semantic Server containing its REST adapter as well from github
+
 ####Code import
-import the SSS project as Maven project into e.g. Netbeans or Eclipse
+* import the SSS project as Maven project into e.g. Netbeans or Eclipse
+
 ####Logging
 * modify `log4j.properties` in `SSS/ss/src/main/resources/conf/` for your needs
 * customize `log4j.properties` in `SSS/ss-adapter/ss-adapter-rest/src/main/resources`
