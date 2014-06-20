@@ -33,10 +33,15 @@ public class SSUri extends SSEntityA{
   public static Boolean isURI(final String string) throws Exception{
     
     try{
-  //    new URL(uriString); //import java.net.URL;
+      //    new URL(uriString); //import java.net.URL;
       
-      return string == null || !java.net.URI.create(URIUtil.encodeQuery(string)).isAbsolute();
+      if(
+        string == null ||
+        !java.net.URI.create(URIUtil.encodeQuery(string)).isAbsolute()){
+        return false;
+      }
       
+      return true;
     }catch(URIException error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -48,7 +53,7 @@ public class SSUri extends SSEntityA{
   }
   
   public static SSUri get(
-    final SSUri  uri, 
+    final SSUri  uri,
     final String append) throws Exception{
     
     if(SSObjU.isNull(uri, append)){
