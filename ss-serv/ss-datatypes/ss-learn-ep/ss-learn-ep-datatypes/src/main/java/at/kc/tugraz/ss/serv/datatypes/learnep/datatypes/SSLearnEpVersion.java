@@ -36,8 +36,8 @@ public class SSLearnEpVersion extends SSEntityA {
   public SSUri                 id           = null;
   public SSUri                 learnEp      = null;
   public String                timestamp    = null;
-  public List<SSLearnEpEntity> entities     = new ArrayList<SSLearnEpEntity>();
-  public List<SSLearnEpCircle> circles      = new ArrayList<SSLearnEpCircle>();
+  public List<SSLearnEpEntity> entities     = new ArrayList<>();
+  public List<SSLearnEpCircle> circles      = new ArrayList<>();
 
   public static SSLearnEpVersion get(SSUri learnEpVersionUri, SSUri learnEpUri, String timestamp, List<SSLearnEpEntity> entities, List<SSLearnEpCircle> circles) throws Exception{
     return new SSLearnEpVersion(learnEpVersionUri, learnEpUri, timestamp, entities, circles);

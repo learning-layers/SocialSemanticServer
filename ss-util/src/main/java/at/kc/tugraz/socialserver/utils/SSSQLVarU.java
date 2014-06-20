@@ -46,7 +46,6 @@ public class SSSQLVarU{
   public static final String learnEpCircleId                                = "learnEpCircleId";
   public static final String learnEpVersionId                               = "learnEpVersionId";
   public static final String learnEpId                                      = "learnEpId";
-  public static final String learnEpSpace                                   = "learnEpSpace";
   public static final String id                                             = "id";
   public static final String creationTime                                   = "creationTime";
   public static final String activityId                                     = "activityId";

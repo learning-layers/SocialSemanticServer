@@ -32,7 +32,8 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 import java.util.List;
 
 public class SSAuthServ extends SSServA{
@@ -50,7 +51,7 @@ public class SSAuthServ extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSAuthImpl((SSAuthConf)servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
   }
-
+  
   @Override
   protected void initServSpecificStuff() throws Exception{
     
@@ -59,9 +60,9 @@ public class SSAuthServ extends SSServA{
     }
     
     SSServCaller.authRegisterUser(
-      SSUserGlobals.systemUser,
-      SSUserGlobals.systemUserLabel,
-      ((SSAuthConf)servConf).systemUserPassword, 
+      SSVoc.systemUserUri,
+      SSVoc.systemUserLabel,
+      ((SSAuthConf)servConf).systemUserPassword,
       true);
     
     if(((SSAuthConf)servConf).initAtStartUp){

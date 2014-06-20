@@ -26,7 +26,8 @@ import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 import com.evernote.edam.type.Notebook;
@@ -50,7 +51,7 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
     NoteAttributes       noteAttr;
     ResourceAttributes   resourceAttr;
     
-    evernoteInfo = SSServCaller.evernoteNoteStoreGet(SSUserGlobals.systemUser, ((SSEvernoteConf)conf).authTokens.get(0));
+    evernoteInfo = SSServCaller.evernoteNoteStoreGet(SSVoc.systemUserUri, ((SSEvernoteConf)conf).authTokens.get(0));
     
     //      opPars = new HashMap<>();
     //      opPars.put(SSVarU.shouldCommit,  false);

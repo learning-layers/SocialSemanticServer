@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -71,7 +72,6 @@ public class SSServCaller {
   public static SSUri learnEpCreate(
     final SSUri    user, 
     final SSLabel  label,
-    final SSSpaceE space,
     final Boolean  shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -79,7 +79,6 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.label,         label);
-    opPars.put(SSVarU.space,         space);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpCreate, opPars));
   }
@@ -164,6 +163,18 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionSetTimelineState, opPars));
   }
   
+  public static SSLearnEpTimelineState learnEpVersionGetTimelineState(
+    final SSUri   user,
+    final SSUri   learnEpVersion) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,              user);
+    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
+    
+    return (SSLearnEpTimelineState) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionGetTimelineState, opPars));
+  }
+  
   public static SSUri learnEpVersionCreate(
     final SSUri    user, 
     final SSUri    learnEp, 
@@ -176,7 +187,6 @@ public class SSServCaller {
     opPars.put(SSVarU.learnEp,       learnEp);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionCreate, opPars));
-    
   }
   
   public static SSLearnEpVersion learnEpVersionCurrentGet(SSUri user) throws Exception{

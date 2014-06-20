@@ -37,7 +37,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -307,7 +308,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         circleUri, 
         SSLabel.get(SSStrU.empty), 
         SSEntityE.circle, 
-        SSUserGlobals.systemUser,
+        SSVoc.systemUserUri,
         null);
 
       insert(inserts, SSSQLVarU.circleId,   circleUri);
@@ -462,7 +463,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<SSEntityCircle>      circles    = new ArrayList<SSEntityCircle>();
+      final List<SSEntityCircle>      circles    = new ArrayList<>();
       final List<String>              tables     = new ArrayList<>();
       final Map<String, String>       wheres     = new HashMap<>();
       final List<String>              columns    = new ArrayList<>();
@@ -639,7 +640,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSStrU.equals(getEntity(circleUri).author, SSUserGlobals.systemUser);
+      return SSStrU.equals(getEntity(circleUri).author, SSVoc.systemUserUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -734,7 +735,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();
@@ -777,7 +778,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();
@@ -818,7 +819,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<SSEntity>            entities  = new ArrayList<SSEntity>();
+      final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();

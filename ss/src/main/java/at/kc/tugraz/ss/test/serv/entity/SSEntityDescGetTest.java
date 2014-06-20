@@ -29,7 +29,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 
 public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
@@ -43,8 +44,8 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     SSLogU.info("start " + op + " Test");
     
     SSEntityDescA entityDesc = SSServCaller.entityDescGet(
-      SSUserGlobals.systemUser, 
-      SSUserGlobals.systemUser,
+      SSVoc.systemUserUri, 
+      SSVoc.systemUserUri,
       true, 
       true, 
       true);

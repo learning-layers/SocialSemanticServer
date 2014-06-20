@@ -76,7 +76,7 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
@@ -86,7 +86,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -563,7 +563,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityUserCirclesGetPar par     = new SSEntityUserCirclesGetPar(parA);
-      final List<SSEntityCircle>            circles = new ArrayList<SSEntityCircle>();
+      final List<SSEntityCircle>            circles = new ArrayList<>();
       SSEntityCircle                        circle;
       
       for(SSUri circleUri : sqlFct.getCircleURIsForUser(par.user)){
@@ -1001,7 +1001,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.users,
           SSCircleE.group,
           SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.toStr(par.entity)),
-          SSUserGlobals.systemUser,
+          SSVoc.systemUserUri,
           SSTextComment.get("system circle"),
           false);
       
@@ -1027,7 +1027,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
       final List<SSUri>                   userUris        = new ArrayList<>();
       final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user);
-      final List<SSEntity>                users           = new ArrayList<SSEntity>();
+      final List<SSEntity>                users           = new ArrayList<>();
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
         

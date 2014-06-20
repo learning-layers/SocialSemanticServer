@@ -29,9 +29,10 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 
 public class SSDiscUserEntryAddFct{
   
@@ -76,7 +77,7 @@ public class SSDiscUserEntryAddFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSCircleE.priv, 
         discLabel,
-        SSUserGlobals.systemUser,
+        SSVoc.systemUserUri,
         null,
         false);
       

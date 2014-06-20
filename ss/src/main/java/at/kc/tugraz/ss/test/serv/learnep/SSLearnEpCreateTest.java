@@ -24,15 +24,15 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
+
+public class SSLearnEpCreateTest extends SSServOpTestCaseA{
   
-  public SSLearnEpVersionSetTimelineStateTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpVersionSetTimelineState);
+  public SSLearnEpCreateTest(final SSLearnEpConf learnEpConf) {
+    super(learnEpConf, SSMethU.learnEpCreate);
   }
   
   @Override
@@ -44,20 +44,6 @@ public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
       SSServCaller.learnEpCreate(
         SSVoc.systemUserUri, 
         SSLabel.get("my test learn ep"), 
-        true);
-    
-    final SSUri learnEpVersion = 
-      SSServCaller.learnEpVersionCreate(
-        SSVoc.systemUserUri,
-        learnEp,
-        true);
-    
-    final SSUri timeLineStateUri =
-      SSServCaller.learnEpVersionSetTimelineState(
-        SSVoc.systemUserUri,
-        learnEpVersion,
-        20L,
-        23L,
         true);
     
     System.out.println (op + " test end");

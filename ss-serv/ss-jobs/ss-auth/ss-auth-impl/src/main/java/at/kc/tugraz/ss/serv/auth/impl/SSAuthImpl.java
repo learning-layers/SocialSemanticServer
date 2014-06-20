@@ -45,7 +45,8 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthLoadKeysPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +97,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       for(Map.Entry<String, String> passwordForUser : passwordsForUsersFromCSVFile.entrySet()){
 
         SSServCaller.authRegisterUser(
-          SSUserGlobals.systemUser,
+          SSVoc.systemUserUri,
           SSLabel.get(passwordForUser.getKey()),
           passwordForUser.getValue(),
           false);
@@ -114,30 +115,20 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     
     try{
       
-      final SSAuthRegisterUserPar par               = new SSAuthRegisterUserPar(parA);
+      final SSAuthRegisterUserPar par      = new SSAuthRegisterUserPar(parA);
       final SSUri                 userUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(SSServCaller.entityExists(SSEntityE.user, par.label)){
-        userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
+      if(SSStrU.equals(par.label, SSVoc.systemUserLabel)){
+        userUri = SSAuthMiscFct.addSystemUser();
       }else{
-        
-        userUri = SSServCaller.vocURICreate();
-        
-        SSServCaller.entityAdd(
-          par.user,
-          userUri,
-          par.label,
-          SSEntityE.user,
-          null,
-          false);
-        
-        SSServCaller.entityEntitiesToCircleAdd(
-          par.user, 
-          SSServCaller.entityCircleURIPublicGet(), 
-          userUri, 
-          false);
+      
+        if(SSServCaller.entityExists(SSEntityE.user, par.label)){
+          userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
+        }else{
+          userUri = SSAuthMiscFct.addStandardUser(par.label);
+        }
       }
       
       if(!sqlFct.hasKey(userUri)){
@@ -176,7 +167,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         
         userUri =
           SSServCaller.authRegisterUser(
-            SSUserGlobals.systemUser,
+            SSVoc.systemUserUri,
             par.label,
             par.password,
             true);

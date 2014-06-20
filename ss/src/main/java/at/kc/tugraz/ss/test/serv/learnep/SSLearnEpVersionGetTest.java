@@ -29,10 +29,10 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
+public class SSLearnEpVersionGetTest extends SSServOpTestCaseA{
   
-  public SSLearnEpVersionSetTimelineStateTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpVersionSetTimelineState);
+  public SSLearnEpVersionGetTest(final SSLearnEpConf learnEpConf) {
+    super(learnEpConf, SSMethU.learnEpVersionGet);
   }
   
   @Override
@@ -52,13 +52,54 @@ public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
         learnEp,
         true);
     
-    final SSUri timeLineStateUri =
-      SSServCaller.learnEpVersionSetTimelineState(
+    final SSUri learnEpCircle1 = 
+      SSServCaller.learnEpVersionAddCircle(
         SSVoc.systemUserUri,
         learnEpVersion,
-        20L,
-        23L,
+        SSLabel.get("1 circle label"), 
+        1F, 
+        1F, 
+        1F, 
+        1F, 
+        1F, 
+        1F,
         true);
+    
+    final SSUri learnEpCircle2 = 
+      SSServCaller.learnEpVersionAddCircle(
+        SSVoc.systemUserUri,
+        learnEpVersion,
+        SSLabel.get("2 circle label"), 
+        1F, 
+        1F, 
+        1F, 
+        1F, 
+        1F, 
+        1F,
+        true);
+    
+    final SSUri learnEpEntity1 = 
+      SSServCaller.learnEpVersionAddEntity(
+        SSVoc.systemUserUri,
+        learnEpVersion,
+        SSUri.get("http://www.google.com"), 
+        1F, 
+        1F,
+        true);
+    
+    final SSUri learnEpEntity2 = 
+      SSServCaller.learnEpVersionAddEntity(
+        SSVoc.systemUserUri,
+        learnEpVersion,
+        SSUri.get("http://www.metallica.com"), 
+        1F, 
+        1F,
+        true);
+    
+    final SSLearnEpVersion version = 
+      SSServCaller.learnEpVersionGet(
+      SSVoc.systemUserUri,
+      learnEpVersion);
     
     System.out.println (op + " test end");
   }

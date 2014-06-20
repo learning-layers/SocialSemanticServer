@@ -24,9 +24,10 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import java.util.List;
 
 public class SSCollUserCummulatedTagsGetTest extends SSServOpTestCaseA{
@@ -39,8 +40,8 @@ public class SSCollUserCummulatedTagsGetTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     System.out.println (op + " test start");
-    final SSColl           rootColl                 = SSServCaller.collUserRootGet          (SSUserGlobals.systemUser);
-    final List<SSTagFrequ> collUserCumulatedTagsGet = SSServCaller.collUserCumulatedTagsGet (SSUserGlobals.systemUser, rootColl.id);
+    final SSColl           rootColl                 = SSServCaller.collUserRootGet          (SSVoc.systemUserUri);
+    final List<SSTagFrequ> collUserCumulatedTagsGet = SSServCaller.collUserCumulatedTagsGet (SSVoc.systemUserUri, rootColl.id);
     
     System.out.println (op + " test end");
   }

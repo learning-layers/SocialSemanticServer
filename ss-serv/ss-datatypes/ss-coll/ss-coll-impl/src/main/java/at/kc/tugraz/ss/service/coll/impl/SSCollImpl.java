@@ -61,6 +61,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -77,7 +78,7 @@ import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import java.util.*;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI{
@@ -407,7 +408,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         new ArrayList<>(),
         SSCircleE.priv,
         SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
-        SSUserGlobals.systemUser,
+        SSVoc.systemUserUri,
         null,
         false);
 

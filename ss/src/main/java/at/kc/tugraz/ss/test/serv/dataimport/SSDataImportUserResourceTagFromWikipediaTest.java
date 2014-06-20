@@ -25,7 +25,8 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 
 public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCaseA{
   
@@ -38,7 +39,7 @@ public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCa
     
     SSLogU.info(op + " test start");
     
-    SSServCaller.dataImportUserResourceTagFromWikipedia(SSUserGlobals.systemUser, true);
+    SSServCaller.dataImportUserResourceTagFromWikipedia(SSVoc.systemUserUri, true);
     
     SSLogU.info(op + " test end");
   }

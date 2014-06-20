@@ -26,8 +26,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOverallTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import java.util.List;
 
 public class SSCollOverallTest extends SSServOverallTestCaseA{
@@ -41,10 +42,10 @@ public class SSCollOverallTest extends SSServOverallTestCaseA{
     
     SSLogU.info("SSCollOverallTest start");
     
-    SSColl       rootColl      = SSServCaller.collUserRootGet      (SSUserGlobals.systemUser);
-    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd     (SSUserGlobals.systemUser, rootColl.id, null, SSLabel.get("firstColl"),  true, false, true);
-    SSUri        collSecondUri = SSServCaller.collUserEntryAdd     (SSUserGlobals.systemUser, collFirstUri, null, SSLabel.get("secondColl"), true, false, true);
-    List<SSColl> collHierarchy = SSServCaller.collUserHierarchyGet (SSUserGlobals.systemUser, collSecondUri);
+    SSColl       rootColl      = SSServCaller.collUserRootGet      (SSVoc.systemUserUri);
+    SSUri        collFirstUri  = SSServCaller.collUserEntryAdd     (SSVoc.systemUserUri, rootColl.id, null, SSLabel.get("firstColl"),  true, false, true);
+    SSUri        collSecondUri = SSServCaller.collUserEntryAdd     (SSVoc.systemUserUri, collFirstUri, null, SSLabel.get("secondColl"), true, false, true);
+    List<SSColl> collHierarchy = SSServCaller.collUserHierarchyGet (SSVoc.systemUserUri, collSecondUri);
     
     SSLogU.info(SSCollOverallTest.class.getName() + " end");
   }

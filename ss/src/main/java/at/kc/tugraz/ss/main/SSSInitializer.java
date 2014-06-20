@@ -46,7 +46,6 @@ import at.kc.tugraz.ss.serv.lomextractor.serv.SSLOMExtractorServ;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
 import at.kc.tugraz.ss.serv.scaff.serv.SSScaffServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
@@ -55,7 +54,7 @@ import at.kc.tugraz.ss.service.rating.service.SSRatingServ;
 import at.kc.tugraz.ss.service.search.service.SSSearchServ;
 import at.kc.tugraz.ss.service.solr.service.SSSolrServ;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
 
@@ -74,16 +73,15 @@ public class SSSInitializer extends SSServImplStartA{
 
       /* vocabulary */
       SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
-      
+
       /* util */
       SSMimeTypeU.init   ();
-      SSUserGlobals.init (SSServCaller.vocURIPrefixGet());
       
       SSJSONLDU.init(
         SSCoreConf.instGet().getJsonLDConf().uri,
         SSCoreConf.instGet().getVocConf().app, 
         SSCoreConf.instGet().getVocConf().space);
-
+      
       /* db  */
       SSDBGraph.inst.initServ           (SSCoreConf.instGet().getDbGraphConf());
       SSDBSQL.inst.initServ             (SSCoreConf.instGet().getDbSQLConf());
@@ -94,8 +92,8 @@ public class SSSInitializer extends SSServImplStartA{
       SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
       
       /* job  */
-      SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
       SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
+      SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
         
       /* json-ld  */
       SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());

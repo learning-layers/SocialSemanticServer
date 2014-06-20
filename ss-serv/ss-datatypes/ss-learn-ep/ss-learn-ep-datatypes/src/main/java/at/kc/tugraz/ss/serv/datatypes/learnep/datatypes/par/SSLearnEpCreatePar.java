@@ -23,13 +23,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpCreatePar extends SSServPar{
   
   public SSLabel   label = null;
-  public SSSpaceE  space = null;
   
   public SSLearnEpCreatePar(SSServPar par) throws Exception{
       
@@ -39,12 +37,10 @@ public class SSLearnEpCreatePar extends SSServPar{
       
       if(pars != null){
         label   = (SSLabel)  pars.get(SSVarU.label);
-        space   = (SSSpaceE) pars.get(SSVarU.space);
       }
       
       if(clientPars != null){
         label   = SSLabel.get (clientPars.get(SSVarU.label));
-        space   = SSSpaceE.get(clientPars.get(SSVarU.space));
       }
       
     }catch(Exception error){

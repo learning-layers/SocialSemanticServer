@@ -25,9 +25,10 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
   protected void test() throws Exception {
     
     System.out.println (op + " test start");
-    final SSColl           rootColl      = SSServCaller.collUserRootGet          (SSUserGlobals.systemUser);
+    final SSColl           rootColl      = SSServCaller.collUserRootGet          (SSVoc.systemUserUri);
     final List<SSUri>      collEntryUris = new ArrayList<>();
     final SSColl           rootCollAfterEntriesDelete;
     
@@ -49,9 +50,9 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
       collEntryUris.add(collEntry.id);
     }
     
-    SSServCaller.collUserEntriesDelete(SSUserGlobals.systemUser, rootColl.id, collEntryUris, true);
+    SSServCaller.collUserEntriesDelete(SSVoc.systemUserUri, rootColl.id, collEntryUris, true);
     
-    rootCollAfterEntriesDelete = SSServCaller.collUserRootGet(SSUserGlobals.systemUser);
+    rootCollAfterEntriesDelete = SSServCaller.collUserRootGet(SSVoc.systemUserUri);
       
     System.out.println (op + " test end");
   }

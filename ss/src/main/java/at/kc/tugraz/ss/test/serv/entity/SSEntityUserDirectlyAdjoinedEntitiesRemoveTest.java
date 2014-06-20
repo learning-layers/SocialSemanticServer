@@ -26,7 +26,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTestCaseA{
   
@@ -40,7 +41,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTest
     SSLogU.info("start " + op + " Test");
     
     SSUri entityUri = SSServCaller.entityUserDirectlyAdjoinedEntitiesRemove(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       SSUri.get("https://www.google.at/"), 
       true, 
       true, 

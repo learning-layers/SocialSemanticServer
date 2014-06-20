@@ -21,7 +21,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 
 public class SSEntityUserAllowedIsTest extends SSServOpTestCaseA{
   
@@ -38,7 +39,7 @@ public class SSEntityUserAllowedIsTest extends SSServOpTestCaseA{
     
     final Boolean result = 
       SSServCaller.entityUserCanAll(
-        SSUserGlobals.systemUser, 
+        SSVoc.systemUserUri, 
         SSUri.get("http://www.google.at"));
     
     SSLogU.info("end " + op + "Test");

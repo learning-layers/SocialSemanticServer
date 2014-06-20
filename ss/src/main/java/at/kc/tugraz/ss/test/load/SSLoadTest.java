@@ -25,7 +25,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServLoadTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 
 public class SSLoadTest extends SSServLoadTestCaseA{
   
@@ -43,11 +44,11 @@ public class SSLoadTest extends SSServLoadTestCaseA{
     
     SSLogU.info(SSLoadTest.class.getName() + " start");
     
-    rootCollUri  = SSServCaller.collUserRootGet   (SSUserGlobals.systemUser).id;
-    collUri      = SSServCaller.collUserEntryAdd  (SSUserGlobals.systemUser, rootCollUri, null, SSLabel.get("firstColl"), true, false, true);
+    rootCollUri  = SSServCaller.collUserRootGet   (SSVoc.systemUserUri).id;
+    collUri      = SSServCaller.collUserEntryAdd  (SSVoc.systemUserUri, rootCollUri, null, SSLabel.get("firstColl"), true, false, true);
     
     for(threadCounter = 0; threadCounter < maxThreads; threadCounter++){
-      new Thread(new SSLoadTestUEAdder     (null, SSUserGlobals.systemUser)).start();
+      new Thread(new SSLoadTestUEAdder     (null, SSVoc.systemUserUri)).start();
 //      new Thread(new SSLoadTestCollCreater (null, userUri)).start();
 //      new Thread(new SSLoadTestCollRemover(null, userUri)).start();
     }

@@ -27,7 +27,7 @@ import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 
- public class SSVocImpl extends SSServImplMiscA implements SSVocI{
+public class SSVocImpl extends SSServImplMiscA implements SSVocI{
  
   public SSVocImpl(final SSVocConf conf) throws Exception{
     super(conf);

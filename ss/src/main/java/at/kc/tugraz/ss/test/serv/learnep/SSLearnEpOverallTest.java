@@ -22,14 +22,14 @@ package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOverallTestCaseA;
-import at.kc.tugraz.ss.service.user.api.SSUserGlobals;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+
 import java.util.List;
 
 public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
@@ -41,22 +41,21 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
   @Override
   public void test() throws Exception{
     
-    SSUri learnEpUri = 
+    SSUri learnEpUri =
       SSServCaller.learnEpCreate(
-      SSUserGlobals.systemUser, 
-      SSLabel.get("learn ep dieter 1"), 
-      SSSpaceE.privateSpace, 
-      true);
+        SSVoc.systemUserUri,
+        SSLabel.get("learn ep dieter 1"),
+        true);
     
-    SSUri learnEpVersionUri = 
+    SSUri learnEpVersionUri =
       SSServCaller.learnEpVersionCreate(
-      SSUserGlobals.systemUser, 
-      learnEpUri, 
-      true);
+        SSVoc.systemUserUri,
+        learnEpUri,
+        true);
     
     SSUri learnEpCircleUri =
       SSServCaller.learnEpVersionAddCircle(
-      SSUserGlobals.systemUser,
+        SSVoc.systemUserUri,
       learnEpVersionUri,
       SSLabel.get("learn ep circle label"),
       Float.parseFloat("98"),
@@ -69,7 +68,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
 
     SSUri learnEpEntityUri = 
       SSServCaller.learnEpVersionAddEntity(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpVersionUri, 
       SSUri.get("http://google.com/"),
       Float.parseFloat("10"),
@@ -77,26 +76,26 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.learnEpVersionCurrentSet(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpVersionUri, 
       true);
     
     SSUri learnEpVersionTimelineStateUri = 
       SSServCaller.learnEpVersionSetTimelineState(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpVersionUri, 
       SSDateU.dateAsLong(), 
       SSDateU.dateAsLong(), 
       true);
 
     SSLearnEpVersion currentLearnEpVersion = 
-      SSServCaller.learnEpVersionCurrentGet(SSUserGlobals.systemUser);
+      SSServCaller.learnEpVersionCurrentGet(SSVoc.systemUserUri);
     
     SSLearnEpVersion learnEpVersion = 
-      SSServCaller.learnEpVersionGet(SSUserGlobals.systemUser, learnEpVersionUri);
+      SSServCaller.learnEpVersionGet(SSVoc.systemUserUri, learnEpVersionUri);
     
     SSServCaller.learnEpVersionUpdateCircle(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpCircleUri, 
       SSLabel.get("new Label"), 
       Float.parseFloat("1004"), 
@@ -108,7 +107,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.learnEpVersionUpdateEntity(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpEntityUri, 
       SSUri.get("http://metallica.com/"), 
       Float.parseFloat("44"),
@@ -116,21 +115,21 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       true);
     
     SSServCaller.learnEpVersionRemoveCircle(
-      SSUserGlobals.systemUser,
+      SSVoc.systemUserUri,
       learnEpCircleUri,
       true);
     
     SSServCaller.learnEpVersionRemoveEntity(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpEntityUri, 
       true);
     
     List<SSLearnEp>        learnEps        =
-      SSServCaller.learnEpsGet(SSUserGlobals.systemUser);
+      SSServCaller.learnEpsGet(SSVoc.systemUserUri);
     
     List<SSLearnEpVersion> learnEpVersions = 
       SSServCaller.learnEpVersionsGet(
-      SSUserGlobals.systemUser, 
+      SSVoc.systemUserUri, 
       learnEpUri);
   }
 }

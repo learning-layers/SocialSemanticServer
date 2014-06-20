@@ -20,17 +20,23 @@
 */
 package at.kc.tugraz.ss.serv.voc.serv;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
 import java.util.List;
 
 public class SSVoc extends SSServA{
   
-  public static final SSServA inst   = new SSVoc(null, SSVocI.class);
+  public static final SSServA inst            = new SSVoc(null, SSVocI.class);
+  public static SSLabel       systemUserLabel = null;
+  public static SSUri         systemUserUri   = null;
   
   protected SSVoc(
     final Class servImplClientInteraceClass, 
@@ -46,6 +52,9 @@ public class SSVoc extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    
+    systemUserLabel = SSLabel.get ("sytem");
+    systemUserUri   = SSUri.get   (SSStrU.toStr(SSServCaller.vocURIPrefixGet()) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
   }
   
   @Override

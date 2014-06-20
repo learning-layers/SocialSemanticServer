@@ -23,9 +23,12 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.security.MessageDigest;
 
 public class SSAuthMiscFct{
@@ -75,6 +78,50 @@ public class SSAuthMiscFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+
+  public static SSUri addSystemUser() throws Exception{
+    
+    if(!SSServCaller.entityExists(SSEntityE.user, SSLabel.get(SSVoc.systemUserLabel))){
+      
+      SSServCaller.entityAdd(
+        SSVoc.systemUserUri,
+        SSVoc.systemUserUri,
+        SSVoc.systemUserLabel,
+        SSEntityE.user,
+        null,
+        false);
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        SSVoc.systemUserUri,
+        SSServCaller.entityCircleURIPublicGet(),
+        SSVoc.systemUserUri,
+        false);
+    }
+    
+    return SSVoc.systemUserUri;
+  }
+
+  public static SSUri addStandardUser(
+    final SSLabel label) throws Exception{
+    
+    final SSUri userUri = SSServCaller.vocURICreate();
+    
+    SSServCaller.entityAdd(
+      SSVoc.systemUserUri,
+      userUri,
+      label,
+      SSEntityE.user,
+      null,
+      false);
+    
+    SSServCaller.entityEntitiesToCircleAdd(
+      SSVoc.systemUserUri,
+      SSServCaller.entityCircleURIPublicGet(),
+      userUri,
+      false);
+    
+    return userUri;
   }
 }
 

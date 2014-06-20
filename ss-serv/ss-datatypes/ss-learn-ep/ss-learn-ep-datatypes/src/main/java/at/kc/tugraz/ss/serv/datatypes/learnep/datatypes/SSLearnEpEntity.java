@@ -41,8 +41,8 @@ public class SSLearnEpEntity extends SSEntityA {
   private SSLearnEpEntity(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
     super(learnEpEntityUri);
     
-    this.id   = learnEpEntityUri;
-    this.entity          = entityUri;
+    this.id                 = learnEpEntityUri;
+    this.entity             = entityUri;
     this.x                  = x;
     this.y                  = y;
   }
