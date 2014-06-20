@@ -4,7 +4,7 @@ SocialSemanticServer
 [![BuildStatus](http://layers.dbis.rwth-aachen.de/jenkins/buildStatus/icon?job=SocialSemanticServer)](http://layers.dbis.rwth-aachen.de/jenkins/job/SocialSemanticServer/)
 
 ## Description
-The main goal of the Social Semantic Server (SSS) is to establish a framework for informal learning services which handles Social Semantic Network data. 
+The main goal of the Social Semantic Server (SSS) is to establish a framework to provide services for informal learning by handling Social Semantic Network data. 
 By creating an infrastructure that allows for social negotiation of semantic meaning and enabling meaningful learning, it will enable situated and contextualized learning in turn.
 
 ![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/bba6324551551b41f43e3b630e2376ecde83c807/desc.jpg)
@@ -16,7 +16,7 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## How-to-use
 ### Set-up
-In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
+In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
 ####Java
 * please use Java 8.x
 
