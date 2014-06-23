@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -32,14 +33,34 @@ import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 
 public class SSEntityActivityFct{
   
-  public static void entityShare(
+  public static void shareEntityWithUsers(
     final SSEntityUserSharePar par) throws Exception{
     
     try{
       
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.share,
+        SSActivityE.shareEntityWithUsers,
+        par.users,
+        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSTextComment.asListWithoutNullAndEmpty(par.comment),
+        false);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void copyEntitiesForUsers(
+    final SSEntityUserCopyPar par) throws Exception{
+    
+    try{
+      
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.copyEntityForUsers,
         par.users,
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(par.comment),

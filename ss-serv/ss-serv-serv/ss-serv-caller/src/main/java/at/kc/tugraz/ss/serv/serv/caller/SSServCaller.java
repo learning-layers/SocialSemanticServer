@@ -921,22 +921,24 @@ public class SSServCaller {
   
   /* entity */
   
-  public static SSUri entityUserCopy(
+  public static Boolean entityUserCopy(
     final SSUri         user,
     final SSUri         entity,
-    final SSUri         forUser,
+    final List<SSUri>   users,
     final List<SSUri>   entitiesToExclude,
+    final SSTextComment comment, 
     final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,               user);
     opPars.put(SSVarU.entity,             entity);
-    opPars.put(SSVarU.forUser,            forUser);
+    opPars.put(SSVarU.users,              users);
     opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
+    opPars.put(SSVarU.comment,            comment);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCopy, opPars));
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCopy, opPars));
   }
   
   public static SSUri entityUserShare(

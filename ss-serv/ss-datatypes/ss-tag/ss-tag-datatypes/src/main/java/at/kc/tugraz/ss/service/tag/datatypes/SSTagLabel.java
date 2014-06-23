@@ -39,7 +39,7 @@ public class SSTagLabel extends SSEntityA{
   public static List<SSTagLabel> get(
     final List<String> strings) throws Exception{
 
-    final List<SSTagLabel> result = new ArrayList<SSTagLabel>();
+    final List<SSTagLabel> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));

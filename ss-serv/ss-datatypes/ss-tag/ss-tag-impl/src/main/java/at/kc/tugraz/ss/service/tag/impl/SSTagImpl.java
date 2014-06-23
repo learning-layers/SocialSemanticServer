@@ -70,15 +70,15 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   /* SSEntityHandlerImplI */
 
-    @Override
-  public SSUri copyUserEntity(
+  @Override
+  public Boolean copyUserEntity(
     final SSUri        user,
-    final SSUri        forUser,
+    final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return null;
+    return false;
   }
   
   @Override

@@ -163,9 +163,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public SSUri copyUserEntity(
+  public Boolean copyUserEntity(
     final SSUri        user,
-    final SSUri        forUser, 
+    final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
@@ -173,15 +173,20 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       
       if(!SSEntityE.equals(entityType, SSEntityE.learnEp)){
-        return null;
+        return false;
       }
       
-      return SSServCaller.learnEpUserCopyForUser(
-        user,
-        forUser,
-        entity,
-        entitiesToExclude,
-        false);
+      for(SSUri forUser : users){
+        
+        SSServCaller.learnEpUserCopyForUser(
+          user,
+          forUser,
+          entity,
+          entitiesToExclude,
+          false);
+      }
+      
+      return true;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

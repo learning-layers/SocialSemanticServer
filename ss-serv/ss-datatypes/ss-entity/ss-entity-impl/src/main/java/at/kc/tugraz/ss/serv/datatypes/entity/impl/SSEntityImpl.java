@@ -76,7 +76,6 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -107,7 +106,86 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     sqlFct    = new SSEntitySQLFct   (this);
   }
   
-  /* SSEntityClientI */
+  @Override
+  public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+   
+    try{
+      
+      dbSQL.startTrans(true);
+      
+      final SSEntityUserCopyPar par = new SSEntityUserCopyPar(parA);
+      
+      par.shouldCommit = false;
+      
+      final Boolean result = entityUserCopy(par);
+      
+      SSEntityActivityFct.copyEntitiesForUsers(par);
+      
+      dbSQL.commit(true);
+      
+      sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(result, parA.op));
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        entityCopy(sSCon, parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+      }
+      
+    }catch(Exception error){
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override 
+  public Boolean entityUserCopy(final SSServPar parA) throws Exception{
+    
+    try{   
+      return entityUserCopy(new SSEntityUserCopyPar(parA));
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserCopy(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  protected Boolean entityUserCopy(final SSEntityUserCopyPar par) throws Exception{
+    
+    try{
+      
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSEntityMiscFct.copyEntityByEntityHandlers(
+        par.user,
+        par.entity,
+        par.entitiesToExclude,
+        par.users);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   @Override
   public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
@@ -122,9 +200,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       par.shouldCommit = false;
       
-      final SSUri                entityUri = entityUserShare(par);
+      final SSUri entityUri = entityUserShare(par);
       
-      SSEntityActivityFct.entityShare(par);
+      SSEntityActivityFct.shareEntityWithUsers(par);
       
       dbSQL.commit(true);
       
@@ -142,6 +220,61 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override 
+  public SSUri entityUserShare(final SSServPar parA) throws Exception{
+    
+    try{
+      return entityUserShare(new SSEntityUserSharePar(parA));
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserShare(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
+    
+    try{
+      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entity);
+      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.users);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      final SSUri circleUri =
+        SSServCaller.entityCircleCreate(
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(par.entity),
+          par.users,
+          SSCircleE.group,
+          SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.toStr(par.entity)),
+          SSVoc.systemUserUri,
+          SSTextComment.get("system circle"),
+          false);
+      
+      SSEntityMiscFct.shareByEntityHandlers(
+        par.user,
+        par.users,
+        par.entity,
+        circleUri);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return circleUri;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -224,16 +357,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
   }
-  
-  @Override
-  public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
-  }
-  
-  /* SSEntityServerI */
   
   @Override
   public List<SSEntity> entitiesForLabelsAndDescriptionsGet(final SSServPar parA) throws Exception{
@@ -942,45 +1065,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override 
-  public SSUri entityUserCopy(final SSServPar parA) throws Exception{
-    
-    try{
-
-      final SSEntityUserCopyPar par = new SSEntityUserCopyPar(parA);
-      final SSUri               copyEntity;
-      
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
-
-      copyEntity = 
-        SSEntityMiscFct.copyEntityByEntityHandlers(
-          par.user, 
-          par.entity,
-          par.entitiesToExclude,
-          par.forUser);
-
-      dbSQL.commit(par.shouldCommit);
-      
-      return copyEntity;
-      
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return entityUserCopy(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override 
   public SSUri entityUserPublicSet(final SSServPar parA) throws Exception{
     
     try{
@@ -1009,61 +1093,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
     }catch(Exception error){
       dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override 
-  public SSUri entityUserShare(final SSServPar parA) throws Exception{
-    
-    try{
-      return entityUserShare(new SSEntityUserSharePar(parA));
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return entityUserShare(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
-    
-    try{
-      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entity);
-      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.users);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri circleUri =
-        SSServCaller.entityCircleCreate(
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          par.users,
-          SSCircleE.group,
-          SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.toStr(par.entity)),
-          SSVoc.systemUserUri,
-          SSTextComment.get("system circle"),
-          false);
-      
-      SSEntityMiscFct.shareByEntityHandlers(
-        par.user,
-        par.users,
-        par.entity,
-        circleUri);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return circleUri;
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

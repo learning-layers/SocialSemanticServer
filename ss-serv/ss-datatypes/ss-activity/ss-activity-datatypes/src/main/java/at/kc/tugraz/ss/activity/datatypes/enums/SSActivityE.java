@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum SSActivityE{
-  share,
+
+  copyEntityForUsers,
+  shareEntityWithUsers,
   newDiscussionByDiscussEntity,
   discussEntity,
   addDiscussionComment;

@@ -95,14 +95,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   /* SSEntityHandlerImplI */
   
   @Override
-  public SSUri copyUserEntity(
+  public Boolean copyUserEntity(
     final SSUri        user,
-    final SSUri        forUser,
+    final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return null;
+    return false;
   }
   
   @Override

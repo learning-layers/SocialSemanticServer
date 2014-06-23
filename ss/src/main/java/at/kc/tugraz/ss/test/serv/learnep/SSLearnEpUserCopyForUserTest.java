@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -84,8 +85,9 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
     SSServCaller.entityUserCopy(
       SSVoc.systemUserUri, 
       learnEp, 
-      userToCopyFor, 
+      SSUri.asListWithoutNullAndEmpty(userToCopyFor), 
       SSUri.asListWithoutNullAndEmpty(SSUri.get("http://www.google.com/")),
+      SSTextComment.get("super comment"),
       true);
     
     final List<SSLearnEp> learnEps = SSServCaller.learnEpsGet(userToCopyFor);
@@ -96,22 +98,6 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
   @Override
   protected void testFromClient() throws Exception{
     
-//    jsonRequ            = 
-//      "{\"op\":\"learnEpVersionSetTimelineState\",\"user\":\"http://eval.bp/user/dt\",\"startTime\":1398782731238,\"endTime\":1398872731238,\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
-//    
-//    clientServPar                                               = new SSServPar                            (jsonRequ);
-//    final SSLearnEpVersionSetTimelineStatePar  serverServPar    = new SSLearnEpVersionSetTimelineStatePar  (clientServPar);
-//    final SSUri                                serverServResult =
-//      SSServCaller.learnEpVersionSetTimelineState(
-//        serverServPar.user,
-//        serverServPar.learnEpVersion,
-//        serverServPar.startTime,
-//        serverServPar.endTime,
-//        true);
-//    
-//    createJSONClientRetStr(SSLearnEpVersionSetTimelineStateRet.get(serverServResult, op));
-//      
-//    System.out.println (op + " test from client end");
   }
   
   @Override

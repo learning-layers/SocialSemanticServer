@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -25,9 +26,10 @@ import java.util.List;
 
 public class SSEntityUserCopyPar extends SSServPar{
   
-  public SSUri       entity            = null;
-  public SSUri       forUser           = null;
-  public List<SSUri> entitiesToExclude = new ArrayList<>();
+  public SSUri         entity             = null;
+  public List<SSUri>   users              = null;
+  public List<SSUri>   entitiesToExclude  = new ArrayList<>();
+  public SSTextComment comment            = null;
       
   public SSEntityUserCopyPar(final SSServPar par) throws Exception{
     
@@ -36,17 +38,22 @@ public class SSEntityUserCopyPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity            = (SSUri)       pars.get(SSVarU.entity);
-        forUser           = (SSUri)       pars.get(SSVarU.forUser);
-        entitiesToExclude = (List<SSUri>) pars.get(SSVarU.entitiesToExclude);
+        entity            = (SSUri)         pars.get(SSVarU.entity);
+        users             = (List<SSUri>)   pars.get(SSVarU.users);
+        entitiesToExclude = (List<SSUri>)   pars.get(SSVarU.entitiesToExclude);
+        comment           = (SSTextComment) pars.get(SSVarU.comment);
       }
       
       if(clientPars != null){
         entity       = SSUri.get (clientPars.get(SSVarU.entity));
-        forUser      = SSUri.get (clientPars.get(SSVarU.forUser));
+        users        = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
         
         try{
           entitiesToExclude = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entitiesToExclude), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          comment = SSTextComment.get(clientPars.get(SSVarU.comment));
         }catch(Exception error){}
       }
       

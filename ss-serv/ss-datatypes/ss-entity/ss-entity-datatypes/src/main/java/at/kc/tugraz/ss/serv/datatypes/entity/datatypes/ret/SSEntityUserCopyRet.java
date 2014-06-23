@@ -24,28 +24,27 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityUserCopyRet extends SSServRetI{
 
-  public SSUri entity = null;
+  public Boolean worked = null;
 
   public static SSEntityUserCopyRet get(
-    final SSUri   entity, 
-    final SSMethU op){
+    final Boolean  worked, 
+    final SSMethU  op){
     
-    return new SSEntityUserCopyRet(entity, op);
+    return new SSEntityUserCopyRet(worked, op);
   }
   
   private SSEntityUserCopyRet(
-    final SSUri   entity, 
-    final SSMethU op){
+    final Boolean   worked, 
+    final SSMethU   op){
     
     super(op);
     
-    this.entity = entity;
+    this.worked = worked;
   }
 
   @Override
@@ -53,12 +52,14 @@ public class SSEntityUserCopyRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.worked, SSVarU.sss + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }
   
-  public String getEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(entity);
+  /* json getters */
+  
+  public Boolean isWorked() throws Exception {
+    return worked;
   }
 }

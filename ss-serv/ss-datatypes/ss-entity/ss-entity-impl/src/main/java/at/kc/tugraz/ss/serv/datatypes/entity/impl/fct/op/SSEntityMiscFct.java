@@ -433,38 +433,32 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static SSUri copyEntityByEntityHandlers(
+  public static void copyEntityByEntityHandlers(
     final SSUri        user, 
     final SSUri        entity, 
     final List<SSUri>  entitiesToExclude,
-    final SSUri        forUser) throws Exception{
+    final List<SSUri>  users) throws Exception{
     
     try{
       
       final SSEntityE type = SSServCaller.entityGet(entity).type;
-      SSUri           copyEntity;
       
       if(SSEntityE.equals(type, SSEntityE.entity)){
         SSLogU.warn("entity couldnt be copied by entity handlers");
-        return null;
+        return;
       }
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
-        copyEntity = ((SSEntityHandlerImplI) serv.serv()).copyUserEntity(user, forUser, entity, entitiesToExclude, type);
-        
-        if(copyEntity != null){
-          return copyEntity;
+        if(((SSEntityHandlerImplI) serv.serv()).copyUserEntity(user, users, entity, entitiesToExclude, type)){
+         return; 
         }
       }
       
       SSLogU.warn("entity couldnt be copied by entity handlers");
       
-      return null;
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
 }
