@@ -59,7 +59,18 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   discUserTable                       = "discuser";
   protected static final String   discEntryTable                      = "discentry";
   protected static final String   discEntriesTable                    = "discentries";
-
+  protected static final String   learnEpUserTable                    = "learnepuser";
+  protected static final String   learnEpVersionCirclesTable          = "learnepversioncircles";
+  protected static final String   learnEpVersionEntitiesTable         = "learnepversionentities";
+  protected static final String   learnEpVersionTable                 = "learnepversion";
+  protected static final String   learnEpVersionCurrentTable          = "learnepversioncurrent";
+  protected static final String   learnEpVersionsTable                = "learnepversions";
+  protected static final String   learnEpVersionTimelineStatesTable   = "learnepversiontimelinestates";
+  protected static final String   learnEpTimelineStateTable           = "learneptimelinestate";
+  protected static final String   learnEpCircleTable                  = "learnepcircle";
+  protected static final String   learnEpTable                        = "learnep";
+  protected static final String   learnEpEntityTable                  = "learnepentity";
+  
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
     

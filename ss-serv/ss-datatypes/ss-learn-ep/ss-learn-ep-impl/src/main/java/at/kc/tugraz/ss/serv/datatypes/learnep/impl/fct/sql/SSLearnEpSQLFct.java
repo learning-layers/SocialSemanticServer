@@ -21,9 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -44,130 +42,8 @@ import java.util.Map;
 
 public class SSLearnEpSQLFct extends SSDBSQLFct{
   
-  protected final String               learnEpUserTable                    = "learnepuser";
-  protected final String               learnEpVersionCirclesTable          = "learnepversioncircles";
-  protected final String               learnEpVersionEntitiesTable         = "learnepversionentities";
-  protected final String               learnEpVersionTable                 = "learnepversion";
-  protected final String               learnEpVersionCurrentTable          = "learnepversioncurrent";
-  protected final String               learnEpVersionsTable                = "learnepversions";
-  protected final String               learnEpVersionTimelineStatesTable   = "learnepversiontimelinestates";
-  protected final String               learnEpTimelineStateTable           = "learneptimelinestate";
-  protected final String               learnEpCircleTable                  = "learnepcircle";
-  protected final String               learnEpTable                        = "learnep";
-  protected final String               learnEpEntityTable                  = "learnepentity";
-  
   public SSLearnEpSQLFct(SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
-  }
-  
-  public Boolean isLearnEp(SSUri entityUri) throws Exception{
-    
-    ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<>();
-    Boolean             isLearnEp  = false;
-    
-    selectPars.put(SSSQLVarU.learnEpId, entityUri.toString());
-    
-    try{
-      
-      resultSet  = dbSQL.select(learnEpTable, selectPars);
-      isLearnEp  = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return isLearnEp;
-  }
-
-  public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
-    
-    ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<>();
-    Boolean             isVersion  = false;
-    
-    selectPars.put(SSSQLVarU.learnEpVersionId, entityUri.toString());
-    
-    try{
-      
-      resultSet  = dbSQL.select(learnEpVersionTable, selectPars);
-      isVersion  = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return isVersion;
-  }
-
-  public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
-    
-    ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<>();
-    Boolean             isCircle   = false;
-    
-    selectPars.put(SSSQLVarU.learnEpCircleId, entityUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.select(learnEpCircleTable, selectPars);
-      isCircle  = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return isCircle;
-  }
-
-  public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
-    
-    ResultSet           resultSet  = null;
-    Map<String, String> selectPars = new HashMap<>();
-    Boolean             isEntity   = false;
-    
-    selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
-    
-    try{
-      
-      resultSet = dbSQL.select(learnEpEntityTable, selectPars);
-      isEntity  = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return isEntity;
-  }
-
-  public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
-    
-    ResultSet           resultSet         = null;
-    Map<String, String> selectPars        = new HashMap<>();
-    Boolean             isTimelineState   = false;
-    
-    selectPars.put(SSSQLVarU.learnEpTimelineStateId, entityUri.toString());
-    
-    try{
-      
-      resultSet       = dbSQL.select(learnEpTimelineStateTable, selectPars);
-      isTimelineState = resultSet.first();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-    
-    return isTimelineState;
   }
   
   public List<SSLearnEp> getLearnEps(
@@ -489,87 +365,88 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
   
-  public void removeEntity(SSUri entityUri) throws Exception{
-    
-    if(entityUri == null){
-      SSServErrReg.regErrThrow(new Exception("entityUri null"));
-      return;
-    }
-    
-    Map<String, String> deletePars = new HashMap<>();
-    
-    try{
-    
-      deletePars.put(SSSQLVarU.learnEpEntityId, SSStrU.toStr(entityUri));
-      
-      dbSQL.delete(learnEpEntityTable, deletePars);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void removeCircle(SSUri circleUri) throws Exception{
-    
-    if(circleUri == null){
-      SSServErrReg.regErrThrow(new Exception("circle uri null"));
-      return;
-    }
-    
-    Map<String, String> deletePars = new HashMap<>();
-    
-    try{
-    
-      deletePars.put(SSSQLVarU.learnEpCircleId, SSStrU.toStr(circleUri));
-      
-      dbSQL.delete(learnEpCircleTable, deletePars);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void updateCircle(
-    SSUri      learnEpCircleUri,
-    SSLabel label,
-    Float      xLabel,
-    Float      yLabel,
-    Float      xR,
-    Float      yR,
-    Float      xC,
-    Float      yC) throws Exception{
+    final SSUri      learnEpCircleUri,
+    final Float      xLabel,
+    final Float      yLabel,
+    final Float      xR,
+    final Float      yR,
+    final Float      xC,
+    final Float      yC) throws Exception{
     
-    Map<String, String> updatePars;
-    Map<String, String> newValues;
-    
-    updatePars = new HashMap<>();
-    newValues  = new HashMap<>();
-    updatePars.put(SSSQLVarU.learnEpCircleId,   learnEpCircleUri.toString());
-    newValues.put(SSSQLVarU.xLabel,             xLabel.toString());
-    newValues.put(SSSQLVarU.yLabel,             yLabel.toString());
-    newValues.put(SSSQLVarU.xR,                 xR.toString());
-    newValues.put(SSSQLVarU.yR,                 yR.toString());
-    newValues.put(SSSQLVarU.xC,                 xC.toString());
-    newValues.put(SSSQLVarU.yC,                 yC.toString());
-    
-    dbSQL.update(learnEpCircleTable, updatePars, newValues);
+    try{
+      final Map<String, String> wheres  = new HashMap<>();
+      final Map<String, String> updates = new HashMap<>();
+
+      where(wheres, SSSQLVarU.learnEpCircleId,   learnEpCircleUri);
+
+      if(xLabel != null){
+        update(updates, SSSQLVarU.xLabel,             xLabel);
+      }
+      
+      if(yLabel != null){
+        update(updates, SSSQLVarU.yLabel,             yLabel);
+      }
+      
+      if(xR != null){
+        update(updates, SSSQLVarU.xR,                 xR);
+      }
+      
+      if(yR != null){
+        update(updates, SSSQLVarU.yR,                 yR);
+      }
+      
+      if(xC != null){
+        update(updates, SSSQLVarU.xC,                 xC);
+      }
+      
+      if(yC != null){
+        update(updates, SSSQLVarU.yC,                 yC);
+      }
+
+      if(updates.isEmpty()){
+        return;
+      }
+      
+      dbSQL.update(learnEpCircleTable, wheres, updates);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   public void updateEntity(
-    SSUri    learnEpEntityUri,
-    SSUri    entityUri,
-    Float    x,
-    Float    y) throws Exception{
+    final SSUri    learnEpEntityUri,
+    final SSUri    entityUri,
+    final Float    x,
+    final Float    y) throws Exception{
     
-    Map<String, String> updatePars;
-    Map<String, String> newValues;
-    
-    updatePars = new HashMap<>();
-    newValues = new HashMap<>();
-    updatePars.put(SSSQLVarU.learnEpEntityId,   learnEpEntityUri.toString());
-    newValues.put(SSSQLVarU.entityId,           entityUri.toString());
-    newValues.put(SSSQLVarU.x,                  x.toString());
-    newValues.put(SSSQLVarU.y,                  y.toString());
-    
-    dbSQL.update(learnEpEntityTable, updatePars, newValues);
+    try{
+      final Map<String, String> wheres  = new HashMap<>();
+      final Map<String, String> updates = new HashMap<>();
+      
+      where(wheres ,  SSSQLVarU.learnEpEntityId,   learnEpEntityUri);
+      
+      if(entityUri != null){
+        update(updates, SSSQLVarU.entityId,          entityUri);
+      }
+      
+      if(x != null){
+        update(updates, SSSQLVarU.x,                 x);
+      }
+      
+      if(y != null){
+        update(updates, SSSQLVarU.y,                 y);
+      }
+
+      if(updates.isEmpty()){
+        return;
+      }
+      
+      dbSQL.update(learnEpEntityTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   public void addEntityToLearnEpVersion(
@@ -838,4 +715,114 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
 //    }
 //    
 //    return learnEpEntity;
+//  }
+
+//  public Boolean isLearnEp(SSUri entityUri) throws Exception{
+//    
+//    ResultSet           resultSet  = null;
+//    Map<String, String> selectPars = new HashMap<>();
+//    Boolean             isLearnEp  = false;
+//    
+//    selectPars.put(SSSQLVarU.learnEpId, entityUri.toString());
+//    
+//    try{
+//      
+//      resultSet  = dbSQL.select(learnEpTable, selectPars);
+//      isLearnEp  = resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return isLearnEp;
+//  }
+//
+//  public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
+//    
+//    ResultSet           resultSet  = null;
+//    Map<String, String> selectPars = new HashMap<>();
+//    Boolean             isVersion  = false;
+//    
+//    selectPars.put(SSSQLVarU.learnEpVersionId, entityUri.toString());
+//    
+//    try{
+//      
+//      resultSet  = dbSQL.select(learnEpVersionTable, selectPars);
+//      isVersion  = resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return isVersion;
+//  }
+//
+//  public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
+//    
+//    ResultSet           resultSet  = null;
+//    Map<String, String> selectPars = new HashMap<>();
+//    Boolean             isCircle   = false;
+//    
+//    selectPars.put(SSSQLVarU.learnEpCircleId, entityUri.toString());
+//    
+//    try{
+//      
+//      resultSet = dbSQL.select(learnEpCircleTable, selectPars);
+//      isCircle  = resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return isCircle;
+//  }
+//
+//  public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
+//    
+//    ResultSet           resultSet  = null;
+//    Map<String, String> selectPars = new HashMap<>();
+//    Boolean             isEntity   = false;
+//    
+//    selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
+//    
+//    try{
+//      
+//      resultSet = dbSQL.select(learnEpEntityTable, selectPars);
+//      isEntity  = resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return isEntity;
+//  }
+//
+//  public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
+//    
+//    ResultSet           resultSet         = null;
+//    Map<String, String> selectPars        = new HashMap<>();
+//    Boolean             isTimelineState   = false;
+//    
+//    selectPars.put(SSSQLVarU.learnEpTimelineStateId, entityUri.toString());
+//    
+//    try{
+//      
+//      resultSet       = dbSQL.select(learnEpTimelineStateTable, selectPars);
+//      isTimelineState = resultSet.first();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//    
+//    return isTimelineState;
 //  }

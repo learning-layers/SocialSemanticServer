@@ -347,162 +347,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   /* SSLearnEpServerI */
-  @Override
-  public Boolean learnEpVersionRemoveCircle(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
-      
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
-        throw new Exception("user cannot remove this learn ep circle");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.removeCircle(par.learnEpCircle);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return learnEpVersionRemoveCircle(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean learnEpVersionRemoveEntity(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
-      
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
-        throw new Exception("user cannot remove this learn ep entity");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.removeEntity(par.learnEpEntity);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return learnEpVersionRemoveEntity(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean learnEpVersionUpdateCircle(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
-      
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
-        throw new Exception("user cannot update this learn ep circle");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityLabelSet(
-        par.learnEpCircle, 
-        par.label, 
-        false);
-      
-      sqlFct.updateCircle(
-        par.learnEpCircle, 
-        par.label, 
-        par.xLabel,
-        par.yLabel,
-        par.xR, 
-        par.yR, 
-        par.xC, 
-        par.yC);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return learnEpVersionUpdateCircle(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean learnEpVersionUpdateEntity(SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parA);
-      
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
-        throw new Exception("user cannot update this learn ep entity");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityAdd(
-        par.user,
-        par.entity,
-        SSLabel.get(SSStrU.toStr(par.entity)), 
-        SSEntityE.entity,
-        null,
-        false);
-      
-      sqlFct.updateEntity(par.learnEpEntity, par.entity, par.x, par.y);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return learnEpVersionUpdateEntity(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
   
   @Override
   public SSUri learnEpCreate(final SSServPar parA) throws Exception {
@@ -907,6 +751,172 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       return sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean learnEpVersionRemoveCircle(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
+        throw new Exception("user cannot remove this learn ep circle");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityRemove(par.learnEpCircle, false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveCircle(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean learnEpVersionRemoveEntity(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
+        throw new Exception("user cannot remove this learn ep entity");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityRemove(par.learnEpEntity, false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionRemoveEntity(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean learnEpVersionUpdateCircle(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
+        throw new Exception("user cannot update this learn ep circle");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.label != null){
+        
+        SSServCaller.entityLabelSet(
+          par.learnEpCircle,
+          par.label,
+          false);
+      }
+      
+      sqlFct.updateCircle(
+        par.learnEpCircle, 
+        par.xLabel,
+        par.yLabel,
+        par.xR, 
+        par.yR, 
+        par.xC, 
+        par.yC);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateCircle(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean learnEpVersionUpdateEntity(SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
+        throw new Exception("user cannot update this learn ep entity");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.entity != null){
+        
+        SSServCaller.entityAdd(
+          par.user,
+          par.entity,
+          null,
+          SSEntityE.entity,
+          null,
+          false);
+      }
+      
+      sqlFct.updateEntity(
+        par.learnEpEntity, 
+        par.entity, 
+        par.x, 
+        par.y);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return learnEpVersionUpdateEntity(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

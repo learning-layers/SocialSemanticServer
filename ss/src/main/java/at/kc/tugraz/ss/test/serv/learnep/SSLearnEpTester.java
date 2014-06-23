@@ -47,6 +47,10 @@ public class SSLearnEpTester extends Thread{
       case learnEpVersionCurrentSet:       new Thread(new SSLearnEpVersionCurrentSetTest      (learnEpConf)).start(); break;
       case learnEpVersionSetTimelineState: new Thread(new SSLearnEpVersionSetTimelineStateTest(learnEpConf)).start(); break;
       case learnEpVersionGetTimelineState: new Thread(new SSLearnEpVersionGetTimelineStateTest(learnEpConf)).start(); break;
+      case learnEpVersionRemoveCircle:     new Thread(new SSLearnEpVersionRemoveCircleTest    (learnEpConf)).start(); break;
+      case learnEpVersionRemoveEntity:     new Thread(new SSLearnEpVersionRemoveEntityTest    (learnEpConf)).start(); break;
+      case learnEpVersionUpdateCircle:     new Thread(new SSLearnEpVersionUpdateCircleTest    (learnEpConf)).start(); break;
+      case learnEpVersionUpdateEntity:     new Thread(new SSLearnEpVersionUpdateEntityTest    (learnEpConf)).start(); break;
     }
   }
 }
