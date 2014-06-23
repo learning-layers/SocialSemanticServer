@@ -69,6 +69,24 @@ public class SSServCaller {
   
   /* learn ep */
   
+  public static SSUri learnEpUserShareWithUser(
+    final SSUri    user, 
+    final SSUri    forUser, 
+    final SSUri    entity, 
+    final SSUri    circle, 
+    final Boolean  shouldCommit) throws Exception{
+  
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,               user);
+    opPars.put(SSVarU.forUser,            forUser);
+    opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.circle,             circle);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpUserShareWithUser, opPars)); 
+  }
+    
   public static SSUri learnEpCreate(
     final SSUri    user, 
     final SSLabel  label,
@@ -878,13 +896,31 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarU.entity,      entity);
     
     return (Integer) SSServA.callServViaServer(new SSServPar(SSMethU.ratingUserGet, opPars));
   }
   
   /* entity */
   
+  public static SSUri entityUserShare(
+    final SSUri         user,
+    final SSUri         entity,
+    final List<SSUri>   users,
+    final SSTextComment comment,
+    final Boolean       shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.entity,        entity);
+    opPars.put(SSVarU.users,         users);
+    opPars.put(SSVarU.comment,       comment);
+    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserShare, opPars));
+  }
+    
   public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
     final List<String> keywords) throws Exception{
     

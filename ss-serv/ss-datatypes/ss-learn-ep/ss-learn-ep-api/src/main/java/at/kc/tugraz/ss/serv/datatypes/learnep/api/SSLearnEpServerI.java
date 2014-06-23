@@ -29,19 +29,21 @@ import java.util.List;
 
 public interface SSLearnEpServerI {
   
-  public List<SSLearnEp>        learnEpsGet                       (SSServPar parI) throws Exception;
-  public List<SSLearnEpVersion> learnEpVersionsGet                (SSServPar parI) throws Exception;
-  public SSLearnEpVersion       learnEpVersionGet                 (SSServPar parI) throws Exception;
-  public SSUri                  learnEpVersionCreate              (SSServPar parI) throws Exception;
-  public SSUri                  learnEpVersionAddCircle           (SSServPar parI) throws Exception;
-  public SSUri                  learnEpVersionAddEntity           (SSServPar parI) throws Exception;
-  public SSUri                  learnEpCreate                     (SSServPar parI) throws Exception;
-  public Boolean                learnEpVersionUpdateCircle        (SSServPar parI) throws Exception;
-  public Boolean                learnEpVersionUpdateEntity        (SSServPar parI) throws Exception;
-  public Boolean                learnEpVersionRemoveCircle        (SSServPar parI) throws Exception;
-  public Boolean                learnEpVersionRemoveEntity        (SSServPar parI) throws Exception;
-  public SSUri                  learnEpVersionSetTimelineState    (SSServPar parI) throws Exception;
-  public SSLearnEpTimelineState learnEpVersionGetTimelineState    (SSServPar parI) throws Exception;
-  public SSLearnEpVersion       learnEpVersionCurrentGet          (SSServPar parI) throws Exception;
-  public SSUri                  learnEpVersionCurrentSet          (SSServPar parI) throws Exception;
+  public List<SSLearnEp>        learnEpsGet                       (final SSServPar parA) throws Exception;
+  public List<SSLearnEpVersion> learnEpVersionsGet                (final SSServPar parA) throws Exception;
+  public SSLearnEpVersion       learnEpVersionGet                 (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpVersionCreate              (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpVersionAddCircle           (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpVersionAddEntity           (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpCreate                     (final SSServPar parA) throws Exception;
+  public Boolean                learnEpVersionUpdateCircle        (final SSServPar parA) throws Exception;
+  public Boolean                learnEpVersionUpdateEntity        (final SSServPar parA) throws Exception;
+  public Boolean                learnEpVersionRemoveCircle        (final SSServPar parA) throws Exception;
+  public Boolean                learnEpVersionRemoveEntity        (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpVersionSetTimelineState    (final SSServPar parA) throws Exception;
+  public SSLearnEpTimelineState learnEpVersionGetTimelineState    (final SSServPar parA) throws Exception;
+  public SSLearnEpVersion       learnEpVersionCurrentGet          (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpVersionCurrentSet          (final SSServPar parA) throws Exception;
+  
+  public SSUri                  learnEpUserShareWithUser          (final SSServPar parA) throws Exception;
 }

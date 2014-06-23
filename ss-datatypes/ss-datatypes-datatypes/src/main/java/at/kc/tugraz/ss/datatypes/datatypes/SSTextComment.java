@@ -33,7 +33,7 @@ public class SSTextComment extends SSEntityA {
   }
 
   public static Boolean isTextComment(final String string) throws Exception{
-    return string == null;
+    return string != null;
   }
   
   public static List<SSTextComment> asListWithoutNullAndEmpty(final SSTextComment... comments){

@@ -183,7 +183,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri        userUri,
     final SSUri        circleUri,
     final SSUri        entityUri,
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
 
     if(!SSEntityE.equals(entityType, SSEntityE.coll)){
       return false;

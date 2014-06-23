@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -44,6 +43,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineStateDe
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersionDesc;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
@@ -73,6 +73,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpdateEntityRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -123,7 +124,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
-    final SSEntityE   entityType,
+    final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
 
     return false;
@@ -131,13 +132,33 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Override
   public Boolean shareUserEntity(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          entityCircleUri,
+    final SSUri          user, 
+    final List<SSUri>    usersToShareWith,
+    final SSUri          entity,
+    final SSUri          circle,
     final SSEntityE      entityType) throws Exception{
     
-    return false;
+    try{
+      
+      if(!SSEntityE.equals(entityType, SSEntityE.learnEp)){
+        return false;
+      }
+      
+      for(SSUri userUriToShareWith : usersToShareWith){
+        
+        SSServCaller.learnEpUserShareWithUser(
+          user,
+          userUriToShareWith,
+          entity,
+          circle,
+          false);
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -145,7 +166,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
     
     return false;
   }
@@ -915,6 +936,50 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         return null;
       }
       
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri learnEpUserShareWithUser(final SSServPar parA) throws Exception{
+
+    try{
+      final SSLearnEpUserShareWithUserPar par = new SSLearnEpUserShareWithUserPar(parA);
+
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user cannot share this entity");
+      }
+      
+        if(
+          sqlFct.ownsUserLearnEp  (par.forUser, par.entity)){
+          throw new Exception("learn ep is already shared with user");
+        }
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSLearnEpMiscFct.shareLearnEpWithUser(
+          sqlFct, 
+          par.user, 
+          par.forUser,
+          par.entity, 
+          par.circle);
+        
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entity;
+
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return learnEpUserShareWithUser(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
     }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);

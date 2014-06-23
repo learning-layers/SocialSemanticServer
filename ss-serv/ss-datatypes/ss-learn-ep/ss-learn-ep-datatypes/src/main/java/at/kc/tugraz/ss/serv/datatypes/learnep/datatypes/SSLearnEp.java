@@ -44,7 +44,7 @@ public class SSLearnEp extends SSEntityA {
     super(learnEpUri);
     
     this.user        = user;
-    this.id  = learnEpUri;
+    this.id          = learnEpUri;
     this.label       = label;
   }
   

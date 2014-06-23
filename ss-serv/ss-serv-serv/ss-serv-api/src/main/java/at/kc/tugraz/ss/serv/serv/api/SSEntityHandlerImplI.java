@@ -56,10 +56,10 @@ public interface SSEntityHandlerImplI{
     final SSUri                    publicCircleUri) throws Exception;
 
   public Boolean shareUserEntity(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          circleUri,
+    final SSUri          user, 
+    final List<SSUri>    usersToShareWith,
+    final SSUri          entity, 
+    final SSUri          circle,
     final SSEntityE      entityType) throws Exception;
 
   public Boolean addEntityToCircle(

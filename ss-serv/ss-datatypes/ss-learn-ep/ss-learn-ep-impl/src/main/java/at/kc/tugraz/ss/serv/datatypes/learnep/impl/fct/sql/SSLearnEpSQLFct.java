@@ -46,6 +46,52 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
+  public List<SSUri> getLearnEpUserURIs(
+    final SSUri learnEp) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.learnEpId, learnEp);
+    
+      resultSet = dbSQL.select(learnEpUserTable, wheres);
+
+      return getURIsFromResult(resultSet, SSSQLVarU.userId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public Boolean ownsUserLearnEp(
+    final SSUri user, 
+    final SSUri learnEp) throws Exception {
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId,    user);
+      where(wheres, SSSQLVarU.learnEpId, learnEp);
+    
+      resultSet = dbSQL.select(learnEpUserTable, wheres);
+
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }  
+  
   public List<SSLearnEp> getLearnEps(
     final SSUri user) throws Exception{
     
@@ -487,7 +533,20 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       dbSQL.insert(learnEpTable, inserts);
       
-      inserts.clear();
+      addLearnEp(learnEpUri, user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addLearnEp(
+    final SSUri    learnEpUri,
+    final SSUri    user) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<>();
+      
       insert(inserts, SSSQLVarU.userId,    user);
       insert(inserts, SSSQLVarU.learnEpId, learnEpUri);
       

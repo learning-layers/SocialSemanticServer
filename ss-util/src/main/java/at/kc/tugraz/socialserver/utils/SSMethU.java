@@ -87,6 +87,7 @@ public enum SSMethU{
   learnEpVersionCreate                                ,
   learnEpVersionAddCircle                             ,
   learnEpVersionAddEntity                             ,
+  learnEpUserShareWithUser                            ,
   learnEpCreate                                       ,
   learnEpVersionUpdateCircle                          ,
   learnEpVersionUpdateEntity                          ,
