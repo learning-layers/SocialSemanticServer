@@ -15,15 +15,19 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSEntityUserCopyPar extends SSServPar{
   
-  public SSUri entity    = null;
-  public SSUri forUser   = null;
+  public SSUri       entity            = null;
+  public SSUri       forUser           = null;
+  public List<SSUri> entitiesToExclude = new ArrayList<>();
       
   public SSEntityUserCopyPar(final SSServPar par) throws Exception{
     
@@ -32,9 +36,20 @@ public class SSEntityUserCopyPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)     pars.get(SSVarU.entity);
-        forUser      = (SSUri)     pars.get(SSVarU.forUser);
+        entity            = (SSUri)       pars.get(SSVarU.entity);
+        forUser           = (SSUri)       pars.get(SSVarU.forUser);
+        entitiesToExclude = (List<SSUri>) pars.get(SSVarU.entitiesToExclude);
       }
+      
+      if(clientPars != null){
+        entity       = SSUri.get (clientPars.get(SSVarU.entity));
+        forUser      = SSUri.get (clientPars.get(SSVarU.forUser));
+        
+        try{
+          entitiesToExclude = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entitiesToExclude), SSStrU.comma));
+        }catch(Exception error){}
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

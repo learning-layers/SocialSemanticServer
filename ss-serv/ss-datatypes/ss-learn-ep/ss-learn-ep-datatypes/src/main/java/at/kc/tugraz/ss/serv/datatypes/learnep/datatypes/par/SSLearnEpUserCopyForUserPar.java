@@ -19,12 +19,15 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSLearnEpUserCopyForUserPar extends SSServPar{
   
-  public SSUri entity    = null;
-  public SSUri forUser   = null;
-      
+  public SSUri       entity            = null;
+  public SSUri       forUser           = null;
+  public List<SSUri> entitiesToExclude = new ArrayList<>();
+  
   public SSLearnEpUserCopyForUserPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -32,8 +35,9 @@ public class SSLearnEpUserCopyForUserPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)     pars.get(SSVarU.entity);
-        forUser      = (SSUri)     pars.get(SSVarU.forUser);
+        entity            = (SSUri)       pars.get(SSVarU.entity);
+        forUser           = (SSUri)       pars.get(SSVarU.forUser);
+        entitiesToExclude = (List<SSUri>) pars.get(SSVarU.entitiesToExclude);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

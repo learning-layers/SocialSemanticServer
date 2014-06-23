@@ -39,6 +39,7 @@ public class SSLearnEpMiscFct{
     final SSLearnEpSQLFct sqlFct,
     final SSUri           user,
     final SSUri           forUser,
+    final List<SSUri>     entitiesToExclude,
     final SSUri           learnEpUri) throws Exception{
     
     try{
@@ -62,6 +63,10 @@ public class SSLearnEpMiscFct{
         
         for(SSLearnEpCircle circle : version.circles){
           
+          if(SSStrU.contains(entitiesToExclude, circle.id)){
+            continue;
+          }
+            
           SSServCaller.learnEpVersionAddCircle(
             forUser, 
             copyVersionUri, 
@@ -77,6 +82,12 @@ public class SSLearnEpMiscFct{
         
         for(SSLearnEpEntity entity : version.entities){
           
+          if(
+            SSStrU.contains(entitiesToExclude, entity.id) ||
+            SSStrU.contains(entitiesToExclude, entity.entity)){
+            continue;
+          }
+                    
           SSServCaller.learnEpVersionAddEntity(
             forUser, 
             copyVersionUri, 

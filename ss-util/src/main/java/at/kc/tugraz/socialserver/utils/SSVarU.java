@@ -43,6 +43,7 @@ public class SSVarU{
   public static final String sssNodePort                                    = "sssNodePort";
   public static final String categoryFrequs                                 = "categoryFrequs";
   public static final String entity                                         = "entity";
+  public static final String entitiesToExclude                              = "entitiesToExclude";
   public static final String descType                                       = "descType";
   public static final String comment                                        = "comment";
   public static final String comments                                       = "comments";

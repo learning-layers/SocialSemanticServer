@@ -434,9 +434,10 @@ public class SSEntityMiscFct{
   }
   
   public static SSUri copyEntityByEntityHandlers(
-    final SSUri user, 
-    final SSUri entity, 
-    final SSUri forUser) throws Exception{
+    final SSUri        user, 
+    final SSUri        entity, 
+    final List<SSUri>  entitiesToExclude,
+    final SSUri        forUser) throws Exception{
     
     try{
       
@@ -450,7 +451,7 @@ public class SSEntityMiscFct{
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
         
-        copyEntity = ((SSEntityHandlerImplI) serv.serv()).copyUserEntity(user, forUser, entity, type);
+        copyEntity = ((SSEntityHandlerImplI) serv.serv()).copyUserEntity(user, forUser, entity, entitiesToExclude, type);
         
         if(copyEntity != null){
           return copyEntity;

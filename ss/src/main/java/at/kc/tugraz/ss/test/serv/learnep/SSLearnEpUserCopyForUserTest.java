@@ -85,6 +85,7 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
       SSVoc.systemUserUri, 
       learnEp, 
       userToCopyFor, 
+      SSUri.asListWithoutNullAndEmpty(SSUri.get("http://www.google.com/")),
       true);
     
     final List<SSLearnEp> learnEps = SSServCaller.learnEpsGet(userToCopyFor);

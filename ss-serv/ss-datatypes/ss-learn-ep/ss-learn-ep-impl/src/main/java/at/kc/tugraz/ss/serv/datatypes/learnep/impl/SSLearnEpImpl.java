@@ -167,6 +167,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     final SSUri        user,
     final SSUri        forUser, 
     final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
     try{
@@ -179,6 +180,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         user,
         forUser,
         entity,
+        entitiesToExclude,
         false);
       
     }catch(Exception error){
@@ -1037,6 +1039,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         sqlFct,
         par.user,
         par.forUser,
+        par.entitiesToExclude,
         par.entity);
       
       dbSQL.commit(par.shouldCommit);

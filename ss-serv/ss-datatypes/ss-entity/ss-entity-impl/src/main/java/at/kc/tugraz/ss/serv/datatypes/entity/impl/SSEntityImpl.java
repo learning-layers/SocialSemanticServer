@@ -956,7 +956,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       copyEntity = 
         SSEntityMiscFct.copyEntityByEntityHandlers(
           par.user, 
-          par.entity, 
+          par.entity,
+          par.entitiesToExclude,
           par.forUser);
 
       dbSQL.commit(par.shouldCommit);

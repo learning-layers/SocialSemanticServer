@@ -70,16 +70,18 @@ public class SSServCaller {
   /* learn ep */
   
   public static SSUri learnEpUserCopyForUser(
-    final SSUri   user,
-    final SSUri   forUser, 
-    final SSUri   entity,
-    final Boolean shouldCommit) throws Exception{
+    final SSUri       user,
+    final SSUri       forUser, 
+    final SSUri       entity,
+    final List<SSUri> entitiesToExclude,
+    final Boolean     shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,               user);
     opPars.put(SSVarU.forUser,            forUser);
     opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpUserCopyForUser, opPars)); 
@@ -923,14 +925,16 @@ public class SSServCaller {
     final SSUri         user,
     final SSUri         entity,
     final SSUri         forUser,
+    final List<SSUri>   entitiesToExclude,
     final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.entity,        entity);
-    opPars.put(SSVarU.forUser,       forUser);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    opPars.put(SSVarU.user,               user);
+    opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.forUser,            forUser);
+    opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCopy, opPars));
   }

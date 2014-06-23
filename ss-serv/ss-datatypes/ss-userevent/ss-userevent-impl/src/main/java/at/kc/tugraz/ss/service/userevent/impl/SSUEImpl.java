@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -72,10 +71,11 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   
   @Override
   public SSUri copyUserEntity(
-    final SSUri     user,
-    final SSUri     forUser,
-    final SSUri     entity,
-    final SSEntityE entityType) throws Exception{
+    final SSUri        user,
+    final SSUri        forUser,
+    final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
+    final SSEntityE    entityType) throws Exception{
     
     return null;
   }
