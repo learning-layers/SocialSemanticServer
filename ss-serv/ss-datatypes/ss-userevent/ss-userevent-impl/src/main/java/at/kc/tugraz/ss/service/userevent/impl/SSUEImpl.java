@@ -71,6 +71,16 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   /* SSEntityHandlerImplI */
   
   @Override
+  public SSUri copyUserEntity(
+    final SSUri     user,
+    final SSUri     forUser,
+    final SSUri     entity,
+    final SSEntityE entityType) throws Exception{
+    
+    return null;
+  }
+  
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,

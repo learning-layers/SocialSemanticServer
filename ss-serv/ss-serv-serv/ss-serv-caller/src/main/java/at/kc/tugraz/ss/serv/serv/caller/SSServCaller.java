@@ -69,6 +69,22 @@ public class SSServCaller {
   
   /* learn ep */
   
+  public static SSUri learnEpUserCopyForUser(
+    final SSUri   user,
+    final SSUri   forUser, 
+    final SSUri   entity,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,               user);
+    opPars.put(SSVarU.forUser,            forUser);
+    opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpUserCopyForUser, opPars)); 
+  }
+  
   public static SSUri learnEpUserShareWithUser(
     final SSUri    user, 
     final SSUri    forUser, 
@@ -902,6 +918,22 @@ public class SSServCaller {
   }
   
   /* entity */
+  
+  public static SSUri entityUserCopy(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSUri         forUser,
+    final Boolean       shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.entity,        entity);
+    opPars.put(SSVarU.forUser,       forUser);
+    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCopy, opPars));
+  }
   
   public static SSUri entityUserShare(
     final SSUri         user,

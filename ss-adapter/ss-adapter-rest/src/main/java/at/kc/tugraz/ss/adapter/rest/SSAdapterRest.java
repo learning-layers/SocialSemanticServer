@@ -213,6 +213,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityCopy")
+  public String entityCopy(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityCopy);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
   public String entityEntitiesToCircleAdd(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityEntitiesToCircleAdd);

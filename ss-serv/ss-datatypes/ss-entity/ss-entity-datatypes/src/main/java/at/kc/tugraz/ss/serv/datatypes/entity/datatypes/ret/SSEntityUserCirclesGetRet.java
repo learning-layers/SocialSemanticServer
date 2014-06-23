@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class SSEntityUserCirclesGetRet extends SSServRetI{
 
-  public List<SSEntityCircle> circles = new ArrayList<SSEntityCircle>();
+  public List<SSEntityCircle> circles = new ArrayList<>();
 
   public static SSEntityUserCirclesGetRet get(
     final List<SSEntityCircle> circles, 

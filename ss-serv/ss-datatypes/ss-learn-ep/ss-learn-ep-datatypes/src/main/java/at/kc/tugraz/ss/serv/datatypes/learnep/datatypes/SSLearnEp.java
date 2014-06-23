@@ -26,41 +26,125 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSLearnEp extends SSEntityA {
 
-  public SSUri       id         = null;
-  public SSUri       user       = null;
-  public SSLabel     label      = null;
+  public SSUri                   id          = null;
+  public SSUri                   user        = null;
+  public SSLabel                 label       = null;
+  public List<SSLearnEpVersion>  versions    = new ArrayList<>();
+  public List<SSCircleE>         circleTypes = new ArrayList<>();
+  
+//  public static SSLearnEp copy(
+//    final SSLearnEp learnEp) throws Exception{
+//    
+//    final SSLearnEp   copy = get(learnEp.user, learnEp.id, learnEp.label, null);
+//    SSLearnEpVersion  versionCopy;
+//    
+//    for(SSLearnEpVersion version : learnEp.versions){
+//      
+//      versionCopy =
+//        SSLearnEpVersion.get(
+//          version.id,
+//          version.learnEp,
+//          version.timestamp,
+//          null,
+//          null);
+//      
+//      for(SSLearnEpCircle circle : version.circles){
+//        
+//        versionCopy.circles.add(
+//          SSLearnEpCircle.get(
+//            circle.id,
+//            circle.label,
+//            circle.xLabel,
+//            circle.yLabel,
+//            circle.xR,
+//            circle.yR,
+//            circle.xC,
+//            circle.yC));
+//      }
+//      
+//      for(SSLearnEpEntity entity : version.entities){
+//        
+//        versionCopy.entities.add(
+//          SSLearnEpEntity.get(
+//            entity.id,
+//            entity.entity,
+//            entity.x,
+//            entity.y));
+//      }
+//      
+//      copy.versions.add(versionCopy);
+//    }
+//    
+//    return copy;
+//  }
 
-  public static SSLearnEp get(SSUri user, SSUri learnEpUri, SSLabel label)throws Exception{
-    return new SSLearnEp(user, learnEpUri, label);
+  public static SSLearnEp get(
+    final SSUri                  user, 
+    final SSUri                  id, 
+    final SSLabel                label,
+    final List<SSLearnEpVersion> versions,
+    final List<SSCircleE>        circleTypes) throws Exception{
+    
+    return new SSLearnEp(user, id, label, versions, circleTypes);
   }
   
-  private SSLearnEp(SSUri user, SSUri learnEpUri, SSLabel label)throws Exception{
+  private SSLearnEp(
+    final SSUri                  user, 
+    final SSUri                  id, 
+    final SSLabel                label,
+    final List<SSLearnEpVersion> versions,
+    final List<SSCircleE>        circleTypes) throws Exception{
     
-    super(learnEpUri);
+    super(id);
     
+    this.id          = id;
     this.user        = user;
-    this.id          = learnEpUri;
     this.label       = label;
+    
+    if(versions != null){
+      this.versions.addAll(versions);
+    }
+    
+    if(circleTypes != null){
+      this.circleTypes.addAll(circleTypes);
+    }
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld             = new HashMap<>();
+    final Map<String, Object> circleTypesObj = new HashMap<>();
+    final Map<String, Object> versionsObj    = new HashMap<>();
     
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
     
+    versionsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
+    versionsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.versions, versionsObj);
+    
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circleTypes, circleTypesObj);
+    
     return ld;
   }
   
   /* getters to allow for json enconding */
+  
   public String getUser() throws Exception {
     return SSStrU.removeTrailingSlash(user);
   }
@@ -72,4 +156,12 @@ public class SSLearnEp extends SSEntityA {
   public String getLabel() {
     return SSStrU.toStr(label);
   }
+  
+  public List<SSLearnEpVersion> getVersions() {
+    return versions;
+  }
+  
+  public List<SSCircleE> getCircleTypes(){
+    return circleTypes;
+  } 
 }

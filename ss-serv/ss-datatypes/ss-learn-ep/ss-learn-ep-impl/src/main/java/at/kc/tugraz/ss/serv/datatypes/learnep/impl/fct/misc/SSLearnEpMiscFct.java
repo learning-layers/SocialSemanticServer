@@ -18,12 +18,12 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -35,20 +35,80 @@ import java.util.List;
 
 public class SSLearnEpMiscFct{
   
+  public static SSUri copyLearnEpForUser(
+    final SSLearnEpSQLFct sqlFct,
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri           learnEpUri) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(sqlFct, user, forUser, learnEpUri)){
+        throw new Exception("pars null");
+      }
+      
+      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(user, learnEpUri);
+      SSUri           copyVersionUri;
+      
+      final SSUri copyLearnEpUri = 
+        SSServCaller.learnEpCreate(
+          forUser, 
+          learnEp.label, 
+          false);
+      
+      for(SSLearnEpVersion version : learnEp.versions){
+        
+        copyVersionUri = SSServCaller.learnEpVersionCreate(forUser, copyLearnEpUri, false);
+        
+        for(SSLearnEpCircle circle : version.circles){
+          
+          SSServCaller.learnEpVersionAddCircle(
+            forUser, 
+            copyVersionUri, 
+            circle.label, 
+            circle.xLabel, 
+            circle.yLabel, 
+            circle.xR, 
+            circle.yR, 
+            circle.xC, 
+            circle.yC,
+            false);
+        }
+        
+        for(SSLearnEpEntity entity : version.entities){
+          
+          SSServCaller.learnEpVersionAddEntity(
+            forUser, 
+            copyVersionUri, 
+            entity.entity, 
+            entity.x, 
+            entity.y, 
+            false);
+        }
+      }
+      
+      return copyLearnEpUri;
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public static void shareLearnEpWithUser(
     final SSLearnEpSQLFct sqlFct,
     final SSUri           user,
-    final SSUri           userToShareWith,
+    final SSUri           forUser,
     final SSUri           learnEp,
     final SSUri           circle) throws Exception{
     
     try{
       
-      if(SSObjU.isNull(sqlFct, user, userToShareWith, learnEp, circle)){
+      if(SSObjU.isNull(sqlFct, user, forUser, learnEp, circle)){
         throw new Exception("pars null");
       }
       
-      sqlFct.addLearnEp(learnEp, userToShareWith);
+      sqlFct.addLearnEp(learnEp, forUser);
       
       addLearnEpWithContentToCircle(
         sqlFct,

@@ -68,6 +68,16 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   /* SSEntityHandlerImplI */
   
   @Override
+  public SSUri copyUserEntity(
+    final SSUri     user,
+    final SSUri     forUser,
+    final SSUri     entity,
+    final SSEntityE entityType) throws Exception{
+    
+    return null;
+  }
+  
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,

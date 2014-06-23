@@ -92,8 +92,68 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }  
   
+  public SSLearnEp getLearnEpWithoutVersions(
+    final SSUri user, 
+    final SSUri learnEpUri) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.label);
+      
+      where(wheres, SSSQLVarU.learnEpId, learnEpUri);
+      where(wheres, SSSQLVarU.userId,    user);
+      
+      table(tables, learnEpUserTable);
+      table(tables, entityTable);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, learnEpUserTable, SSSQLVarU.learnEpId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      resultSet.first();
+      
+      return SSLearnEp.get(
+        user, 
+        learnEpUri, 
+        bindingStrToLabel(resultSet, SSSQLVarU.label), 
+        null, 
+        null);
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public SSLearnEp getLearnEpWithVersions(
+    final SSUri           user,
+    final SSUri           learnEpUri) throws Exception{
+    
+    try{
+      final SSLearnEp learnEp = getLearnEpWithoutVersions(user, learnEpUri);
+      
+      for(SSUri learnEpVersionUri : getLearnEpVersionURIs(learnEpUri)){
+        learnEp.versions.add(getLearnEpVersion(learnEpVersionUri));
+      }      
+
+      return learnEp;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public List<SSLearnEp> getLearnEps(
-    final SSUri user) throws Exception{
+    final SSUri           user) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -123,7 +183,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
           SSLearnEp.get(
             user, 
             bindingStrToUri   (resultSet, SSSQLVarU.learnEpId), 
-            bindingStrToLabel (resultSet, SSSQLVarU.label)));
+            bindingStrToLabel (resultSet, SSSQLVarU.label), 
+            null, 
+            null));
       }
       
       return learnEps;

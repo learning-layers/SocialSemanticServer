@@ -24,50 +24,41 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import java.util.ArrayList;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSEntityUserEntityUsersGetRet extends SSServRetI{
+public class SSEntityUserCopyRet extends SSServRetI{
 
-  public List<SSEntity> users = new ArrayList<>();
+  public SSUri entity = null;
 
-  public static SSEntityUserEntityUsersGetRet get(
-    final List<SSEntity> users,
-    final SSMethU        op){
+  public static SSEntityUserCopyRet get(
+    final SSUri   entity, 
+    final SSMethU op){
     
-    return new SSEntityUserEntityUsersGetRet(users, op);
+    return new SSEntityUserCopyRet(entity, op);
   }
   
-  private SSEntityUserEntityUsersGetRet(
-    final List<SSEntity> users,
-    final SSMethU        op) {
-
+  private SSEntityUserCopyRet(
+    final SSUri   entity, 
+    final SSMethU op){
+    
     super(op);
     
-    if(users != null){
-      this.users.addAll(users);
-    }
+    this.entity = entity;
   }
 
-   @Override
+  @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> usersObj   = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.users, usersObj);
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public List<SSEntity> getUsers() {
-    return users;
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

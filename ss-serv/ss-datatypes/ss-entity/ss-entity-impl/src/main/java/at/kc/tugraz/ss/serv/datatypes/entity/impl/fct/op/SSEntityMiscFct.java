@@ -317,7 +317,7 @@ public class SSEntityMiscFct{
       List<SSUri>        entityUris;
       
       if(SSEntityE.equals(type, SSEntityE.entity)){
-        return new ArrayList<SSUri>();
+        return new ArrayList<>();
       }
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
@@ -331,7 +331,7 @@ public class SSEntityMiscFct{
       
       SSLogU.warn("entity couldnt be searched within by entity handlers");
       
-      return new ArrayList<SSUri>();
+      return new ArrayList<>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -430,6 +430,40 @@ public class SSEntityMiscFct{
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static SSUri copyEntityByEntityHandlers(
+    final SSUri user, 
+    final SSUri entity, 
+    final SSUri forUser) throws Exception{
+    
+    try{
+      
+      final SSEntityE type = SSServCaller.entityGet(entity).type;
+      SSUri           copyEntity;
+      
+      if(SSEntityE.equals(type, SSEntityE.entity)){
+        SSLogU.warn("entity couldnt be copied by entity handlers");
+        return null;
+      }
+      
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        
+        copyEntity = ((SSEntityHandlerImplI) serv.serv()).copyUserEntity(user, forUser, entity, type);
+        
+        if(copyEntity != null){
+          return copyEntity;
+        }
+      }
+      
+      SSLogU.warn("entity couldnt be copied by entity handlers");
+      
+      return null;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

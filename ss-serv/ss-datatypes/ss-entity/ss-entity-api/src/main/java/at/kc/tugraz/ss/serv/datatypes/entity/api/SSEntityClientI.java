@@ -36,4 +36,5 @@ public interface SSEntityClientI {
   public void entityUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUserCirclesGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityEntityUsersGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityCopy                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

@@ -46,4 +46,5 @@ public interface SSLearnEpServerI {
   public SSUri                  learnEpVersionCurrentSet          (final SSServPar parA) throws Exception;
   
   public SSUri                  learnEpUserShareWithUser          (final SSServPar parA) throws Exception;
+  public SSUri                  learnEpUserCopyForUser            (final SSServPar parA) throws Exception;
 }

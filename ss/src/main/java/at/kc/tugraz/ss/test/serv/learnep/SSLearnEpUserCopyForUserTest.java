@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -31,10 +30,10 @@ import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.List;
 
-public class SSLearnEpUserShareWithUserTest extends SSServOpTestCaseA{
+public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
   
-  public SSLearnEpUserShareWithUserTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpUserShareWithUser);
+  public SSLearnEpUserCopyForUserTest(final SSLearnEpConf learnEpConf) {
+    super(learnEpConf, SSMethU.learnEpUserCopyForUser);
   }
   
   @Override
@@ -76,20 +75,19 @@ public class SSLearnEpUserShareWithUserTest extends SSServOpTestCaseA{
         1F,
         true);
     
-    final SSUri userToShareWith = SSServCaller.authRegisterUser(
+    final SSUri userToCopyFor = SSServCaller.authRegisterUser(
       SSVoc.systemUserUri,
       SSLabel.get("dieterTest"),
       "1234", 
       true);
     
-    SSServCaller.entityUserShare(
+    SSServCaller.entityUserCopy(
       SSVoc.systemUserUri, 
       learnEp, 
-      SSUri.asListWithoutNullAndEmpty(userToShareWith), 
-      SSTextComment.get("maybe the first learn ep share"),
+      userToCopyFor, 
       true);
     
-    final List<SSLearnEp> learnEps = SSServCaller.learnEpsGet(userToShareWith);
+    final List<SSLearnEp> learnEps = SSServCaller.learnEpsGet(userToCopyFor);
     
     System.out.println (op + " test end");
   }

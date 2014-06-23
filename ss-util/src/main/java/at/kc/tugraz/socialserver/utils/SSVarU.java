@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String versions                                       = "versions";
   public static final String description                                    = "description";
   public static final String activities                                     = "activities";
   public static final String types                                          = "types";

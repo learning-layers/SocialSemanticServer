@@ -78,9 +78,11 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
@@ -221,6 +223,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
+  }
+  
+  @Override
+  public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
   }
   
   /* SSEntityServerI */
@@ -926,6 +936,44 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       return false;
       
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override 
+  public SSUri entityUserCopy(final SSServPar parA) throws Exception{
+    
+    try{
+
+      final SSEntityUserCopyPar par = new SSEntityUserCopyPar(parA);
+      final SSUri               copyEntity;
+      
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      
+      dbSQL.startTrans(par.shouldCommit);
+
+      copyEntity = 
+        SSEntityMiscFct.copyEntityByEntityHandlers(
+          par.user, 
+          par.entity, 
+          par.forUser);
+
+      dbSQL.commit(par.shouldCommit);
+      
+      return copyEntity;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserCopy(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
