@@ -53,15 +53,10 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import java.util.*;
+import java.util.List;
 
 public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI, SSEntityDescriberI{
 
-//  private final String uriDefaultFile = SSStrU.PREFIX_HTTP + "at.tug.kc.socialServer" + SSStrU.slash + SSEntityEnum.file + SSStrU.slash;
-//  
-//  @Override
-//  public String vocUriDefaultFile() throws Exception{
-//    return uriDefaultFile;
-//  }
   private final SSFilerepoFct                             fct;
   private final Map<String, SSFileRepoFileAccessProperty> fileAccessProps;
 
@@ -154,16 +149,27 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       
       final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
       final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+      String       thumb    = null;
+      
+      if(par.getThumb){
+        
+        thumb =
+          SSFilerepoFct.getThumbBase64(
+            par.user,
+            par.entity,
+            fileExt);
+      }
       
       return SSFileDesc.get(
         entityDesc,
         fileExt,
-        mimeType);
+        mimeType, 
+        thumb);
     }
     
     return entityDesc;
   }
-
+  
   /* SSFileRepoClientI */
   @Override
   public void fileCanWrite(SSSocketCon sSCon, SSServPar par) throws Exception{

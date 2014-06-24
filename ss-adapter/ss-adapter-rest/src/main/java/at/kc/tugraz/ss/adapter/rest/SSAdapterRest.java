@@ -120,7 +120,7 @@ public class SSAdapterRest{
   @Path(SSStrU.slash + "fileThumbGet" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.id + SSStrU.curlyBracketClose)
   public Response fileThumbGet(@PathParam(SSVarU.id) String fileID){
     
-    String     jsonRequ       = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"user\":\"http://eval.bp/user/dt/\",\"fileId\":\"" + fileID + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+    String     jsonRequ       = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"user\":\"http://eval.bp/user/dt/\",\"file\":\"" + fileID + "\",\"key\":\"FischersFritzFischtFrischeFische\"}";
     List<Byte> bytesFromSS   = new ArrayList<>();
     String     imageString   = null;
     byte[]     bytes;
@@ -145,6 +145,7 @@ public class SSAdapterRest{
       nonPrimBytes = bytesFromSS.toArray(new Byte[bytesFromSS.size()]);
       imageString  = "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(nonPrimBytes));
 
+      imageString = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"result\":\"" + imageString + "\"}";
     }catch(Exception error){
       
       try{

@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.category.datatypes.err.SSCategoryLabelErr;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;

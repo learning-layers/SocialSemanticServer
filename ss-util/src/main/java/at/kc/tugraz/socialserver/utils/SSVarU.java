@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String thumb                                          = "thumb";
   public static final String count                                          = "count";
   public static final String versions                                       = "versions";
   public static final String description                                    = "description";
@@ -54,6 +55,7 @@ public class SSVarU{
   public static final String getOverallRating                               = "getOverallRating";
   public static final String getDiscs                                       = "getDiscs";
   public static final String getUEs                                         = "getUEs";
+  public static final String getThumb                                       = "getThumb";
   public static final String getTags                                        = "getTags";
   public static final String addNewDisc                                     = "addNewDisc";
   public static final String locations                                      = "locations";

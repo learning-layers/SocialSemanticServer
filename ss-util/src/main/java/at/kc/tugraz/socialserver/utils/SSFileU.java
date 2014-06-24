@@ -20,8 +20,26 @@
 */
  package at.kc.tugraz.socialserver.utils;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
 import java.io.*;
 import java.nio.charset.Charset;
+ import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.jpedal.PdfDecoder;
+import org.jpedal.fonts.FontMappings;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import com.lowagie.text.pdf.PdfWriter;
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.poi.hwpf.usermodel.Range;
 
 public class SSFileU{
 
@@ -324,7 +342,159 @@ public class SSFileU{
   public static File[] filesForDirPath(final String dirPath){
     return new File(correctDirPath(dirPath)).listFiles();
   }
+  
+  public static void writePDFFromDoc(
+    final String docFilePath,
+    final String pdfFilePath) throws Exception{
+    
+    final Document        document = new Document();
+    final POIFSFileSystem fs       = new POIFSFileSystem(openFileForRead(docFilePath));
+    final HWPFDocument    word     = new HWPFDocument  (fs);
+    final WordExtractor   we       = new WordExtractor (word);
+    final OutputStream    out      = openOrCreateFileWithPathForWrite(pdfFilePath);
+    final PdfWriter       writer   = PdfWriter.getInstance(document, out);
+    final Range           range    = word.getRange();
+    
+    document.open();
+    writer.setPageEmpty(true);
+    document.newPage();
+    writer.setPageEmpty(true);
+    
+    String[] paragraphs = we.getParagraphText();
+    
+    for (int i = 0; i < paragraphs.length; i++) {
+      
+      org.apache.poi.hwpf.usermodel.Paragraph pr = range.getParagraph(i);
+      // CharacterRun run = pr.getCharacterRun(i);
+      // run.setBold(true);
+      // run.setCapitalized(true);
+      // run.setItalic(true);
+      paragraphs[i] = paragraphs[i].replaceAll("\\cM?\r?\n", "");
+      System.out.println("Length:" + paragraphs[i].length());
+      System.out.println("Paragraph" + i + ": " + paragraphs[i].toString());
+      
+      // add the paragraph to the document
+      document.add(new Paragraph(paragraphs[i]));
+    }
+    
+    document.close();
+  }
+  
+  public static void writePNGFromPDF(
+    final String pdfFilePath, 
+    final String pngFilePath) throws Exception{
+    
+    PdfDecoder    pdfToImgDecoder = null;
+    BufferedImage buffImage;
+    File          pngFile;
+    Image         pngImage;
+    
+    try {
+      
+      pdfToImgDecoder = new PdfDecoder(true);
+      
+      FontMappings.setFontReplacements();
+      
+      pdfToImgDecoder.openPdfFile(pdfFilePath); //file
+      //decode_pdf.openPdfFile("C:/myPDF.pdf", "password"); //encrypted file
+      //decode_pdf.openPdfArray(bytes); //bytes is byte[] array with PDF
+      //decode_pdf.openPdfFileFromURL("http://www.mysite.com/myPDF.pdf",false);
+      
+      pdfToImgDecoder.setExtractionMode(0, 1f); //do not save images
+      /**get page 1 as an image*/
+      //page range if you want to extract all pages with a loop
+      //int start = 1,  end = decode_pdf.getPageCount();
+      buffImage = pdfToImgDecoder.getPageAsImage(1);
+      pngFile   = new File(pngFilePath);
+      
+      ImageIO.write(buffImage, SSFileExtU.png, pngFile);
+      
+      pngImage  = ImageIO.read(pngFile);
+      buffImage = (BufferedImage) pngImage;
+      
+      //scale the thumb
+      scalePNGAndWrite(buffImage, pngFile);
+      
+    }finally{
+      
+      if(pdfToImgDecoder != null){
+        pdfToImgDecoder.closePdfFile();
+      }
+    }
+  }
+  
+  public static void scalePNGAndWrite(
+    final BufferedImage buffImage, 
+    final File          pngFile) throws IOException{
+    
+    final BufferedImage scaledThumb = new BufferedImage(350, 350, BufferedImage.TYPE_INT_RGB);
+    final Graphics2D    graphics2D  = scaledThumb.createGraphics();
+    
+    graphics2D.setComposite(AlphaComposite.Src);
+    graphics2D.drawImage(buffImage, 0, 0, 350, 350, null);
+    graphics2D.dispose();
+    
+    ImageIO.write(scaledThumb, SSFileExtU.png, pngFile);
+  }
+  
+  public static String readPNGToBase64Str(
+    final String pngFilePath) throws Exception{
+    
+    final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(pngFilePath)));
+    final List<Byte>      bytes      = new ArrayList<>();
+    byte[]                chunk      = new byte[SSSocketU.socketTranmissionSize];
+    int                   fileChunkLength;
+    
+    while(true){
+      
+      fileChunkLength = fileReader.read(chunk);
+      
+      if(fileChunkLength == -1){
+        break;
+      }
+      
+      for(int counter = 0; counter < fileChunkLength; counter++){
+        bytes.add(chunk[counter]);
+      }
+    }
+    
+    return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
+  }
 }
+
+  //  private void writePDF(
+//    final String pdfFilePath, 
+//    final String filePath) throws Exception{
+//    
+//    FileOutputStream out      = null;
+//    ITextRenderer    renderer;
+//    String           uri;
+//    
+//    try{
+//      
+//      uri      = new File(filePath).toURI().toURL().toString();
+//      out      = new FileOutputStream(pdfFilePath);
+//      renderer = new ITextRenderer();
+//
+//      renderer.setDocument(uri);
+//      renderer.layout();
+//      renderer.createPDF(out);
+//      
+//    }catch(Exception error1) {
+//      SSServErrReg.regErrThrow(error1);
+//    }finally{
+//      
+//      if(out != null){
+//        
+//        try {
+//          out.close();
+//        } catch (IOException error2){
+//          SSServErrReg.regErrThrow(error2);
+//        }
+//      }
+//    }
+//  }
+  
 
 //  private static void existsDirTemp() throws Exception{
 //  

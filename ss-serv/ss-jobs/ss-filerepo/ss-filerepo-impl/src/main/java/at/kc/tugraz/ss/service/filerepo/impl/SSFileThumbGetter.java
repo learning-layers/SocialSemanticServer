@@ -42,10 +42,9 @@ public class SSFileThumbGetter extends SSServImplStartA{
   private SSSocketCon              sSCon             = null;
   private SSFileThumbGetPar        par               = null;
   
-  
   public SSFileThumbGetter(
-    final SSFileRepoConf fileRepoConf, 
-    final SSSocketCon    sSCon, 
+    final SSFileRepoConf fileRepoConf,
+    final SSSocketCon    sSCon,
     final SSServPar      parA) throws Exception{
     
     super(fileRepoConf);
@@ -54,11 +53,11 @@ public class SSFileThumbGetter extends SSServImplStartA{
     this.par                  = new SSFileThumbGetPar(parA);
     
     switch(fileRepoConf.fileRepoType){
-        case fileSys:
-          fileReader = new DataInputStream (new FileInputStream(new File(fileRepoConf.getPath() + this.par.file)));
-          break;
-        default:
-          throw new UnsupportedOperationException("impl. currently not supported");
+      case fileSys:
+        fileReader = new DataInputStream (new FileInputStream(new File(fileRepoConf.getPath() + this.par.file)));
+        break;
+      default:
+        throw new UnsupportedOperationException("impl. currently not supported");
     }
   }
   
