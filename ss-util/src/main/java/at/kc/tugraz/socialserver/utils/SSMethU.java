@@ -54,6 +54,8 @@ public enum SSMethU{
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityLabelSet                                      ,
+  entityUserUpdate                                        ,
+  entityUpdate ,
   entityCirclePublicAdd,
   entityCircleURIPublicGet,
   entityUserCircleDelete,

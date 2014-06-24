@@ -77,13 +77,16 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -279,6 +282,86 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
+  @Deprecated
+  public void entityLabelSet(SSSocketCon sSCon, SSServPar par) throws Exception {
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSEntityLabelSetRet.get(entityLabelSet(par), par.op));
+  }
+  
+  @Override
+  @Deprecated
+  public SSUri entityLabelSet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityLabelSetPar par = new SSEntityLabelSetPar(parA);
+      
+      sqlFct.updateEntityIfExists(
+        par.entity, 
+        par.label, 
+        null);
+      
+      return par.entity;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityLabelSet(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entityUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op));
+  }
+  
+  @Override
+  public SSUri entityUserUpdate(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityUserUpdatePar par = new SSEntityUserUpdatePar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+          throw new Exception("user cannot update entity");
+        }
+      
+      sqlFct.updateEntityIfExists(
+        par.entity, 
+        par.label, 
+        par.description);
+      
+      return par.entity;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserUpdate(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void entityDescGet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
@@ -292,14 +375,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
-  }
-  
-  @Override
-  public void entityLabelSet(SSSocketCon sSCon, SSServPar par) throws Exception {
-    
-    SSServCaller.checkKey(par);
-    
-    sSCon.writeRetFullToClient(SSEntityLabelSetRet.get(entityLabelSet(par), par.op));
   }
   
   @Override
@@ -531,19 +606,22 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSUri entityLabelSet(final SSServPar parA) throws Exception{
+  public SSUri entityUpdate(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSEntityLabelSetPar par = new SSEntityLabelSetPar(parA);
+      final SSEntityUpdatePar par = new SSEntityUpdatePar(parA);
       
-      sqlFct.updateEntityLabelIfExists(par.entity, par.label);
+      sqlFct.updateEntityIfExists(
+        par.entity, 
+        par.label, 
+        par.description);
       
       return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return entityLabelSet(parA);
+        return entityUserUpdate(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -899,8 +977,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityMostOpenCircleTypeGetPar par                = new SSEntityMostOpenCircleTypeGetPar(parA);
-      SSCircleE                    mostOpenCircleType = SSCircleE.priv;
-      
+      SSCircleE                              mostOpenCircleType = SSCircleE.priv;
       
       for(SSCircleE circleType : sqlFct.getCircleTypesForEntity(par.entity)){
         

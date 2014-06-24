@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -51,6 +52,35 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
 
+  public Boolean existsEntity(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> where = new HashMap<>();
+      
+      where(where, SSSQLVarU.id, entity);
+      
+      resultSet = dbSQL.select(entityTable, where);
+      
+      try{
+        checkFirstResult(resultSet);
+        return true;
+      }catch(SSNoResultFoundErr error){
+        return false;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+    
+    
   public SSEntity getEntity(
     final SSUri entityUri) throws Exception{
     
@@ -208,20 +238,32 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void updateEntityLabelIfExists(
-    final SSUri      entityUri,
-    final SSLabel    label) throws Exception {
+  public void updateEntityIfExists(
+    final SSUri         entity, 
+    final SSLabel       label, 
+    final SSTextComment description) throws Exception{
     
     try{
       final Map<String, String>  wheres   = new HashMap<>();
       final Map<String, String>  updates  = new HashMap<>();
       
-      where(wheres, SSSQLVarU.id, entityUri);
+      if(!existsEntity(entity)){
+        SSLogU.warn("entity not updated | doesnt exist");
+        return;
+      }
       
-      if(label == null){
-        update (updates, SSSQLVarU.label, SSStrU.empty);
-      }else{
+      where(wheres, SSSQLVarU.id, entity);
+      
+      if(label != null){
         update (updates, SSSQLVarU.label, label);
+      }
+      
+      if(description != null){
+        update (updates, SSSQLVarU.description, description);
+      }
+      
+      if(updates.isEmpty()){
+        return;
       }
       
       dbSQL.updateIgnore(entityTable, wheres, updates);

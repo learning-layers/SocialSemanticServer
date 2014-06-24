@@ -411,11 +411,20 @@ public class SSAdapterRest{
   }
   
   @POST
+  @Deprecated
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityLabelSet")
   public String entityLabelSet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityLabelSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUpdate")
+  public String entityUpdate(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityUpdate);
   }
   
   @POST

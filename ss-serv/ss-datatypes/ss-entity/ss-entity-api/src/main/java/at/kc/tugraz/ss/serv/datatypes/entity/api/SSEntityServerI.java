@@ -45,6 +45,7 @@ public interface SSEntityServerI {
   public List<SSEntity>                  entityUserEntityUsersGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public Boolean                         entityUserCopy                           (final SSServPar parA) throws Exception;
+  public SSUri                           entityUserUpdate                         (final SSServPar parA) throws Exception;
   
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
@@ -61,4 +62,5 @@ public interface SSEntityServerI {
   public SSUri                           entityAddAtCreationTime                  (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
+  public SSUri                           entityUpdate                             (final SSServPar parA) throws Exception;
 }
