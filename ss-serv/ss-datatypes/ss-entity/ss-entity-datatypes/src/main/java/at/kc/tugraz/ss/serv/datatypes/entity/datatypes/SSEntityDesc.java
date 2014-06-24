@@ -30,26 +30,30 @@ import java.util.List;
 public class SSEntityDesc extends SSEntityDescA{
 
   public static SSEntityDesc get(
-    final SSUri           entityUri, 
-    final SSLabel         entityLabel, 
+    final SSUri           entity, 
+    final SSEntityE       type, 
+    final SSLabel         label, 
     final Long            creationTime, 
     final List<String>    tags,
     final SSEntityA       overallRating,
-    final List<SSUri>     discs,
-    final SSUri           author) throws Exception{
+    final List<SSEntityA> discs,
+    final SSUri           author,
+    final List<SSEntityA> uEs) throws Exception{
     
-    return new SSEntityDesc(entityUri, entityLabel, creationTime, tags, overallRating, discs, author);
+    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs);
   }
   
   protected SSEntityDesc(
-    final SSUri            entityUri,
-    final SSLabel          entityLabel,
+    final SSUri            entity,
+    final SSEntityE        type,
+    final SSLabel          label,
     final Long             creationTime,
     final List<String>     tags, 
     final SSEntityA        overallRating,
-    final List<SSUri>      discs,
-    final SSUri            author) throws Exception{
+    final List<SSEntityA>  discs,
+    final SSUri            author, 
+    final List<SSEntityA>  uEs) throws Exception{
     
-    super(entityUri, entityLabel, creationTime, SSEntityE.entity, SSEntityE.entityDesc, author, overallRating, tags, discs);
+    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs);
   }
 }

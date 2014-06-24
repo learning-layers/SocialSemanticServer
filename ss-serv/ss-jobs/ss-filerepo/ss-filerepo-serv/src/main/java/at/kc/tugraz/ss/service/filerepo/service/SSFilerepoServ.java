@@ -65,7 +65,8 @@ public class SSFilerepoServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.file);
+    regServForManagingEntities   (SSEntityE.file);
+    regServForDescribingEntities ();
   }
   
 @Override

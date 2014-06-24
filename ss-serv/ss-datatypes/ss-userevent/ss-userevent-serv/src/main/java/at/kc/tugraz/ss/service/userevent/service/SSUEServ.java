@@ -51,7 +51,8 @@ public class SSUEServ extends SSServA{
   
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.userEvent);
+    regServForManagingEntities   (SSEntityE.userEvent);
+    regServForDescribingEntities ();
   }
   
   @Override

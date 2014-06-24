@@ -48,6 +48,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyA
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -75,7 +76,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
@@ -477,32 +477,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      final SSEntityDescGetPar  par           = new SSEntityDescGetPar(parA);
-      List<String>              tags          = new ArrayList<>();
-      List<SSUri>               discUris      = null;
-      SSRatingOverall           overallRating = null;
+      final SSEntityDescGetPar  par    = new SSEntityDescGetPar(parA);
       final SSEntity            entity;
       
       entity = sqlFct.getEntity(par.entity);
       
-      if(par.getOverallRating){
-        overallRating = SSServCaller.ratingOverallGet   (par.user, par.entity);
-      }
-      
-      if(par.getDiscs){
-        discUris = SSServCaller.discUserDiscURIsForTargetGet(par.user, par.entity);
-      }
-      
-      if(par.getTags){
-        tags = SSStrU.toStr(SSServCaller.tagsUserGet(par.user, par.entity, null, null));
-      }
-      
       return SSEntityMiscFct.getDescForEntityByEntityHandlers(
-        par.user,
-        entity,
-        tags,
-        overallRating,
-        discUris);
+        par,
+        SSEntityDesc.get(
+          entity.id,
+          entity.type,
+          entity.label,
+          entity.creationTime,
+          new ArrayList<>(),
+          null,
+          new ArrayList<>(),
+          entity.author,
+          new ArrayList<>()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

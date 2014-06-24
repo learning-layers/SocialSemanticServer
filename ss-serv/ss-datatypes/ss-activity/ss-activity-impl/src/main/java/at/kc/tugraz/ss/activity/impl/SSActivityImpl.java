@@ -29,13 +29,10 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -125,28 +122,6 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception{
 
-  }
-
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri,
-    final SSUri           entityUri,
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags,
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-    
-    return SSEntityDesc.get(
-      entityUri,
-      label,
-      creationTime,
-      tags,
-      overallRating,
-      discUris,
-      author);
   }
 
    /* SSActivityClientI */

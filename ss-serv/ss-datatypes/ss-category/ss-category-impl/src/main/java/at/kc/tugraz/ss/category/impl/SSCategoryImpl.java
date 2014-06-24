@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddAtCreationTimePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryDesc;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoryGetPar;
@@ -43,7 +42,6 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserRemoveRet;
 import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -51,8 +49,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -152,47 +148,6 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     }
   }
   
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    categories, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-    
-    try{
-      
-      if(!SSEntityE.equals(entityType, SSEntityE.category)){
-        
-        return SSEntityDesc.get(
-          entityUri, 
-          label, 
-          creationTime, 
-          categories, 
-          overallRating, 
-          discUris,
-          author);
-      }
-      
-      return SSCategoryDesc.get(
-        entityUri,
-        label,
-        creationTime,
-        author, 
-        overallRating, 
-        categories,
-        discUris);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-    
   /* SSCategoryClientI */
   @Override
   public void categoryAdd(SSSocketCon sSCon, SSServPar par) throws Exception {

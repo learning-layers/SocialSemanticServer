@@ -28,9 +28,10 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSEntityDescGetPar extends SSServPar{
   
   public SSUri    entity            = null;
-  public Boolean  getTags           = null;
-  public Boolean  getOverallRating  = null;
-  public Boolean  getDiscs          = null;
+  public Boolean  getTags           = false;
+  public Boolean  getOverallRating  = false;
+  public Boolean  getDiscs          = false;
+  public Boolean  getUEs            = false;
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{
       
@@ -43,6 +44,7 @@ public class SSEntityDescGetPar extends SSServPar{
         getTags          = (Boolean) pars.get(SSVarU.getTags);
         getOverallRating = (Boolean) pars.get(SSVarU.getOverallRating);
         getDiscs         = (Boolean) pars.get(SSVarU.getDiscs);
+        getUEs           = (Boolean) pars.get(SSVarU.getUEs);
       }
       
       if(clientPars != null){
@@ -58,6 +60,10 @@ public class SSEntityDescGetPar extends SSServPar{
         
         try{
           getDiscs        = Boolean.valueOf  (clientPars.get(SSVarU.getDiscs));
+        }catch(Exception error){}
+        
+        try{
+          getUEs        = Boolean.valueOf  (clientPars.get(SSVarU.getUEs));
         }catch(Exception error){}
       }
     }catch(Exception error){

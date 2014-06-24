@@ -20,26 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.List;
 
 public interface SSEntityHandlerImplI{
 
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType, 
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception;
-  
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri       userUri,
     final SSEntityE   entityType,
@@ -50,10 +36,10 @@ public interface SSEntityHandlerImplI{
     final Boolean     removeUserLocations) throws Exception;
 
   public Boolean setUserEntityPublic(
-    final SSUri                    userUri, 
-    final SSUri                    entityUri, 
+    final SSUri                 userUri, 
+    final SSUri                 entityUri, 
     final SSEntityE             entityType,
-    final SSUri                    publicCircleUri) throws Exception;
+    final SSUri                 publicCircleUri) throws Exception;
 
   public Boolean shareUserEntity(
     final SSUri          user, 

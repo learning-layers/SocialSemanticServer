@@ -52,24 +52,24 @@ public enum SSEntityE implements SSJSONLDPropI{
   evernoteNote,
   evernoteResource,
   circle,
-  activity,
+  activity;
 
-  entityDesc,
-  collDesc,
-  discDesc,
-  discEntryDesc, 
-  fileDesc, 
-  learnEpDesc,
-  learnEpVersionDesc,
-  learnEpTimelineStateDesc,
-  learnEpEntityDesc,
-  learnEpCircleDesc,
-  ratingDesc,
-  tagDesc,
-  categoryDesc,
-  userEventDesc,
-  userDesc, 
-  locationDesc;
+//  entityDesc,
+//  collDesc,
+//  discDesc,
+//  discEntryDesc, 
+//  fileDesc, 
+//  learnEpDesc,
+//  learnEpVersionDesc,
+//  learnEpTimelineStateDesc,
+//  learnEpEntityDesc,
+//  learnEpCircleDesc,
+//  ratingDesc,
+//  tagDesc,
+//  categoryDesc,
+//  userEventDesc,
+//  userDesc, 
+//  locationDesc;
 
   public static List<SSEntityE> get(final List<String> values){
   

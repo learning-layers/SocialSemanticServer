@@ -34,9 +34,11 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.api.*;
@@ -57,7 +59,7 @@ import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import java.util.*;
 
-public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI{
+public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
   private final SSTagSQLFct   sqlFct;
   
@@ -151,43 +153,21 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
+    final SSEntityDescGetPar par,
+    final SSEntityDescA      entityDesc) throws Exception{
     
-    try{
+    if(par.getTags){
       
-      if(!SSEntityE.equals(entityType, SSEntityE.tag)){
-        
-        return SSEntityDesc.get(
-          entityUri, 
-          label, 
-          creationTime, 
-          tags, 
-          overallRating, 
-          discUris,
-          author);
-      }
-      
-      return SSTagDesc.get(
-        entityUri,
-        label,
-        creationTime,
-        author, 
-        overallRating, 
-        tags,
-        discUris);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+      entityDesc.tags.addAll(
+        SSStrU.toStr(
+          SSServCaller.tagsUserGet(
+            par.user, 
+            par.entity, 
+            null, 
+            null)));
     }
+    
+    return entityDesc;
   }
     
   /* SSTagClientI */

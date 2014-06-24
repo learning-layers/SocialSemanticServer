@@ -20,13 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
@@ -128,22 +124,6 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
   }
   
   @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author)throws Exception{
-    
-    //TODO dtheiler fix this: set desc for different evernote entity types
-    return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
-  }
-  
-  @Override
   public SSEvernoteInfo evernoteNoteStoreGet(SSServPar parA) throws Exception {
     
     SSEvernoteNoteStoreGetPar par    = new SSEvernoteNoteStoreGetPar(parA);
@@ -219,7 +199,7 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
   public List<Note> evernoteNotesGet(SSServPar parA) throws Exception {
     
     SSEvernoteNotesGetPar   par        = new SSEvernoteNotesGetPar(parA);
-    List<Note>              notes      = new ArrayList<Note>();
+    List<Note>              notes      = new ArrayList<>();
     NotesMetadataResultSpec resultSpec = new NotesMetadataResultSpec();
     NoteFilter              noteFilter = new NoteFilter();
     NotesMetadataList       noteList;
@@ -254,7 +234,7 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
   public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws Exception{
     
     SSEvernoteNotesLinkedGetPar par       = new SSEvernoteNotesLinkedGetPar(parA);
-    List<Note>                  notes     = new ArrayList<Note>();
+    List<Note>                  notes     = new ArrayList<>();
     SyncChunk                   synChunk;
     
     try{

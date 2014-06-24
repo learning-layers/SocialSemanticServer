@@ -22,14 +22,10 @@ package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -37,7 +33,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.kc.tugraz.ss.service.user.datatypes.SSUserDesc;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -122,40 +117,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     return false;
   }  
   
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri,
-    final SSUri           entityUri,
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags,
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-    
-    if(!SSEntityE.equals(entityType, SSEntityE.user)){
-      
-      return SSEntityDesc.get(
-        entityUri,
-        label,
-        creationTime,
-        tags,
-        overallRating,
-        discUris,
-        author);
-    }
-    
-    return SSUserDesc.get(
-      entityUri,
-      label,
-      creationTime,
-      tags,
-      overallRating,
-      discUris,
-      author);
-  }
-  
   /* SSUserClientI  */
 
   @Override
@@ -208,7 +169,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       final SSUsersGetPar par   = new SSUsersGetPar(parA);
-      final List<SSUser>  users = new ArrayList<SSUser>();
+      final List<SSUser>  users = new ArrayList<>();
       
       for(SSUri userUri : par.users){
         users.add(sqlFct.getUser(userUri));

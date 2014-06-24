@@ -51,7 +51,8 @@ public class SSRatingServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.rating);
+    regServForManagingEntities   (SSEntityE.rating);
+    regServForDescribingEntities ();
   }
   
   @Override

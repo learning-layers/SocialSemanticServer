@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -38,10 +37,8 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -244,40 +241,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri,
-    final SSUri           entityUri,
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags,
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-
-    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
-     
-      return SSEntityDesc.get(
-        entityUri, 
-        label, 
-        creationTime, 
-        tags, 
-        overallRating, 
-        discUris, 
-        author);
-    }
-
-    return SSCollDesc.get(
-      entityUri,
-      label,
-      creationTime,
-      tags,
-      overallRating,
-      discUris,
-      author);
   }
 
   /* SSCollClientI */

@@ -31,14 +31,14 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -288,7 +288,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final List<SSCircleRightE> circleRights = new ArrayList<SSCircleRightE>();
+      final List<SSCircleRightE> circleRights = new ArrayList<>();
       
       if(SSObjU.isNull(circleType)){
         throw new Exception("pars null");
@@ -340,53 +340,19 @@ public class SSEntityMiscFct{
   }
 
   public static SSEntityDescA getDescForEntityByEntityHandlers(
-    final SSUri           userUri,
-    final SSEntity        entity,
-    final List<String>    tags,
-    final SSRatingOverall overallRating,
-    final List<SSUri>     discUris) throws Exception{
+    final SSEntityDescGetPar par,
+    SSEntityDescA            entityDesc) throws Exception{
     
     try{
       
-      SSEntityDescA result = 
-        SSEntityDesc.get(
-            entity.id,
-            entity.label,
-            entity.creationTime,
-            tags,
-            overallRating,
-            discUris,
-            entity.author);
-      
-      switch(entity.type){
+      for(SSServA serv : SSServA.getServsDescribingEntities()){
         
-        case entity: return result;
-        
-        default:{
-          
-          for(SSServA serv : SSServA.getServsManagingEntities()){
-            
-            result =
-              ((SSEntityHandlerImplI) serv.serv()).getDescForEntity(
-                entity.type,
-                userUri,
-                entity.id,
-                entity.label,
-                entity.creationTime,
-                tags,
-                overallRating,
-                discUris,
-                entity.author);
-            
-            if(!SSEntityE.equals(result.descType, SSEntityE.entityDesc)){
-              break;
-            }
-          }
-          
-          return result;
-        }
+        entityDesc = ((SSEntityDescriberI) serv.serv()).getDescForEntity(
+          par,
+          entityDesc);
       }
       
+      return entityDesc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

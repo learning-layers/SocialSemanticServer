@@ -45,7 +45,6 @@ public class SSVarU{
   public static final String categoryFrequs                                 = "categoryFrequs";
   public static final String entity                                         = "entity";
   public static final String entitiesToExclude                              = "entitiesToExclude";
-  public static final String descType                                       = "descType";
   public static final String comment                                        = "comment";
   public static final String comments                                       = "comments";
   public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
@@ -54,6 +53,7 @@ public class SSVarU{
   public static final String fileExt                                        = "fileExt";
   public static final String getOverallRating                               = "getOverallRating";
   public static final String getDiscs                                       = "getDiscs";
+  public static final String getUEs                                         = "getUEs";
   public static final String getTags                                        = "getTags";
   public static final String addNewDisc                                     = "addNewDisc";
   public static final String locations                                      = "locations";

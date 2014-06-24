@@ -21,27 +21,18 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircleDesc;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDesc;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineStateDesc;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersionDesc;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserCopyForUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserShareWithUserPar;
@@ -202,81 +193,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     final SSEntityE    entityType) throws Exception{
     
     return false;
-  }
-  
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-    
-    switch(entityType){
-      case learnEp:
-        
-        return SSLearnEpDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          author,
-          overallRating,
-          tags,
-          discUris);
-        
-      case learnEpVersion:
-        return SSLearnEpVersionDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          author,
-          overallRating,
-          tags,
-          discUris);
-        
-      case learnEpCircle:
-        return SSLearnEpCircleDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          author,
-          overallRating,
-          tags,
-          discUris);
-        
-      case learnEpEntity:
-        return SSLearnEpEntityDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          author,
-          overallRating,
-          tags,
-          discUris);
-        
-      case learnEpTimelineState:
-        return SSLearnEpTimelineStateDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          author,
-          overallRating,
-          tags,
-          discUris);
-      default:
-        return SSEntityDesc.get(
-          entityUri,
-          label,
-          creationTime,
-          tags,
-          overallRating,
-          discUris,
-          author);
-    }
   }
   
   /* SSLearnEpClientI */

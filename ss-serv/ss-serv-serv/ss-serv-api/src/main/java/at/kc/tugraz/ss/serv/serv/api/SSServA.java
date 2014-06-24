@@ -45,10 +45,11 @@ public abstract class SSServA{
   protected        final Class                           servImplClientInteraceClass;
   protected        final Class                           servImplServerInteraceClass;
   protected              Exception                       servImplCreationError         = null;
-  private   static final Map<SSMethU, SSServA>           servs                         = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
-  private   static final Map<SSMethU, SSServA>           servsForClientOps             = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
-  private   static final Map<SSMethU, SSServA>           servsForServerOps             = new EnumMap<SSMethU,      SSServA>(SSMethU.class);
-  private   static final Map<SSEntityE, SSServA>         servsForManagingEntities      = new EnumMap<SSEntityE, SSServA>(SSEntityE.class);
+  private   static final Map<SSMethU, SSServA>           servs                         = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSMethU, SSServA>           servsForClientOps             = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSMethU, SSServA>           servsForServerOps             = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSEntityE, SSServA>         servsForManagingEntities      = new EnumMap<>(SSEntityE.class);
+  private   static final List<SSServA>                   servsForDescribingEntities    = new ArrayList<>();
  
   protected SSServA(
     final Class servImplClientInteraceClass, 
@@ -191,6 +192,27 @@ public abstract class SSServA{
         }
         
         servsForManagingEntities.put(entityType, this);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected void regServForDescribingEntities() throws Exception{
+    
+    try{
+     
+      if(!servConf.use){
+        return;
+      }
+
+      synchronized(servsForDescribingEntities){
+        
+        if(servsForDescribingEntities.contains(this)){
+          throw new Exception("service for describing entities already registered");
+        }
+        
+        servsForDescribingEntities.add(this);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -349,12 +371,16 @@ public abstract class SSServA{
   }
   
   public static List<SSServA> getServsManagingEntities(){
-    return new ArrayList<SSServA>(servsForManagingEntities.values());
+    return new ArrayList<>(servsForManagingEntities.values());
+  }
+  
+  public static List<SSServA> getServsDescribingEntities(){
+    return new ArrayList<>(servsForDescribingEntities);
   }
   
   private List<SSMethU> publishClientOps() throws Exception{
     
-    final List<SSMethU> clientOps = new ArrayList<SSMethU>();
+    final List<SSMethU> clientOps = new ArrayList<>();
     
     if(servImplClientInteraceClass == null){
       return clientOps;
@@ -371,7 +397,7 @@ public abstract class SSServA{
   
   private List<SSMethU> publishServerOps() throws Exception{
     
-    final List<SSMethU> serverOps = new ArrayList<SSMethU>();
+    final List<SSMethU> serverOps = new ArrayList<>();
     
     if(servImplServerInteraceClass == null){
       return serverOps;

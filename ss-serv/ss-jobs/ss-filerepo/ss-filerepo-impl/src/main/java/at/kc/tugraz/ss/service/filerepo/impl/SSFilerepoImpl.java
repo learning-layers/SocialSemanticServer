@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileRemoveReaderOrWrite
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
@@ -42,9 +41,9 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWrite
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -55,7 +54,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import java.util.*;
 
-public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI{
+public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI, SSEntityDescriberI{
 
 //  private final String uriDefaultFile = SSStrU.PREFIX_HTTP + "at.tug.kc.socialServer" + SSStrU.slash + SSEntityEnum.file + SSStrU.slash;
 //  
@@ -148,32 +147,21 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri,
-    final SSUri           entityUri,
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags,
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-
-    if(!SSEntityE.equals(entityType, SSEntityE.file)){
-      return SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris, author);
-    }
-
-    final String fileExt = SSServCaller.fileExtGet(userUri, entityUri);
+    final SSEntityDescGetPar par,
+    final SSEntityDescA      entityDesc) throws Exception{
     
-    return SSFileDesc.get(
-      entityUri,
-      label,
-      creationTime,
-      tags,
-      overallRating,
-      discUris,
-      author,
-      fileExt,
-      SSMimeTypeU.mimeTypeForFileExt(fileExt));
+    if(SSEntityE.equals(entityDesc.type, SSEntityE.file)){
+      
+      final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
+      final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+      
+      return SSFileDesc.get(
+        entityDesc,
+        fileExt,
+        mimeType);
+    }
+    
+    return entityDesc;
   }
 
   /* SSFileRepoClientI */

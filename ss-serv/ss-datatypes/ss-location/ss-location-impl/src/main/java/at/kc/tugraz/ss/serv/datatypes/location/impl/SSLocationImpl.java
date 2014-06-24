@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -30,11 +29,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationServerI;
-import at.kc.tugraz.ss.serv.datatypes.location.datatypes.desc.SSLocationDesc;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationAddPar;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationsUserRemovePar;
@@ -140,32 +136,6 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     return false;
   }  
     
-  @Override
-  public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
-    
-    if(!SSEntityE.equals(entityType, SSEntityE.location)){
-      SSEntityDesc.get(entityUri, label, creationTime, tags, overallRating, discUris,author);
-    }
-    
-     return SSLocationDesc.get(
-        entityUri,
-        label,
-        creationTime, 
-        author, 
-        overallRating, 
-        tags, 
-        discUris);
-  }
-  
   /* SSLocationClientI */
   
   @Override

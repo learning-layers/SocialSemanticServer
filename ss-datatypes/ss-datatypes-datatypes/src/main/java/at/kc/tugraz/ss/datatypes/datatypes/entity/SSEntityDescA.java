@@ -32,34 +32,49 @@ import java.util.Map;
 
 public abstract class SSEntityDescA extends SSEntityA{
 
-	public SSLabel          label           = null;
-	public Long             creationTime    = null;
   public SSUri            entity          = null;
-  public SSEntityE        type            = null;
-  public SSEntityE        descType        = null;
+	public SSEntityE        type            = null;
+  public SSLabel          label           = null;
+	public Long             creationTime    = null;
   public SSUri            author          = null;
   public SSEntityA        overallRating   = null;
   public List<String>     tags            = new ArrayList<>();
-  public List<SSUri>      discs           = new ArrayList<>();
-	
+  public List<SSEntityA>  discs           = new ArrayList<>();
+  public List<SSEntityA>  uEs             = new ArrayList<>();
+
   protected SSEntityDescA(
-    final SSUri        entityUri, 
-    final SSLabel      label, 
-    final Long         creationTime, 
-    final SSEntityE    entityType, 
-    final SSEntityE    entityDescType,
-    final SSUri        author,
-    final SSEntityA    overallRating,
-    final List<String> tags, 
-    final List<SSUri>  discs) throws Exception{
+    final SSEntityDescA entityDesc) throws Exception{
     
-    super(entityUri);
+    super(entityDesc.entity);
     
-    this.entity         = entityUri;
+    this.entity          = entityDesc.entity;
+    this.type            = entityDesc.type;
+    this.label           = entityDesc.label;
+    this.creationTime    = entityDesc.creationTime;
+    this.author          = entityDesc.author;
+    this.overallRating   = entityDesc.overallRating;
+    this.tags            = entityDesc.tags;
+    this.discs           = entityDesc.discs;
+    this.uEs             = entityDesc.uEs;
+  }
+  
+  protected SSEntityDescA(
+    final SSUri           entity, 
+    final SSLabel         label, 
+    final Long            creationTime, 
+    final SSEntityE       type, 
+    final SSUri           author,
+    final SSEntityA       overallRating,
+    final List<String>    tags, 
+    final List<SSEntityA> discs,
+    final List<SSEntityA> uEs) throws Exception{
+    
+    super(entity);
+    
+    this.entity         = entity;
+    this.type           = type;
     this.label          = label;
     this.creationTime   = creationTime;
-    this.type           = entityType;
-    this.descType       = entityDescType;
     this.author         = author;
     this.overallRating  = overallRating;
     
@@ -70,6 +85,10 @@ public abstract class SSEntityDescA extends SSEntityA{
     if(discs != null){
       this.discs.addAll(discs);
     }
+    
+    if(uEs != null){
+      this.uEs.addAll(uEs);
+    }
   }
   
   @Override
@@ -78,24 +97,29 @@ public abstract class SSEntityDescA extends SSEntityA{
     final Map<String, Object> ld       = new HashMap<>();
     final Map<String, Object> tagsObj  = new HashMap<>();
     final Map<String, Object> discsObj = new HashMap<>();
+    final Map<String, Object> uEsObj   = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
     ld.put(SSVarU.tags,      tagsObj);
     
-    discsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
     ld.put(SSVarU.discs,      discsObj);
     
+    uEsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+
+    ld.put(SSVarU.uEs,      uEsObj);
+    
     ld.put(SSVarU.entity,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss  + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.creationTime,   SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarU.descType,       SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.overallRating,  SSVarU.sss + SSStrU.colon + SSEntityA.class.getName()); //TODO dtheiler: change this, as its SSRatingOverall
+    ld.put(SSVarU.creationTime,   SSVarU.xsd  + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.entity,         SSVarU.sss  + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarU.author,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.overallRating,  SSVarU.sss  + SSStrU.colon + SSEntityA.class.getName());
     
     return ld;
   }
@@ -117,10 +141,6 @@ public abstract class SSEntityDescA extends SSEntityA{
     return SSEntityE.toStr(type);
   }
 
-  public String getDescType() {
-    return SSEntityE.toStr(descType);
-  }
-  
   public String getAuthor() throws Exception {
     return SSStrU.removeTrailingSlash(author);
   }
@@ -135,5 +155,9 @@ public abstract class SSEntityDescA extends SSEntityA{
 
   public List<String> getDiscs() throws Exception{
     return SSStrU.removeTrailingSlash(discs);
+  }
+  
+  public List<SSEntityA> getuEs() throws Exception{
+    return uEs;
   }
 }

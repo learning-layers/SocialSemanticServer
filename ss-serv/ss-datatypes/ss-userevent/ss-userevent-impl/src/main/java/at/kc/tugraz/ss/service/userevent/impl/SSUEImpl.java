@@ -21,25 +21,23 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
@@ -53,7 +51,7 @@ import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import java.util.*;
 
-public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI{
+public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
 //  private final SSUEGraphFct graphFct;
   private final SSUESQLFct   sqlFct;
@@ -134,36 +132,22 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType, 
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris,
-    final SSUri           author) throws Exception{
+    final SSEntityDescGetPar par,
+    final SSEntityDescA      entityDesc) throws Exception{
     
-    if(!SSEntityE.equals(entityType, SSEntityE.userEvent)){
+    if(par.getUEs){
       
-      return SSEntityDesc.get(
-        entityUri,
-        label,
-        creationTime,
-        tags,
-        overallRating,
-        discUris,
-        author);
+      entityDesc.uEs.addAll(
+        SSServCaller.uEsGet(
+          par.user, 
+          par.user, 
+          par.entity, 
+          null, 
+          null,
+          null));
     }
     
-    return SSUEDesc.get(
-      entityUri,
-      label,
-      creationTime,
-      author,
-      overallRating,
-      tags,
-      discUris);
+    return entityDesc;
   }
   
   @Override

@@ -54,7 +54,8 @@ public class SSTagServ extends SSServA implements SSTagServI{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.tag);
+    regServForManagingEntities   (SSEntityE.tag);
+    regServForDescribingEntities ();
   }
   
   @Override

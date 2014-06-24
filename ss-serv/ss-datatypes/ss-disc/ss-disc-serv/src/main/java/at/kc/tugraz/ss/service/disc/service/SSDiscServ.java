@@ -51,7 +51,8 @@ public class SSDiscServ extends SSServA implements SSDiscI{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(supportedEntityTypes);
+    regServForManagingEntities   (supportedEntityTypes);
+    regServForDescribingEntities ();
   }
   
   @Override

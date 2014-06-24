@@ -22,12 +22,7 @@ package at.kc.tugraz.ss.service.filerepo.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import java.util.List;
 import java.util.Map;
 
 public class SSFileDesc extends SSEntityDescA{
@@ -35,35 +30,23 @@ public class SSFileDesc extends SSEntityDescA{
   public String fileExt  = null;
   public String mimeType = null;
   
-  private SSFileDesc(
-    final SSUri            entityUri,
-    final SSLabel          entityLabel, 
-    final Long             creationTime,
-    final List<String>     tags, 
-    final SSEntityA        overallRating,
-    final List<SSUri>      discs,
-    final SSUri            author,
-    final String           fileExt,
-    final String           mimeType) throws Exception{
-    
-    super(entityUri, entityLabel, creationTime, SSEntityE.file, SSEntityE.fileDesc, author, overallRating, tags, discs);
-    
-    this.fileExt  = fileExt;
-    this.mimeType = mimeType;
-  }
-  
   public static SSFileDesc get(
-    final SSUri           entityUri,
-    final SSLabel         entityLabel,
-    final Long            entityCreationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discs,
-    final SSUri           author,
+    final SSEntityDescA   entityDesc,
     final String          fileExt,
     final String          mimeType) throws Exception{
     
-    return new SSFileDesc(entityUri, entityLabel, entityCreationTime, tags, overallRating, discs, author, fileExt, mimeType);
+    return new SSFileDesc(entityDesc, fileExt, mimeType);
+  }
+  
+  private SSFileDesc(
+    final SSEntityDescA    entityDesc,
+    final String           fileExt,
+    final String           mimeType) throws Exception{
+    
+    super(entityDesc);
+    
+    this.fileExt  = fileExt;
+    this.mimeType = mimeType;
   }
   
   @Override

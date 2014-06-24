@@ -20,10 +20,7 @@
 */
 package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SSEntityA implements SSJSONLDPropI{
   

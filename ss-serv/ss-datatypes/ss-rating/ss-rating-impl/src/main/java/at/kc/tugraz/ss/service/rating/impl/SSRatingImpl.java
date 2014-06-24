@@ -21,7 +21,6 @@
  package at.kc.tugraz.ss.service.rating.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -34,10 +33,11 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -45,11 +45,10 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingDesc;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import java.util.List;
 
-public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI{
+public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI{
  
   private final SSRatingSQLFct   sqlFct;
 //  private final SSRatingGraphFct graphFct;
@@ -142,35 +141,18 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     
   @Override
   public SSEntityDescA getDescForEntity(
-    final SSEntityE       entityType,
-    final SSUri           userUri, 
-    final SSUri           entityUri, 
-    final SSLabel         label,
-    final Long            creationTime,
-    final List<String>    tags, 
-    final SSEntityA       overallRating,
-    final List<SSUri>     discUris, 
-    final SSUri           author) throws Exception{
+    final SSEntityDescGetPar par,
+    final SSEntityDescA      entityDesc) throws Exception{
     
-    if(!SSEntityE.equals(entityType, SSEntityE.rating)){
-      return SSEntityDesc.get(
-        entityUri, 
-        label,
-        creationTime, 
-        tags, 
-        overallRating, 
-        discUris, 
-        author);
+    if(par.getOverallRating){
+      
+      entityDesc.overallRating = 
+        SSServCaller.ratingOverallGet(
+          par.user, 
+          par.entity);
     }
-
-    return SSRatingDesc.get(
-        entityUri,
-        label,
-        creationTime,
-        author, 
-        tags, 
-        overallRating, 
-        discUris);
+    
+    return entityDesc;
   }
   
   /* SSRatingClientI */
