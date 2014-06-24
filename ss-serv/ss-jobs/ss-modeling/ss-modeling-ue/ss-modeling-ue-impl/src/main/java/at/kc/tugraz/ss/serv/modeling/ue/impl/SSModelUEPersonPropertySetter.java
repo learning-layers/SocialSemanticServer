@@ -55,7 +55,7 @@ public class SSModelUEPersonPropertySetter {
   public void setPersonIndependentProperties(
     SSModelUEEntity     resource) throws Exception{
     
-    List<Long> recentTimeStamps = new ArrayList<Long>();
+    final List<Long> recentTimeStamps = new ArrayList<>();
     
     if(SSEntityE.isUser(resource.type)){
       
@@ -82,7 +82,7 @@ public class SSModelUEPersonPropertySetter {
     
     for (SSUE event : sortedEventsSinceLastUpdate){
       
-      if(SSUEE.contains(SSModelUEU.useTopicEventTypes, event.type)){
+      if(SSStrU.contains(SSModelUEU.useTopicEventTypes, event.type)){
         
         user = resources.get(SSStrU.toStr(event.user));
         
@@ -120,7 +120,7 @@ public class SSModelUEPersonPropertySetter {
     
     if(user.personsUsingTopicEvents.containsKey(event.content) == false){
       
-      events = new ArrayList<SSUE>();
+      events = new ArrayList<>();
       
       events.add(event);
       
@@ -144,7 +144,7 @@ public class SSModelUEPersonPropertySetter {
     
     if(user.personsCreatedTopicEvents.containsKey(event.content) == false){
       
-      events = new ArrayList<SSUE>();
+      events = new ArrayList<>();
       
       events.add(event);
       
@@ -265,7 +265,7 @@ public class SSModelUEPersonPropertySetter {
     }
     
     if (
-      SSUEE.contains(SSModelUEU.useTopicEventTypes, event.type) &&
+      SSStrU.contains(SSModelUEU.useTopicEventTypes, event.type) &&
       event.timestamp > recentTimeStamps.get(1)){
       
       resource.personsRecentTopic = event.content;
@@ -278,7 +278,7 @@ public class SSModelUEPersonPropertySetter {
     SSUE    event) throws Exception {
     
     if(
-      SSUEE.equals(event.type, SSUEE.addDiscussionComment) &&
+      SSStrU.equals(event.type, SSUEE.addDiscussionComment) &&
       SSStrU.contains(resource.personsDiscussions, event.entity)){
       
       resource.personsDiscussions.add(event.entity);
@@ -290,7 +290,7 @@ public class SSModelUEPersonPropertySetter {
     SSUE          event) throws Exception{
     
     if(
-      SSUEE.contains            (SSModelUEU.relateResourceEventTypes, event.type) &&
+      SSStrU.contains (SSModelUEU.relateResourceEventTypes, event.type) &&
       !SSStrU.contains(resource.personsRelatedResources,    event.entity)){
       
       resource.counters.put(

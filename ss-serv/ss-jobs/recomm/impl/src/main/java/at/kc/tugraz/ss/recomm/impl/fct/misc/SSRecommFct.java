@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class SSRecommFct{
     
     SSServCaller.dataExportUserEntityTags(
       null,
-      new HashMap<String, List<String>>(),
+      new HashMap<>(),
       fileName,
       true);
     
@@ -103,7 +103,7 @@ public class SSRecommFct{
     
     SSServCaller.dataExportUserEntityTagTimestamps(
       null,
-      new HashMap<String, List<String>>(),
+      new HashMap<>(),
       null,
       fileName,
       true);
@@ -144,8 +144,8 @@ public class SSRecommFct{
     
     SSServCaller.dataExportUserEntityTagCategories(
       null,
-      new HashMap<String, List<String>>(),
-      new HashMap<String, List<String>>(),
+      new HashMap<>(),
+      new HashMap<>(),
       fileName,
       true);
     
@@ -186,8 +186,8 @@ public class SSRecommFct{
     
     SSServCaller.dataExportUserEntityTagCategoryTimestamps(
       null,
-      new HashMap<String, List<String>>(),
-      new HashMap<String, List<String>>(),
+      new HashMap<>(),
+      new HashMap<>(),
       null,
       fileName,
       true);
@@ -213,7 +213,7 @@ public class SSRecommFct{
     final Map<String, List<String>> categoriesPerEntities = new HashMap<>();
     
     for(Integer counter = 0; counter < numberOfEntities; counter++){
-      categoriesPerEntities.put(SSLinkU.dummyUri + SSStrU.underline + counter.toString(), new ArrayList<String>());
+      categoriesPerEntities.put(SSVoc.sssUri + SSStrU.underline + counter.toString(), new ArrayList<>());
     }
     
     return categoriesPerEntities;

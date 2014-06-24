@@ -22,6 +22,7 @@
 
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.socialserver.utils.SSNumberU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
@@ -98,20 +99,20 @@ public class SSModelUEMISetterHelper {
 		return false;
 	}
 
-	/**
+	/*
 	 * 0 returns events from resource's event history matching given event types
 	 */
 	public List<SSUE> getResourceEventsOfType(
 			SSModelUEEntity              resource,
 			List<SSUEE>      eventTypes) {
 
-		List<SSUE> result = new ArrayList<SSUE>();
+		List<SSUE> result = new ArrayList<>();
 		
 		for(SSUE event : resource.events){
 			
 			for(SSUEE eventType : eventTypes){
 				
-				if(SSUEE.equals(event.type, eventType)){
+				if(SSStrU.equals(event.type, eventType)){
 					
 					result.add(event);
 				}

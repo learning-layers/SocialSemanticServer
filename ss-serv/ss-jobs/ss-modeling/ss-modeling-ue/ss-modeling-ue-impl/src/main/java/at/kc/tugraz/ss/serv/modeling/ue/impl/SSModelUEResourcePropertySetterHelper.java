@@ -20,10 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSNumberU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
@@ -38,7 +36,7 @@ public class SSModelUEResourcePropertySetterHelper {
     this.resources = resources;
   }
   
-	/**
+	/*
 	 * o set total event counter to the resource (according to new events) <br>
 	 */
 	public void setCounterEvent(SSModelUEEntity resource) {
@@ -48,7 +46,7 @@ public class SSModelUEResourcePropertySetterHelper {
 				resource.counters.get(SSModelUEResourceCounterEnum.counterEvent.toString()) + resource.events.size()); 
 	}
 
-	/**
+	/*
 	 * o increase change counters <br>
 	 * o add changing person <br>
 	 */
@@ -56,7 +54,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSModelUEEntity  resource,
 			SSUE    event) throws Exception{
 
-		if(SSUEE.contains(SSModelUEU.changingEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.changingEventTypes, event.type)){
 
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterChange.toString(),
@@ -73,14 +71,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * o increase tagging counters <br>
 	 */
 	public void increaseCountersTagging(
 			SSModelUEEntity  resource, 
 			SSUE    event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.taggingEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.taggingEventTypes, event.type)){
 
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterTag.toString(),
@@ -132,7 +130,7 @@ public class SSModelUEResourcePropertySetterHelper {
 //		}		
 //	}
 	
-	/**
+	/*
 	 * o increase viewing counters <br>
 	 * o add viewing persons <br>
 	 */
@@ -140,7 +138,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSModelUEEntity  resource, 
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.viewEntityEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.viewEntityEventTypes, event.type)){
 
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterView.toString(),
@@ -172,14 +170,14 @@ public class SSModelUEResourcePropertySetterHelper {
 //		}		
 //	}
 
-	/**
+	/*
 	 * 0 increase organizing collection counters <br>
 	 */
 	public void increaseCountersOrganizeCollection(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.organizingInCollectionsEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.organizingInCollectionsEventTypes, event.type)){
 
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterOrganizeCollection.toString(),
@@ -187,14 +185,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase initial collection collaborating counters <br>
 	 */
 	public void increaseCountersCollaborationCollectionInitial(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.initialCollectionCollaborationEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.initialCollectionCollaborationEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString(),
@@ -202,14 +200,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 	
-	/**
+	/*
 	 * 0 increase initial discussion collaborating counters <br>
 	 */
 	public void increaseCountersCollaborationDiscussionInitial(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.initialDiscussionCollaborationEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.initialDiscussionCollaborationEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterCollaborateDiscussionInitial.toString(),
@@ -217,14 +215,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 	
-	/**
+	/*
 	 * 0 increase actual collection collaborating counters <br>
 	 */
 	public void increaseCountersCollaborationCollection(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 
-		if(SSUEE.contains(SSModelUEU.collaborateCollectionEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.collaborateCollectionEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterCollaborateCollection.toString(),
@@ -232,14 +230,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 	
-	/**
+	/*
 	 * 0 increase actual discussion collaborating counters <br>
 	 */
 	public void increaseCountersCollaborationDiscussion(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 
-		if(SSUEE.contains(SSModelUEU.collaborateDiscussionEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.collaborateDiscussionEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterCollaborateDiscussion.toString(),
@@ -247,14 +245,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 decrease collection collaborating counters <br>
 	 */
 	public void decreaseCountersInitialCollectionsCollaboration(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.removeInitialCollectionCollaborationEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.removeInitialCollectionCollaborationEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString(),
@@ -262,14 +260,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 decrease awareness counters <br>
 	 */
 	public void increaseCountersAwareness(
 			SSModelUEEntity  resource, 
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.awarenessEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.awarenessEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterAware.toString(),
@@ -277,14 +275,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 decrease recommending counters <br>
 	 */
 	public void increaseCountersRecommendation(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.recommendEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.recommendEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterRecommend.toString(),
@@ -292,7 +290,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase editing counters <br>
 	 * 0 add editing persons <br>
 	 */
@@ -301,11 +299,11 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSUE    event) throws Exception {
 
 		if(
-      SSUEE.contains(SSModelUEU.sharingWithCommunityEventTypes,    event.type) ||
-			SSUEE.contains(SSModelUEU.addingAndDeletingEventTypes,       event.type) || 
-			SSUEE.contains(SSModelUEU.changingEventTypes,                event.type) ||
-			SSUEE.contains(SSModelUEU.organizingInCollectionsEventTypes, event.type) || 
-			SSUEE.contains(SSModelUEU.taggingEventTypes,                 event.type)){
+      SSStrU.contains(SSModelUEU.sharingWithCommunityEventTypes,    event.type) ||
+			SSStrU.contains(SSModelUEU.addingAndDeletingEventTypes,       event.type) || 
+			SSStrU.contains(SSModelUEU.changingEventTypes,                event.type) ||
+			SSStrU.contains(SSModelUEU.organizingInCollectionsEventTypes, event.type) || 
+			SSStrU.contains(SSModelUEU.taggingEventTypes,                 event.type)){
 			
 			if(!SSStrU.contains(resource.editors, event.user)){
 
@@ -314,7 +312,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase associating counters <br>
 	 * 0 add associated persons <br>
 	 */
@@ -324,7 +322,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		
 		if(
 				!SSStrU.contains(resource.relatedPersons, event.user) &&
-				SSUEE.contains (SSModelUEU.personAssociationEventTypes, event.type)){
+				SSStrU.contains (SSModelUEU.personAssociationEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterAssociatePerson.toString(),
@@ -334,14 +332,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 	
-	/**
+	/*
 	 * 0 increase adding and deleting counters <br>
 	 */
 	public void increaseCountersAddAndDelete(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.addingAndDeletingEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.addingAndDeletingEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterAddAndDelete.toString(),
@@ -349,7 +347,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}
 	}		
 
-	/**
+	/*
 	 * 0 increase rating high counters <br>
 	 */
 	public void increaseCountersRateHigh(
@@ -357,7 +355,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSUE event) throws Exception {
 
 		if(
-				SSUEE.contains             (SSModelUEU.rateEventTypes, event.type) &&
+				SSStrU.contains             (SSModelUEU.rateEventTypes, event.type) &&
 				SSUE.isContentCorrect         (event)                                    &&
 				Integer.parseInt              (event.content) > SSModelUEU.THRESHOLD_RATE_HIGH){
 
@@ -371,7 +369,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.sharingWithCommunityEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.sharingWithCommunityEventTypes, event.type)){
 
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterShareCommunity.toString(),
@@ -379,14 +377,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}
 	}
 
-	/**
+	/*
 	 * 0 increase selecting from others counters <br>
 	 */
 	public void increaseCountersSelectFromOther(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception{
 		
-		if(SSUEE.contains(SSModelUEU.selectedFromOthersEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.selectedFromOthersEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterSelectFromOther.toString(),
@@ -394,7 +392,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase similar collection counters <br>
 	 * 1. get collection entries of the collections the resource is in <br> 
 	 * 2. check whether those entries have same shared tags as the resource <br>
@@ -454,14 +452,14 @@ public class SSModelUEResourcePropertySetterHelper {
 //		return false;
 //	}
 
-	/**
+	/*
 	 * 0 increase selecting from others counters <br>
 	 */
 	public void increaseCountersPresentAudience(
 			SSModelUEEntity  resource,
 			SSUE event) throws Exception {
 
-		if(SSUEE.contains(SSModelUEU.exportCollectionItemEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.exportCollectionItemEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterPresentAudience.toString(),
@@ -469,14 +467,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase assessing counters <br>
 	 */
 	public void increaseCountersAssess(
 			SSModelUEEntity  resource, 
 			SSUE event) throws Exception {
 		
-		if(SSUEE.contains(SSModelUEU.assessEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.assessEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterAssess.toString(),
@@ -484,7 +482,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 set being editor and author counters <br>
 	 */
 	public void setCountersIsEditor(
@@ -505,7 +503,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}
 	}
 
-	/**
+	/*
 	 * 0 increase contributing to discussion counters <br>
 	 */
 	public void increaseCountersContributedDiscussion(
@@ -516,7 +514,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			for(SSUE otherResourceEvent : otherResource.events){
 			
 				if(
-						SSUEE.contains(SSModelUEU.contributeToDiscussionEventTypes, otherResourceEvent.type) &&
+						SSStrU.contains(SSModelUEU.contributeToDiscussionEventTypes, otherResourceEvent.type) &&
 						SSStrU.equals(otherResourceEvent.user, resource.entity)){
 
 					resource.counters.put(
@@ -529,14 +527,14 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 increase got rated counters <br>
 	 */
 	public void increaseCountersGotRated(
 			SSModelUEEntity  resource, 
 			SSUE event) throws Exception{
 		
-		if(SSUEE.contains(SSModelUEU.rateEventTypes, event.type)){
+		if(SSStrU.contains(SSModelUEU.rateEventTypes, event.type)){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterGotRated.toString(),
@@ -546,7 +544,7 @@ public class SSModelUEResourcePropertySetterHelper {
 	
 	
 
-	/**
+	/*
 	 * 0 increase participation counters <br>
 	 */
 	public void increaseCounterParticipated(
@@ -557,7 +555,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			for(SSUE otherResourceEvent : otherResource.events){
 			
 				if(
-						SSUEE.contains(SSModelUEU.participationEventTypes, otherResourceEvent.type) &&
+						SSStrU.contains(SSModelUEU.participationEventTypes, otherResourceEvent.type) &&
 						SSStrU.equals(otherResourceEvent.user, resource.entity)){
 
 					resource.counters.put(
@@ -568,7 +566,7 @@ public class SSModelUEResourcePropertySetterHelper {
 		}		
 	}
 
-	/**
+	/*
 	 * 0 set referred by other resources counters <br>
 	 */
 	public void setCountersReferredBy(
@@ -590,7 +588,7 @@ public class SSModelUEResourcePropertySetterHelper {
 
 	}
 
-	/**
+	/*
 	 * 0 increase active periods counter <br>
 	 */
 	public void increaseActivePeriod(SSModelUEEntity resource) {

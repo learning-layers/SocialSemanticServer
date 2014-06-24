@@ -20,8 +20,6 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -38,14 +36,17 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEDesc;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
+import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
@@ -165,48 +166,73 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       discUris);
   }
   
-  /* SSUserEventClientI  */
+  @Override
+  public void uECountGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSUECountGetRet.get(uECountGet(parA), parA.op));
+  }
+  
+  //TODO dtheiler: count via db then: count(p.catId) as the_count 
+  @Override
+  public Integer uECountGet(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSUECountGetPar par = new SSUECountGetPar(parA);
+      
+      return sqlFct.getUEs(
+        par.forUser,
+        par.entity,
+        par.type,
+        par.startTime,
+        par.endTime).size();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   @Override
-  public void uEGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void uEGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(par), par.op));
+    sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(parA), parA.op));
   }
     
   @Override
-  public void uEsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void uEsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(par), par.op));
+    sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op));
   }
   
   @Override
-  public void uEAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void uEAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(par), par.op));
+    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op));
   }
   
   /* SSUserEventServerI */
   @Override
   public Boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
     
-    SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
-    SSUri                    ueUri;
-    
     try{
-      ueUri = SSUEMiscFct.createUEUri();
-      
+      final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
+      final SSUri                    ueUri = SSUEMiscFct.createUEUri();
+    
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAddAtCreationTime(
         par.user,
         ueUri,
-        SSLabel.get(ueUri.toString()),
+        null,
         par.creationTime,
         SSEntityE.userEvent,
         null,
@@ -215,7 +241,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(par.entity.toString()),
+        null,
         SSEntityE.entity,
         null,
         false);
@@ -249,26 +275,21 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   @Override
   public Boolean uEAdd(final SSServPar parA) throws Exception{
     
-    final SSUEAddPar par   = new SSUEAddPar(parA);
-    SSUri            ueUri;
-    
     try{
+      
+      final SSUEAddPar par   = new SSUEAddPar(parA);
+      final SSUri      ueUri = SSUEMiscFct.createUEUri();
+      
       if(par.entity == null){
-        par.entity = SSUri.get(SSLinkU.dummyUri);
+        par.entity = SSUri.get(SSVoc.sssUri);
       }
-      
-      if(SSStrU.isEmpty(par.content)){
-        par.content = SSStrU.empty;
-      }
-      
-      ueUri = SSUEMiscFct.createUEUri();
       
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
         par.user,
         par.entity,
-        SSLabel.get(par.entity.toString()),
+        null,
         SSEntityE.entity,
         null,
         false);
@@ -276,7 +297,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       SSServCaller.entityAdd(
         par.user,
         ueUri,
-        SSLabel.get(ueUri.toString()),
+        null,
         SSEntityE.userEvent,
         null,
         false);
@@ -308,27 +329,25 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   }
   
   @Override
-  public SSUE uEGet(SSServPar parI) throws Exception {
-    
-    SSUEGetPar par     = new SSUEGetPar(parI);
-    SSUE       result  = null;
+  public SSUE uEGet(final SSServPar parA) throws Exception {
     
     try{
-      result = sqlFct.getUE(par.ue);
+      final SSUEGetPar par = new SSUEGetPar(parA);
+      
+      return sqlFct.getUE(par.ue);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return result;
   }
 
   //TODO dtheiler: restrict user event retrival for calling user
   @Override
   public List<SSUE> uEsGet(final SSServPar parA) throws Exception {
     
-    final SSUEsGetPar par = new SSUEsGetPar(parA);
-    
     try{
+      
+      final SSUEsGetPar par = new SSUEsGetPar(parA);
       
       return sqlFct.getUEs(
         par.forUser,
@@ -336,8 +355,6 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
         par.type,
         par.startTime,
         par.endTime);
-      
-//      return SSUEMiscFct.filterUEs(uEs, par.startTime, par.endTime);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

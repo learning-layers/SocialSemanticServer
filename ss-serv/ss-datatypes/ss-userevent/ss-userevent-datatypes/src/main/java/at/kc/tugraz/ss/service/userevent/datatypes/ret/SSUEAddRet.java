@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class SSUEAddRet extends SSServRetI{
 
-  public boolean worked = false;
+  public Boolean worked = false;
 
-  public static SSUEAddRet get(boolean worked, SSMethU op){
+  public static SSUEAddRet get(Boolean worked, SSMethU op){
     return new SSUEAddRet(worked, op);
   }
   
-  private SSUEAddRet(boolean worked, SSMethU op){
+  private SSUEAddRet(Boolean worked, SSMethU op){
     
     super(op);
     
@@ -52,9 +52,8 @@ public class SSUEAddRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public boolean isWorked() {
+  /* getters to allow for json enconding */
+  public Boolean isWorked() {
     return worked;
   }
-
 }

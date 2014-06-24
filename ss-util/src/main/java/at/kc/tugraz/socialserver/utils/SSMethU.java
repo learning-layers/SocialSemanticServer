@@ -125,6 +125,7 @@ public enum SSMethU{
   uEAdd                                               ,
   uEAddAtCreationTime                                 ,
   uEGet                                               ,
+  uECountGet                                          ,
   
   //tag
   tagsAdd                                             ,

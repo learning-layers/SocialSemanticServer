@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
@@ -37,47 +37,55 @@ import java.util.Map;
 
 public class SSUESQLFct extends SSDBSQLFct{
 
-  protected static final String               uesTable = "ues";
-  
   public SSUESQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
 
-  public SSUE getUE(SSUri ueUri) throws Exception{
+  public SSUE getUE(
+    final SSUri ue) throws Exception{
     
-    Map<String, String>  selectPars = new HashMap<>();
     ResultSet            resultSet  = null;
-    SSUE                 ue         = null;
     
     try{
+
+      final Map<String, String>  wheres = new HashMap<>();
+      SSUEE                      eventTypeFromDB;
       
-      selectPars.put(SSSQLVarU.userEventId, ueUri.toString());
+      where(wheres, SSSQLVarU.userEventId, ue);
       
-      resultSet = dbSQL.select(uesTable, selectPars);
+      resultSet = dbSQL.select(uesTable, wheres);
       
-      resultSet.first();
+      if(!resultSet.first()){
+        throw new Exception("ue not found");
+      }
       
-      ue = SSUE.get(
-        ueUri, 
+      try{
+        eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType));
+      }catch(Exception error){
+        SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarU.eventType));
+        eventTypeFromDB = null;
+      }
+      
+      return SSUE.get(
+        ue, 
         bindingStrToUri        (resultSet, SSSQLVarU.userId), 
-        SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType)), 
+        eventTypeFromDB, 
         bindingStrToUri        (resultSet, SSSQLVarU.entityId), 
         bindingStr             (resultSet, SSSQLVarU.content), 
         null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-    
-    return ue;
   }
   
   //TODO dtheiler: include start and end date in sql query already
   public List<SSUE> getUEs(
-    final SSUri    forUserUri,
-    final SSUri    entityUri,
+    final SSUri    forUser,
+    final SSUri    entity,
     final SSUEE    eventType,
     final Long     startTime,
     final Long     endTime) throws Exception{
@@ -89,33 +97,35 @@ public class SSUESQLFct extends SSDBSQLFct{
       final List<String>         columns      = new ArrayList<>();
       final List<String>         tableCons    = new ArrayList<>();
       final Map<String, String>  wheres       = new HashMap<>();
-      final List<SSUE>           ues          = new ArrayList<SSUE>();
+      final List<SSUE>           ues          = new ArrayList<>();
       
       SSUEE                      eventTypeFromDB;
       Long                       timestamp;
       
-      table    (tables,    uesTable);
-      table    (tables,    entityTable);
       column   (columns,   SSSQLVarU.userEventId);
       column   (columns,   SSSQLVarU.userId);
       column   (columns,   SSSQLVarU.entityId);
-      column   (columns,   SSSQLVarU.id);
+//      column   (columns,   SSSQLVarU.id);
       column   (columns,   SSSQLVarU.content);
       column   (columns,   SSSQLVarU.creationTime);
       column   (columns,   SSSQLVarU.eventType);
-      tableCon (tableCons, uesTable, SSSQLVarU.userEventId, entityTable, SSSQLVarU.id);
       
-      if(forUserUri != null){
-        where(wheres, SSSQLVarU.userId, forUserUri);
+      table    (tables,    uesTable);
+      table    (tables,    entityTable);
+      
+      if(forUser != null){
+        where(wheres, SSSQLVarU.userId, forUser);
       }
       
-      if(entityUri != null){
-        where(wheres, SSSQLVarU.entityId, entityUri);
+      if(entity != null){
+        where(wheres, SSSQLVarU.entityId, entity);
       }
       
       if(eventType != null){
         where(wheres, SSSQLVarU.eventType, eventType);
       }
+
+      tableCon (tableCons, uesTable, SSSQLVarU.userEventId, entityTable, SSSQLVarU.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
@@ -123,9 +133,15 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         try{
           eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType));
-          timestamp       = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
         }catch(Exception error){
-          SSLogU.warn("user event type doesnt exist in curren model or timestamp isn't valid " + bindingStr(resultSet, SSSQLVarU.eventType));
+          SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarU.eventType));
+          continue;
+        }
+        
+        try{
+          timestamp = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+        }catch(Exception error){
+          SSLogU.warn("timestamp isn't valid " + bindingStrToLong(resultSet, SSSQLVarU.creationTime));
           continue;
         }
         
@@ -161,27 +177,27 @@ public class SSUESQLFct extends SSDBSQLFct{
   }
 
   public void addUE(
-    final SSUri    ueUri, 
-    final SSUri    userUri, 
-    final SSUri    entityUri, 
-    final SSUEE eventType, 
+    final SSUri    ue, 
+    final SSUri    user, 
+    final SSUri    entity, 
+    final SSUEE    eventType, 
     final String   content) throws Exception{
 
-    if(SSObjU.isNull(ueUri, userUri, entityUri, eventType, content)){
-      SSServErrReg.regErrThrow(new Exception("pars not okay"));
-      return;
-    }
-    
-    final Map<String, String> insert = new HashMap<>();
-    
     try{
-      insert.put(SSSQLVarU.userEventId,   ueUri.toString());
-      insert.put(SSSQLVarU.userId,        userUri.toString());
-      insert.put(SSSQLVarU.entityId,      entityUri.toString());
-      insert.put(SSSQLVarU.eventType,     eventType.toString());
-      insert.put(SSSQLVarU.content,       content);
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.userEventId,   ue);
+      insert(inserts, SSSQLVarU.userId,        user);
+      insert(inserts, SSSQLVarU.entityId,      entity);
+      insert(inserts, SSSQLVarU.eventType,     eventType);
+      
+      if(content == null){
+        insert(inserts, SSSQLVarU.content,       content);
+      }else{
+        insert(inserts, SSSQLVarU.content,       SSStrU.empty);
+      }
 
-      dbSQL.insert(uesTable, insert);
+      dbSQL.insert(uesTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

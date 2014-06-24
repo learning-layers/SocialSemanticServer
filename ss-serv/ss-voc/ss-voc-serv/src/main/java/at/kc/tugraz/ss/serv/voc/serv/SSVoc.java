@@ -35,8 +35,10 @@ import java.util.List;
 public class SSVoc extends SSServA{
   
   public static final SSServA inst            = new SSVoc(null, SSVocI.class);
+  public static final String  sssUri          = "http://social.semantic.server.eu";
   public static SSLabel       systemUserLabel = null;
   public static SSUri         systemUserUri   = null;
+  
   
   protected SSVoc(
     final Class servImplClientInteraceClass, 

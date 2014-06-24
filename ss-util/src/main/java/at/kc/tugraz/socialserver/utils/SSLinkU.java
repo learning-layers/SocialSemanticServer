@@ -32,7 +32,6 @@ public class SSLinkU{
   public static final String schemaOrgUrl          = "http://schema.org/url";
   public static final String xsd                   = "http://www.w3.org/2001/XMLSchema#";
   public static final String ccUahEsIeOntOeOaae    = "http://www.cc.uah.es/ie/ont/OE-OAAE#";
-  public static final String dummyUri              = "http://dummy.org";
  
   //	public  static final String uriMature                                = "http://tug.mature-ip.eu/";
   //	public  static final String uriVirtualFileRepository                 = "http://tug.mature-ip.eu/virtualfilerepository/";

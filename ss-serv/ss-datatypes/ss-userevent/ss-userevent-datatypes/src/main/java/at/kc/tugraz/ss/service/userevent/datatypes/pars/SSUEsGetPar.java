@@ -28,11 +28,11 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUEsGetPar extends SSServPar{
   
+  public SSUri           forUser        = null;
   public SSUri           entity         = null;
   public SSUEE           type           = null;
   public Long            startTime      = null;
   public Long            endTime        = null;
-  public SSUri           forUser        = null;
   
   public SSUEsGetPar(SSServPar par) throws Exception{
 
@@ -41,14 +41,11 @@ public class SSUEsGetPar extends SSServPar{
     try{
       
       if(pars != null){
+        forUser    = (SSUri)    pars.get(SSVarU.forUser);
         entity     = (SSUri)    pars.get(SSVarU.entity);
         type       = (SSUEE)    pars.get(SSVarU.type);
         startTime  = (Long)     pars.get(SSVarU.startTime);
-        forUser    = (SSUri)    pars.get(SSVarU.forUser);
-        
-        try{
-          endTime  = (Long)     pars.get(SSVarU.endTime);
-        }catch(Exception error){}
+        endTime    = (Long)     pars.get(SSVarU.endTime);
       }
       
       if(clientPars != null){

@@ -276,6 +276,26 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));
   }
   
+  public static Integer uECountGet(
+    final SSUri    user,
+    final SSUri    forUser,
+    final SSUri    entity,
+    final SSUEE    type,
+    final Long     startTime,
+    final Long     endTime) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarU.type,      type);
+    opPars.put(SSVarU.startTime, startTime);
+    opPars.put(SSVarU.endTime,   endTime);
+    
+    return (Integer) SSServA.callServViaServer(new SSServPar(SSMethU.uECountGet, opPars));
+  }
+  
   public static List<SSUE> uEsGet(
     final SSUri    user,
     final SSUri    forUser,

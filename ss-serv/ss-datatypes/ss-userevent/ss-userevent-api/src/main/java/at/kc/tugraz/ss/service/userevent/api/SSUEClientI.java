@@ -25,7 +25,8 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSUEClientI {
   
-  public void uEGet    (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void uEsGet   (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void uEAdd    (SSSocketCon sSCon, SSServPar par) throws Exception;
+  public void uECountGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void uEGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void uEsGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void uEAdd      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

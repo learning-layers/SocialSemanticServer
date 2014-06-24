@@ -70,7 +70,7 @@ public class SSUE extends SSEntityA {
 
     boolean    changedSomething = true;
     SSUE[]     helper           = new SSUE[toSortUserEvents.size()];
-    List<SSUE> result           = new ArrayList<SSUE>();
+    List<SSUE> result           = new ArrayList<>();
     SSUE       storage;
     
     for (int counter = 0; counter < toSortUserEvents.size(); counter++) {
@@ -136,7 +136,7 @@ public class SSUE extends SSEntityA {
   }
 
   public String getType(){
-    return SSUEE.toStr(type);
+    return SSStrU.toStr(type);
   }
 
   public String getEntity() throws Exception{

@@ -24,37 +24,41 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSUEGetRet extends SSServRetI{
-  
-  public SSUE uE = null;
-  
-  public static SSUEGetRet get(SSUE uE, SSMethU op){
-    return new SSUEGetRet(uE, op);
+public class SSUECountGetRet extends SSServRetI{
+
+  public Integer count = null;
+
+  public static SSUECountGetRet get(
+    final Integer count, 
+    final SSMethU op){
+    
+    return new SSUECountGetRet(count, op);
   }
   
-  private SSUEGetRet(SSUE uE, SSMethU op){
+  private SSUECountGetRet(
+    final Integer count, 
+    final SSMethU op){
     
     super(op);
     
-    this.uE = uE;
+    this.count = count;
   }
-  
+
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.uE, SSVarU.sss + SSStrU.colon + SSUE.class.getName());
+    ld.put(SSVarU.count, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
   
   /* getters to allow for json enconding */
-  public SSUE getuE() {
-    return uE;
+  public Integer getCount() {
+    return count;
   }
 }

@@ -47,6 +47,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";
   protected static final String   entityTable                         = "entity";
+  protected static final String   uesTable                            = "ues";
   protected static final String   activityTable                       = "activity";
   protected static final String   activityUsersTable                  = "activityusers";
   protected static final String   activityEntitiesTable               = "activityentities";

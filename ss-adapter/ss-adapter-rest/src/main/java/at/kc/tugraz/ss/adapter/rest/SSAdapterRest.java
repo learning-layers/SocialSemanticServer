@@ -758,6 +758,15 @@ public class SSAdapterRest{
   public String uEGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.uEGet);
   }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "uECountGet")
+  public String uECountGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.uECountGet);
+  }
+  
 
 //@POST
 //  @Consumes(MediaType.APPLICATION_JSON)

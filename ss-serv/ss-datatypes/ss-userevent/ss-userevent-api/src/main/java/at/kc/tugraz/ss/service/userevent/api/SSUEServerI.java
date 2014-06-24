@@ -26,10 +26,12 @@ import java.util.List;
 
 public interface SSUEServerI {
 
-  public SSUE        uEGet               (SSServPar parA) throws Exception;
-  public List<SSUE>  uEsGet              (SSServPar parA) throws Exception;
-  public Boolean     uEAdd               (SSServPar parA) throws Exception;
-  public Boolean     uEAddAtCreationTime (SSServPar parA) throws Exception;
+  public Integer     uECountGet          (final SSServPar parA) throws Exception;
+  public SSUE        uEGet               (final SSServPar parA) throws Exception;
+  public List<SSUE>  uEsGet              (final SSServPar parA) throws Exception;
+  public Boolean     uEAdd               (final SSServPar parA) throws Exception;
+  public Boolean     uEAddAtCreationTime (final SSServPar parA) throws Exception;
+  
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.shareCollection, coll, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.subscribeCollection, resource, strU.empty);
