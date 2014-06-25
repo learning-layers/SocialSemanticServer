@@ -47,6 +47,8 @@ public interface SSEntityServerI {
   public Boolean                         entityUserCopy                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUpdate                         (final SSServPar parA) throws Exception;
   
+  public SSUri                           entityThumbAdd                           (final SSServPar parA) throws Exception;
+  public List<SSUri>                     entityThumbsGet                          (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;

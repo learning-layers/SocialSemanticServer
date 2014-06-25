@@ -29,28 +29,24 @@ public class SSFileDesc extends SSEntityDescA{
   
   public String fileExt  = null;
   public String mimeType = null;
-  public String thumb    = null;
   
   public static SSFileDesc get(
     final SSEntityDescA   entityDesc,
     final String          fileExt,
-    final String          mimeType,
-    final String          thumb) throws Exception{
+    final String          mimeType) throws Exception{
     
-    return new SSFileDesc(entityDesc, fileExt, mimeType, thumb);
+    return new SSFileDesc(entityDesc, fileExt, mimeType);
   }
   
   private SSFileDesc(
     final SSEntityDescA    entityDesc,
     final String           fileExt,
-    final String           mimeType,
-    final String           thumb) throws Exception{
+    final String           mimeType) throws Exception{
     
     super(entityDesc);
     
     this.fileExt  = fileExt;
     this.mimeType = mimeType;
-    this.thumb    = thumb;
   }
   
   @Override
@@ -60,7 +56,6 @@ public class SSFileDesc extends SSEntityDescA{
     
     ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.fileExt,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.thumb,         SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

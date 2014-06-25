@@ -55,6 +55,8 @@ public enum SSMethU{
   entityRemove                                        ,
   entityLabelSet                                      ,
   entityUserUpdate                                        ,
+  entityThumbAdd,
+  entityThumbsGet,
   entityUpdate ,
   entityCirclePublicAdd,
   entityCircleURIPublicGet,
@@ -214,7 +216,6 @@ public enum SSMethU{
   fileUriFromID                                       ,
   fileCreateUri                                       ,
   fileExtGet                                          ,
-  fileThumbGet                                        , 
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,

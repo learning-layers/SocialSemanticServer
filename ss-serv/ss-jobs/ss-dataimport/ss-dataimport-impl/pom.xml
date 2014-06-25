@@ -25,6 +25,12 @@
     </dependency>
     
     <dependency>
+      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <artifactId>ss-voc-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>at.kc.tugraz.ss.category</groupId>
       <artifactId>ss-category-datatypes</artifactId>
       <version>${project.version}</version>
@@ -113,54 +119,11 @@
       <artifactId>ss-evernote-serv</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
             
-<!--    <dependency>
-      <groupId>com.evernote</groupId>
-      <artifactId>evernote-api</artifactId>
-      <version>1.25.1</version>
-    </dependency>-->
-    
-    <!--    <dependency>
-      <groupId>at.kc.tugraz.ss.serv.jobs.evernote</groupId>
-      <artifactId>ss-evernote-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>-->
-    
-    <dependency>
-      <groupId>org.xhtmlrenderer</groupId>
-      <artifactId>core-renderer</artifactId>
-      <version>R8</version>
-    </dependency>
-        
-    <dependency>
-      <groupId>com.lowagie</groupId>
-      <artifactId>itext</artifactId>
-      <version>2.0.8</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>jpedal</groupId>
-      <artifactId>jpedal_lgpl</artifactId>
-      <version>1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-      
     <dependency>
       <groupId>com.googlecode.sardine</groupId>
       <artifactId>sardine</artifactId>
       <version>146</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.8</version>
     </dependency>
     
     <dependency>

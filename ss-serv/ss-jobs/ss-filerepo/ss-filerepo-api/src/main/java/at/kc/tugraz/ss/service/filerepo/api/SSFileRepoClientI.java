@@ -28,7 +28,6 @@ public interface SSFileRepoClientI{
   public void fileDownload              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileUpload                (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileExtGet                (final SSSocketCon sSCon, final SSServPar par) throws Exception;
-  public void fileThumbGet              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileReplace               (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileCanWrite              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileSetReaderOrWriter     (final SSSocketCon sSCon, final SSServPar par) throws Exception;

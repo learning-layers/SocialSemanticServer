@@ -927,6 +927,34 @@ public class SSServCaller {
   
   /* entity */
   
+  public static List<SSUri> entityThumbsGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+   
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbsGet, opPars));
+  }
+  
+  public static void entityThumbAdd(
+    final SSUri   user,
+    final SSUri   entity,
+    final SSUri   thumb,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.thumb,        thumb);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbAdd, opPars));
+  }
+  
   public static void entityUserUpdate(
     final SSUri          entity,
     final SSLabel        label,

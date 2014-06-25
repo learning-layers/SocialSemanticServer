@@ -40,6 +40,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hwpf.usermodel.Range;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 public class SSFileU{
 
@@ -343,6 +344,30 @@ public class SSFileU{
     return new File(correctDirPath(dirPath)).listFiles();
   }
   
+  public static void writePDFFromXHTML(
+    final String pdfFilePath, 
+    final String xhtmlFilePath) throws Exception{
+    
+    FileOutputStream out = null;
+    
+    try{
+      
+      final ITextRenderer renderer = new ITextRenderer();
+      final String        uri      = new File(xhtmlFilePath).toURI().toURL().toString();
+      
+      out = new FileOutputStream(pdfFilePath);
+      
+      renderer.setDocument(uri);
+      renderer.layout();
+      renderer.createPDF(out);
+      
+    }finally{
+      
+      if(out != null){
+        out.close();
+      }
+    }
+  }
   public static void writePDFFromDoc(
     final String docFilePath,
     final String pdfFilePath) throws Exception{
@@ -379,8 +404,8 @@ public class SSFileU{
     
     document.close();
   }
-  
-  public static void writePNGFromPDF(
+ 
+  public static void writeScaledPNGFromPDF(
     final String pdfFilePath, 
     final String pngFilePath) throws Exception{
     
@@ -435,6 +460,26 @@ public class SSFileU{
     graphics2D.dispose();
     
     ImageIO.write(scaledThumb, SSFileExtU.png, pngFile);
+  }
+  
+  public static void writeStr(
+    final String str,
+    final String filePath) throws Exception{
+    
+    OutputStreamWriter out = null;
+    
+    try {
+      
+      out = new OutputStreamWriter(openOrCreateFileWithPathForWrite(filePath), SSEncodingU.utf8);
+      
+      out.write(str);
+      
+    }finally{
+      
+      if(out != null){
+        out.close();
+      }
+    }
   }
   
   public static String readPNGToBase64Str(

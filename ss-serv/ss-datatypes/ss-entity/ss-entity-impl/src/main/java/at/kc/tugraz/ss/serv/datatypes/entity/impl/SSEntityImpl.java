@@ -77,6 +77,8 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -493,7 +495,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           null,
           new ArrayList<>(),
           entity.author,
-          new ArrayList<>()));
+          new ArrayList<>(),
+          null));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1247,6 +1250,46 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.entity);
       
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityThumbAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityThumbAddPar par = new SSEntityThumbAddPar(parA);
+      
+      sqlFct.addThumb(par.entity, par.thumb);
+      
+      return par.thumb;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityThumbAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> entityThumbsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityThumbsGetPar par = new SSEntityThumbsGetPar(parA);
+      
+      return sqlFct.getThumbs(par.entity);
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

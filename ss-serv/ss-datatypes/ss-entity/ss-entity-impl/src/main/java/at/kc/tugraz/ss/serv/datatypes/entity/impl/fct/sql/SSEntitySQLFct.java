@@ -335,6 +335,24 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public void addThumb(
+    final SSUri entity,
+    final SSUri thumb) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,   entity);
+      insert(inserts, SSSQLVarU.thumbId, thumb);
+      
+      dbSQL.insert(thumbnailsTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public SSUri addOrGetPublicCircle() throws Exception{
     
     try{
@@ -546,6 +564,27 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public List<SSUri> getThumbs(final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(thumbnailsTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
+      
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+   
   public SSEntityCircle getCircle(
     final SSUri circleUri) throws Exception{
     

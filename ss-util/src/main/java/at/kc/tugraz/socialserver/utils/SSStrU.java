@@ -62,6 +62,7 @@ public class SSStrU{
   public  static final String commaEncoded                                    = "&#44;";
   
   //values misc
+  public  static final String        valueThumb                               = "thumb";
   public  static final String        valueNA                                  = "NA";
   public  static final String        valueException                           = "exception";
   public  static final String        valueOp                                  = "op";

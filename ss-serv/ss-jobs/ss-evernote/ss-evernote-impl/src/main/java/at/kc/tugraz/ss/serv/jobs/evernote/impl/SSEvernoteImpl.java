@@ -20,9 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
+import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
@@ -34,8 +40,10 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksShare
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesLinkedGetPar;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -53,13 +61,53 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI{
+public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
   public SSEvernoteImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
+
+  @Override
+  public SSEntityDescA getDescForEntity(
+    final SSEntityDescGetPar par,
+    final SSEntityDescA entityDesc) throws Exception{
+    
+    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote)){
+      
+      if(par.getThumb){
+      
+        entityDesc.thumb = 
+         getThumbBase64(
+           par.user, 
+           par.entity);
+      }
+    }
+    
+    return entityDesc;
+  }
   
-  /* SSEntityHandlerImplI */
+  private String getThumbBase64(
+    final SSUri  user,
+    final SSUri  file) throws Exception{
+    
+    try{
+      
+      final List<SSUri> thumbUris = SSServCaller.entityThumbsGet(user, file);
+      
+      if(thumbUris.isEmpty()){
+        SSLogU.warn("thumb couldnt be retrieved from file " + file);
+        return null;
+      }
+      
+      final String pngFilePath = SSCoreConf.instGet().getSsConf().getLocalWorkPath() + SSServCaller.fileIDFromURI (user, thumbUris.get(0));
+      
+      return SSFileU.readPNGToBase64Str(pngFilePath);
+      
+    }catch(Exception error){
+      SSLogU.warn("base 64 file thumb couldnt be retrieved");
+      return null;
+    }
+  }
   
   @Override
   public Boolean copyUserEntity(

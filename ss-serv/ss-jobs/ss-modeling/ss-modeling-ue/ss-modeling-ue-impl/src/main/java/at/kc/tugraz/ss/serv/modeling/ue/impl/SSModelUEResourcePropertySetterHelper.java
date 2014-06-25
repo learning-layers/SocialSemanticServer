@@ -347,23 +347,23 @@ public class SSModelUEResourcePropertySetterHelper {
 		}
 	}		
 
-	/*
-	 * 0 increase rating high counters <br>
-	 */
-	public void increaseCountersRateHigh(
-			SSModelUEEntity  resource, 
-			SSUE event) throws Exception {
-
-		if(
-				SSStrU.contains             (SSModelUEU.rateEventTypes, event.type) &&
-				SSUE.isContentCorrect         (event)                                    &&
-				Integer.parseInt              (event.content) > SSModelUEU.THRESHOLD_RATE_HIGH){
-
-			resource.counters.put(
-					SSModelUEResourceCounterEnum.counterRateHigh.toString(),
-					resource.counters.get(SSModelUEResourceCounterEnum.counterRateHigh.toString()) + 1);
-		}
-	}
+  /*
+  * 0 increase rating high counters <br>
+  */
+  public void increaseCountersRateHigh(
+    final SSModelUEEntity  resource,
+    final SSUE event) throws Exception {
+    
+    if(
+      SSStrU.contains             (SSModelUEU.rateEventTypes, event.type)    &&
+      SSUE.isRatingContentCorrect (event)                                    &&
+      Integer.parseInt            (event.content) > SSModelUEU.THRESHOLD_RATE_HIGH){
+      
+      resource.counters.put(
+        SSModelUEResourceCounterEnum.counterRateHigh.toString(),
+        resource.counters.get(SSModelUEResourceCounterEnum.counterRateHigh.toString()) + 1);
+    }
+  }
 
 	public void increaseCountersShareCommunity(
 			SSModelUEEntity  resource,

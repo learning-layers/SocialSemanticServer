@@ -104,8 +104,19 @@ public class SSUE extends SSEntityA {
     return result;
   }
   
-	public static Boolean isContentCorrect(final SSUE event) {
-		return !SSStrU.equals(event.content, SSStrU.valueNA);
+	public static Boolean isRatingContentCorrect(final SSUE event) {
+	
+    if(SSStrU.equals(event.content, SSStrU.valueNA)){
+      return false;
+    }
+    
+    try{
+      Integer.parseInt(event.content);
+    }catch(Exception error){
+      return false;
+    }
+    
+    return true;
 	}
   
   private SSUE(

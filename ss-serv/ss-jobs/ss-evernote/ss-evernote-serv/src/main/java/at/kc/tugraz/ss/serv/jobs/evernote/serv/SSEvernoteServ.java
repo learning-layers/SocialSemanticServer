@@ -50,6 +50,7 @@ public class SSEvernoteServ extends SSServA{
     regServForManagingEntities(SSEntityE.evernoteNotebook);
     regServForManagingEntities(SSEntityE.evernoteNote);
     regServForManagingEntities(SSEntityE.evernoteResource);
+    regServForDescribingEntities();
   }
   
   @Override

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
@@ -41,10 +42,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
+  private       String                fileExt;
   private       FileOutputStream      fileOutputStream  = null;
   private       FileInputStream       fileInputStream   = null;
   private       String                fileId            = null;
@@ -65,8 +68,9 @@ public class SSFileUploader extends SSServImplStartA{
     this.localWorkPath     = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
     
     try{
-      this.uri               = SSServCaller.fileCreateUri(par.user, SSMimeTypeU.fileExtForMimeType(this.par.mimeType));
-      this.fileId            = SSServCaller.fileIDFromURI (par.user, uri);
+      this.fileExt           = SSMimeTypeU.fileExtForMimeType             (this.par.mimeType);
+      this.uri               = SSServCaller.fileCreateUri                 (par.user, this.fileExt);
+      this.fileId            = SSServCaller.fileIDFromURI                 (par.user, uri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -106,6 +110,8 @@ public class SSFileUploader extends SSServImplStartA{
         addFileEntity();
         
         removeFileFromLocalWorkFolder();
+        
+        createFileThumb();
         
         sendAnswer(SSStrU.valueFinished);
         return;
@@ -219,5 +225,53 @@ public class SSFileUploader extends SSServImplStartA{
       SSEntityE.file, 
       null,
       true);
+  }
+
+  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even ont if localWorkPath != local file repo path)
+  private void createFileThumb(){
+    
+    try{
+      final String filePath          = localWorkPath + fileId;
+      final SSUri  pngFileUri        = SSServCaller.fileCreateUri                 (par.user, SSFileExtU.png);
+      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, pngFileUri);
+      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.fileCreateUri     (par.user, SSFileExtU.pdf));
+      Boolean      thumbCreated      = false;
+      
+      if(SSFileExtU.imageFileExts.contains(fileExt)){
+        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), new File(pngFilePath));
+        thumbCreated = true;
+      }
+      
+      if(SSStrU.equals(SSFileExtU.pdf, fileExt)){
+        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath);
+        thumbCreated = true;
+      }
+      
+      if(SSStrU.equals(SSFileExtU.doc, fileExt)){
+        SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
+        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath);
+        thumbCreated = true;
+      }
+      
+      if(thumbCreated){
+        
+        SSServCaller.entityAdd(
+          par.user,
+          pngFileUri,
+          par.label,
+          SSEntityE.thumbnail,
+          null,
+          true);
+        
+        SSServCaller.entityThumbAdd(
+          par.user, 
+          uri, 
+          pngFileUri, 
+          true);
+      }
+      
+    }catch(Exception error){
+      SSLogU.warn("thumb couldnt be created from file with ext :" + fileExt);
+    }
   }
 }

@@ -23,36 +23,26 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.imageio.ImageIO;
-import org.jpedal.PdfDecoder;
-import org.jpedal.fonts.FontMappings;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
 public class SSDataImportEvernoteHelper {
   
@@ -62,6 +52,7 @@ public class SSDataImportEvernoteHelper {
   private        SSUri                   userUri                = null;
   private        List<SharedNotebook>    sharedNotebooks        = null;
   private        List<String>            sharedNotebookGuids    = null;
+  private        SSUri                   userCircle             = null;
   
   private final SSEvernoteHelper evernoteHelper = new SSEvernoteHelper();
   
@@ -74,6 +65,15 @@ public class SSDataImportEvernoteHelper {
     this.evernoteInfo    = SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
     this.userName        = evernoteHelper.getUserName        (evernoteInfo);
     this.userUri         = SSServCaller.authRegisterUser     (par.user, userName, "1234", false);
+    this.userCircle      = SSServCaller.entityCircleCreate(
+      userUri,
+      new ArrayList<>(),
+      new ArrayList<>(),
+      SSCircleE.priv,
+      null,
+      SSVoc.systemUserUri,
+      null,
+      false);
   }
   
   public void handleSharedNotebooks() throws Exception{
@@ -100,6 +100,12 @@ public class SSDataImportEvernoteHelper {
         notebook.getServiceCreated(),
         SSEntityE.evernoteNotebook,
         null,
+        false);
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri, 
+        userCircle, 
+        notebookUri,
         false);
       
       evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
@@ -139,6 +145,12 @@ public class SSDataImportEvernoteHelper {
         creationTimeForLinkedNotebook,
         SSEntityE.evernoteNotebook,
         null,
+        false);
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri, 
+        userCircle, 
+        notebookUri,
         false);
       
       evernoteHelper.ueHelper.addUEsForLinkedNotebook(
@@ -216,11 +228,17 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri, 
+        userCircle, 
+        noteUri,
+        false);
+      
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
       evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
       evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
       
-      handleEvernoteNoteContent (note);
+      handleEvernoteNoteContent (userUri, note, noteUri);
       handleEvernoteResources   (userUri, notebook, evernoteInfo, note, isSharedNotebook, sharedNotebooks);
     }
   }
@@ -256,139 +274,49 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityEntitiesToCircleAdd(
+        userUri,
+        userCircle,
+        resourceUri,
+        false);
+      
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
       evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook);
     }
   }
   
-  private void handleEvernoteNoteContent(Note note) throws Exception{
-    
-    SSUri  fileUri;
-    String fileId;
+  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even ont if localWorkPath != local file repo path)
+  private void handleEvernoteNoteContent(
+    final SSUri user,
+    final Note  note,
+    final SSUri noteUri){
     
     try{
-      fileUri = SSServCaller.fileCreateUri     (userUri, SSFileExtU.png);
-      fileId  = SSServCaller.fileIDFromURI     (userUri, fileUri);
+      final SSUri  pngFileUri        = SSServCaller.fileCreateUri                 (userUri, SSFileExtU.png);
+      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
+      final String xhtmlFilePath     = localWorkPath + SSServCaller.fileIDFromURI (userUri, SSServCaller.fileCreateUri     (userUri, SSFileExtU.xhtml));   //localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
+      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (userUri, SSServCaller.fileCreateUri     (userUri, SSFileExtU.pdf));     //localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
       
-      String           xhtmlFilePath    = localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
-      String           pdfFilePath      = localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
-      String           pngFilePath      = localWorkPath + fileId;
+      SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
+      SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);
+      SSFileU.writeScaledPNGFromPDF (pdfFilePath,       pngFilePath);
+        
+      SSServCaller.entityAdd(
+        user,
+        pngFileUri,
+        null,
+        SSEntityE.thumbnail,
+        null,
+        false);
       
-      evernoteNoteWriteHTML         (note,        xhtmlFilePath);
-      evernoteNoteWritePDF          (pdfFilePath, xhtmlFilePath);
-      evernoteNoteWritePNG          (pdfFilePath, pngFilePath);  //&&evernoteNoteUploadPNGToWebDav (pngFilePath, pngFileID)
+      SSServCaller.entityThumbAdd(
+        user,
+        noteUri,
+        pngFileUri,
+        false);
       
-      System.out.println(fileId);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void evernoteNoteWritePNG(String pdfFilePath, String pngFilePath) throws Exception{
-    
-    PdfDecoder    pdfToImgDecoder = null;
-    BufferedImage buffImage;
-    File          pngFile;
-    Image         pngImage;
-    BufferedImage scaledThumb;
-    Graphics2D    graphics2D;
-    
-    try {
-      
-      pdfToImgDecoder = new PdfDecoder(true);
-      
-      FontMappings.setFontReplacements();
-      
-      pdfToImgDecoder.openPdfFile(pdfFilePath); //file
-      //decode_pdf.openPdfFile("C:/myPDF.pdf", "password"); //encrypted file
-      //decode_pdf.openPdfArray(bytes); //bytes is byte[] array with PDF
-      //decode_pdf.openPdfFileFromURL("http://www.mysite.com/myPDF.pdf",false);
-      
-      pdfToImgDecoder.setExtractionMode(0, 1f); //do not save images
-      /**get page 1 as an image*/
-      //page range if you want to extract all pages with a loop
-      //int start = 1,  end = decode_pdf.getPageCount();
-      buffImage = pdfToImgDecoder.getPageAsImage(1);
-      pngFile   = new File(pngFilePath);
-      
-      ImageIO.write(buffImage, SSFileExtU.png, pngFile);
-      
-      pngImage  = ImageIO.read(pngFile);
-      buffImage = (BufferedImage) pngImage;
-      
-      //scale the thumb
-      scaledThumb = new BufferedImage(350, 350, BufferedImage.TYPE_INT_RGB);
-      graphics2D  = scaledThumb.createGraphics();
-      
-      graphics2D.setComposite(AlphaComposite.Src);
-      graphics2D.drawImage(buffImage, 0, 0, 350, 350, null);
-      graphics2D.dispose();
-      
-      ImageIO.write(scaledThumb, SSFileExtU.png, pngFile);
-      
-    }catch (Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(pdfToImgDecoder != null){
-        pdfToImgDecoder.closePdfFile();
-      }
-    }
-  }
-  
-  private void evernoteNoteWriteHTML(Note note, String xhtmlFilePath) throws Exception{
-    
-    OutputStreamWriter out = null;
-    
-    try {
-      
-      out = new OutputStreamWriter(SSFileU.openOrCreateFileWithPathForWrite(xhtmlFilePath), "UTF-8");
-      
-      out.write(note.getContent());
-      
-    } catch (Exception error1) {
-      SSServErrReg.regErrThrow(error1);
-    }finally{
-      
-      if(out != null){
-        
-        try {
-          out.close();
-        } catch (IOException error2) {
-          SSServErrReg.regErrThrow(error2);
-        }
-      }
-    }
-  }
-  
-  private void evernoteNoteWritePDF(String pdfFilePath, String xhtmlFilePath) throws Exception{
-    
-    FileOutputStream out      = null;
-    ITextRenderer    renderer;
-    String           uri;
-    
-    try{
-      
-      uri      = new File(xhtmlFilePath).toURI().toURL().toString();
-      out      = new FileOutputStream(pdfFilePath);
-      renderer = new ITextRenderer();
-      
-      renderer.setDocument(uri);
-      renderer.layout();
-      renderer.createPDF(out);
-      
-    }catch(Exception error1) {
-      SSServErrReg.regErrThrow(error1);
-    }finally{
-      
-      if(out != null){
-        
-        try {
-          out.close();
-        } catch (IOException error2){
-          SSServErrReg.regErrThrow(error2);
-        }
-      }
+      SSLogU.warn("thumbnail for evernote note couldnt be created");
     }
   }
 }

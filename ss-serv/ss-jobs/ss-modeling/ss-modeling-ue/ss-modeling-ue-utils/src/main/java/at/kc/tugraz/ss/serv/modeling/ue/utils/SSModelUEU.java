@@ -315,38 +315,38 @@ public class SSModelUEU {
    * event type containers
    ***********************************/
   
-  public static final List<SSUEE> initialCollectionCollaborationEventTypes       = new ArrayList<SSUEE>();
-  public static final List<SSUEE> initialDiscussionCollaborationEventTypes       = new ArrayList<SSUEE>();
-  public static final List<SSUEE> collaborateCollectionEventTypes                = new ArrayList<SSUEE>();
-  public static final List<SSUEE> collaborateDiscussionEventTypes                = new ArrayList<SSUEE>();
-  public static final List<SSUEE> removeInitialCollectionCollaborationEventTypes = new ArrayList<SSUEE>();
-  public static final List<SSUEE> relateResourceEventTypes                       = new ArrayList<SSUEE>();
+  public static final List<SSUEE> initialCollectionCollaborationEventTypes       = new ArrayList<>();
+  public static final List<SSUEE> initialDiscussionCollaborationEventTypes       = new ArrayList<>();
+  public static final List<SSUEE> collaborateCollectionEventTypes                = new ArrayList<>();
+  public static final List<SSUEE> collaborateDiscussionEventTypes                = new ArrayList<>();
+  public static final List<SSUEE> removeInitialCollectionCollaborationEventTypes = new ArrayList<>();
+  public static final List<SSUEE> relateResourceEventTypes                       = new ArrayList<>();
   
-  public static final List<SSUEE> changingEventTypes                             = new ArrayList<SSUEE>();
-  public static final List<SSUEE> addingAndDeletingEventTypes                    = new ArrayList<SSUEE>();
-  public static final List<SSUEE> taggingEventTypes                              = new ArrayList<SSUEE>();
-  public static final List<SSUEE> sharingWithCommunityEventTypes                 = new ArrayList<SSUEE>();
-  public static final List<SSUEE> awarenessEventTypes                            = new ArrayList<SSUEE>();
-  public static final List<SSUEE> recommendEventTypes                            = new ArrayList<SSUEE>();
-  public static final List<SSUEE> authoringEventTypes                            = new ArrayList<SSUEE>();
-  public static final List<SSUEE> selectedFromOthersEventTypes                   = new ArrayList<SSUEE>();
-  public static final List<SSUEE> organizingInCollectionsEventTypes              = new ArrayList<SSUEE>();
-  public static final List<SSUEE> assessEventTypes                               = new ArrayList<SSUEE>();
-  public static final List<SSUEE> participationEventTypes                        = new ArrayList<SSUEE>();
-  public static final List<SSUEE> personAssociationEventTypes                    = new ArrayList<SSUEE>();
-  public static final List<SSUEE> contributeToDiscussionEventTypes               = new ArrayList<SSUEE>();
-  public static final List<SSUEE> exportCollectionItemEventTypes                 = new ArrayList<SSUEE>();
-  public static final List<SSUEE> rateEventTypes                                 = new ArrayList<SSUEE>();
+  public static final List<SSUEE> changingEventTypes                             = new ArrayList<>();
+  public static final List<SSUEE> addingAndDeletingEventTypes                    = new ArrayList<>();
+  public static final List<SSUEE> taggingEventTypes                              = new ArrayList<>();
+  public static final List<SSUEE> sharingWithCommunityEventTypes                 = new ArrayList<>();
+  public static final List<SSUEE> awarenessEventTypes                            = new ArrayList<>();
+  public static final List<SSUEE> recommendEventTypes                            = new ArrayList<>();
+  public static final List<SSUEE> authoringEventTypes                            = new ArrayList<>();
+  public static final List<SSUEE> selectedFromOthersEventTypes                   = new ArrayList<>();
+  public static final List<SSUEE> organizingInCollectionsEventTypes              = new ArrayList<>();
+  public static final List<SSUEE> assessEventTypes                               = new ArrayList<>();
+  public static final List<SSUEE> participationEventTypes                        = new ArrayList<>();
+  public static final List<SSUEE> personAssociationEventTypes                    = new ArrayList<>();
+  public static final List<SSUEE> contributeToDiscussionEventTypes               = new ArrayList<>();
+  public static final List<SSUEE> exportCollectionItemEventTypes                 = new ArrayList<>();
+  public static final List<SSUEE> rateEventTypes                                 = new ArrayList<>();
 //  public static final List<SSUEEnum> appearInSearchResultEventTypes                 = new ArrayList<SSUEEnum>();
-  public static final List<SSUEE> viewEntityEventTypes                           = new ArrayList<SSUEE>();
-  public static final List<SSUEE> startDicussionEventTypes                       = new ArrayList<SSUEE>();
-  public static final List<SSUEE> addToCollectionEventTypes                      = new ArrayList<SSUEE>();
-  public static final List<SSUEE> removeFromCollectionEventTypes                 = new ArrayList<SSUEE>();
+  public static final List<SSUEE> viewEntityEventTypes                           = new ArrayList<>();
+  public static final List<SSUEE> startDicussionEventTypes                       = new ArrayList<>();
+  public static final List<SSUEE> addToCollectionEventTypes                      = new ArrayList<>();
+  public static final List<SSUEE> removeFromCollectionEventTypes                 = new ArrayList<>();
   
   /* event type containers for user model */
-  public static final List<SSUEE> sharedCollectionEventTypes                     = new ArrayList<SSUEE>();
-  public static final List<SSUEE> discussionEventTypes                           = new ArrayList<SSUEE>();
-  public static final List<SSUEE> useTopicEventTypes                             = new ArrayList<SSUEE>();
+  public static final List<SSUEE> sharedCollectionEventTypes                     = new ArrayList<>();
+  public static final List<SSUEE> discussionEventTypes                           = new ArrayList<>();
+  public static final List<SSUEE> useTopicEventTypes                             = new ArrayList<>();
   
   public static void init() throws Exception{
     

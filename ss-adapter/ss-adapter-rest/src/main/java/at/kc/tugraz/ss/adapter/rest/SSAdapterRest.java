@@ -114,55 +114,6 @@ public class SSAdapterRest{
 //    return Response.ok(null).build();
   }
 
-  @GET
-  @Consumes(MediaType.TEXT_HTML)
-  @Produces(SSMimeTypeU.imagePng)
-  @Path(SSStrU.slash + "fileThumbGet" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.id + SSStrU.curlyBracketClose)
-  public Response fileThumbGet(@PathParam(SSVarU.id) String fileID){
-    
-    String     jsonRequ       = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"user\":\"http://eval.bp/user/dt/\",\"file\":\"" + fileID + "\",\"key\":\"FischersFritzFischtFrischeFische\"}";
-    List<Byte> bytesFromSS   = new ArrayList<>();
-    String     imageString   = null;
-    byte[]     bytes;
-    Byte[]     nonPrimBytes;
-    
-    try{
-      sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
-      
-      sSCon.writeRequFullToSS   ();
-      sSCon.readMsgFullFromSS   ();
-      sSCon.writeRequFullToSS   ();
-      
-      while((bytes = sSCon.readFileChunkFromSS()).length > 0) {
-        
-        for(int counter = 0; counter < bytes.length; counter++){
-          bytesFromSS.add(bytes[counter]);
-        }
-        
-        sSCon.writeRequFullToSS ();
-      }
-      
-      nonPrimBytes = bytesFromSS.toArray(new Byte[bytesFromSS.size()]);
-      imageString  = "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(nonPrimBytes));
-
-      imageString = "{\"op\":\"" + SSMethU.fileThumbGet + "\",\"result\":\"" + imageString + "\"}";
-    }catch(Exception error){
-      
-      try{
-        return Response.serverError().build();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-      sSCon.closeCon();
-    }
-
-    return Response.ok(imageString).build(); //non-streamed
-
-    // uncomment line below to send streamed
-    // return Response.ok(new ByteArrayInputStream(imageData)).build();
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

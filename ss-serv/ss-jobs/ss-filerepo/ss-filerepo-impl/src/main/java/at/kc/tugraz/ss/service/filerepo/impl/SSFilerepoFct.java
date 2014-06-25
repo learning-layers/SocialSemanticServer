@@ -28,58 +28,66 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.io.File;
-import javax.imageio.ImageIO;
+import java.util.List;
 
 public class SSFilerepoFct{
   
   public SSFilerepoFct(){}
   
+  //TODO dtheiler: remove replication of this method in SSEvernoteImpl
   public static String getThumbBase64(
-    final SSUri  user, 
-    final SSUri  file,
-    final String fileExt) throws Exception{
+    final SSUri  user,
+    final SSUri  file) throws Exception{
     
     try{
-      final String localWorkPath    = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
-      final String fileId           = SSServCaller.fileIDFromURI      (user, file);
-      final String filePath         = localWorkPath + fileId;
-      final SSUri  pngUri           = SSServCaller.fileCreateUri      (user, SSFileExtU.png);
-      final String pngId            = SSServCaller.fileIDFromURI      (user, pngUri);
-      final SSUri  pdfUri           = SSServCaller.fileCreateUri      (user, SSFileExtU.pdf);
-      final String pdfId            = SSServCaller.fileIDFromURI      (user, pdfUri);
-      final String pngFilePath      = localWorkPath + pngId;
-      final String pdfFilePath      = localWorkPath + pdfId;
       
-      if(SSFileExtU.imageFileExts.contains(fileExt)){
-        
-        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), new File(pngFilePath));
-        
-        return SSFileU.readPNGToBase64Str(pngFilePath);
+      final List<SSUri> thumbUris = SSServCaller.entityThumbsGet(user, file);
+      
+      if(thumbUris.isEmpty()){
+        SSLogU.warn("thumb couldnt be retrieved from file " + file);
+        return null;
       }
+      final String pngFilePath = SSCoreConf.instGet().getSsConf().getLocalWorkPath() + SSServCaller.fileIDFromURI (user, thumbUris.get(0));
       
-      if(SSStrU.equals(SSFileExtU.pdf, fileExt)){
+      return SSFileU.readPNGToBase64Str(pngFilePath);
         
-        SSFileU.writePNGFromPDF(filePath, pngFilePath);
-        
-        return SSFileU.readPNGToBase64Str(pngFilePath);
-      }
-      
-      if(SSStrU.equals(SSFileExtU.doc, fileExt)){
-        
-        SSFileU.writePDFFromDoc (filePath,    pdfFilePath);
-        SSFileU.writePNGFromPDF (pdfFilePath, pngFilePath);
-        
-        return SSFileU.readPNGToBase64Str(pngFilePath);
-      }
-      
-      SSLogU.warn("thumb couldnt be created from file with ext :" + fileExt);
-      return null;
-      
+//    try{
+//      final String localWorkPath    = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
+//      final String fileId           = SSServCaller.fileIDFromURI      (user, file);
+//      final String filePath         = localWorkPath + fileId;
+//      final SSUri  pngUri           = SSServCaller.fileCreateUri      (user, SSFileExtU.png);
+//      final String pngId            = SSServCaller.fileIDFromURI      (user, pngUri);
+//      final SSUri  pdfUri           = SSServCaller.fileCreateUri      (user, SSFileExtU.pdf);
+//      final String pdfId            = SSServCaller.fileIDFromURI      (user, pdfUri);
+//      final String pngFilePath      = localWorkPath + pngId;
+//      final String pdfFilePath      = localWorkPath + pdfId;
+//
+//      if(SSFileExtU.imageFileExts.contains(fileExt)){
+//
+//        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), new File(pngFilePath));
+//
+//        return SSFileU.readPNGToBase64Str(pngFilePath);
+//      }
+//
+//      if(SSStrU.equals(SSFileExtU.pdf, fileExt)){
+//
+//        SSFileU.writePNGFromPDF(filePath, pngFilePath);
+//
+//        return SSFileU.readPNGToBase64Str(pngFilePath);
+//      }
+//
+//      if(SSStrU.equals(SSFileExtU.doc, fileExt)){
+//
+//        SSFileU.writePDFFromDoc (filePath,    pdfFilePath);
+//        SSFileU.writePNGFromPDF (pdfFilePath, pngFilePath);
+//
+//        return SSFileU.readPNGToBase64Str(pngFilePath);
+//      }
+//
+
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSLogU.warn("base 64 file thumb couldnt be retrieved");
       return null;
     }
   }

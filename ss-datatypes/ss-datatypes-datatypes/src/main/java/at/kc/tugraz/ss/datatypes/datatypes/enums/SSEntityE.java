@@ -52,7 +52,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   evernoteNote,
   evernoteResource,
   circle,
-  activity;
+  activity,
+  thumbnail;
 
 //  entityDesc,
 //  collDesc,

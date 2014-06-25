@@ -41,6 +41,7 @@ public abstract class SSEntityDescA extends SSEntityA{
   public List<String>     tags            = new ArrayList<>();
   public List<SSEntityA>  discs           = new ArrayList<>();
   public List<SSEntityA>  uEs             = new ArrayList<>();
+  public String           thumb           = null;
 
   protected SSEntityDescA(
     final SSEntityDescA entityDesc) throws Exception{
@@ -56,6 +57,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.tags            = entityDesc.tags;
     this.discs           = entityDesc.discs;
     this.uEs             = entityDesc.uEs;
+    this.thumb           = entityDesc.thumb;
   }
   
   protected SSEntityDescA(
@@ -67,7 +69,8 @@ public abstract class SSEntityDescA extends SSEntityA{
     final SSEntityA       overallRating,
     final List<String>    tags, 
     final List<SSEntityA> discs,
-    final List<SSEntityA> uEs) throws Exception{
+    final List<SSEntityA> uEs,
+    final String          thumb) throws Exception{
     
     super(entity);
     
@@ -77,6 +80,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.creationTime   = creationTime;
     this.author         = author;
     this.overallRating  = overallRating;
+    this.thumb          = thumb;
     
     if(tags != null){
       this.tags.addAll(tags);
@@ -120,6 +124,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     ld.put(SSVarU.entity,         SSVarU.sss  + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.overallRating,  SSVarU.sss  + SSStrU.colon + SSEntityA.class.getName());
+    ld.put(SSVarU.thumb,          SSVarU.xsd  + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
@@ -159,5 +164,9 @@ public abstract class SSEntityDescA extends SSEntityA{
   
   public List<SSEntityA> getuEs() throws Exception{
     return uEs;
+  }
+  
+  public String getThumb(){
+    return thumb;
   }
 }

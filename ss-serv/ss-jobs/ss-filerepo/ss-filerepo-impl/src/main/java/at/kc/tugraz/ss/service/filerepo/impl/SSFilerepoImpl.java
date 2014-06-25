@@ -149,22 +149,19 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       
       final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
       final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
-      String       thumb    = null;
       
       if(par.getThumb){
         
-        thumb =
+        entityDesc.thumb = 
           SSFilerepoFct.getThumbBase64(
             par.user,
-            par.entity,
-            fileExt);
+            par.entity);
       }
       
       return SSFileDesc.get(
         entityDesc,
         fileExt,
-        mimeType, 
-        thumb);
+        mimeType);
     }
     
     return entityDesc;
@@ -235,14 +232,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, par)).start();
   }
 
-  @Override
-  public void fileThumbGet(SSSocketCon sSCon, SSServPar par) throws Exception{
-
-    SSServCaller.checkKey(par);
-
-    new Thread(new SSFileThumbGetter((SSFileRepoConf)conf, sSCon, par)).start();
-  }
-  
   @Override
   public void fileExtGet(SSSocketCon sSCon, SSServPar par) throws Exception{
         
