@@ -694,8 +694,8 @@ CREATE TABLE `learnepversioncurrent` (
   `learnEpVersionId` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`,`learnEpVersionId`),
   KEY `learnEpVersionIdFKlearnepversioncurrent_idx` (`learnEpVersionId`),
-  CONSTRAINT `userIdFKlearnepversioncurrent` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `learnEpVersionIdFKlearnepversioncurrent` FOREIGN KEY (`learnEpVersionId`) REFERENCES `learnepversion` (`learnEpVersionId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `learnEpVersionIdFKlearnepversioncurrent` FOREIGN KEY (`learnEpVersionId`) REFERENCES `learnepversion` (`learnEpVersionId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKlearnepversioncurrent` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -913,6 +913,32 @@ LOCK TABLES `tagass` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `thumbnails`
+--
+
+DROP TABLE IF EXISTS `thumbnails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `thumbnails` (
+  `entityId` varchar(200) NOT NULL,
+  `thumbId` varchar(200) NOT NULL,
+  PRIMARY KEY (`entityId`,`thumbId`),
+  KEY `thumbIdFKthumbnails_idx` (`thumbId`),
+  CONSTRAINT `thumbIdFKthumbnails` FOREIGN KEY (`thumbId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKthumbnails` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `thumbnails`
+--
+
+LOCK TABLES `thumbnails` WRITE;
+/*!40000 ALTER TABLE `thumbnails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `thumbnails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ues`
 --
 
@@ -950,4 +976,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-20 15:25:48
+-- Dump completed on 2014-06-25 15:36:34
