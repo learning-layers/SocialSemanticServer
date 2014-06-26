@@ -47,6 +47,20 @@ public class SSDateU{
     timer.scheduleAtFixedRate(updater, date, timeBetween); 
   }
   
+  public static Date getDatePlusMinutes(final Integer minutes){
+    
+    final Calendar now = new GregorianCalendar();
+    
+    now.add(Calendar.MINUTE, minutes);
+    
+    return new GregorianCalendar(
+      now.get(Calendar.YEAR),
+      now.get(Calendar.MONTH),
+      now.get(Calendar.DATE),
+      now.get(Calendar.HOUR_OF_DAY),
+      now.get(Calendar.MINUTE)).getTime();
+  }
+  
   public static Date getDateForTomorrowMorning() {
 
     Calendar tomorrow = new GregorianCalendar();

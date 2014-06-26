@@ -142,6 +142,7 @@ recommConf:
   fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp: null
   initAtStartUp: true
   op: null
+  updateInterval: null #in minutes
   use: true
 scaffConf:
   executeOpAtStartUp: false

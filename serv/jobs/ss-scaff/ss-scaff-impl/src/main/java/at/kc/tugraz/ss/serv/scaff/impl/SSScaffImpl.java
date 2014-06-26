@@ -16,7 +16,6 @@
 package at.kc.tugraz.ss.serv.scaff.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffClientI;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffServerI;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;

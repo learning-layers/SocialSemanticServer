@@ -66,23 +66,23 @@ public class SSRecommServ extends SSServA{
 
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdateTask(),
-      SSDateU.getDateForTomorrowMorning(),
-      SSDateU.dayInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
+      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsLanguageModelBasedOnUserEntityTagUpdateTask(),
-      SSDateU.getDateForTomorrowMorning(),
-      SSDateU.dayInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
+      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdateTask(),
-      SSDateU.getDateForTomorrowMorning(),
-      SSDateU.dayInMilliSeconds);
-    
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
+      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
+     
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdateTask(),
-      SSDateU.getDateForTomorrowMorning(),
-      SSDateU.dayInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
+      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
   }
   
   @Override

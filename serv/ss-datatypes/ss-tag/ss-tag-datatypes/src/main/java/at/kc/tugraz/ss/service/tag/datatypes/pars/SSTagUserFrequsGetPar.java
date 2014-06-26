@@ -53,7 +53,7 @@ public class SSTagUserFrequsGetPar extends SSServPar{
       if(clientPars != null){
         
         try{
-          entities   = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entity), SSStrU.comma));
+          entities   = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
         }catch(Exception error){}
         
          try{

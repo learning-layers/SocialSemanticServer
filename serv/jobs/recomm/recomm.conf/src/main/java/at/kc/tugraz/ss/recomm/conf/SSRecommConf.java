@@ -29,6 +29,7 @@ public class SSRecommConf extends SSServConfA{
   public String          fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag                                      = null;
   public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
   public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
+  public Integer         updateInterval                                                                                = 5;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
@@ -48,6 +49,8 @@ public class SSRecommConf extends SSServConfA{
     
     copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp = 
       orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp;
+    
+    copy.updateInterval = orig.updateInterval;
     
     return copy;
   }
