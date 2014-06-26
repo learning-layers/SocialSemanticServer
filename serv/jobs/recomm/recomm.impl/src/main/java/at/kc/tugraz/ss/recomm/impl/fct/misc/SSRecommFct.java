@@ -202,9 +202,10 @@ public class SSRecommFct{
     return SSTag.getTagLabelsPerEntities(
       SSServCaller.tagsUserGet(
         userUri, 
-        null, 
-        null, 
-        space));
+        new ArrayList<>(), 
+        new ArrayList<>(), 
+        space,
+        null));
   }
 
   private static Map<String, List<String>> getCategoriesPerEntities(
@@ -222,14 +223,15 @@ public class SSRecommFct{
   private static Long getTimestampInMillisecOfAUserTagForEntity(
     final SSUri       userUri, 
     final String      entityUri, 
-    final SSSpaceE space) throws Exception{
+    final SSSpaceE    space) throws Exception{
     
     final List<SSTag> tags = 
       SSServCaller.tagsUserGet(
         userUri,
-        SSUri.get(entityUri),
-        null,
-        space);
+        SSUri.asListWithoutNullAndEmpty(SSUri.get(entityUri)),
+        new ArrayList<>(),
+        space,
+        null);
     
     if(tags.isEmpty()){
       return 0L;

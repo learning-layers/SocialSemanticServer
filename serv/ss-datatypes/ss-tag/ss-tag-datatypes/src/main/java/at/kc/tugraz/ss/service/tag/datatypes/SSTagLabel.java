@@ -41,6 +41,10 @@ public class SSTagLabel extends SSEntityA{
 
     final List<SSTagLabel> result = new ArrayList<>();
     
+    if(strings == null){
+      return result;
+    }
+    
     for(String string : strings){
       result.add(get(string));
     }

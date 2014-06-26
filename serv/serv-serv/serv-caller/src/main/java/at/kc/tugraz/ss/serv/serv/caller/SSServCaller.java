@@ -1752,33 +1752,37 @@ public class SSServCaller {
   }
   
   public static List<SSTag> tagsUserGet(
-    final SSUri       user, 
-    final SSUri       entity, 
-    final String      tag, 
-    final SSSpaceE    space) throws Exception{
+    final SSUri        user, 
+    final List<SSUri>  entities, 
+    final List<String> labels, 
+    final SSSpaceE     space,
+    final Long         startTime) throws Exception{
     
     final Map<String, Object>   opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.label,     tag);
-    opPars.put(SSVarU.space,     space);
+    opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.entities,    entities);
+    opPars.put(SSVarU.labels,      labels);
+    opPars.put(SSVarU.space,       space);
+    opPars.put(SSVarU.startTime,   startTime);
     
     return (List<SSTag>) SSServA.callServViaServer(new SSServPar(SSMethU.tagsUserGet, opPars));
   }
   
   public static List<SSTagFrequ> tagUserFrequsGet(
-    final SSUri       user, 
-    final SSUri       entity,
-    final String      label, 
-    final SSSpaceE    space) throws Exception{
+    final SSUri        user, 
+    final List<SSUri>  entities, 
+    final List<String> labels,
+    final SSSpaceE     space,
+    final Long         startTime) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.label,       label);
+    opPars.put(SSVarU.entities,    entities);
+    opPars.put(SSVarU.labels,      labels);
     opPars.put(SSVarU.space,       space);
+    opPars.put(SSVarU.startTime,   startTime);
     
     return (List<SSTagFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.tagUserFrequsGet, opPars));
   }

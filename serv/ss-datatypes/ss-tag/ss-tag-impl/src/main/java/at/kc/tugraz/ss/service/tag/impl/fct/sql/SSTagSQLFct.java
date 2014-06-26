@@ -220,14 +220,15 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       userUri, 
     final SSUri       entity, 
     final SSTagLabel  tagString, 
-    final SSSpaceE    tagSpace) throws Exception{
+    final SSSpaceE    tagSpace,
+    final Long        startTime) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
       final Map<String, String> wheres         = new HashMap<>();
-      final List<SSTag>         tagAsss        = new ArrayList<SSTag>();
+      final List<SSTag>         tagAsss        = new ArrayList<>();
       final List<String>        tables         = new ArrayList<>();
       final List<String>        columns        = new ArrayList<>();
       final List<String>        tableCons      = new ArrayList<>();
@@ -240,6 +241,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.userId);
       column   (columns,   SSSQLVarU.tagSpace);
       column   (columns,   SSSQLVarU.label);
+      column   (columns,   SSSQLVarU.creationTime);
       tableCon (tableCons, tagAssTable, SSSQLVarU.tagId, entityTable, SSSQLVarU.id);
       
       if(userUri != null){
@@ -261,6 +263,13 @@ public class SSTagSQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       while(resultSet.next()){
+        
+        //TODO dtheiler: use db for date restriction here
+        if(
+          startTime != null &&
+          startTime < bindingStrToLong(resultSet, SSSQLVarU.creationTime)){
+          continue;
+        }
         
         tagAsss.add(
           SSTag.get(

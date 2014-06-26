@@ -280,6 +280,27 @@ public class SSStrU{
   }
   
   public static List<String> toStrWithoutEmptyAndNull(
+    final Object... objects) throws Exception{
+    
+    final List<String> result = new ArrayList<>();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(isEmpty(object)){
+        continue;
+      }
+      
+      result.add(object.toString());
+    }
+    
+    return result;
+  }
+  
+  public static List<String> toStrWithoutEmptyAndNull(
     final List<? extends Object> objects) throws Exception{
     
     final List<String> result = new ArrayList<>();

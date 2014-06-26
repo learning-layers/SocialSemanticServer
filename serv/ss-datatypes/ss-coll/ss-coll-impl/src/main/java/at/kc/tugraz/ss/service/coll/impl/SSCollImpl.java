@@ -915,7 +915,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
-      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, par.coll, null, null)){
+      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null)){
 
         tagLabel = tagFrequ.label.toString();
 
@@ -943,7 +943,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
         }else{
 
-          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, collEntry.id, null, null)){
+          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(collEntry.id), new ArrayList<>(), null, null)){
 
             tagLabel = tagFrequ.label.toString();
 

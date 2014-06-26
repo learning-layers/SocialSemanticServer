@@ -20,18 +20,22 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSTagUserFrequsGetPar extends SSServPar{
   
-  public SSUri        entity     = null;
-  public SSTagLabel   label      = null;
-  public SSSpaceE     space      = null;
+  public List<SSUri>        entities   = new ArrayList<>();
+  public List<SSTagLabel>   labels     = new ArrayList<>();
+  public SSSpaceE           space      = null;
+  public Long               startTime  = null;
   
   public SSTagUserFrequsGetPar(SSServPar par) throws Exception{
       
@@ -40,27 +44,28 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity   = (SSUri)       pars.get(SSVarU.entity);
-        
-        try{
-          label    = SSTagLabel.get((String) pars.get(SSVarU.label));
-        }catch(Exception error){}
-        
-        space    = (SSSpaceE)    pars.get(SSVarU.space);
+        entities   = (List<SSUri>)                  pars.get(SSVarU.entities);
+        labels     = SSTagLabel.get((List<String>)  pars.get(SSVarU.labels));
+        space      = (SSSpaceE)                     pars.get(SSVarU.space);
+        startTime  = (Long)                         pars.get(SSVarU.startTime);
       }
       
       if(clientPars != null){
         
         try{
-          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
+          entities   = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entity), SSStrU.comma));
         }catch(Exception error){}
         
+         try{
+          labels  = SSTagLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        }catch(Exception error){}
+         
         try{
           space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
         }catch(Exception error){}
         
         try{
-          label  = SSTagLabel.get (clientPars.get(SSVarU.label));
+          startTime      = Long.valueOf(clientPars.get(SSVarU.startTime));
         }catch(Exception error){}
       }
     }catch(Exception error){

@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -33,7 +32,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -162,7 +160,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSStrU.toStr(
           SSServCaller.tagsUserGet(
             par.user, 
-            par.entity, 
+            SSUri.asListWithoutNullAndEmpty(par.entity), 
+            new ArrayList<String>(), 
             null, 
             null)));
     }
@@ -551,30 +550,24 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   @Override
   public List<SSTag> tagsUserGet(final SSServPar parA) throws Exception {
     
-    final SSTagsUserGetPar par  = new SSTagsUserGetPar (parA);
-    
     try{
+      
+      final SSTagsUserGetPar par  = new SSTagsUserGetPar (parA);
       
       if(par.user == null){
         throw new Exception("user null");
       }
       
       if(par.space == null){
-        
-        final List<SSTag> tags = new ArrayList<>();
-        
-        tags.addAll (sqlFct.getTagAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
-        tags.addAll (sqlFct.getTagAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
-        
-        return tags;
+        return SSTagMiscFct.getTagsIfSpaceNotSet(sqlFct, par);
       }
       
       if(SSSpaceE.isPrivate(par.space)){
-        return sqlFct.getTagAsss(par.user, par.entity, par.label, par.space);
+        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.user);
       }
       
       if(SSSpaceE.isShared(par.space)){
-        return sqlFct.getTagAsss(null, par.entity, par.label, par.space);
+        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, null);
       }
       
       throw new Exception("reached not reachable code");
@@ -587,19 +580,18 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   @Override
   public List<SSTagFrequ> tagUserFrequsGet(final SSServPar parA) throws Exception {
     
-    final SSTagUserFrequsGetPar  par = new SSTagUserFrequsGetPar (parA);
-    final List<SSTag>            tags;
-    
     try{
       
-      tags = 
+      final SSTagUserFrequsGetPar par = new SSTagUserFrequsGetPar (parA);
+      
+      return SSTagMiscFct.getTagFrequsFromTags(
         SSServCaller.tagsUserGet(
           par.user,
-          par.entity, 
-          SSStrU.toStr(par.label), 
-          par.space);
-      
-      return SSTagMiscFct.getTagFrequsFromTags (tags, par.space);
+          par.entities,
+          SSStrU.toStrWithoutEmptyAndNull(par.labels),
+          par.space,
+          par.startTime),
+        par.space);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -21,10 +21,13 @@
 package at.kc.tugraz.ss.service.tag.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
+import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,27 +35,96 @@ import java.util.Map;
 
 public class SSTagMiscFct {
 
+  public static List<SSTag> getTagsIfSpaceNotSet(
+    final SSTagSQLFct      sqlFct,
+    final SSTagsUserGetPar par) throws Exception{
+    
+    final List<SSTag> tags = new ArrayList<>();
+    
+    if(par.entities.isEmpty()){
+      
+      if(par.labels.isEmpty()){
+        tags.addAll (sqlFct.getTagAsss(null,     null, null, SSSpaceE.sharedSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user, null, null, SSSpaceE.privateSpace, par.startTime));
+      }
+      
+      for(SSTagLabel label : par.labels){
+        tags.addAll (sqlFct.getTagAsss(null,     null, label, SSSpaceE.sharedSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user, null, label, SSSpaceE.privateSpace, par.startTime));
+      }
+    }
+    
+    //TODO dtheiler: handle loops in db
+    for(SSUri entity : par.entities){
+      
+      if(par.labels.isEmpty()){
+        tags.addAll (sqlFct.getTagAsss(null,     entity, null, SSSpaceE.sharedSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user, entity, null, SSSpaceE.privateSpace, par.startTime));
+      }
+      
+      for(SSTagLabel label : par.labels){
+        tags.addAll (sqlFct.getTagAsss(null,     entity, label, SSSpaceE.sharedSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user, entity, label, SSSpaceE.privateSpace, par.startTime));
+      }
+    }
+    
+    return tags;
+  }
+  
+  public static List<SSTag> getTagsIfSpaceSet(
+    final SSTagSQLFct      sqlFct, 
+    final SSTagsUserGetPar par,
+    final SSUri            userToUse) throws Exception{
+    
+    final List<SSTag> tags = new ArrayList<>();
+    
+    if(par.entities.isEmpty()){
+      
+      if(par.labels.isEmpty()){
+        tags.addAll (sqlFct.getTagAsss(userToUse, null, null, par.space, par.startTime));
+      }
+      
+      for(SSTagLabel label : par.labels){
+        tags.addAll (sqlFct.getTagAsss(userToUse, null, label, par.space, par.startTime));
+      }
+    }
+    
+    //TODO dtheiler: handle loops in db
+    for(SSUri entity : par.entities){
+      
+      if(par.labels.isEmpty()){
+        tags.addAll (sqlFct.getTagAsss(userToUse, entity, null, par.space, par.startTime));
+      }
+      
+      for(SSTagLabel label : par.labels){
+        tags.addAll (sqlFct.getTagAsss(userToUse, entity, label, par.space, par.startTime));
+      }
+    }
+    
+    return tags;
+  }
+  
   public static List<SSTagFrequ> getTagFrequsFromTags(
-    final List<SSTag> tags, 
+    final List<SSTag> tags,
     final SSSpaceE    space) throws Exception{
     
     final Map<String, Integer> counterPerTags = new HashMap<>();
     
     String tagLabel;
-
+    
     for (SSTag tag : tags) {
-
+      
       tagLabel = SSStrU.toStr(tag.label);
-        
+      
       if(counterPerTags.containsKey(tagLabel)){
         counterPerTags.put(tagLabel, counterPerTags.get(tagLabel) + 1);
       } else {
         counterPerTags.put(tagLabel, 1);
       }
     }
-
+    
     final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
-
+    
     for(String key : counterPerTags.keySet()){
       
       outList.add(

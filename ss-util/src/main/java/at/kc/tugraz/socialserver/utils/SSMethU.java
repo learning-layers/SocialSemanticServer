@@ -141,7 +141,7 @@ public enum SSMethU{
   tagUserFrequsGet                                    ,
   tagAdd                                              ,
   tagAddAtCreationTime                                ,
-    tagFrequsGet,
+  tagFrequsGet,
   
   //
   categoriesAdd                                             ,
