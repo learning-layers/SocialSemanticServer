@@ -4,4 +4,3 @@ The development is partly funded by the FP7 Programme of the European Commission
 The main Social Semantic Server developers are:
 
 - Dieter Theiler
-- Domink Kowald: Recommendation Algorithms under ss-serv/ss-jobs/ss-recomm/ss-recomm-impl/src/main/java/at/kc/tugraz/ss/serv/job/recomm/impl/engine and related dedicated packages

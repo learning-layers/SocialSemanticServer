@@ -52,6 +52,7 @@ import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
 import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
+import at.kc.tugraz.sss.notification.conf.SSNotificationConf;
 
 public class SSCoreConf extends SSCoreConfA{
 
@@ -90,6 +91,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSDiscConf          discConf           = null;
   private SSLearnEpConf       learnEpConf        = null;
   private SSCategoryConf      categoryConf       = null;
+  private SSNotificationConf  notificationConf   = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -198,6 +200,14 @@ public class SSCoreConf extends SSCoreConfA{
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  public SSNotificationConf getNotificationConf() {
+    return notificationConf;
+  }
+
+  public void setNotificationConf(SSNotificationConf notificationConf) {
+    this.notificationConf = notificationConf;
   }
   
   public SSFileRepoConf getFilerepoConf() {

@@ -50,8 +50,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import javax.xml.bind.DatatypeConverter;
-import org.apache.commons.lang3.ArrayUtils;
 
 @Path("/SSAdapterRest")
 public class SSAdapterRest{
@@ -114,6 +112,14 @@ public class SSAdapterRest{
 //    return Response.ok(null).build();
   }
 
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "notificationTest1")
+  public String notificationTest1(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.notificationTest1);
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

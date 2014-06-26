@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>at.kc.tugraz.ss.datatypes</groupId>
+    <groupId>sss.datatypes</groupId>
     <artifactId>ss-datatypes</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>at.kc.tugraz.ss.datatypes</groupId>
+  <groupId>sss.datatypes</groupId>
   <artifactId>ss-datatypes-datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>ss-datatypes-datatypes</name>
@@ -19,19 +19,19 @@
   <dependencies>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-serv-err-reg</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-errreg</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-datatypes-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-util</artifactId>
       <version>${project.version}</version>
     </dependency>

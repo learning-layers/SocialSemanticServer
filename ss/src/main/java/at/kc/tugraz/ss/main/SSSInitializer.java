@@ -57,6 +57,7 @@ import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
+import at.kc.tugraz.sss.notification.serv.SSNotificationServ;
 
 public class SSSInitializer extends SSServImplStartA{
   
@@ -122,6 +123,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
       SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
       SSCloudServ.inst.initServ         (SSCoreConf.instGet().getCloudConf());
+      SSNotificationServ.inst.initServ  (SSCoreConf.instGet().getNotificationConf());
 
       /* scheduling task */
       SSModelUEServ.inst.schedule   ();

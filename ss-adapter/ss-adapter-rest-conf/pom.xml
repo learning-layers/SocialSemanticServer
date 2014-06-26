@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>at.kc.tugraz.ss.adapter</groupId>
+    <groupId>sss.adapter</groupId>
     <artifactId>ss-adapter</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>at.kc.tugraz.ss.adapter</groupId>
+  <groupId>sss.adapter</groupId>
   <artifactId>ss-adapter-rest-conf</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>ss-adapter-rest-conf</name>
@@ -20,19 +20,19 @@
   <dependencies>
   
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <groupId>sss.conf</groupId>
       <artifactId>ss-conf-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <groupId>sss.conf</groupId>
       <artifactId>ss-conf-conf</artifactId>
       <version>${project.version}</version>
     </dependency>

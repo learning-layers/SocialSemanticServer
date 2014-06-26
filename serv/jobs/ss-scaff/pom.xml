@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>jobs</artifactId>
+    <groupId>sss.serv</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>sss.serv</groupId>
+  <artifactId>ss-scaff</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ss-scaff</name>
+  <modules>
+    <module>ss-scaff-datatypes</module>
+    <module>ss-scaff-serv</module>
+    <module>ss-scaff-impl</module>
+    <module>ss-scaff-api</module>
+    <module>ss-scaff-conf</module>
+  </modules>
+</project>

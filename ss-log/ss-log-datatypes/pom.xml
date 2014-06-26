@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>at.kc.tugraz.ss.log</groupId>
+    <groupId>sss.log</groupId>
     <artifactId>ss-log</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>at.kc.tugraz.ss.log</groupId>
+  <groupId>sss.log</groupId>
   <artifactId>ss-log-datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>ss-log-datatypes</name>

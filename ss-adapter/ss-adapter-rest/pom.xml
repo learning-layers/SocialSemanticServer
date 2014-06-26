@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>at.kc.tugraz.ss.adapter</groupId>
+    <groupId>sss.adapter</groupId>
     <artifactId>ss-adapter</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>at.kc.tugraz.ss.adapter</groupId>
+  <groupId>sss.adapter</groupId>
   <artifactId>ss-adapter-rest</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
@@ -33,49 +33,49 @@
   <dependencies>
 
     <dependency>
-      <groupId>at.kc.tugraz.ss.conf</groupId>
+      <groupId>sss.conf</groupId>
       <artifactId>ss-conf-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
-      <artifactId>ss-serv-err-reg</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-errreg</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.adapter</groupId>
+      <groupId>sss.adapter</groupId>
       <artifactId>ss-adapter-socket-datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.adapter</groupId>
+      <groupId>sss.adapter</groupId>
       <artifactId>ss-adapter-rest-conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.serv.serv.caller</groupId>
-      <artifactId>ss-serv-caller</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-caller</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.util</groupId>
+      <groupId>sss.util</groupId>
       <artifactId>ss-util</artifactId>
       <version>${project.version}</version>
     </dependency> 

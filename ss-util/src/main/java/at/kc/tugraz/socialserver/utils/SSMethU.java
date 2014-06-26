@@ -22,6 +22,8 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  notificationTest1,
+  
   //cloud
   cloudPublishService,
   

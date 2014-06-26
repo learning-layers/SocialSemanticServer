@@ -1,0 +1,233 @@
+public class SSAuthWiki {
+
+  private static Logger log = Logger.getLogger(SSAuthWikiConst.LOGGER_NAME);
+  
+  public boolean authUser(
+    SSUri    user, 
+    String   pwd, 
+    SSAuthWikiConf conf) throws Exception {
+    
+    return compareHash(pwd, new SSAuthWikiDbCon(conf).getUserHash(SSUserServ.inst().serv().getUserNameFromUri(user)));
+  }
+
+  public boolean compareHash(String pwd, String hash) {
+
+    String[] split = hash.split(":");
+    String type = split[1];
+    String salt = split[2];
+    String userHash = split[3];
+
+    if (type.equals("B")) {
+      String compHash = md5(salt + "-" + md5(pwd));
+      if (compHash.equals(userHash)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      System.err.println("WRONG AUTH METHOD!!!!");
+      return false;
+    }
+  }
+
+  private String md5(String input) {
+    try {
+      MessageDigest md5 = MessageDigest.getInstance("MD5");
+      md5.reset();
+      md5.update(input.getBytes());
+      byte[] result = md5.digest();
+
+      /* Ausgabe */
+      StringBuilder hexString = new StringBuilder();
+      for (int i = 0; i < result.length; i++) {
+        int b = result[i] & 255;
+        if (b < 16) {
+          hexString.append('0');
+        }
+        hexString.append(Integer.toHexString(b));
+      }
+
+      return SSStrU.toStr(hexString);
+      
+    } catch (NoSuchAlgorithmException e) {
+      log.error(e.getMessage(), e);
+    }
+    return "";
+  }
+
+
+public class SSAuthWikiDbCon {
+
+  private static Logger log = Logger.getLogger(SSAuthWikiConst.LOGGER_NAME);
+  
+  private SSAuthWikiConf conf = null;
+  
+  public SSAuthWikiDbCon(
+    SSAuthWikiConf config){
+    
+    conf = config;
+  }
+  
+  public String getUserHash(
+    String username) {
+    
+    Connection conn = getConnection();
+    String hash = "";
+    Statement stmt;
+    ResultSet rs;
+
+    try {
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery("SELECT user_password FROM `user` u WHERE user_name = '" + username + "'");
+      rs.first();
+
+      hash = rs.getString(1);
+    } catch (SQLException e) {
+      log.error(e.getMessage(), e);
+    }
+
+    try {
+      conn.close();
+    } catch (SQLException e) {
+      log.error(e.getMessage(), e);
+    }
+
+    return hash;
+  }
+  
+  public List<SSUser> getUserList() throws Exception {
+    
+    Connection   conn     = getConnection();
+    List<SSUser> userlist = new ArrayList<SSUser>();
+
+    Statement stmt;
+    ResultSet rs;
+
+    try {
+      stmt = conn.createStatement();
+      rs   = stmt.executeQuery("SELECT user_name FROM `user`");
+
+      while (!rs.isLast()) {
+        rs.next();
+        if (log.isDebugEnabled()) {
+          log.debug(rs.getString(1));
+        }
+        userlist.add(SSUser.get(rs.getString(1)));
+      }
+    } catch (SQLException e) {
+      log.error(e.getMessage(), e);
+    }
+
+    try {
+      conn.close();
+    } catch (SQLException e) {
+      log.error(e.getMessage(), e);
+    }
+    
+    return userlist;
+  }
+
+  private Connection getConnection() {
+    Connection conn = null;
+//    String host = SSConfig.getInstance().getConfig().getProperty(SSConfig.propWikiHost);
+//    String database = SSConfig.getInstance().getConfig().getProperty(SSConfig.propWikiDatabase);
+//    String user = SSConfig.getInstance().getConfig().getProperty(SSConfig.propWikiUser);
+//    String password = SSConfig.getInstance().getConfig().getProperty(SSConfig.propWikiPassword);
+    
+    try {
+      Class.forName("com.mysql.jdbc.Driver").newInstance();
+      conn = DriverManager.getConnection(
+              "jdbc:mysql://" + conf.getHost() + "/" + conf.getDatabase() + 
+              "?user=" + conf.getUser() + 
+              "&password=" + conf.getPassword());
+      
+    } catch (InstantiationException e) {
+      log.error(e.getMessage(), e);
+    } catch (IllegalAccessException e) {
+      log.error(e.getMessage(), e);
+    } catch (ClassNotFoundException e) {
+      log.error(e.getMessage(), e);
+    } catch (SQLException e) {
+      log.error(e.getMessage(), e);
+    }
+    
+    return conn;
+  }
+
+
+public class SSAuthWikiConf implements SSAuthWikiConfMXBean {
+  
+  private String host;
+  private String database;
+  private String user;
+  private String password;
+  
+  public SSAuthWikiConf() {}
+  
+  public SSAuthWikiConf(String host, String database, String user, String password) {
+    this.host      = host;
+    this.database  = database;
+    this.user      = user;
+    this.password  = password;
+  }
+
+  @Override
+  public String getHost() {
+    return host;
+  }
+
+  @Override
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  @Override
+  public String getDatabase() {
+    return database;
+  }
+
+  @Override
+  public void setDatabase(String database) {
+    this.database = database;
+  }
+
+  @Override
+  public String getUser() {
+    return user;
+  }
+
+  @Override
+  public void setUser(String user) {
+    this.user = user;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
+
+  @Override
+  public void setPassword(String password) {
+    this.password = password;
+  }
+}
+
+public interface SSAuthWikiConfMXBean {
+  
+  public String getHost();
+
+  public void setHost(String host);
+
+  public String getDatabase();
+
+  public void setDatabase(String database);
+
+  public String getUser();
+
+  public void setUser(String user);
+
+  public String getPassword();
+
+  public void setPassword(String password);
+  
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>sss.serv</groupId>
+    <artifactId>ss-db</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>sss.serv</groupId>
+  <artifactId>ss-db-impl</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>ss-db-impl</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+      
+  <dependencies>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-caller</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-errreg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-db-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-db-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-db-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.datatypes</groupId>
+      <artifactId>ss-datatypes-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+<!--     <dependency>
+      <groupId>org.openrdf</groupId>
+      <artifactId>openrdf-sesame</artifactId>
+      <version>2.1.2</version>
+    </dependency>-->
+
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-jdbc</artifactId>
+      <version>7.0.19</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-juli</artifactId>
+      <version>7.0.42</version>
+    </dependency>
+
+<!--    <dependency>
+      <groupId>virtuoso</groupId>
+      <artifactId>sesame</artifactId>
+      <version>2</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>virtuoso</groupId>
+      <artifactId>jdbc</artifactId>
+      <version>3</version>
+    </dependency>-->
+    
+   <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.22</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+  </dependencies>
+</project>

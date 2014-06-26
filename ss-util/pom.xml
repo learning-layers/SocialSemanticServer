@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>ss-root</artifactId>
-    <groupId>at.kc.tugraz.ss</groupId>
+    <groupId>sss</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>at.kc.tugraz.ss.util</groupId>
+  <groupId>sss.util</groupId>
   <artifactId>ss-util</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>ss-util</name>
@@ -41,7 +41,7 @@
   <dependencies>
     
     <dependency>
-      <groupId>at.kc.tugraz.ss.log</groupId>
+      <groupId>sss.log</groupId>
       <artifactId>ss-log-datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
