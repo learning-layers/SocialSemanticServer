@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -136,13 +137,18 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   
   public SSLearnEp getLearnEpWithVersions(
     final SSUri           user,
-    final SSUri           learnEpUri) throws Exception{
+    final SSUri           learnEpUri,
+    final Boolean         withTimelineState) throws Exception{
     
     try{
       final SSLearnEp learnEp = getLearnEpWithoutVersions(user, learnEpUri);
       
       for(SSUri learnEpVersionUri : getLearnEpVersionURIs(learnEpUri)){
-        learnEp.versions.add(getLearnEpVersion(learnEpVersionUri));
+        
+        learnEp.versions.add(
+          getLearnEpVersion(
+            learnEpVersionUri,
+            withTimelineState));
       }      
 
       return learnEp;
@@ -249,7 +255,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   }
   
   public SSLearnEpVersion getLearnEpVersion(
-    final SSUri learnEpVersionUri) throws Exception {
+    final SSUri   learnEpVersionUri,
+    final Boolean withTimelineState) throws Exception {
     
     ResultSet                  resultSet       = null;
     
@@ -275,12 +282,26 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         throw new Exception("learn ep version doesnt exist");
       }
       
-      return SSLearnEpVersion.get(
-          learnEpVersionUri,
-          bindingStrToUri           (resultSet, SSSQLVarU.learnEpId),
-          bindingStr                (resultSet, SSSQLVarU.creationTime),
-          getLearnEpVersionEntities (learnEpVersionUri),
-          getLearnEpVersionCircles  (learnEpVersionUri));
+      if(withTimelineState){
+      
+        return SSLearnEpVersion.get(
+            learnEpVersionUri,
+            bindingStrToUri               (resultSet, SSSQLVarU.learnEpId),
+            bindingStr                    (resultSet, SSSQLVarU.creationTime),
+            getLearnEpVersionEntities     (learnEpVersionUri),
+            getLearnEpVersionCircles      (learnEpVersionUri),
+            getLearnEpVersionTimelineState(learnEpVersionUri));
+        
+      }else{
+        
+        return SSLearnEpVersion.get(
+            learnEpVersionUri,
+            bindingStrToUri           (resultSet, SSSQLVarU.learnEpId),
+            bindingStr                (resultSet, SSSQLVarU.creationTime),
+            getLearnEpVersionEntities (learnEpVersionUri),
+            getLearnEpVersionCircles  (learnEpVersionUri),
+            null);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -718,7 +739,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       if(!resultSet.first()){
-        throw new Exception("timelinestate for version not set");
+        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
+        return null;
       }
       
       return SSLearnEpTimelineState.get(

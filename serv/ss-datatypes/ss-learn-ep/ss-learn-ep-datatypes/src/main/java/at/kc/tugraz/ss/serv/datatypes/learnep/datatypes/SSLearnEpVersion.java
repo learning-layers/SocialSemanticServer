@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
@@ -33,40 +32,44 @@ import java.util.Map;
 
 public class SSLearnEpVersion extends SSEntityA {
 
-  public SSUri                 id           = null;
-  public SSUri                 learnEp      = null;
-  public String                timestamp    = null;
-  public List<SSLearnEpEntity> entities     = new ArrayList<>();
-  public List<SSLearnEpCircle> circles      = new ArrayList<>();
+  public SSUri                  id                   = null;
+  public SSUri                  learnEp              = null;
+  public String                 timestamp            = null;
+  public SSLearnEpTimelineState learnEpTimelineState = null;
+  public List<SSLearnEpEntity>  entities             = new ArrayList<>();
+  public List<SSLearnEpCircle>  circles              = new ArrayList<>();
 
   public static SSLearnEpVersion get(
-    final SSUri                 id, 
-    final SSUri                 learnEpUri, 
-    final String                timestamp, 
-    final List<SSLearnEpEntity> entities, 
-    final List<SSLearnEpCircle> circles) throws Exception{
+    final SSUri                  id, 
+    final SSUri                  learnEpUri, 
+    final String                 timestamp, 
+    final List<SSLearnEpEntity>  entities, 
+    final List<SSLearnEpCircle>  circles,
+    final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
     
-    return new SSLearnEpVersion(id, learnEpUri, timestamp, entities, circles);
+    return new SSLearnEpVersion(id, learnEpUri, timestamp, entities, circles, learnEpTimelineState);
   }
   
   private SSLearnEpVersion(
-    final SSUri                 id, 
-    final SSUri                 learnEpUri, 
-    final String                timestamp, 
-    final List<SSLearnEpEntity> entities, 
-    final List<SSLearnEpCircle> circles) throws Exception{
+    final SSUri                  id, 
+    final SSUri                  learnEpUri, 
+    final String                 timestamp, 
+    final List<SSLearnEpEntity>  entities, 
+    final List<SSLearnEpCircle>  circles,
+    final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
     
     super(id);
     
-    this.id                  = id;
-    this.learnEp             = learnEpUri;
-    this.timestamp           = timestamp;
+    this.id                    = id;
+    this.learnEp               = learnEpUri;
+    this.timestamp             = timestamp;
+    this.learnEpTimelineState  = learnEpTimelineState;
     
-    if(!SSObjU.isNull(entities)){
+    if(entities != null){
       this.entities = entities;
     }
     
-    if(!SSObjU.isNull(circles)){
+    if(circles != null){
       this.circles = circles;
     }
   }
@@ -74,20 +77,19 @@ public class SSLearnEpVersion extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld          = new HashMap<>();
+    final Map<String, Object> entitiesObj = new HashMap<>();
+    final Map<String, Object> circlesObj  = new HashMap<>();
     
-    ld.put(SSVarU.id,              SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.learnEp,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    
-    Map<String, Object> entitiesObj = new HashMap<>();
+    ld.put(SSVarU.id,                     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.learnEp,                SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.timestamp,              SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.learnEpTimelineState,   SSVarU.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
     
     entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
     entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entities, entitiesObj);
-    
-    Map<String, Object> circlesObj = new HashMap<>();
     
     circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -97,7 +99,8 @@ public class SSLearnEpVersion extends SSEntityA {
     return ld;
   }
   
-  /* getters to allow for json enconding */
+  /* json getters */
+  
   public String getId() throws Exception {
     return SSStrU.removeTrailingSlash(id);
   }
@@ -116,5 +119,9 @@ public class SSLearnEpVersion extends SSEntityA {
   
   public List<SSLearnEpCircle> getCircles(){
     return circles;
+  }
+  
+  public SSLearnEpTimelineState getLearnEpTimelineState(){
+    return learnEpTimelineState;
   }
 }

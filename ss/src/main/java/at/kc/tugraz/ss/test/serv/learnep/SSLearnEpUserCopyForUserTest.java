@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import java.util.Date;
 import java.util.List;
 
 public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
@@ -74,6 +75,14 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
         1F,
         1F,
         1F,
+        true);
+    
+    final SSUri timelineStateUri =
+      SSServCaller.learnEpVersionSetTimelineState(
+        SSVoc.systemUserUri,
+        learnEpVersion,
+        10L,
+        new Date().getTime(),
         true);
     
     final SSUri userToCopyFor = SSServCaller.authRegisterUser(

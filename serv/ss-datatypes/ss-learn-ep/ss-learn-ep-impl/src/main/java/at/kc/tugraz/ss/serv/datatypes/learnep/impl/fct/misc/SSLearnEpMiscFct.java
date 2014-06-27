@@ -48,7 +48,7 @@ public class SSLearnEpMiscFct{
         throw new Exception("pars null");
       }
       
-      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(user, learnEpUri);
+      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(user, learnEpUri, true);
       SSUri           copyVersionUri;
       
       final SSUri copyLearnEpUri = 
@@ -58,7 +58,7 @@ public class SSLearnEpMiscFct{
           false);
       
       for(SSLearnEpVersion version : learnEp.versions){
-        
+
         copyVersionUri = SSServCaller.learnEpVersionCreate(forUser, copyLearnEpUri, false);
         
         for(SSLearnEpCircle circle : version.circles){
@@ -94,6 +94,16 @@ public class SSLearnEpMiscFct{
             entity.entity, 
             entity.x, 
             entity.y, 
+            false);
+        }
+        
+        if(version.learnEpTimelineState != null){
+        
+          SSServCaller.learnEpVersionSetTimelineState(
+            forUser, 
+            copyVersionUri, 
+            version.learnEpTimelineState.startTime,
+            version.learnEpTimelineState.endTime, 
             false);
         }
       }
@@ -171,7 +181,7 @@ public class SSLearnEpMiscFct{
         
         learnEpContentUris.add(learnEpVersionUri);
         
-        learnEpVersion = sqlFct.getLearnEpVersion(learnEpVersionUri);
+        learnEpVersion = sqlFct.getLearnEpVersion(learnEpVersionUri, true);
           
         for(SSLearnEpCircle circle : learnEpVersion.circles){
           learnEpContentUris.add(circle.id);
@@ -181,6 +191,10 @@ public class SSLearnEpMiscFct{
           learnEpContentUris.add(entity.id);
           
           learnEpContentUris.add(entity.entity);
+        }
+        
+        if(learnEpVersion.learnEpTimelineState != null){
+          learnEpContentUris.add(learnEpVersion.learnEpTimelineState.id);
         }
       }
       
