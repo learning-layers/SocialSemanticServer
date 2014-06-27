@@ -145,16 +145,16 @@ public enum SSMethU{
   tagEntitiesForTagsGet,
   
   //
-  categoriesAdd                                             ,
+//  categoriesAdd                                             ,
   categoriesAddAtCreationTime                               ,
-  categoriesUserRemove                                      , 
-  categoriesUserGet                                         ,
-  categoryUserEntitiesForCategoryGet                       ,
-  categoryUserFrequsGet                                    ,
-  categoryAdd                                              ,
+//  categoriesUserRemove                                      , 
+//  categoriesUserGet                                         ,
+//  categoryUserEntitiesForCategoryGet                       ,
+//  categoryUserFrequsGet                                    ,
+//  categoryAdd                                              ,
   categoryAddAtCreationTime                                ,
-  categoryFrequsGet,
-  categoriesRemove,
+//  categoryFrequsGet,
+//  categoriesRemove,
   
   //solr
   solrAddDoc                                          ,

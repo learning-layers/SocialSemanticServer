@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSCategoryClientI{
   
-  public void categoryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoriesRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoryFrequsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+//  public void categoryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+//  public void categoriesRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+//  public void categoryFrequsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

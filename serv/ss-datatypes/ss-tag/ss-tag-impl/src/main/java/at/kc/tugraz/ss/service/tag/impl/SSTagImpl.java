@@ -107,7 +107,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityE   entityType) throws Exception{
+    final SSEntityE      entityType) throws Exception{
     
     return false;
   }

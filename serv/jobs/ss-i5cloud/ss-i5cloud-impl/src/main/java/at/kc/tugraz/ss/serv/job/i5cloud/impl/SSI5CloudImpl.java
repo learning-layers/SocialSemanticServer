@@ -41,7 +41,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import i5.las.httpConnector.client.TimeoutException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;

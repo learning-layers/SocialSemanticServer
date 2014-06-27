@@ -26,9 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -1591,105 +1588,105 @@ public class SSServCaller {
   
   /* category */
   
-  public static void categoriesAdd(
-    final SSUri                 user, 
-    final SSUri                 entity, 
-    final List<SSCategoryLabel> labels, 
-    final SSSpaceE              space, 
-    final Boolean               shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.labels,           labels);
-    opPars.put(SSVarU.space,            space);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesAdd, opPars));
-  }
-  
-  public static List<SSCategory> categoriesUserGet(
-    final SSUri       user, 
-    final SSUri       entity, 
-    final String      label, 
-    final SSSpaceE    space) throws Exception{
-    
-    final Map<String, Object>   opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.label,       label);
-    opPars.put(SSVarU.space,       space);
-    
-    return (List<SSCategory>) SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserGet, opPars));
-  }
-  
-  public static List<SSCategoryFrequ> categoryUserFrequsGet(
-    final SSUri           user, 
-    final SSUri           entity, 
-    final SSCategoryLabel label, 
-    final SSSpaceE        space) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.label, label);
-    opPars.put(SSVarU.space,         space);
-    
-    return (List<SSCategoryFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserFrequsGet, opPars));
-  }
-  
-  public static List<SSUri> categoryUserEntitiesForCategoryGet(
-    final SSUri       user,
-    final String      label,
-    final SSSpaceE    space) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.label, label);
-    opPars.put(SSVarU.space,         space);
-    
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserEntitiesForCategoryGet, opPars));
-  }
-  
-  public static void categoriesUserRemove(
-    final SSUri           user,
-    final SSUri           entity,
-    final SSCategoryLabel label,
-    final SSSpaceE        space,
-    final Boolean         shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,  label);
-    opPars.put(SSVarU.space,          space);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserRemove, opPars));
-  }
-  
-  public static void categoryAdd(
-    final SSUri            user,
-    final SSUri            entity,
-    final SSCategoryLabel  label,
-    final SSSpaceE         space,
-    final Boolean          shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.space,         space);
-    opPars.put(SSVarU.label, label);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.categoryAdd, opPars));
-  }
+//  public static void categoriesAdd(
+//    final SSUri                 user, 
+//    final SSUri                 entity, 
+//    final List<SSCategoryLabel> labels, 
+//    final SSSpaceE              space, 
+//    final Boolean               shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+//    opPars.put(SSVarU.user,             user);
+//    opPars.put(SSVarU.entity,           entity);
+//    opPars.put(SSVarU.labels,           labels);
+//    opPars.put(SSVarU.space,            space);
+//    
+//    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesAdd, opPars));
+//  }
+//  
+//  public static List<SSCategory> categoriesUserGet(
+//    final SSUri       user, 
+//    final SSUri       entity, 
+//    final String      label, 
+//    final SSSpaceE    space) throws Exception{
+//    
+//    final Map<String, Object>   opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,        user);
+//    opPars.put(SSVarU.entity,      entity);
+//    opPars.put(SSVarU.label,       label);
+//    opPars.put(SSVarU.space,       space);
+//    
+//    return (List<SSCategory>) SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserGet, opPars));
+//  }
+//  
+//  public static List<SSCategoryFrequ> categoryUserFrequsGet(
+//    final SSUri           user, 
+//    final SSUri           entity, 
+//    final SSCategoryLabel label, 
+//    final SSSpaceE        space) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,          user);
+//    opPars.put(SSVarU.entity,      entity);
+//    opPars.put(SSVarU.label, label);
+//    opPars.put(SSVarU.space,         space);
+//    
+//    return (List<SSCategoryFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserFrequsGet, opPars));
+//  }
+//  
+//  public static List<SSUri> categoryUserEntitiesForCategoryGet(
+//    final SSUri       user,
+//    final String      label,
+//    final SSSpaceE    space) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,          user);
+//    opPars.put(SSVarU.label, label);
+//    opPars.put(SSVarU.space,         space);
+//    
+//    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.categoryUserEntitiesForCategoryGet, opPars));
+//  }
+//  
+//  public static void categoriesUserRemove(
+//    final SSUri           user,
+//    final SSUri           entity,
+//    final SSCategoryLabel label,
+//    final SSSpaceE        space,
+//    final Boolean         shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,           user);
+//    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+//    opPars.put(SSVarU.entity,       entity);
+//    opPars.put(SSVarU.label,  label);
+//    opPars.put(SSVarU.space,          space);
+//    
+//    SSServA.callServViaServer(new SSServPar(SSMethU.categoriesUserRemove, opPars));
+//  }
+//  
+//  public static void categoryAdd(
+//    final SSUri            user,
+//    final SSUri            entity,
+//    final SSCategoryLabel  label,
+//    final SSSpaceE         space,
+//    final Boolean          shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+//    opPars.put(SSVarU.user,          user);
+//    opPars.put(SSVarU.entity,      entity);
+//    opPars.put(SSVarU.space,         space);
+//    opPars.put(SSVarU.label, label);
+//    
+//    SSServA.callServViaServer(new SSServPar(SSMethU.categoryAdd, opPars));
+//  }
   
   public static void categoryAddAtCreationTime(
     final SSUri        user,
