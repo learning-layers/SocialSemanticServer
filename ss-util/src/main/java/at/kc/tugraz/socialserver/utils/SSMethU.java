@@ -153,6 +153,8 @@ public enum SSMethU{
 //  categoryUserFrequsGet                                    ,
 //  categoryAdd                                              ,
   categoryAddAtCreationTime                                ,
+  categoriesPredefinedGet,
+  categoriesPredefinedAdd,
 //  categoryFrequsGet,
 //  categoriesRemove,
   

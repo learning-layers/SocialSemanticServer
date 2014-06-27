@@ -55,6 +55,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   locationTable                       = "location";
   protected static final String   locationsTable                      = "locations";
   protected static final String   tagAssTable                         = "tagass";
+  protected static final String   categoryTable                       = "category";
   protected static final String   categoryAssTable                    = "categoryass";
   protected static final String   authTable                           = "auth";
   protected static final String   discTable                           = "disc";
@@ -82,19 +83,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static void insert(
     final Map<String, String> inserts,
     final String              key,
-    final SSEntityA           value) throws Exception{
-    
-    try{
-      inserts.put(key, value.toString());
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  protected static void insert(
-    final Map<String, String> inserts,
-    final String              key,
-    final Number              value) throws Exception{
+    final Object              value) throws Exception{
     
     try{
       inserts.put(key, value.toString());
@@ -107,18 +96,6 @@ public class SSDBSQLFct extends SSDBFct{
     final Map<String, String> inserts,
     final String              key,
     final Enum                value) throws Exception{
-    
-    try{
-      inserts.put(key, value.toString());
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  protected static void insert(
-    final Map<String, String> inserts,
-    final String              key,
-    final String              value) throws Exception{
     
     try{
       inserts.put(key, value.toString());
@@ -237,19 +214,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static void where(
     final Map<String, String> wheres,
     final String              key,
-    final String              value) throws Exception{
-    
-    try{
-      wheres.put(key, value.toString());
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  protected static void where(
-    final Map<String, String> wheres,
-    final String              key,
-    final SSEntityA           value) throws Exception{
+    final Object              value) throws Exception{
     
     try{
       wheres.put(key, value.toString());

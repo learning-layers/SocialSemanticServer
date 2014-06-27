@@ -1688,21 +1688,47 @@ public class SSServCaller {
 //    SSServA.callServViaServer(new SSServPar(SSMethU.categoryAdd, opPars));
 //  }
   
+  public static Boolean categoriesPredefinedAdd(
+    final SSUri        user,
+    final List<String> labels,
+    final Boolean      shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.labels,       labels);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.categoriesPredefinedAdd, opPars));
+  }
+    
+  public static List<String> categoriesPredefinedGet(
+    final SSUri  user) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user, user);
+    
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.categoriesPredefinedGet, opPars));
+  }
+  
   public static void categoryAddAtCreationTime(
     final SSUri        user,
     final SSUri        entity,
     final String       label,
     final SSSpaceE     space,
     final Long         creationTime,
+    final Boolean      isPredefined,
     final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.shouldCommit,   shouldCommit);
     opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,  label);
+    opPars.put(SSVarU.entity,         entity);
+    opPars.put(SSVarU.label,          label);
     opPars.put(SSVarU.space,          space);
+    opPars.put(SSVarU.isPredefined,   isPredefined);
     opPars.put(SSVarU.creationTime,   creationTime);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.categoryAddAtCreationTime, opPars));
@@ -1714,16 +1740,18 @@ public class SSServCaller {
     final List<String>     labels,
     final SSSpaceE         space,
     final Long             creationTime,
+    final Boolean          isPredefined, 
     final Boolean          shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
-    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.user,           user);
     opPars.put(SSVarU.entity,         entity);
-    opPars.put(SSVarU.labels,   labels);
-    opPars.put(SSVarU.space,            space);
-    opPars.put(SSVarU.creationTime,     creationTime);
+    opPars.put(SSVarU.labels,         labels);
+    opPars.put(SSVarU.space,          space);
+    opPars.put(SSVarU.isPredefined,   isPredefined);
+    opPars.put(SSVarU.creationTime,   creationTime);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.categoriesAddAtCreationTime, opPars));
   }

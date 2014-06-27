@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.category.ss.category.serv;
 
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
+import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.category.impl.SSCategoryImpl;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -31,6 +32,8 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.List;
 
 public class SSCategoryServ extends SSServA{
@@ -51,7 +54,20 @@ public class SSCategoryServ extends SSServA{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    
+    if(!servConf.use){
+      return;
+    }
+    
     regServForManagingEntities(SSEntityE.category);
+    
+    if(((SSCategoryConf)servConf).initAtStartUp){
+      
+      SSServCaller.categoriesPredefinedAdd(
+        SSVoc.systemUserUri,
+        ((SSCategoryConf)servConf).predefinedCategories, 
+        true);
+    }
   }
   
   @Override

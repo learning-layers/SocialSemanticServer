@@ -44,7 +44,69 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
 
-  public Boolean existsCategoryLabel(final SSCategoryLabel categoryLabel) throws Exception{
+  public void addCategoryIfNotExists(
+    final SSUri           categoryUri, 
+    final Boolean         isPredefined) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert    (inserts, SSSQLVarU.categoryId,     categoryUri);
+      
+      if(isPredefined == null){
+        insert    (inserts, SSSQLVarU.isPredefined,   false);
+      }else{
+        insert    (inserts, SSSQLVarU.isPredefined,   isPredefined);
+      }
+      
+      uniqueKey (uniqueKeys, SSSQLVarU.categoryId,  categoryUri);
+      
+      dbSQL.insertIfNotExists(categoryTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<String> getCategories(
+    final Boolean isPredefined) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.label);
+      
+      table(tables, categoryTable);
+      table(tables, entityTable);
+      
+      if(isPredefined == null){
+        where(wheres, SSSQLVarU.isPredefined, false);
+      }else{
+        where(wheres, SSSQLVarU.isPredefined, isPredefined);
+      }
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, categoryTable, SSSQLVarU.categoryId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      return getStringsFromResult(resultSet, SSSQLVarU.label);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+    
+  public Boolean existsCategoryLabel(
+    final SSCategoryLabel categoryLabel) throws Exception{
    
     ResultSet resultSet = null;
     
@@ -290,7 +352,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     try{
       
       if(!existsCategoryLabel(tagLabel)){
-        return new ArrayList<SSUri>();
+        return new ArrayList<>();
       }
       
       final Map<String, String> wheres       = new HashMap<>();

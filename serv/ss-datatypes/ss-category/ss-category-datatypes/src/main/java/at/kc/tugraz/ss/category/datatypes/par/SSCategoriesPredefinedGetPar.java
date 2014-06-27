@@ -18,36 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSCategoryAddAtCreationTimePar extends SSServPar{
+public class SSCategoriesPredefinedGetPar extends SSServPar{
   
-  public SSUri             entity        = null;
-  public SSCategoryLabel   label         = null;
-  public SSSpaceE          space         = null;
-  public Long              creationTime  = null;
-  public Boolean           isPredefined  = null;
-  
-  public SSCategoryAddAtCreationTimePar(SSServPar par) throws Exception{
+  public SSCategoriesPredefinedGetPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        entity         = (SSUri)                      pars.get(SSVarU.entity);
-        label          = SSCategoryLabel.get((String) pars.get(SSVarU.label));
-        space          = (SSSpaceE)                   pars.get(SSVarU.space);
-        creationTime   = (Long)                       pars.get(SSVarU.creationTime);
-        isPredefined   = (Boolean)                    pars.get(SSVarU.isPredefined);
       }
       
+      if(clientPars != null){
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

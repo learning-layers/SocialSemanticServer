@@ -167,6 +167,7 @@ public class SSVarU{
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String label                                          = "label";
   public static final String creationTime                                   = "creationTime";
+  public static final String isPredefined                                   = "isPredefined";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";
   public static final String xR                                             = "xR";

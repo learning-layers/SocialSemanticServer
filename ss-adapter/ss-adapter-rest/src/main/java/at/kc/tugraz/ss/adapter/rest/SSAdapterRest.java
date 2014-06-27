@@ -85,7 +85,7 @@ public class SSAdapterRest{
     String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
     
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
-    
+  }
     
 //    Map<String, Object> ret = new HashMap<>();
 //    
@@ -110,8 +110,15 @@ public class SSAdapterRest{
 //    }
 //    
 //    return Response.ok(null).build();
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoriesPredefinedGet")
+  public String categoriesPredefinedGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.categoriesPredefinedGet);
   }
-
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

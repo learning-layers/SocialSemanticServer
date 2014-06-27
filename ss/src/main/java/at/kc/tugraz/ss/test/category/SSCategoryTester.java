@@ -18,15 +18,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.category.api;
+package at.kc.tugraz.ss.test.category;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.category.conf.SSCategoryConf;
+import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 
-public interface SSCategoryClientI{
-
-  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoriesRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoryFrequsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+public class SSCategoryTester extends Thread{
+  
+  @Override
+  public void run(){
+    
+    final SSCategoryConf catConf = (SSCategoryConf) SSCategoryServ.inst.servConf;
+    
+    if(!catConf.executeOpAtStartUp){
+      return;
+    }
+    
+    switch(catConf.op){
+      case categoriesPredefinedGet:                new Thread(new SSCategoriesPredefinedGetTest(catConf)).start(); break;
+      case categoriesPredefinedAdd:                new Thread(new SSCategoriesPredefinedAddTest(catConf)).start(); break;
+    }
+  }
 }

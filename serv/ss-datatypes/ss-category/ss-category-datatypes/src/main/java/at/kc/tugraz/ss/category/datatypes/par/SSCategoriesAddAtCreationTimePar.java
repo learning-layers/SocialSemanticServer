@@ -35,6 +35,7 @@ public class SSCategoriesAddAtCreationTimePar extends SSServPar{
   public List<SSCategoryLabel>  labels           = new ArrayList<>();
   public SSSpaceE               space            = null;
   public Long                   creationTime     = null;
+  public Boolean                isPredefined     = null;
   
   public SSCategoriesAddAtCreationTimePar(SSServPar par) throws Exception{
     
@@ -47,6 +48,7 @@ public class SSCategoriesAddAtCreationTimePar extends SSServPar{
         entity           =  (SSUri)                        pars.get(SSVarU.entity);
         space            =  (SSSpaceE)                     pars.get(SSVarU.space);
         creationTime     =  (Long)                         pars.get(SSVarU.creationTime);
+        isPredefined     =  (Boolean)                      pars.get(SSVarU.isPredefined);
       }
       
     }catch(Exception error){

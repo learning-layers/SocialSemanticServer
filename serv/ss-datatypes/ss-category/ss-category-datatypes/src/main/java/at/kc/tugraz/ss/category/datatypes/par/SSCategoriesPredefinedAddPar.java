@@ -20,32 +20,25 @@
 */
  package at.kc.tugraz.ss.category.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSCategoryAddAtCreationTimePar extends SSServPar{
+public class SSCategoriesPredefinedAddPar extends SSServPar{
   
-  public SSUri             entity        = null;
-  public SSCategoryLabel   label         = null;
-  public SSSpaceE          space         = null;
-  public Long              creationTime  = null;
-  public Boolean           isPredefined  = null;
+  public List<SSCategoryLabel>  labels = new ArrayList<>();
   
-  public SSCategoryAddAtCreationTimePar(SSServPar par) throws Exception{
+  public SSCategoriesPredefinedAddPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        entity         = (SSUri)                      pars.get(SSVarU.entity);
-        label          = SSCategoryLabel.get((String) pars.get(SSVarU.label));
-        space          = (SSSpaceE)                   pars.get(SSVarU.space);
-        creationTime   = (Long)                       pars.get(SSVarU.creationTime);
-        isPredefined   = (Boolean)                    pars.get(SSVarU.isPredefined);
+        labels  =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.labels)));
       }
       
     }catch(Exception error){

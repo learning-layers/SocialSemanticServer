@@ -21,12 +21,25 @@
 package at.kc.tugraz.ss.category.conf;
 
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSCategoryConf extends SSServConfA{
+  
+  public Boolean      initAtStartUp        = false;
+  public List<String> predefinedCategories = new ArrayList<>();
   
   public static SSCategoryConf copy(final SSCategoryConf orig){
     
     final SSCategoryConf copy = (SSCategoryConf) SSServConfA.copy(orig, new SSCategoryConf());
+    
+    copy.initAtStartUp = orig.initAtStartUp;
+    
+    if(orig.predefinedCategories == null){
+      copy.predefinedCategories = new ArrayList<>();
+    }else{
+      copy.predefinedCategories.addAll(orig.predefinedCategories);
+    }
     
     return copy;
   }

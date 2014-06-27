@@ -18,15 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.category.api;
+package at.kc.tugraz.ss.test.category;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.category.conf.SSCategoryConf;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import java.util.List;
 
-public interface SSCategoryClientI{
-
-  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoriesRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-//  public void categoryFrequsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+public class SSCategoriesPredefinedGetTest extends SSServOpTestCaseA{
+  
+  public SSCategoriesPredefinedGetTest(final SSCategoryConf catConf) {
+    super(catConf, SSMethU.categoriesPredefinedGet);
+  }
+  
+  @Override
+  protected void test() throws Exception {
+    
+    System.out.println (op + " test start");
+    
+    final List<String> categories = SSServCaller.categoriesPredefinedGet(SSVoc.systemUserUri);
+    
+    System.out.println (op + " test end");
+  }
+  
+  @Override
+  protected void testFromClient() throws Exception{
+    
+  }
+  
+  @Override
+  protected void setUp() throws Exception {
+  }
 }

@@ -25,6 +25,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-voc-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.conf</groupId>
       <artifactId>ss-conf-api</artifactId>
       <version>${project.version}</version>
@@ -39,6 +45,12 @@
      <dependency>
       <groupId>sss.util</groupId>
       <artifactId>ss-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-category-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

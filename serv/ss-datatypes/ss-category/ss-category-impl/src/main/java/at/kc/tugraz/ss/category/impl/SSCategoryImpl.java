@@ -21,11 +21,15 @@
 package at.kc.tugraz.ss.category.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddAtCreationTimePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddAtCreationTimePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -133,7 +137,137 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
 //    }
   }
   
-  /* SSCategoryClientI */
+  @Override
+  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(parA), parA.op));
+  }  
+  
+  @Override 
+  public List<String> categoriesPredefinedGet(final SSServPar parA) throws Exception {
+    
+    try{
+      final SSCategoriesPredefinedGetPar par = new SSCategoriesPredefinedGetPar(parA);
+      
+      return sqlFct.getCategories(true);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean categoriesPredefinedAdd(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSCategoriesPredefinedAddPar par            = new SSCategoriesPredefinedAddPar(parA);
+      Boolean                            existsCategory;
+      SSUri                              categoryUri;
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSCategoryLabel label : par.labels){
+      
+        existsCategory = sqlFct.existsCategoryLabel    (label);
+        categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, label);
+
+        SSServCaller.entityAdd(
+          par.user,
+          categoryUri,       
+          SSLabel.get(SSStrU.toStr(label)), 
+          SSEntityE.category,
+          null,
+          false);
+
+        sqlFct.addCategoryIfNotExists(
+          categoryUri,
+          true);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+            
+      return true;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return categoriesPredefinedAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean categoryAddAtCreationTime(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSCategoryAddAtCreationTimePar par            = new SSCategoryAddAtCreationTimePar(parA);
+      final Boolean                        existsCategory = sqlFct.existsCategoryLabel    (par.label);
+      final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityAddAtCreationTime(
+        par.user,
+        categoryUri,
+        SSLabel.get(SSStrU.toStr(par.label)),
+        par.creationTime,
+        SSEntityE.category,
+        null,
+        false);
+      
+      SSServCaller.entityAdd(
+        par.user,
+        par.entity,
+        SSLabel.get(par.entity.toString()),
+        SSEntityE.entity,
+        null,
+        false);
+      
+      if(!existsCategory){
+        
+        sqlFct.addCategoryIfNotExists(
+          categoryUri, 
+          par.isPredefined);
+      }
+      
+      sqlFct.addCategoryAssIfNotExists(
+        categoryUri, 
+        par.user, 
+        par.entity, 
+        par.space);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return categoryAddAtCreationTime(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
 //  @Override
 //  public void categoryAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
 //    
@@ -216,59 +350,6 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
 //    }
 //  }
   
-  @Override
-  public Boolean categoryAddAtCreationTime(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSCategoryAddAtCreationTimePar par            = new SSCategoryAddAtCreationTimePar(parA);
-      final Boolean                        existsCategory = sqlFct.existsCategoryLabel   (par.label);
-      final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
-
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityAddAtCreationTime(
-        par.user,
-        categoryUri,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        par.creationTime,
-        SSEntityE.category,
-        null,
-        false);
-      
-      SSServCaller.entityAdd(
-        par.user,
-        par.entity,
-        SSLabel.get(par.entity.toString()),
-        SSEntityE.entity,
-        null,
-        false);
-      
-      sqlFct.addCategoryAssIfNotExists(
-        categoryUri, 
-        par.user, 
-        par.entity, 
-        par.space);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return categoryAddAtCreationTime(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
 //  @Override
 //  public Boolean categoriesAdd(final SSServPar parA) throws Exception {
 //    
@@ -308,7 +389,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     
     try{
 
-      final SSCategoriesAddAtCreationTimePar par    = new SSCategoriesAddAtCreationTimePar(parA);
+      final SSCategoriesAddAtCreationTimePar par = new SSCategoriesAddAtCreationTimePar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -320,6 +401,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
           SSStrU.toStr(categoryLabel), 
           par.space, 
           par.creationTime, 
+          par.isPredefined,
           false);
       }
       

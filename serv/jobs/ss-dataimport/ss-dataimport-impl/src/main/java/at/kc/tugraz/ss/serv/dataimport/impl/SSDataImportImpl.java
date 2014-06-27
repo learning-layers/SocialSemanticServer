@@ -244,7 +244,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           video.id,
           categoryLabels,
           SSSpaceE.sharedSpace, 
-          video.creationTime, 
+          video.creationTime,
+          false,
           true);
       }
       

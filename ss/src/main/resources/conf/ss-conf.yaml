@@ -16,9 +16,11 @@ broadcasterConf:
   op: null
   use: true
 categoryConf:
+  use: false
   executeOpAtStartUp: false
-  op: null
-  use: true
+  op: 
+  initAtStartUp: false
+  predefinedCategories:
 cloudConf:
   executeOpAtStartUp: false
   op: null

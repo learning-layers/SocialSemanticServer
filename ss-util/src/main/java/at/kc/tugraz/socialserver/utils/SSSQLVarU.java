@@ -22,6 +22,7 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String isPredefined                                   = "isPredefined";
   public static final String description                                    = "description";
   public static final String authKey                                        = "authKey";
   public static final String accessRight                                    = "accessRight";
