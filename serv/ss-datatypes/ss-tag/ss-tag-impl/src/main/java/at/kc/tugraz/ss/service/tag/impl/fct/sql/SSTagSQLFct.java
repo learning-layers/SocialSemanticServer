@@ -298,14 +298,21 @@ public class SSTagSQLFct extends SSDBSQLFct{
     
     try{
       
-      if(!existsTagLabel(tagString)){
-        return new ArrayList<SSUri>();
+      if(
+        tagString != null &&
+        !existsTagLabel(tagString)){
+        return new ArrayList<>();
       }
       
       final Map<String, String> wheres       = new HashMap<>();
       final List<String>        columns      = new ArrayList<>();
       
-      where(wheres, SSSQLVarU.tagId, getOrCreateTagURI(true, tagString));
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.tagId);
+      
+      if(tagString != null){
+        where(wheres, SSSQLVarU.tagId, getOrCreateTagURI(true, tagString));
+      }
       
       if(tagSpace != null){
         where(wheres, SSSQLVarU.tagSpace, tagSpace);
@@ -315,10 +322,11 @@ public class SSTagSQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.userId, userUri);
       }
       
-      column(columns, SSSQLVarU.entityId);
-      column(columns, SSSQLVarU.tagId);
-      
-      resultSet = dbSQL.select(tagAssTable, columns, wheres);
+      if(wheres.isEmpty()){
+        resultSet = dbSQL.select(tagAssTable);
+      }else{
+        resultSet = dbSQL.select(tagAssTable, columns, wheres);
+      }
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       

@@ -24,46 +24,52 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSTagUserFrequsGetRet extends SSServRetI{
+public class SSTagUserEntitiesForTagsGetRet extends SSServRetI{
   
-  public List<SSTagFrequ> tagFrequs = new ArrayList<>();
+  public List<SSUri> entities = new ArrayList<>();
   
-  public static SSTagUserFrequsGetRet get(List<SSTagFrequ> tagFrequs, SSMethU op){
-    return new SSTagUserFrequsGetRet(tagFrequs, op);
+  public static SSTagUserEntitiesForTagsGetRet get(
+    final List<SSUri> entities, 
+    final SSMethU     op){
+    
+    return new SSTagUserEntitiesForTagsGetRet(entities, op);
   }
   
-  private SSTagUserFrequsGetRet(List<SSTagFrequ> tagFrequs, SSMethU op){
+  private SSTagUserEntitiesForTagsGetRet(
+    final List<SSUri> entities, 
+    final SSMethU     op){
     
     super(op);
     
-    if(tagFrequs != null){
-      this.tagFrequs = tagFrequs;
+    if(entities != null){
+      this.entities = entities;
     }
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld               = new HashMap<>();
-    Map<String, Object> tagFrequsObj     = new HashMap<>();
+    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> enititesObj      = new HashMap<>();
     
-    tagFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTagFrequ.class.getName());
-    tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    enititesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    enititesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.tagFrequs, tagFrequsObj);
+    ld.put(SSVarU.entities, enititesObj);
     
     return ld;
   }
   
-  /* getters to allow for json enconding  */
-  public List<SSTagFrequ> getTagFrequs() {
-    return tagFrequs;
+  /* json getters*/
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
 }

@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import java.util.ArrayList;
@@ -35,6 +36,79 @@ import java.util.Map;
 
 public class SSTagMiscFct {
 
+  public static List<SSUri> getEntitiesForTagsIfSpaceNotSet(
+    final SSTagSQLFct                    sqlFct,
+    final SSTagUserEntitiesForTagsGetPar par) throws Exception{
+    
+    final List<SSUri> entities = new ArrayList<>();
+    
+    if(par.labels.isEmpty()){
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          par.user,
+          null,
+          SSSpaceE.privateSpace));
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          null,
+          null,
+          SSSpaceE.sharedSpace));
+    }
+    
+    //TODO dtheiler: handle loop in db
+    for(SSTagLabel label : par.labels){
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          par.user,
+          label,
+          SSSpaceE.privateSpace));
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          null,
+          label,
+          SSSpaceE.sharedSpace));
+    }
+    
+    SSStrU.distinctWithoutEmptyAndNull2(entities);
+    
+    return entities;
+  }
+  
+  public static List<SSUri> getEntitiesForTagsIfSpaceSet(
+    final SSTagSQLFct                    sqlFct,
+    final SSTagUserEntitiesForTagsGetPar par,
+    final SSUri                          userToUse) throws Exception{
+    
+    final List<SSUri> entities = new ArrayList<>();
+    
+    if(par.labels.isEmpty()){
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          userToUse,
+          null,
+          par.space));
+    }
+    
+    //TODO dtheiler: handle loop in db
+    for(SSTagLabel label : par.labels){
+      
+      entities.addAll(
+        sqlFct.getEntitiesForTagLabel(
+          userToUse,
+          label,
+          par.space));
+    }
+    
+    SSStrU.distinctWithoutEmptyAndNull2(entities);
+    
+    return entities;
+  }
+  
   public static List<SSTag> getTagsIfSpaceNotSet(
     final SSTagSQLFct      sqlFct,
     final SSTagsUserGetPar par) throws Exception{

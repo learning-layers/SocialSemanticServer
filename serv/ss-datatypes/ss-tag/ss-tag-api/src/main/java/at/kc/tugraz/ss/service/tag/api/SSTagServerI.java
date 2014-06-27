@@ -28,6 +28,7 @@ import java.util.List;
 
 public interface SSTagServerI {
  
+  public List<SSUri>                     tagUserEntitiesForTagsGet    (final SSServPar parA) throws Exception;
   public Boolean                         tagsAdd                      (final SSServPar parA) throws Exception;
   public Boolean                         tagsAddAtCreationTime        (final SSServPar parA) throws Exception;
   public Boolean                         tagAdd                       (final SSServPar parA) throws Exception;
@@ -36,5 +37,4 @@ public interface SSTagServerI {
   public Boolean                         tagsUserRemove               (final SSServPar parA) throws Exception;
   public List<SSTag>                     tagsUserGet                  (final SSServPar parA) throws Exception;
   public List<SSTagFrequ>                tagUserFrequsGet             (final SSServPar parA) throws Exception;
-  public List<SSUri>                     tagUserEntitiesForTagGet     (final SSServPar parA) throws Exception;
 }

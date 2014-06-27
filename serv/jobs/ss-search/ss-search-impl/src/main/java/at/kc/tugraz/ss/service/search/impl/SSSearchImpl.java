@@ -138,10 +138,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         for(SSUri foundEntity :
           
-          SSServCaller.tagUserEntitiesForTagGet(
+          SSServCaller.tagUserEntitiesForTagsGet(
             par.user,
-            tagLabel,
-            SSSpaceE.sharedSpace)){
+            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
+            SSSpaceE.sharedSpace,
+            null)){
           
           searchResultsForTagOneTag.add(
             SSSearchResult.get(
@@ -151,10 +152,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         for(SSUri foundEntity :
           
-          SSServCaller.tagUserEntitiesForTagGet(
+          SSServCaller.tagUserEntitiesForTagsGet(
             par.user,
-            tagLabel,
-            SSSpaceE.privateSpace)){
+            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
+            SSSpaceE.privateSpace,
+            null)){
           
           searchResultsForTagOneTag.add(
             SSSearchResult.get(

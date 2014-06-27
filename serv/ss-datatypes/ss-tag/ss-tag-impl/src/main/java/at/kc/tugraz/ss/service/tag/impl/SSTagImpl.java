@@ -43,14 +43,15 @@ import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserFrequsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
@@ -169,7 +170,45 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     return entityDesc;
   }
     
-  /* SSTagClientI */
+  @Override
+  public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op));
+    
+  }
+
+  @Override
+  public List<SSUri> tagUserEntitiesForTagsGet(final SSServPar parA) throws Exception{
+    //TODO dtheiler: use start time for this call as well
+    try{
+      final SSTagUserEntitiesForTagsGetPar par = new SSTagUserEntitiesForTagsGetPar(parA);
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      if(par.space == null){
+        return SSTagMiscFct.getEntitiesForTagsIfSpaceNotSet(sqlFct, par);
+      }
+      
+      if(SSSpaceE.isShared(par.space)){
+        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, null);
+      }
+      
+      if(SSSpaceE.isPrivate(par.space)){
+        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.user);
+      }
+      
+      throw new Exception("reached not reachable code");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
     
@@ -486,62 +525,6 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
     }catch(Exception error){
       dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> tagUserEntitiesForTagGet(final SSServPar parA) throws Exception{
-    
-    final SSTagUserEntitiesForTagGetPar  par        = new SSTagUserEntitiesForTagGetPar(parA);
-    
-    try{
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
-      
-      if(par.space == null){
-        
-        final List<SSUri> entityUris = new ArrayList<>();
-        
-        entityUris.addAll(
-          sqlFct.getEntitiesForTagLabel(
-          par.user,
-          par.label,
-          SSSpaceE.privateSpace));
-        
-        entityUris.addAll(
-          sqlFct.getEntitiesForTagLabel(
-          null,
-          par.label,
-          SSSpaceE.sharedSpace));
-        
-        SSStrU.distinctWithoutEmptyAndNull2(entityUris);
-        
-        return entityUris;
-      }
-      
-      if(SSSpaceE.isShared(par.space)){
-        
-        return sqlFct.getEntitiesForTagLabel(
-          null,
-          par.label,
-          par.space);
-      }
-        
-      if(SSSpaceE.isPrivate(par.space)){
-        
-        return sqlFct.getEntitiesForTagLabel(
-          par.user,
-          par.label,
-          par.space);
-      }
-      
-      throw new Exception("reached not reachable code");
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

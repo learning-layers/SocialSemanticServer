@@ -137,11 +137,12 @@ public enum SSMethU{
   tagsRemove                                          , 
   tagsUserRemove                                      ,
   tagsUserGet                                         ,
-  tagUserEntitiesForTagGet                            ,
   tagUserFrequsGet                                    ,
   tagAdd                                              ,
   tagAddAtCreationTime                                ,
   tagFrequsGet,
+  tagUserEntitiesForTagsGet,
+  tagEntitiesForTagsGet,
   
   //
   categoriesAdd                                             ,
