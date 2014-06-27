@@ -37,7 +37,7 @@ public class SSDisc extends SSEntityA {
   public  SSUri             author       = null;
   public  SSUri             entity       = null;
   public  SSEntityE         type         = null;
-  public  List<SSDiscEntry> entries      = new ArrayList<SSDiscEntry>();
+  public  List<SSDiscEntry> entries      = new ArrayList<>();
   public  SSTextComment     explanation  = null;
   public  Long              creationTime = null;
 

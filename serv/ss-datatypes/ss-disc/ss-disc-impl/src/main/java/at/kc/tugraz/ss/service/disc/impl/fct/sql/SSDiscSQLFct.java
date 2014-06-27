@@ -78,6 +78,28 @@ public class SSDiscSQLFct extends SSDBSQLFct {
 //    }
 //  }
   
+  public List<SSUri> getDiscUserURIs(
+    final SSUri disc) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.discId, disc);
+    
+      resultSet = dbSQL.select(discUserTable, wheres);
+
+      return getURIsFromResult(resultSet, SSSQLVarU.userId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public List<SSUri> getDiscURIs(
     final SSUri userUri) throws Exception{
 
@@ -130,24 +152,38 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public void addDisc(
-    final SSUri         userUri,
-    final SSUri         discUri,
-    final SSUri         targetUri) throws Exception{
+  public void createDisc(
+    final SSUri         user,
+    final SSUri         disc,
+    final SSUri         target) throws Exception{
     
     try{
-      final Map<String, String> inserts =  new HashMap<String,String>();
+      final Map<String, String> inserts =  new HashMap<>();
       
-      insert(inserts, SSSQLVarU.discId,      discUri);
-      insert(inserts, SSSQLVarU.entityId,    targetUri);
+      insert(inserts, SSSQLVarU.discId,      disc);
+      insert(inserts, SSSQLVarU.entityId,    target);
       
       dbSQL.insert(discTable, inserts);
       
-      inserts.clear();
-      insert(inserts, SSSQLVarU.discId,   discUri);
-      insert(inserts, SSSQLVarU.userId,   userUri);
+      addDisc(disc, user);
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addDisc(
+    final SSUri    disc,
+    final SSUri    user) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.discId,   disc);
+      insert(inserts, SSSQLVarU.userId,   user);
       
       dbSQL.insert(discUserTable, inserts);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -243,7 +279,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet   = null;
     
     try{
-      final Map<String, String> wheres =  new HashMap<String, String>();
+      final Map<String, String> wheres =  new HashMap<>();
       
       where(wheres, SSSQLVarU.discId, entityUri);
       
@@ -362,7 +398,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final List<SSDiscEntry>   discEntries   = new ArrayList<SSDiscEntry>();
+      final List<SSDiscEntry>   discEntries   = new ArrayList<>();
       final List<String>        tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();
@@ -409,4 +445,28 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public Boolean ownsUserDisc(
+    final SSUri user, 
+    final SSUri disc) throws Exception {
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId, user);
+      where(wheres, SSSQLVarU.discId, disc);
+    
+      resultSet = dbSQL.select(discUserTable, wheres);
+
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  } 
 }

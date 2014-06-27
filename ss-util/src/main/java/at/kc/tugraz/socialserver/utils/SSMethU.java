@@ -236,6 +236,7 @@ public enum SSMethU{
   discUserWithEntriesGet                              ,
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,
+  discUserShareWithUser,
   discUserRemove                                      ,
   discRemove,
   discEntryAdd,

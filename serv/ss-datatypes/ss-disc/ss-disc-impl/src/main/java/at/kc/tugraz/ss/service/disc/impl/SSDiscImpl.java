@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
@@ -34,6 +35,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSDiscUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -49,6 +51,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
 import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
+import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
@@ -98,13 +101,27 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   
   @Override
   public Boolean shareUserEntity(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          entityCircleUri,
-    final SSEntityE   entityType) throws Exception{
+    final SSUri          user, 
+    final List<SSUri>    usersToShareWith,
+    final SSUri          entity, 
+    final SSUri          circle,
+    final SSEntityE      entityType) throws Exception{
     
-    return false;
+    if(!SSStrU.equals(entityType, SSEntityE.chat)){
+      return false;
+    }
+    
+    for(SSUri userToShareWith : usersToShareWith){
+    
+      SSServCaller.discUserShareWithUser(
+        user, 
+        userToShareWith, 
+        entity, 
+        circle, 
+        false);
+    }
+    
+    return true;
   }
   
   @Override
@@ -205,6 +222,49 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   /* SSDiscServerI */
   
   @Override
+  public SSUri discUserShareWithUser(final SSServPar parA) throws Exception {
+ 
+    try{
+      final SSDiscUserShareWithUserPar par = new SSDiscUserShareWithUserPar(parA);
+
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user cannot share this entity");
+      }
+
+      if(sqlFct.ownsUserDisc(par.forUser, par.entity)){
+        throw new Exception("disc is already shared with user");
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      SSDiscMiscFct.shareDiscWithUser(
+        sqlFct,
+        par.user,
+        par.forUser,
+        par.entity,
+        par.circle);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entity;
+
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return discUserShareWithUser(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public List<SSUri> discUserDiscURIsForTargetGet(final SSServPar parA) throws Exception {
 
     try{
@@ -265,6 +325,18 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       SSUri discEntryUri = null;
       
       if(par.addNewDisc){
+        
+        if(par.entity != null){
+          
+          SSServCaller.entityAdd(
+            par.user, 
+            par.entity, 
+            null, 
+            SSEntityE.entity,
+            null,
+            false);
+        }
+        
         SSDiscUserEntryAddFct.checkWhetherUserCanAddDisc(par);
       }
       
@@ -286,7 +358,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.type,
           par.label,
           par.explanation);
-      }      
+      }   
       
       if(par.entry != null){
         
@@ -296,6 +368,18 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
             par.user,
             par.disc,
             par.entry);
+      }
+      
+      if(
+        par.addNewDisc &&
+        !par.users.isEmpty()){
+        
+        SSServCaller.entityUserShare(
+          par.user,
+          par.disc,
+          par.users,
+          null,
+          false);
       }
       
       dbSQL.commit(par.shouldCommit);

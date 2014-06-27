@@ -828,6 +828,24 @@ public class SSServCaller {
   
   /* disc */
 
+  public static SSUri discUserShareWithUser(
+    final SSUri    user, 
+    final SSUri    forUser, 
+    final SSUri    entity, 
+    final SSUri    circle, 
+    final Boolean  shouldCommit) throws Exception{
+  
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,               user);
+    opPars.put(SSVarU.forUser,            forUser);
+    opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.circle,             circle);
+    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.discUserShareWithUser, opPars)); 
+  }
+  
   public static SSDiscUserEntryAddRet discUserEntryAdd(
     final SSUri               user,
     final SSUri               disc,
@@ -835,7 +853,8 @@ public class SSServCaller {
     final SSTextComment       entry,
     final Boolean             addNewDisc,
     final SSEntityE           type,
-    final SSLabel             label) throws Exception{
+    final SSLabel             label,
+    final List<SSUri>         users) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -846,6 +865,7 @@ public class SSServCaller {
     opPars.put(SSVarU.addNewDisc,   addNewDisc);
     opPars.put(SSVarU.type,         type);
     opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.users,        users);
     
     return (SSDiscUserEntryAddRet) SSServA.callServViaServer(new SSServPar(SSMethU.discUserEntryAdd, opPars));
   }

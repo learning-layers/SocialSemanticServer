@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -27,6 +28,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSDiscUserEntryAddPar extends SSServPar{
   
@@ -37,6 +40,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public SSEntityE           type           = null;
   public SSLabel             label          = null;
   public SSTextComment       explanation    = null;
+  public List<SSUri>         users          = new ArrayList<>();
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
       
@@ -52,6 +56,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         type          = (SSEntityE)          pars.get(SSVarU.type);
         label         = (SSLabel)            pars.get(SSVarU.label);
         explanation   = (SSTextComment)      pars.get(SSVarU.explanation);
+        users         = (List<SSUri>)        pars.get(SSVarU.users);
       }
       
       if(clientPars != null){
@@ -82,6 +87,10 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         
         try{
           explanation   = SSTextComment.get(clientPars.get(SSVarU.explanation));
+        }catch(Exception error){}
+        
+        try{
+          users   = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
         }catch(Exception error){}
       }
     }catch(Exception error){
