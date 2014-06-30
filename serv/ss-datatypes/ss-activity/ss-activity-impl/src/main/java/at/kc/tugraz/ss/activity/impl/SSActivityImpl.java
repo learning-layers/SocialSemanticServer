@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.activity.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
@@ -123,8 +123,6 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     final Boolean     removeUserLocations) throws Exception{
 
   }
-
-   /* SSActivityClientI */
   
   @Override
   public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
@@ -134,7 +132,24 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), parA.op));
   }
   
-   /*  SSActivityServerI */
+  @Override
+  public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
+   
+    try{
+      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
+      
+      return sqlFct.getActivities(
+        par.users, 
+        par.entities, 
+        par.types, 
+        par.startTime, 
+        par.endTime);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   @Override
   public SSUri activityAdd(final SSServPar parA) throws Exception{
@@ -149,12 +164,13 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       SSServCaller.entityAdd(
         par.user,
         activityUri,
-        SSLabel.get(SSActivityE.toStr(par.type)),
+        SSLabel.get(SSStrU.toStr(par.type)),
         SSEntityE.activity,
         null,
         false);
       
       sqlFct.addActivity(
+        par.user,
         activityUri, 
         par.type, 
         par.users, 
@@ -175,25 +191,6 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
 
     }catch(Exception error){
       dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
-   
-    try{
-      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
-      
-      return sqlFct.getActivities(
-        par.users, 
-        par.entities, 
-        par.types, 
-        par.startTime, 
-        par.endTime);
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

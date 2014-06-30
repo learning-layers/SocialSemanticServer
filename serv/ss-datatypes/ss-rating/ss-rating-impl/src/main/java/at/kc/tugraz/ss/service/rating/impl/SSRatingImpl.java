@@ -46,6 +46,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
+import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI{
@@ -155,66 +156,16 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     return entityDesc;
   }
   
-  /* SSRatingClientI */
   @Override
-  public void ratingSet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void ratingSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(par), par.op));
+    sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(parA), parA.op));
     
 //    saveRatingUserSetUE(par);
-  }
-
-  @Override
-  public void ratingUserGet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
-    SSServCaller.checkKey(par);
-    
-    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(par), par.op));
-  }
-
-  @Override
-  public void ratingOverallGet(SSSocketCon sSCon, SSServPar par) throws Exception {
-    
-    SSServCaller.checkKey(par);
-    
-    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par), par.op));
-  }
-  
-  /* SSRatingServerI */
-  @Override
-  public Boolean ratingsUserRemove(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.deleteRatingAss(par.user, par.entity);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return ratingsUserRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    SSRatingActivityFct.rateEntity(new SSRatingUserSetPar(parA));
   }
   
   @Override
@@ -269,6 +220,14 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   }
 
   @Override
+  public void ratingUserGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(par), par.op));
+  }
+  
+  @Override
   public Integer ratingUserGet(SSServPar parI) throws Exception {
     
     SSRatingUserGetPar par    = new SSRatingUserGetPar(parI);
@@ -284,6 +243,14 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   }
 
   @Override
+  public void ratingOverallGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par), par.op));
+  }
+  
+  @Override
   public SSRatingOverall ratingOverallGet(SSServPar parI) throws Exception {
     
     SSRatingOverallGetPar par     = new SSRatingOverallGetPar(parI);
@@ -297,7 +264,41 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     
     return result;
   }
-
+  
+  @Override
+  public Boolean ratingsUserRemove(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.deleteRatingAss(par.user, par.entity);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return ratingsUserRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
 //  private void saveRatingUserSetUE(SSServPar parA) throws Exception {
 //    
 //    Map<String, Object> opPars = new HashMap<>();

@@ -122,7 +122,7 @@ public class SSActivity extends SSEntityA{
   }
 
   public String getType(){
-    return SSActivityE.toStr(type);
+    return SSStrU.toStr(type);
   }
 
   public Long getCreationTime(){

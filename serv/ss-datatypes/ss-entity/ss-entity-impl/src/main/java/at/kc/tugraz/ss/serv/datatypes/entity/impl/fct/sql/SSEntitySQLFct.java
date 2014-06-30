@@ -101,7 +101,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToLabel      (resultSet, SSSQLVarU.label),
         bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
-        bindingStrToUri        (resultSet, SSSQLVarU.author));
+        bindingStrToUri        (resultSet, SSSQLVarU.author), 
+        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)));
       
     }catch(SSNoResultFoundErr error){
       throw error;
@@ -135,7 +136,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         label,
         bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
         type,
-        bindingStrToUri        (resultSet, SSSQLVarU.author));
+        bindingStrToUri        (resultSet, SSSQLVarU.author),
+        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)));
       
     }catch(SSNoResultFoundErr error){
       throw error;
@@ -840,7 +842,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToLabel      (resultSet, SSSQLVarU.label),
             null, 
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null));
+            null,
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
       }
       
       return entities;
@@ -867,6 +870,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
       column (columns, SSSQLVarU.type);
+      column (columns, SSSQLVarU.description);
       match  (matches, SSSQLVarU.label);
       
       againsts.addAll(keywords);
@@ -881,7 +885,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToLabel      (resultSet, SSSQLVarU.label),
             null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null));
+            null,
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
       }
       
       return entities;
@@ -908,6 +913,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
       column (columns, SSSQLVarU.type);
+      column (columns, SSSQLVarU.description);
       match  (matches, SSSQLVarU.description);
       
       againsts.addAll(keywords);
@@ -922,7 +928,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToLabel      (resultSet, SSSQLVarU.label),
             null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null));
+            null,
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
       }
       
       return entities;

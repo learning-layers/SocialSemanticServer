@@ -54,6 +54,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
   }  
 
   public void addActivity(
+    final SSUri               author,
     final SSUri               activity, 
     final SSActivityE         type, 
     final List<SSUri>         users, 
@@ -79,6 +80,12 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       dbSQL.insert(activityTable, inserts);
       
+      inserts.clear();
+      insert(inserts, SSSQLVarU.activityId,     activity);
+      insert(inserts, SSSQLVarU.userId,         author);
+      
+      dbSQL.insert(activityUsersTable, inserts);
+        
       for(SSUri user : users){
 
         inserts.clear();

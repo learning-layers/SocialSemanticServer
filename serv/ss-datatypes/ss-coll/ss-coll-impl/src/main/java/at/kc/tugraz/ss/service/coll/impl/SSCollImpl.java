@@ -70,10 +70,10 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
+import at.kc.tugraz.ss.service.coll.impl.fct.activity.SSCollActivityFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
-import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 
 import java.util.*;
@@ -243,7 +243,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     }
   }
 
-  /* SSCollClientI */
   @Override
   public void collParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
@@ -253,6 +252,28 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
   }
+  
+  @Override
+  public SSColl collUserParentGet(SSServPar parA) throws Exception{
+
+    final SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
+
+    try{
+
+      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+
+      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
+        sqlFct,
+        par.user,
+        SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll));
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   @Override
   public void collRootGet(SSSocketCon sSCon, SSServPar par) throws Exception{
@@ -261,13 +282,76 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(par), par.op));
   }
+  
+  @Override
+  public SSColl collUserRootGet(final SSServPar parA) throws Exception{
+
+    final SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
+
+    try{
+
+      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
+        sqlFct,
+        par.user,
+        sqlFct.getRootCollURIForUser(par.user));
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   @Override
-  public void collEntryDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void collEntryDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op));
+    
+    SSCollActivityFct.removeCollEntry(new SSCollUserEntryDeletePar(parA));
+  }
+  
+  @Override
+  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
+
+    try{
+
+      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
+        throw new Exception("user cannot delete from this coll");
+      }
+
+      if(!SSServCaller.entityUserCanRead(par.user, par.entry)){
+        throw new Exception("user cannot delete this coll entry");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+
+      if(sqlFct.isColl(par.entry)){
+        
+        SSCollEntryDeleteFct.removeColl(sqlFct, par);
+      }else{
+        SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
+      }
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryDelete(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
@@ -277,37 +361,247 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(par), par.op));
   }
+  
+   @Override
+  public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
 
-  @Override
-  public void collEntriesDelete(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+    try{
+      final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
+      final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
+      final List<SSColl>                    publicColls  = new ArrayList<>();
 
-    SSServCaller.checkKey(par);
+      for(SSColl publicColl : sqlFct.getCollsPublic()){
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(par), par.op));
+        if(!userCollUris.contains(SSStrU.toStr(publicColl.id))){
+          publicColls.add(publicColl);
+        }
+      }
+
+      return publicColls;
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
-  public void collEntryAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntriesDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op));
+    
+    SSCollActivityFct.removeCollEntries(new SSCollUserEntriesDeletePar(parA));
+  }
+  
+  @Override
+  public Boolean collUserEntriesDelete(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntriesDeletePar par = new SSCollUserEntriesDeletePar(parA);
+
+    try{
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      for(SSUri collEntryUri : par.entries){
+        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
+      }
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return collUserEntriesDelete(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
-  public void collEntriesAdd(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op));
+    
+    SSCollActivityFct.addCollEntry(new SSCollUserEntryAddPar(parA));
+  }
+  
+  @Override
+  public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
+
+    final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
+
+    try{
+
+      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
+        throw new Exception("user cannot add to this coll");
+      }
+
+      if(par.addNewColl){
+
+        dbSQL.startTrans(par.shouldCommit);
+
+        SSCollEntryAddFct.addNewColl(sqlFct, par);
+
+        dbSQL.commit(par.shouldCommit);
+
+        return par.entry;
+      }
+
+      if(par.entry == null){
+        throw new Exception("no coll entry provided");
+      }
+
+      if(sqlFct.containsCollEntry(par.coll, par.entry)){
+        return par.entry;
+      }
+
+      if(sqlFct.isColl(par.entry)){
+
+        dbSQL.startTrans(par.shouldCommit);
+
+        SSCollEntryAddFct.addPublicColl(sqlFct, par);
+
+        dbSQL.commit(par.shouldCommit);
+
+        return par.entry;
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      SSCollEntryAddFct.addCollEntry(sqlFct, par);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entry;
+
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
-  public void collEntryChangePos(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collEntriesAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
+    
+    SSCollActivityFct.addCollEntries(new SSCollUserEntriesAddPar(parA));
+  }
+  
+  @Override
+  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      for(int counter = 0; counter < par.entries.size(); counter++){
+
+        SSServCaller.collUserEntryAdd(
+          par.user,
+          par.coll,
+          par.entries.get(counter),
+          par.labels.get(counter),
+          false,
+          par.saveUE,
+          false);
+      }
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return collUserEntriesAdd(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public void collEntryChangePos(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
+    
+    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
+  }
+  
+  @Override
+  public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollUserEntryChangePosPar par         = new SSCollUserEntryChangePosPar(parA);
+      final List<SSUri>                 collEntries = new ArrayList<>();
+      final List<Integer>               order       = new ArrayList<>();
+      Integer                           counter     = 0;
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
+        throw new Exception("user cannot change the order of entities in this coll");
+      }
+
+      while(counter < par.order.size()){
+        collEntries.add(SSUri.get(par.order.get(counter++)));
+        order.add(Integer.valueOf(par.order.get(counter++)));
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return collUserEntryChangePos(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
@@ -317,6 +611,23 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(par), par.op));
   }
+  
+  @Override
+  public SSColl collUserWithEntries(final SSServPar parA) throws Exception{
+
+    try{
+      final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
+
+      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
+        throw new Exception("user cannot access this collection");
+      }
+
+      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   @Override
   public void collsWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
@@ -324,6 +635,30 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(par), par.op));
+  }
+  
+  @Override
+  public List<SSColl> collsUserWithEntries(SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
+      final List<SSColl>              userCollsWithEntries = new ArrayList<>();
+      
+      for(String collUri : sqlFct.getCollURIsForUser(par.user)){
+
+        userCollsWithEntries.add(
+          SSCollMiscFct.getCollWithEntriesWithCircleTypes(
+            sqlFct,
+            par.user,
+            SSUri.get(collUri)));
+      }
+
+      return userCollsWithEntries;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
@@ -333,6 +668,52 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(par), par.op));
   }
+  
+  @Override
+  public List<SSColl> collUserHierarchyGet(final SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollUserHierarchyGetPar par            = new SSCollUserHierarchyGetPar(parA);
+      final List<SSUri>               hierarchy      = new ArrayList<>();
+      final List<SSColl>              colls          = new ArrayList<>();
+      final SSUri                     rootCollUri;
+      SSUri                           directPartentCollUri;
+
+      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
+        throw new Exception("user access this collection");
+      }
+
+      rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
+      directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
+
+      while(!SSStrU.equals(rootCollUri, directPartentCollUri)){
+
+        hierarchy.add(directPartentCollUri);
+
+        directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, directPartentCollUri);
+      }
+
+      hierarchy.add(rootCollUri);
+
+      for(SSUri collUri : hierarchy){
+
+        colls.add(
+          SSColl.get(
+            collUri,
+            null,
+            null,
+            SSStrU.toStr(SSServCaller.entityGet(collUri).label),
+            null));
+      }
+
+      return colls;
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   @Override
   public void collCumulatedTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
@@ -340,6 +721,80 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     SSServCaller.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op));
+  }
+  
+   @Override
+  public List<SSTagFrequ> collUserCumulatedTagsGet(final SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollUserCumulatedTagsGetPar   par            = new SSCollUserCumulatedTagsGetPar(parA);
+      final Map<String, Integer>            tagLabelFrequs = new HashMap<>();
+      final List<SSTagFrequ>                tagFrequs      = new ArrayList<>();
+      SSColl                                coll;
+      String                                tagLabel;
+      
+      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
+        throw new Exception("user cannot access this collection");
+      }
+
+      coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
+
+      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null)){
+
+        tagLabel = tagFrequ.label.toString();
+
+        if(tagLabelFrequs.containsKey(tagLabel)){
+          tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
+        }else{
+          tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
+        }
+      }
+
+      for(SSCollEntry collEntry : coll.entries){
+
+        if(SSEntityE.equals(collEntry.type, SSEntityE.coll)){
+
+          for(SSTagFrequ tagFrequ : SSServCaller.collUserCumulatedTagsGet(par.user, collEntry.id)){
+
+            tagLabel = tagFrequ.label.toString();
+
+            if(tagLabelFrequs.containsKey(tagLabel)){
+              tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
+            }else{
+              tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
+            }
+          }
+
+        }else{
+
+          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(collEntry.id), new ArrayList<>(), null, null)){
+
+            tagLabel = tagFrequ.label.toString();
+
+            if(tagLabelFrequs.containsKey(tagLabel)){
+              tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
+            }else{
+              tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
+            }
+          }
+        }
+      }
+
+      for(Map.Entry<String, Integer> entry : tagLabelFrequs.entrySet()){
+        
+        tagFrequs.add(
+          SSTagFrequ.get(
+            SSTagLabel.get(entry.getKey()),
+            null,
+            entry.getValue()));
+      }
+
+      return tagFrequs;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override
@@ -349,8 +804,35 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
   }
+  
+  @Override
+  public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
 
-  /* SSCollServerI */
+    final SSCollsUserEntityIsInGetPar par           = new SSCollsUserEntityIsInGetPar(parA);
+    final List<SSColl>                colls         = new ArrayList<>();
+    final List<String>                collUris;
+    final List<String>                userCollUris;
+
+    try{
+
+      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
+        throw new Exception("user cannot access entity");
+      }
+
+      userCollUris = sqlFct.getCollURIsForUser(par.user);
+      collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
+
+      for(String coll : SSStrU.retainAll(collUris, userCollUris)){
+        colls.add(SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, SSUri.get(coll)));
+      }
+
+      return colls;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
   @Override
   public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
 
@@ -417,188 +899,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       if(dbSQL.rollBack(parA)){
         return collUserRootAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
-
-    try{
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      for(int counter = 0; counter < par.entries.size(); counter++){
-
-        SSServCaller.collUserEntryAdd(
-          par.user,
-          par.coll,
-          par.entries.get(counter),
-          par.labels.get(counter),
-          false,
-          par.saveUE,
-          false);
-      }
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntriesAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
-
-    try{
-
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot delete from this coll");
-      }
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.entry)){
-        throw new Exception("user cannot delete this coll entry");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-
-      if(sqlFct.isColl(par.entry)){
-        
-        SSCollEntryDeleteFct.removeColl(sqlFct, par);
-      }else{
-        SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
-      }
-
-      SSCollUEFct.collUserEntryDelete(par);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryDelete(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserEntriesDelete(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntriesDeletePar par = new SSCollUserEntriesDeletePar(parA);
-
-    try{
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      for(SSUri collEntryUri : par.entries){
-        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
-      }
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntriesDelete(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
-
-    try{
-
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot add to this coll");
-      }
-
-      if(par.addNewColl){
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        SSCollEntryAddFct.addNewColl(sqlFct, par);
-
-        dbSQL.commit(par.shouldCommit);
-
-        return par.entry;
-      }
-
-      if(par.entry == null){
-        throw new Exception("no coll entry provided");
-      }
-
-      if(sqlFct.containsCollEntry(par.coll, par.entry)){
-        return par.entry;
-      }
-
-      if(sqlFct.isColl(par.entry)){
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        SSCollEntryAddFct.addPublicColl(sqlFct, par);
-
-        dbSQL.commit(par.shouldCommit);
-
-        return par.entry;
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSCollEntryAddFct.addCollEntry(sqlFct, par);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entry;
-
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryAdd(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -724,300 +1024,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     }catch(Exception error){
       dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
-
-    final SSCollUserEntryChangePosPar par         = new SSCollUserEntryChangePosPar(parA);
-    final List<SSUri>                 collEntries = new ArrayList<>();
-    final List<Integer>               order       = new ArrayList<>();
-    Integer                           counter     = 0;
-
-    try{
-
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot change the order of entities in this coll");
-      }
-
-      while(counter < par.order.size()){
-        collEntries.add(SSUri.get(par.order.get(counter++)));
-        order.add(Integer.valueOf(par.order.get(counter++)));
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryChangePos(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSColl collUserWithEntries(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot access this collection");
-      }
-
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSColl> collsUserWithEntries(SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
-      final List<SSColl>              userCollsWithEntries = new ArrayList<>();
-      
-      for(String collUri : sqlFct.getCollURIsForUser(par.user)){
-
-        userCollsWithEntries.add(
-          SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-            sqlFct,
-            par.user,
-            SSUri.get(collUri)));
-      }
-
-      return userCollsWithEntries;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSColl collUserRootGet(final SSServPar parA) throws Exception{
-
-    final SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
-
-    try{
-
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-        sqlFct,
-        par.user,
-        sqlFct.getRootCollURIForUser(par.user));
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSColl collUserParentGet(SSServPar parA) throws Exception{
-
-    final SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
-
-    try{
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot change the order of entities in this coll");
-      }
-
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-        sqlFct,
-        par.user,
-        SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll));
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSColl> collUserHierarchyGet(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserHierarchyGetPar par            = new SSCollUserHierarchyGetPar(parA);
-      final List<SSUri>               hierarchy      = new ArrayList<>();
-      final List<SSColl>              colls          = new ArrayList<>();
-      final SSUri                     rootCollUri;
-      SSUri                           directPartentCollUri;
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user access this collection");
-      }
-
-      rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
-      directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
-
-      while(!SSStrU.equals(rootCollUri, directPartentCollUri)){
-
-        hierarchy.add(directPartentCollUri);
-
-        directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, directPartentCollUri);
-      }
-
-      hierarchy.add(rootCollUri);
-
-      for(SSUri collUri : hierarchy){
-
-        colls.add(
-          SSColl.get(
-            collUri,
-            null,
-            null,
-            SSStrU.toStr(SSServCaller.entityGet(collUri).label),
-            null));
-      }
-
-      return colls;
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSTagFrequ> collUserCumulatedTagsGet(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserCumulatedTagsGetPar   par            = new SSCollUserCumulatedTagsGetPar(parA);
-      final Map<String, Integer>            tagLabelFrequs = new HashMap<>();
-      final List<SSTagFrequ>                tagFrequs      = new ArrayList<>();
-      SSColl                                coll;
-      String                                tagLabel;
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot access this collection");
-      }
-
-      coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
-
-      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null)){
-
-        tagLabel = tagFrequ.label.toString();
-
-        if(tagLabelFrequs.containsKey(tagLabel)){
-          tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
-        }else{
-          tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
-        }
-      }
-
-      for(SSCollEntry collEntry : coll.entries){
-
-        if(SSEntityE.equals(collEntry.type, SSEntityE.coll)){
-
-          for(SSTagFrequ tagFrequ : SSServCaller.collUserCumulatedTagsGet(par.user, collEntry.id)){
-
-            tagLabel = tagFrequ.label.toString();
-
-            if(tagLabelFrequs.containsKey(tagLabel)){
-              tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
-            }else{
-              tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
-            }
-          }
-
-        }else{
-
-          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, SSUri.asListWithoutNullAndEmpty(collEntry.id), new ArrayList<>(), null, null)){
-
-            tagLabel = tagFrequ.label.toString();
-
-            if(tagLabelFrequs.containsKey(tagLabel)){
-              tagLabelFrequs.put(tagLabel, tagLabelFrequs.get(tagLabel) + tagFrequ.frequ);
-            }else{
-              tagLabelFrequs.put(tagLabel, tagFrequ.frequ);
-            }
-          }
-        }
-      }
-
-      for(Map.Entry<String, Integer> entry : tagLabelFrequs.entrySet()){
-        
-        tagFrequs.add(
-          SSTagFrequ.get(
-            SSTagLabel.get(entry.getKey()),
-            null,
-            entry.getValue()));
-      }
-
-      return tagFrequs;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
-
-    final SSCollsUserEntityIsInGetPar par           = new SSCollsUserEntityIsInGetPar(parA);
-    final List<SSColl>                colls         = new ArrayList<>();
-    final List<String>                collUris;
-    final List<String>                userCollUris;
-
-    try{
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user cannot access entity");
-      }
-
-      userCollUris = sqlFct.getCollURIsForUser(par.user);
-      collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
-
-      for(String coll : SSStrU.retainAll(collUris, userCollUris)){
-        colls.add(SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, SSUri.get(coll)));
-      }
-
-      return colls;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
-      final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
-      final List<SSColl>                    publicColls  = new ArrayList<>();
-
-      for(SSColl publicColl : sqlFct.getCollsPublic()){
-
-        if(!userCollUris.contains(SSStrU.toStr(publicColl.id))){
-          publicColls.add(publicColl);
-        }
-      }
-
-      return publicColls;
-
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

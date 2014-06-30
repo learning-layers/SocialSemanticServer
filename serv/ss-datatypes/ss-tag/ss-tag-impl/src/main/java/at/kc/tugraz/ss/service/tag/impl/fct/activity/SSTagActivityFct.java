@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.impl.fct.activity;
+package at.kc.tugraz.ss.service.tag.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
@@ -27,38 +27,24 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
 
-public class SSDiscActivityFct{
-
-  public static void discEntryAdd(
-    final SSDiscUserEntryAddPar par,
-    final SSDiscUserEntryAddRet ret) throws Exception{
+public class SSTagActivityFct{
+  
+  public static void addTag(
+    final SSTagAddPar par) throws Exception{
     
     try{
       
-      if(par.addNewDisc){
-        
-        SSServCaller.activityAdd(
-          par.user,
-          SSActivityE.discussEntity,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc, ret.entry),
-          SSTextComment.asListWithoutNullAndEmpty(),
-          false);
-        
-      }else{
-        
-        SSServCaller.activityAdd(
-          par.user,
-          SSActivityE.addDiscEntry,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc, ret.entry),
-          SSTextComment.asListWithoutNullAndEmpty(),
-          false);
-      }
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.tagEntity,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSTextComment.asListWithoutNullAndEmpty(),
+        false);
+      
     }catch(SSServerServNotAvailableErr error){
       SSLogU.warn("activityAdd failed | service down");
     }catch(Exception error){
@@ -66,16 +52,15 @@ public class SSDiscActivityFct{
     }
   }
 
-  public static void removeDisc(
-    final SSDiscUserRemovePar par) throws Exception{
-    
+  public static void removeTags(final SSTagsUserRemovePar par) throws Exception{
+   
     try{
       
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.removeDisc,
+        SSActivityE.removeTag,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.disc),
+        SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       

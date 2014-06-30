@@ -18,104 +18,39 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity;
+package at.kc.tugraz.ss.service.coll.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEntityActivityFct{
+public class SSCollActivityFct{
   
-  public static void shareEntityWithUsers(
-    final SSEntityUserSharePar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.shareEntityWithUsers,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty(par.entity),
-        SSTextComment.asListWithoutNullAndEmpty(par.comment),
-        false);
-      
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void copyEntityForUsers(
-    final SSEntityUserCopyPar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.copyEntityForUsers,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty(par.entity),
-        SSTextComment.asListWithoutNullAndEmpty(par.comment),
-        false);
-      
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void entityUpdate(
-    final SSEntityUserUpdatePar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.updateEntity,
-        new ArrayList<>(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        false);
-      
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void createCircle(
-    final SSEntityUserCircleCreatePar par,
-    final SSUri                       circle) throws Exception{
+  public static void removeCollEntry(final SSCollUserEntryDeletePar par) throws Exception{
     
     try{
       
       final List<SSUri> eventEntities = new ArrayList<>();
       
-      eventEntities.addAll (par.entities);
-      eventEntities.add    (circle);
-      
+      eventEntities.add(par.coll);
+      eventEntities.add(par.entry);
+
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.createCircle,
-        par.users,
-        eventEntities,
+        SSActivityE.removeCollEntry,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(eventEntities),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
@@ -126,21 +61,21 @@ public class SSEntityActivityFct{
     }
   }
 
-  public static void addEntitiesToCircle(
-    final SSEntityUserEntitiesToCircleAddPar par) throws Exception{
+  public static void removeCollEntries(
+    final SSCollUserEntriesDeletePar par) throws Exception{
     
     try{
       
       final List<SSUri> eventEntities = new ArrayList<>();
       
-      eventEntities.addAll (par.entities);
-      eventEntities.add    (par.circle);
-      
+      eventEntities.add   (par.coll);
+      eventEntities.addAll(par.entries);
+
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.addEntitiesToCircle,
-        new ArrayList<>(),
-        eventEntities,
+        SSActivityE.removeCollEntry,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(eventEntities),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
@@ -151,16 +86,46 @@ public class SSEntityActivityFct{
     }
   }
 
-  public static void addUsersToCircle(
-    final SSEntityUserUsersToCircleAddPar par) throws Exception{
+  public static void addCollEntry(
+    final SSCollUserEntryAddPar par) throws Exception{
     
     try{
       
+      final List<SSUri> eventEntities = new ArrayList<>();
+      
+      eventEntities.add   (par.coll);
+      eventEntities.add   (par.entry);
+
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.addUsersToCircle,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty(par.circle),
+        SSActivityE.addCollEntry,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(eventEntities),
+        SSTextComment.asListWithoutNullAndEmpty(),
+        false);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void addCollEntries(
+    final SSCollUserEntriesAddPar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri> eventEntities = new ArrayList<>();
+      
+      eventEntities.add   (par.coll);
+      eventEntities.addAll(par.entries);
+
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.addCollEntry,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(eventEntities),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
@@ -171,16 +136,29 @@ public class SSEntityActivityFct{
     }
   }
 
-  public static void setEntityPublic(
-    final SSEntityUserPublicSetPar par) throws Exception{
+  public static void changeCollEntryPos(
+    final SSCollUserEntryChangePosPar par) throws Exception{
     
      try{
       
+      final List<SSUri> eventEntities = new ArrayList<>();
+      
+      final List<SSUri>    collEntries = new ArrayList<>();
+      Integer              counter     = 0;
+      
+       while(counter < par.order.size()){
+        collEntries.add(SSUri.get(par.order.get(counter++)));
+        counter++;
+      }
+      
+      eventEntities.add   (par.coll);
+      eventEntities.addAll(collEntries);
+
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.setEntityPublic,
-        new ArrayList<>(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSActivityE.changeCollEntryPos,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(eventEntities),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
@@ -189,5 +167,6 @@ public class SSEntityActivityFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+    
   }
 }

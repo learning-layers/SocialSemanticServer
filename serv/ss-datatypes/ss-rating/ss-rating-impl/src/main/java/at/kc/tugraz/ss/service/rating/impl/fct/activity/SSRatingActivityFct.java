@@ -18,45 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.test.load;
+
+package at.kc.tugraz.ss.service.rating.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
 
-public class SSLoadTestUEAdder extends SSServImplStartA{
-  
-  private final SSUri userUri;
-  
-  public SSLoadTestUEAdder(SSServConfA conf, SSUri userUri) throws Exception{
-    super(conf);
-    
-    this.userUri = userUri;
-  }
-  
-  @Override
-  public void run(){
+public class SSRatingActivityFct{
+
+  public static void rateEntity(
+    final SSRatingUserSetPar par) throws Exception{
     
     try{
-      SSServCaller.ueAdd(userUri, SSLoadTest.collUri, SSUEE.addPrivateTag, SSStrU.empty, true);
-    }catch(Exception error1){
-      SSServErrReg.regErr(error1);
-    }finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.rateEntity,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSTextComment.asListWithoutNullAndEmpty(),
+        false);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    finalizeThread();
   }
 }

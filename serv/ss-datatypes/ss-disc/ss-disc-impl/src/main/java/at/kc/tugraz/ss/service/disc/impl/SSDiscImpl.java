@@ -107,7 +107,10 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSUri          circle,
     final SSEntityE      entityType) throws Exception{
     
-    if(!SSStrU.equals(entityType, SSEntityE.chat)){
+    if(
+      !SSStrU.equals(entityType, SSEntityE.disc) ||
+      !SSStrU.equals(entityType, SSEntityE.chat) ||
+      !SSStrU.equals(entityType, SSEntityE.qa)){
       return false;
     }
     
@@ -161,8 +164,6 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     return entityDesc;
   }
 
-  /* SSDiscClientI */
-  
   @Override
   public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
@@ -186,139 +187,18 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       SSServErrReg.regErrThrow(error);
     }
   }
-
-  @Override
-  public void discsAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
-
-    SSServCaller.checkKey(par);
-
-    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(par), par.op));
-  }
-
-  @Override
-  public void discWithEntriesGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
-
-    SSServCaller.checkKey(par);
-
-    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(par), par.op));
-  }
   
   @Override
-  public void discRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-
-    SSServCaller.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op));
-  }
-  
-  @Override
-  public void discURIsForTargetGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-
-    SSServCaller.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSDiscUserDiscURIsForTargetGetRet.get(discUserDiscURIsForTargetGet(parA), parA.op));
-  }
-
-  /* SSDiscServerI */
-  
-  @Override
-  public SSUri discUserShareWithUser(final SSServPar parA) throws Exception {
- 
-    try{
-      final SSDiscUserShareWithUserPar par = new SSDiscUserShareWithUserPar(parA);
-
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot share this entity");
-      }
-
-      if(sqlFct.ownsUserDisc(par.forUser, par.entity)){
-        throw new Exception("disc is already shared with user");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSDiscMiscFct.shareDiscWithUser(
-        sqlFct,
-        par.user,
-        par.forUser,
-        par.entity,
-        par.circle);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entity;
-
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return discUserShareWithUser(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> discUserDiscURIsForTargetGet(final SSServPar parA) throws Exception {
-
-    try{
-      final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user cannot access target");
-      }
+  public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception{
     
-      return sqlFct.getDiscURIs(par.user, par.entity);
-    } catch (Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSUri discUserRemove(final SSServPar parA) throws Exception {
-
-    try {
-      final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
-      
-      if(!SSServCaller.entityUserCanAll(par.user, par.disc)){
-        throw new Exception("user cannot remove disc");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      switch(SSServCaller.entityMostOpenCircleTypeGet(par.disc)){
-      
-        case priv: sqlFct.deleteDisc(par.disc);          break;
-        case group: 
-        case pub: sqlFct.unlinkDisc(par.user, par.disc); break;
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.disc;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return discUserRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
+    try{
+      return discUserEntryAdd(new SSDiscUserEntryAddPar(parA));
     }catch(Exception error){
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-
+  
   protected SSDiscUserEntryAddRet discUserEntryAdd(final SSDiscUserEntryAddPar par) throws Exception {
     
     try{
@@ -404,18 +284,15 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       return null;
     }
   }
-  
-  @Override
-  public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception{
-    
-    try{
-      return discUserEntryAdd(new SSDiscUserEntryAddPar(parA));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 
+  @Override
+  public void discsAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+
+    SSServCaller.checkKey(par);
+
+    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(par), par.op));
+  }
+  
   @Override
   public List<SSDisc> discsUserAllGet(final SSServPar parA) throws Exception{
 
@@ -435,6 +312,14 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
 
   @Override
+  public void discWithEntriesGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+
+    SSServCaller.checkKey(par);
+
+    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(par), par.op));
+  }
+  
+  @Override
   public SSDisc discUserWithEntriesGet(final SSServPar parA) throws Exception{
 
     try{
@@ -450,7 +335,123 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       return null;
     }
   }
+  
+  @Override
+  public void discRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op));
+    
+    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
+  }
+  
+  @Override
+  public SSUri discUserRemove(final SSServPar parA) throws Exception {
+
+    try {
+      final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
+      
+      if(!SSServCaller.entityUserCanAll(par.user, par.disc)){
+        throw new Exception("user cannot remove disc");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      switch(SSServCaller.entityMostOpenCircleTypeGet(par.disc)){
+      
+        case priv: sqlFct.deleteDisc(par.disc);          break;
+        case group: 
+        case pub: sqlFct.unlinkDisc(par.user, par.disc); break;
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.disc;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return discUserRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void discURIsForTargetGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSDiscUserDiscURIsForTargetGetRet.get(discUserDiscURIsForTargetGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSUri> discUserDiscURIsForTargetGet(final SSServPar parA) throws Exception {
+
+    try{
+      final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
+      
+      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
+        throw new Exception("user cannot access target");
+      }
+    
+      return sqlFct.getDiscURIs(par.user, par.entity);
+    } catch (Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public SSUri discUserShareWithUser(final SSServPar parA) throws Exception {
+ 
+    try{
+      final SSDiscUserShareWithUserPar par = new SSDiscUserShareWithUserPar(parA);
+
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user cannot share this entity");
+      }
+
+      if(sqlFct.ownsUserDisc(par.forUser, par.entity)){
+        throw new Exception("disc is already shared with user");
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      SSDiscMiscFct.shareDiscWithUser(
+        sqlFct,
+        par.user,
+        par.forUser,
+        par.entity,
+        par.circle);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entity;
+
+    }catch(SSSQLDeadLockErr deadLockErr){
+
+      if(dbSQL.rollBack(parA)){
+        return discUserShareWithUser(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public List<SSDisc> discsUserWithEntriesGet(final SSServPar parA) throws Exception{
 

@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationAddPar;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationsUserRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationAddRet;
+import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.activity.SSLocationActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.sql.SSLocationSQLFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -136,57 +137,14 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     return false;
   }  
     
-  /* SSLocationClientI */
-  
   @Override
-  public void locationAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void locationAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSLocationAddRet.get(locationAdd(par), par.op));
-  }
-  
-  @Override
-  public void locationsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+    sSCon.writeRetFullToClient(SSLocationAddRet.get(locationAdd(parA), parA.op));
     
-    SSServCaller.checkKey(par);
-    
-    sSCon.writeRetFullToClient(SSLocationsGetRet.get(locationsGet(par), par.op));
-  }
-  
-  /* SSLabelServerI */
-  @Override
-  public Boolean locationsUserRemove(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSLocationsUserRemovePar par = new SSLocationsUserRemovePar(parA);
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.deleteLocationAss(par.user, par.entity);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return locationsUserRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    SSLocationActivityFct.addLocation(new SSLocationAddPar(parA));
   }
   
   @Override
@@ -243,6 +201,14 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
   }
   
   @Override
+  public void locationsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSLocationsGetRet.get(locationsGet(par), par.op));
+  }
+  
+  @Override
   public List<String> locationsGet(SSServPar parI) throws Exception {
     
     SSLocationsGetPar par = new SSLocationsGetPar(parI);
@@ -250,6 +216,40 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
     try{
       return sqlFct.getLocationAsss(null, par.entity, null);
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean locationsUserRemove(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSLocationsUserRemovePar par = new SSLocationsUserRemovePar(parA);
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.deleteLocationAss(par.user, par.entity);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return locationsUserRemove(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

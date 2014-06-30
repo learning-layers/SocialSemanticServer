@@ -23,11 +23,15 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
@@ -86,6 +90,8 @@ public class SSFileDownloader extends SSServImplStartA{
         if(fileChunkLength == -1){
           sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
           fileReader.close();
+          
+          saveActivity();
           return;
         }
         
@@ -132,5 +138,24 @@ public class SSFileDownloader extends SSServImplStartA{
   @Override
   protected void finalizeImpl() throws Exception{
     finalizeThread();
+  }
+
+  private void saveActivity() throws Exception{
+    
+    try{
+      
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.downloadFile,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(this.par.file),
+        SSTextComment.asListWithoutNullAndEmpty(),
+        false);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

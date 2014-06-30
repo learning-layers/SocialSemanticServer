@@ -26,49 +26,7 @@ import java.util.*;
 
 public enum SSUEE implements SSJSONLDPropI{
   
-  evernoteNotebookCreate,
-  evernoteNotebookUpdate,
-  evernoteNotebookShare,
-  evernoteNotebookFollow,
-  evernoteNoteCreate,
-  evernoteNoteUpdate,
-  evernoteNoteDelete,
-  evernoteNoteShare,
-  evernoteNoteFollow,
-  evernoteReminderDone,
-  evernoteReminderCreate,
-  evernoteResourceAdd,
-  evernoteResourceFollow,
-  evernoteResourceShare,
-  
-  /*
-   * UE to store server side
-   * *******************************************************************/
-  addPrivateCollectionItem,
-  addSharedCollectionItem,
-  changeCollectionByAddPrivateCollectionItem, //changeCollectionAddPrivateCollectionItem
-  changeCollectionByAddSharedCollectionItem, //changeCollectionAddSharedCollectionItem
-//  appearsInSearchResult,
-  subscribeCollection,
-  unSubscribeCollection,
-  createPrivateCollection,
-  createSharedCollection,
-  rateEntity,
-  discussEntity, //startDiscussion
-  addDiscussionComment,
-  addPrivateTag,
-  addSharedTag,
-  removePrivateTag,
-  removeSharedTag,
-  removeCollectionItem,
-  removeCollection,
-  renameDiscussion,
-  changeCollectionByRemoveCollectionItem, //changeCollectionRemovePrivateCollectionItem //changeCollectionRemoveSharedCollectionItem
-  newDiscussionByDiscussEntity,
-  
-  /*
-   * UE to store client side
-   * *******************************************************************/
+  /* user events stored client-side by bits and pieces tool */
   timelineChangeTimelineRange,
   timelineViewEntityDetails,
   
@@ -88,6 +46,26 @@ public enum SSUEE implements SSJSONLDPropI{
   learnEpRenameOrganizeCircle,
   learnEpDeleteOrganizeCircle,
   
+  /* user events stored server-side to be used in bits and pieces tool */
+  
+  addPrivateTag,
+  
+  evernoteNotebookCreate,
+  evernoteNotebookUpdate,
+  evernoteNotebookShare,
+  evernoteNotebookFollow,
+  evernoteNoteCreate,
+  evernoteNoteUpdate,
+  evernoteNoteDelete,
+  evernoteNoteShare,
+  evernoteNoteFollow,
+  evernoteReminderDone,
+  evernoteReminderCreate,
+  evernoteResourceAdd,
+  evernoteResourceFollow,
+  evernoteResourceShare,
+  
+  /* user events maybe to delete as they are not stored on client-side anymore */
   selectedFromOthers,
   viewEntity,
   exportCollectionItem,
@@ -98,21 +76,8 @@ public enum SSUEE implements SSJSONLDPropI{
   renameSharedCollectionItem,
   structurePrivateCollection, //structurePrivateCollectionContent
   structureSharedCollection, //structureSharedCollectionContent
-  shareCollection,
-  /*
-   * UE caused by other UE
-   * *******************************************************************/
-  changeCollectionByRenamePrivateCollectionItem, //changeCollectionRenamePrivateCollectionItem
-  changeCollectionByRenameSharedCollectionItem, //changeCollectionRenameSharedCollectionItem
-  structureSharedCollectionItemByStructureSharedCollection, //structureSharedCollectionItemStructureSharedCollectionContent
-  structurePrivateCollectionItemByStructurePrivateCollection, //structurePrivateCollectionItemStructurePrivateCollectionContent
-  shareCollectionItemByShareCollection, //shareCollectionItemShareCollection
-  renameDiscussionTargetByRenameDiscussion, //renameDiscussionTargetRenameDiscussion
-  addDiscussionTargetCommentByAddDiscussionComment, //addDiscussionTargetCommentAddDiscussionComment
-  unSubscribeCollectionItemByUnSubscribeCollection,
-  subscribeCollectionItemBySubscribeCollection,
-  renameSharedCollectionItemByRenameSharedCollection; //"renameSharedCollectionItemRenameSharedCollection
-
+  shareCollection;
+  
   public static SSUEE get(
     final String event){
     

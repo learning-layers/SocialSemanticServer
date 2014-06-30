@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -39,9 +40,10 @@ public class SSEntityDesc extends SSEntityDescA{
     final List<SSEntityA> discs,
     final SSUri           author,
     final List<SSEntityA> uEs, 
-    final String          thumb) throws Exception{
+    final String          thumb,
+    final SSTextComment   description) throws Exception{
     
-    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb);
+    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb, description);
   }
   
   protected SSEntityDesc(
@@ -54,8 +56,9 @@ public class SSEntityDesc extends SSEntityDescA{
     final List<SSEntityA>  discs,
     final SSUri            author, 
     final List<SSEntityA>  uEs, 
-    final String           thumb) throws Exception{
+    final String           thumb,
+    final SSTextComment    description) throws Exception{
     
-    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb);
+    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb, description);
   }
 }

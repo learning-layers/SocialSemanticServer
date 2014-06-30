@@ -167,7 +167,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     return entityDesc;
   }
   
-  /* SSFileRepoClientI */
   @Override
   public void fileCanWrite(SSSocketCon sSCon, SSServPar par) throws Exception{
 

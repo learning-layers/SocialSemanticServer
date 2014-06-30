@@ -20,7 +20,6 @@
   */
 package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -64,7 +63,7 @@ public class SSModelUEPersonPropertySetter {
       
       for(SSUE event : resource.personsEvents){
         
-        increaseCountersDiscussionOf                         (resource, event);
+//        increaseCountersDiscussionOf                         (resource, event);
         increaseCountersRelateResource                       (resource, event);
         setRecentProperties                                  (resource, event, recentTimeStamps);
       }
@@ -273,17 +272,17 @@ public class SSModelUEPersonPropertySetter {
     }
   }
   
-  private void increaseCountersDiscussionOf(
-    SSModelUEEntity  resource,
-    SSUE    event) throws Exception {
-    
-    if(
-      SSStrU.equals(event.type, SSUEE.addDiscussionComment) &&
-      SSStrU.contains(resource.personsDiscussions, event.entity)){
-      
-      resource.personsDiscussions.add(event.entity);
-    }
-  }
+//  private void increaseCountersDiscussionOf(
+//    SSModelUEEntity  resource,
+//    SSUE    event) throws Exception {
+//    
+//    if(
+//      SSStrU.equals(event.type, SSUEE.addDiscussionComment) &&
+//      SSStrU.contains(resource.personsDiscussions, event.entity)){
+//      
+//      resource.personsDiscussions.add(event.entity);
+//    }
+//  }
   
   private void increaseCountersRelateResource(
     SSModelUEEntity  resource,

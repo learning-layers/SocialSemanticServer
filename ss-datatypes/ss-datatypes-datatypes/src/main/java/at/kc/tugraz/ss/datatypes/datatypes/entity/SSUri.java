@@ -152,6 +152,26 @@ public class SSUri extends SSEntityA{
     
     return result;
   }
+  
+  public static List<SSUri> asListWithoutNullAndEmpty(final List<SSUri> entities){
+   
+    final List<SSUri> result = new ArrayList<>();
+    
+    if(entities == null){
+      return result;
+    }
+    
+    for(SSUri entity : entities){
+      
+      if(SSStrU.isEmpty(entity)){
+        continue;
+      }
+      
+      result.add(entity);
+    }
+    
+    return result;
+  }
 
   private SSUri(final String string) throws Exception{
    

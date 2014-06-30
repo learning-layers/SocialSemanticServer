@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
 public class SSCollEntryAddFct{
   
@@ -127,8 +126,6 @@ public class SSCollEntryAddFct{
         par.entry,
         false);
     }
-    
-    SSCollUEFct.collUserEntryAdd(par);
     
     return par.entry;
   }

@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public abstract class SSEntityDescA extends SSEntityA{
   public List<SSEntityA>  discs           = new ArrayList<>();
   public List<SSEntityA>  uEs             = new ArrayList<>();
   public String           thumb           = null;
+  public SSTextComment    description     = null;
 
   protected SSEntityDescA(
     final SSEntityDescA entityDesc) throws Exception{
@@ -58,6 +60,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.discs           = entityDesc.discs;
     this.uEs             = entityDesc.uEs;
     this.thumb           = entityDesc.thumb;
+    this.description     = entityDesc.description;
   }
   
   protected SSEntityDescA(
@@ -70,7 +73,8 @@ public abstract class SSEntityDescA extends SSEntityA{
     final List<String>    tags, 
     final List<SSEntityA> discs,
     final List<SSEntityA> uEs,
-    final String          thumb) throws Exception{
+    final String          thumb,
+    final SSTextComment   description) throws Exception{
     
     super(entity);
     
@@ -81,6 +85,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.author         = author;
     this.overallRating  = overallRating;
     this.thumb          = thumb;
+    this.description    = description;
     
     if(tags != null){
       this.tags.addAll(tags);
@@ -125,11 +130,13 @@ public abstract class SSEntityDescA extends SSEntityA{
     ld.put(SSVarU.author,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.overallRating,  SSVarU.sss  + SSStrU.colon + SSEntityA.class.getName());
     ld.put(SSVarU.thumb,          SSVarU.xsd  + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.description,    SSVarU.sss  + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;
   }
   
-  /* getters to allow for json enconding */
+  /* json getters */
+  
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -168,5 +175,9 @@ public abstract class SSEntityDescA extends SSEntityA{
   
   public String getThumb(){
     return thumb;
+  }
+  
+  public String getDescription(){
+    return SSStrU.toStr(description);
   }
 }

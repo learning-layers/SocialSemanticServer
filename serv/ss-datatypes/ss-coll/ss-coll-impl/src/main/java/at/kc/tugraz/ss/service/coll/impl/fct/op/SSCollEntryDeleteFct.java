@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.kc.tugraz.ss.service.coll.impl.fct.ue.SSCollUEFct;
 
 public class SSCollEntryDeleteFct{
   
@@ -43,21 +42,14 @@ public class SSCollEntryDeleteFct{
         case priv:{
           
           //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
-          
           sqlFct.removeCollAndUnlinkSubColls(par.user, par.entry);
-          
-          SSCollUEFct.collUserDeleteColl(par);
-          
           break;
         }
         
         default:{
           
           //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
-          
           sqlFct.unlinkCollAndSubColls(par.user, par.coll, par.entry);
-          
-          SSCollUEFct.collUserUnSubscribeColl(par);
         }
       }
       
