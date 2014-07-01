@@ -51,7 +51,22 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   public SSEntitySQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
-
+  
+  public void removeThumbs(
+    final SSUri entity) throws Exception {
+    
+     try{
+       final Map<String, String> deletes = new HashMap<>();
+       
+       delete(deletes, SSSQLVarU.entityId, entity);
+       
+       dbSQL.delete(thumbnailsTable, deletes);
+       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public Boolean existsEntity(
     final SSUri entity) throws Exception{
     

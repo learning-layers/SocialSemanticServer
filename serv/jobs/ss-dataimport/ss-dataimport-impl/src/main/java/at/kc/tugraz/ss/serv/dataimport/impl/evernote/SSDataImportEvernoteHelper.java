@@ -64,18 +64,26 @@ public class SSDataImportEvernoteHelper {
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
+    if(par.authToken == null){
+      par.authToken = evernoteHelper.sqlFct.getAuthToken(par.user);
+    }
+    
     this.evernoteInfo    = SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
     this.userName        = evernoteHelper.getUserName        (evernoteInfo);
     this.userUri         = SSServCaller.authRegisterUser     (par.user, userName, "1234", false);
-    this.userCircle      = SSServCaller.entityCircleCreate(
-      userUri,
-      SSUri.asListWithoutNullAndEmpty(),
-      SSUri.asListWithoutNullAndEmpty(),
-      SSCircleE.priv,
-      null,
-      SSVoc.systemUserUri,
-      null,
-      false);
+    
+    evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);
+    
+    this.userCircle      =
+      SSServCaller.entityCircleCreate(
+        userUri,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(),
+        SSCircleE.priv,
+        null,
+        SSVoc.systemUserUri,
+        null,
+        false);
   }
   
   public void handleSharedNotebooks() throws Exception{
@@ -104,12 +112,19 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityUpdate(
+        notebookUri, 
+        notebookLabel, 
+        null, 
+        false);
+      
       SSServCaller.entityEntitiesToCircleAdd(
         userUri, 
         userCircle, 
         notebookUri,
         false);
       
+      evernoteHelper.ueHelper.removeUEsFromEntity     (userUri,          notebookUri);
       evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
       evernoteHelper.ueHelper.addUEsForSharedNotebook (isSharedNotebook, userUri,     notebook, notebookUri, sharedNotebooks);
       
@@ -151,11 +166,21 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityUpdate(
+        notebookUri,
+        notebookLabel,
+        null,
+        false);
+      
       SSServCaller.entityEntitiesToCircleAdd(
         userUri, 
         userCircle, 
         notebookUri,
         false);
+      
+      evernoteHelper.ueHelper.removeUEsFromEntity(
+        userUri,          
+        notebookUri);
       
       evernoteHelper.ueHelper.addUEsForLinkedNotebook(
         userUri,
@@ -234,6 +259,12 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityUpdate(
+        noteUri,
+        noteLabel,
+        null,
+        false);
+      
       SSServCaller.entityEntitiesToCircleAdd(
         userUri, 
         userCircle, 
@@ -251,6 +282,7 @@ public class SSDataImportEvernoteHelper {
       }
       
       evernoteHelper.sqlFct.addNoteIfNotExists           (notebookUri,      noteUri);
+      evernoteHelper.ueHelper.removeUEsFromEntity        (userUri,          noteUri);
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
       evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
       evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
@@ -293,6 +325,12 @@ public class SSDataImportEvernoteHelper {
         null,
         false);
       
+      SSServCaller.entityUpdate(
+        resourceUri,
+        resourceLabel,
+        null,
+        false);
+      
       SSServCaller.entityEntitiesToCircleAdd(
         userUri,
         userCircle,
@@ -310,6 +348,7 @@ public class SSDataImportEvernoteHelper {
       }
       
       evernoteHelper.sqlFct.addResourceIfNotExists    (noteUri, resourceUri);
+      evernoteHelper.ueHelper.removeUEsFromEntity     (userUri, resourceUri);
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
       evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook);
     }
@@ -337,6 +376,10 @@ public class SSDataImportEvernoteHelper {
         null,
         SSEntityE.thumbnail,
         null,
+        false);
+      
+      SSServCaller.entityThumbsRemove(
+        noteUri,
         false);
       
       SSServCaller.entityThumbAdd(

@@ -989,6 +989,18 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbAdd, opPars));
   }
   
+  public static Boolean entityThumbsRemove(
+    final SSUri   entity, 
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbsRemove, opPars));
+  }
+  
   public static void entityUserUpdate(
     final SSUri          entity,
     final SSLabel        label,
@@ -1467,19 +1479,19 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.uEAdd, opPars));
   }
   
-//  public static Boolean uEsRemove(
-//    final SSUri   user, 
-//    final SSUri   entity, 
-//    final Boolean shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.shouldCommit, shouldCommit);
-//    opPars.put(SSVarU.user,         user);
-//    opPars.put(SSVarU.entity,       entity);
-//    
-//    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.uEsRemove, opPars));
-//  }
+  public static Boolean uEsRemove(
+    final SSUri   user, 
+    final SSUri   entity, 
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.uEsRemove, opPars));
+  }
   
   /* user */
   

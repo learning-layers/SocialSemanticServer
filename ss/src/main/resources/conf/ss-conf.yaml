@@ -34,11 +34,11 @@ dataExportConf:
   op: null
   use: true
 dataImportConf:
-  executeOpAtStartUp: false
+  executeOpAtStartUp: #true, false
   initAtStartUp: #true, false
   initAtStartUpOps: #array containing, e.g. dataImportEvernote
-  fileName: null
-  op: null #serv op to execute at startup, e.g. dataImportEvernote
+  fileName: #
+  op: #serv op to execute at startup, e.g. dataImportEvernote
   use: true
 dbGraphConf:
   executeOpAtStartUp: false
@@ -139,14 +139,14 @@ ratingConf:
   op: null
   use: true
 recommConf:
-  executeOpAtStartUp: false
-  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp: null
-  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: null
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory: null
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp: null
-  initAtStartUp: true
-  op: null
-  updateInterval: null #in minutes
+  executeOpAtStartUp: #true, false
+  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp: hugo1.txt
+  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: hugo1.txt
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory: hugo1.txt
+  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp: hugo1.txt
+  initAtStartUp: #true, false
+  op: 
+  updateInterval: #in minutes
   use: true
   usePrivateTagsToo: #true, false
 scaffConf:

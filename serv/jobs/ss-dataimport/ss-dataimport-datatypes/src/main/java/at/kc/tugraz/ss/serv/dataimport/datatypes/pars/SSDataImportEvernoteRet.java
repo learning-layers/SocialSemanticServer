@@ -18,35 +18,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
+package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSDataImportEvernotePar extends SSServPar{
+public class SSDataImportEvernoteRet extends SSServRetI{
   
-  public String authToken = null;
+  public Boolean worked   = null; 
   
-  public SSDataImportEvernotePar(SSServPar par) throws Exception{
-   
-    super(par);
+  public static SSDataImportEvernoteRet get(
+    final Boolean   worked, 
+    final SSMethU   op){
     
-    try{
-      
-      if(pars != null){
-        authToken       = (String)          pars.get(SSVarU.authToken);
-      }
-      
-      if(clientPars != null){
-        
-        try{
-          authToken       = (String)          pars.get(SSVarU.authToken);
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }  
+    return new SSDataImportEvernoteRet(worked, op);
+  }
+  
+  private SSDataImportEvernoteRet(
+    final Boolean   worked, 
+    final SSMethU   op){
+    
+    super(op);
+    
+    this.worked  = worked;
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarU.worked,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    
+    return ld;
+  }
+  
+  /* json getters */
+  
+  public Boolean isWorked() throws Exception {
+    return worked;
+  }
 }

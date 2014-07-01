@@ -57,6 +57,7 @@ public enum SSMethU{
   entityLabelSet                                      ,
   entityUserUpdate                                        ,
   entityThumbAdd,
+  entityThumbsRemove,
   entityThumbsGet,
   entityUpdate ,
   entityCirclePublicAdd,

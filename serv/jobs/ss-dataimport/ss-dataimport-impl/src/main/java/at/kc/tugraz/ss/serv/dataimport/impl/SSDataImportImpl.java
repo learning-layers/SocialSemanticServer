@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -37,6 +38,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
@@ -70,7 +72,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     this.sqlFct                   = new SSDataImportSQLFct         (dbSQL);
   }
   
-  /* SSDataImportServerI */
   @Override
   public Map<String, String> dataImportSSSUsersFromCSVFile(final SSServPar parA) throws Exception{
     
@@ -104,11 +105,19 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   }
   
   @Override
-  public void dataImportEvernote(final SSServPar parA) throws Exception{
-    
-    final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
+  public void dataImportEvernote(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+   
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSDataImportEvernoteRet.get(dataImportEvernote(parA), parA.op));
+  }
+  
+  @Override
+  public Boolean dataImportEvernote(final SSServPar parA) throws Exception{
     
     try{
+      
+      final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -119,17 +128,20 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       dbSQL.commit(par.shouldCommit);
       
+      return true;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        dataImportEvernote(parA);
+        return dataImportEvernote(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
+        return null;
       }
       
     }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

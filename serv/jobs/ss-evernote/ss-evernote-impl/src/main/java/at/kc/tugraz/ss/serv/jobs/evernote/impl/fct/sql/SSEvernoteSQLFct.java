@@ -36,9 +36,55 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
   public SSEvernoteSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
   }
-
+  
+  public void addUserIfNotExists(
+    final SSUri  user,
+    final String authToken) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    =  new HashMap<>();
+      final Map<String, String> uniqueKeys =  new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.userId,      user);
+      insert(inserts, SSSQLVarU.authToken,   authToken);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.userId, user);
+      
+      dbSQL.insertIfNotExists(evernoteUserTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public String getAuthToken(
+    final SSUri user) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId, user);
+      
+      resultSet = dbSQL.select(evernoteUserTable, wheres);
+      
+      if(!resultSet.next()){
+        throw new Exception("evernote user doesnt exist");
+      }
+        
+      return bindingStr(resultSet, SSSQLVarU.authToken);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public void addNoteIfNotExists(
-    final SSUri notebookUri, 
+    final SSUri notebookUri,
     final SSUri noteUri) throws Exception{
     
     try{

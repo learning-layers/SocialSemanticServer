@@ -57,9 +57,11 @@ public class SSDataImportServ extends SSServA{
   @Override
   protected void initServSpecificStuff() throws Exception{
     
-    if(
-      !servConf.use &&
-      !((SSDataImportConf)servConf).initAtStartUp){
+    if(!servConf.use){
+      return;
+    }
+    
+    if(!((SSDataImportConf)servConf).initAtStartUp){
       return;
     }
       
@@ -71,7 +73,7 @@ public class SSDataImportServ extends SSServA{
           
           case dataImportEvernote:{
             
-            for(String authToken : ((SSEvernoteConf)SSEvernoteServ.inst.servConf).authTokens){
+            for(String authToken : ((SSEvernoteConf) SSEvernoteServ.inst.servConf).authTokens){
               SSServCaller.dataImportEvernote(SSVoc.systemUserUri, authToken, true);
             }
           }

@@ -18,16 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.dataimport.api;
+package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.Map;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public interface SSDataImportServerI {
+public class SSUEsRemovePar extends SSServPar{
   
-  public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws Exception;
-  public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
-  public Boolean             dataImportEvernote                       (final SSServPar parA) throws Exception;
-  public void                dataImportMediaWikiUser                  (final SSServPar parA) throws Exception;
-  public void                dataImportAchso                          (final SSServPar parA) throws Exception;
+  public SSUri            entity     = null;
+  
+   public SSUEsRemovePar(SSServPar par) throws Exception{
+
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        entity   = (SSUri)    pars.get(SSVarU.entity);
+      }
+      
+      if(clientPars != null){
+        entity   = SSUri.get     (clientPars.get(SSVarU.entity));
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

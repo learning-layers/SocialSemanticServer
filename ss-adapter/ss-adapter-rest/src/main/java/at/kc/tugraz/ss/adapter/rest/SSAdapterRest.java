@@ -138,6 +138,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "dataImportEvernote")
+  public String dataImportEvernote(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.dataImportEvernote);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "activitiesGet")
   public String activitiesGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.activitiesGet);

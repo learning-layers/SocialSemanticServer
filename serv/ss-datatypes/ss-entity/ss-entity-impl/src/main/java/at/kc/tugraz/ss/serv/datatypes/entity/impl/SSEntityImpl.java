@@ -78,6 +78,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -1300,6 +1301,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityThumbsGetPar par = new SSEntityThumbsGetPar(parA);
       
       return sqlFct.getThumbs(par.entity);
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override 
+  public Boolean entityThumbsRemove(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityThumbsRemovePar par = new SSEntityThumbsRemovePar(parA);
+      
+      sqlFct.removeThumbs(par.entity);
+      
+      return true;
       
     }catch(Exception error){
       dbSQL.rollBack(parA);
