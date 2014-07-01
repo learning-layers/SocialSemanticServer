@@ -24,10 +24,12 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -114,6 +116,7 @@ public class SSDataImportEvernoteHelper {
       handleEvernoteNotes(
         userUri,
         notebookUri,
+        notebookLabel,
         evernoteInfo,
         notebook,
         isSharedNotebook);
@@ -209,6 +212,7 @@ public class SSDataImportEvernoteHelper {
   private void handleEvernoteNotes(
     final SSUri                userUri,
     final SSUri                notebookUri, 
+    final SSLabel              notebookLabel, 
     final SSEvernoteInfo       evernoteInfo,
     final Notebook             notebook,
     final Boolean              isSharedNotebook) throws Exception{
@@ -235,14 +239,24 @@ public class SSDataImportEvernoteHelper {
         userCircle, 
         noteUri,
         false);
+
+      if(!SSStrU.isEmpty(notebookLabel)){
+        
+        SSServCaller.tagAdd(
+          userUri, 
+          noteUri, 
+          SSStrU.toStr(notebookLabel),
+          SSSpaceE.privateSpace, 
+          false);
+      }
       
       evernoteHelper.sqlFct.addNote                      (notebookUri,      noteUri);
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
       evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
       evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
       
-      handleEvernoteNoteContent (userUri, note, noteUri);
-      handleEvernoteResources   (userUri, noteUri, notebook, evernoteInfo, note, isSharedNotebook, sharedNotebooks);
+      handleEvernoteNoteContent (userUri, note,    noteUri);
+      handleEvernoteResources   (userUri, noteUri, notebook, notebookLabel, evernoteInfo, note, isSharedNotebook, sharedNotebooks);
     }
   }
   
@@ -250,13 +264,14 @@ public class SSDataImportEvernoteHelper {
     final SSUri                userUri,
     final SSUri                noteUri,
     final Notebook             notebook,
+    final SSLabel              notebookLabel,
     final SSEvernoteInfo       evernoteInfo,
     final Note                 note,
     final Boolean              isSharedNotebook,
     final List<SharedNotebook> sharedNotebooks) throws Exception{
     
     SSUri      resourceUri;
-    SSLabel resourceLabel;
+    SSLabel    resourceLabel;
     
     if(
       note                == null ||
@@ -283,6 +298,16 @@ public class SSDataImportEvernoteHelper {
         userCircle,
         resourceUri,
         false);
+      
+      if(!SSStrU.isEmpty(notebookLabel)){
+        
+        SSServCaller.tagAdd(
+          userUri, 
+          resourceUri, 
+          SSStrU.toStr(notebookLabel),
+          SSSpaceE.privateSpace,
+          false);
+      }
       
       evernoteHelper.sqlFct.addResource               (noteUri, resourceUri);
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
