@@ -24,12 +24,12 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSRecommConf extends SSServConfA{
 
-  public Boolean         initAtStartUp                                                                                 = null;
-  public String          fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp              = null;
-  public String          fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag                                      = null;
-  public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
-  public String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
-  public Integer         updateInterval                                                                                = 60;
+  public    Boolean         initAtStartUp                                                                                 = null;
+  public    String          fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp              = null;
+  public    String          fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag                                      = null;
+  public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
+  public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
+  protected Integer         updateInterval                                                                                = 60;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
@@ -62,6 +62,10 @@ public class SSRecommConf extends SSServConfA{
     }catch(Exception error){
       updateInterval = 60;
     }
+  }
+  
+  public Integer getUpdateInterval(){
+    return updateInterval;
   }
     
 //  public String          rPath                                                                                         = null;

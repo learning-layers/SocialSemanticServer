@@ -66,23 +66,23 @@ public class SSRecommServ extends SSServA{
 
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
-      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
+      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsLanguageModelBasedOnUserEntityTagUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
-      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
+      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
     
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
-      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
+      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
      
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).updateInterval),
-      ((SSRecommConf)servConf).updateInterval * SSDateU.minuteInMilliSeconds);
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
+      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
   }
   
   @Override
