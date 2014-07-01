@@ -1184,7 +1184,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             
       dbSQL.startTrans(par.shouldCommit);
       
-      SSEntityMiscFct.updateEntities     (par.user, par.entities);
+      SSEntityMiscFct.addEntities     (par.user, par.entities);
       
       for(SSUri entityUri : par.entities){
         sqlFct.addEntityToCircleIfNotExists(par.circle, entityUri);

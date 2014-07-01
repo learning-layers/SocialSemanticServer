@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.conf;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSRecommConf extends SSServConfA{
@@ -29,7 +30,8 @@ public class SSRecommConf extends SSServConfA{
   public    String          fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag                                      = null;
   public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
   public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
-  protected Integer         updateInterval                                                                                = 60;
+  protected Integer         updateInterval                                                                                = SSDateU.dayInMinutes;
+  public    Boolean         usePrivateTagsToo                                                                             = null;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
@@ -50,7 +52,8 @@ public class SSRecommConf extends SSServConfA{
     copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp = 
       orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp;
     
-    copy.updateInterval = orig.updateInterval;
+    copy.updateInterval    = orig.getUpdateInterval();
+    copy.usePrivateTagsToo = orig.usePrivateTagsToo;
     
     return copy;
   }

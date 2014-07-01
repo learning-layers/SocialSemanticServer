@@ -20,17 +20,29 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.conf;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSDataImportConf extends SSServConfA{
   
-  public String  fileName = null;
+  public    Boolean       initAtStartUp     = null;
+  public    String        fileName          = null;
+  public    List<SSMethU> initAtStartUpOps  = new ArrayList<>();
   
   public static SSDataImportConf copy(final SSDataImportConf orig){
     
     final SSDataImportConf copy = (SSDataImportConf) SSServConfA.copy(orig, new SSDataImportConf());
     
-    copy.fileName = orig.fileName;
+    copy.fileName        = orig.fileName;
+    copy.initAtStartUp   = orig.initAtStartUp;
+    
+    if(orig.initAtStartUpOps == null){
+      copy.initAtStartUpOps = null;
+    }else{
+      copy.initAtStartUpOps.addAll(orig.initAtStartUpOps);
+    }
     
     return copy;
   }

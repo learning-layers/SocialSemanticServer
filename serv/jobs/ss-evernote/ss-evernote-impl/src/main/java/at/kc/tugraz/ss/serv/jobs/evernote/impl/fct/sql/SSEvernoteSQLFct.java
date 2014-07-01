@@ -37,34 +37,40 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     super(dbSQL);
   }
 
-  public void addNote(
+  public void addNoteIfNotExists(
     final SSUri notebookUri, 
     final SSUri noteUri) throws Exception{
     
     try{
-      final Map<String, String> inserts =  new HashMap<>();
+      final Map<String, String> inserts    =  new HashMap<>();
+      final Map<String, String> uniqueKeys =  new HashMap<>();
       
       insert(inserts, SSSQLVarU.noteId,      noteUri);
       insert(inserts, SSSQLVarU.notebookId,  notebookUri);
       
-      dbSQL.insert(evernoteNoteTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarU.noteId, noteUri);
+      
+      dbSQL.insertIfNotExists(evernoteNoteTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 
-  public void addResource(
+  public void addResourceIfNotExists(
     final SSUri noteUri,
     final SSUri resourceUri) throws Exception{
     
     try{
-      final Map<String, String> inserts =  new HashMap<>();
+      final Map<String, String> inserts    =  new HashMap<>();
+      final Map<String, String> uniqueKeys =  new HashMap<>();
       
       insert(inserts, SSSQLVarU.entityId,    resourceUri);
       insert(inserts, SSSQLVarU.noteId,      noteUri);
       
-      dbSQL.insert(evernoteResourceTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId, resourceUri);
+      
+      dbSQL.insertIfNotExists(evernoteResourceTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

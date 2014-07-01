@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.recomm.impl;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
@@ -67,7 +66,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      if(!SSRecommFct.exportEntityTagTimestampCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp)){
+      if(!SSRecommFct.exportEntityTagTimestampCombinationsForAllUsers(
+        recommConf.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,
+        recommConf.usePrivateTagsToo)){
         return;
       }
 
@@ -114,7 +115,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      if(!SSRecommFct.exportEntityTagCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag)){
+      if(!SSRecommFct.exportEntityTagCombinationsForAllUsers(
+        recommConf.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag,
+        recommConf.usePrivateTagsToo)){
         return;
       }
 
@@ -161,7 +164,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      if(!SSRecommFct.exportEntityTagCategoryCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory)){
+      if(!SSRecommFct.exportEntityTagCategoryCombinationsForAllUsers(
+        recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory,
+        recommConf.usePrivateTagsToo)){
         return;
       }
 
@@ -210,7 +215,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     
     try{
       
-      if(!SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp)){
+      if(!SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(
+        recommConf.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp,
+        recommConf.usePrivateTagsToo)){
         return;
       }
 

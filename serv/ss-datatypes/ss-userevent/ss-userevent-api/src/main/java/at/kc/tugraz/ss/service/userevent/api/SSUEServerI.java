@@ -31,6 +31,7 @@ public interface SSUEServerI {
   public List<SSUE>  uEsGet              (final SSServPar parA) throws Exception;
   public Boolean     uEAdd               (final SSServPar parA) throws Exception;
   public Boolean     uEAddAtCreationTime (final SSServPar parA) throws Exception;
+//  public Boolean     uEsRemove           (final SSServPar parA) throws Exception;
   
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.shareCollection, coll, strU.empty);

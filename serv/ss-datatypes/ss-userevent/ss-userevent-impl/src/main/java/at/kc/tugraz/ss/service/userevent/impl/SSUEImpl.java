@@ -203,7 +203,58 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op));
   }
   
-  /* SSUserEventServerI */
+//  public Boolean uEsRemove (final SSServPar parA) throws Exception{
+//    
+//    try{
+//      final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
+//      final SSUri                    ueUri = SSUEMiscFct.createUEUri();
+//    
+//      dbSQL.startTrans(par.shouldCommit);
+//      
+//      SSServCaller.entityAddAtCreationTime(
+//        par.user,
+//        ueUri,
+//        null,
+//        par.creationTime,
+//        SSEntityE.userEvent,
+//        null,
+//        false);
+//      
+//      SSServCaller.entityAdd(
+//        par.user,
+//        par.entity,
+//        null,
+//        SSEntityE.entity,
+//        null,
+//        false);
+//      
+//      sqlFct.addUE(
+//        ueUri, 
+//        par.user, 
+//        par.entity, 
+//        par.type, 
+//        par.content);
+//      
+//      dbSQL.commit(par.shouldCommit);
+//      
+//      return true;
+//    }catch(SSSQLDeadLockErr deadLockErr){
+//      
+//      if(dbSQL.rollBack(parA)){
+//        return uEAddAtCreationTime(parA);
+//      }else{
+//        SSServErrReg.regErrThrow(deadLockErr);
+//        return null;
+//      }
+//      
+//    }catch(Exception error){
+//      dbSQL.rollBack(parA);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//    
+//  }
+  
   @Override
   public Boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
     

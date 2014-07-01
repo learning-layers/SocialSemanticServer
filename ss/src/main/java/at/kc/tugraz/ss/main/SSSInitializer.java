@@ -91,18 +91,20 @@ public class SSSInitializer extends SSServImplStartA{
       SSEntityServ.inst.initServ        (SSCoreConf.instGet().getEntityConf());
       SSUserServ.inst.initServ          (SSCoreConf.instGet().getUserConf());
       SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
+      SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
+      SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
       
       /* job  */
       SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
+      SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
+      SSFilerepoServ.inst.initServ      (SSCoreConf.instGet().getFilerepoConf());
       SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
         
       /* json-ld  */
       SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());
       
       /* entities  */
-      SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
       SSRatingServ.inst.initServ        (SSCoreConf.instGet().getRatingConf());
-      SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
       SSCategoryServ.inst.initServ      (SSCoreConf.instGet().getCategoryConf());
       SSDiscServ.inst.initServ          (SSCoreConf.instGet().getDiscConf());
       SSLearnEpServ.inst.initServ       (SSCoreConf.instGet().getLearnEpConf());
@@ -119,8 +121,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSBroadcasterServ.inst.initServ   (SSCoreConf.instGet().getBroadcasterConf());
       SSRecommServ.inst.initServ        (SSCoreConf.instGet().getRecommConf());
       SSFileSysLocalServ.inst.initServ  (SSCoreConf.instGet().getFileSysLocalConf());
-      SSFilerepoServ.inst.initServ      (SSCoreConf.instGet().getFilerepoConf());
-      SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
       SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
       SSCloudServ.inst.initServ         (SSCoreConf.instGet().getCloudConf());
       SSNotificationServ.inst.initServ  (SSCoreConf.instGet().getNotificationConf());

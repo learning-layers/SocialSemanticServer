@@ -32,7 +32,6 @@ public enum SSMethU{
   
   //test
   testServOverall                                     ,
-  testDataImportEvernote                              ,
   
   //evernote
   evernoteNoteStoreGet                                ,
@@ -127,6 +126,7 @@ public enum SSMethU{
   //user event
   uEsGet                                              ,
   uEAdd                                               ,
+  uEsRemove,
   uEAddAtCreationTime                                 ,
   uEGet                                               ,
   uECountGet                                          ,

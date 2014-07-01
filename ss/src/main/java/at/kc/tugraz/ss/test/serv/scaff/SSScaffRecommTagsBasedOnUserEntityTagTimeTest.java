@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.scaff.conf.SSScaffConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
 public class SSScaffRecommTagsBasedOnUserEntityTagTimeTest extends SSServOpTestCaseA{
   
@@ -38,11 +39,12 @@ public class SSScaffRecommTagsBasedOnUserEntityTagTimeTest extends SSServOpTestC
     
     SSLogU.info(op + " Test start");
     
-    SSServCaller.scaffRecommTagsBasedOnUserEntityTagTime(
-      SSUri.get("http://eval.bp/user/301497/"), 
-      SSUri.get("http://eval.bp/user/301497/"),
-      SSUri.get("http://en.wikipedia.org/wiki/Moby_Project/"), 
-      10);
+    System.out.println(
+      SSServCaller.scaffRecommTagsBasedOnUserEntityTagTime(
+        SSVoc.systemUserUri,
+        SSUri.get("http://eval.bp/14042117068752000009/"),
+        null,
+        10));
     
     SSLogU.info(op + " Test end");
   }

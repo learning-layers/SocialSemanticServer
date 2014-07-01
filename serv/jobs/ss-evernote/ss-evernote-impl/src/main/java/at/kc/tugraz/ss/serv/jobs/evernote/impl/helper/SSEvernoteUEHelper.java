@@ -33,6 +33,16 @@ import java.util.List;
 
 public class SSEvernoteUEHelper {
   
+//  public void removeUEsFromEntity(
+//    final SSUri user, 
+//    final SSUri entity) throws Exception{
+//    
+//    SSServCaller.uEsRemove(
+//      user,
+//      entity,
+//      false);
+//  }
+  
   public void addUEsForNormalNotebook(
     SSUri userUri,
     SSUri notebookUri,

@@ -250,7 +250,7 @@ public class SSDataImportEvernoteHelper {
           false);
       }
       
-      evernoteHelper.sqlFct.addNote                      (notebookUri,      noteUri);
+      evernoteHelper.sqlFct.addNoteIfNotExists           (notebookUri,      noteUri);
       evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
       evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
       evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
@@ -309,7 +309,7 @@ public class SSDataImportEvernoteHelper {
           false);
       }
       
-      evernoteHelper.sqlFct.addResource               (noteUri, resourceUri);
+      evernoteHelper.sqlFct.addResourceIfNotExists    (noteUri, resourceUri);
       evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
       evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook);
     }

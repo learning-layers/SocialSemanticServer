@@ -1467,6 +1467,20 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.uEAdd, opPars));
   }
   
+//  public static Boolean uEsRemove(
+//    final SSUri   user, 
+//    final SSUri   entity, 
+//    final Boolean shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.shouldCommit, shouldCommit);
+//    opPars.put(SSVarU.user,         user);
+//    opPars.put(SSVarU.entity,       entity);
+//    
+//    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.uEsRemove, opPars));
+//  }
+  
   /* user */
   
   public static SSUri userURIGet(

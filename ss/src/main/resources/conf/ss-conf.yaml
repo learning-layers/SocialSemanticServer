@@ -35,8 +35,10 @@ dataExportConf:
   use: true
 dataImportConf:
   executeOpAtStartUp: false
+  initAtStartUp: #true, false
+  initAtStartUpOps: #array containing, e.g. dataImportEvernote
   fileName: null
-  op: null
+  op: null #serv op to execute at startup, e.g. dataImportEvernote
   use: true
 dbGraphConf:
   executeOpAtStartUp: false
@@ -146,6 +148,7 @@ recommConf:
   op: null
   updateInterval: null #in minutes
   use: true
+  usePrivateTagsToo: #true, false
 scaffConf:
   executeOpAtStartUp: false
   op: null

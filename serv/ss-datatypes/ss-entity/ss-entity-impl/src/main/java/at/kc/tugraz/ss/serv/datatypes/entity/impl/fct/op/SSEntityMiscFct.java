@@ -177,7 +177,7 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void updateEntities(
+  public static void addEntities(
     final SSUri       userUri, 
     final List<SSUri> entityUris) throws Exception{
   

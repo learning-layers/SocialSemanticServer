@@ -35,14 +35,15 @@ import java.util.Map;
 public class SSRecommFct{
 
   public static Boolean exportEntityTagCombinationsForAllUsers(
-     final String fileName) throws Exception {
+    final String fileName,
+    final Boolean usePrivateTagsToo) throws Exception {
     
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -71,14 +72,15 @@ public class SSRecommFct{
   }   
   
   public static Boolean exportEntityTagTimestampCombinationsForAllUsers(
-    final String fileName) throws Exception {
+    final String  fileName,
+    final Boolean usePrivateTagsToo) throws Exception {
     
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -112,14 +114,15 @@ public class SSRecommFct{
   }
   
   public static Boolean exportEntityTagCategoryCombinationsForAllUsers(
-    final String fileName) throws Exception {
+    final String  fileName,
+    final Boolean usePrivateTagsToo) throws Exception {
     
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -153,14 +156,15 @@ public class SSRecommFct{
   }
   
   public static Boolean exportEntityTagCategoryTimestampCombinationsForAllUsers(
-    final String fileName) throws Exception {
+    final String  fileName,
+    final Boolean usePrivateTagsToo) throws Exception {
     
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
     for(SSUser user : SSServCaller.userAll()){
       
-      tagsPerEntities = getTagsOfUserPerEntities(user.id, SSSpaceE.sharedSpace);
+      tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
       if(tagsPerEntities.isEmpty()){
         continue;
@@ -196,16 +200,28 @@ public class SSRecommFct{
   }
   
   private static Map<String, List<String>> getTagsOfUserPerEntities(
-    final SSUri       userUri, 
-    final SSSpaceE    space) throws Exception{
+    final SSUri       userUri,
+    final Boolean     usePrivateTagsToo) throws Exception{
     
-    return SSTag.getTagLabelsPerEntities(
-      SSServCaller.tagsUserGet(
-        userUri, 
-        new ArrayList<>(), 
-        new ArrayList<>(), 
-        space,
-        null));
+    if(usePrivateTagsToo){
+      
+      return SSTag.getTagLabelsPerEntities(
+        SSServCaller.tagsUserGet(
+          userUri,
+          SSUri.asListWithoutNullAndEmpty(),
+          new ArrayList<>(),
+          null,
+          null));
+      
+    }else{
+      return SSTag.getTagLabelsPerEntities(
+        SSServCaller.tagsUserGet(
+          userUri,
+          SSUri.asListWithoutNullAndEmpty(),
+          new ArrayList<>(),
+          SSSpaceE.sharedSpace,
+          null));
+    }
   }
 
   private static Map<String, List<String>> getCategoriesPerEntities(

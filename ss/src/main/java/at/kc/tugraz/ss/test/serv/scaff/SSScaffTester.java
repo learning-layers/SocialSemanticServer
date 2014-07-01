@@ -35,7 +35,7 @@ public class SSScaffTester extends Thread{
     }      
     
     switch(scaffConf.op){
-      case scaffRecommTagsBasedOnUserEntityTag: new Thread(new SSScaffRecommTagsBasedOnUserEntityTagTimeTest(scaffConf)).start(); break;
+      case scaffRecommTagsBasedOnUserEntityTagTime: new Thread(new SSScaffRecommTagsBasedOnUserEntityTagTimeTest(scaffConf)).start(); break;
     }
   } 
 }
