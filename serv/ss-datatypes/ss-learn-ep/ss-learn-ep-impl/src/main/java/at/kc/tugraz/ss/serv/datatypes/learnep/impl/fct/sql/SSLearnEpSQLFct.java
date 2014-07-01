@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -107,6 +108,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>        tableCons = new ArrayList<>();
       
       column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.description);
       
       where(wheres, SSSQLVarU.learnEpId, learnEpUri);
       where(wheres, SSSQLVarU.userId,    user);
@@ -124,6 +126,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         user, 
         learnEpUri, 
         bindingStrToLabel(resultSet, SSSQLVarU.label), 
+        SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
         null, 
         null);
     
@@ -173,6 +176,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       column(columns, SSSQLVarU.learnEpId);
       column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.description);
       
       table(tables, entityTable);
       table(tables, learnEpUserTable);
@@ -190,6 +194,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
             user, 
             bindingStrToUri   (resultSet, SSSQLVarU.learnEpId), 
             bindingStrToLabel (resultSet, SSSQLVarU.label), 
+            SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
             null, 
             null));
       }

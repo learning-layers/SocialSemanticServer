@@ -208,8 +208,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   public List<SSLearnEp> learnEpsGet(final SSServPar parA) throws Exception{
 
     try{
-      final SSLearnEpsGetPar par = new SSLearnEpsGetPar(parA);
-      final List<SSLearnEp> learnEps = sqlFct.getLearnEps(par.user);
+      final SSLearnEpsGetPar par      = new SSLearnEpsGetPar(parA);
+      final List<SSLearnEp>  learnEps = sqlFct.getLearnEps(par.user);
 
       for(SSLearnEp learnEp : learnEps){
 

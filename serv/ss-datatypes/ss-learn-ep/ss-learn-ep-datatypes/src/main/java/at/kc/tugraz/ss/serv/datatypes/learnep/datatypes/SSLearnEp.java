@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
@@ -38,6 +38,7 @@ public class SSLearnEp extends SSEntityA {
   public SSUri                   id          = null;
   public SSUri                   user        = null;
   public SSLabel                 label       = null;
+  public SSTextComment           description = null;
   public List<SSLearnEpVersion>  versions    = new ArrayList<>();
   public List<SSCircleE>         circleTypes = new ArrayList<>();
   
@@ -91,16 +92,18 @@ public class SSLearnEp extends SSEntityA {
     final SSUri                  user, 
     final SSUri                  id, 
     final SSLabel                label,
+    final SSTextComment          description, 
     final List<SSLearnEpVersion> versions,
     final List<SSCircleE>        circleTypes) throws Exception{
     
-    return new SSLearnEp(user, id, label, versions, circleTypes);
+    return new SSLearnEp(user, id, label, description, versions, circleTypes);
   }
   
   private SSLearnEp(
     final SSUri                  user, 
     final SSUri                  id, 
     final SSLabel                label,
+    final SSTextComment          description, 
     final List<SSLearnEpVersion> versions,
     final List<SSCircleE>        circleTypes) throws Exception{
     
@@ -109,6 +112,7 @@ public class SSLearnEp extends SSEntityA {
     this.id          = id;
     this.user        = user;
     this.label       = label;
+    this.description = description;
     
     if(versions != null){
       this.versions.addAll(versions);
@@ -126,9 +130,10 @@ public class SSLearnEp extends SSEntityA {
     final Map<String, Object> circleTypesObj = new HashMap<>();
     final Map<String, Object> versionsObj    = new HashMap<>();
     
-    ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarU.user,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.label,       SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.description, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     
     versionsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
     versionsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -143,7 +148,7 @@ public class SSLearnEp extends SSEntityA {
     return ld;
   }
   
-  /* getters to allow for json enconding */
+  /* json getters */
   
   public String getUser() throws Exception {
     return SSStrU.removeTrailingSlash(user);
@@ -155,6 +160,10 @@ public class SSLearnEp extends SSEntityA {
 
   public String getLabel() {
     return SSStrU.toStr(label);
+  }
+  
+  public String getDescription() {
+    return SSStrU.toStr(description);
   }
   
   public List<SSLearnEpVersion> getVersions() {
