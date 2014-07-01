@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String notebook                                       = "notebook";
   public static final String thumb                                          = "thumb";
   public static final String count                                          = "count";
   public static final String versions                                       = "versions";
@@ -151,6 +152,7 @@ public class SSVarU{
   public static final String author                                         = "author";
   public static final String circleTypes                                    = "circleTypes";
   public static final String id                                             = "id";
+  public static final String note                                           = "note";
   public static final String location                                       = "location";
   public static final String pathFullWorkingDir                             = "pathFullWorkingDir";
   public static final String colls                                          = "colls";

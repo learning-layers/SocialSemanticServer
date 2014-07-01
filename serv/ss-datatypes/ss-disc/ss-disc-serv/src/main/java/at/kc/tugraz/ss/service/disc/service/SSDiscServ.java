@@ -46,7 +46,7 @@ public class SSDiscServ extends SSServA implements SSDiscI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDiscImpl(servConf, (SSDBGraphI)SSDBGraph.inst.serv(), (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSDiscImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI)SSDBSQL.inst.serv());
   } 
 
   @Override

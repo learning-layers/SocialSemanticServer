@@ -22,7 +22,9 @@ package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
@@ -30,12 +32,15 @@ import java.util.List;
 
 public class SSEvernoteHelper {
   
-  public  final SSEvernoteUEHelper    ueHelper;
-  public  final SSEvernoteUriHelper   uriHelper;
+  public final SSEvernoteUEHelper    ueHelper;
+  public final SSEvernoteUriHelper   uriHelper;
+  public final SSEvernoteSQLFct      sqlFct;
   
-  public SSEvernoteHelper(){
+  public SSEvernoteHelper(final SSDBSQLI dbSQL) throws Exception{
+    
     this.ueHelper    = new SSEvernoteUEHelper    ();
     this.uriHelper   = new SSEvernoteUriHelper   ();
+    this.sqlFct      = new SSEvernoteSQLFct      (dbSQL);
   }
   
   public Boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {

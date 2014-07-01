@@ -73,6 +73,8 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   learnEpCircleTable                  = "learnepcircle";
   protected static final String   learnEpTable                        = "learnep";
   protected static final String   learnEpEntityTable                  = "learnepentity";
+  protected static final String   evernoteNoteTable                   = "evernotenote";
+  protected static final String   evernoteResourceTable               = "evernoteresource";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

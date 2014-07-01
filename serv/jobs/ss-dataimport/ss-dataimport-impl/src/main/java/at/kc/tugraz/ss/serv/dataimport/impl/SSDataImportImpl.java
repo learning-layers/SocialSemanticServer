@@ -66,8 +66,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     super(conf, dbGraph, dbSQL);
     
-    this.dataImpEvernoteHelper    = new SSDataImportEvernoteHelper(); 
-    this.sqlFct                   = new SSDataImportSQLFct(dbSQL);
+    this.dataImpEvernoteHelper    = new SSDataImportEvernoteHelper (dbSQL); 
+    this.sqlFct                   = new SSDataImportSQLFct         (dbSQL);
   }
   
   /* SSDataImportServerI */

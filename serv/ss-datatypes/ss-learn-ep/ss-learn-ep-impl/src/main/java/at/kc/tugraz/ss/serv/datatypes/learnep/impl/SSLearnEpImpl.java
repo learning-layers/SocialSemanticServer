@@ -533,7 +533,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCaller.entityCircleCreate(
         par.user,
         SSUri.asListWithoutNullAndEmpty(learnEpUri),
-        new ArrayList<>(),
+        SSUri.asListWithoutNullAndEmpty(),
         SSCircleE.priv,
         null,
         SSVoc.systemUserUri,

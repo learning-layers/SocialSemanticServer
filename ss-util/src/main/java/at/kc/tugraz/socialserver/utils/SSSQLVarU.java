@@ -22,6 +22,8 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String noteId                                         = "noteId";
+  public static final String notebookId                                     = "notebookId";
   public static final String isPredefined                                   = "isPredefined";
   public static final String description                                    = "description";
   public static final String authKey                                        = "authKey";

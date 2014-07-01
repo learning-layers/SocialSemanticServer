@@ -29,20 +29,24 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteDesc;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksLinkedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesLinkedGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceDesc;
+import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
@@ -61,18 +65,25 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
-  public SSEvernoteImpl(final SSConfA conf) throws Exception{
-    super(conf);
+  private final SSEvernoteSQLFct sqlFct;
+  
+  public SSEvernoteImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+    
+    super(conf, null, dbSQL);
+    
+    this.sqlFct = new SSEvernoteSQLFct(dbSQL);
   }
 
   @Override
   public SSEntityDescA getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA entityDesc) throws Exception{
+    final SSEntityDescA      entityDesc) throws Exception{
     
-    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote)){
+    if(
+      SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote) ||
+      SSStrU.equals(entityDesc.type, SSEntityE.evernoteResource)){
       
       if(par.getThumb){
       
@@ -81,6 +92,20 @@ public class SSEvernoteImpl extends SSServImplMiscA implements SSEvernoteClientI
            par.user, 
            par.entity);
       }
+    }
+    
+    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote)){
+     
+      return SSEvernoteNoteDesc.get(
+        entityDesc,
+        sqlFct.getNote(par.entity).notebook);
+    }
+    
+    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteResource)){
+      
+      return SSEvernoteResourceDesc.get(
+        entityDesc,
+        sqlFct.getResource(par.entity).note);
     }
     
     return entityDesc;
