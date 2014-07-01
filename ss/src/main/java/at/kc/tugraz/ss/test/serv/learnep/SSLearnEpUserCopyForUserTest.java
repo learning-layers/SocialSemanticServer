@@ -47,6 +47,7 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
       SSServCaller.learnEpCreate(
         SSVoc.systemUserUri, 
         SSLabel.get("my test learn ep"), 
+        SSTextComment.get("super"),
         true);
     
     final SSUri learnEpVersion = 

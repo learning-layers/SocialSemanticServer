@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
@@ -55,6 +56,7 @@ public class SSLearnEpMiscFct{
         SSServCaller.learnEpCreate(
           forUser, 
           learnEp.label, 
+          SSServCaller.entityGet(learnEp.id).description,
           false);
       
       for(SSLearnEpVersion version : learnEp.versions){

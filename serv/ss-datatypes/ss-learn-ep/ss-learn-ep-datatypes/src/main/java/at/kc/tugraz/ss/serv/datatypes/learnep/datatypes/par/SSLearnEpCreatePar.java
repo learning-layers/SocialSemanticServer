@@ -21,13 +21,15 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSLearnEpCreatePar extends SSServPar{
   
-  public SSLabel   label = null;
+  public SSLabel       label       = null;
+  public SSTextComment description = null;
   
   public SSLearnEpCreatePar(SSServPar par) throws Exception{
       
@@ -36,11 +38,16 @@ public class SSLearnEpCreatePar extends SSServPar{
     try{
       
       if(pars != null){
-        label   = (SSLabel)  pars.get(SSVarU.label);
+        label         = (SSLabel)        pars.get(SSVarU.label);
+        description   = (SSTextComment)  pars.get(SSVarU.description);
       }
       
       if(clientPars != null){
-        label   = SSLabel.get (clientPars.get(SSVarU.label));
+        label         = SSLabel.get       (clientPars.get(SSVarU.label));
+        
+        try{
+          description   = SSTextComment.get (clientPars.get(SSVarU.description));
+        }catch(Exception error){}
       }
       
     }catch(Exception error){

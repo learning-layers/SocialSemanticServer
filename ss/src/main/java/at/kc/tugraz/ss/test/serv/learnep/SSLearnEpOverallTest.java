@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -45,6 +46,7 @@ public class SSLearnEpOverallTest extends SSServOverallTestCaseA{
       SSServCaller.learnEpCreate(
         SSVoc.systemUserUri,
         SSLabel.get("learn ep dieter 1"),
+        SSTextComment.get("super"),
         true);
     
     SSUri learnEpVersionUri =

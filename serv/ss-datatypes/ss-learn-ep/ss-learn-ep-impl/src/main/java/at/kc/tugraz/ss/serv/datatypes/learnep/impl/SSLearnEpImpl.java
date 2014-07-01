@@ -517,8 +517,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   public SSUri learnEpCreate(final SSServPar parA) throws Exception{
 
     try{
-      final SSLearnEpCreatePar par = new SSLearnEpCreatePar(parA);
-      final SSUri learnEpUri = sqlFct.createLearnEpUri();
+      final SSLearnEpCreatePar par        = new SSLearnEpCreatePar(parA);
+      final SSUri              learnEpUri = sqlFct.createLearnEpUri();
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -527,7 +527,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         learnEpUri,
         par.label,
         SSEntityE.learnEp,
-        null,
+        par.description,
         false);
 
       SSServCaller.entityCircleCreate(

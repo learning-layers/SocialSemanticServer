@@ -118,15 +118,17 @@ public class SSServCaller {
   }
     
   public static SSUri learnEpCreate(
-    final SSUri    user, 
-    final SSLabel  label,
-    final Boolean  shouldCommit) throws Exception{
+    final SSUri         user, 
+    final SSLabel       label,
+    final SSTextComment description,
+    final Boolean       shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.label,         label);
+    opPars.put(SSVarU.description,   description);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpCreate, opPars));
   }
