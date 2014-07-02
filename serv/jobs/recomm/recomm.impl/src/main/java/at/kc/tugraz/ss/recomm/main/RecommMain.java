@@ -20,7 +20,7 @@ public class RecommMain {
 		System.out.println("3L: " + engine.getTags("41", "545", Arrays.asList("ontology", "conference", "tutorial", "web2.0", "rss", "tools"), 10, false));
 		BaseLevelLearningEngine bllEngine = new BaseLevelLearningEngine();
 		bllEngine.loadFile("cul_core/cul_sample_1_res");
-		System.out.println("BLL: " + bllEngine.getTags("41", "545", 10));
+		System.out.println("BLL: " + bllEngine.getTagsWithLikelihood("41", "545", 10));
                 LanguageModelEngine lmEngine = new LanguageModelEngine();
                 lmEngine.loadFile("cul_core/cul_sample_1_res");
                 System.out.println("LM: " + lmEngine.getTags("41", "545", 10));

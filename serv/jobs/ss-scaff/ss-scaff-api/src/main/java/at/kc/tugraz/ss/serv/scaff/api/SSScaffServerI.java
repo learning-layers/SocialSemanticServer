@@ -22,10 +22,11 @@ package at.kc.tugraz.ss.serv.scaff.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
+import java.util.Map;
 
 public interface SSScaffServerI {
-  public List<String> scaffRecommTagsBasedOnUserEntityTag                 (final SSServPar parA) throws Exception;
-  public List<String> scaffRecommTagsBasedOnUserEntityTagTime             (final SSServPar parA) throws Exception;
-  public List<String> scaffRecommTagsBasedOnUserEntityTagCategory         (final SSServPar parA) throws Exception;
-  public List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime     (final SSServPar parA) throws Exception;
+  public List<String>        scaffRecommTagsBasedOnUserEntityTag                 (final SSServPar parA) throws Exception;
+  public Map<String, Double> scaffRecommTagsBasedOnUserEntityTagTime             (final SSServPar parA) throws Exception;
+  public List<String>        scaffRecommTagsBasedOnUserEntityTagCategory         (final SSServPar parA) throws Exception;
+  public List<String>        scaffRecommTagsBasedOnUserEntityTagCategoryTime     (final SSServPar parA) throws Exception;
 }

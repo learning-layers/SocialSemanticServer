@@ -1988,7 +1988,7 @@ public class SSServCaller {
   
   /* recommendation */
   
-   public static List<String> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
+   public static Map<String, Double> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
     final SSUri         user, 
     final SSUri         forUser, 
     final SSUri         entity, 
@@ -2001,7 +2001,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,      entity);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
+    return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
   }
   
   public static void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate() throws Exception {

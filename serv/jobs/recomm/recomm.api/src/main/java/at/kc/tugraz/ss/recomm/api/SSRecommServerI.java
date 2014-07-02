@@ -22,17 +22,18 @@ package at.kc.tugraz.ss.recomm.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
+import java.util.Map;
 
 public interface SSRecommServerI{
 
-  public List<String> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp                 (final SSServPar parA) throws Exception;
-  public void         recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate           (final SSServPar parA) throws Exception;
-  public List<String> recommTagsLanguageModelBasedOnUserEntityTag                                         (final SSServPar parA) throws Exception;
-  public void         recommTagsLanguageModelBasedOnUserEntityTagUpdate                                   (final SSServPar parA) throws Exception;
-  public List<String> recommTagsThreeLayersBasedOnUserEntityTagCategory                                   (final SSServPar parA) throws Exception;
-  public void         recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate                             (final SSServPar parA) throws Exception;
-  public List<String> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                          (final SSServPar parA) throws Exception;  
-  public void         recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate                    (final SSServPar parA) throws Exception;  
+  public Map<String, Double> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp                 (final SSServPar parA) throws Exception;
+  public void                recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate           (final SSServPar parA) throws Exception;
+  public List<String>        recommTagsLanguageModelBasedOnUserEntityTag                                         (final SSServPar parA) throws Exception;
+  public void                recommTagsLanguageModelBasedOnUserEntityTagUpdate                                   (final SSServPar parA) throws Exception;
+  public List<String>        recommTagsThreeLayersBasedOnUserEntityTagCategory                                   (final SSServPar parA) throws Exception;
+  public void                recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate                             (final SSServPar parA) throws Exception;
+  public List<String>        recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                          (final SSServPar parA) throws Exception;  
+  public void                recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate                    (final SSServPar parA) throws Exception;  
   
   
 //  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity (final SSServPar parA) throws Exception;

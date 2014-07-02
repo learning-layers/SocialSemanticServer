@@ -25,6 +25,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-tag-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.recomm</groupId>
       <artifactId>recomm.datatypes</artifactId>
       <version>${project.version}</version>

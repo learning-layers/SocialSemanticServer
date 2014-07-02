@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.test.i5cloud.SSI5CloudTester;
 import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
 import at.kc.tugraz.ss.test.serv.learnep.SSLearnEpTester;
+import at.kc.tugraz.ss.test.serv.recomm.SSRecommTester;
 import at.kc.tugraz.ss.test.serv.scaff.SSScaffTester;
 
 public class SSTester extends Thread{
@@ -40,6 +41,7 @@ public class SSTester extends Thread{
       new SSLearnEpTester().start();
       new SSCategoryTester().start();
       new SSDiscTester().start();
+      new SSRecommTester().start();
       
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();

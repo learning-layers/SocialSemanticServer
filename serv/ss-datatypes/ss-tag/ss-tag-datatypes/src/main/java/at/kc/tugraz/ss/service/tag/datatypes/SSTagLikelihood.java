@@ -18,49 +18,53 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.scaff.datatypes.ret;
+ package at.kc.tugraz.ss.service.tag.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import java.util.ArrayList;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSScaffRecommTagsRet extends SSServRetI{
-
-  public List<String> tags = new ArrayList<>();
-
-  public static SSScaffRecommTagsRet get(List<String> tags, SSMethU op){
-    return new SSScaffRecommTagsRet(tags, op);
-  }
+public class SSTagLikelihood implements SSJSONLDPropI{
   
-  private SSScaffRecommTagsRet(List<String> tags, SSMethU op){
-    
-    super(op);
-    
-    this.tags.addAll(tags);
-  }
+  public SSTagLabel    label       = null;
+	public Double        likelihood  = 0D;
 
+  public static SSTagLikelihood get(
+    SSTagLabel    label,
+    Double        likelihood){
+    
+    return new SSTagLikelihood(label, likelihood);
+  }  
+	
+  private SSTagLikelihood(
+    SSTagLabel    label,
+    Double        likelihood){
+		
+		this.label           = label;
+		this.likelihood      = likelihood;
+	}
+  
   @Override
-  public Map<String, Object> jsonLDDesc(){
+  public Object jsonLDDesc() {
+  
+    final Map<String, Object> ld = new HashMap<>();
     
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> tagsObj    = new HashMap<>();
-    
-    tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.tags, tagsObj);
+    ld.put(SSVarU.label,        SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
+    ld.put(SSVarU.likelihood,   SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
     
     return ld;
-  }
+  }  
   
-  /* json getters */
-  public List<String> getTags() {
-    return tags;
-  }
+  /* json getters*/
+  
+  public String getLabel() {
+		return SSStrU.toStr(label);
+	}
+  
+	public Double getLikelihood() {
+		return likelihood;
+	}	
 }

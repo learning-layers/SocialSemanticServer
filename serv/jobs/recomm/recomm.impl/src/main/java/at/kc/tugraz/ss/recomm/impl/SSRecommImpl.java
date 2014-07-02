@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
@@ -57,7 +58,6 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     super(conf);
   }
   
-  /* SSRecommServerI */
   @Override
   public void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate(final SSServPar parA) throws Exception{
     
@@ -89,17 +89,16 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public List<String> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(final SSServPar parA) throws Exception{
+  public Map<String, Double> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(final SSServPar parA) throws Exception{
     
     final SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampPar par = new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampPar(parA);
     
     try{
       
-      return SSStrU.distinctWithoutEmptyAndNull(
-        recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.getTags(
+      return recommenderTagBaseLevelLearningBasedOnUserEntityTagTimestamp.getTagsWithLikelihood(
           SSStrU.toStr(par.forUser),
           SSStrU.toStr(par.entity),
-          par.maxTags));
+          par.maxTags);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

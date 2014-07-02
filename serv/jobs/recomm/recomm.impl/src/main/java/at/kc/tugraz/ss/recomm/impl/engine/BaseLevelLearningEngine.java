@@ -17,13 +17,13 @@ public class BaseLevelLearningEngine {
 	private WikipediaReader reader;
 	private final Map<String, Map<Integer, Double>> userMaps;
 	private final Map<String, Map<Integer, Double>> resMaps;
-	private final List<String> topTags;
+	private final Map<String, Double> topTags;
   
   public BaseLevelLearningEngine(){
    
     userMaps = new HashMap<>();
     resMaps  = new HashMap<>();
-    topTags  = new ArrayList<>();
+    topTags  = new LinkedHashMap<>();
     
     reader = new WikipediaReader(0, false);
   }
@@ -50,7 +50,7 @@ public class BaseLevelLearningEngine {
 		resetStructures(userMaps, resMaps, reader);
 	}
 	
-	public synchronized List<String> getTags(String user, String resource, int count) {
+	public synchronized Map<String, Double> getTagsWithLikelihood(String user, String resource, int count) {
 		Map<Integer, Double> resultMap = new LinkedHashMap<Integer, Double>();
 		Map<Integer, Double> userMap = this.userMaps.get(user);
 		Map<Integer, Double> resMap = this.resMaps.get(resource);
@@ -69,21 +69,24 @@ public class BaseLevelLearningEngine {
 		}	
 		// sort and add MP tags if necessary
 		Map<Integer, Double> sortedResultMap = new TreeMap<Integer, Double>(new DoubleMapComparator(resultMap));
+    
 		sortedResultMap.putAll(resultMap);		
 		int i = 0;
-		List<String> tagList = new ArrayList<>();
-		for (Integer key : sortedResultMap.keySet()) {
-			if (i++ < count) {
-				tagList.add(this.reader.getTags().get(key));
+		Map<String, Double> tagMap = new LinkedHashMap<>();
+		for (Map.Entry<Integer, Double> entry : sortedResultMap.entrySet()) {
+			
+      if (i++ < count) {
+				tagMap.put(this.reader.getTags().get(entry.getKey()), (double) entry.getValue());
 			} else {
 				break;
 			}
 		}
-		if (tagList.size() < count) {
-			for (String t : this.topTags) {
-				if (tagList.size() < count) {
-					if (!tagList.contains(t)) {
-						tagList.add(t);
+    
+		if (tagMap.size() < count) {
+			for (Map.Entry<String, Double> t : this.topTags.entrySet()) {
+				if (tagMap.size() < count) {
+					if (!tagMap.containsKey(t.getKey())) {
+						tagMap.put(t.getKey(), t.getValue());
 					}
 				} else {
 					break;
@@ -91,13 +94,15 @@ public class BaseLevelLearningEngine {
 			}
 		}
 		
-		return tagList;
+    return tagMap;
 	}
 	
 	private synchronized void resetStructures(
     Map<String, Map<Integer, Double>> userMaps,
     Map<String, Map<Integer, Double>> resMaps, 
     WikipediaReader                   reader){
+    
+    this.reader = reader;
     
 		this.userMaps.clear(); 
     this.userMaps.putAll(userMaps);
@@ -106,29 +111,35 @@ public class BaseLevelLearningEngine {
     this.resMaps.putAll(resMaps);
 		
     this.topTags.clear();
-    this.topTags.addAll(calcTopTags());
-
-    this.reader = reader;
+    this.topTags.putAll(calcTopTags());
 	}
 	
-	private List<String> calcTopTags() {
-		List<String> tagList = new ArrayList<>();
+	private Map<String, Double> calcTopTags() {
+		Map<String, Double> tagMap = new LinkedHashMap<>();
 		Map<Integer, Integer> countMap = new LinkedHashMap<Integer, Integer>();
-		for (int i = 0; i < this.reader.getTagCounts().size(); i++) {
+		
+    Integer countSum = 0;
+    
+    for (int i = 0; i < this.reader.getTagCounts().size(); i++) {
 			countMap.put(i, this.reader.getTagCounts().get(i));
+      
+      countSum += this.reader.getTagCounts().get(i);
 		}
+    
 		Map<Integer, Integer> sortedCountMap = new TreeMap<Integer, Integer>(new IntMapComparator(countMap));
 		sortedCountMap.putAll(countMap);
-		for (Integer key : sortedCountMap.keySet()) {
-			tagList.add(this.reader.getTags().get(key));
+		
+    for (Map.Entry<Integer, Integer> entry : sortedCountMap.entrySet()) {
+			tagMap.put(this.reader.getTags().get(entry.getKey()),  ((double)entry.getValue()) / countSum);
 		}
-		return tagList;
+    
+		return tagMap;
 	}
 	
-	private List<String> getTopTags(int size) {
-		if (size > 0 && size <= this.topTags.size()) {
-			return this.topTags.subList(0, size);
-		}
-		return this.topTags;
-	}
+//	private List<String> getTopTags(int size) {
+//		if (size > 0 && size <= this.topTags.size()) {
+//			return this.topTags.subList(0, size);
+//		}
+//		return this.topTags;
+//	}
 }

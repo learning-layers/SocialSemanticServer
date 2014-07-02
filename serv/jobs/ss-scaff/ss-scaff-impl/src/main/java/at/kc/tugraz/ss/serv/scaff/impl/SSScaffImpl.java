@@ -23,11 +23,13 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEnti
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagPar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagTimePar;
+import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsBasedOnUserEntityTagTimeRet;
 import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
+import java.util.Map;
 
 public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSScaffServerI{
   
@@ -50,7 +52,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagTime(parA), parA.op));
+    sSCon.writeRetFullToClient(SSScaffRecommTagsBasedOnUserEntityTagTimeRet.get(scaffRecommTagsBasedOnUserEntityTagTime(parA), parA.op));
   }
   
   @Override
@@ -84,7 +86,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
   }
   
   @Override
-  public List<String> scaffRecommTagsBasedOnUserEntityTagTime(final SSServPar parA) throws Exception{
+  public Map<String, Double> scaffRecommTagsBasedOnUserEntityTagTime(final SSServPar parA) throws Exception{
     
     final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
     

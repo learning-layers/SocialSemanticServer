@@ -25,33 +25,42 @@ import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSScaffRecommTagsRet extends SSServRetI{
+public class SSScaffRecommTagsBasedOnUserEntityTagTimeRet extends SSServRetI{
 
-  public List<String> tags = new ArrayList<>();
+  public List<SSTagLikelihood> tags = new ArrayList<>();
 
-  public static SSScaffRecommTagsRet get(List<String> tags, SSMethU op){
-    return new SSScaffRecommTagsRet(tags, op);
+  public static SSScaffRecommTagsBasedOnUserEntityTagTimeRet get(
+    final Map<String, Double> tags, 
+    final SSMethU             op) throws Exception{
+    
+    return new SSScaffRecommTagsBasedOnUserEntityTagTimeRet(tags, op);
   }
   
-  private SSScaffRecommTagsRet(List<String> tags, SSMethU op){
+  private SSScaffRecommTagsBasedOnUserEntityTagTimeRet(
+    final Map<String, Double> tags, 
+    final SSMethU             op) throws Exception{
     
     super(op);
     
-    this.tags.addAll(tags);
+    for(Map.Entry<String, Double> tag : tags.entrySet()){
+      this.tags.add(SSTagLikelihood.get(SSTagLabel.get(tag.getKey()), tag.getValue()));
+    }
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> tagsObj    = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> tagsObj    = new HashMap<>();
     
-    tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    tagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTagLikelihood.class.getName());
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.tags, tagsObj);
@@ -60,7 +69,8 @@ public class SSScaffRecommTagsRet extends SSServRetI{
   }
   
   /* json getters */
-  public List<String> getTags() {
+  
+  public List<SSTagLikelihood> getTags() {
     return tags;
   }
 }
