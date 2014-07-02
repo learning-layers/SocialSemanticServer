@@ -396,7 +396,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           entity.author,
           new ArrayList<>(),
           null, 
-          entity.description));
+          entity.description, 
+          new ArrayList<>()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

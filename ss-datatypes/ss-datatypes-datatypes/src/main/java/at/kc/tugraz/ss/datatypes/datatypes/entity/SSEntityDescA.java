@@ -44,6 +44,7 @@ public abstract class SSEntityDescA extends SSEntityA{
   public List<SSEntityA>  uEs             = new ArrayList<>();
   public String           thumb           = null;
   public SSTextComment    description     = null;
+  public List<SSEntityA>  flags           = new ArrayList<>();
 
   protected SSEntityDescA(
     final SSEntityDescA entityDesc) throws Exception{
@@ -61,6 +62,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.uEs             = entityDesc.uEs;
     this.thumb           = entityDesc.thumb;
     this.description     = entityDesc.description;
+    this.flags           = entityDesc.flags;
   }
   
   protected SSEntityDescA(
@@ -74,7 +76,8 @@ public abstract class SSEntityDescA extends SSEntityA{
     final List<SSEntityA> discs,
     final List<SSEntityA> uEs,
     final String          thumb,
-    final SSTextComment   description) throws Exception{
+    final SSTextComment   description,
+    final List<SSEntityA> flags) throws Exception{
     
     super(entity);
     
@@ -98,6 +101,10 @@ public abstract class SSEntityDescA extends SSEntityA{
     if(uEs != null){
       this.uEs.addAll(uEs);
     }
+    
+    if(flags != null){
+      this.flags.addAll(flags);
+    }
   }
   
   @Override
@@ -107,7 +114,13 @@ public abstract class SSEntityDescA extends SSEntityA{
     final Map<String, Object> tagsObj  = new HashMap<>();
     final Map<String, Object> discsObj = new HashMap<>();
     final Map<String, Object> uEsObj   = new HashMap<>();
+    final Map<String, Object> flagsObj = new HashMap<>();
     
+    flagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+      
+    ld.put(SSVarU.flags,      flagsObj);
+      
     tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
@@ -131,6 +144,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     ld.put(SSVarU.overallRating,  SSVarU.sss  + SSStrU.colon + SSEntityA.class.getName());
     ld.put(SSVarU.thumb,          SSVarU.xsd  + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.description,    SSVarU.sss  + SSStrU.colon + SSTextComment.class.getName());
+    
     
     return ld;
   }
@@ -179,5 +193,9 @@ public abstract class SSEntityDescA extends SSEntityA{
   
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public List<SSEntityA> getFlags() throws Exception{
+    return flags;
   }
 }

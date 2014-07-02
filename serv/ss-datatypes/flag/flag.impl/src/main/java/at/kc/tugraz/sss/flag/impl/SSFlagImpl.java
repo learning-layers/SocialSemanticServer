@@ -20,14 +20,18 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
@@ -41,7 +45,7 @@ import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import java.util.List;
 
-public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI{
+public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
   
   private final SSFlagSQLFct sqlFct;
   
@@ -50,6 +54,25 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     super(conf, null, dbSQL);
 
     this.sqlFct = new SSFlagSQLFct(dbSQL);
+  }
+  
+  @Override
+  public SSEntityDescA getDescForEntity(
+    final SSEntityDescGetPar par,
+    final SSEntityDescA      entityDesc) throws Exception{
+    
+    if(par.getFlags){
+      
+      entityDesc.flags.addAll(
+        SSServCaller.flagsUserGet(
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(par.entity),
+          SSStrU.toStrWithoutEmptyAndNull(),
+          null,
+          null));
+    }
+    
+    return entityDesc;
   }
   
   @Override

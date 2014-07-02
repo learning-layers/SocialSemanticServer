@@ -49,6 +49,7 @@ public class SSFlagServ extends SSServA implements SSFlagServI{
 
   @Override
   protected void initServSpecificStuff() throws Exception{
+    regServForDescribingEntities();
   }
   
   @Override

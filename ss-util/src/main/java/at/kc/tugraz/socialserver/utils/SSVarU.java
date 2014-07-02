@@ -57,6 +57,7 @@ public class SSVarU{
   public static final String getOverallRating                               = "getOverallRating";
   public static final String getDiscs                                       = "getDiscs";
   public static final String getUEs                                         = "getUEs";
+  public static final String getFlags                                       = "getFlags";
   public static final String getThumb                                       = "getThumb";
   public static final String getTags                                        = "getTags";
   public static final String addNewDisc                                     = "addNewDisc";

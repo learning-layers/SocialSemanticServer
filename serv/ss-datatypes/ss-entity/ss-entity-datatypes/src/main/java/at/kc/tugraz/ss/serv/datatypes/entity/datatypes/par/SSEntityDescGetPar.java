@@ -33,6 +33,7 @@ public class SSEntityDescGetPar extends SSServPar{
   public Boolean  getDiscs          = false;
   public Boolean  getUEs            = false;
   public Boolean  getThumb          = false;
+  public Boolean  getFlags          = false;
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{
       
@@ -47,6 +48,7 @@ public class SSEntityDescGetPar extends SSServPar{
         getDiscs         = (Boolean) pars.get(SSVarU.getDiscs);
         getUEs           = (Boolean) pars.get(SSVarU.getUEs);
         getThumb         = (Boolean) pars.get(SSVarU.getThumb);
+        getFlags         = (Boolean) pars.get(SSVarU.getFlags);
       }
       
       if(clientPars != null){
@@ -70,6 +72,10 @@ public class SSEntityDescGetPar extends SSServPar{
         
         try{
           getThumb        = Boolean.valueOf  (clientPars.get(SSVarU.getThumb));
+        }catch(Exception error){}
+        
+        try{
+          getFlags        = Boolean.valueOf  (clientPars.get(SSVarU.getFlags));
         }catch(Exception error){}
       }
     }catch(Exception error){
