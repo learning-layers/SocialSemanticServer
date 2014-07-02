@@ -24,5 +24,6 @@
     <module>ss-entity</module>
     <module>ss-activity</module>
     <module>ss-category</module>
+	<module>flag</module>
   </modules>
 </project>

@@ -132,7 +132,7 @@ modelConf:
   initAtStartUp: true
   op: null
   use: true
-notificationConf:
+flagConf:
   use: true
 ratingConf:
   executeOpAtStartUp: false

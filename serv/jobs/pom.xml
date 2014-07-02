@@ -28,6 +28,5 @@
     <module>ss-evernote</module>
     <module>ss-i5cloud</module>
     <module>ss-cloud</module>
-    <module>notification</module>
   </modules>
 </project>

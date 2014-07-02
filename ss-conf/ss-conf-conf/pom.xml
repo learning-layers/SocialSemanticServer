@@ -19,8 +19,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.serv.notification</groupId>
-      <artifactId>notification.conf</artifactId>
+      <groupId>sss.serv.flag</groupId>
+      <artifactId>flag.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

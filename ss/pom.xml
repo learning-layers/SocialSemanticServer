@@ -236,8 +236,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.notification</groupId>
-      <artifactId>notification.serv</artifactId>
+      <groupId>sss.serv.flag</groupId>
+      <artifactId>flag.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

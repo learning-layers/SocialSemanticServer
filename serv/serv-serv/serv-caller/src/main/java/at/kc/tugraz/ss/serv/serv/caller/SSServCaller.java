@@ -52,7 +52,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.kc.tugraz.sss.notification.datatypes.SSNotification;
+import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
@@ -65,9 +65,9 @@ import java.util.Map;
 
 public class SSServCaller {
   
-  /* notification */
+  /* flag */
   
-  public static SSNotification notificationTest1(
+  public static SSFlag flagTest1(
     final SSUri       user,
     final SSUri       entity) throws Exception{
     
@@ -76,7 +76,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,               user);
     opPars.put(SSVarU.entity,             entity);
     
-    return (SSNotification) SSServA.callServViaServer(new SSServPar(SSMethU.notificationTest1, opPars)); 
+    return (SSFlag) SSServA.callServViaServer(new SSServPar(SSMethU.flagTest1, opPars)); 
   }
   
   /* learn ep */

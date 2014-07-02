@@ -384,3 +384,8 @@
 /serv/jobs/ss-i5cloud/ss-i5cloud-util/target/
 /serv/ss-datatypes/ss-category/ss-category-util/target/
 /serv/ss-datatypes/ss-category/ss-category-conf/target
+/serv/ss-datatypes/flag/flag.serv/target
+/serv/ss-datatypes/flag/flag.impl/target
+/serv/ss-datatypes/flag/flag.datatypes/target
+/serv/ss-datatypes/flag/flag.api/target
+/serv/ss-datatypes/flag/flag.conf/target

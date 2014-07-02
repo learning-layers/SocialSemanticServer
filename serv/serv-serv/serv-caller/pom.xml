@@ -123,8 +123,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.notification</groupId>
-      <artifactId>notification.datatypes</artifactId>
+      <groupId>sss.serv.flag</groupId>
+      <artifactId>flag.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

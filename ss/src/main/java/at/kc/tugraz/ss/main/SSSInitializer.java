@@ -54,10 +54,9 @@ import at.kc.tugraz.ss.service.rating.service.SSRatingServ;
 import at.kc.tugraz.ss.service.search.service.SSSearchServ;
 import at.kc.tugraz.ss.service.solr.service.SSSolrServ;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
-
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
-import at.kc.tugraz.sss.notification.serv.SSNotificationServ;
+import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 
 public class SSSInitializer extends SSServImplStartA{
   
@@ -123,7 +122,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSFileSysLocalServ.inst.initServ  (SSCoreConf.instGet().getFileSysLocalConf());
       SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
       SSCloudServ.inst.initServ         (SSCoreConf.instGet().getCloudConf());
-      SSNotificationServ.inst.initServ  (SSCoreConf.instGet().getNotificationConf());
+      SSFlagServ.inst.initServ          (SSCoreConf.instGet().getFlagConf());
 
       /* scheduling task */
       SSModelUEServ.inst.schedule   ();
