@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -133,7 +134,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
 
-      if(!SSEntityE.equals(entityType, SSEntityE.learnEp)){
+      if(!SSStrU.equals(entityType, SSEntityE.learnEp)){
         return false;
       }
 
@@ -164,7 +165,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
 
-      if(!SSEntityE.equals(entityType, SSEntityE.learnEp)){
+      if(!SSStrU.equals(entityType, SSEntityE.learnEp)){
         return false;
       }
 

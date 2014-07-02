@@ -45,9 +45,20 @@ public class SSDiscActivityFct{
           par.user,
           SSActivityE.discussEntity,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc, ret.entry),
+          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
           SSTextComment.asListWithoutNullAndEmpty(),
           false);
+        
+        if(par.entry != null){
+        
+          SSServCaller.activityAdd(
+            par.user,
+            SSActivityE.addDiscEntry,
+            SSUri.asListWithoutNullAndEmpty(),
+            SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
+            SSTextComment.asListWithoutNullAndEmpty(par.entry),
+            false);
+        }
         
       }else{
         
@@ -55,8 +66,8 @@ public class SSDiscActivityFct{
           par.user,
           SSActivityE.addDiscEntry,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc, ret.entry),
-          SSTextComment.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
+          SSTextComment.asListWithoutNullAndEmpty(par.entry),
           false);
       }
     }catch(SSServerServNotAvailableErr error){

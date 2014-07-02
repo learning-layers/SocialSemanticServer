@@ -125,6 +125,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>              columns        = new ArrayList<>();
       final List<String>              tableCons      = new ArrayList<>();
       Long                            timestamp;
+      SSUri                           activityUri;
 
       table    (tables,    activityTable);
       table    (tables,    entityTable);
@@ -200,33 +201,17 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           continue;
         }
         
+        activityUri = bindingStrToUri  (resultSet, SSSQLVarU.id);
+          
         activities.add(
           SSActivity.get(
-            bindingStrToUri  (resultSet, SSSQLVarU.id), 
+            activityUri, 
             SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType)), 
             timestamp, 
             bindingStrToUri  (resultSet, SSSQLVarU.author), 
-            users, 
-            entities, 
+            getActivityUsers(activityUri), 
+            getActivityEntities(activityUri),
             SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment)))));
-      }
-      
-      if(
-        users == null ||
-        users.isEmpty()){
-        
-        for(SSActivity activity : activities){
-          activity.users = getActivityUsers(activity.id);
-        }
-      }
-      
-      if(
-        entities == null ||
-        entities.isEmpty()){
-        
-        for(SSActivity activity : activities){
-          activity.entities = getActivityEntities(activity.id);
-        }
       }
       
       return activities;

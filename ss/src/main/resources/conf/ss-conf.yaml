@@ -134,6 +134,8 @@ modelConf:
   use: true
 flagConf:
   use: true
+  executeOpAtStartUp: #true, false
+  op:
 ratingConf:
   executeOpAtStartUp: false
   op: null

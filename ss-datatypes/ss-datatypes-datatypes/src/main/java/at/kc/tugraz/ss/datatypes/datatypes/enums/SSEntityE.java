@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.datatypes.datatypes.enums;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
@@ -53,7 +52,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   evernoteResource,
   circle,
   activity,
-  thumbnail;
+  thumbnail,
+  flag;
 
 //  entityDesc,
 //  collDesc,
@@ -72,6 +72,17 @@ public enum SSEntityE implements SSJSONLDPropI{
 //  userDesc, 
 //  locationDesc;
 
+  //    socialServer("at.tug.kc.socialServer"),
+//  tagSet("tagSet"),
+//  position("pos"),
+  
+  //RESOURCE("resource")
+  //TYPE_CONTEXT("context"),
+  //HISTORY   ("_history"),
+  //PROFILE   ("_profile"),
+  //FAVORITES ("_favorites"),
+  //EVENTS    ("_events"),
+    
   public static List<SSEntityE> get(final List<String> values){
   
     final List<SSEntityE> result = new ArrayList<>();
@@ -87,53 +98,11 @@ public enum SSEntityE implements SSJSONLDPropI{
     return SSEntityE.valueOf(value);
   }
     
-  public static Boolean contains(
-    final List<SSEntityE> types, 
-    final SSEntityE       certainType){
-
-    if(SSObjU.isNull(certainType)){
-      return false;
-    }
-    
-    for(SSEntityE type : types){
-    
-      if(SSStrU.equals(toStr(type), toStr(certainType))){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  public static String toStr(final SSEntityE entityType){
-    return SSStrU.toStr(entityType);
-  }
-  
-//    socialServer("at.tug.kc.socialServer"),
-//  tagSet("tagSet"),
-//  position("pos"),
-  
-  //RESOURCE("resource")
-  //TYPE_CONTEXT("context"),
-  //HISTORY   ("_history"),
-  //PROFILE   ("_profile"),
-  //FAVORITES ("_favorites"),
-  //EVENTS    ("_events"),
-  
   @Override
   public Object jsonLDDesc(){
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static Boolean equals(final SSEntityE type1, final SSEntityE type2) {
-
-    if(SSObjU.isNull(type1, type2)){
-      return false;
-    }
-
-    return type1.toString().equals(type2.toString());
-  }
-
   public static Boolean isColl(final SSEntityE resourceType){
    
     if(resourceType == null){

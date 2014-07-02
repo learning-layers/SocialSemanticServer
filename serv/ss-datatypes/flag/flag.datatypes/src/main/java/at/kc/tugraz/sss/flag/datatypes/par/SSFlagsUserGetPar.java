@@ -20,27 +20,52 @@
 */
  package at.kc.tugraz.sss.flag.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSFlagTest1Par extends SSServPar{
+public class SSFlagsUserGetPar extends SSServPar{
 
-  public SSUri entity = null;
+  public List<SSUri>   entities       = new ArrayList<>();
+  public List<SSFlagE> types          = new ArrayList<>();
+  public Long          startTime      = null;
+  public Long          endTime        = null;
       
-  public SSFlagTest1Par(SSServPar par) throws Exception{
+  public SSFlagsUserGetPar(SSServPar par) throws Exception{
     
     super(par);
      
     try{
       
       if(pars != null){
-        entity = (SSUri) pars.get(SSVarU.entity);
+        entities  = (List<SSUri>)              pars.get(SSVarU.entities);
+        types     = SSFlagE.get((List<String>) pars.get(SSVarU.types));
+        startTime = (Long)                     pars.get(SSVarU.startTime);
+        endTime   = (Long)                     pars.get(SSVarU.endTime);
       }
       
       if(clientPars != null){
-        entity = SSUri.get (clientPars.get(SSVarU.entity));
+        
+        try{
+          entities   = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          types  = SSFlagE.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          startTime  = Long.valueOf (clientPars.get(SSVarU.startTime));
+        }catch(Exception error){}
+        
+        try{
+          endTime  = Long.valueOf (clientPars.get(SSVarU.endTime));
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

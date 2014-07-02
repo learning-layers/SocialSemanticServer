@@ -24,5 +24,7 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSFlagClientI{
-  public void flagTest1         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public void flagsSet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void flagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

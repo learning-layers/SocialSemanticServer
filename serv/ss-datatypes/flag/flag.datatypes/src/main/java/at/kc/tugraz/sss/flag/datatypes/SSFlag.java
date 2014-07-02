@@ -29,20 +29,44 @@ import java.util.Map;
 
 public class SSFlag extends SSEntityA{
   
-  public SSUri id = null;
+  public SSUri   id            = null;
+  public SSUri   user          = null;
+  public SSUri   entity        = null;
+  public SSFlagE type          = null;
+  public Long    creationTime  = null;
+  public Long    endTime       = null;
+  public Integer value         = null;
   
   public static SSFlag get(
-    final SSUri id) throws Exception{
+    final SSUri   id,
+    final SSUri   user,
+    final SSUri   entity,
+    final SSFlagE type,
+    final Long    creationTime,
+    final Long    endTime,
+    final Integer value) throws Exception{
     
-    return new SSFlag(id);
+    return new SSFlag(id, user, entity, type, creationTime, endTime, value);
   }
   
   private SSFlag(
-    final SSUri id) throws Exception{
+    final SSUri   id,
+    final SSUri   user,
+    final SSUri   entity,
+    final SSFlagE type,
+    final Long    creationTime,
+    final Long    endTime,
+    final Integer value) throws Exception{
     
     super(id);
     
-    this.id = id;
+    this.id           = id;
+    this.user         = user;
+    this.entity       = entity;
+    this.type         = type;
+    this.creationTime = creationTime;
+    this.endTime      = endTime;
+    this.value        = value;   
   }
 
   @Override
@@ -50,12 +74,42 @@ public class SSFlag extends SSEntityA{
   
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.id, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.id,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.type,         SSVarU.sss + SSStrU.colon + SSFlagE.class.getName());
+    ld.put(SSVarU.creationTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
   
   public String getId() throws Exception{
     return SSStrU.removeTrailingSlash(id);
+  }
+  
+  public String getUser() throws Exception{
+    return SSStrU.removeTrailingSlash(user);
+  }
+  
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public String getType() throws Exception{
+    return SSStrU.toStr(type);
+  }
+  
+  public Long getCreationTime(){
+    return creationTime;
+  }
+
+  public Long getEndTime(){
+    return endTime;
+  }
+
+  public Integer getValue(){
+    return value;
   }
 }

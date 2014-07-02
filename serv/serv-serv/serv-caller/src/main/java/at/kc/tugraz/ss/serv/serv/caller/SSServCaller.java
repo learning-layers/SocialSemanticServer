@@ -67,16 +67,40 @@ public class SSServCaller {
   
   /* flag */
   
-  public static SSFlag flagTest1(
-    final SSUri       user,
-    final SSUri       entity) throws Exception{
+  public static Boolean flagsUserSet(
+    final SSUri          user,
+    final List<SSUri>    entities,
+    final List<String>   types,
+    final Long           endTime,
+    final Integer        value) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,               user);
-    opPars.put(SSVarU.entity,             entity);
+    opPars.put(SSVarU.user,              user);
+    opPars.put(SSVarU.entities,          entities);
+    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.endTime,           endTime);
+    opPars.put(SSVarU.value,             value);
     
-    return (SSFlag) SSServA.callServViaServer(new SSServPar(SSMethU.flagTest1, opPars)); 
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.flagsUserSet, opPars)); 
+  }
+  
+  public static List<SSFlag> flagsUserGet(
+    final SSUri          user,
+    final List<SSUri>    entities,
+    final List<String>   types, 
+    final Long           startTime,
+    final Long           endTime) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,              user);
+    opPars.put(SSVarU.entities,          entities);
+    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.startTime,         startTime);
+    opPars.put(SSVarU.endTime,           endTime);
+    
+    return (List<SSFlag>) SSServA.callServViaServer(new SSServPar(SSMethU.flagsUserGet, opPars)); 
   }
   
   /* learn ep */

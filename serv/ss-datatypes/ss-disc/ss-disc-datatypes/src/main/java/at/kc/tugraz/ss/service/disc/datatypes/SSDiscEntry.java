@@ -89,7 +89,7 @@ public class SSDiscEntry extends SSEntityA{
   }
   
   public String getType() throws Exception{
-    return SSEntityE.toStr(type);
+    return SSStrU.toStr(type);
   }
 
   public int getPos(){

@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String flags                                          = "flags";
   public static final String notebook                                       = "notebook";
   public static final String thumb                                          = "thumb";
   public static final String count                                          = "count";

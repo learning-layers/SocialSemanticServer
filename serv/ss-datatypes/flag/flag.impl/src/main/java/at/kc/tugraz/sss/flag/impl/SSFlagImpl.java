@@ -21,18 +21,25 @@
 package at.kc.tugraz.sss.flag.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
-import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagTest1Ret;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
-import at.kc.tugraz.sss.flag.datatypes.par.SSFlagTest1Par;
+import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
+import java.util.List;
 
 public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI{
   
@@ -44,23 +51,110 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
 
     this.sqlFct = new SSFlagSQLFct(dbSQL);
   }
-
+  
   @Override
-  public void flagTest1(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void flagsSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFlagTest1Ret.get(flagTest1(parA), parA.op));
+    sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op));
   }
 
   @Override
-  public SSFlag flagTest1(final SSServPar parA) throws Exception{
+  public Boolean flagsUserSet(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSFlagTest1Par par = new SSFlagTest1Par(parA);
+      final SSFlagsUserSetPar par = new SSFlagsUserSetPar(parA);
       
-      return sqlFct.test1(par.entity);
+      for(SSUri entity : par.entities){
+       
+        SSServCaller.entityAdd(
+          par.user, 
+          entity, 
+          null, 
+          SSEntityE.entity,
+          null,
+          false);
+        
+        if(!SSServCaller.entityUserCanEdit(par.user, entity)){
+         throw new Exception("user cannot edit entity");
+        }
+      }
+      
+      for(SSUri entity : par.entities){
+       
+        for(SSFlagE flag : par.types){
+          
+          SSUri flagUri = SSServCaller.vocURICreate();
+          
+          SSServCaller.entityAdd(
+            par.user,
+            flagUri,
+            null,
+            SSEntityE.flag,
+            null,
+            false);
+          
+          sqlFct.createFlag(
+            flagUri, 
+            flag, 
+            par.endTime, 
+            par.value);
+          
+          sqlFct.addFlagAssIfNotExists(
+            par.user,
+            flagUri,
+            entity);
+        }
+      }
+      
+      return true;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return flagsUserSet(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void flagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op));
+  }
+
+  @Override
+  public List<SSFlag> flagsUserGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSFlagsUserGetPar par = new SSFlagsUserGetPar(parA);
+      
+      for(SSUri entity : par.entities){
+       
+        if(!SSServCaller.entityUserCanRead(par.user, entity)){
+         throw new Exception("user cannot read entity");
+        }
+      }
+      
+      return sqlFct.getFlags(
+        SSUri.asListWithoutNullAndEmpty(par.user),
+        par.entities,
+        par.types, 
+        par.startTime,
+        par.endTime);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

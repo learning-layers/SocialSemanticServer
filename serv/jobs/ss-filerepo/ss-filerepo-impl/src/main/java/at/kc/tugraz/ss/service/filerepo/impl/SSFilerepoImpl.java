@@ -145,7 +145,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     final SSEntityDescGetPar par,
     final SSEntityDescA      entityDesc) throws Exception{
     
-    if(SSEntityE.equals(entityDesc.type, SSEntityE.file)){
+    if(SSStrU.equals(entityDesc.type, SSEntityE.file)){
       
       final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
       final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);

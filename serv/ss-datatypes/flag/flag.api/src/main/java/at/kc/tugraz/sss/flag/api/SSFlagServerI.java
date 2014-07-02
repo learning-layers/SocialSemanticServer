@@ -22,7 +22,10 @@ package at.kc.tugraz.sss.flag.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
+import java.util.List;
 
 public interface SSFlagServerI{
-  public SSFlag flagTest1 (final SSServPar parA) throws Exception;
+  
+  public Boolean      flagsUserSet (final SSServPar parA) throws Exception;
+  public List<SSFlag> flagsUserGet (final SSServPar parA) throws Exception;
 }

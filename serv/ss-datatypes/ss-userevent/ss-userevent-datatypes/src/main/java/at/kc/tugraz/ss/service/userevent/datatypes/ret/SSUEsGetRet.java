@@ -33,13 +33,18 @@ import java.util.Map;
 
 public class SSUEsGetRet extends SSServRetI{
   
-  public List<SSUE> uEs = new ArrayList<SSUE>();
+  public List<SSUE> uEs = new ArrayList<>();
   
-  public static SSUEsGetRet get(List<SSUE> uEs, SSMethU op){
+  public static SSUEsGetRet get(
+    final List<SSUE> uEs, 
+    final SSMethU    op){
+    
     return new SSUEsGetRet(uEs, op);
   }
   
-  private SSUEsGetRet(List<SSUE> uEs, SSMethU op){
+  private SSUEsGetRet(
+    final List<SSUE> uEs, 
+    final SSMethU    op){
     
     super(op);
     
@@ -49,8 +54,8 @@ public class SSUEsGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> uEsObj     = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> uEsObj     = new HashMap<>();
     
     uEsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUE.class.getName());
     uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -60,7 +65,8 @@ public class SSUEsGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* json getters */
+  
   public List<SSUE> getuEs() {
     return uEs;
   }

@@ -356,7 +356,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           entityToCheckType = SSServCaller.entityGet(searchResult.entity);
         
-          if(!SSEntityE.contains(par.types, entityToCheckType.type)){
+          if(!SSStrU.contains(par.types, entityToCheckType.type)){
             continue;
           }
         }

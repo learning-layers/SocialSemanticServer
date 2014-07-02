@@ -23,7 +23,10 @@ package at.kc.tugraz.socialserver.utils;
 public enum SSMethU{
 
   //flag
-  flagTest1,
+  flagsGet,
+  flagsUserGet,
+  flagsSet,
+  flagsUserSet,
   
   //cloud
   cloudPublishService,

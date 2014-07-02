@@ -122,9 +122,17 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "flagTest1")
-  public String flagTest1(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.flagTest1);
+  @Path    (SSStrU.slash + "flagsSet")
+  public String flagsSet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.flagsSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "flagsGet")
+  public String flagsGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.flagsGet);
   }
   
   @POST

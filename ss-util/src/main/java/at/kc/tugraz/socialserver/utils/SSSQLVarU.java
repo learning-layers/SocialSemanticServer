@@ -22,6 +22,7 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String flagId                                         = "flagId";
   public static final String noteId                                         = "noteId";
   public static final String notebookId                                     = "notebookId";
   public static final String isPredefined                                   = "isPredefined";
@@ -34,6 +35,7 @@ public class SSSQLVarU{
   public static final String locationId                                     = "locationId";
   public static final String startTime                                      = "startTime";
   public static final String endTime                                        = "endTime";
+  public static final String value                                          = "value";
   public static final String learnEpTimelineStateId                         = "learnEpTimelineStateId";
   public static final String discEntryContent                               = "discEntryContent";
   public static final String discEntryId                                    = "discEntryId";

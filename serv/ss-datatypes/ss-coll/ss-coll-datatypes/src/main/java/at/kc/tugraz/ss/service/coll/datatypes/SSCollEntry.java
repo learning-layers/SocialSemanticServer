@@ -112,6 +112,6 @@ public class SSCollEntry extends SSEntityA {
   }
   
   public String getType(){
-    return SSEntityE.toStr(type);
+    return SSStrU.toStr(type);
   }
 }

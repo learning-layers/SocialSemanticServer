@@ -606,6 +606,61 @@ LOCK TABLES `evernoteuser` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `flag`
+--
+
+DROP TABLE IF EXISTS `flag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flag` (
+  `flagId` varchar(200) NOT NULL,
+  `type` varchar(200) NOT NULL,
+  `value` varchar(200) NOT NULL,
+  `endTime` varchar(200) NOT NULL,
+  PRIMARY KEY (`flagId`),
+  CONSTRAINT `flagIdFKflag` FOREIGN KEY (`flagId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `flag`
+--
+
+LOCK TABLES `flag` WRITE;
+/*!40000 ALTER TABLE `flag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `flag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `flags`
+--
+
+DROP TABLE IF EXISTS `flags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flags` (
+  `flagId` varchar(200) NOT NULL,
+  `entityId` varchar(200) NOT NULL,
+  `userId` varchar(200) NOT NULL,
+  PRIMARY KEY (`flagId`,`entityId`,`userId`),
+  KEY `entityId_idx` (`entityId`),
+  KEY `userId_idx` (`userId`),
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityId` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `flagId` FOREIGN KEY (`flagId`) REFERENCES `flag` (`flagId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `flags`
+--
+
+LOCK TABLES `flags` WRITE;
+/*!40000 ALTER TABLE `flags` DISABLE KEYS */;
+/*!40000 ALTER TABLE `flags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `learnep`
 --
 
@@ -1078,4 +1133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-01 17:50:59
+-- Dump completed on 2014-07-02 15:37:36

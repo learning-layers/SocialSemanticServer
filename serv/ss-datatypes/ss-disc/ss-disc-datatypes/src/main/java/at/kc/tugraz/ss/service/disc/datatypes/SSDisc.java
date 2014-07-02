@@ -120,7 +120,7 @@ public class SSDisc extends SSEntityA {
   }
   
   public String getType() throws Exception{
-    return SSEntityE.toStr(type);
+    return SSStrU.toStr(type);
   }
 
   public List<SSDiscEntry> getEntries(){

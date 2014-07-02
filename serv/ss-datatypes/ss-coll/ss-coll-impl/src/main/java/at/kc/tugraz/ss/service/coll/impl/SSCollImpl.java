@@ -108,7 +108,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
     
-    if(!SSEntityE.equals(type, SSEntityE.coll)){
+    if(!SSStrU.equals(type, SSEntityE.coll)){
       return null;
     }
     
@@ -133,7 +133,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
     
-    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
+    if(!SSStrU.equals(entityType, SSEntityE.coll)){
       return false;
     }
     
@@ -163,9 +163,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       
       if(
-        !SSEntityE.equals(entityType, SSEntityE.coll) &&
-        !SSEntityE.equals(entityType, SSEntityE.file) &&
-        !SSEntityE.equals(entityType, SSEntityE.entity)){
+        !SSStrU.equals(entityType, SSEntityE.coll) &&
+        !SSStrU.equals(entityType, SSEntityE.file) &&
+        !SSStrU.equals(entityType, SSEntityE.entity)){
         return false;
       }
       
@@ -193,7 +193,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
 
-    if(!SSEntityE.equals(entityType, SSEntityE.coll)){
+    if(!SSStrU.equals(entityType, SSEntityE.coll)){
       return false;
     }
 
@@ -753,7 +753,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       for(SSCollEntry collEntry : coll.entries){
 
-        if(SSEntityE.equals(collEntry.type, SSEntityE.coll)){
+        if(SSStrU.equals(collEntry.type, SSEntityE.coll)){
 
           for(SSTagFrequ tagFrequ : SSServCaller.collUserCumulatedTagsGet(par.user, collEntry.id)){
 

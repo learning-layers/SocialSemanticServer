@@ -46,7 +46,7 @@ public class SSModelUEMIThresholdSetter {
 		
 		for(SSModelUEEntity resource : resources.values()){
 		
-			if(!SSEntityE.equals(resource.type, resourceType)){
+			if(!SSStrU.equals(resource.type, resourceType)){
 				
 				if(
 						SSEntityE.isResourceOrFile(resourceType) &&

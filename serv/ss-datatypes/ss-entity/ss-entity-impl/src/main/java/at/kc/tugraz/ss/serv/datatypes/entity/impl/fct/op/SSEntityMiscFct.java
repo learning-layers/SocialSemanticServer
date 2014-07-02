@@ -76,7 +76,7 @@ public class SSEntityMiscFct{
     try{
       for(SSUri entityUri: entityUris){
         
-        if(!SSEntityE.equals(sqlFct.getEntity(entityUri).type, entityType)){
+        if(!SSStrU.equals(sqlFct.getEntity(entityUri).type, entityType)){
           throw new Exception("entity doesnt exist");
         }
       }
@@ -229,7 +229,7 @@ public class SSEntityMiscFct{
       
       final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
-      if(SSEntityE.equals(entityType, SSEntityE.entity)){
+      if(SSStrU.equals(entityType, SSEntityE.entity)){
         return;
       }
       
@@ -260,7 +260,7 @@ public class SSEntityMiscFct{
         
         final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
         
-        if(SSEntityE.equals(entityType, SSEntityE.entity)){
+        if(SSStrU.equals(entityType, SSEntityE.entity)){
           continue;
         }
         
@@ -316,7 +316,7 @@ public class SSEntityMiscFct{
       final SSEntityE    type = SSServCaller.entityGet(entity).type;
       List<SSUri>        entityUris;
       
-      if(SSEntityE.equals(type, SSEntityE.entity)){
+      if(SSStrU.equals(type, SSEntityE.entity)){
         return new ArrayList<>();
       }
       
@@ -409,7 +409,7 @@ public class SSEntityMiscFct{
       
       final SSEntityE type = SSServCaller.entityGet(entity).type;
       
-      if(SSEntityE.equals(type, SSEntityE.entity)){
+      if(SSStrU.equals(type, SSEntityE.entity)){
         SSLogU.warn("entity couldnt be copied by entity handlers");
         return;
       }
