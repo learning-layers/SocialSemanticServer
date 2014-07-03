@@ -73,6 +73,7 @@ In order to deploy and run your own server instance of the SSS, please follow in
 
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
+* Dennerlein, S., Rella, M, Tomberg, V. Theiler, D., Treasure-Jones, T., Kerr, M., Ley, T., Al-Smadi, M. & Trattner, C. (2014). Making Sense of Bits and Pieces: A Sensemaking Tool for Informal Workplace Learning. In: Proceedings of EC-TEL 2014. In press.
 
 ## Contact
 * Dieter Theiler, Know-Center, Graz University of Technology, dtheiler@tugraz.at
