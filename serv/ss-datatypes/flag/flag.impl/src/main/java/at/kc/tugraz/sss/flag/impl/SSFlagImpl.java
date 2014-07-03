@@ -120,10 +120,28 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
             false);
           
           sqlFct.createFlag(
-            flagUri, 
-            flag, 
-            par.endTime, 
+            flagUri,
+            flag,
+            par.endTime,
             par.value);
+          
+          switch(flag){
+            
+            case importance:
+              
+              final List<SSUri> existingFlagUris = sqlFct.getFlagURIs(par.user, flag, entity);
+              
+              for(SSUri existingFlagUri : existingFlagUris){
+               
+                sqlFct.deleteFlagAss(
+                  null,
+                  existingFlagUri,
+                  null,
+                  null);
+              }
+              
+              break;
+          }
           
           sqlFct.addFlagAssIfNotExists(
             par.user,
@@ -172,8 +190,9 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
         }
       }
       
+      //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       return sqlFct.getFlags(
-        SSUri.asListWithoutNullAndEmpty(par.user),
+        SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
         par.entities,
         par.types, 
         par.startTime,

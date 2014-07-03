@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.impl.fct.sql;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -213,6 +214,84 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       uniqueKey (uniqueKeys, SSSQLVarU.flagId,    flag);
       
       dbSQL.insertIfNotExists(flagsTable, inserts, uniqueKeys);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSUri> getFlagURIs(
+    final SSUri   user,
+    final SSFlagE flag,
+    final SSUri   entity) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, flagTable, SSSQLVarU.flagId);
+      
+      where(wheres, SSSQLVarU.userId, user);
+      
+      table(tables, flagTable);
+      table(tables, flagsTable);
+      
+      tableCon(tableCons, flagTable, SSSQLVarU.flagId, flagsTable, SSSQLVarU.flagId);
+      
+      if(entity != null){
+        where(wheres, SSSQLVarU.entityId, entity);
+      }
+      
+      if(flag != null){
+        where(wheres, SSSQLVarU.type, flag);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.flagId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
+  public void deleteFlagAss(
+    final SSUri   user,
+    final SSUri   flagUri,
+    final SSFlagE flag,
+    final SSUri   entity) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      if(user != null){
+        delete(deletes, SSSQLVarU.userId,   user);
+      }
+
+      if(flagUri != null){
+        delete(deletes, SSSQLVarU.flagId, flagUri);
+      }
+      
+      if(entity != null){
+        delete(deletes, SSSQLVarU.entityId, entity);
+      }
+      
+      if(flag != null){
+        delete(deletes, SSSQLVarU.type,     flag);
+      }
+      
+      if(deletes.isEmpty()){
+        SSLogU.warn("not setting any pars would delete the whole flag ass table content");
+        return;
+      }
+      
+      dbSQL.deleteIgnore(flagsTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
