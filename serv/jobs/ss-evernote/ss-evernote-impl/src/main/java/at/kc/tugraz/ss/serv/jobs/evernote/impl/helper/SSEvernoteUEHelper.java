@@ -206,7 +206,7 @@ public class SSEvernoteUEHelper {
         noteUri,
         SSUEE.evernoteNoteShare,
         SSStrU.empty,
-        noteAttr.getShareDate(),
+        noteAttr.getShareDate() + SSEvernoteTimestampCounter.get(),
         false);
     }
     
@@ -217,7 +217,7 @@ public class SSEvernoteUEHelper {
         noteUri,
         SSUEE.evernoteReminderDone,
         SSStrU.empty,
-        noteAttr.getReminderDoneTime(),
+        noteAttr.getReminderDoneTime() + SSEvernoteTimestampCounter.get(),
         false);
     }
     
@@ -228,7 +228,7 @@ public class SSEvernoteUEHelper {
         noteUri,
         SSUEE.evernoteReminderCreate,
         SSStrU.empty,
-        noteAttr.getReminderTime(),
+        noteAttr.getReminderTime() + SSEvernoteTimestampCounter.get(),
         false);
     }
   }
@@ -249,7 +249,7 @@ public class SSEvernoteUEHelper {
       resourceUri,
       SSUEE.evernoteResourceAdd,
       SSStrU.empty,
-      note.getUpdated(),
+      note.getUpdated() + SSEvernoteTimestampCounter.get(),
       false);
   }
   
@@ -276,7 +276,7 @@ public class SSEvernoteUEHelper {
           resourceUri,
           SSUEE.evernoteResourceShare,
           SSStrU.empty,
-          sharedNotebook.getServiceCreated(),
+          sharedNotebook.getServiceCreated() + SSEvernoteTimestampCounter.get(),
           false);
       }
     }
@@ -292,7 +292,7 @@ public class SSEvernoteUEHelper {
       notebookUri,
       SSUEE.evernoteNotebookFollow,
       SSStrU.empty,
-      creationTimeForLinkedNotebook,
+      creationTimeForLinkedNotebook  + SSEvernoteTimestampCounter.get(),
       false);
   }
 }

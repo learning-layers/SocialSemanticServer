@@ -60,7 +60,7 @@ public class SSTagLabel extends SSEntityA{
         return false;
       }
       
-      final String tmpTagLabel = string.replaceAll("[/\\*\\?<>]", SSStrU.empty);
+      final String tmpTagLabel = string.replaceAll("[/\\*\\?\\'<>]", SSStrU.empty);
       
       if(
         SSStrU.isEmpty(tmpTagLabel) ||

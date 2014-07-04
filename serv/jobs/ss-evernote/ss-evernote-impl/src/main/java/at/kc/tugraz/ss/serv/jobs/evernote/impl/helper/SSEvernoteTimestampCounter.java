@@ -31,7 +31,7 @@ public class SSEvernoteTimestampCounter {
     
     synchronized(counter){
       
-      if(times > 10){
+      if(times > 15){
         counter = 0L;
         times   = 0;
       }
