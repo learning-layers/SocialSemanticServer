@@ -827,135 +827,135 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSEntity> getEntitiesForLabelsAndDescriptions(
-    final List<String> keywords) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.description);
-      column (columns, SSSQLVarU.type);
-      match  (matches, SSSQLVarU.label);
-      match  (matches, SSSQLVarU.description);
-      
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
-      
-      while(resultSet.next()){
-      
-        entities.add(
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null, 
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
-      }
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForLabelsAndDescriptions(
+//    final List<String> keywords) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      final List<String>              againsts  = new ArrayList<>();
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.description);
+//      column (columns, SSSQLVarU.type);
+//      match  (matches, SSSQLVarU.label);
+//      match  (matches, SSSQLVarU.description);
+//      
+//      againsts.addAll(keywords);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+//      
+//      while(resultSet.next()){
+//      
+//        entities.add(
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+//            null, 
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            null,
+//            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+//      }
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
-  public List<SSEntity> getEntitiesForLabels(
-    final List<String> keywords) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.label);
-      
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
-      
-      while(resultSet.next()){
-        
-        entities.add(
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null,
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
-      }
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForLabels(
+//    final List<String> keywords) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      final List<String>              againsts  = new ArrayList<>();
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.type);
+//      column (columns, SSSQLVarU.description);
+//      match  (matches, SSSQLVarU.label);
+//      
+//      againsts.addAll(keywords);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+//      
+//      while(resultSet.next()){
+//        
+//        entities.add(
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+//            null,
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            null,
+//            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+//      }
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
-  public List<SSEntity> getEntitiesForDescriptions(
-    final List<String> keywords) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.description);
-      
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
-      
-      while(resultSet.next()){
-        
-        entities.add(
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null,
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
-      }
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForDescriptions(
+//    final List<String> keywords) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      final List<String>              againsts  = new ArrayList<>();
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.type);
+//      column (columns, SSSQLVarU.description);
+//      match  (matches, SSSQLVarU.description);
+//      
+//      againsts.addAll(keywords);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+//      
+//      while(resultSet.next()){
+//        
+//        entities.add(
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label),
+//            null,
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            null,
+//            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+//      }
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
 }
 
 

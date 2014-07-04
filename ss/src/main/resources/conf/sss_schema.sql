@@ -512,11 +512,15 @@ CREATE TABLE `entity` (
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
   `description` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* ,
   FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
   FULLTEXT KEY `labelIndexEntity` (`label`),
   FULLTEXT KEY `descriptionIndexEntity` (`description`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+*/
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

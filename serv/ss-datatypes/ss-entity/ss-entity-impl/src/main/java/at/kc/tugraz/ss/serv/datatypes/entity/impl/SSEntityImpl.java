@@ -93,6 +93,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityF
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -792,7 +793,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForLabelsAndDescriptionsGetPar  par = new SSEntitiesForLabelsAndDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForLabelsAndDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+      return new ArrayList<>();
+//      return sqlFct.getEntitiesForLabelsAndDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -804,8 +806,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntitiesForLabelsGetPar  par      = new SSEntitiesForLabelsGetPar(parA);
-      
-      return sqlFct.getEntitiesForLabels(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+
+      return new ArrayList<>();
+//      return sqlFct.getEntitiesForLabels(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -818,7 +821,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForDescriptionsGetPar  par      = new SSEntitiesForDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+      return new ArrayList<>();
+//      return sqlFct.getEntitiesForDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
