@@ -328,20 +328,15 @@ public class SSDataImportEvernoteHelper {
         false);
     }
     
-    if(
-      note.getTagNames()  != null &&
-      !note.getTagNames().isEmpty()){
+    for(String tag : evernoteInfo.noteStore.getNoteTagNames(note.getGuid())){
       
-      for(String tagName : note.getTagNames()){
-        
-        SSServCaller.uEAddAtCreationTime(
-          userUri,
-          noteUri,
-          SSUEE.addPrivateTag,
-          tagName,
-          note.getUpdated(),
-          false);
-      }
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.addPrivateTag,
+        tag,
+        note.getUpdated(),
+        false);
     }
     
     final NoteAttributes noteAttr = note.getAttributes();
@@ -389,18 +384,13 @@ public class SSDataImportEvernoteHelper {
     final SSUri   noteUri,
     final SSLabel notebookLabel) throws Exception{
     
-    if(
-      note.getTagNames()  != null &&
-      !note.getTagNames().isEmpty()){
-      
-      SSServCaller.tagsAddAtCreationTime(
-        userUri,
-        noteUri,
-        note.getTagNames(),
-        SSSpaceE.privateSpace,
-        note.getUpdated(),
-        false);
-    }
+    SSServCaller.tagsAddAtCreationTime(
+      userUri,
+      noteUri,
+      evernoteInfo.noteStore.getNoteTagNames(note.getGuid()),
+      SSSpaceE.privateSpace,
+      note.getUpdated(),
+      false);
     
     if(!SSStrU.isEmpty(notebookLabel)){
       

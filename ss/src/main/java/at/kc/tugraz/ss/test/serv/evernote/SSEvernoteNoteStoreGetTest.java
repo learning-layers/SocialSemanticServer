@@ -108,19 +108,8 @@ public class SSEvernoteNoteStoreGetTest extends SSServOpTestCaseA{
         System.out.println(note.getUpdateSequenceNum());
         System.out.println(note.getResources());
         System.out.println(note.getAttributes());
-        System.out.println(note.getTagNames());
+        System.out.println(evernoteInfo.noteStore.getNoteTagNames(note.getGuid()));
         System.out.println();
-        
-        if(note.getTagNames() != null){
-          
-          System.out.println("tags");
-          
-          for(String tagName : note.getTagNames()){
-            System.out.println(tagName);
-          }
-          
-          System.out.println();
-        }
         
         noteAttr = note.getAttributes();
         
