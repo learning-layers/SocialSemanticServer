@@ -200,28 +200,22 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   @Override
   public SSEvernoteInfo evernoteNoteStoreGet(SSServPar parA) throws Exception {
     
-    SSEvernoteNoteStoreGetPar par    = new SSEvernoteNoteStoreGetPar(parA);
-    SSEvernoteInfo            result = null;
-    EvernoteAuth              evernoteAuth;
-    ClientFactory             clientFactory;
-    
     try{
+      final SSEvernoteNoteStoreGetPar par           = new SSEvernoteNoteStoreGetPar(parA);
+      final EvernoteAuth              evernoteAuth  = new EvernoteAuth   (EvernoteService.PRODUCTION, par.authToken);
+      final ClientFactory             clientFactory = new ClientFactory  (evernoteAuth);
+      final UserStoreClient           userStore     = clientFactory.createUserStoreClient();
+      final NoteStoreClient           noteStore     = clientFactory.createNoteStoreClient();
+      final SSUri                     shardUri      = SSUri.get(userStore.getPublicUserInfo(userStore.getUser().getUsername()).getWebApiUrlPrefix());
       
-      evernoteAuth   = new EvernoteAuth   (EvernoteService.PRODUCTION, par.authToken);
-      clientFactory  = new ClientFactory  (evernoteAuth);
-     
-      UserStoreClient userStore = clientFactory.createUserStoreClient();
-      NoteStoreClient noteStore = clientFactory.createNoteStoreClient();
-      SSUri           shardUri  = SSUri.get(userStore.getPublicUserInfo(userStore.getUser().getUsername()).getWebApiUrlPrefix());
-      
-      result         = SSEvernoteInfo.get (userStore, noteStore, shardUri);
+      return SSEvernoteInfo.get (userStore, noteStore, shardUri);
       
 //      https://sandbox.evernote.com/shard/s1/sh/72ddd50f-5d13-46e3-b32d-d2b314ced5c1/ea77ae0587d735f39a94868ce3ddab5f
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return result;
   }
   
   @Override 

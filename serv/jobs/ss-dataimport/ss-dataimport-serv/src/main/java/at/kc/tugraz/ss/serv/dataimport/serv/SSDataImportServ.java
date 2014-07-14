@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.serv;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
@@ -30,6 +31,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -74,7 +76,18 @@ public class SSDataImportServ extends SSServA{
           case dataImportEvernote:{
             
             for(String authToken : ((SSEvernoteConf) SSEvernoteServ.inst.servConf).authTokens){
-              SSServCaller.dataImportEvernote(SSVoc.systemUserUri, authToken, true);
+              
+              try{
+                
+                SSServCaller.dataImportEvernote(
+                  SSVoc.systemUserUri, 
+                  authToken, 
+                  true);
+                
+              }catch(Exception error){
+                SSLogU.warn("evernote account import failed for " + authToken);
+                SSServErrReg.reset();
+              }
             }
           }
         }
