@@ -334,6 +334,31 @@ public class SSFileU{
     }
   }
   
+  public static void writeFileBytes(
+    final FileOutputStream fileOut, 
+    final byte[]           bytes,
+    final Integer          length) throws Exception{
+    
+    if(SSObjU.isNull(fileOut, bytes)){
+      SSLogU.errThrow(new Exception("pars not ok"));
+      return;
+    }
+    
+    try{
+    
+      fileOut.write(bytes, 0, length);
+      fileOut.flush     ();
+
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+    }finally{
+      
+      if(fileOut != null){
+        fileOut.close();
+      }
+    }
+  }
+  
   public static File[] filesForDirPath(final String dirPath){
     return new File(correctDirPath(dirPath)).listFiles();
   }

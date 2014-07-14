@@ -288,7 +288,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       noteList  = par.noteStore.findNotesMetadata (noteFilter, 0, 100, resultSpec);
       
       for (NoteMetadata note : noteList.getNotes()) {
-        notes.add(par.noteStore.getNote(note.getGuid(), true, false, false, false));
+        notes.add(par.noteStore.getNote(note.getGuid(), true, true, false, false));
       }
       
     }catch(Exception error){

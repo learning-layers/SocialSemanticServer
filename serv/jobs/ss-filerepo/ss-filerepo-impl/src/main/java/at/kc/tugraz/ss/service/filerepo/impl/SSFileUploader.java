@@ -227,7 +227,7 @@ public class SSFileUploader extends SSServImplStartA{
       true);
   }
 
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even ont if localWorkPath != local file repo path)
+  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   private void createFileThumb(){
     
     try{
