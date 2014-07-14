@@ -33,13 +33,16 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
+import com.evernote.edam.type.NoteAttributes;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
@@ -48,7 +51,7 @@ import java.util.List;
 
 public class SSDataImportEvernoteHelper {
   
-  private final SSEvernoteHelper         evernoteHelper;
+  private final  SSEvernoteHelper        evernoteHelper;
   private final  String                  localWorkPath;
   private        SSEvernoteInfo          evernoteInfo           = null;
   private        SSLabel                 userName               = null;
@@ -86,7 +89,7 @@ public class SSDataImportEvernoteHelper {
         false);
   }
   
-  public void handleSharedNotebooks() throws Exception{
+  public void setSharedNotebooks() throws Exception{
     sharedNotebooks     = SSServCaller.evernoteNotebooksSharedGet (evernoteInfo.noteStore);
     sharedNotebookGuids = evernoteHelper.getSharedNotebookGuids   (sharedNotebooks);
   }
@@ -95,96 +98,97 @@ public class SSDataImportEvernoteHelper {
     
     SSUri       notebookUri;
     SSLabel     notebookLabel;
-    Boolean     isSharedNotebook;
     
     for(Notebook notebook : SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore)){
       
       notebookUri      = evernoteHelper.uriHelper.getNormalOrSharedNotebookUri      (userName,    notebook, sharedNotebookGuids);
-      isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
+//      isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
       notebookLabel    = SSEvernoteLabelHelper.getNormalOrSharedNotebookLabel       (notebookUri, notebook);
       
-      SSServCaller.entityAddAtCreationTime(
-        userUri,
-        notebookUri,
-        notebookLabel,
-        notebook.getServiceCreated(),
-        SSEntityE.evernoteNotebook,
-        null,
-        false);
-      
-      SSServCaller.entityUpdate(
+      addNotebook(
         notebookUri, 
-        notebookLabel, 
-        null, 
-        false);
+        notebookLabel,  
+        notebook.getServiceCreated());
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        userUri, 
-        userCircle, 
-        notebookUri,
-        false);
+      addNotebookUEs(
+        notebookUri, 
+        notebook);
       
-      evernoteHelper.ueHelper.removeUEsFromEntity     (userUri,          notebookUri);
-      evernoteHelper.ueHelper.addUEsForNormalNotebook (userUri,          notebookUri, notebook);
-      evernoteHelper.ueHelper.addUEsForSharedNotebook (isSharedNotebook, userUri,     notebook, notebookUri, sharedNotebooks);
-      
-      handleEvernoteNotes(
+      handleNotes(
         userUri,
         notebookUri,
         notebookLabel,
         evernoteInfo,
-        notebook,
-        isSharedNotebook);
+        notebook);
     }
+  }
+  
+  private void addNotebook(
+    final SSUri    notebookUri,
+    final SSLabel  notebookLabel,
+    final Long     notebookCreationTime) throws Exception{
+    
+    SSServCaller.entityAddAtCreationTime(
+      userUri,
+      notebookUri,
+      notebookLabel,
+      notebookCreationTime,
+      SSEntityE.evernoteNotebook,
+      null,
+      false);
+    
+    SSServCaller.entityUpdate(
+      notebookUri,
+      notebookLabel,
+      null,
+      false);
+    
+    SSServCaller.entityEntitiesToCircleAdd(
+      userUri,
+      userCircle,
+      notebookUri,
+      false);
+  }
+  
+  private void addNotebookUEs(
+    final SSUri    notebookUri,
+    final Notebook notebook) throws Exception{
+    
+    SSServCaller.uEsRemove(
+      userUri,
+      notebookUri,
+      false);
+    
+    SSServCaller.uEAddAtCreationTime(
+      userUri,
+      notebookUri,
+      SSUEE.evernoteNotebookUpdate,
+      SSStrU.empty,
+      notebook.getServiceUpdated(),
+      false);
   }
   
   public void handleLinkedNotebooks() throws Exception{
 
     int                     timeCounter = 1;
     SSUri                   notebookUri;
-    SSLabel              notebookLabel;
-    SSLabel              noteLabel;
     Long                    creationTimeForLinkedNotebook;
-    SSUri                   noteUri;
-    SSUri                   resourceUri;
-    SSLabel              resourceLabel;
     
     for(LinkedNotebook linkedNotebook : SSServCaller.evernoteNotebooksLinkedGet(evernoteInfo.noteStore)){
       
-      notebookUri   = evernoteHelper.uriHelper.getLinkedNotebookUri     (linkedNotebook);
-      notebookLabel = SSEvernoteLabelHelper.getLinkedNotebookLabel      (linkedNotebook, notebookUri);
-      
+      notebookUri                   = evernoteHelper.uriHelper.getLinkedNotebookUri     (linkedNotebook);
       creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
       timeCounter++;
       
-      SSServCaller.entityAddAtCreationTime(
-        userUri,
-        notebookUri,
-        notebookLabel,
-        creationTimeForLinkedNotebook,
-        SSEntityE.evernoteNotebook,
-        null,
-        false);
+      addNotebook(
+        notebookUri, 
+        SSEvernoteLabelHelper.getLinkedNotebookLabel(
+          linkedNotebook, 
+          notebookUri), 
+        creationTimeForLinkedNotebook);
       
-      SSServCaller.entityUpdate(
-        notebookUri,
-        notebookLabel,
-        null,
-        false);
-      
-      SSServCaller.entityEntitiesToCircleAdd(
-        userUri, 
-        userCircle, 
-        notebookUri,
-        false);
-      
-      evernoteHelper.ueHelper.removeUEsFromEntity(
-        userUri,          
-        notebookUri);
-      
-      evernoteHelper.ueHelper.addUEsForLinkedNotebook(
-        userUri,
-        notebookUri,
+      addLinkedNotebookUEs(
+        notebookUri, 
         creationTimeForLinkedNotebook);
       
 //      for(Note note : SSServCaller.getEvernoteLinkedNotes(evernoteInfo.noteStore, linkedNotebook)){
@@ -234,76 +238,219 @@ public class SSDataImportEvernoteHelper {
     }
   }
   
-  private void handleEvernoteNotes(
+  private void addLinkedNotebookUEs(
+    final SSUri notebookUri,
+    final Long  creationTimeForLinkedNotebook) throws Exception {
+    
+    SSServCaller.uEsRemove(
+      userUri,
+      notebookUri,
+      false);
+    
+    SSServCaller.uEAddAtCreationTime(
+      userUri,
+      notebookUri,
+      SSUEE.evernoteNotebookFollow,
+      SSStrU.empty,
+      creationTimeForLinkedNotebook,
+      false);
+  }
+  
+  private void handleNotes(
     final SSUri                userUri,
     final SSUri                notebookUri, 
     final SSLabel              notebookLabel, 
     final SSEvernoteInfo       evernoteInfo,
-    final Notebook             notebook,
-    final Boolean              isSharedNotebook) throws Exception{
+    final Notebook             notebook) throws Exception{
     
     SSUri   noteUri;
-    SSLabel noteLabel;
     
     for(Note note : SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid())){
       
-      noteUri   = evernoteHelper.uriHelper.getNormalOrSharedNoteUri   (evernoteInfo, note);
-      noteLabel = SSEvernoteLabelHelper.getNoteLabel                  (note,         noteUri);
+      noteUri = evernoteHelper.uriHelper.getNormalOrSharedNoteUri   (evernoteInfo, note);
       
-      SSServCaller.entityAddAtCreationTime(
-        userUri,
+      addNote(
+        noteUri, 
+        SSEvernoteLabelHelper.getNoteLabel(
+          note,         
+          noteUri), 
+        note, 
+        notebookUri);
+      
+      addNoteTags(
+        note, 
         noteUri,
-        noteLabel,
-        note.getCreated(),
-        SSEntityE.evernoteNote,
-        null,
-        false);
+        notebookLabel);
       
-      SSServCaller.entityUpdate(
-        noteUri,
-        noteLabel,
-        null,
-        false);
+      addNoteAndTagUEs(
+        note, 
+        noteUri);
       
-      SSServCaller.entityEntitiesToCircleAdd(
+      handleNoteContent(
         userUri, 
-        userCircle, 
-        noteUri,
-        false);
-
-      if(!SSStrU.isEmpty(notebookLabel)){
-        
-        SSServCaller.tagAdd(
-          userUri, 
-          noteUri, 
-          SSStrU.toStr(notebookLabel),
-          SSSpaceE.privateSpace, 
-          false);
-      }
+        note,    
+        noteUri);
       
-      evernoteHelper.sqlFct.addNoteIfNotExists           (notebookUri,      noteUri);
-      evernoteHelper.ueHelper.removeUEsFromEntity        (userUri,          noteUri);
-      evernoteHelper.ueHelper.addUEsAndTagsForNormalNote (userUri,          note,    noteUri);
-      evernoteHelper.ueHelper.addUEsForSharedNote        (isSharedNotebook, userUri, notebook, noteUri, sharedNotebooks);
-      evernoteHelper.ueHelper.addUEsForNoteAttrs         (userUri,          note,    noteUri);
-      
-      handleEvernoteNoteContent (userUri, note,    noteUri);
-      handleEvernoteResources   (userUri, noteUri, notebook, notebookLabel, evernoteInfo, note, isSharedNotebook, sharedNotebooks);
+      handleResources(
+        userUri,
+        noteUri, 
+        notebookLabel, 
+        evernoteInfo, 
+        note);
     }
   }
   
-  private void handleEvernoteResources(
+  private void addNoteAndTagUEs(
+    final Note  note,
+    final SSUri noteUri) throws Exception {
+    
+    SSServCaller.uEsRemove(
+      userUri,
+      noteUri,
+      false);
+    
+    SSServCaller.uEAddAtCreationTime(
+      userUri,
+      noteUri,
+      SSUEE.evernoteNoteUpdate,
+      SSStrU.empty,
+      note.getUpdated(),
+      false);
+    
+    if(note.getDeleted() != 0L){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteNoteDelete,
+        SSStrU.empty,
+        note.getDeleted(),
+        false);
+    }
+    
+    if(
+      note.getTagNames()  != null &&
+      !note.getTagNames().isEmpty()){
+      
+      for(String tagName : note.getTagNames()){
+        
+        SSServCaller.uEAddAtCreationTime(
+          userUri,
+          noteUri,
+          SSUEE.addPrivateTag,
+          tagName,
+          note.getUpdated(),
+          false);
+      }
+    }
+    
+    final NoteAttributes noteAttr = note.getAttributes();
+    
+    if(noteAttr == null){
+      return;
+    }
+    
+    if(noteAttr.getShareDate() != 0L){
+  
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteNoteShare,
+        SSStrU.empty,
+        noteAttr.getShareDate(),
+        false);
+    }
+    
+    if(noteAttr.getReminderDoneTime() != 0L){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteReminderDone,
+        SSStrU.empty,
+        noteAttr.getReminderDoneTime(),
+        false);
+    }
+    
+    if(noteAttr.getReminderTime() != 0L){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteReminderCreate,
+        SSStrU.empty,
+        noteAttr.getReminderTime(),
+        false);
+    }
+  }
+  
+  private void addNoteTags(
+    final Note    note, 
+    final SSUri   noteUri,
+    final SSLabel notebookLabel) throws Exception{
+    
+    if(
+      note.getTagNames()  != null &&
+      !note.getTagNames().isEmpty()){
+      
+      SSServCaller.tagsAddAtCreationTime(
+        userUri,
+        noteUri,
+        note.getTagNames(),
+        SSSpaceE.privateSpace,
+        note.getUpdated(),
+        false);
+    }
+    
+    if(!SSStrU.isEmpty(notebookLabel)){
+      
+      SSServCaller.tagAdd(
+        userUri,
+        noteUri,
+        SSStrU.toStr(notebookLabel),
+        SSSpaceE.privateSpace,
+        false);
+    }
+  }
+  
+  private void addNote(
+    final SSUri   noteUri,
+    final SSLabel noteLabel,
+    final Note    note,
+    final SSUri   notebookUri) throws Exception{
+    
+    SSServCaller.entityAddAtCreationTime(
+      userUri,
+      noteUri,
+      noteLabel,
+      note.getCreated(),
+      SSEntityE.evernoteNote,
+      null,
+      false);
+    
+    SSServCaller.entityUpdate(
+      noteUri,
+      noteLabel,
+      null,
+      false);
+    
+    SSServCaller.entityEntitiesToCircleAdd(
+      userUri,
+      userCircle,
+      noteUri,
+      false);
+    
+    evernoteHelper.sqlFct.addNoteIfNotExists (notebookUri, noteUri);
+  }
+  
+  private void handleResources(
     final SSUri                userUri,
     final SSUri                noteUri,
-    final Notebook             notebook,
     final SSLabel              notebookLabel,
     final SSEvernoteInfo       evernoteInfo,
-    final Note                 note,
-    final Boolean              isSharedNotebook,
-    final List<SharedNotebook> sharedNotebooks) throws Exception{
+    final Note                 note) throws Exception{
     
     SSUri      resourceUri;
-    SSLabel    resourceLabel;
     
     if(
       note                == null ||
@@ -313,62 +460,118 @@ public class SSDataImportEvernoteHelper {
     
     for(Resource resource : note.getResources()){
       
-      resourceUri   = evernoteHelper.uriHelper.getResourceUri     (evernoteInfo, resource);
-      resourceLabel = SSEvernoteLabelHelper.getResourceLabel      (resource,     resourceUri);
+      resourceUri = evernoteHelper.uriHelper.getResourceUri     (evernoteInfo, resource);
       
-      SSServCaller.entityAddAtCreationTime(
-        userUri,
+      addResource(
         resourceUri,
-        resourceLabel,
+        SSEvernoteLabelHelper.getResourceLabel(
+          resource,
+          resourceUri),
         note.getUpdated(),
-        SSEntityE.evernoteResource,
-        null,
-        false);
+        noteUri);
       
-      SSServCaller.entityUpdate(
+      addResourceTags(
         resourceUri,
-        resourceLabel,
-        null,
-        false);
+        notebookLabel);
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        userUri,
-        userCircle,
-        resourceUri,
-        false);
-      
-      if(!SSStrU.isEmpty(notebookLabel)){
-        
-        SSServCaller.tagAdd(
-          userUri, 
-          resourceUri, 
-          SSStrU.toStr(notebookLabel),
-          SSSpaceE.privateSpace,
-          false);
-      }
-      
-      evernoteHelper.sqlFct.addResourceIfNotExists    (noteUri, resourceUri);
-      evernoteHelper.ueHelper.removeUEsFromEntity     (userUri, resourceUri);
-      evernoteHelper.ueHelper.addUEsForResource       (userUri, resourceUri, note);
-      evernoteHelper.ueHelper.addUEsForSharedResource (userUri, resourceUri, notebook, sharedNotebooks, isSharedNotebook);
+      addResourceUEs(
+        resourceUri, 
+        note.getUpdated());
     }
   }
   
+  private void addResourceUEs(
+    final SSUri resourceUri,
+    final Long  resourceAddTime) throws Exception{
+    
+    SSServCaller.uEsRemove(
+      userUri,
+      resourceUri,
+      false);
+    
+    SSServCaller.uEAddAtCreationTime(
+      userUri,
+      resourceUri,
+      SSUEE.evernoteResourceAdd,
+      SSStrU.empty,
+      resourceAddTime,
+      false);
+  }
+  
+  private void addResource(
+    final SSUri   resourceUri,
+    final SSLabel resourceLabel,
+    final Long    resourceAddTime,
+    final SSUri   noteUri) throws Exception{
+    
+    SSServCaller.entityAddAtCreationTime(
+      userUri,
+      resourceUri,
+      resourceLabel,
+      resourceAddTime,
+      SSEntityE.evernoteResource,
+      null,
+      false);
+    
+    SSServCaller.entityUpdate(
+      resourceUri,
+      resourceLabel,
+      null,
+      false);
+    
+    SSServCaller.entityEntitiesToCircleAdd(
+      userUri,
+      userCircle,
+      resourceUri,
+      false);
+    
+    evernoteHelper.sqlFct.addResourceIfNotExists(
+      noteUri, 
+      resourceUri);
+  }
+  
+  private void addResourceTags(
+    final SSUri   resourceUri,
+    final SSLabel notebookLabel) throws Exception{
+    
+    if(!SSStrU.isEmpty(notebookLabel)){
+      
+      SSServCaller.tagAdd(
+        userUri,
+        resourceUri,
+        SSStrU.toStr(notebookLabel),
+        SSSpaceE.privateSpace,
+        false);
+    }    
+  }
+  
   //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even ont if localWorkPath != local file repo path)
-  private void handleEvernoteNoteContent(
+  private void handleNoteContent(
     final SSUri user,
     final Note  note,
-    final SSUri noteUri){
+    final SSUri noteUri) throws Exception{
     
     try{
       final SSUri  pngFileUri        = SSServCaller.fileCreateUri                 (userUri, SSFileExtU.png);
-      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
+      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user,    pngFileUri);
       final String xhtmlFilePath     = localWorkPath + SSServCaller.fileIDFromURI (userUri, SSServCaller.fileCreateUri     (userUri, SSFileExtU.xhtml));   //localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.xhtml;
       final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (userUri, SSServCaller.fileCreateUri     (userUri, SSFileExtU.pdf));     //localWorkPath + SSEntityE.evernoteNote + SSStrU.underline + note.getGuid() + SSStrU.dot + SSFileExtU.pdf;
       
-      SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
-      SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);
-      SSFileU.writeScaledPNGFromPDF (pdfFilePath,       pngFilePath);
+      try{
+        
+        SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
+        SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);
+        SSFileU.writeScaledPNGFromPDF (pdfFilePath,       pngFilePath);
+      }catch(Exception error){
+        SSLogU.warn("thumbnail for evernote note couldnt be created");
+        return;
+      }finally{
+        
+        try{
+          SSFileU.delFile(xhtmlFilePath);
+          SSFileU.delFile(pdfFilePath);
+        }catch(Exception error){}
+      }
         
       SSServCaller.entityAdd(
         user,
@@ -389,7 +592,7 @@ public class SSDataImportEvernoteHelper {
         false);
       
     }catch(Exception error){
-      SSLogU.warn("thumbnail for evernote note couldnt be created");
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

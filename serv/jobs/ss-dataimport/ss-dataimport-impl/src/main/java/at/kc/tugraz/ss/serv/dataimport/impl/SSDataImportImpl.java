@@ -123,7 +123,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
       dataImpEvernoteHelper.handleLinkedNotebooks ();
-      dataImpEvernoteHelper.handleSharedNotebooks ();
+      dataImpEvernoteHelper.setSharedNotebooks    ();
       dataImpEvernoteHelper.handleNotebooks       (par);
       
       dbSQL.commit(par.shouldCommit);

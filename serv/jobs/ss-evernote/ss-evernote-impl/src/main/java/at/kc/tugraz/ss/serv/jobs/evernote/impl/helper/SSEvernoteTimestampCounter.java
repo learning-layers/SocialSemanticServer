@@ -27,20 +27,20 @@ public class SSEvernoteTimestampCounter {
   private static Long    counter = 0L;
   private static Integer times   = 0; 
   
-  public static Long get(){
-    
-    synchronized(counter){
-      
-      if(times > 15){
-        counter = 0L;
-        times   = 0;
-      }
-      
-      counter += SSDateU.minuteInMilliSeconds;
-      
-      times++;
-    }
-    
-    return counter;
-  }
+//  public static Long get(){
+//    
+//    synchronized(counter){
+//      
+//      if(times > 15){
+//        counter = 0L;
+//        times   = 0;
+//      }
+//      
+//      counter += SSDateU.minuteInMilliSeconds;
+//      
+//      times++;
+//    }
+//    
+//    return counter;
+//  }
 }

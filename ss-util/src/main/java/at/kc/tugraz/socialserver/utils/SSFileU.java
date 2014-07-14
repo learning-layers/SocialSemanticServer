@@ -109,15 +109,9 @@ public class SSFileU{
     }
 	}
   
-	public static void delFile(String filePath) throws Exception {
-		
-    try {
-			File file = new File(filePath);
-			file.delete();
-		}catch (Exception error){
-      SSLogU.errThrow(error);
-		}
-	}
+  public static void delFile(final String filePath) throws Exception {
+    new File(filePath).delete();
+  }
   
   public static void appendTextToFile(String filePath, String text) throws Exception{
 		

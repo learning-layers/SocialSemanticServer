@@ -32,13 +32,11 @@ import java.util.List;
 
 public class SSEvernoteHelper {
   
-  public final SSEvernoteUEHelper    ueHelper;
   public final SSEvernoteUriHelper   uriHelper;
   public final SSEvernoteSQLFct      sqlFct;
   
   public SSEvernoteHelper(final SSDBSQLI dbSQL) throws Exception{
     
-    this.ueHelper    = new SSEvernoteUEHelper    ();
     this.uriHelper   = new SSEvernoteUriHelper   ();
     this.sqlFct      = new SSEvernoteSQLFct      (dbSQL);
   }

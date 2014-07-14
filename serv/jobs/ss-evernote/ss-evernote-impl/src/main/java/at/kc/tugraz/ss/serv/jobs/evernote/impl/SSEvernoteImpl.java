@@ -130,6 +130,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
     }catch(Exception error){
       SSLogU.warn("base 64 file thumb couldnt be retrieved");
+      SSServErrReg.reset();
       return null;
     }
   }

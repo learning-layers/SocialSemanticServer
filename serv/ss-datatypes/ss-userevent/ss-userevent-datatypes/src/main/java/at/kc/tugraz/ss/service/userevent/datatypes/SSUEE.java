@@ -50,20 +50,14 @@ public enum SSUEE implements SSJSONLDPropI{
   
   addPrivateTag,
   
-  evernoteNotebookCreate,
   evernoteNotebookUpdate,
-  evernoteNotebookShare,
   evernoteNotebookFollow,
-  evernoteNoteCreate,
   evernoteNoteUpdate,
   evernoteNoteDelete,
   evernoteNoteShare,
-  evernoteNoteFollow,
   evernoteReminderDone,
   evernoteReminderCreate,
   evernoteResourceAdd,
-  evernoteResourceFollow,
-  evernoteResourceShare,
   
   /* user events maybe to delete as they are not stored on client-side anymore */
   selectedFromOthers,
