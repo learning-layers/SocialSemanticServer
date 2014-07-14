@@ -32,7 +32,7 @@ public class SSServErrReg {
     @Override protected List<SSErrForClient> initialValue() {
       
       try{
-        return new ArrayList<SSErrForClient>();
+        return new ArrayList<>();
       }catch (Exception error){
         SSLogU.err(error);
         return null;
@@ -41,7 +41,7 @@ public class SSServErrReg {
   };
   
   public static List<SSErrForClient> getServiceImplErrors(){
-    return new ArrayList<SSErrForClient>(servImplErrors.get());
+    return new ArrayList<>(servImplErrors.get());
   }
   
   public static void regErr(final Exception error){
@@ -136,5 +136,9 @@ public class SSServErrReg {
     }
     
     servImplErrors.get().clear();
+  }
+
+  public static void reset(){
+   servImplErrors.get().clear();
   }
 }

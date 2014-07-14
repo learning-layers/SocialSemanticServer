@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicScoresPar;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
@@ -167,7 +168,13 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
 
       for (SSModelUEEntity resource : resources.values()){
 
-        resource.type = SSServCaller.entityGet(resource.entity).type;
+        try{
+          resource.type = SSServCaller.entityGet(resource.entity).type;
+        }catch(Exception error){
+          resource.type = SSEntityE.entity;
+          
+          SSServErrReg.reset();
+        }
 
         resourcePropertySetter.setResourceIndependentProperties                 (resource);
 
