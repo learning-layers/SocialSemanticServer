@@ -52,21 +52,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public void removeThumbs(
-    final SSUri entity) throws Exception {
-    
-     try{
-       final Map<String, String> deletes = new HashMap<>();
-       
-       delete(deletes, SSSQLVarU.entityId, entity);
-       
-       dbSQL.delete(thumbnailsTable, deletes);
-       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public Boolean existsEntity(
     final SSUri entity) throws Exception{
     
@@ -218,10 +203,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSTextComment description) throws Exception{
     
     try{
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
+     
+      if(existsEntity(entityUri)){
+        return;
+      }
       
-      uniqueKey (uniqueKeys,  SSSQLVarU.id,           entityUri);
+      final Map<String, String> inserts    = new HashMap<>();
+      
       insert    (inserts,     SSSQLVarU.id,           entityUri);
       insert    (inserts,     SSSQLVarU.creationTime, SSDateU.dateAsLong());
       
@@ -249,7 +237,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         insert(inserts, SSSQLVarU.description, description);
       }
       
-      dbSQL.insertIfNotExists(entityTable, inserts, uniqueKeys);
+      dbSQL.insert(entityTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -364,6 +352,24 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       insert(inserts, SSSQLVarU.thumbId, thumb);
       
       dbSQL.insert(thumbnailsTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addFile(
+    final SSUri entity,
+    final SSUri file) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,   entity);
+      insert(inserts, SSSQLVarU.fileId,     file);
+      
+      dbSQL.insert(filesTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -594,6 +600,27 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(thumbnailsTable, wheres);
       
       return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
+      
+    }catch(Exception error){
+      dbSQL.closeStmt(resultSet);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSUri> getFiles(final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(filesTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.fileId);
       
     }catch(Exception error){
       dbSQL.closeStmt(resultSet);

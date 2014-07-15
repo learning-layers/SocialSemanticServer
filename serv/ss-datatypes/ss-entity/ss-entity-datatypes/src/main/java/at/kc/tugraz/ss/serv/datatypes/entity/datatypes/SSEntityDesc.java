@@ -41,10 +41,11 @@ public class SSEntityDesc extends SSEntityDescA{
     final SSUri           author,
     final List<SSEntityA> uEs, 
     final String          thumb,
+    final SSUri           file,
     final SSTextComment   description,
     final List<SSEntityA> flags) throws Exception{
     
-    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb, description, flags);
+    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb, file, description, flags);
   }
   
   protected SSEntityDesc(
@@ -58,9 +59,10 @@ public class SSEntityDesc extends SSEntityDescA{
     final SSUri            author, 
     final List<SSEntityA>  uEs, 
     final String           thumb,
+    final SSUri            file,
     final SSTextComment    description,
     final List<SSEntityA>  flags) throws Exception{
     
-    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb, description, flags);
+    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb, file, description, flags);
   }
 }

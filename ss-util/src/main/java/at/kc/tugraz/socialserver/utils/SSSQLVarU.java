@@ -68,6 +68,7 @@ public class SSSQLVarU{
   public static final String userId                                         = "userId";
   public static final String entityId                                       = "entityId";
   public static final String thumbId                                        = "thumbId";
+  public static final String fileId                                         = "fileId";
   public static final String categoryId                                     = "categoryId";
   public static final String categorySpace                                  = "categorySpace";
   public static final String content                                        = "content";

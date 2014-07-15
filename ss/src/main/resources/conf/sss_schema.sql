@@ -514,13 +514,6 @@ CREATE TABLE `entity` (
   `description` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/* ,
-  FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
-  FULLTEXT KEY `labelIndexEntity` (`label`),
-  FULLTEXT KEY `descriptionIndexEntity` (`description`)
-*/
-
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -610,6 +603,32 @@ LOCK TABLES `evernoteuser` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `files`
+--
+
+DROP TABLE IF EXISTS `files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `files` (
+  `entityId` varchar(200) NOT NULL,
+  `fileId` varchar(200) NOT NULL,
+  PRIMARY KEY (`entityId`),
+  KEY `fileIdFKfiles_idx` (`fileId`),
+  CONSTRAINT `fileIdFKfiles` FOREIGN KEY (`fileId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKfiles` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `files`
+--
+
+LOCK TABLES `files` WRITE;
+/*!40000 ALTER TABLE `files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `flag`
 --
 
@@ -649,9 +668,9 @@ CREATE TABLE `flags` (
   PRIMARY KEY (`flagId`,`entityId`,`userId`),
   KEY `entityId_idx` (`entityId`),
   KEY `userId_idx` (`userId`),
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `entityId` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `flagId` FOREIGN KEY (`flagId`) REFERENCES `flag` (`flagId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `flagId` FOREIGN KEY (`flagId`) REFERENCES `flag` (`flagId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1115,7 +1134,8 @@ CREATE TABLE `ues` (
   PRIMARY KEY (`userEventId`),
   KEY `userIdFKues_idx` (`userId`),
   KEY `entityId_idx` (`entityId`),
-  KEY `userEventIdFKues_idx` (`userEventId`)
+  KEY `userEventIdFKues_idx` (`userEventId`),
+  CONSTRAINT `userEventIdFKues` FOREIGN KEY (`userEventId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1137,4 +1157,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-02 15:37:36
+-- Dump completed on 2014-07-15 14:30:02

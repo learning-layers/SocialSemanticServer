@@ -22,18 +22,16 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.err.SSTagInvalidTagErr;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class SSTagLabel extends SSEntityA{
 
   public static SSTagLabel get(
     final String string) throws Exception{
     
-    return new SSTagLabel(SSStrU.replaceAll(string, SSStrU.blank, SSStrU.underline));
+    return new SSTagLabel(string);
   }
   
   public static List<SSTagLabel> get(
@@ -52,28 +50,29 @@ public class SSTagLabel extends SSEntityA{
     return result;
   }
   
-  public static Boolean isTagLabel(
-    final String string) throws Exception {
-    
-    try{
-      if(SSStrU.isEmpty(string)){
-        return false;
-      }
-      
-      final String tmpTagLabel = string.replaceAll("[/\\*\\?\\'<>]", SSStrU.empty);
-      
-      if(
-        SSStrU.isEmpty(tmpTagLabel) ||
-        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTagLabel)){
-        return false;
-      }
-      
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+//  public static Boolean isTagLabel(
+//    final String string) throws Exception {
+//    
+//    try{
+//      if(SSStrU.isEmpty(string)){
+//        return false;
+//      }
+//      
+//      final String tmpTagLabel = string.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty);
+////      final String tmpTagLabel = string.replaceAll("[/\\*\\?\\'<>]", SSStrU.empty);
+//      
+//      if(
+//        SSStrU.isEmpty(tmpTagLabel) ||
+//        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTagLabel)){
+//        return false;
+//      }
+//      
+//      return true;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
   
   @Override
   public Object jsonLDDesc() {
@@ -81,11 +80,19 @@ public class SSTagLabel extends SSEntityA{
   }
   
   protected SSTagLabel(final String label) throws Exception{
+    super(getTagLabel(label));
+  }
+  
+  private static String getTagLabel(final String label) throws Exception{
     
-    super(label);
-    
-    if(!isTagLabel(label)){
-      throw new SSTagInvalidTagErr("invalid tag " + label);
+    try{
+      
+      String tmpLabel = SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
+      
+      return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      
+    }catch(Exception error){
+      throw new SSTagInvalidTagErr("tag: " + label + "is not valid");
     }
   }
 }

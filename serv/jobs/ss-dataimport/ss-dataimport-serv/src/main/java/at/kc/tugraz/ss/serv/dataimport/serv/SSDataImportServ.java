@@ -79,13 +79,17 @@ public class SSDataImportServ extends SSServA{
               
               try{
                 
+                SSLogU.info("start import for evernote account " + authToken);
+                
                 SSServCaller.dataImportEvernote(
                   SSVoc.systemUserUri, 
                   authToken, 
                   true);
                 
+                SSLogU.info("end import for evernote account " + authToken);
+                
               }catch(Exception error){
-                SSLogU.warn("evernote account import failed for " + authToken);
+                SSLogU.warn("import for evernote account " + authToken + " failed");
                 SSServErrReg.reset();
               }
             }

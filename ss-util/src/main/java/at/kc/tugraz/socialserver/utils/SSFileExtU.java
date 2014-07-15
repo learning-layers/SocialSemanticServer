@@ -29,6 +29,7 @@ public class SSFileExtU {
   public final static String                 pdf             = "pdf";
 	public final static String                 doc             = "doc";
   public final static String                 ppt             = "ppt";
+  public final static String                 pptx            = "pptx";
 	public final static String                 mdb             = "mdb";
 	public final static String                 xls             = "xls";
 	public final static String                 docx            = "docx";

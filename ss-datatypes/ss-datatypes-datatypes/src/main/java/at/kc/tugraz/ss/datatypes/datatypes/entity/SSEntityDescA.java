@@ -43,6 +43,7 @@ public abstract class SSEntityDescA extends SSEntityA{
   public List<SSEntityA>  discs           = new ArrayList<>();
   public List<SSEntityA>  uEs             = new ArrayList<>();
   public String           thumb           = null;
+  public SSUri            file            = null;
   public SSTextComment    description     = null;
   public List<SSEntityA>  flags           = new ArrayList<>();
 
@@ -61,6 +62,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.discs           = entityDesc.discs;
     this.uEs             = entityDesc.uEs;
     this.thumb           = entityDesc.thumb;
+    this.file            = entityDesc.file;
     this.description     = entityDesc.description;
     this.flags           = entityDesc.flags;
   }
@@ -76,6 +78,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     final List<SSEntityA> discs,
     final List<SSEntityA> uEs,
     final String          thumb,
+    final SSUri           file,
     final SSTextComment   description,
     final List<SSEntityA> flags) throws Exception{
     
@@ -88,6 +91,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.author         = author;
     this.overallRating  = overallRating;
     this.thumb          = thumb;
+    this.file           = file;
     this.description    = description;
     
     if(tags != null){
@@ -143,6 +147,7 @@ public abstract class SSEntityDescA extends SSEntityA{
     ld.put(SSVarU.author,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.overallRating,  SSVarU.sss  + SSStrU.colon + SSEntityA.class.getName());
     ld.put(SSVarU.thumb,          SSVarU.xsd  + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.file,           SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.description,    SSVarU.sss  + SSStrU.colon + SSTextComment.class.getName());
     
     
@@ -189,6 +194,10 @@ public abstract class SSEntityDescA extends SSEntityA{
   
   public String getThumb(){
     return thumb;
+  }
+  
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
   }
   
   public String getDescription(){

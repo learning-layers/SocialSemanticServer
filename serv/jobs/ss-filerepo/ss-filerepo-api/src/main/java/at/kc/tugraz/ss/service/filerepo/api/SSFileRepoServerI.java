@@ -62,11 +62,11 @@ public interface SSFileRepoServerI{
 //    SSUri        fileUri,
 //    List<SSColl> userCollections) throws Exception;
 
-//  public SSFileDownloadRetObj downloadFileFromWeb(
+//  public RetObj downloadFileFromWeb(
 //    SSUri   fileUri) throws Exception;
 //  
 //  public boolean doDownloadFileFromWeb(
-//    SSFileDownloadRetObj       downloadFileFromWebObject,
+//    RetObj       downloadFileFromWebObject,
 //    DataOutputStream           dataOutputStream) throws Exception;
 
 //  public SSFileUploadRetObj uploadFileFromWeb(

@@ -238,7 +238,7 @@ public class SSFileUploader extends SSServImplStartA{
       Boolean      thumbCreated      = false;
       
       if(SSFileExtU.imageFileExts.contains(fileExt)){
-        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), new File(pngFilePath));
+        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath);
         thumbCreated = true;
       }
       

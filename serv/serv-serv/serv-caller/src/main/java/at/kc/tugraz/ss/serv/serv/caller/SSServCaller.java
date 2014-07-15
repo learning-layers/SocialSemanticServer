@@ -985,6 +985,34 @@ public class SSServCaller {
   
   /* entity */
   
+  public static List<SSUri> entityFilesGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+   
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityFilesGet, opPars));
+  }
+  
+  public static void entityFileAdd(
+    final SSUri   user,
+    final SSUri   entity,
+    final SSUri   file,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.file,         file);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityFileAdd, opPars));
+  }
+  
   public static List<SSUri> entityThumbsGet(
     final SSUri user, 
     final SSUri entity) throws Exception{
@@ -1011,18 +1039,6 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbAdd, opPars));
-  }
-  
-  public static Boolean entityThumbsRemove(
-    final SSUri   entity, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityThumbsRemove, opPars));
   }
   
   public static void entityUserUpdate(

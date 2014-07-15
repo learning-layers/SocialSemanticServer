@@ -21,27 +21,26 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityThumbsRemovePar extends SSServPar{
+public class SSEntityFilesGetPar extends SSServPar{
   
-  public SSUri     entity  = null;
-
-  public SSEntityThumbsRemovePar(SSServPar par) throws Exception{
+  public SSUri entity   = null;
+    
+  public SSEntityFilesGetPar(SSServPar par) throws Exception{
       
     super(par);
     
     try{
       
       if(pars != null){
-        entity         = (SSUri)      pars.get(SSVarU.entity);
+        entity   = (SSUri) pars.get(SSVarU.entity);
       }
       
       if(clientPars != null){
-        entity      = SSUri.get      (clientPars.get(SSVarU.entity));
+        entity   = SSUri.get(clientPars.get(SSVarU.entity));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

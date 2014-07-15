@@ -363,7 +363,8 @@ public class SSFileU{
     return new File(correctDirPath(dirPath)).listFiles();
   }
   
-  public static void writePDFFromXHTML(
+  //warning: has to be synchronized to have ITextRenderer working correctly //https://java.net/projects/xhtmlrenderer/lists/users/archive/2010-10/message/1
+  public static synchronized void writePDFFromXHTML(
     final String pdfFilePath, 
     final String xhtmlFilePath) throws Exception{
     
@@ -377,7 +378,7 @@ public class SSFileU{
       out = new FileOutputStream(pdfFilePath);
       
       renderer.setDocument(uri);
-      renderer.layout();
+      renderer.layout(); //can happen http://stackoverflow.com/questions/13678641/while-converting-xhtml-with-css-to-pdf-got-an-exception-java-lang-indexoutofboun
       renderer.createPDF(out);
       
     }finally{
@@ -449,15 +450,14 @@ public class SSFileU{
       //page range if you want to extract all pages with a loop
       //int start = 1,  end = decode_pdf.getPageCount();
       buffImage = pdfToImgDecoder.getPageAsImage(1);
-      pngFile   = new File(pngFilePath);
       
-      ImageIO.write(buffImage, SSFileExtU.png, pngFile);
+      ImageIO.write(buffImage, SSFileExtU.png, new File(pngFilePath));
       
-      pngImage  = ImageIO.read(pngFile);
+      pngImage  = ImageIO.read(new File(pngFilePath));
       buffImage = (BufferedImage) pngImage;
       
       //scale the thumb
-      scalePNGAndWrite(buffImage, pngFile);
+      scalePNGAndWrite(buffImage, pngFilePath);
       
     }finally{
       
@@ -469,7 +469,7 @@ public class SSFileU{
   
   public static void scalePNGAndWrite(
     final BufferedImage buffImage, 
-    final File          pngFile) throws IOException{
+    final String        pngFilePath) throws IOException{
     
     final BufferedImage scaledThumb = new BufferedImage(350, 350, BufferedImage.TYPE_INT_RGB);
     final Graphics2D    graphics2D  = scaledThumb.createGraphics();
@@ -478,7 +478,7 @@ public class SSFileU{
     graphics2D.drawImage(buffImage, 0, 0, 350, 350, null);
     graphics2D.dispose();
     
-    ImageIO.write(scaledThumb, SSFileExtU.png, pngFile);
+    ImageIO.write(scaledThumb, SSFileExtU.png, new File(pngFilePath));
   }
   
   public static void writeStr(

@@ -30,6 +30,7 @@ public class SSMimeTypeU {
 	public final static String                 applicationMsaccess                                        = "application/msaccess";
 	public final static String                 applicationMsexcel                                         = "application/vnd.ms-excel";
   public final static String                 applicationMspowerpoint                                    = "application/vnd.ms-powerpoint";
+  public final static String                 applicationMspowerpoint2007                                = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 	public final static String                 applicationMsword2007                                      = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 	public final static String                 applicationMsaccess2007                                    = "application/msaccess";
 	public final static String                 applicationMsexcel2007                                     = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -65,38 +66,40 @@ public class SSMimeTypeU {
     mimeTypesFileExt   = new HashMap<>();
     fileExtForMimTypes = new HashMap<>();
       
-    mimeTypesFileExt.put(applicationPdf,           SSFileExtU.pdf);
-    mimeTypesFileExt.put(applicationMsword,        SSFileExtU.doc);
-    mimeTypesFileExt.put(applicationMspowerpoint,  SSFileExtU.ppt);
-    mimeTypesFileExt.put(applicationMsaccess,      SSFileExtU.mdb);
-    mimeTypesFileExt.put(applicationMsexcel,       SSFileExtU.xls);
-    mimeTypesFileExt.put(applicationMsword2007,    SSFileExtU.docx);
-    mimeTypesFileExt.put(applicationMsaccess2007,  SSFileExtU.accdb);
-    mimeTypesFileExt.put(applicationMsexcel2007,   SSFileExtU.xlsx);
-    mimeTypesFileExt.put(textPlain,                SSFileExtU.txt);
-    mimeTypesFileExt.put(imageJpeg,                SSFileExtU.jpg);
-    mimeTypesFileExt.put(imagePng,                 SSFileExtU.png);
-    mimeTypesFileExt.put(audioMp3,                 SSFileExtU.mp3);
-    mimeTypesFileExt.put(videoAvi,                 SSFileExtU.avi);
-    mimeTypesFileExt.put(videoMp4,                 SSFileExtU.mp4);
-    mimeTypesFileExt.put(videoMpeg,                SSFileExtU.mpeg);
-    mimeTypesFileExt.put(videoQuicktime,           SSFileExtU.mov);
-    mimeTypesFileExt.put(audioMidi,                SSFileExtU.midi);
-    mimeTypesFileExt.put(imageIcon,                SSFileExtU.ico);
-    mimeTypesFileExt.put(textHtml,                 SSFileExtU.html);
-    mimeTypesFileExt.put(imageGif,                 SSFileExtU.gif);
-    mimeTypesFileExt.put(textCss,                  SSFileExtU.css);
-    mimeTypesFileExt.put(imageBmp,                 SSFileExtU.bmp);
-    mimeTypesFileExt.put(applicationAtom,          SSFileExtU.atom);
-    mimeTypesFileExt.put(applicationLatex,         SSFileExtU.latex);
-    mimeTypesFileExt.put(imageSvg,                 SSFileExtU.svg);
-    mimeTypesFileExt.put(applicationRdf,           SSFileExtU.rdf);
-    mimeTypesFileExt.put(applicationOgg,           SSFileExtU.ogg);
+    mimeTypesFileExt.put(applicationPdf,               SSFileExtU.pdf);
+    mimeTypesFileExt.put(applicationMsword,            SSFileExtU.doc);
+    mimeTypesFileExt.put(applicationMspowerpoint,      SSFileExtU.ppt);
+    mimeTypesFileExt.put(applicationMsaccess,          SSFileExtU.mdb);
+    mimeTypesFileExt.put(applicationMsexcel,           SSFileExtU.xls);
+    mimeTypesFileExt.put(applicationMsword2007,        SSFileExtU.pptx);
+    mimeTypesFileExt.put(applicationMspowerpoint2007,  SSFileExtU.docx);
+    mimeTypesFileExt.put(applicationMsaccess2007,      SSFileExtU.accdb);
+    mimeTypesFileExt.put(applicationMsexcel2007,       SSFileExtU.xlsx);
+    mimeTypesFileExt.put(textPlain,                    SSFileExtU.txt);
+    mimeTypesFileExt.put(imageJpeg,                    SSFileExtU.jpg);
+    mimeTypesFileExt.put(imagePng,                     SSFileExtU.png);
+    mimeTypesFileExt.put(audioMp3,                     SSFileExtU.mp3);
+    mimeTypesFileExt.put(videoAvi,                     SSFileExtU.avi);
+    mimeTypesFileExt.put(videoMp4,                     SSFileExtU.mp4);
+    mimeTypesFileExt.put(videoMpeg,                    SSFileExtU.mpeg);
+    mimeTypesFileExt.put(videoQuicktime,               SSFileExtU.mov);
+    mimeTypesFileExt.put(audioMidi,                    SSFileExtU.midi);
+    mimeTypesFileExt.put(imageIcon,                    SSFileExtU.ico);
+    mimeTypesFileExt.put(textHtml,                     SSFileExtU.html);
+    mimeTypesFileExt.put(imageGif,                     SSFileExtU.gif);
+    mimeTypesFileExt.put(textCss,                      SSFileExtU.css);
+    mimeTypesFileExt.put(imageBmp,                     SSFileExtU.bmp);
+    mimeTypesFileExt.put(applicationAtom,              SSFileExtU.atom);
+    mimeTypesFileExt.put(applicationLatex,             SSFileExtU.latex);
+    mimeTypesFileExt.put(imageSvg,                     SSFileExtU.svg);
+    mimeTypesFileExt.put(applicationRdf,               SSFileExtU.rdf);
+    mimeTypesFileExt.put(applicationOgg,               SSFileExtU.ogg);
     
     
     fileExtForMimTypes.put(SSFileExtU.pdf,   applicationPdf);
     fileExtForMimTypes.put(SSFileExtU.doc,   applicationMsword);
     fileExtForMimTypes.put(SSFileExtU.ppt,   applicationMspowerpoint);
+    fileExtForMimTypes.put(SSFileExtU.pptx,  applicationMspowerpoint2007);
     fileExtForMimTypes.put(SSFileExtU.mdb,   applicationMsaccess);
     fileExtForMimTypes.put(SSFileExtU.xls,   applicationMsexcel);
     fileExtForMimTypes.put(SSFileExtU.docx,  applicationMsword2007);
@@ -129,7 +132,7 @@ public class SSMimeTypeU {
       return mimeTypesFileExt.get(mimeType);
     }
     
-		SSLogU.errThrow(new Exception("file ext not found for mime type"));
+		SSLogU.errThrow(new Exception("file ext not found for mime type: " + mimeType));
     return null;
 	}
   

@@ -41,25 +41,6 @@ public class SSUESQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
 
-  public void deleteUEs(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
-   
-    try{
-      final Map<String, String> deletes = new HashMap<>();
-
-      delete(deletes, SSSQLVarU.userId,   user);
-      
-      if(entity != null){
-        delete(deletes, SSSQLVarU.entityId, entity);
-      }
-      
-      dbSQL.deleteIgnore(uesTable, deletes);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public SSUE getUE(
     final SSUri ue) throws Exception{
     

@@ -21,10 +21,6 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -46,22 +42,20 @@ import com.evernote.edam.type.NoteAttributes;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.imageio.ImageIO;
 
 public class SSDataImportEvernoteHelper {
   
   private final  SSEvernoteHelper        evernoteHelper;
   private final  String                  localWorkPath;
-  private        SSEvernoteInfo          evernoteInfo           = null;
-  private        SSLabel                 userName               = null;
-  private        SSUri                   userUri                = null;
-  private        List<SharedNotebook>    sharedNotebooks        = null;
-  private        List<String>            sharedNotebookGuids    = null;
-  private        SSUri                   userCircle             = null;
+  private        SSEvernoteInfo          evernoteInfo             = null;
+  private        SSLabel                 userName                 = null;
+  private        SSUri                   userUri                  = null;
+  private        List<SharedNotebook>    sharedNotebooks          = null;
+  private        List<String>            sharedNotebookGuids      = null;
+  private        SSUri                   userCircle               = null;
   
   public SSDataImportEvernoteHelper(final SSDBSQLI dbSQL) throws Exception{
     this.localWorkPath   = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
@@ -97,7 +91,8 @@ public class SSDataImportEvernoteHelper {
     sharedNotebookGuids = evernoteHelper.getSharedNotebookGuids   (sharedNotebooks);
   }
   
-  public void handleNotebooks(final SSDataImportEvernotePar par) throws Exception{
+  public void handleNotebooks(
+    final SSDataImportEvernotePar par) throws Exception{
     
     SSUri       notebookUri;
     SSLabel     notebookLabel;
@@ -120,7 +115,6 @@ public class SSDataImportEvernoteHelper {
       handleNotes(
         notebookUri,
         notebookLabel,
-        evernoteInfo,
         notebook);
     }
   }
@@ -261,10 +255,10 @@ public class SSDataImportEvernoteHelper {
   private void handleNotes(
     final SSUri                notebookUri, 
     final SSLabel              notebookLabel, 
-    final SSEvernoteInfo       evernoteInfo,
     final Notebook             notebook) throws Exception{
     
-    SSUri   noteUri;
+    SSUri              noteUri;
+    final List<String> noteTags = new ArrayList<>();
     
     for(Note note : SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid())){
       
@@ -281,30 +275,42 @@ public class SSDataImportEvernoteHelper {
         note, 
         notebookUri);
       
+      noteTags.clear  ();
+      
+      noteTags.addAll (
+        SSStrU.distinctWithoutEmptyAndNull(
+          evernoteInfo.noteStore.getNoteTagNames(
+            note.getGuid())));
+      
       addNoteTags(
         note, 
         noteUri,
-        notebookLabel);
+        notebookLabel,
+        noteTags);
       
       addNoteAndTagUEs(
-        note, 
-        noteUri);
+        note,
+        noteUri,
+        noteTags);
       
-      handleNoteContent(
-        note, 
-        noteUri);
+      new SSDataImportEvernoteNoteContentHandler(
+        userUri,
+        note,
+        noteUri,
+        localWorkPath).handleNoteContent();
       
       handleResources(
-        noteUri, 
-        notebookLabel, 
-        evernoteInfo, 
+        noteUri,
+        notebookLabel,
+        evernoteInfo,
         note);
     }
   }
   
   private void addNoteAndTagUEs(
-    final Note  note,
-    final SSUri noteUri) throws Exception {
+    final Note         note,
+    final SSUri        noteUri,
+    final List<String> noteTags) throws Exception {
     
     SSServCaller.uEsRemove(
       userUri,
@@ -330,7 +336,7 @@ public class SSDataImportEvernoteHelper {
         false);
     }
     
-    for(String tag : evernoteInfo.noteStore.getNoteTagNames(note.getGuid())){
+    for(String tag : noteTags){
       
       SSServCaller.uEAddAtCreationTime(
         userUri,
@@ -382,14 +388,15 @@ public class SSDataImportEvernoteHelper {
   }
   
   private void addNoteTags(
-    final Note    note, 
-    final SSUri   noteUri,
-    final SSLabel notebookLabel) throws Exception{
+    final Note         note, 
+    final SSUri        noteUri,
+    final SSLabel      notebookLabel,
+    final List<String> noteTags) throws Exception{
     
     SSServCaller.tagsAddAtCreationTime(
       userUri,
       noteUri,
-      evernoteInfo.noteStore.getNoteTagNames(note.getGuid()),
+      noteTags,
       SSSpaceE.privateSpace,
       note.getUpdated(),
       false);
@@ -464,9 +471,11 @@ public class SSDataImportEvernoteHelper {
         note.getUpdated(),
         noteUri);
       
-      handleResourceContent(
+      new SSDataImportEvernoteResourceContentHandler(
+        userUri,
+        resource,
         resourceUri,
-        resource);
+        localWorkPath).handleResourceContent();
       
       addResourceTags(
         resourceUri,
@@ -541,163 +550,5 @@ public class SSDataImportEvernoteHelper {
         SSSpaceE.privateSpace,
         false);
     }    
-  }
-  
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
-  private void handleNoteContent(
-    final Note  note,
-    final SSUri noteUri){
-    
-    String xhtmlFilePath = null;
-   
-    try{
-      
-      xhtmlFilePath              = localWorkPath + SSServCaller.fileIDFromURI (userUri, SSServCaller.fileCreateUri     (userUri, SSFileExtU.xhtml));
-      final SSUri  fileUri       = SSServCaller.fileCreateUri                 (userUri, SSFileExtU.pdf);
-      final String pdfFilePath   = localWorkPath + SSServCaller.fileIDFromURI (userUri, fileUri);
-      
-      SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
-      SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);
-      
-      SSServCaller.entityAdd(
-        userUri,
-        fileUri,
-        null,
-        SSEntityE.file,
-        null,
-        false);
-      
-      //      SSServCaller.entityFilesRemove(
-//        resourceUri,
-//        false);
-            
-//      SSServCaller.entityFileAdd(
-//        userUri,
-//        resourceUri,
-//        fileUri,
-//        false);
-      
-      addThumbFromFile(
-        userUri,
-        localWorkPath,
-        noteUri,
-        fileUri);
-
-    }catch(Exception error){
-      SSLogU.warn("evernote content couldnt be saved to file");
-    }finally{
-      
-      try{
-        SSFileU.delFile(xhtmlFilePath);
-      }catch(Exception error){}
-    }
-  }
-  
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
-  private void handleResourceContent(
-    final SSUri    resourceUri,
-    final Resource resource) throws Exception{
-    
-    try{
-      
-      final String fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime());
-      final SSUri  fileUri = SSServCaller.fileCreateUri(userUri, fileExt);
-      final String fileId  = SSServCaller.fileIDFromURI(userUri, fileUri);
-      
-      SSFileU.writeFileBytes(
-        new FileOutputStream(localWorkPath + fileId), 
-        resource.getData().getBody(),
-        resource.getData().getSize());
-      
-      SSServCaller.entityAdd(
-        userUri,
-        fileUri,
-        SSLabel.get(resource.getAttributes().getFileName()),
-        SSEntityE.file,
-        null,
-        false);
-      
-      //      SSServCaller.entityFilesRemove(
-//        resourceUri,
-//        false);
-            
-//      SSServCaller.entityFileAdd(
-//        userUri,
-//        resourceUri,
-//        fileUri,
-//        false);
-      
-      addThumbFromFile(
-        userUri, 
-        localWorkPath, 
-        resourceUri, 
-        fileUri);
-      
-    }catch(Exception error){
-      SSLogU.warn("evernote resource couldnt be saved to file");
-    }
-  }
-  
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
-  private void addThumbFromFile(
-    final SSUri   user,
-    final String  localWorkPath,
-    final SSUri   entity,
-    final SSUri   fileUri){
-    
-    try{
-      final String fileId            = SSServCaller.fileIDFromURI (user, fileUri);
-      final String fileExt           = SSServCaller.fileExtGet    (user, fileUri);
-      final String filePath          = localWorkPath + fileId;
-      final SSUri  pngFileUri        = SSServCaller.fileCreateUri                 (user, SSFileExtU.png);
-      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
-      
-      Boolean      thumbCreated      = false;
-      
-      if(SSFileExtU.imageFileExts.contains(fileExt)){
-        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), new File(pngFilePath));
-        thumbCreated = true;
-      }
-      
-      if(SSStrU.equals(SSFileExtU.pdf, fileExt)){
-        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath);
-        thumbCreated = true;
-      }
-      
-      if(SSStrU.equals(SSFileExtU.doc, fileExt)){
-        
-        final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.fileCreateUri     (user, SSFileExtU.pdf));
-        
-        SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath);
-        thumbCreated = true;
-      }
-      
-      if(!thumbCreated){
-        SSLogU.warn("thumb couldnt be created from file with ext: " + fileExt);
-        return;
-      }
-      
-      SSServCaller.entityAdd(
-        user,
-        pngFileUri,
-        null,
-        SSEntityE.thumbnail,
-        null,
-        false);
-      
-      SSServCaller.entityThumbsRemove(
-        entity,
-        false);
-      
-      SSServCaller.entityThumbAdd(
-        user,
-        entity,
-        pngFileUri,
-        false);
-      
-    }catch(Exception error){
-      SSLogU.warn("thumb couldnt be created from file");
-    }
   }
 }

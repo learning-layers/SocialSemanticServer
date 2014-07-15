@@ -212,9 +212,9 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.deleteUEs(
-        par.user,
-        par.entity);
+      for(SSUE ue : sqlFct.getUEs(par.user, par.entity, null, null, null)){
+        SSServCaller.entityRemove(ue.id, false);
+      }
       
       dbSQL.commit(par.shouldCommit);
       
