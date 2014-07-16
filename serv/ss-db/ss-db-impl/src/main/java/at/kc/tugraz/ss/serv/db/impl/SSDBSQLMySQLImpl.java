@@ -276,42 +276,42 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     return stmt.executeQuery();
   }
   
-//   @Override
-//  public ResultSet select(
-//    final String       table, 
-//    final List<String> columns, 
-//    final List<String> matches, 
-//    final List<String> againsts) throws Exception{
-//    
-////      SELECT * FROM articles
-////    -> WHERE MATCH (title,body)
-////    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
-//    
-//    String                              query   = "SELECT DISTINCT ";
-//    PreparedStatement                   stmt;
-//    
-//    for(String certain : columns){
-//      query += certain + SSStrU.comma + SSStrU.blank;
-//    }
-//    
-//    query = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table + " WHERE MATCH (";
-//    
-//    for(String match : matches){
-//      query += match + SSStrU.comma;
-//    }
-//    
-//    query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
-//    
-//    for(String against : againsts){
-//      query += against + "*" + SSStrU.blank;
-//    }
-//    
-//    query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE);";
-//    
-//    stmt = connector.prepareStatement(query);
-//    
-//    return stmt.executeQuery();
-//  }
+   @Override
+  public ResultSet select(
+    final String       table, 
+    final List<String> columns, 
+    final List<String> matches, 
+    final List<String> againsts) throws Exception{
+    
+//      SELECT * FROM articles
+//    -> WHERE MATCH (title,body)
+//    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
+    
+    String                              query   = "SELECT DISTINCT ";
+    PreparedStatement                   stmt;
+    
+    for(String certain : columns){
+      query += certain + SSStrU.comma + SSStrU.blank;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table + " WHERE MATCH (";
+    
+    for(String match : matches){
+      query += match + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
+    
+    for(String against : againsts){
+      query += against + "*" + SSStrU.blank;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE);";
+    
+    stmt = connector.prepareStatement(query);
+    
+    return stmt.executeQuery();
+  }
   
   @Override
   public ResultSet select(

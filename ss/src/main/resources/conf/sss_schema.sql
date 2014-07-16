@@ -512,7 +512,10 @@ CREATE TABLE `entity` (
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
   `description` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
+  FULLTEXT KEY `labelIndexEntity` (`label`),
+  FULLTEXT KEY `descriptionIndexEntity` (`description`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -614,8 +617,8 @@ CREATE TABLE `files` (
   `fileId` varchar(200) NOT NULL,
   PRIMARY KEY (`entityId`),
   KEY `fileIdFKfiles_idx` (`fileId`),
-  CONSTRAINT `fileIdFKfiles` FOREIGN KEY (`fileId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKfiles` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKfiles` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fileIdFKfiles` FOREIGN KEY (`fileId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1157,4 +1160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-15 14:30:02
+-- Dump completed on 2014-07-16 17:40:47

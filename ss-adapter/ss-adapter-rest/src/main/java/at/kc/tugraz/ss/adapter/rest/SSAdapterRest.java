@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
@@ -955,11 +956,30 @@ public class SSAdapterRest{
     String      readMsgFullFromSS;
     
     try{
-      sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
-
-      sSCon.writeRequFullToSS ();
       
-      readMsgFullFromSS = sSCon.readMsgFullFromSS ();
+      try{
+        sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
+      }catch(Exception error){
+        
+        SSLogU.info("couldnt connect to " + conf.host.toString() + " " + conf.port.toString());
+        throw error;
+      }
+      
+      try{
+        sSCon.writeRequFullToSS ();
+      }catch(Exception error){
+        
+        SSLogU.info("couldnt write to " + conf.host.toString() + " " + conf.port.toString());
+        throw error;
+      }
+          
+      try{
+        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
+      }catch(Exception error){
+        
+        SSLogU.info("couldnt read from " + conf.host.toString() + " " + conf.port.toString());
+        throw error;
+      }
       
       return checkAndHandleSSSNodeSwitch(readMsgFullFromSS, jsonRequ);
     

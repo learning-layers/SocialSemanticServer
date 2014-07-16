@@ -47,11 +47,11 @@ public interface SSDBSQLI{
     final List<String>        columns, 
     final Map<String, String> where) throws Exception;
   
-//  public ResultSet select(
-//    final String              table, 
-//    final List<String>        columns, 
-//    final List<String>        matches, 
-//    final List<String>        againsts) throws Exception;
+  public ResultSet select(
+    final String              table, 
+    final List<String>        columns, 
+    final List<String>        matches, 
+    final List<String>        againsts) throws Exception;
   
   public ResultSet select(
     final List<String>        tables, 
