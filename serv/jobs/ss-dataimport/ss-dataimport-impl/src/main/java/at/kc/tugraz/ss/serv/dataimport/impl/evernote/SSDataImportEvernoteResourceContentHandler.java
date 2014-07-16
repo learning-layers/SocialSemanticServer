@@ -59,7 +59,7 @@ public class SSDataImportEvernoteResourceContentHandler{
     try{
       
       try{
-        fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime()); //application/octet-stream
+        fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime()); //application/octet-stream //application/vnd.oasis.opendocument.text
         fileUri = SSServCaller.fileCreateUri(user, fileExt);
         fileId  = SSServCaller.fileIDFromURI(user, fileUri);
         
