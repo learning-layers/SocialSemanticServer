@@ -23,20 +23,33 @@ package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.clients.UserStoreClient;
+import com.evernote.edam.notestore.SyncChunk;
 
 public class SSEvernoteInfo {
 
-  public UserStoreClient userStore      = null;
-  public NoteStoreClient noteStore      = null;
-  public SSUri           shardUri       = null;
+  public UserStoreClient userStore          = null;
+  public NoteStoreClient noteStore          = null;
+  public SSUri           shardUri           = null;
+//  public SyncChunk       noteStoreSyncChunk = null;
   
-  public static SSEvernoteInfo get(UserStoreClient userStore, NoteStoreClient noteStore, SSUri shardUri){
-    return new SSEvernoteInfo(userStore, noteStore, shardUri);
+  public static SSEvernoteInfo get(
+    final UserStoreClient userStore, 
+    final NoteStoreClient noteStore, 
+    final SSUri           shardUri,
+    final SyncChunk       noteStoreSyncChunk){
+    
+    return new SSEvernoteInfo(userStore, noteStore, shardUri, noteStoreSyncChunk);
   }
   
-  private SSEvernoteInfo(UserStoreClient userStore, NoteStoreClient noteStore, SSUri shardUri){
-    this.userStore = userStore;
-    this.noteStore = noteStore;
-    this.shardUri  = shardUri;
+  private SSEvernoteInfo(
+    final UserStoreClient userStore,
+    final NoteStoreClient noteStore,
+    final SSUri           shardUri,
+    final SyncChunk       noteStoreSyncChunk){
+    
+    this.userStore          = userStore;
+    this.noteStore          = noteStore;
+    this.shardUri           = shardUri;
+//    this.noteStoreSyncChunk = noteStoreSyncChunk;
   }
 }

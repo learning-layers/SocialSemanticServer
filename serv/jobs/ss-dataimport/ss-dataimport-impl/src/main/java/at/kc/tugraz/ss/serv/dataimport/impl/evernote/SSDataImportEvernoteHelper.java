@@ -30,12 +30,16 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import com.evernote.edam.error.EDAMErrorCode;
+import com.evernote.edam.error.EDAMSystemException;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
@@ -68,7 +72,7 @@ public class SSDataImportEvernoteHelper {
       par.authToken = evernoteHelper.sqlFct.getAuthToken(par.user);
     }
     
-    this.evernoteInfo    = SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
+    this.evernoteInfo    = getNoteStore(par);
     this.userName        = evernoteHelper.getUserName        (evernoteInfo);
     this.userUri         = SSServCaller.authRegisterUser     (par.user, userName, "1234", false);
     
@@ -94,10 +98,10 @@ public class SSDataImportEvernoteHelper {
   public void handleNotebooks(
     final SSDataImportEvernotePar par) throws Exception{
     
-    SSUri       notebookUri;
-    SSLabel     notebookLabel;
+    SSUri                notebookUri;
+    SSLabel              notebookLabel;
     
-    for(Notebook notebook : SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore)){
+    for(Notebook notebook : getNotebooks()){
       
       notebookUri      = evernoteHelper.uriHelper.getNormalOrSharedNotebookUri      (userName,    notebook, sharedNotebookGuids);
 //      isSharedNotebook = evernoteHelper.isSharedNootebook                           (notebookUri, userName, notebook);
@@ -166,11 +170,11 @@ public class SSDataImportEvernoteHelper {
   
   public void handleLinkedNotebooks() throws Exception{
 
-    int                     timeCounter = 1;
-    SSUri                   notebookUri;
-    Long                    creationTimeForLinkedNotebook;
+    int                        timeCounter     = 1;
+    SSUri                      notebookUri;
+    Long                       creationTimeForLinkedNotebook;
     
-    for(LinkedNotebook linkedNotebook : SSServCaller.evernoteNotebooksLinkedGet(evernoteInfo.noteStore)){
+    for(LinkedNotebook linkedNotebook : getLinkedNotebooks()){
       
       notebookUri                   = evernoteHelper.uriHelper.getLinkedNotebookUri     (linkedNotebook);
       creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
@@ -254,13 +258,13 @@ public class SSDataImportEvernoteHelper {
   
   private void handleNotes(
     final SSUri                notebookUri, 
-    final SSLabel              notebookLabel, 
+    final SSLabel              notebookLabel,
     final Notebook             notebook) throws Exception{
     
-    SSUri              noteUri;
     final List<String> noteTags = new ArrayList<>();
+    SSUri              noteUri;
     
-    for(Note note : SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid())){
+    for(Note note : getNotes(notebook)){
       
       noteUri =
         evernoteHelper.uriHelper.getNormalOrSharedNoteUri(
@@ -279,8 +283,7 @@ public class SSDataImportEvernoteHelper {
       
       noteTags.addAll (
         SSStrU.distinctWithoutEmptyAndNull(
-          evernoteInfo.noteStore.getNoteTagNames(
-            note.getGuid())));
+          getNoteTags(note)));
       
       addNoteTags(
         note, 
@@ -302,7 +305,6 @@ public class SSDataImportEvernoteHelper {
       handleResources(
         noteUri,
         notebookLabel,
-        evernoteInfo,
         note);
     }
   }
@@ -445,14 +447,11 @@ public class SSDataImportEvernoteHelper {
   private void handleResources(
     final SSUri                noteUri,
     final SSLabel              notebookLabel,
-    final SSEvernoteInfo       evernoteInfo,
     final Note                 note) throws Exception{
     
-    SSUri      resourceUri;
+    SSUri resourceUri;
     
-    if(
-      note                == null ||
-      note.getResources() == null){
+    if(note.getResources() == null){
       return;
     }
     
@@ -550,5 +549,170 @@ public class SSDataImportEvernoteHelper {
         SSSpaceE.privateSpace,
         false);
     }    
+  }
+  
+  
+  private List<Notebook> getNotebooks() throws Exception{
+    
+    try{
+      return SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore);
+      
+    }catch(Exception error){
+      
+      try{
+        
+        for(SSErrForClient serviceImplError : SSServErrReg.getServiceImplErrors()){
+          
+          if(
+            serviceImplError.exception instanceof EDAMSystemException &&
+            ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+            
+            SSServErrReg.reset();
+            
+            Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+            
+            return SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore);
+          }
+        }
+        
+        SSServErrReg.regErrThrow(error);
+        return null;
+        
+      }catch(Exception error1){
+        SSServErrReg.regErrThrow(error1);
+        return null;
+      }
+    }
+  }
+  
+  private List<Note> getNotes(
+    final Notebook notebook) throws Exception{
+    
+    try{
+      return SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid());
+      
+    }catch(Exception error){
+      
+      try{
+        
+        for(SSErrForClient serviceImplError : SSServErrReg.getServiceImplErrors()){
+          
+          if(
+            serviceImplError.exception instanceof EDAMSystemException &&
+            ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+            
+            SSServErrReg.reset();
+            
+            Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+            
+            return SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid());
+          }
+        }
+        
+        SSServErrReg.regErrThrow(error);
+        return null;
+        
+      }catch(Exception error1){
+        SSServErrReg.regErrThrow(error1);
+        return null;
+      }
+    }
+  }
+
+  private List<LinkedNotebook> getLinkedNotebooks() throws Exception{
+    
+    try{
+      return SSServCaller.evernoteNotebooksLinkedGet(evernoteInfo.noteStore);
+      
+    }catch(Exception error){
+      
+      try{
+        
+        for(SSErrForClient serviceImplError : SSServErrReg.getServiceImplErrors()){
+          
+          if(
+            serviceImplError.exception instanceof EDAMSystemException &&
+            ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+            
+            SSServErrReg.reset();
+            
+            Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+            
+            return SSServCaller.evernoteNotebooksLinkedGet(evernoteInfo.noteStore);
+          }
+        }
+        
+        SSServErrReg.regErrThrow(error);
+        return null;
+        
+      }catch(Exception error1){
+        SSServErrReg.regErrThrow(error1);
+        return null;
+      }
+    }
+  }
+
+  private List<String> getNoteTags(
+    final Note note) throws Exception{
+    
+    try{
+      return evernoteInfo.noteStore.getNoteTagNames(note.getGuid());
+      
+    }catch(Exception error){
+      
+      try{
+        
+        if(
+          error instanceof EDAMSystemException &&
+          ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+          
+          SSServErrReg.reset();
+          
+          Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+          
+          return evernoteInfo.noteStore.getNoteTagNames(note.getGuid());
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }catch(Exception error1){
+        SSServErrReg.regErrThrow(error1);
+        return null;
+      }
+    }
+  }
+
+  private SSEvernoteInfo getNoteStore(
+    final SSDataImportEvernotePar par) throws Exception{
+   
+    try{
+      return SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
+      
+    }catch(Exception error){
+      
+      try{
+        
+        for(SSErrForClient serviceImplError : SSServErrReg.getServiceImplErrors()){
+          
+          if(
+            serviceImplError.exception instanceof EDAMSystemException &&
+            ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+            
+            SSServErrReg.reset();
+            
+            Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+            
+            return SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
+          }
+        }
+
+        SSServErrReg.regErrThrow(error);
+        return null;
+        
+      }catch(Exception error1){
+        SSServErrReg.regErrThrow(error1);
+        return null;
+      }
+    }
   }
 }

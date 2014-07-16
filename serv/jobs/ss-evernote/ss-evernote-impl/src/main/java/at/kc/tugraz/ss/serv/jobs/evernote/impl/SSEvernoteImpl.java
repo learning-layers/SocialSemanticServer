@@ -207,8 +207,29 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       final UserStoreClient           userStore     = clientFactory.createUserStoreClient();
       final NoteStoreClient           noteStore     = clientFactory.createNoteStoreClient();
       final SSUri                     shardUri      = SSUri.get(userStore.getPublicUserInfo(userStore.getUser().getUsername()).getWebApiUrlPrefix());
+//      final SyncChunkFilter           filter        = new SyncChunkFilter();
+      final SyncChunk                 noteStoreSyncChunk = null;
       
-      return SSEvernoteInfo.get (userStore, noteStore, shardUri);
+//      filter.setIncludeNotes                               (true);
+//      filter.setIncludeNoteResources	                     (true);
+//      filter.setIncludeNoteAttributes	                     (true);
+//      filter.setIncludeNotebooks                           (true);
+//      filter.setIncludeTags	                               (true);
+//      filter.setIncludeSearches                            (false);
+//      filter.setIncludeResources	                         (true);
+//      filter.setIncludeLinkedNotebooks                     (true);
+//      filter.setIncludeExpunged                            (false);
+//      filter.setIncludeNoteApplicationDataFullMap	         (true);
+//      filter.setIncludeResourceApplicationDataFullMap	     (true);
+//      filter.setIncludeNoteResourceApplicationDataFullMap	 (true);
+//      
+//      noteStoreSyncChunk = noteStore.getFilteredSyncChunk(0, 100000, filter);
+      
+      return SSEvernoteInfo.get (
+        userStore, 
+        noteStore, 
+        shardUri, 
+        noteStoreSyncChunk);
       
 //      https://sandbox.evernote.com/shard/s1/sh/72ddd50f-5d13-46e3-b32d-d2b314ced5c1/ea77ae0587d735f39a94868ce3ddab5f
       

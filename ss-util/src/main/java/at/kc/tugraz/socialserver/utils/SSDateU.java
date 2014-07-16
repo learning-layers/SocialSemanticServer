@@ -23,7 +23,8 @@
 import java.util.*;
 
 public class SSDateU{
-  
+
+  public static final int    secondInMilliseconds                     = 1000;
   public static final int    dayInMinutes                             = 1440;
   public static final long   minuteInMilliSeconds                     = 60000;
   public static final long   dayInMilliSeconds                        = 86400000;
