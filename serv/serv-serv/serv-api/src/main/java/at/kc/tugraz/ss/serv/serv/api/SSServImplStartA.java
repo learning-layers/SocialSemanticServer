@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -35,7 +34,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     @Override protected List<SSServImplA> initialValue() {
       
       try{
-        return new ArrayList<SSServImplA>();
+        return new ArrayList<>();
       }catch (Exception error){
         SSServErrReg.regErr(error);
         return null;
@@ -60,7 +59,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   
   protected void finalizeThread(){
     
-    List<SSServImplA> usedServs = new ArrayList<SSServImplA>();
+    List<SSServImplA> usedServs = new ArrayList<>();
     
     try{
       servImplsUsedByThread.get().remove(this);

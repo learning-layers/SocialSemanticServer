@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-
 public class SSDataImportMediaWikiUserTest extends SSServOpTestCaseA{
   
   public SSDataImportMediaWikiUserTest(SSDataImportConf dataImportConf){
