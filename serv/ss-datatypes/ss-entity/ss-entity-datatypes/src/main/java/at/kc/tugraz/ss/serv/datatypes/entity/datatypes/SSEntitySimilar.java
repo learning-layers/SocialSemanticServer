@@ -18,35 +18,34 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 
-public class SSEntityFileAddPar extends SSServPar{
+public class SSEntitySimilar extends SSEntity{
+
+  public static SSEntitySimilar get(
+    final SSUri         uri, 
+    final SSLabel       label, 
+    final Long          creationTime, 
+    final SSEntityE     type, 
+    final SSUri         author, 
+    final SSTextComment description) throws Exception{
+    
+    return new SSEntitySimilar(uri, label, creationTime, type, author, description);
+  }
   
-  public SSUri entity   = null;
-  public SSUri file     = null;
+  private SSEntitySimilar(
+    final SSUri         uri, 
+    final SSLabel       label, 
+    final Long          creationTime, 
+    final SSEntityE     type, 
+    final SSUri         author, 
+    final SSTextComment description) throws Exception{
     
-  public SSEntityFileAddPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri) pars.get(SSVarU.entity);
-        file     = (SSUri) pars.get(SSVarU.file);
-      }
-      
-      if(clientPars != null){
-        entity   = SSUri.get(clientPars.get(SSVarU.entity));
-        file     = SSUri.get(clientPars.get(SSVarU.file));
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(uri, label, creationTime, type, author, description);
   }
 }

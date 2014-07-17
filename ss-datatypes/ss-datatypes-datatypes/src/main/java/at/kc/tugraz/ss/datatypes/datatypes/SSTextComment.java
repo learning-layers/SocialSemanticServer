@@ -31,6 +31,17 @@ public class SSTextComment extends SSEntityA {
   public static SSTextComment get(final String comment) throws Exception{
     return new SSTextComment(SSStrU.replaceAllLineFeedsWithTextualRepr(comment));
   }
+  
+  public static List<SSTextComment> get(final List<String> strings) throws Exception{
+    
+    final List<SSTextComment> result = new ArrayList<>();
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
 
   public static Boolean isTextComment(final String string) throws Exception{
     return string != null;

@@ -24,6 +24,16 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String includeOnlySubEntities                         = "includeOnlySubEntities";
+  public static final String wordsToSearchFor                               = "wordsToSearchFor";
+  public static final String tagsToSearchFor                                = "tagsToSearchFor";
+  public static final String misToSearchFor                                 = "misToSearchFor";
+  public static final String labelsToSearchFor                              = "labelsToSearchFor";
+  public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
+  public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
+  public static final String entitiesToSearchWithin                         = "entitiesToSearchWithin";
+  public static final String includeRecommendedResults                      = "includeRecommendedResults";
+  public static final String keywordsToSearchFor                            = "keywordsToSearchFor";
   public static final String flags                                          = "flags";
   public static final String notebook                                       = "notebook";
   public static final String thumb                                          = "thumb";

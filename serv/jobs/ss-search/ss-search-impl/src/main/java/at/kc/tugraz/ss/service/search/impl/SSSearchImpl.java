@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCombinedPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchNewPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchCombinedRet;
@@ -364,6 +365,210 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       }
       
       return searchResultsForUser;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSUri> getMIResults(final SSSearchNewPar par) throws Exception{
+    return new ArrayList<>();
+  }
+  
+  private List<SSUri> getTagResults(final SSSearchNewPar par) throws Exception{
+    
+    final List<SSUri> tagResults = new ArrayList<>();
+    SSSearchTagsPar   searchTagsPar;
+      
+    if(!par.includeTags){
+      return tagResults;
+    }
+    
+    if(!par.tagsToSearchFor.isEmpty()){
+      
+      searchTagsPar =
+        SSSearchTagsPar.get(
+          par.user,
+          par.tagsToSearchFor,
+          SSStrU.valueOr,
+          10);
+      
+      for(SSSearchResult result : searchTags(searchTagsPar)){
+        tagResults.add(result.entity);
+      }
+    }
+    
+    if(!par.keywordsToSearchFor.isEmpty()){
+      
+      searchTagsPar =
+        SSSearchTagsPar.get(
+          par.user,
+          par.keywordsToSearchFor,
+          SSStrU.valueOr,
+          10);
+      
+      for(SSSearchResult result : searchTags(searchTagsPar)){
+        tagResults.add(result.entity);
+      }
+    }
+    
+    SSStrU.distinctWithoutNull2(tagResults);
+    
+    return tagResults;
+  }
+  
+  private List<SSUri> getTextualContentResults(final SSSearchNewPar par) throws Exception{
+    
+    final List<SSUri> textualContentResults = new ArrayList<>();
+    SSSearchSolrPar   searchSolrPar;
+    
+    if(!par.includeTextualContent){
+      return textualContentResults;
+    }
+    
+    if(!par.wordsToSearchFor.isEmpty()){
+      
+      searchSolrPar =
+        SSSearchSolrPar.get(
+          par.user,
+          par.wordsToSearchFor,
+          SSStrU.valueOr);
+      
+      for(SSSearchResult solrResult : searchSolr(searchSolrPar)){
+        textualContentResults.add(solrResult.entity);
+      }
+    }
+    
+    if(!par.keywordsToSearchFor.isEmpty()){
+      
+      searchSolrPar =
+        SSSearchSolrPar.get(
+          par.user,
+          par.keywordsToSearchFor,
+          SSStrU.valueOr);
+      
+      for(SSSearchResult solrResult : searchSolr(searchSolrPar)){
+        textualContentResults.add(solrResult.entity);
+      }    
+    }
+    
+    SSStrU.distinctWithoutNull2(textualContentResults);
+    
+    return textualContentResults;
+  }
+  
+  private List<SSUri> getLabelAndDescriptionResults(final SSSearchNewPar par) throws Exception{
+    
+    final List<SSUri> results = new ArrayList<>();
+    
+    if(
+      par.includeDescription &&
+      par.includeLabel){
+      
+      if(!par.keywordsToSearchFor.isEmpty()){
+        
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(par.keywordsToSearchFor)){
+          results.add(entity.id);
+        }
+      }
+      
+      if(!par.labelsToSearchFor.isEmpty()){
+        
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.labelsToSearchFor))){
+          results.add(entity.id);
+        }
+      }
+      
+      if(!par.descriptionsToSearchFor.isEmpty()){
+        
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.descriptionsToSearchFor))){
+          results.add(entity.id);
+        }
+      }
+    }
+    
+    if(
+      par.includeDescription &&
+      !par.includeLabel){
+      
+      for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(par.keywordsToSearchFor)){
+        results.add(entity.id);
+      }
+      
+      if(!par.labelsToSearchFor.isEmpty()){
+        
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.labelsToSearchFor))){
+          results.add(entity.id);
+        }
+      }
+    }
+    
+    if(
+      !par.includeDescription &&
+      par.includeLabel){
+      
+      for(SSEntity entity : SSServCaller.entitiesForLabelsGet(par.keywordsToSearchFor)){
+        results.add(entity.id);
+      }
+      
+      if(!par.descriptionsToSearchFor.isEmpty()){
+        
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.descriptionsToSearchFor))){
+          results.add(entity.id);
+        }
+      }
+    }
+    
+    SSStrU.distinctWithoutNull2(results);
+    
+    return results;
+  }
+    
+  private List<SSUri> filterSearchResultsBySubEntities(
+    final SSSearchNewPar    par,
+    final List<SSUri>       results) throws Exception{
+    
+    if(
+      !par.includeOnlySubEntities ||
+      par.entitiesToSearchWithin.isEmpty()){
+      return results;
+    }
+    
+    return SSUri.get(
+      SSStrU.retainAll(
+        SSStrU.toStrWithoutEmptyAndNull(
+          results), 
+        SSStrU.toStrWithoutEmptyAndNull(
+          SSSearchMiscFct.getSubEntities(
+            par.user, 
+            par.entitiesToSearchWithin))));
+  }
+  
+  public List<SSEntity> searchNew(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSSearchNewPar          par           = new SSSearchNewPar(parA);
+      final List<SSEntity>          results       = new ArrayList<>();
+      final List<SSUri>             uris          = new ArrayList<>();
+      SSEntity                      entity;
+
+      uris.addAll (getTagResults(par));
+      uris.addAll (getMIResults(par));
+      uris.addAll (getTextualContentResults(par));
+      uris.addAll (getLabelAndDescriptionResults(par));
+      
+      for(SSUri result : filterSearchResultsBySubEntities(par, uris)){
+        
+        entity = SSServCaller.entityGet(result);
+        
+        if(SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
+          results.add(entity);
+        } 
+      }
+      
+//      par.includeRecommendedResults;
+      
+      return results;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
