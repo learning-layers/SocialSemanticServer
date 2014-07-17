@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -50,12 +51,21 @@ public class SSLearnEpServ extends SSServA{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
     regServForManagingEntities(SSEntityE.learnEp);
     regServForManagingEntities(SSEntityE.learnEpTimelineState);
     regServForManagingEntities(SSEntityE.learnEpVersion);
     regServForManagingEntities(SSEntityE.learnEpCircle);
     regServForManagingEntities(SSEntityE.learnEpEntity);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

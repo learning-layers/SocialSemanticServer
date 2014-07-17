@@ -74,7 +74,7 @@ public abstract class SSServA{
   };
   
   protected abstract SSServImplA  createServImplForThread   () throws Exception;
-  protected abstract void         initServSpecificStuff     () throws Exception;
+  public    abstract void         initServ                  () throws Exception;
   public    abstract SSCoreConfA  getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   
   protected SSCoreConfA getConfForCloudDeployment(
@@ -99,32 +99,11 @@ public abstract class SSServA{
     throw new Exception("service not registered");
   }
   
-  private void regServ() throws Exception{
-    
-    try{
-      
-      synchronized(servs){
-        
-        for(SSMethU op : this.publishClientOps()){
-          
-          if(servs.containsKey(op)){
-            throw new Exception("op for service already registered");
-          }
-          
-          servs.put(op, this);
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   private void regServOps() throws Exception{
 
     try{
       
-      synchronized(servsForServerOps){
+      synchronized(servsForClientOps){
         
         for(SSMethU op : this.publishClientOps()){
           
@@ -134,7 +113,10 @@ public abstract class SSServA{
           
           servsForClientOps.put(op, this);
         }
+      }
         
+      synchronized(servsForServerOps){
+       
         for(SSMethU op : this.publishServerOps()){
           
           if(servsForServerOps.containsKey(op)){
@@ -219,21 +201,30 @@ public abstract class SSServA{
     }
   }
   
-  public synchronized SSServA initServ(
+  public SSServA regServ(
     final SSConfA conf) throws Exception{
     
     try{
       
       this.servConf = conf;
       
-      regServ();
+      synchronized(servs){
+        
+        for(SSMethU op : this.publishClientOps()){
+          
+          if(servs.containsKey(op)){
+            throw new Exception("op for service already registered");
+          }
+          
+          servs.put(op, this);
+        }
+      }
       
       if(!servConf.use){
         return null;
       }
       
-      regServOps           ();
-      initServSpecificStuff();
+      regServOps();
       
       return this;
     }catch(Exception error){

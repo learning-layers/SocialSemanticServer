@@ -71,60 +71,80 @@ public class SSSInitializer extends SSServImplStartA{
     
     try{
 
-      /* vocabulary */
-      SSVoc.inst.initServ               (SSCoreConf.instGet().getVocConf());
+      //registering
+      SSVoc.inst.regServ               (SSCoreConf.instGet().getVocConf());
 
-      /* util */
       SSMimeTypeU.init   ();
-      
       SSJSONLDU.init(
         SSCoreConf.instGet().getJsonLDConf().uri,
         SSCoreConf.instGet().getVocConf().app, 
         SSCoreConf.instGet().getVocConf().space);
       
-      /* db  */
-      SSDBGraph.inst.initServ           (SSCoreConf.instGet().getDbGraphConf());
-      SSDBSQL.inst.initServ             (SSCoreConf.instGet().getDbSQLConf());
-      
-      /* entity  */
-      SSEntityServ.inst.initServ        (SSCoreConf.instGet().getEntityConf());
-      SSUserServ.inst.initServ          (SSCoreConf.instGet().getUserConf());
-      SSCollServ.inst.initServ          (SSCoreConf.instGet().getCollConf());
-      SSUEServ.inst.initServ            (SSCoreConf.instGet().getUeConf());
-      SSTagServ.inst.initServ           (SSCoreConf.instGet().getTagConf());
-      
-      /* job  */
-      SSAuthServ.inst.initServ          (SSCoreConf.instGet().getAuthConf());
-      SSEvernoteServ.inst.initServ      (SSCoreConf.instGet().getEvernoteConf());
-      SSFilerepoServ.inst.initServ      (SSCoreConf.instGet().getFilerepoConf());
-      SSDataImportServ.inst.initServ    (SSCoreConf.instGet().getDataImportConf());
-        
-      /* json-ld  */
-      SSJSONLD.inst.initServ            (SSCoreConf.instGet().getJsonLDConf());
-      
-      /* entities  */
-      SSRatingServ.inst.initServ        (SSCoreConf.instGet().getRatingConf());
-      SSCategoryServ.inst.initServ      (SSCoreConf.instGet().getCategoryConf());
-      SSDiscServ.inst.initServ          (SSCoreConf.instGet().getDiscConf());
-      SSLearnEpServ.inst.initServ       (SSCoreConf.instGet().getLearnEpConf());
-      SSLocationServ.inst.initServ      (SSCoreConf.instGet().getLocationConf());
-      SSActivityServ.inst.initServ      (SSCoreConf.instGet().getActivityConf());
-      
-      /* jobs  */
-      SSSearchServ.inst.initServ        (SSCoreConf.instGet().getSearchConf());
-      SSDataExportServ.inst.initServ    (SSCoreConf.instGet().getDataExportConf());
-      SSLOMExtractorServ.inst.initServ  (SSCoreConf.instGet().getLomExtractorConf());
-      SSScaffServ.inst.initServ         (SSCoreConf.instGet().getScaffConf());
-      SSSolrServ.inst.initServ          (SSCoreConf.instGet().getSolrConf());
-      SSModelUEServ.inst.initServ       (SSCoreConf.instGet().getModelConf());
-      SSBroadcasterServ.inst.initServ   (SSCoreConf.instGet().getBroadcasterConf());
-      SSRecommServ.inst.initServ        (SSCoreConf.instGet().getRecommConf());
-      SSFileSysLocalServ.inst.initServ  (SSCoreConf.instGet().getFileSysLocalConf());
-      SSI5CloudServ.inst.initServ       (SSCoreConf.instGet().getI5CloudConf());
-      SSCloudServ.inst.initServ         (SSCoreConf.instGet().getCloudConf());
-      SSFlagServ.inst.initServ          (SSCoreConf.instGet().getFlagConf());
+      SSDBGraph.inst.regServ           (SSCoreConf.instGet().getDbGraphConf());
+      SSDBSQL.inst.regServ             (SSCoreConf.instGet().getDbSQLConf());
+      SSEntityServ.inst.regServ        (SSCoreConf.instGet().getEntityConf());
+      SSUserServ.inst.regServ          (SSCoreConf.instGet().getUserConf());
+      SSCollServ.inst.regServ          (SSCoreConf.instGet().getCollConf());
+      SSUEServ.inst.regServ            (SSCoreConf.instGet().getUeConf());
+      SSTagServ.inst.regServ           (SSCoreConf.instGet().getTagConf());
+      SSAuthServ.inst.regServ          (SSCoreConf.instGet().getAuthConf());
+      SSEvernoteServ.inst.regServ      (SSCoreConf.instGet().getEvernoteConf());
+      SSFilerepoServ.inst.regServ      (SSCoreConf.instGet().getFilerepoConf());
+      SSDataImportServ.inst.regServ    (SSCoreConf.instGet().getDataImportConf());
+      SSJSONLD.inst.regServ            (SSCoreConf.instGet().getJsonLDConf());
+      SSRatingServ.inst.regServ        (SSCoreConf.instGet().getRatingConf());
+      SSCategoryServ.inst.regServ      (SSCoreConf.instGet().getCategoryConf());
+      SSDiscServ.inst.regServ          (SSCoreConf.instGet().getDiscConf());
+      SSLearnEpServ.inst.regServ       (SSCoreConf.instGet().getLearnEpConf());
+      SSLocationServ.inst.regServ      (SSCoreConf.instGet().getLocationConf());
+      SSActivityServ.inst.regServ      (SSCoreConf.instGet().getActivityConf());
+      SSSearchServ.inst.regServ        (SSCoreConf.instGet().getSearchConf());
+      SSDataExportServ.inst.regServ    (SSCoreConf.instGet().getDataExportConf());
+      SSLOMExtractorServ.inst.regServ  (SSCoreConf.instGet().getLomExtractorConf());
+      SSScaffServ.inst.regServ         (SSCoreConf.instGet().getScaffConf());
+      SSSolrServ.inst.regServ          (SSCoreConf.instGet().getSolrConf());
+      SSModelUEServ.inst.regServ       (SSCoreConf.instGet().getModelConf());
+      SSBroadcasterServ.inst.regServ   (SSCoreConf.instGet().getBroadcasterConf());
+      SSRecommServ.inst.regServ        (SSCoreConf.instGet().getRecommConf());
+      SSFileSysLocalServ.inst.regServ  (SSCoreConf.instGet().getFileSysLocalConf());
+      SSI5CloudServ.inst.regServ       (SSCoreConf.instGet().getI5CloudConf());
+      SSCloudServ.inst.regServ         (SSCoreConf.instGet().getCloudConf());
+      SSFlagServ.inst.regServ          (SSCoreConf.instGet().getFlagConf());
 
-      /* scheduling task */
+      //initializing
+      SSVoc.inst.initServ();
+      SSDBGraph.inst.initServ();
+      SSDBSQL.inst.initServ();
+      SSEntityServ.inst.initServ();
+      SSUserServ.inst.initServ();
+      SSCollServ.inst.initServ();
+      SSUEServ.inst.initServ();
+      SSTagServ.inst.initServ();
+      SSAuthServ.inst.initServ();
+      SSEvernoteServ.inst.initServ();
+      SSFilerepoServ.inst.initServ();
+      SSDataImportServ.inst.initServ();
+      SSJSONLD.inst.initServ();
+      SSRatingServ.inst.initServ();
+      SSCategoryServ.inst.initServ();
+      SSDiscServ.inst.initServ();
+      SSLearnEpServ.inst.initServ();
+      SSLocationServ.inst.initServ();
+      SSActivityServ.inst.initServ();
+      SSSearchServ.inst.initServ();
+      SSDataExportServ.inst.initServ();
+      SSLOMExtractorServ.inst.initServ();
+      SSScaffServ.inst.initServ();
+      SSSolrServ.inst.initServ();
+      SSModelUEServ.inst.initServ();
+      SSBroadcasterServ.inst.initServ();
+      SSRecommServ.inst.initServ();
+      SSFileSysLocalServ.inst.initServ();
+      SSI5CloudServ.inst.initServ();
+      SSCloudServ.inst.initServ();
+      SSFlagServ.inst.initServ();
+      
+      //scheduling
       SSModelUEServ.inst.schedule   ();
       SSFilerepoServ.inst.schedule  ();
       SSRecommServ.inst.schedule    ();

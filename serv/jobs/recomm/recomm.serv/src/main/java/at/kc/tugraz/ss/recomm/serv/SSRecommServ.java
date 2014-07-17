@@ -78,7 +78,7 @@ public class SSRecommServ extends SSServA{
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryUpdateTask(),
       SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
       ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
-     
+    
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdateTask(),
       SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
@@ -86,7 +86,7 @@ public class SSRecommServ extends SSServA{
   }
   
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public void initServ() throws Exception{
     
     if(
       !servConf.use ||
@@ -100,9 +100,9 @@ public class SSRecommServ extends SSServA{
     SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate();
   }
   
- @Override
+  @Override
   public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
+    final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

@@ -45,7 +45,7 @@ public class SSI5CloudServ extends SSServA{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public void initServ() throws Exception{
   }
   
   @Override

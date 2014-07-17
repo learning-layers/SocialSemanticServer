@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -48,15 +49,24 @@ public class SSEntityServ extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSEntityImpl(servConf, (SSDBGraphI)SSDBGraph.inst.serv(), (SSDBSQLI)SSDBSQL.inst.serv());
   }
-
+  
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
     SSServCaller.entityCirclePublicAdd(true);
+    
+    return this;
   }
   
-@Override
+  @Override
+  public void initServ() throws Exception{
+  }
+  
+  @Override
   public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
+    final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

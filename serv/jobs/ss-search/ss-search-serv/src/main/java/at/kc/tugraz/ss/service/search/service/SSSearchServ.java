@@ -45,7 +45,7 @@ public class SSSearchServ extends SSServA{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public void initServ() throws Exception{
   }
   
   @Override

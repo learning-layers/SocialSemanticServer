@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -51,12 +52,20 @@ public class SSVoc extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSVocImpl((SSVocConf) servConf);
   }
-
+  
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
     
     systemUserLabel = SSLabel.get ("sytem");
     systemUserUri   = SSUri.get   (SSStrU.toStr(SSServCaller.vocURIPrefixGet()) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

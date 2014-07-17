@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
@@ -53,8 +54,17 @@ public class SSCollServ extends SSServA implements SSCollServI{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+
     regServForManagingEntities(supportedEntityTypes);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

@@ -21,11 +21,12 @@
 package at.kc.tugraz.ss.service.user.service;
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
@@ -51,8 +52,17 @@ public class SSUserServ extends SSServA implements SSUserServI{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
-     regServForManagingEntities(SSEntityE.user);
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
+    regServForManagingEntities(SSEntityE.user);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

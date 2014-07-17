@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.SSLocationImpl;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -50,8 +51,17 @@ public class SSLocationServ extends SSServA{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
     regServForManagingEntities(SSEntityE.location);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -51,28 +52,36 @@ public class SSCategoryServ extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSCategoryImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
   }
-
+  
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
+    regServForManagingEntities(SSEntityE.category);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
     
     if(!servConf.use){
       return;
     }
     
-    regServForManagingEntities(SSEntityE.category);
-    
     if(((SSCategoryConf)servConf).initAtStartUp){
       
       SSServCaller.categoriesPredefinedAdd(
         SSVoc.systemUserUri,
-        ((SSCategoryConf)servConf).predefinedCategories, 
+        ((SSCategoryConf)servConf).predefinedCategories,
         true);
     }
   }
   
   @Override
   public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
+    final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

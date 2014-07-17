@@ -23,6 +23,7 @@
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
@@ -62,16 +63,25 @@ public class SSFilerepoServ extends SSServA{
         SSDateU.minuteInMilliSeconds);
     }
   }
-
+  
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
     regServForManagingEntities   (SSEntityE.file);
     regServForDescribingEntities ();
+    
+    return this;
   }
   
-@Override
+  @Override
+  public void initServ() throws Exception{
+  }
+  
+  @Override
   public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
+    final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -48,11 +49,20 @@ public class SSEvernoteServ extends SSServA{
   }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
     regServForManagingEntities(SSEntityE.evernoteNotebook);
     regServForManagingEntities(SSEntityE.evernoteNote);
     regServForManagingEntities(SSEntityE.evernoteResource);
     regServForDescribingEntities();
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
   }
   
   @Override

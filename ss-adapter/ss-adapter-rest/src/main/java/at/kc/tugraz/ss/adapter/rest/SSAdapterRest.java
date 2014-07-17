@@ -62,7 +62,7 @@ public class SSAdapterRest{
   public SSAdapterRest() throws Exception{
     
 //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf-bptest.yaml");
     
     /* util */
     SSMimeTypeU.init();

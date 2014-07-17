@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -48,10 +49,19 @@ public class SSActivityServ extends SSServA{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSActivityImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
   }
+  
+  @Override 
+  public SSServA regServ(final SSConfA conf) throws Exception{
+    
+    super.regServ(conf);
+    
+    regServForManagingEntities(SSEntityE.activity);
+    
+    return this;
+  }
 
   @Override
-  protected void initServSpecificStuff() throws Exception{
-    regServForManagingEntities(SSEntityE.activity);
+  public void initServ() throws Exception{
   }
   
   @Override

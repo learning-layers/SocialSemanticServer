@@ -227,6 +227,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     try{
       final SSAuthLoadKeysPar par = new SSAuthLoadKeysPar(parA);
       
+      keys.clear();
       keys.addAll(sqlFct.getKeys());
       
     }catch(Exception error){
