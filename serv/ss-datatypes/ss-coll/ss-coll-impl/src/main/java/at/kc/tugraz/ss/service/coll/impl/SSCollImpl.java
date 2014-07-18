@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -703,7 +704,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             collUri,
             null,
             null,
-            SSStrU.toStr(SSServCaller.entityGet(collUri).label),
+            SSServCaller.entityGet(collUri).label,
             null));
       }
 
@@ -732,6 +733,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final Map<String, Integer>            tagLabelFrequs = new HashMap<>();
       final List<SSTagFrequ>                tagFrequs      = new ArrayList<>();
       SSColl                                coll;
+      SSCollEntry                           collEntry;
       String                                tagLabel;
       
       if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
@@ -751,8 +753,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
 
-      for(SSCollEntry collEntry : coll.entries){
+      for(SSEntityA entry : coll.entries){
 
+        collEntry = (SSCollEntry) entry;
+          
         if(SSStrU.equals(collEntry.type, SSEntityE.coll)){
 
           for(SSTagFrequ tagFrequ : SSServCaller.collUserCumulatedTagsGet(par.user, collEntry.id)){

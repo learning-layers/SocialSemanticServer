@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.test.serv.coll;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -46,8 +47,8 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
     final List<SSUri>      collEntryUris = new ArrayList<>();
     final SSColl           rootCollAfterEntriesDelete;
     
-    for(SSCollEntry collEntry : rootColl.entries){
-      collEntryUris.add(collEntry.id);
+    for(SSEntityA collEntry : rootColl.entries){
+      collEntryUris.add(((SSCollEntry)collEntry).id);
     }
     
     SSServCaller.collUserEntriesDelete(SSVoc.systemUserUri, rootColl.id, collEntryUris, true);

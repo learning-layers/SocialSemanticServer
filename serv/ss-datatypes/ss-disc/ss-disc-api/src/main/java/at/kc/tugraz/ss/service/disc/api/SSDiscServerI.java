@@ -35,4 +35,5 @@ public interface SSDiscServerI {
   public SSDiscUserEntryAddRet    discUserEntryAdd              (final SSServPar parA) throws Exception;
   public SSUri                    discUserRemove                (final SSServPar parA) throws Exception;
   public SSUri                    discUserShareWithUser         (final SSServPar parA) throws Exception;
+  public List<SSUri>              discEntryURIsGet              (final SSServPar parA) throws Exception;
 }

@@ -176,6 +176,7 @@ public enum SSMethU{
   searchMIs                                           ,
   searchTagsWithinEntity                              ,
   searchCombined                                      ,
+  search,
   
   //rating
   ratingUserSet                                       ,
@@ -239,6 +240,7 @@ public enum SSMethU{
   discsUserAllGet                                     ,
   discURIsForTargetGet,
   discUserDiscURIsForTargetGet                        ,
+  discEntryURIsGet,
   discUserWithEntriesGet                              ,
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -94,8 +95,8 @@ public class SSDiscMiscFct{
       discContentUris.add(discUri);
       discContentUris.add(disc.entity);
       
-      for(SSDiscEntry discEntry : disc.entries){
-        discContentUris.add(discEntry.id);
+      for(SSEntityA entry : disc.entries){
+        discContentUris.add(((SSDiscEntry)entry).id);
       }
       
       return discContentUris;

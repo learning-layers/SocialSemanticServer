@@ -22,104 +22,59 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.*;
 
-public class SSColl extends SSEntityA{
+public class SSColl extends SSEntity{
 
-  public  SSUri                           id          = null;
-	public  List<SSCollEntry>               entries     = new ArrayList<>();
-	public  SSUri                           author      = null;
-	public  String                          label       = null;
-	public  List<SSCircleE>                 circleTypes = new ArrayList<>();
-	
   public static SSColl get(
-    SSUri                           uri    ,
-    List<SSCollEntry>               entries,
-    SSUri                           author ,
-    String                          label  ,
-    List<SSCircleE> circleTypes) throws Exception{
+    final SSUri                     id,
+    final List<SSEntityA>           entries,
+    final SSUri                     author,
+    final SSLabel                   label,
+    final List<SSCircleE>           circleTypes) throws Exception{
     
-    return new SSColl(uri, entries, author, label, circleTypes);
+    return new SSColl(id, entries, author, label, circleTypes);
   }
   
   private SSColl(
-    SSUri                           uri    ,
-    List<SSCollEntry>               entries,
-    SSUri                           author ,
-    String                          label  ,
-    List<SSCircleE>                 circleTypes) throws Exception{
-
-    super(uri);
+    final SSUri                           id,
+    final List<SSEntityA>                 entries,
+    final SSUri                           author,
+    final SSLabel                         label,
+    final List<SSCircleE>                 circleTypes) throws Exception{
     
-    this.id       = uri;
-    this.author   = author;
-    this.label    = label;
-    
-    if(entries != null){
-      this.entries  = entries;
-    }
-    
-    if(circleTypes != null){
-      this.circleTypes.addAll(circleTypes);
-    }
+    super(id,
+      label,
+      null,
+      SSEntityE.coll,
+      author,
+      null,
+      circleTypes,
+      entries);
   }
 
-  private SSColl() throws Exception{
-    super(SSStrU.empty);
-  }
-    
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld             = new HashMap<>();
-    Map<String, Object> entriesObj     = new HashMap<>();
-    Map<String, Object> circleTypesObj = new HashMap<>();
-    
-    ld.put(SSVarU.id, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
+    final Map<String, Object>  ld             = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object>  entriesObj     = new HashMap<>();
+
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCollEntry.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entries, entriesObj);
-    
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
-    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.circleTypes, circleTypesObj);
-    
-    ld.put(SSVarU.author,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,         SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    
+
     return ld;
   }
   
   public static SSColl[] toCollArray(Collection<SSColl> toConvert) {
     return (SSColl[]) toConvert.toArray(new SSColl[toConvert.size()]);
   }
-  
-  /* getters to allow for json enconding */
-  
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
-  public List<SSCollEntry> getEntries(){
-    return entries;
-  }
-
-  public String getAuthor() throws Exception{
-    return SSStrU.removeTrailingSlash(author);
-  }
-
-  public String getLabel(){
-    return label;
-  }
-
-  public List<SSCircleE> getCircleTypes(){
-    return circleTypes;
-  }  
 }

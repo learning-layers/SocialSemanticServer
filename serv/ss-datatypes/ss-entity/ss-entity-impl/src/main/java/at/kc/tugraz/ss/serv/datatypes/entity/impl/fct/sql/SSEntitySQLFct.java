@@ -80,7 +80,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
     
-    
   public SSEntity getEntity(
     final SSUri entityUri) throws Exception{
     
@@ -102,7 +101,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
         bindingStrToUri        (resultSet, SSSQLVarU.author), 
-        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)));
+        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+        null, 
+        null);
       
     }catch(SSNoResultFoundErr error){
       throw error;
@@ -137,7 +138,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
         type,
         bindingStrToUri        (resultSet, SSSQLVarU.author),
-        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)));
+        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+        null,
+        null);
       
     }catch(SSNoResultFoundErr error){
       throw error;
@@ -885,7 +888,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null, 
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+            null,
+            null));
       }
       
       return entities;
@@ -928,7 +933,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+            null,
+            null));
       }
       
       return entities;
@@ -971,7 +978,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description))));
+            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+            null, 
+            null));
       }
       
       return entities;

@@ -18,35 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.search.datatypes;
+ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSSearchResultNew extends SSEntity{
-
- private SSSearchResultNew(
-    final SSUri          uri,
-    final SSLabel        label, 
-    final Long           creationTime,
-    final SSEntityE      type,
-    final SSUri          author,
-    final SSTextComment  description) throws Exception{
-    
-    super(uri, label, creationTime, type, author, description);
-  }
+public class SSDiscEntryURIsGetPar extends SSServPar{
   
-  public static SSSearchResultNew get(
-    final SSUri          uri,
-    final SSLabel        label, 
-    final Long           creationTime,
-    final SSEntityE      type,
-    final SSUri          author,
-    final SSTextComment  description) throws Exception{
+  public SSUri  disc             = null;
+      
+  public SSDiscEntryURIsGetPar(SSServPar par) throws Exception{
     
-    return new SSSearchResultNew(uri, label, creationTime, type, author, description);
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        disc         = (SSUri)   pars.get(SSVarU.disc);
+      }
+      
+      if(clientPars != null){
+        disc         = SSUri.get       (clientPars.get(SSVarU.disc));
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

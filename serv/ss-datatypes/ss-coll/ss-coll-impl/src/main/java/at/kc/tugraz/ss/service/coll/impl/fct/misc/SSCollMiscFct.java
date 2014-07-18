@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -76,6 +77,8 @@ public class SSCollMiscFct{
     final SSUri userUri,
     final SSUri collUri) throws Exception{
 
+    SSCollEntry collEntry;
+    
     try{
 
       final SSColl coll
@@ -83,9 +86,12 @@ public class SSCollMiscFct{
           collUri,
           SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
 
-      for(SSCollEntry entry : coll.entries){
-        entry.circleTypes.clear();
-        entry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, entry.id));
+      for(SSEntityA entry : coll.entries){
+        
+        collEntry = (SSCollEntry) entry;
+        
+        collEntry.circleTypes.clear();
+        collEntry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, collEntry.id));
       }
 
       return coll;
@@ -118,16 +124,18 @@ public class SSCollMiscFct{
     final SSCollSQLFct sqlFct,
     final SSColl       startColl) throws Exception{
 
+    SSCollEntry collEntry;
+    
     try{
 
-      final List<String> subCollUris = new ArrayList<>();
+      final List<String> subCollUris          = new ArrayList<>();
       final List<SSUri>  collAndCollEntryUris = new ArrayList<>();
 
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.id);
 
-      for(SSCollEntry collEntry : startColl.entries){
-        collAndCollEntryUris.add(collEntry.id);
+      for(SSEntityA entry : startColl.entries){
+        collAndCollEntryUris.add(((SSCollEntry)entry).id);
       }
 
       //add all coll sub coll und entry uris
@@ -139,8 +147,10 @@ public class SSCollMiscFct{
           collAndCollEntryUris.add(SSUri.get(subCollUri));
         }
 
-        for(SSCollEntry collEntry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<>()).entries){
+        for(SSEntityA entry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<>()).entries){
 
+          collEntry = (SSCollEntry) entry;
+            
           if(!SSStrU.contains(collAndCollEntryUris, collEntry.id)){
             collAndCollEntryUris.add(collEntry.id);
           }

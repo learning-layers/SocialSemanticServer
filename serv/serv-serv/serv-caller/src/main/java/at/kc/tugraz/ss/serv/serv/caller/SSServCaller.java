@@ -854,6 +854,18 @@ public class SSServCaller {
   
   /* disc */
 
+  public static List<SSUri> discEntryURIsGet(
+    final SSUri user, 
+    final SSUri disc) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.disc,             disc);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discEntryURIsGet, opPars)); 
+  }
+  
   public static SSUri discUserShareWithUser(
     final SSUri    user, 
     final SSUri    forUser, 

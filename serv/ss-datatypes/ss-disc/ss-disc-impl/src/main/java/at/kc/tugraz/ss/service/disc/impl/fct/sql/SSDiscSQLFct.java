@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -352,7 +353,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
         null,
         SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
-        bindingStrToLong(resultSet, SSSQLVarU.creationTime));
+        bindingStrToLong(resultSet, SSSQLVarU.creationTime),
+        null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -392,13 +394,36 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
+  public List<SSUri> getDiscEntryURIs(final SSUri disc) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns       = new ArrayList<>();
+      final Map<String, String> wheres        = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discEntryId);
+      
+      where(wheres, SSSQLVarU.discId, disc);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.discEntryId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public SSDisc getDiscWithEntries(
     final SSUri   discUri) throws Exception {
     
     ResultSet resultSet = null;
     
     try{
-      final List<SSDiscEntry>   discEntries   = new ArrayList<>();
+      final List<SSEntityA>     discEntries   = new ArrayList<>();
       final List<String>        tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();

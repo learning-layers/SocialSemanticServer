@@ -62,7 +62,7 @@ public class SSAdapterRest{
   public SSAdapterRest() throws Exception{
     
 //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf-bptest.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf.yaml");
     
     /* util */
     SSMimeTypeU.init();
@@ -158,6 +158,14 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "activitiesGet")
   public String activitiesGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.activitiesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "search")
+  public String search(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.search);
   }
   
   @POST

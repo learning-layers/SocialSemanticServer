@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserDiscURIsForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
@@ -162,6 +163,21 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     }
     
     return entityDesc;
+  }
+  
+  @Override 
+  public List<SSUri> discEntryURIsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSDiscEntryURIsGetPar par = new SSDiscEntryURIsGetPar(parA);
+      
+      return sqlFct.getDiscEntryURIs(par.disc);
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override

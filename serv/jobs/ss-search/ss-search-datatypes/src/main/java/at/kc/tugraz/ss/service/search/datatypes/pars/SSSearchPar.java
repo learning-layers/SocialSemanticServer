@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSSearchNewPar extends SSServPar{
+public class SSSearchPar extends SSServPar{
   
   public List<String>        keywordsToSearchFor        = new ArrayList<>();
   public Boolean             includeTextualContent      = null;
@@ -48,8 +48,9 @@ public class SSSearchNewPar extends SSServPar{
   public Boolean             includeOnlySubEntities     = null;
   public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
   public Boolean             includeRecommendedResults  = null;
+  public Boolean             provideEntries             = null;
   
-  public SSSearchNewPar(SSServPar par) throws Exception{
+  public SSSearchPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -71,6 +72,7 @@ public class SSSearchNewPar extends SSServPar{
         includeOnlySubEntities     = (Boolean)                pars.get(SSVarU.includeOnlySubEntities);
         entitiesToSearchWithin     = (List<SSUri>)            pars.get(SSVarU.entitiesToSearchWithin);
         includeRecommendedResults  = (Boolean)                pars.get(SSVarU.includeRecommendedResults);
+        provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
       }
       
       if(clientPars != null){
@@ -135,6 +137,9 @@ public class SSSearchNewPar extends SSServPar{
           includeRecommendedResults    = Boolean.valueOf(clientPars.get(SSVarU.includeRecommendedResults));
         }catch(Exception error){}
         
+        try{
+          provideEntries               = Boolean.valueOf(clientPars.get(SSVarU.provideEntries));
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

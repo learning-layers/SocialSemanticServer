@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.search.impl;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -35,11 +36,12 @@ import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCombinedPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchNewPar;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchCombinedRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchMIsRet;
+import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchSolrRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsWithinEntityRet;
@@ -55,6 +57,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   /* SSSearchClientI */
   
+  @Deprecated
   @Override
   public void searchCombined(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
@@ -63,6 +66,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     sSCon.writeRetFullToClient(SSSearchCombinedRet.get(searchCombined(parA), parA.op));
   }
   
+  @Deprecated
   @Override
   public void searchTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
@@ -71,59 +75,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     sSCon.writeRetFullToClient(SSSearchTagsRet.get(searchTags(parA), parA.op));
   }
   
-  @Override
-  public void searchMIs(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchMIsRet.get(searchMIs(parA), parA.op));
-  }
-  
-  @Override
-  public void searchSolr(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchSolrRet.get(searchSolr(parA), parA.op));
-  }
-  
-  @Override
-  public void searchTagsWithinEntity(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchTagsWithinEntityRet.get(searchTagsWithinEntity(parA), parA.op));
-  }
-  
-  /* SSSearchServerI */
-  
+  @Deprecated
   @Override
   public List<SSSearchResult> searchTags(final SSServPar parA) throws Exception {
     return searchTags(new SSSearchTagsPar(parA));
   }
   
-  @Override
-  public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
-    return searchSolr(new SSSearchSolrPar(parA));
-  }
-  
-  @Override
-  public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
-    return searchMIs(new SSSearchMIsPar(parA));
-  }
-  
-  @Override
-  public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
-    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
-  }
-  
-  @Override
-  public List<SSSearchResult> searchCombined(final SSServPar parA) throws Exception {
-    return searchCombined(new SSSearchCombinedPar(parA));
-  }
-  
-  /* protected */
-
+  @Deprecated
   protected List<SSSearchResult> searchTags(final SSSearchTagsPar par) throws Exception {
     
     try{
@@ -177,6 +135,67 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
+  @Deprecated
+  @Override
+  public void searchMIs(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSSearchMIsRet.get(searchMIs(parA), parA.op));
+  }
+  
+  @Deprecated
+  @Override
+  public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
+    return searchMIs(new SSSearchMIsPar(parA));
+  }
+  
+  @Deprecated
+  protected List<SSSearchResult> searchMIs(final SSSearchMIsPar par) throws Exception{
+    
+    try{
+      
+      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
+     
+      for(String mi : par.mIs){
+        
+        searchResultsForOneKeyword.clear();
+        
+        for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
+          
+          SSSearchMiscFct.getPublicAndPrivateResults(
+            par.user,
+            entityUri,
+            searchResultsForOneKeyword);
+        }
+        
+        searchResultsPerKeyword.put(mi, new ArrayList<>(searchResultsForOneKeyword));
+      }
+      
+      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Deprecated
+  @Override
+  public void searchSolr(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSSearchSolrRet.get(searchSolr(parA), parA.op));
+  }
+  
+  @Deprecated
+  @Override
+  public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
+    return searchSolr(new SSSearchSolrPar(parA));
+  }
+  
+  @Deprecated
   protected List<SSSearchResult> searchSolr(final SSSearchSolrPar par) throws Exception{
 
     try{
@@ -206,35 +225,22 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
-  protected List<SSSearchResult> searchMIs(final SSSearchMIsPar par) throws Exception{
+  @Deprecated
+  @Override
+  public void searchTagsWithinEntity(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    try{
-      
-      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
-     
-      for(String mi : par.mIs){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
-          
-          SSSearchMiscFct.getPublicAndPrivateResults(
-            par.user,
-            entityUri,
-            searchResultsForOneKeyword);
-        }
-        
-        searchResultsPerKeyword.put(mi, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSSearchTagsWithinEntityRet.get(searchTagsWithinEntity(parA), parA.op));
   }
   
+  @Deprecated
+  @Override
+  public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
+    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
+  }
+  
+  @Deprecated
   protected List<SSSearchResult> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
     
     try{
@@ -268,6 +274,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
+  @Deprecated
+  @Override
+  public List<SSSearchResult> searchCombined(final SSServPar parA) throws Exception {
+    return searchCombined(new SSSearchCombinedPar(parA));
+  }
+  
+  @Deprecated
   protected List<SSSearchResult> searchCombined(final SSSearchCombinedPar par) throws Exception{
     
     try{
@@ -370,12 +383,86 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       return null;
     }
   }
+    
+  @Override
+  public void search(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSSearchRet.get(search(parA), parA.op));
+  }
   
-  private List<SSUri> getMIResults(final SSSearchNewPar par) throws Exception{
+  @Override
+  public List<SSEntity> search(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSSearchPar             par           = new SSSearchPar(parA);
+      final List<SSEntity>          results       = new ArrayList<>();
+      final List<SSUri>             uris          = new ArrayList<>();
+      SSEntity                      entity;
+      
+      uris.addAll (getTagResults(par));
+      uris.addAll (getMIResults(par));
+      uris.addAll (getTextualContentResults(par));
+      uris.addAll (getLabelAndDescriptionResults(par));
+      
+      SSStrU.distinctWithoutNull2(uris);
+      
+      for(SSUri result : filterSearchResultsBySubEntities(par, uris)){
+        
+        entity = SSServCaller.entityGet(result);
+        
+        if(
+          !par.typesToSearchOnlyFor.isEmpty() &&
+          !SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
+          continue;
+        }
+        
+        if(!SSServCaller.entityUserCanRead(par.user, result)){
+          continue;
+        }
+        
+        results.add(entity);
+        
+        entity.circleTypes = SSServCaller.entityUserEntityCircleTypesGet(par.user, result);
+        entity.entries     = getEntries(par, entity);
+      }
+      
+//      par.includeRecommendedResults;
+      
+      return results;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSEntityA> getEntries(
+    final SSSearchPar par, 
+    final SSEntity    entity) throws Exception{
+    
+    final List<SSEntityA> entries = new ArrayList<>();
+    
+    if(!par.provideEntries){
+      return entries;
+    }
+          
+    switch(entity.type){
+      case chat:
+      case disc:
+      case qa:
+        entries.addAll(SSServCaller.discEntryURIsGet(par.user, entity.id));
+        break;
+    }
+    
+    return entries;
+  }
+  
+  private List<SSUri> getMIResults(final SSSearchPar par) throws Exception{
     return new ArrayList<>();
   }
   
-  private List<SSUri> getTagResults(final SSSearchNewPar par) throws Exception{
+  private List<SSUri> getTagResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri> tagResults = new ArrayList<>();
     SSSearchTagsPar   searchTagsPar;
@@ -411,13 +498,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         tagResults.add(result.entity);
       }
     }
-    
-    SSStrU.distinctWithoutNull2(tagResults);
-    
+
     return tagResults;
   }
   
-  private List<SSUri> getTextualContentResults(final SSSearchNewPar par) throws Exception{
+  private List<SSUri> getTextualContentResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri> textualContentResults = new ArrayList<>();
     SSSearchSolrPar   searchSolrPar;
@@ -452,12 +537,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       }    
     }
     
-    SSStrU.distinctWithoutNull2(textualContentResults);
-    
     return textualContentResults;
   }
   
-  private List<SSUri> getLabelAndDescriptionResults(final SSSearchNewPar par) throws Exception{
+  private List<SSUri> getLabelAndDescriptionResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri> results = new ArrayList<>();
     
@@ -519,14 +602,12 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       }
     }
     
-    SSStrU.distinctWithoutNull2(results);
-    
     return results;
   }
     
   private List<SSUri> filterSearchResultsBySubEntities(
-    final SSSearchNewPar    par,
-    final List<SSUri>       results) throws Exception{
+    final SSSearchPar    par,
+    final List<SSUri>    results) throws Exception{
     
     if(
       !par.includeOnlySubEntities ||
@@ -542,36 +623,5 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           SSSearchMiscFct.getSubEntities(
             par.user, 
             par.entitiesToSearchWithin))));
-  }
-  
-  public List<SSEntity> searchNew(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSSearchNewPar          par           = new SSSearchNewPar(parA);
-      final List<SSEntity>          results       = new ArrayList<>();
-      final List<SSUri>             uris          = new ArrayList<>();
-      SSEntity                      entity;
-
-      uris.addAll (getTagResults(par));
-      uris.addAll (getMIResults(par));
-      uris.addAll (getTextualContentResults(par));
-      uris.addAll (getLabelAndDescriptionResults(par));
-      
-      for(SSUri result : filterSearchResultsBySubEntities(par, uris)){
-        
-        entity = SSServCaller.entityGet(result);
-        
-        if(SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
-          results.add(entity);
-        } 
-      }
-      
-//      par.includeRecommendedResults;
-      
-      return results;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

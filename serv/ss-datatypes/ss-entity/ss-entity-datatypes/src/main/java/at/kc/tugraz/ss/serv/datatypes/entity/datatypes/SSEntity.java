@@ -27,25 +27,32 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSEntity extends SSEntityA{
 
-  public SSUri         id           = null;
-  public SSLabel       label        = null;
-  public Long          creationTime = null;
-  public SSEntityE     type         = null;
-  public SSUri         author       = null;
-  public SSTextComment description  = null;
+  public SSUri            id           = null;
+  public SSLabel          label        = null;
+  public Long             creationTime = null;
+  public SSEntityE        type         = null;
+  public SSUri            author       = null;
+  public SSTextComment    description  = null;
+  public List<SSCircleE>  circleTypes  = new ArrayList<>();
+  public List<SSEntityA>  entries      = new ArrayList<>();
   
   protected SSEntity(
-    final SSUri          uri,
-    final SSLabel        label, 
-    final Long           creationTime,
-    final SSEntityE      type,
-    final SSUri          author,
-    final SSTextComment  description) throws Exception{
+    final SSUri            uri,
+    final SSLabel          label, 
+    final Long             creationTime,
+    final SSEntityE        type,
+    final SSUri            author,
+    final SSTextComment    description,
+    final List<SSCircleE>  circleTypes,
+    final List<SSEntityA>  entries) throws Exception{
     
     super(uri);
     
@@ -55,23 +62,35 @@ public class SSEntity extends SSEntityA{
     this.type         = type;
     this.author       = author;
     this.description  = description;
+    
+    if(circleTypes != null){
+      this.circleTypes.addAll(circleTypes);
+    }
+    
+    if(entries != null){
+      this.entries.addAll(entries);
+    }
   }
   
   public static SSEntity get(
-    final SSUri          uri,
-    final SSLabel        label, 
-    final Long           creationTime,
-    final SSEntityE      type,
-    final SSUri          author,
-    final SSTextComment  description) throws Exception{
+    final SSUri            uri,
+    final SSLabel          label, 
+    final Long             creationTime,
+    final SSEntityE        type,
+    final SSUri            author,
+    final SSTextComment    description,
+    final List<SSCircleE>  circleTypes,
+    final List<SSEntityA>  entries) throws Exception{
     
-    return new SSEntity(uri, label, creationTime, type, author, description);
+    return new SSEntity(uri, label, creationTime, type, author, description, circleTypes, entries);
   }
 
   @Override
   public Object jsonLDDesc() {
    
-    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld             = new HashMap<>();
+    final Map<String, Object> circleTypesObj = new HashMap<>();
+    final Map<String, Object> entriesObj     = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
@@ -79,6 +98,16 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarU.type,           SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.description,    SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circleTypes, circleTypesObj);
+    
+    entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.entries, entriesObj);
     
     return ld;
   }
@@ -100,12 +129,20 @@ public class SSEntity extends SSEntityA{
   public SSEntityE getType(){
     return type;
   }
-
+  
   public String getAuthor() throws Exception{
     return SSStrU.removeTrailingSlash(author);
   }
   
-   public String getDescription() throws Exception{
+  public String getDescription() throws Exception{
     return SSStrU.toStr(description);
+  }
+  
+  public List<SSCircleE> getCircleTypes(){
+    return circleTypes;
+  }
+  
+  public List<SSEntityA> getEntries(){
+    return entries;
   }
 }

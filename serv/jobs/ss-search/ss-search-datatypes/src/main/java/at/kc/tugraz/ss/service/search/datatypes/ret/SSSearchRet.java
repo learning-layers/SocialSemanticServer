@@ -25,50 +25,51 @@ import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSSearchTagsWithinEntityRet extends SSServRetI{
+public class SSSearchRet extends SSServRetI{
   
-  public List<SSSearchResult> searchResults = new ArrayList<>();
+  public List<SSEntity> entities = new ArrayList<>();
   
-  public static SSSearchTagsWithinEntityRet get(
-    final List<SSSearchResult> searchResults, 
-    final SSMethU              op){
+  public static SSSearchRet get(
+    final List<SSEntity> entities,
+    final SSMethU        op){
     
-    return new SSSearchTagsWithinEntityRet(searchResults, op);
+    return new SSSearchRet(entities, op);
   }
   
-  private SSSearchTagsWithinEntityRet(
-    final List<SSSearchResult> searchResults, 
-    final SSMethU              op){
+  private SSSearchRet(
+    final List<SSEntity> entities,
+    final SSMethU        op){
     
     super(op);
     
-    if(searchResults != null){
-      this.searchResults.addAll(searchResults);
+    if(entities != null){
+      this.entities.addAll(entities);
     }
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld               = new HashMap<>();
-    final Map<String, Object> searchResultsObj = new HashMap<>();
+    final Map<String, Object> ld          = new HashMap<>();
+    final Map<String, Object> entitiesObj = new HashMap<>();
     
-    searchResultsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSSearchResult.class.getName());
-    searchResultsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.searchResults, searchResultsObj);
+    ld.put(SSVarU.entities, entitiesObj);
     
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public List<SSSearchResult> getSearchResults() {
-    return searchResults;
+  /* getters for json enconding */
+  
+  public List<SSEntity> getEntities() {
+    return entities;
   }
 }

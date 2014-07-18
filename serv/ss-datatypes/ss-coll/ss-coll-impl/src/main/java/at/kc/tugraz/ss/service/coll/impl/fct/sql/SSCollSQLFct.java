@@ -281,10 +281,10 @@ public class SSCollSQLFct extends SSDBSQLFct{
         
         publicColls.add(
           SSColl.get(
-            bindingStrToUri(resultSet, SSSQLVarU.id),
+            bindingStrToUri   (resultSet, SSSQLVarU.id),
             null,
-            bindingStrToUri(resultSet, SSSQLVarU.author),
-            bindingStr     (resultSet, SSSQLVarU.label),
+            bindingStrToUri   (resultSet, SSSQLVarU.author),
+            bindingStrToLabel (resultSet, SSSQLVarU.label),
             null));
       }
       
@@ -608,8 +608,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
       return SSColl.get(
         collUri,
         null,
-        bindingStrToUri  (resultSet, SSSQLVarU.author),
-        bindingStr       (resultSet, SSSQLVarU.label),
+        bindingStrToUri   (resultSet, SSSQLVarU.author),
+        bindingStrToLabel (resultSet, SSSQLVarU.label),
         circleTypes);
       
     }catch(Exception error){
