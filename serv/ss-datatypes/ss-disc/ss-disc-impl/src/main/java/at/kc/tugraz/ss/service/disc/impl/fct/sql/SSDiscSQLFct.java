@@ -407,6 +407,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, disc);
       
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres);
+      
       return getURIsFromResult(resultSet, SSSQLVarU.discEntryId);
       
     }catch(Exception error){

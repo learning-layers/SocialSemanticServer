@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -60,8 +61,10 @@ public class SSDataImportEvernoteHelper {
   private        List<SharedNotebook>    sharedNotebooks          = null;
   private        List<String>            sharedNotebookGuids      = null;
   private        SSUri                   userCircle               = null;
+  private        long                    april01                  = new Date().getTime() - SSDateU.dayInMilliSeconds * 109;
   
   public SSDataImportEvernoteHelper(final SSDBSQLI dbSQL) throws Exception{
+    
     this.localWorkPath   = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
     this.evernoteHelper  = new SSEvernoteHelper(dbSQL);
   }
@@ -266,6 +269,10 @@ public class SSDataImportEvernoteHelper {
     
     for(Note note : getNotes(notebook)){
       
+//      if(note.getUpdated() < april01){
+//        continue;
+//      }
+      
       noteUri =
         evernoteHelper.uriHelper.getNormalOrSharedNoteUri(
           evernoteInfo,
@@ -318,6 +325,8 @@ public class SSDataImportEvernoteHelper {
       userUri,
       noteUri,
       false);
+    
+//    SSLogU.debug("note upateTime: " + note.getUpdated() + " date: " + new Date(note.getUpdated()));
     
     SSServCaller.uEAddAtCreationTime(
       userUri,
@@ -420,6 +429,8 @@ public class SSDataImportEvernoteHelper {
     final Note    note,
     final SSUri   notebookUri) throws Exception{
     
+//    SSLogU.debug("note creationTime: " + note.getCreated() + " date: " + new Date(note.getCreated()));
+    
     SSServCaller.entityAddAtCreationTime(
       userUri,
       noteUri,
@@ -510,6 +521,8 @@ public class SSDataImportEvernoteHelper {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
+//    SSLogU.debug("resource added Time: " + resourceAddTime + " date: " + new Date(resourceAddTime));
+    
     SSServCaller.entityAddAtCreationTime(
       userUri,
       resourceUri,
@@ -569,6 +582,8 @@ public class SSDataImportEvernoteHelper {
             
             SSServErrReg.reset();
             
+            SSLogU.info("import goes to sleep for " + ((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+            
             Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
             
             return SSServCaller.evernoteNotebooksGet(evernoteInfo.noteStore);
@@ -603,6 +618,8 @@ public class SSDataImportEvernoteHelper {
             
             SSServErrReg.reset();
             
+            SSLogU.info("import goes to sleep for " + ((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+            
             Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
             
             return SSServCaller.evernoteNotesGet(evernoteInfo.noteStore, notebook.getGuid());
@@ -635,6 +652,8 @@ public class SSDataImportEvernoteHelper {
             ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
             
             SSServErrReg.reset();
+            
+            SSLogU.info("import goes to sleep for " + ((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() + " seconds for RATE EXCEPTION");
             
             Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
             
@@ -670,6 +689,8 @@ public class SSDataImportEvernoteHelper {
           
           Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
           
+          SSLogU.info("import goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+          
           return evernoteInfo.noteStore.getNoteTagNames(note.getGuid());
         }else{
           SSServErrReg.regErrThrow(error);
@@ -699,6 +720,8 @@ public class SSDataImportEvernoteHelper {
             ((EDAMSystemException)serviceImplError.exception).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
             
             SSServErrReg.reset();
+            
+            SSLogU.info("import goes to sleep for " + ((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() + " seconds for RATE EXCEPTION");
             
             Thread.sleep(((EDAMSystemException)serviceImplError.exception).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
             
