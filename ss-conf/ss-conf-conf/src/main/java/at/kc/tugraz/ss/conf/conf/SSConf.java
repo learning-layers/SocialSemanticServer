@@ -29,6 +29,7 @@ public class SSConf extends SSCoreServConfA{
   public  String    host           = null;
   public  Integer   port           = null;
   private String    localWorkPath  = null;
+  public  String    version        = null;
   
   public static SSConf copy(final SSConf orig){
     
@@ -37,6 +38,7 @@ public class SSConf extends SSCoreServConfA{
     copy.host          = orig.host;
     copy.port          = orig.port;
     copy.localWorkPath = orig.localWorkPath;
+    copy.version       = orig.version;
     
     return copy;
   }

@@ -22,6 +22,9 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //system
+  systemVersionGet,
+  
   //flag
   flagsGet,
   flagsUserGet,

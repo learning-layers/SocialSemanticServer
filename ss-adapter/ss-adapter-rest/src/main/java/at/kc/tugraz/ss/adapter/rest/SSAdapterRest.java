@@ -171,6 +171,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "systemVersionGet")
+  public String systemVersionGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.systemVersionGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityPublicSet")
   public String entityPublicSet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityPublicSet);
