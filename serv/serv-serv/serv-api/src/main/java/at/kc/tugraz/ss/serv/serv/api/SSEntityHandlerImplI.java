@@ -65,4 +65,9 @@ public interface SSEntityHandlerImplI{
     final SSUri         user, 
     final SSUri         entity, 
     final SSEntityE     type) throws Exception;
+  
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception;
 }

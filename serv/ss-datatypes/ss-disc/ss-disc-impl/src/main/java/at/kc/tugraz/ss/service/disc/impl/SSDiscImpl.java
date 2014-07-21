@@ -87,7 +87,43 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
 
-    return null;
+    if(
+      !SSStrU.equals(type, SSEntityE.disc) &&
+      !SSStrU.equals(type, SSEntityE.qa)   &&
+      !SSStrU.equals(type, SSEntityE.chat)){
+      return null;
+    }
+    
+    try{
+      return sqlFct.getDiscEntryURIs(entity);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    if(
+      !SSStrU.equals(type, SSEntityE.discEntry) &&
+      !SSStrU.equals(type, SSEntityE.qaEntry)   &&
+      !SSStrU.equals(type, SSEntityE.chatEntry)){
+      return new ArrayList<>();
+    }
+      
+    try{
+      final List<String> userDiscUris = sqlFct.getDiscURIsForUser          (user);
+      final List<String> discUris     = sqlFct.getDiscURIsContainingEntry  (entity);
+      
+      return SSUri.get(SSStrU.retainAll(discUris, userDiscUris));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override

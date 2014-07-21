@@ -104,6 +104,23 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    try{
+      final List<String> userCollUris = sqlFct.getCollURIsForUser          (user);
+      final List<String> collUris     = sqlFct.getCollURIsContainingEntity (entity);
+      
+      return SSUri.get(SSStrU.retainAll(collUris, userCollUris));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,

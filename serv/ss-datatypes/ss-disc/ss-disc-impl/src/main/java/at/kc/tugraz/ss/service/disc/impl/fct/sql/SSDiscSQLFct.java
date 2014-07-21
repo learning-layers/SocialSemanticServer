@@ -496,4 +496,49 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       dbSQL.closeStmt(resultSet);
     }
   } 
+
+  public List<String> getDiscURIsForUser(
+    final SSUri user) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId, user);
+    
+      resultSet = dbSQL.select(discUserTable, wheres);
+
+      return getStringsFromResult(resultSet, SSSQLVarU.discId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public List<String> getDiscURIsContainingEntry(
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.discEntryId, entityUri);
+      
+      resultSet = dbSQL.select(discEntriesTable, wheres);
+      
+      return getStringsFromResult(resultSet, SSSQLVarU.discId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 }

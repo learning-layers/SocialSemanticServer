@@ -154,6 +154,15 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
 
     return null;
   }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
     
   @Override
   public Boolean setUserEntityPublic(

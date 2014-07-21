@@ -56,8 +56,6 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     sqlFct = new SSCategorySQLFct   (this);
   }
   
-  /* SSEntityHandlerImplI */
-
   @Override
   public Boolean copyUserEntity(
     final SSUri        user,
@@ -70,11 +68,20 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
-
+    
     return null;
   }
   

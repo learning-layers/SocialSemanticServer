@@ -59,6 +59,7 @@ public enum SSMethU{
   entityGet                                           ,
   entityExists,
   entityUserSubEntitiesGet                            ,                         
+  entityUserParentEntitiesGet,
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityLabelSet                                      ,

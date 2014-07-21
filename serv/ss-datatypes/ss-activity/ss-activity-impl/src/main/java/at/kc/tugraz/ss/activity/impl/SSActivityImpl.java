@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClientI, SSActivityServerI, SSEntityHandlerImplI{
@@ -54,8 +55,6 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     this.sqlFct = new SSActivitySQLFct(dbSQL);
   }
   
-  /* SSEntityHandlerImplI */
-  
   @Override
   public Boolean copyUserEntity(
     final SSUri        user,
@@ -68,11 +67,20 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
-
+    
     return null;
   }
       

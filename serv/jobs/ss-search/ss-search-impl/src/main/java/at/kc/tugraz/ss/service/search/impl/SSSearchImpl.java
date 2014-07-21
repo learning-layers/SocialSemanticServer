@@ -408,7 +408,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       SSStrU.distinctWithoutNull2(uris);
       
-      for(SSUri result : filterSearchResultsBySubEntities(par, uris)){
+      for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
         
         entity = SSServCaller.entityGet(result);
         
@@ -605,23 +605,38 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     return results;
   }
     
-  private List<SSUri> filterSearchResultsBySubEntities(
+  private List<SSUri> filterForSubEntities(
     final SSSearchPar    par,
     final List<SSUri>    results) throws Exception{
     
     if(
       !par.includeOnlySubEntities ||
       par.entitiesToSearchWithin.isEmpty()){
+
       return results;
     }
     
-    return SSUri.get(
-      SSStrU.retainAll(
-        SSStrU.toStrWithoutEmptyAndNull(
-          results), 
-        SSStrU.toStrWithoutEmptyAndNull(
-          SSSearchMiscFct.getSubEntities(
-            par.user, 
-            par.entitiesToSearchWithin))));
+    return
+      SSUri.get(
+        SSStrU.retainAll(
+          SSStrU.toStrWithoutEmptyAndNull(
+            results),
+          SSStrU.toStrWithoutEmptyAndNull(
+            SSSearchMiscFct.getSubEntities(
+              par.user,
+              par.entitiesToSearchWithin))));
+  }
+  
+  private List<SSUri> extendToParentEntities(
+    final SSSearchPar par,
+    final List<SSUri> results) throws Exception{
+    
+    if(!par.extendToParents){
+      return results;
+    }
+    
+    return SSSearchMiscFct.getParentEntities(
+      par.user,
+      results);
   }
 }

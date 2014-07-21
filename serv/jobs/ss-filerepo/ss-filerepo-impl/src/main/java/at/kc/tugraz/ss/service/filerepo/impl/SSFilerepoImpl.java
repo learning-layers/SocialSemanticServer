@@ -94,6 +94,15 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
   
   @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 

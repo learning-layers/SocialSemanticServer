@@ -1190,6 +1190,18 @@ public class SSServCaller {
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityGet, opPars));
   }
+    
+  public static List<SSUri> entityUserParentEntitiesGet(
+    final SSUri      user, 
+    final SSUri      entity) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.entity,    entity);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserParentEntitiesGet, opPars));
+  }
   
   public static List<SSUri> entityUserSubEntitiesGet(
     final SSUri      user, 

@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI{
@@ -73,6 +74,15 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     final SSEntityE    entityType) throws Exception{
     
     return false;
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
   }
   
   @Override

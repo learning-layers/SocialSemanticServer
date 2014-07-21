@@ -32,6 +32,7 @@ public class SSVarU{
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
   public static final String entitiesToSearchWithin                         = "entitiesToSearchWithin";
+  public static final String extendToParents                                = "extendToParents";
   public static final String includeRecommendedResults                      = "includeRecommendedResults";
   public static final String provideEntries                                 = "provideEntries";
   public static final String keywordsToSearchFor                            = "keywordsToSearchFor";

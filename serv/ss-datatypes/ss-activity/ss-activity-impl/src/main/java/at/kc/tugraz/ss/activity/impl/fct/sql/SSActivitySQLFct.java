@@ -206,11 +206,11 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         activities.add(
           SSActivity.get(
             activityUri, 
-            SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType)), 
+            SSActivityE.get        (bindingStr(resultSet, SSSQLVarU.activityType)), 
             timestamp, 
-            bindingStrToUri  (resultSet, SSSQLVarU.author), 
-            getActivityUsers(activityUri), 
-            getActivityEntities(activityUri),
+            bindingStrToUri        (resultSet, SSSQLVarU.author), 
+            getActivityUsers       (activityUri), 
+            getActivityEntities    (activityUri),
             SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment)))));
       }
       

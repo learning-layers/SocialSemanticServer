@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.search.datatypes.pars;
+package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
@@ -47,6 +47,7 @@ public class SSSearchPar extends SSServPar{
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
   public Boolean             includeOnlySubEntities     = null;
   public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
+  public Boolean             extendToParents            = null;
   public Boolean             includeRecommendedResults  = null;
   public Boolean             provideEntries             = null;
   
@@ -71,6 +72,7 @@ public class SSSearchPar extends SSServPar{
         typesToSearchOnlyFor       = (List<SSEntityE>)        pars.get(SSVarU.typesToSearchOnlyFor);
         includeOnlySubEntities     = (Boolean)                pars.get(SSVarU.includeOnlySubEntities);
         entitiesToSearchWithin     = (List<SSUri>)            pars.get(SSVarU.entitiesToSearchWithin);
+        extendToParents            = (Boolean)                pars.get(SSVarU.extendToParents);
         includeRecommendedResults  = (Boolean)                pars.get(SSVarU.includeRecommendedResults);
         provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
       }
@@ -131,6 +133,10 @@ public class SSSearchPar extends SSServPar{
         
         try{
           entitiesToSearchWithin       = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entitiesToSearchWithin), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          extendToParents              = Boolean.valueOf(clientPars.get(SSVarU.extendToParents));
         }catch(Exception error){}
         
         try{

@@ -53,8 +53,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     sqlFct   = new SSUserSQLFct   (this);
   }
   
-  /* SSEntityHandlerImplI */
-  
   @Override
   public Boolean copyUserEntity(
     final SSUri        user,
@@ -64,6 +62,15 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     final SSEntityE    entityType) throws Exception{
     
     return false;
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
   }
   
   @Override

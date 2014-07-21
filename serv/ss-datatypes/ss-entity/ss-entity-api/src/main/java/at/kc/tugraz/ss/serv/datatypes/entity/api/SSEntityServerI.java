@@ -44,6 +44,7 @@ public interface SSEntityServerI {
   public List<SSEntityCircle>            entityUserEntityCirclesGet               (final SSServPar parA) throws Exception; 
   public List<SSEntity>                  entityUserEntityUsersGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
+  public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
   public Boolean                         entityUserCopy                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUpdate                         (final SSServPar parA) throws Exception;
   

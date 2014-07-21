@@ -93,16 +93,24 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     sqlFct = new SSLearnEpSQLFct(this);
   }
 
-  /* SSEntityHandlerImplI */
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+    
   @Override
   public List<SSUri> getSubEntities(
-    final SSUri user,
-    final SSUri entity,
+    final SSUri     user,
+    final SSUri     entity,
     final SSEntityE type) throws Exception{
 
     return null;
   }
-
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri userUri,

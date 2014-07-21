@@ -307,6 +307,27 @@ public class SSEntityMiscFct{
     }
   }
 
+  public static List<SSUri> getParentEntitiesByEntityHandlers(
+    final SSUri      user, 
+    final SSUri      entity) throws Exception{
+    
+    try{
+      
+      final SSEntityE    type        = SSServCaller.entityGet(entity).type;
+      final List<SSUri>  entities    = new ArrayList<>();
+      
+      for(SSServA serv : SSServA.getServsManagingEntities()){
+        entities.addAll(((SSEntityHandlerImplI) serv.serv()).getParentEntities(user, entity, type));
+      }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public static List<SSUri> getSubEntitiesByEntityHandlers(
     final SSUri      user, 
     final SSUri      entity) throws Exception{
