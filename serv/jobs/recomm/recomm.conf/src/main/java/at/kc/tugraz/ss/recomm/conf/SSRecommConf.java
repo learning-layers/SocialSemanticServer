@@ -25,33 +25,17 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSRecommConf extends SSServConfA{
 
-  public    Boolean         initAtStartUp                                                                                 = null;
-  public    String          fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp              = null;
-  public    String          fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag                                      = null;
-  public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory                                = null;
-  public    String          fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                       = null;
-  protected Integer         updateInterval                                                                                = SSDateU.dayInMinutes;
-  public    Boolean         usePrivateTagsToo                                                                             = null;
+  public    Boolean         initAtStartUp                  = null;
+  public    String          fileNameForTagRec              = null;
+  protected Integer         updateInterval                 = SSDateU.dayInMinutes;
+  public    Boolean         usePrivateTagsToo              = null;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
-    copy.initAtStartUp = 
-      orig.initAtStartUp;
-    
-    copy.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp = 
-      orig.fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp;
-    
-    copy.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag = 
-      orig.fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag;
-    
-    copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory = 
-      orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory;
-    
-    copy.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp = 
-      orig.fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp;
-    
+    copy.initAtStartUp     = orig.initAtStartUp;
+    copy.fileNameForTagRec = orig.fileNameForTagRec;
     copy.updateInterval    = orig.getUpdateInterval();
     copy.usePrivateTagsToo = orig.usePrivateTagsToo;
     

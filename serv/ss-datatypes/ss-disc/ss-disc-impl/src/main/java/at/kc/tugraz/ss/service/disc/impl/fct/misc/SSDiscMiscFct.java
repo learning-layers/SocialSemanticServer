@@ -95,7 +95,7 @@ public class SSDiscMiscFct{
       discContentUris.add(discUri);
       discContentUris.add(disc.entity);
       
-      for(SSEntityA entry : disc.entries){
+      for(Object entry : disc.entries){
         discContentUris.add(((SSDiscEntry)entry).id);
       }
       

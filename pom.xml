@@ -66,6 +66,22 @@
             </configuration>
           </execution>
           
+          <!-- GNU AFFERO GENERAL PUBLIC LICENSE -->
+          <execution>
+            <id>install_tagrec</id>
+            <inherited>false</inherited>
+            <phase>clean</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>./ss-3rdpartylibs/libs/tagrec_v1.0.jar</file>
+              <groupId>tagrec</groupId>
+              <artifactId>tagrec</artifactId>
+              <version>1.0</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </execution>
           
           <!-- LGPL licensed -->
            <execution>

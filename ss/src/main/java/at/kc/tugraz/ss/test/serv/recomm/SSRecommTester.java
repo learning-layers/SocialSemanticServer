@@ -35,8 +35,8 @@ public class SSRecommTester extends Thread{
     }
     
     switch(recommConf.op){
-      case recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp:         
-        new Thread(new SSRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampTest        (recommConf)).start(); break;
+      case recommTags:         
+        new Thread(new SSRecommTagsTest        (recommConf)).start(); break;
     }
   }
 }

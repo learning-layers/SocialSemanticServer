@@ -628,11 +628,21 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "recommTags")
+  public String recommTags(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.recommTags);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTag")
   public String scaffRecommTagsBasedOnUserEntityTag(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTag);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -641,6 +651,7 @@ public class SSAdapterRest{
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagTime);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -649,6 +660,7 @@ public class SSAdapterRest{
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

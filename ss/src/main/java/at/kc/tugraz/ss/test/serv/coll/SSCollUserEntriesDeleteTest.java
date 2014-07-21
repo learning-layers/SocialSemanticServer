@@ -47,7 +47,7 @@ public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
     final List<SSUri>      collEntryUris = new ArrayList<>();
     final SSColl           rootCollAfterEntriesDelete;
     
-    for(SSEntityA collEntry : rootColl.entries){
+    for(Object collEntry : rootColl.entries){
       collEntryUris.add(((SSCollEntry)collEntry).id);
     }
     

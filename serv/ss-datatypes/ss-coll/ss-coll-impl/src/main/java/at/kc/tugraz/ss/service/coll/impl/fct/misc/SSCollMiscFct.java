@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -86,7 +85,7 @@ public class SSCollMiscFct{
           collUri,
           SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
 
-      for(SSEntityA entry : coll.entries){
+      for(Object entry : coll.entries){
         
         collEntry = (SSCollEntry) entry;
         
@@ -134,7 +133,7 @@ public class SSCollMiscFct{
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.id);
 
-      for(SSEntityA entry : startColl.entries){
+      for(Object entry : startColl.entries){
         collAndCollEntryUris.add(((SSCollEntry)entry).id);
       }
 
@@ -147,7 +146,7 @@ public class SSCollMiscFct{
           collAndCollEntryUris.add(SSUri.get(subCollUri));
         }
 
-        for(SSEntityA entry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<>()).entries){
+        for(Object entry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<>()).entries){
 
           collEntry = (SSCollEntry) entry;
             

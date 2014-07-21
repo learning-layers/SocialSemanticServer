@@ -301,14 +301,8 @@ public enum SSMethU{
     collCumulatedTagsGet,
   
   //recomm
-  recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp,
-  recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate,
-  recommTagsLanguageModelBasedOnUserEntityTag,
-  recommTagsLanguageModelBasedOnUserEntityTagUpdate,
-  recommTagsThreeLayersBasedOnUserEntityTagCategory,
-  recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate,
-  recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp,
-  recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate,
+  recommTags,
+  recommTagsUpdate,
   
   //i5cloud
   i5CloudAuth,

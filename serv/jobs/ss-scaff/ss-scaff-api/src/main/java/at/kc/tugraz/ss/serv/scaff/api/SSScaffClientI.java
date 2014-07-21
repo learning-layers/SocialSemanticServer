@@ -23,7 +23,9 @@ package at.kc.tugraz.ss.serv.scaff.api;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
+@Deprecated
 public interface SSScaffClientI {
+
   public void scaffRecommTagsBasedOnUserEntityTag             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void scaffRecommTagsBasedOnUserEntityTagTime         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void scaffRecommTagsBasedOnUserEntityTagCategory     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

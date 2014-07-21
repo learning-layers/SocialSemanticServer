@@ -213,7 +213,7 @@ public class SSStrU{
   
   public static Boolean contains(
     final List<? extends Object>  objects,
-    final Object                  objectToContain) throws Exception{
+    final Object                  objectToContain){
     
     if(objects == null){
       return false;

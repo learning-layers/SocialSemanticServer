@@ -19,6 +19,12 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss.adapter</groupId>
+      <artifactId>ss-adapter-socket-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv-datatypes</artifactId>
       <version>${project.version}</version>

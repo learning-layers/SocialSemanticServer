@@ -42,17 +42,17 @@ public class SSEntity extends SSEntityA{
   public SSUri            author       = null;
   public SSTextComment    description  = null;
   public List<SSCircleE>  circleTypes  = new ArrayList<>();
-  public List<SSEntityA>  entries      = new ArrayList<>();
-  
+  public List<Object>     entries      = new ArrayList<>();
+
   protected SSEntity(
-    final SSUri            uri,
-    final SSLabel          label, 
-    final Long             creationTime,
-    final SSEntityE        type,
-    final SSUri            author,
-    final SSTextComment    description,
-    final List<SSCircleE>  circleTypes,
-    final List<SSEntityA>  entries) throws Exception{
+    final SSUri                  uri,
+    final SSLabel                label, 
+    final Long                   creationTime,
+    final SSEntityE              type,
+    final SSUri                  author,
+    final SSTextComment          description,
+    final List<SSCircleE>        circleTypes,
+    final List<? extends Object> entries) throws Exception{
     
     super(uri);
     
@@ -73,14 +73,14 @@ public class SSEntity extends SSEntityA{
   }
   
   public static SSEntity get(
-    final SSUri            uri,
-    final SSLabel          label, 
-    final Long             creationTime,
-    final SSEntityE        type,
-    final SSUri            author,
-    final SSTextComment    description,
-    final List<SSCircleE>  circleTypes,
-    final List<SSEntityA>  entries) throws Exception{
+    final SSUri                      uri,
+    final SSLabel                    label, 
+    final Long                       creationTime,
+    final SSEntityE                  type,
+    final SSUri                      author,
+    final SSTextComment              description,
+    final List<SSCircleE>            circleTypes,
+    final List<? extends Object>     entries) throws Exception{
     
     return new SSEntity(uri, label, creationTime, type, author, description, circleTypes, entries);
   }
@@ -104,7 +104,7 @@ public class SSEntity extends SSEntityA{
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
     
-    entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + Object.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entries, entriesObj);
@@ -142,7 +142,7 @@ public class SSEntity extends SSEntityA{
     return circleTypes;
   }
   
-  public List<SSEntityA> getEntries(){
+  public List<? extends Object> getEntries() throws Exception{
     return entries;
   }
 }

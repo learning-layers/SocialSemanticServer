@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -425,7 +426,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         results.add(entity);
         
         entity.circleTypes = SSServCaller.entityUserEntityCircleTypesGet(par.user, result);
-        entity.entries     = getEntries(par, entity);
+        entity.entries.addAll(SSStrU.toStr(getEntries(par, entity)));
       }
       
 //      par.includeRecommendedResults;
@@ -437,11 +438,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }
   }
   
-  private List<SSEntityA> getEntries(
+  private List<SSUri> getEntries(
     final SSSearchPar par, 
     final SSEntity    entity) throws Exception{
     
-    final List<SSEntityA> entries = new ArrayList<>();
+    final List<SSUri> entries = new ArrayList<>();
     
     if(!par.provideEntries){
       return entries;
@@ -635,8 +636,27 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       return results;
     }
     
-    return SSSearchMiscFct.getParentEntities(
-      par.user,
-      results);
+    try{
+    
+      final List<SSUri> parentEntities  = new ArrayList<>();
+      
+      for(SSUri entity : results){
+        
+        try{
+          parentEntities.addAll(SSServCaller.entityUserParentEntitiesGet(par.user, entity));
+        }catch(Exception error){
+          SSServErrReg.reset();
+        }
+      }
+      
+      results.addAll(parentEntities);
+      
+      SSStrU.distinctWithoutNull2(results);
+      
+      return results;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

@@ -2052,47 +2052,7 @@ public class SSServCaller {
   
   /* recommendation */
   
-   public static Map<String, Double> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
-    final SSUri         user, 
-    final SSUri         forUser, 
-    final SSUri         entity, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp, opPars));
-  }
-  
-  public static void recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate, new HashMap<>()));
-  }
-  
-  public static List<String> recommTagsLanguageModelBasedOnUserEntityTag(
-    final SSUri         user, 
-    final SSUri         forUser, 
-    final SSUri         entity, 
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTag, opPars));
-  }
-  
-  public static void recommTagsLanguageModelBasedOnUserEntityTagUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsLanguageModelBasedOnUserEntityTagUpdate, new HashMap<>()));
-  }
-  
-  public static List<String> recommTagsThreeLayersBasedOnUserEntityTagCategory(
+   public static Map<String, Double> recommTags(
     final SSUri         user, 
     final SSUri         forUser, 
     final SSUri         entity,
@@ -2103,37 +2063,15 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,           user);
     opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,      entity);
+    opPars.put(SSVarU.entity,         entity);
     opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
     
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategory, opPars));
+    return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTags, opPars));
   }
   
-  public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate, new HashMap<>()));
-  }
-  
-  public static List<String> recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
-    final SSUri         user, 
-    final SSUri         forUser, 
-    final SSUri         entity, 
-    final List<String>  categories,
-    final Integer       maxTags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.categories,     categories);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp, opPars));
-  }
-  
-  public static void recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate, new HashMap<>()));
+  public static void recommTagsUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsUpdate, new HashMap<>()));
   }
   
   /* file */

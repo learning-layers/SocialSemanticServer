@@ -57,22 +57,6 @@ public class SSErrForClient {
     lineWhereThrown    = Thread.currentThread().getStackTrace()[4].getLineNumber();
   }
   
-  public static Boolean contains(List<SSErrForClient> errorsForClient, Exception error){
-    
-    if(errorsForClient == null){
-      return false;
-    }
-    
-    for(SSErrForClient errorForClient : errorsForClient){
-     
-      if(errorForClient.exception.equals(error)){
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
   public static List<String> linesWhereThrown(List<SSErrForClient> errors) {
     
     List<String> linesWhereThrown = new ArrayList<>();

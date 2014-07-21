@@ -20,6 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+
 public interface SSRecommClientI{
 
+  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

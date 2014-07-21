@@ -23,7 +23,6 @@
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -42,7 +41,7 @@ public class SSDisc extends SSEntity {
     final SSUri             author,
     final SSUri             entity,
     final SSEntityE         type,
-    final List<SSEntityA>   entries,
+    final List<SSUri>       entries,
     final SSTextComment     explanation,
     final Long              creationTime,
     final List<SSCircleE>   circleTypes) throws Exception{
@@ -56,7 +55,7 @@ public class SSDisc extends SSEntity {
     final SSUri             author,
     final SSUri             entity,
     final SSEntityE         type,
-    final List<SSEntityA>   entries, 
+    final List<SSUri>       entries, 
     final SSTextComment     explanation,
     final Long              creationTime,
     final List<SSCircleE>   circleTypes) throws Exception{
@@ -78,9 +77,9 @@ public class SSDisc extends SSEntity {
   @Override
   public Object jsonLDDesc() {
    
-    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.entity,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.explanation,  SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;

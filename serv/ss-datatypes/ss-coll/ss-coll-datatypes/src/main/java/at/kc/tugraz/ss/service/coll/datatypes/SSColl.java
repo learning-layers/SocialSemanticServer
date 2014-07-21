@@ -22,20 +22,18 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.*;
 
 public class SSColl extends SSEntity{
 
   public static SSColl get(
     final SSUri                     id,
-    final List<SSEntityA>           entries,
+    final List<SSCollEntry>         entries,
     final SSUri                     author,
     final SSLabel                   label,
     final List<SSCircleE>           circleTypes) throws Exception{
@@ -45,7 +43,7 @@ public class SSColl extends SSEntity{
   
   private SSColl(
     final SSUri                           id,
-    final List<SSEntityA>                 entries,
+    final List<SSCollEntry>               entries,
     final SSUri                           author,
     final SSLabel                         label,
     final List<SSCircleE>                 circleTypes) throws Exception{
@@ -58,20 +56,6 @@ public class SSColl extends SSEntity{
       null,
       circleTypes,
       entries);
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object>  ld             = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object>  entriesObj     = new HashMap<>();
-
-    entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCollEntry.class.getName());
-    entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.entries, entriesObj);
-
-    return ld;
   }
   
   public static SSColl[] toCollArray(Collection<SSColl> toConvert) {

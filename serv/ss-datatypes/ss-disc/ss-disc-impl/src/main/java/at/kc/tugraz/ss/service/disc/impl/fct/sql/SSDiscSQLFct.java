@@ -462,7 +462,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             bindingStrToLong       (resultSet, SSSQLVarU.creationTime)));
       }
       
-      disc.entries = discEntries;
+      disc.entries.addAll(discEntries);
       
       return disc;
     }catch(Exception error){

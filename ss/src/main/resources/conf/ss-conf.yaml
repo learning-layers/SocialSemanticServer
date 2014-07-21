@@ -142,10 +142,7 @@ ratingConf:
   use: true
 recommConf:
   executeOpAtStartUp: #true, false
-  fileNameForOpRecommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp: hugo1.txt
-  fileNameForOpRecommTagsLanguageModelBasedOnUserEntityTag: hugo1.txt
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategory: hugo1.txt
-  fileNameForOpRecommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp: hugo1.txt
+  fileNameForTagRec: hugo1.txt
   initAtStartUp: #true, false
   op: 
   updateInterval: #in minutes

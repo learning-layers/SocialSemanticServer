@@ -51,7 +51,7 @@ public class SSServErrReg {
       return;
     }
     
-    if(!SSErrForClient.contains(servImplErrors.get(), error)){
+    if(!SSStrU.contains(servImplErrors.get(), error)){
       SSLogU.err(error);
     }
     
@@ -69,14 +69,14 @@ public class SSServErrReg {
     }
   }
   
-  public static void regErr(final Exception error, final String logText){
+  public static void regErr(final Exception error, final String logText) throws Exception{
     
     if(error == null){
       SSLogU.err(new Exception("error null"));
       return;
     }
     
-    if(!SSErrForClient.contains(servImplErrors.get(), error)){
+    if(!SSStrU.contains(servImplErrors.get(), error)){
       SSLogU.err(error, logText);
     }
     
@@ -101,7 +101,7 @@ public class SSServErrReg {
       return;
     }
     
-    if(!SSErrForClient.contains(servImplErrors.get(), error)){
+    if(!SSStrU.contains(servImplErrors.get(), error)){
       SSLogU.err(error);
     }
     

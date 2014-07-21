@@ -28,16 +28,16 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSScaffServerI{
   
   public SSScaffImpl(final SSConfA conf) throws Exception{
     super(conf);
   }
-  
-  /* SSScaffClientI */
   
   @Override
   public void scaffRecommTagsBasedOnUserEntityTag(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
@@ -62,7 +62,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagCategory(parA), parA.op));
   }
-  
+
   @Override
   public void scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
@@ -71,18 +71,21 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagCategoryTime(parA), parA.op));
   }
   
-  /* SSScaffServerI */
-  
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTag(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagPar par = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
+    final SSScaffRecommTagsBasedOnUserEntityTagPar par  = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
+    final List<String>                             tags = new ArrayList<>();
     
-    return SSServCaller.recommTagsLanguageModelBasedOnUserEntityTag(
-      par.user,
-      par.forUser,
-      par.entity,
-      par.maxTags);
+    tags.addAll(
+      SSServCaller.recommTags(
+        par.user,
+        par.forUser,
+        par.entity,
+        new ArrayList<>(),
+        par.maxTags).keySet());
+    
+    return tags;
   }
   
   @Override
@@ -90,37 +93,46 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
     
-    return SSServCaller.recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp(
+    return SSServCaller.recommTags(
       par.user,
       par.forUser,
       par.entity,
+      new ArrayList<>(),
       par.maxTags);
   }
   
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTagCategory(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
+    final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par  = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
+    final List<String>                                     tags = new ArrayList<>();
     
-    return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategory(
-      par.user,
-      par.forUser,
-      par.entity,
-      par.categories,
-      par.maxTags);
+    tags.addAll(
+      SSServCaller.recommTags(
+        par.user,
+        par.forUser,
+        par.entity,
+        par.categories,
+        par.maxTags).keySet());
+    
+    return tags;
   }
   
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSServPar parA) throws Exception{
     
     final SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(parA);
+    final List<String>                                        tags = new ArrayList<>();
     
-    return SSServCaller.recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp(
-      par.user,
-      par.forUser,
-      par.entity,
-      par.categories,
-      par.maxTags);
+    tags.addAll(
+      SSServCaller.recommTags(
+        par.user,
+        par.forUser,
+        par.entity,
+        par.categories,
+        par.maxTags).keySet());
+    
+    return tags;
   }
 }
 

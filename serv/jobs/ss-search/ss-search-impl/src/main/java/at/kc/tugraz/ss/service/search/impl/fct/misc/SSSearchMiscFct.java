@@ -70,27 +70,6 @@ public class SSSearchMiscFct{
     }
   }
   
-  public static List<SSUri> getParentEntities(
-    final SSUri       user, 
-    final List<SSUri> entities) throws Exception{
-    
-    try{
-    
-      final List<SSUri> parentEntities  = new ArrayList<>();
-      
-      for(SSUri entity : entities){
-        parentEntities.addAll(SSServCaller.entityUserParentEntitiesGet(user, entity));
-      }
-      
-      SSStrU.distinctWithoutNull2(parentEntities);
-      
-      return parentEntities;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public static List<SSUri> getSubEntities(
     final SSUri       user, 
     final List<SSUri> entities) throws Exception{

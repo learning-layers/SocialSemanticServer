@@ -21,44 +21,10 @@
 package at.kc.tugraz.ss.recomm.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.List;
 import java.util.Map;
 
 public interface SSRecommServerI{
 
-  public Map<String, Double> recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestamp                 (final SSServPar parA) throws Exception;
-  public void                recommTagsBaseLevelLearningWithContextBasedOnUserEntityTagTimestampUpdate           (final SSServPar parA) throws Exception;
-  public List<String>        recommTagsLanguageModelBasedOnUserEntityTag                                         (final SSServPar parA) throws Exception;
-  public void                recommTagsLanguageModelBasedOnUserEntityTagUpdate                                   (final SSServPar parA) throws Exception;
-  public List<String>        recommTagsThreeLayersBasedOnUserEntityTagCategory                                   (final SSServPar parA) throws Exception;
-  public void                recommTagsThreeLayersBasedOnUserEntityTagCategoryUpdate                             (final SSServPar parA) throws Exception;
-  public List<String>        recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestamp                          (final SSServPar parA) throws Exception;  
-  public void                recommTagsThreeLayersBasedOnUserEntityTagCategoryTimestampUpdate                    (final SSServPar parA) throws Exception;  
-  
-  
-//  public List<SSTag> recommTagsCollaborativeFilteringOnEntitySimilarity (final SSServPar parA) throws Exception;
-//  public List<SSTag> recommTagsCollaborativeFilteringOnUserSimilarity   (final SSServPar parA) throws Exception;
-//  public List<SSTag> recommTagsAdaptedPageRank                          (final SSServPar parA) throws Exception;
-//  public List<SSTag> recommTagsFolkRank                                 (final SSServPar parA) throws Exception;
-//  public List<SSTag> recommTagsLDA                                      (final SSServPar parA) throws Exception;
-//  public List<SSTag> recommTagsTemporalUsagePatterns                    (final SSServPar parA) throws Exception;
-//  public void          recommSplitSample                (SSServPar parA)     throws Exception;
-//  public List<Integer> recommBetaValues                 (SSServPar parI)     throws Exception;
-//  public void          recommTrainTestSize              (SSServPar parA)     throws Exception;
-//  public void          recommWriteMetrics               (SSServPar parA)     throws Exception;
-//  public void          recommCalcThreeLayers            (SSServPar parA)     throws Exception;
-//  public void          recommCalcLDA                    (SSServPar parA)     throws Exception;
-//  public void          recommCreateLDASamples           (SSServPar parA)     throws Exception;
-//  public void          recommStatistics                 (SSServPar parA)     throws Exception;
-  //  public void          recommWriteMetricsMulan          (SSServPar parA)     throws Exception;
-  //  public void          recommCalcAct                    (SSServPar parI)     throws Exception;
-  //  public void          recommCalcLanguageModel          (SSServPar parA)     throws Exception;
-  //  public void          recommCalcCFTag                  (SSServPar parA)     throws Exception;
-  //  public void          recommCalcFolkRank               (SSServPar parA)     throws Exception;
-  //  public void          recommCalcBaseline               (SSServPar parA)     throws Exception;
-  //  public void          recommCalcBllCF                  (SSServPar parA)     throws Exception;
-  //  public void          recommCalcLDAModel               (SSServPar parA)     throws Exception;
-  //  public void          recommCalcMulan                  (SSServPar parA)     throws Exception;
-  //  public void          recommCreateLanguageModelSamples (SSServPar parA)     throws Exception;
-//  public List<String>  recommLanguageModel              (SSServPar parA)     throws Exception;
+  public Map<String, Double> recommTags             (final SSServPar parA) throws Exception;
+  public void                recommTagsUpdate       (final SSServPar parA) throws Exception;
 }

@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -770,7 +769,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
 
-      for(SSEntityA entry : coll.entries){
+      for(Object entry : coll.entries){
 
         collEntry = (SSCollEntry) entry;
           

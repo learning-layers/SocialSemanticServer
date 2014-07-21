@@ -24,7 +24,9 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public interface SSScaffServerI {
+
   public List<String>        scaffRecommTagsBasedOnUserEntityTag                 (final SSServPar parA) throws Exception;
   public Map<String, Double> scaffRecommTagsBasedOnUserEntityTagTime             (final SSServPar parA) throws Exception;
   public List<String>        scaffRecommTagsBasedOnUserEntityTagCategory         (final SSServPar parA) throws Exception;
