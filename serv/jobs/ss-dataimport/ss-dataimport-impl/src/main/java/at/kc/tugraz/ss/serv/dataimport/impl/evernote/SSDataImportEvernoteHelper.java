@@ -687,9 +687,9 @@ public class SSDataImportEvernoteHelper {
           
           SSServErrReg.reset();
           
-          Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
-          
           SSLogU.info("import goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+          
+          Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
           
           return evernoteInfo.noteStore.getNoteTagNames(note.getGuid());
         }else{

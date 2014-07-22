@@ -978,7 +978,7 @@ public class SSAdapterRest{
   }
   
   private String handleStandardJSONRESTCall(
-    final String jsonRequ,
+    final String  jsonRequ,
     final SSMethU op){
     
     String      readMsgFullFromSS;

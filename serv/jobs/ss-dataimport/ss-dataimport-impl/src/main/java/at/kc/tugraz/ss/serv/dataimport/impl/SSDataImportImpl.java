@@ -41,7 +41,6 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
-import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
@@ -62,14 +61,12 @@ import java.util.Map;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
-  private final SSDataImportEvernoteHelper dataImpEvernoteHelper;
-  private final SSDataImportSQLFct         sqlFct;
+  private final SSDataImportSQLFct sqlFct;
   
   public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     super(conf, dbGraph, dbSQL);
     
-    this.dataImpEvernoteHelper    = new SSDataImportEvernoteHelper (dbSQL); 
-    this.sqlFct                   = new SSDataImportSQLFct         (dbSQL);
+    this.sqlFct = new SSDataImportSQLFct         (dbSQL);
   }
   
   @Override
@@ -119,27 +116,16 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       final SSDataImportEvernotePar par             = new SSDataImportEvernotePar(parA);
      
-      dbSQL.startTrans(par.shouldCommit);
+      final Thread evernoteImportHandler = 
+        new Thread(
+          new SSDataImportEvernoteHandler(
+            (SSDataImportConf)conf, 
+            par));
       
-      dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
-      dataImpEvernoteHelper.handleLinkedNotebooks ();
-      dataImpEvernoteHelper.setSharedNotebooks    ();
-      dataImpEvernoteHelper.handleNotebooks       (par);
-      
-      dbSQL.commit(par.shouldCommit);
+      evernoteImportHandler.start();
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return dataImportEvernote(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
     }catch(Exception error){
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
