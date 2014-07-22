@@ -29,6 +29,14 @@ In order to deploy and run your own server instance of the SSS, please follow in
 
 ####MySQL database
 * install MySQL 5.6 from [MySQL Site](http://www.mysql.com/downloads/)
+* have at least the following set in your `my.cnf` 
+ * [client] 
+   * default-character-set=utf8
+ * [mysql] 
+   * default-character-set=utf8
+ * [mysqld] 
+   * init-connect='SET NAMES utf8'
+    * character-set-server = utf8
 * run `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup MySQL database
 
 ####SSS and REST adapter
