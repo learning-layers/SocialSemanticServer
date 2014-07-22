@@ -56,7 +56,7 @@ public class SSDataImportEvernoteThumbHelper{
         filePath          = localWorkPath + fileId;
         pngFileUri        = SSServCaller.fileCreateUri                 (user, SSFileExtU.png);
         pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
-        //pptx//docx
+        //pptx //docx
         if(SSFileExtU.imageFileExts.contains(fileExt)){
           SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath);
           thumbCreated = true;
