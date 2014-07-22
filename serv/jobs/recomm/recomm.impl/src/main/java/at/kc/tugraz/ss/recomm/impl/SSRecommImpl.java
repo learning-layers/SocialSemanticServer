@@ -89,22 +89,14 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       final SSRecommTagsUpdatePar     par        = new SSRecommTagsUpdatePar(parA);
       final SSRecommConf              recommConf = (SSRecommConf) conf;
       
-      if(!SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(
+      SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(
         recommConf.fileNameForTagRec,
-        recommConf.usePrivateTagsToo)){
-        return;
-      }
-
-      try{
-        
-        tagRec.loadFile(
-          SSStrU.removeTrailingString(
-            recommConf.fileNameForTagRec,
-            SSStrU.dot + SSFileExtU.txt));
-        
-      }catch(FileNotFoundException errFileNotFound){
-        SSLogU.warn("file not found for tag rec");
-      }
+        recommConf.usePrivateTagsToo);
+      
+      tagRec.loadFile(
+        SSStrU.removeTrailingString(
+          recommConf.fileNameForTagRec,
+          SSStrU.dot + SSFileExtU.txt));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

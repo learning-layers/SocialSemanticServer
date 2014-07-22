@@ -69,7 +69,7 @@ public class SSServErrReg {
     }
   }
   
-  public static void regErr(final Exception error, final String logText) throws Exception{
+  public static void regErr(final Exception error, final String logText){
     
     if(error == null){
       SSLogU.err(new Exception("error null"));

@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
+import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -27,6 +29,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,6 +188,20 @@ public class SSRecommFct{
     }
     
     if(!somethingExported){
+      
+      FileOutputStream stream = null;
+      
+      try{
+        stream = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + fileName);
+      }catch(Exception error){
+        SSLogU.warn("file couldnt be created: " + SSFileU.dirWorkingDataCsv() + fileName);
+      }finally{
+        
+        if(stream != null){
+          stream.close();
+        }
+      }
+      
       return false;
     }
     
