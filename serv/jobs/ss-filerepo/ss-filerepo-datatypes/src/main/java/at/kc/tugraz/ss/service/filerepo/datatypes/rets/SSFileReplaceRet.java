@@ -32,43 +32,35 @@ public class SSFileReplaceRet extends SSServRetI{
   
   public  SSUri         file;
   public  SSUri         user;
-  public  String        status;
 
   public SSFileReplaceRet(
-    SSUri            uri, 
-    SSUri            user, 
-    String           status, 
-    SSMethU           op){
+    final SSUri            uri, 
+    final SSUri            user, 
+    final SSMethU          op){
     
     super(op);
     
     this.file           = uri;
     this.user          = user;
-    this.status        = status;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld           = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.status,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
   
-  /* getters to allow for json enconding */
+  /* json getters */
   public String getFile() throws Exception{
     return SSStrU.removeTrailingSlash(file);
   }
 
   public String getUser() throws Exception{
     return SSStrU.removeTrailingSlash(user);
-  }
-
-  public String getStatus(){
-    return status;
   }
 }

@@ -31,9 +31,11 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
@@ -83,7 +85,7 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       
 //    check whether WebSocket connections need this: 
-      sendAnswer(null);
+      sendAnswer();
       
       while(true){
         
@@ -113,7 +115,7 @@ public class SSFileUploader extends SSServImplStartA{
         
         createFileThumb();
         
-        sendAnswer(SSStrU.valueFinished);
+        sendAnswer();
         return;
       }
     }catch(Exception error1){
@@ -149,8 +151,8 @@ public class SSFileUploader extends SSServImplStartA{
     finalizeThread();
   }
   
-  private void sendAnswer(String status) throws Exception{
-    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, status, par.op));
+  private void sendAnswer() throws Exception{
+    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, par.op));
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{
@@ -223,6 +225,16 @@ public class SSFileUploader extends SSServImplStartA{
       uri, 
       par.label, 
       SSEntityE.file, 
+      null,
+      true);
+    
+    SSServCaller.entityCircleCreate(
+      par.user,
+      SSUri.asListWithoutNullAndEmpty(uri),
+      SSUri.asListWithoutNullAndEmpty(),
+      SSCircleE.priv,
+      par.label,
+      SSVoc.systemUserUri,
       null,
       true);
   }

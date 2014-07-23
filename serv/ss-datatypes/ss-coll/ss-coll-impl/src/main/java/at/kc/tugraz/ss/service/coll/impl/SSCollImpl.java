@@ -476,8 +476,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         return par.entry;
       }
 
-      if(par.entry == null){
-        throw new Exception("no coll entry provided");
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entry)){
+        throw new Exception("user cannot add to this entry to coll");
       }
 
       if(sqlFct.containsCollEntry(par.coll, par.entry)){
@@ -856,9 +856,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
 
-    final SSCollUserRootAddPar par = new SSCollUserRootAddPar(parA);
-
     try{
+      
+      final SSCollUserRootAddPar par = new SSCollUserRootAddPar(parA);
 
       if(sqlFct.existsCollRootForUser(par.user)){
         return true;

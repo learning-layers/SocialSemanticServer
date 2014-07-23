@@ -261,7 +261,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         if(par.entity != null){
           
           SSServCaller.entityAdd(
-            par.user, 
+            par.user,
             par.entity, 
             null, 
             SSEntityE.entity,

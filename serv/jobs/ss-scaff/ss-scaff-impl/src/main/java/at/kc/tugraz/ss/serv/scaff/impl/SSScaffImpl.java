@@ -1,24 +1,26 @@
-/**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.scaff.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffClientI;
 import at.kc.tugraz.ss.serv.scaff.api.SSScaffServerI;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagCategoryPar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar;
 import at.kc.tugraz.ss.serv.scaff.datatypes.par.SSScaffRecommTagsBasedOnUserEntityTagPar;
@@ -28,7 +30,9 @@ import at.kc.tugraz.ss.serv.scaff.datatypes.ret.SSScaffRecommTagsRet;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +66,7 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
     
     sSCon.writeRetFullToClient(SSScaffRecommTagsRet.get(scaffRecommTagsBasedOnUserEntityTagCategory(parA), parA.op));
   }
-
+  
   @Override
   public void scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
@@ -74,65 +78,105 @@ public class SSScaffImpl extends SSServImplMiscA implements SSScaffClientI, SSSc
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTag(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagPar par  = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
-    final List<String>                             tags = new ArrayList<>();
+    final List<String>  tags = new ArrayList<>();
     
-    tags.addAll(
-      SSServCaller.recommTags(
-        par.user,
-        par.forUser,
-        par.entity,
-        new ArrayList<>(),
-        par.maxTags).keySet());
-    
-    return tags;
+    try{
+      final SSScaffRecommTagsBasedOnUserEntityTagPar par  = new SSScaffRecommTagsBasedOnUserEntityTagPar(parA);
+      
+      tags.addAll(
+        SSServCaller.recommTags(
+          par.user,
+          par.forUser,
+          par.entity,
+          new ArrayList<>(),
+          par.maxTags).keySet());
+      
+      return tags;
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
+      
+      return tags;
+    }
   }
   
   @Override
   public Map<String, Double> scaffRecommTagsBasedOnUserEntityTagTime(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
-    
-    return SSServCaller.recommTags(
-      par.user,
-      par.forUser,
-      par.entity,
-      new ArrayList<>(),
-      par.maxTags);
+    try{
+      final SSScaffRecommTagsBasedOnUserEntityTagTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagTimePar(parA);
+      
+      return SSServCaller.recommTags(
+        par.user,
+        par.forUser,
+        par.entity,
+        new ArrayList<>(),
+        par.maxTags);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
+      
+      return new HashMap<>();
+    }
   }
   
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTagCategory(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par  = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
-    final List<String>                                     tags = new ArrayList<>();
+    final List<String>  tags = new ArrayList<>();
     
-    tags.addAll(
-      SSServCaller.recommTags(
-        par.user,
-        par.forUser,
-        par.entity,
-        par.categories,
-        par.maxTags).keySet());
-    
-    return tags;
+    try{
+      
+      final SSScaffRecommTagsBasedOnUserEntityTagCategoryPar par  = new SSScaffRecommTagsBasedOnUserEntityTagCategoryPar(parA);
+      
+      tags.addAll(
+        SSServCaller.recommTags(
+          par.user,
+          par.forUser,
+          par.entity,
+          par.categories,
+          par.maxTags).keySet());
+      
+      return tags;
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
+      
+      return tags;
+    }
   }
   
   @Override
   public List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(final SSServPar parA) throws Exception{
     
-    final SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(parA);
-    final List<String>                                        tags = new ArrayList<>();
+    final List<String>  tags = new ArrayList<>();
     
-    tags.addAll(
-      SSServCaller.recommTags(
-        par.user,
-        par.forUser,
-        par.entity,
-        par.categories,
-        par.maxTags).keySet());
-    
-    return tags;
+    try{
+      
+      final SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar par = new SSScaffRecommTagsBasedOnUserEntityTagCategoryTimePar(parA);
+      
+      tags.addAll(
+        SSServCaller.recommTags(
+          par.user,
+          par.forUser,
+          par.entity,
+          par.categories,
+          par.maxTags).keySet());
+      
+      return tags;
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
+      
+      return tags;
+    }
   }
 }
 

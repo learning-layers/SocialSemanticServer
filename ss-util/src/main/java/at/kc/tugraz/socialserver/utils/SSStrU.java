@@ -78,7 +78,6 @@ public class SSStrU{
   public  static final String        valueCommaXComma                         = ",x,";
   public  static final String        valueColonColon                          = "::";
   public  static final String        valueGot                                 = "got";
-  public  static final String        valueFinished                            = "finished";
   public  static final String        valueTaxonPath                           = "taxonPath";
   public  static final String        valueSource                              = "source";
   public  static final String        valueIntendedEndUserRole                 = "intendedEndUserRole";

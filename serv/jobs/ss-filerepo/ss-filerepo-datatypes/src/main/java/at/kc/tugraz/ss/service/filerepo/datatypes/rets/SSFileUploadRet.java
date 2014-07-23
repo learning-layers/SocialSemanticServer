@@ -30,26 +30,22 @@ import java.util.Map;
 
 public class SSFileUploadRet extends SSServRetI{
 
-  public  SSUri         file     = null;
-  public  String        status  = null;
+  public  SSUri file = null;
 
   public static SSFileUploadRet get(
     SSUri            uri,
-    String           status,
     SSMethU          op){
     
-    return new SSFileUploadRet(uri, status, op);
+    return new SSFileUploadRet(uri, op);
   }
   
   private SSFileUploadRet(
     SSUri            uri, 
-    String           status, 
     SSMethU          op){
     
     super(op);
     
-    this.file          = uri;
-    this.status       = status;
+    this.file = uri;
   }
 
   @Override
@@ -58,17 +54,13 @@ public class SSFileUploadRet extends SSServRetI{
     Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.status,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
    
-  /* getters to allow for json enconding */
+  /* json getters */
+  
   public String getFile() throws Exception{
     return SSStrU.removeTrailingSlash(file);
-  }
-
-  public String getStatus(){
-    return status;
   }
 }

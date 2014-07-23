@@ -43,7 +43,7 @@ public class SSDiscUserEntryAddFct{
     final SSUri         targetUri,
     final SSEntityE     discType, 
     final SSLabel       discLabel,
-    final SSTextComment explanation) throws Exception{
+    final SSTextComment description) throws Exception{
     
     try{
       
@@ -60,7 +60,7 @@ public class SSDiscUserEntryAddFct{
         discUri,
         discLabel,
         discType,
-        explanation,
+        description,
         false);
       
       SSServCaller.entityAdd(

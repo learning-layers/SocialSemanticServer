@@ -143,7 +143,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     
       dataUriChunk = objJSON.get(SSVarU.dataUriChunk);
 
-      if(SSStrU.equals(dataUriChunk, SSStrU.valueFinished)){
+      if(SSStrU.equals(dataUriChunk, "finished")){
 
         sSCon.writeFileChunkToSS (new byte[0]);
         writeStringToClient      (sSCon.readMsgFullFromSS());

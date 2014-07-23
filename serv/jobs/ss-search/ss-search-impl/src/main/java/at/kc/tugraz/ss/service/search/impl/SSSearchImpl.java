@@ -20,11 +20,9 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -426,7 +424,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         results.add(entity);
         
         entity.circleTypes = SSServCaller.entityUserEntityCircleTypesGet(par.user, result);
-        entity.entries.addAll(SSStrU.toStr(getEntries(par, entity)));
+        entity.entries.addAll(SSStrU.removeTrailingSlash(getEntries(par, entity)));
       }
       
 //      par.includeRecommendedResults;

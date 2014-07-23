@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -52,13 +51,13 @@ public class SSFileDownloader extends SSServImplStartA{
   
   public SSFileDownloader(
     final SSFileRepoConf fileRepoConf, 
-    final SSSocketCon    sSCon, 
-    final SSServPar      par) throws Exception{
+    final SSSocketCon       sSCon, 
+    final SSFileDownloadPar par) throws Exception{
     
     super(fileRepoConf);
     
     this.sSCon             = sSCon;
-    this.par               = new SSFileDownloadPar(par);
+    this.par               = par;
     this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.file);
   }
   

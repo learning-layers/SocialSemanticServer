@@ -48,6 +48,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCreateUriPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
@@ -217,11 +218,23 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
 
   @Override
-  public void fileDownload(SSSocketCon sSCon, SSServPar par) throws Exception{
-
-    SSServCaller.checkKey(par);
-
-    new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
+  public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    try{
+      
+      final SSFileDownloadPar par = new SSFileDownloadPar(parA);
+      
+      if(!SSServCaller.entityUserCanRead(par.user, par.file)){
+        throw new Exception("user cannot access this file");
+      }
+      
+      new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override

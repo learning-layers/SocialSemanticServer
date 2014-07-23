@@ -73,7 +73,7 @@ public class SSFileReplacer extends SSServImplStartA{
     try{
       
       //check whether WebSocket connections need this:
-      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, null, par.op));
+      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, par.op));
       
       while(true){
         
@@ -108,7 +108,7 @@ public class SSFileReplacer extends SSServImplStartA{
         
         removeFileFromLocalWorkFolder();
         
-        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, SSStrU.valueFinished, par.op));
+        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, par.op));
         return;
       }
     }catch(Exception error1){

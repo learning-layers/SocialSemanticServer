@@ -21,10 +21,10 @@
 package at.kc.tugraz.ss.serv.serv.datatypes.err;
 
 public class SSServerServNotAvailableErr extends Exception{
-
-  public static final String message = "no service found to handle server op: ";
   
-  public SSServerServNotAvailableErr(String msg){
+  protected static final String message = "no service found to handle server op: ";
+  
+  public SSServerServNotAvailableErr(final String msg){
     super(message + msg);
   }
 }

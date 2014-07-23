@@ -40,7 +40,6 @@ public class SSVoc extends SSServA{
   public static SSLabel       systemUserLabel = null;
   public static SSUri         systemUserUri   = null;
   
-  
   protected SSVoc(
     final Class servImplClientInteraceClass, 
     final Class servImplServerInteraceClass){

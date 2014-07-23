@@ -1184,7 +1184,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity, entity);
+    opPars.put(SSVarU.entity,    entity);
     opPars.put(SSVarU.type,      null);
     opPars.put(SSVarU.label,     null);
     
