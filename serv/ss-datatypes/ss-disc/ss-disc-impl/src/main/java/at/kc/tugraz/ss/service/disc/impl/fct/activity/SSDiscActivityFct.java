@@ -47,7 +47,7 @@ public class SSDiscActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
           SSTextComment.asListWithoutNullAndEmpty(),
-          false);
+          true);
         
         if(par.entry != null){
         
@@ -57,7 +57,7 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(),
             SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
-            false);
+            true);
         }
         
       }else{
@@ -68,7 +68,7 @@ public class SSDiscActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
           SSTextComment.asListWithoutNullAndEmpty(par.entry),
-          false);
+          true);
       }
     }catch(SSServerServNotAvailableErr error){
       SSLogU.warn("activityAdd failed | service down");

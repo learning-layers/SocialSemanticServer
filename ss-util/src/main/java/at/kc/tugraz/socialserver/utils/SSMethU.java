@@ -90,10 +90,12 @@ public enum SSMethU{
   entityUserGet,
   entityUserShare,
   entityUserCopy,
+  entityUserEntitiesAttach,
   entityCopy, 
   entityUserEntityUsersGet,
   entityDirectlyAdjoinedEntitiesRemove,
   entityShare,
+  entityEntitiesAttachedGet,  
   
   //learn ep
   learnEpsGet                                         ,

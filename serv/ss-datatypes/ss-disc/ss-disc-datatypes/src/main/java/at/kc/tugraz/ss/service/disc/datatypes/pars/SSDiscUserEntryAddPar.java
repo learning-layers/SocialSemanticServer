@@ -41,6 +41,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public SSLabel             label          = null;
   public SSTextComment       explanation    = null;
   public List<SSUri>         users          = new ArrayList<>();
+  public List<SSUri>         entities       = new ArrayList<>();
             
   public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
       
@@ -57,6 +58,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         label         = (SSLabel)            pars.get(SSVarU.label);
         explanation   = (SSTextComment)      pars.get(SSVarU.explanation);
         users         = (List<SSUri>)        pars.get(SSVarU.users);
+        entities      = (List<SSUri>)        pars.get(SSVarU.entities);
       }
       
       if(clientPars != null){
@@ -91,6 +93,10 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         
         try{
           users   = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
+        }catch(Exception error){}
+        
+        try{
+          entities   = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
         }catch(Exception error){}
       }
     }catch(Exception error){

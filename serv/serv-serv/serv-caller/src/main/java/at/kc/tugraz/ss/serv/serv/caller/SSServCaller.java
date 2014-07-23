@@ -59,6 +59,7 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -996,6 +997,34 @@ public class SSServCaller {
   }
   
   /* entity */
+  
+  public static List<SSEntity> entityEntitiesAttachedGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,   user);
+    opPars.put(SSVarU.entity, entity);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntitiesAttachedGet, opPars));
+  }
+    
+  public static List<SSUri> entityUserEntitiesAttach(
+    final SSUri       user, 
+    final SSUri       entity, 
+    final List<SSUri> entities,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.entity,           entity);
+    opPars.put(SSVarU.entities,         entities);
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntitiesAttach, opPars));
+  }
   
   public static List<SSUri> entityFilesGet(
     final SSUri user, 

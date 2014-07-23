@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -103,10 +104,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToUri        (resultSet, SSSQLVarU.author), 
         SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
         null, 
+        null, 
         null);
       
     }catch(SSNoResultFoundErr error){
-      throw error;
+      throw new SSEntityDoesntExistErr();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -140,10 +142,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToUri        (resultSet, SSSQLVarU.author),
         SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
         null,
+        null,
         null);
       
     }catch(SSNoResultFoundErr error){
-      throw error;
+      throw new SSEntityDoesntExistErr();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -319,9 +322,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 
@@ -361,6 +365,77 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public void attachEntity(
+    final SSUri entity,
+    final SSUri entityToAttach) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,         entity);
+      insert(inserts, SSSQLVarU.attachedEntityId, entityToAttach);
+      
+      dbSQL.insert(entitiesTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSEntity> getAttachedEntities(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>      attachedEntities = new ArrayList<>();
+      final List<String>        columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.creationTime);
+      column(columns, SSSQLVarU.type);
+      column(columns, SSSQLVarU.author);
+      column(columns, SSSQLVarU.description);
+
+      table(tables, entityTable);
+      table(tables, entitiesTable);
+      
+      where(wheres, entitiesTable, SSSQLVarU.entityId, entity);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      while(resultSet.next()){
+        
+        attachedEntities.add(
+          SSEntity.get(
+            bindingStrToUri           (resultSet, SSSQLVarU.id),
+            bindingStrToLabel         (resultSet, SSSQLVarU.label),
+            bindingStrToLong          (resultSet, SSSQLVarU.creationTime),
+            bindingStrToEntityType    (resultSet, SSSQLVarU.type),
+            bindingStrToUri           (resultSet, SSSQLVarU.author),
+            bindingStrToTextComment   (resultSet, SSSQLVarU.description),
+            null, 
+            null, 
+            null));
+      }
+      
+      return attachedEntities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public void addFile(
     final SSUri entity,
     final SSUri file) throws Exception{
@@ -385,7 +460,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       try{
         return getCirclePublicURI();
-      }catch(SSNoResultFoundErr error){}
+      }catch(SSEntityDoesntExistErr error){}
 
       final Map<String, String> inserts    = new HashMap<>();
       final SSUri               circleUri  = createCircleURI();
@@ -469,9 +544,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -502,9 +578,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 //        }
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -535,9 +612,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return SSCircleE.get(getStringsFromResult(resultSet, SSSQLVarU.circleType));
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -584,9 +662,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       return circles;
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -605,9 +684,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -626,9 +706,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.fileId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
    
@@ -665,9 +746,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -689,9 +771,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -711,9 +794,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 
@@ -735,9 +819,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return SSCircleE.get(bindingStr(resultSet, SSSQLVarU.circleType));
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -801,9 +886,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return resultSet.first();
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -825,9 +911,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return resultSet.first();
       
     }catch(Exception error){
-      dbSQL.closeStmt(resultSet);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -848,7 +935,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return bindingStrToUri(resultSet, SSSQLVarU.circleId);
       
     }catch(SSNoResultFoundErr error){
-      throw error;
+      throw new SSEntityDoesntExistErr();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -889,6 +976,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             null,
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
+            null,
             null,
             null));
       }
@@ -935,6 +1023,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null,
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null,
+            null,
             null));
       }
       
@@ -980,6 +1069,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null,
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null, 
+            null,
             null));
       }
       

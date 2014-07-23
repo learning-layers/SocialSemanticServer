@@ -499,6 +499,32 @@ LOCK TABLES `discuser` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `entities`
+--
+
+DROP TABLE IF EXISTS `entities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entities` (
+  `entityId` varchar(200) NOT NULL,
+  `attachedEntityId` varchar(200) NOT NULL,
+  PRIMARY KEY (`entityId`,`attachedEntityId`),
+  KEY `attachedEntityIdFKentities_idx` (`attachedEntityId`),
+  CONSTRAINT `attachedEntityIdFKentities` FOREIGN KEY (`attachedEntityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entities`
+--
+
+LOCK TABLES `entities` WRITE;
+/*!40000 ALTER TABLE `entities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `entity`
 --
 
@@ -1160,4 +1186,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-16 17:40:47
+-- Dump completed on 2014-07-23 15:13:36

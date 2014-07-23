@@ -35,14 +35,15 @@ import java.util.Map;
 
 public class SSEntity extends SSEntityA{
 
-  public SSUri            id           = null;
-  public SSLabel          label        = null;
-  public Long             creationTime = null;
-  public SSEntityE        type         = null;
-  public SSUri            author       = null;
-  public SSTextComment    description  = null;
-  public List<SSCircleE>  circleTypes  = new ArrayList<>();
-  public List<Object>     entries      = new ArrayList<>();
+  public SSUri            id               = null;
+  public SSLabel          label            = null;
+  public Long             creationTime     = null;
+  public SSEntityE        type             = null;
+  public SSUri            author           = null;
+  public SSTextComment    description      = null;
+  public List<SSCircleE>  circleTypes      = new ArrayList<>();
+  public List<Object>     entries          = new ArrayList<>();
+  public List<SSEntity>   attachedEntities = new ArrayList<>();
 
   protected SSEntity(
     final SSUri                  uri,
@@ -52,7 +53,8 @@ public class SSEntity extends SSEntityA{
     final SSUri                  author,
     final SSTextComment          description,
     final List<SSCircleE>        circleTypes,
-    final List<? extends Object> entries) throws Exception{
+    final List<? extends Object> entries,
+    final List<SSEntity>         attachedEntities) throws Exception{
     
     super(uri);
     
@@ -70,6 +72,10 @@ public class SSEntity extends SSEntityA{
     if(entries != null){
       this.entries.addAll(entries);
     }
+    
+    if(attachedEntities != null){
+      this.attachedEntities.addAll(attachedEntities);
+    }
   }
   
   public static SSEntity get(
@@ -80,17 +86,19 @@ public class SSEntity extends SSEntityA{
     final SSUri                      author,
     final SSTextComment              description,
     final List<SSCircleE>            circleTypes,
-    final List<? extends Object>     entries) throws Exception{
+    final List<? extends Object>     entries,
+    final List<SSEntity>             attachedEntities) throws Exception{
     
-    return new SSEntity(uri, label, creationTime, type, author, description, circleTypes, entries);
+    return new SSEntity(uri, label, creationTime, type, author, description, circleTypes, entries, attachedEntities);
   }
 
   @Override
   public Object jsonLDDesc() {
    
-    final Map<String, Object> ld             = new HashMap<>();
-    final Map<String, Object> circleTypesObj = new HashMap<>();
-    final Map<String, Object> entriesObj     = new HashMap<>();
+    final Map<String, Object> ld                  = new HashMap<>();
+    final Map<String, Object> circleTypesObj      = new HashMap<>();
+    final Map<String, Object> entriesObj          = new HashMap<>();
+    final Map<String, Object> attachedEntitiesObj = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
@@ -108,6 +116,11 @@ public class SSEntity extends SSEntityA{
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entries, entriesObj);
+    
+    attachedEntitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    attachedEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.attachedEntities, attachedEntitiesObj);
     
     return ld;
   }
@@ -144,5 +157,9 @@ public class SSEntity extends SSEntityA{
   
   public List<? extends Object> getEntries() throws Exception{
     return entries;
+  }
+  
+  public List<SSEntity> getAttachedEntities() throws Exception{
+    return attachedEntities;
   }
 }

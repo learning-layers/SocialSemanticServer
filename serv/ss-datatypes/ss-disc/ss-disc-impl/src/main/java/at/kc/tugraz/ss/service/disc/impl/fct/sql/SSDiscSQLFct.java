@@ -354,6 +354,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         null,
         SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
         bindingStrToLong(resultSet, SSSQLVarU.creationTime),
+        null, 
         null);
       
     }catch(Exception error){

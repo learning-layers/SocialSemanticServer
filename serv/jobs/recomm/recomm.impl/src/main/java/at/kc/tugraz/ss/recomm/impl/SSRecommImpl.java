@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.recomm.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -38,7 +37,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import engine.TagRecommenderEngine;
-import java.io.FileNotFoundException;
 import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
@@ -63,9 +61,13 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     try{
       final SSRecommTagsPar par = new SSRecommTagsPar(parA);
       
+      if(par.user == null){
+        throw new Exception("user cannot be null");
+      }
+      
       if(
-        !SSObjU.isNull(par.user) &&
-        SSStrU.equals(par.user, par.forUser)){
+        par.forUser != null &&
+        !SSStrU.equals(par.user, par.forUser)){
         throw new Exception("user cannot retrieve tag recommendations for other users");
       }
       

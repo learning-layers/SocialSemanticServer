@@ -33,7 +33,6 @@ import java.util.*;
 public class SSDisc extends SSEntity {
   
   public  SSUri             entity       = null;
-  public  SSTextComment     explanation  = null;
 
   public static SSDisc get(
     final SSUri             id,
@@ -44,9 +43,10 @@ public class SSDisc extends SSEntity {
     final List<SSUri>       entries,
     final SSTextComment     explanation,
     final Long              creationTime,
-    final List<SSCircleE>   circleTypes) throws Exception{
+    final List<SSCircleE>   circleTypes,
+    final List<SSEntity>    attachedEntities) throws Exception{
     
-    return new SSDisc(id, label, author, entity, type, entries, explanation, creationTime, circleTypes);
+    return new SSDisc(id, label, author, entity, type, entries, explanation, creationTime, circleTypes, attachedEntities);
   }
 
   private SSDisc(
@@ -56,9 +56,10 @@ public class SSDisc extends SSEntity {
     final SSUri             entity,
     final SSEntityE         type,
     final List<SSUri>       entries, 
-    final SSTextComment     explanation,
+    final SSTextComment     description,
     final Long              creationTime,
-    final List<SSCircleE>   circleTypes) throws Exception{
+    final List<SSCircleE>   circleTypes,
+    final List<SSEntity>    attachedEntities) throws Exception{
     
     super(
       id,
@@ -66,12 +67,12 @@ public class SSDisc extends SSEntity {
       creationTime,
       type,
       author,
-      null,
+      description,
       circleTypes,
-      entries);
+      entries,
+      attachedEntities);
     
-    this.entity       = entity;
-    this.explanation  = explanation;
+    this.entity = entity;
   }
   
   @Override
@@ -80,7 +81,6 @@ public class SSDisc extends SSEntity {
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
     ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.explanation,  SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;
   }
@@ -89,9 +89,5 @@ public class SSDisc extends SSEntity {
   
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
-  }
-  
-  public String getExplanation() throws Exception{
-    return SSStrU.toStr(explanation);
   }
 }

@@ -40,6 +40,18 @@ public class SSServErrReg {
     }
   };
   
+  public static Boolean containsErr(final Class errClass){
+    
+    for(SSErrForClient error : servImplErrors.get()){
+      
+      if(error.exception.getClass() == errClass){
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   public static List<SSErrForClient> getServiceImplErrors(){
     return new ArrayList<>(servImplErrors.get());
   }

@@ -21,11 +21,13 @@
 package at.kc.tugraz.ss.serv.db.api;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
@@ -49,6 +51,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";
   protected static final String   entityTable                         = "entity";
+  protected static final String   entitiesTable                       = "entities";
   protected static final String   flagTable                           = "flag";
   protected static final String   flagsTable                          = "flags";
   protected static final String   uesTable                            = "ues";
@@ -371,6 +374,10 @@ public class SSDBSQLFct extends SSDBFct{
   
   protected static SSLabel bindingStrToLabel(ResultSet resultSet, String binding) throws Exception{
     return SSLabel.get(bindingStr(resultSet, binding));
+  }
+  
+  protected static SSTextComment bindingStrToTextComment(ResultSet resultSet, String binding) throws Exception{
+    return SSTextComment.get(bindingStr(resultSet, binding));
   }
   
   protected static SSEntityE bindingStrToEntityType(ResultSet resultSet, String binding) throws Exception{

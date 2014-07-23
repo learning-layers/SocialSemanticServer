@@ -222,16 +222,10 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     SSServCaller.checkKey(parA);
     
     try{
-      dbSQL.startTrans(true);
       
-      parA.shouldCommit = false;
+      final SSDiscUserEntryAddRet ret = discUserEntryAdd(parA);
       
-      final SSDiscUserEntryAddPar par = new SSDiscUserEntryAddPar(parA);
-      final SSDiscUserEntryAddRet ret = discUserEntryAdd(par);
-      
-      SSDiscActivityFct.discEntryAdd(par, ret);
-      
-      dbSQL.commit(true);
+      SSDiscActivityFct.discEntryAdd(new SSDiscUserEntryAddPar(parA), ret);
       
       sSCon.writeRetFullToClient(ret);
       
@@ -244,17 +238,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception{
     
     try{
-      return discUserEntryAdd(new SSDiscUserEntryAddPar(parA));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  protected SSDiscUserEntryAddRet discUserEntryAdd(final SSDiscUserEntryAddPar par) throws Exception {
-    
-    try{
-      SSUri discEntryUri = null;
+      final SSDiscUserEntryAddPar par          = new SSDiscUserEntryAddPar(parA);
+      SSUri                       discEntryUri = null;
       
       if(par.addNewDisc){
         
@@ -290,6 +275,15 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.type,
           par.label,
           par.explanation);
+        
+        if(!par.entities.isEmpty()){
+        
+          SSServCaller.entityUserEntitiesAttach(
+            par.user, 
+            par.disc, 
+            par.entities,
+            false);  
+        }
       }   
       
       if(par.entry != null){
@@ -300,6 +294,15 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
             par.user,
             par.disc,
             par.entry);
+        
+        if(!par.entities.isEmpty()){
+        
+          SSServCaller.entityUserEntitiesAttach(
+            par.user, 
+            discEntryUri, 
+            par.entities,
+            false);  
+        }
       }
       
       if(
@@ -323,20 +326,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
-      if(dbSQL.rollBack(par)){
-        return discUserEntryAdd(par);
+      if(dbSQL.rollBack(parA)){
+        return discUserEntryAdd(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
       }
       
     }catch(Exception error){
-      dbSQL.rollBack(par);
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-
+  
   @Override
   public void discsAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
 
@@ -351,9 +354,18 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try{
       final SSDiscsUserAllGetPar par                 = new SSDiscsUserAllGetPar(parA);
       final List<SSDisc>         discsWithoutEntries = new ArrayList<>();
-
+      SSDisc                     disc;
+      
       for(SSUri discUri : sqlFct.getDiscURIs(par.user)){
-        discsWithoutEntries.add(sqlFct.getDiscWithoutEntries(discUri));
+        
+        disc = sqlFct.getDiscWithoutEntries(discUri);
+        
+        disc.attachedEntities.addAll(
+          SSServCaller.entityEntitiesAttachedGet(
+            par.user, 
+            discUri));
+        
+        discsWithoutEntries.add(disc);
       }
 
       return discsWithoutEntries;
@@ -381,7 +393,14 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         throw new Exception("user cannot access disc");
       }
       
-      return sqlFct.getDiscWithEntries(par.disc);
+      final SSDisc disc = sqlFct.getDiscWithEntries(par.disc);
+      
+      disc.attachedEntities.addAll(
+        SSServCaller.entityEntitiesAttachedGet(
+          par.user, 
+          disc.id));
+      
+      return disc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

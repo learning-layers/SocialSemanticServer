@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 
-
 public class SSDiscUserEntryAddFct{
   
   public static void addDisc(

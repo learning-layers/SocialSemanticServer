@@ -54,6 +54,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGe
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
@@ -82,6 +83,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
@@ -92,6 +94,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -879,7 +882,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       throw new Exception("entity cannot be queried this way");
       
-    }catch(SSNoResultFoundErr error){
+    }catch(SSEntityDoesntExistErr error){
       return false;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1306,7 +1309,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityThumbAddPar par = new SSEntityThumbAddPar(parA);
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       sqlFct.addThumb(par.entity, par.thumb);
+      
+      dbSQL.commit(par.shouldCommit);
       
       return par.thumb;
     }catch(SSSQLDeadLockErr deadLockErr){
@@ -1341,12 +1348,83 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSUri entityFileAdd(SSServPar parA) throws Exception{
+  public List<SSEntity> entityEntitiesAttachedGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityEntitiesAttachedGetPar par = new SSEntityEntitiesAttachedGetPar(parA);
+      
+      return sqlFct.getAttachedEntities(par.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> entityUserEntitiesAttach(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityUserEntitiesAttachPar par = new SSEntityUserEntitiesAttachPar(parA);
+      
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user cannot edit entity to attach entity");
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri entity : par.entities){
+        
+        try{
+          if(!SSServCaller.entityUserCanRead(par.user, entity)){
+            throw new Exception("user cannot read entity to be attached");
+          }
+        }catch(Exception error){
+          SSServErrReg.containsErr(SSEntityDoesntExistErr.class);
+          
+          SSServCaller.entityAdd(
+            par.user, 
+            entity, 
+            null, 
+            SSEntityE.entity, 
+            null, 
+            false);
+        }
+        
+        sqlFct.attachEntity(par.entity, entity);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entities;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserEntitiesAttach(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityFileAdd(final SSServPar parA) throws Exception{
     
     try{
       final SSEntityFileAddPar par = new SSEntityFileAddPar(parA);
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       sqlFct.addFile(par.entity, par.file);
+      
+      dbSQL.commit(par.shouldCommit);
       
       return par.file;
     }catch(SSSQLDeadLockErr deadLockErr){
@@ -1366,7 +1444,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
 
   @Override
-  public List<SSUri> entityFilesGet(SSServPar parA) throws Exception{
+  public List<SSUri> entityFilesGet(final SSServPar parA) throws Exception{
     
     try{
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);

@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -179,8 +180,13 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         
         try{
           userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
-        }catch(SSNoResultFoundErr error){
-          throw new Exception("user not registered");
+        }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
+            throw new Exception("user doesnt exist");
+          }else{
+            throw error;
+          }
         }
         
         if(!sqlFct.hasKey(userUri)){
