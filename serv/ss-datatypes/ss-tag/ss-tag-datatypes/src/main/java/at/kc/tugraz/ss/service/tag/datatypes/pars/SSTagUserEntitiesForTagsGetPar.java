@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -30,7 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
-  
+
+  public SSUri             forUser   = null;
   public List<SSTagLabel>  labels    = new ArrayList<>();
   public SSSpaceE          space     = null;
   public Long              startTime = null;
@@ -42,6 +44,7 @@ public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
     try{
      
       if(pars != null){
+        forUser     = (SSUri)                       pars.get(SSVarU.forUser);
         labels      = SSTagLabel.get((List<String>) pars.get(SSVarU.labels));
         space       = (SSSpaceE)                    pars.get(SSVarU.space);
         startTime   = (Long)                        pars.get(SSVarU.startTime);
@@ -50,6 +53,10 @@ public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
       if(clientPars != null){
         
         labels = SSTagLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        
+        try{
+          forUser      = SSUri.get(clientPars.get(SSVarU.forUser));
+        }catch(Exception error){}
         
         try{
           space      = SSSpaceE.get  (clientPars.get(SSVarU.space));

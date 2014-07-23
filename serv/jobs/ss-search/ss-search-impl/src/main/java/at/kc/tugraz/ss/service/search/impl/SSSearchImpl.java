@@ -97,6 +97,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           SSServCaller.tagUserEntitiesForTagsGet(
             par.user,
+            null,
             SSStrU.toStrWithoutEmptyAndNull(tagLabel),
             SSSpaceE.sharedSpace,
             null)){
@@ -111,6 +112,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           SSServCaller.tagUserEntitiesForTagsGet(
             par.user,
+            null,
             SSStrU.toStrWithoutEmptyAndNull(tagLabel),
             SSSpaceE.privateSpace,
             null)){
@@ -253,7 +255,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
           
-          if(SSServCaller.tagsUserGet(par.user, SSUri.asListWithoutNullAndEmpty(entityUri), SSStrU.toStrWithoutEmptyAndNull(tag), null, null).isEmpty()){
+          if(SSServCaller.tagsUserGet(par.user, null, SSUri.asListWithoutNullAndEmpty(entityUri), SSStrU.toStrWithoutEmptyAndNull(tag), null, null).isEmpty()){
             continue;
           }
           

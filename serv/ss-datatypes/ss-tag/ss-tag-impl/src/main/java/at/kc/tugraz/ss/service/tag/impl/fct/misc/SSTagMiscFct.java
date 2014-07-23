@@ -52,7 +52,7 @@ public class SSTagMiscFct {
       
       entities.addAll(
         sqlFct.getEntitiesForTagLabel(
-          null,
+          par.forUser,
           null,
           SSSpaceE.sharedSpace));
     }
@@ -68,7 +68,7 @@ public class SSTagMiscFct {
       
       entities.addAll(
         sqlFct.getEntitiesForTagLabel(
-          null,
+          par.forUser,
           label,
           SSSpaceE.sharedSpace));
     }
@@ -118,13 +118,13 @@ public class SSTagMiscFct {
     if(par.entities.isEmpty()){
       
       if(par.labels.isEmpty()){
-        tags.addAll (sqlFct.getTagAsss(null,     null, null, SSSpaceE.sharedSpace, par.startTime));
-        tags.addAll (sqlFct.getTagAsss(par.user, null, null, SSSpaceE.privateSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.forUser, null, null, SSSpaceE.sharedSpace,  par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user,    null, null, SSSpaceE.privateSpace, par.startTime));
       }
       
       for(SSTagLabel label : par.labels){
-        tags.addAll (sqlFct.getTagAsss(null,     null, label, SSSpaceE.sharedSpace, par.startTime));
-        tags.addAll (sqlFct.getTagAsss(par.user, null, label, SSSpaceE.privateSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.forUser, null, label, SSSpaceE.sharedSpace,  par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user,    null, label, SSSpaceE.privateSpace, par.startTime));
       }
     }
     
@@ -132,13 +132,13 @@ public class SSTagMiscFct {
     for(SSUri entity : par.entities){
       
       if(par.labels.isEmpty()){
-        tags.addAll (sqlFct.getTagAsss(null,     entity, null, SSSpaceE.sharedSpace, par.startTime));
-        tags.addAll (sqlFct.getTagAsss(par.user, entity, null, SSSpaceE.privateSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.forUser, entity, null, SSSpaceE.sharedSpace,  par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user,    entity, null, SSSpaceE.privateSpace, par.startTime));
       }
       
       for(SSTagLabel label : par.labels){
-        tags.addAll (sqlFct.getTagAsss(null,     entity, label, SSSpaceE.sharedSpace, par.startTime));
-        tags.addAll (sqlFct.getTagAsss(par.user, entity, label, SSSpaceE.privateSpace, par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.forUser,     entity, label, SSSpaceE.sharedSpace,  par.startTime));
+        tags.addAll (sqlFct.getTagAsss(par.user,        entity, label, SSSpaceE.privateSpace, par.startTime));
       }
     }
     

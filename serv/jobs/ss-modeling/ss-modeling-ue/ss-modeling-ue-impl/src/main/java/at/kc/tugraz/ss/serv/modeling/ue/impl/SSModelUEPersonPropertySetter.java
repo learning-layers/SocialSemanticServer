@@ -190,7 +190,7 @@ public class SSModelUEPersonPropertySetter {
     resource.personsTopicFrequencies.clear();
     resource.personsTopicScores.clear();
     
-    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, new ArrayList<>(), new ArrayList<>(), null, null)){
+    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, resource.entity, new ArrayList<>(), new ArrayList<>(), null, null)){
       
       topic = SSStrU.toStr(tagAssignment.label);
       

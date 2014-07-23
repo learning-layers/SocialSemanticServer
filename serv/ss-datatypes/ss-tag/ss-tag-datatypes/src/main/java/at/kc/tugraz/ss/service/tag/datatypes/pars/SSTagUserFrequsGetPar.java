@@ -32,6 +32,7 @@ import java.util.List;
 
 public class SSTagUserFrequsGetPar extends SSServPar{
   
+  public SSUri              forUser    = null;
   public List<SSUri>        entities   = new ArrayList<>();
   public List<SSTagLabel>   labels     = new ArrayList<>();
   public SSSpaceE           space      = null;
@@ -44,6 +45,7 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     try{
       
       if(pars != null){
+        forUser    = (SSUri)                       pars.get(SSVarU.forUser);
         entities   = (List<SSUri>)                  pars.get(SSVarU.entities);
         labels     = SSTagLabel.get((List<String>)  pars.get(SSVarU.labels));
         space      = (SSSpaceE)                     pars.get(SSVarU.space);
@@ -52,6 +54,10 @@ public class SSTagUserFrequsGetPar extends SSServPar{
       
       if(clientPars != null){
         
+        try{
+          forUser   = SSUri.get (clientPars.get(SSVarU.forUser));
+        }catch(Exception error){}
+          
         try{
           entities   = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
         }catch(Exception error){}

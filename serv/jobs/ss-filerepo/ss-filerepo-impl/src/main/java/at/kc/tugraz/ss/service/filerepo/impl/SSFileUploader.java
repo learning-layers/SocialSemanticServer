@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
@@ -213,6 +214,9 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       SSServCaller.solrAddDoc(par.user, fileId, true);
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn(error.getMessage());
+      SSServErrReg.reset();
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }

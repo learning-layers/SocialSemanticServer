@@ -1919,6 +1919,7 @@ public class SSServCaller {
   
   public static List<SSUri> tagUserEntitiesForTagsGet(
     final SSUri        user, 
+    final SSUri        forUser,
     final List<String> labels, 
     final SSSpaceE     space,
     final Long         startTime) throws Exception{
@@ -1926,6 +1927,7 @@ public class SSServCaller {
     final Map<String, Object>   opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.forUser,     forUser);
     opPars.put(SSVarU.labels,      labels);
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
@@ -1935,6 +1937,7 @@ public class SSServCaller {
   
   public static List<SSTag> tagsUserGet(
     final SSUri        user, 
+    final SSUri        forUser,
     final List<SSUri>  entities, 
     final List<String> labels, 
     final SSSpaceE     space,
@@ -1943,6 +1946,7 @@ public class SSServCaller {
     final Map<String, Object>   opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.forUser,     forUser);
     opPars.put(SSVarU.entities,    entities);
     opPars.put(SSVarU.labels,      labels);
     opPars.put(SSVarU.space,       space);
@@ -1953,6 +1957,7 @@ public class SSServCaller {
   
   public static List<SSTagFrequ> tagUserFrequsGet(
     final SSUri        user, 
+    final SSUri        forUser,
     final List<SSUri>  entities, 
     final List<String> labels,
     final SSSpaceE     space,
@@ -1961,6 +1966,7 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.forUser,     forUser);
     opPars.put(SSVarU.entities,    entities);
     opPars.put(SSVarU.labels,      labels);
     opPars.put(SSVarU.space,       space);

@@ -225,15 +225,18 @@ public class SSRecommFct{
       return SSTag.getTagLabelsPerEntities(
         SSServCaller.tagsUserGet(
           userUri,
+          null,
           SSUri.asListWithoutNullAndEmpty(),
           new ArrayList<>(),
           null,
           null));
       
     }else{
+      
       return SSTag.getTagLabelsPerEntities(
         SSServCaller.tagsUserGet(
           userUri,
+          null,
           SSUri.asListWithoutNullAndEmpty(),
           new ArrayList<>(),
           SSSpaceE.sharedSpace,
@@ -261,6 +264,7 @@ public class SSRecommFct{
     final List<SSTag> tags = 
       SSServCaller.tagsUserGet(
         userUri,
+        null,
         SSUri.asListWithoutNullAndEmpty(SSUri.get(entityUri)),
         new ArrayList<>(),
         space,

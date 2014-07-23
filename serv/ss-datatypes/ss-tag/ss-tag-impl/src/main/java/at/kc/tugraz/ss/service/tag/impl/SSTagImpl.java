@@ -171,6 +171,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSStrU.toStr(
           SSServCaller.tagsUserGet(
             par.user, 
+            par.user,
             SSUri.asListWithoutNullAndEmpty(par.entity), 
             new ArrayList<String>(), 
             null, 
@@ -199,12 +200,18 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         throw new Exception("user null");
       }
       
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        throw new Exception("user cannot get resources via tags for different users");
+      }
+      
       if(par.space == null){
         return SSTagMiscFct.getEntitiesForTagsIfSpaceNotSet(sqlFct, par);
       }
       
       if(SSSpaceE.isShared(par.space)){
-        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, null);
+        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.forUser);
       }
       
       if(SSSpaceE.isPrivate(par.space)){
@@ -389,6 +396,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return SSTagMiscFct.getTagFrequsFromTags(
         SSServCaller.tagsUserGet(
           par.user,
+          par.forUser,
           par.entities,
           SSStrU.toStrWithoutEmptyAndNull(par.labels),
           par.space,
@@ -566,10 +574,16 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     
     try{
       
-      final SSTagsUserGetPar par  = new SSTagsUserGetPar (parA);
+      final SSTagsUserGetPar par       = new SSTagsUserGetPar (parA);
       
       if(par.user == null){
         throw new Exception("user null");
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        throw new Exception("user cannot get tags for a different user");
       }
       
       if(par.space == null){
@@ -581,7 +595,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       }
       
       if(SSSpaceE.isShared(par.space)){
-        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, null);
+        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser);
       }
       
       throw new Exception("reached not reachable code");
