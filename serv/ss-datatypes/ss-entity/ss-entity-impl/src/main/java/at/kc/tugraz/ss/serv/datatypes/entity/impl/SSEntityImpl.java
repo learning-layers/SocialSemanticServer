@@ -1272,8 +1272,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       try{
         entity = SSServCaller.entityGet(par.entity);
-      }catch(SSEntityDoesntExistErr error){
-        return true;
+      }catch(Exception error){
+        
+        if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
+          
+          SSServErrReg.reset();
+          return true;
+        }else{
+          throw error;
+        }
       }
       
       switch(entity.type){
