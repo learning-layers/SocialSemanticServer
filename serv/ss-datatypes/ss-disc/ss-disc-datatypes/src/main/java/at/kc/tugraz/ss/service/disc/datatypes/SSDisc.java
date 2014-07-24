@@ -40,7 +40,7 @@ public class SSDisc extends SSEntity {
     final SSUri             author,
     final SSUri             entity,
     final SSEntityE         type,
-    final List<SSUri>       entries,
+    final List<SSDiscEntry> entries,
     final SSTextComment     explanation,
     final Long              creationTime,
     final List<SSCircleE>   circleTypes,
@@ -55,7 +55,7 @@ public class SSDisc extends SSEntity {
     final SSUri             author,
     final SSUri             entity,
     final SSEntityE         type,
-    final List<SSUri>       entries, 
+    final List<SSDiscEntry> entries, 
     final SSTextComment     description,
     final Long              creationTime,
     final List<SSCircleE>   circleTypes,
@@ -80,7 +80,7 @@ public class SSDisc extends SSEntity {
    
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

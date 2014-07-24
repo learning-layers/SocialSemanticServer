@@ -52,7 +52,9 @@ public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
       
       if(clientPars != null){
         
-        labels = SSTagLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        try{
+          labels = SSTagLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        }catch(Exception error){}
         
         try{
           forUser      = SSUri.get(clientPars.get(SSVarU.forUser));

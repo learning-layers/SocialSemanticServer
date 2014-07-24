@@ -24,47 +24,51 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSDiscEntry extends SSEntityA{
+public class SSDiscEntry extends SSEntity{
   
-  public  SSUri               id;
   public  Integer             pos;
   public  SSTextComment       content;
-  public  SSUri               author;
-  public  Long                timestamp; 
-  public  SSEntityE           type;
 
   public static SSDiscEntry get(
-    final SSUri                 uri,
-    final SSEntityE             discEntryType,
+    final SSUri                 id,
+    final SSEntityE             type,
     final int                   pos,
     final SSTextComment         content,
-    final SSUri                 author,
-    final Long                  timestamp) throws Exception{
+    final Long                  creationTime,
+    final List<SSEntity>        attachedEntities,
+    final SSUri                 author) throws Exception{
     
-    return new SSDiscEntry(uri, discEntryType, pos, content, author, timestamp);
+    return new SSDiscEntry(id, type, pos, content, creationTime, attachedEntities, author);
   }
   
   private SSDiscEntry(
-    final SSUri                 uri,
-    final SSEntityE             discEntryType,
+    final SSUri                 id,
+    final SSEntityE             type,
     final int                   pos,
     final SSTextComment         content,
-    final SSUri                 author,
-    final Long                  timestamp) throws Exception{
+    final Long                  creationTime,
+    final List<SSEntity>        attachedEntities,
+    final SSUri                 author) throws Exception{
     
-    super(uri);
+    super(
+      id,
+      null,
+      creationTime,
+      type,
+      author,
+      null,
+      null,
+      null,
+      attachedEntities);
     
-    this.id           = uri;
-    this.type         = discEntryType;
     this.pos          = pos;
     this.content      = content;
-    this.author       = author;
-    this.timestamp    = timestamp;
   }
   
   @Override
@@ -73,38 +77,19 @@ public class SSDiscEntry extends SSEntityA{
     final Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.id,            SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,          SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
     ld.put(SSVarU.pos,           SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     ld.put(SSVarU.content,       SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarU.author,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp,     SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }
 
-  /* getters to allow for json enconding */
+  /* json getters */
   
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
-  public String getType() throws Exception{
-    return SSStrU.toStr(type);
-  }
-
   public int getPos(){
     return pos;
   }
 
   public String getContent(){
     return SSStrU.toStr(content);
-  }
-
-  public String getAuthor() throws Exception{
-    return SSStrU.removeTrailingSlash(author);
-  }
-
-  public Long getTimestamp(){
-    return timestamp;
   }
 }

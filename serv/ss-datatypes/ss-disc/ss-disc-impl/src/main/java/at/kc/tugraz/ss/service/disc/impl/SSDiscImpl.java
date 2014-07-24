@@ -400,6 +400,14 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.user, 
           disc.id));
       
+      for(Object entry : disc.entries){
+        
+        ((SSDiscEntry) entry).attachedEntities.addAll(
+          SSServCaller.entityEntitiesAttachedGet(
+            par.user,
+            disc.id));
+      }
+      
       return disc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

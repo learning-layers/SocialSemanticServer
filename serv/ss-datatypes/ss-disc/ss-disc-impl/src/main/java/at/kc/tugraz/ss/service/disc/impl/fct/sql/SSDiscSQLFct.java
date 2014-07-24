@@ -459,8 +459,9 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             bindingStrToInteger    (resultSet, SSSQLVarU.pos),
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.discEntryContent)),
-            bindingStrToUri        (resultSet, SSSQLVarU.author),
-            bindingStrToLong       (resultSet, SSSQLVarU.creationTime)));
+            bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
+            null,
+            bindingStrToUri        (resultSet, SSSQLVarU.author)));
       }
       
       disc.entries.addAll(discEntries);
