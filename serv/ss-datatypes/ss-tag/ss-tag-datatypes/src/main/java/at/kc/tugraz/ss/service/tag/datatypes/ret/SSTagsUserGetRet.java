@@ -31,15 +31,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSTagAsssGetRet extends SSServRetI{
+public class SSTagsUserGetRet extends SSServRetI{
   
-  public List<SSTag> tags = new ArrayList<SSTag>();
+  public List<SSTag> tags = new ArrayList<>();
   
-  public static SSTagAsssGetRet get(List<SSTag> tags, SSMethU op){
-    return new SSTagAsssGetRet(tags, op);
+  public static SSTagsUserGetRet get(
+    final List<SSTag> tags, 
+    final SSMethU     op){
+    
+    return new SSTagsUserGetRet(tags, op);
   }
   
-  private SSTagAsssGetRet(List<SSTag> tags, SSMethU op){
+  private SSTagsUserGetRet(
+    final List<SSTag> tags, 
+    final SSMethU     op){
     
     super(op);
     
@@ -51,8 +56,8 @@ public class SSTagAsssGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> tagsObj     = new HashMap<>();
+    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> tagsObj     = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTag.class.getName());
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -62,7 +67,8 @@ public class SSTagAsssGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
+  /* json getters */
+  
   public List<SSTag> getTags() {
     return tags;
   }

@@ -53,6 +53,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
@@ -70,8 +71,6 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     sqlFct    = new SSTagSQLFct   (this);
   }
   
-  /* SSEntityHandlerImplI */
-
   @Override
   public Boolean copyUserEntity(
     final SSUri        user,
@@ -567,6 +566,14 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  @Override
+  public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op));
   }
   
   @Override

@@ -150,6 +150,7 @@ public enum SSMethU{
   tagsUserRemove                                      ,
   tagsUserGet                                         ,
   tagUserFrequsGet                                    ,
+  tagsGet,
   tagAdd                                              ,
   tagAddAtCreationTime                                ,
   tagFrequsGet,

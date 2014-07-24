@@ -38,7 +38,7 @@ public class SSTag extends SSEntityA {
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -105,7 +105,7 @@ public class SSTag extends SSEntityA {
   
   private SSTag(
     SSUri        uri,
-    SSUri        resource,
+    SSUri        entity,
     SSUri        user,
     SSSpaceE     space,
     SSTagLabel   label) throws Exception{
@@ -113,7 +113,7 @@ public class SSTag extends SSEntityA {
     super(label);
     
     this.id          = uri;
-    this.entity     = resource;
+    this.entity      = entity;
     this.user        = user;
     this.space       = space;
     this.label       = label;

@@ -724,6 +724,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagsGet")
+  public String tagsGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "tagAdd")
   public String tagAdd(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagAdd);
