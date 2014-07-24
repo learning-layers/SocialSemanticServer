@@ -1265,11 +1265,18 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public Boolean entityUserAllowedIs(final SSServPar parA) throws Exception{
    
-    final SSEntityUserAllowedIsPar par = new SSEntityUserAllowedIsPar(parA);
-    
     try{
+
+      final SSEntityUserAllowedIsPar par = new SSEntityUserAllowedIsPar(parA);
+      final SSEntity                 entity;
       
-      switch(SSServCaller.entityGet(par.entity).type){
+      try{
+        entity = SSServCaller.entityGet(par.entity);
+      }catch(SSEntityDoesntExistErr error){
+        return true;
+      }
+      
+      switch(entity.type){
         case entity: return true;
       }
       
