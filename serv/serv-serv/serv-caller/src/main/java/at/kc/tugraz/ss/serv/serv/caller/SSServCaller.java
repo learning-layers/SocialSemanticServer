@@ -59,7 +59,6 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -2011,7 +2010,7 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.tagsUserRemove, opPars));
   }
   
-  public static void tagAdd(
+  public static SSUri tagAdd(
     final SSUri       user,
     final SSUri       entity,
     final String      label,
@@ -2026,10 +2025,10 @@ public class SSServCaller {
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.label,        label);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.tagAdd, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.tagAdd, opPars));
   }
   
-  public static void tagAddAtCreationTime(
+  public static SSUri tagAddAtCreationTime(
     final SSUri        user,
     final SSUri        entity,
     final String       label,
@@ -2046,10 +2045,10 @@ public class SSServCaller {
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
    
-    SSServA.callServViaServer(new SSServPar(SSMethU.tagAddAtCreationTime, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.tagAddAtCreationTime, opPars));
   }
   
-  public static void tagsAddAtCreationTime(
+  public static List<SSUri> tagsAddAtCreationTime(
     final SSUri            user,
     final SSUri            entity,
     final List<String>     tagList,
@@ -2066,7 +2065,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.tagsAddAtCreationTime, opPars));
   }
   
   /* location */

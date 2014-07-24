@@ -31,7 +31,7 @@ public class SSEntityCircle extends SSEntityA{
   public SSUri                          id           = null;
   public SSLabel                        label        = null;
   public SSCircleE                      type         = null;
-  public List<SSCircleRightE>           accessRights = new ArrayList<SSCircleRightE>();
+  public List<SSCircleRightE>           accessRights = new ArrayList<>();
   public List<SSUri>                    users        = new ArrayList<>();
   public List<SSUri>                    entities     = new ArrayList<>();
   
@@ -73,6 +73,7 @@ public class SSEntityCircle extends SSEntityA{
     }    
   }
 
+  @Override
   public Object jsonLDDesc(){
     
     final Map<String, Object> ld              = new HashMap<>();
@@ -102,7 +103,7 @@ public class SSEntityCircle extends SSEntityA{
     return ld;
   }
 
-  /* getters to allow for json enconding  */
+  /* json getters  */
   
   public String getId() throws Exception{
     return SSStrU.removeTrailingSlash(id);

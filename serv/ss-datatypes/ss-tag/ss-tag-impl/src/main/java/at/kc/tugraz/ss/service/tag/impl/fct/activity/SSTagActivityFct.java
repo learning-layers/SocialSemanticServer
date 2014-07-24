@@ -33,7 +33,8 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
 public class SSTagActivityFct{
   
   public static void addTag(
-    final SSTagAddPar par) throws Exception{
+    final SSTagAddPar par,
+    final SSUri       tagUri) throws Exception{
     
     try{
       
@@ -41,7 +42,7 @@ public class SSTagActivityFct{
         par.user,
         SSActivityE.tagEntity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(par.entity, tagUri),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       

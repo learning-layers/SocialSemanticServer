@@ -82,6 +82,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -89,13 +90,13 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
@@ -640,20 +641,55 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }
   }
   
-    @Override
+  @Override
   public void entityUserCirclesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCaller.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSEntityUserCirclesGetRet.get(entityUserCirclesGet(parA), parA.op));
+  }
+  
+  @Override
+  public void entityCircleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSEntityUserCircleGetRet.get(entityUserCircleGet(parA), parA.op));
   }    
+  
+  @Override
+  public SSEntityCircle entityUserCircleGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityUserCircleGetPar par = new SSEntityUserCircleGetPar(parA);
+      
+      SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.circle);
+      
+      if(sqlFct.isSystemCircle(par.circle)){
+        throw new Exception("user cannot access circle");
+      }
+      
+      final SSEntityCircle circle = sqlFct.getCircle(par.circle);
+      
+      circle.users.addAll        (sqlFct.getCircleUserURIs        (par.circle));
+      circle.entities.addAll     (sqlFct.getCircleEntityURIs      (par.circle));
+//      circle.accessRights.addAll (SSEntityMiscFct.getCircleRights (circle.type));
+
+      return circle;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   @Override
   public List<SSEntityCircle> entityUserCirclesGet(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSEntityUserCirclesGetPar par     = new SSEntityUserCirclesGetPar(parA);
+      final SSEntityUserCirclesGetPar       par     = new SSEntityUserCirclesGetPar(parA);
       final List<SSEntityCircle>            circles = new ArrayList<>();
       SSEntityCircle                        circle;
       

@@ -23,37 +23,44 @@ package at.kc.tugraz.ss.service.tag.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSTagAddRet extends SSServRetI{
 
-  public boolean worked = false;
+  public SSUri tag = null;
 
-  public static SSTagAddRet get(boolean worked, SSMethU op){
-    return new SSTagAddRet(worked, op);
+  public static SSTagAddRet get(
+    final SSUri   tag, 
+    final SSMethU op){
+    
+    return new SSTagAddRet(tag, op);
   }
   
-  private SSTagAddRet(boolean worked, SSMethU op){
+  private SSTagAddRet(
+    final SSUri   tag, 
+    final SSMethU op){
     
     super(op);
     
-    this.worked = worked;
+    this.tag = tag;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.tag, SSVarU.xsd + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public boolean isWorked() {
-    return worked;
+  /* json getters */
+  
+  public String getTag() {
+    return SSStrU.removeTrailingSlash(tag);
   }
 }

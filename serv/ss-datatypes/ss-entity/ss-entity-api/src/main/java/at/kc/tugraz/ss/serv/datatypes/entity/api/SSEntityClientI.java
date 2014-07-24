@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSEntityClientI {
 
+  public void entityCircleGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUpdate                         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDescGet                        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

@@ -230,13 +230,15 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagAddRet.get(tagAdd(parA), parA.op));
+    final SSUri tagUri = tagAdd(parA);
+    
+    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op));
 
-    SSTagActivityFct.addTag(new SSTagAddPar(parA));
+    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
   
   @Override
-  public Boolean tagAdd(final SSServPar parA) throws Exception {
+  public SSUri tagAdd(final SSServPar parA) throws Exception {
     
     try{
       
@@ -270,7 +272,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       dbSQL.commit(par.shouldCommit);
       
-      return true;
+      return tagUri;
       
     }catch(SSSQLDeadLockErr deadLockErr){
       
@@ -409,7 +411,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   @Override
-  public Boolean tagAddAtCreationTime(final SSServPar parA) throws Exception {
+  public SSUri tagAddAtCreationTime(final SSServPar parA) throws Exception {
     
     try{
       
@@ -444,7 +446,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       dbSQL.commit(par.shouldCommit);
       
-      return true;
+      return tagUri;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -462,23 +464,27 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   @Override
-  public Boolean tagsAdd(final SSServPar parA) throws Exception {
+  public List<SSUri> tagsAdd(final SSServPar parA) throws Exception {
     
     try{
 
       final SSTagsAddPar par    = new SSTagsAddPar(parA);
+      final List<SSUri>  tags   = new ArrayList<>();
       
       for(SSTagLabel tagLabel : par.labels) {
         
-        SSServCaller.tagAdd(
-          par.user, 
-          par.entity, 
-          SSStrU.toStr(tagLabel), 
-          par.space, 
-          par.shouldCommit);
+        tags.add(
+          SSServCaller.tagAdd(
+            par.user,
+            par.entity,
+            SSStrU.toStr(tagLabel),
+            par.space,
+            par.shouldCommit));
       }
       
-      return true;
+      SSStrU.distinctWithoutNull2(tags);
+      
+      return tags;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
@@ -496,28 +502,32 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   @Override
-  public Boolean tagsAddAtCreationTime(final SSServPar parA) throws Exception {
+  public List<SSUri> tagsAddAtCreationTime(final SSServPar parA) throws Exception {
     
     try{
-
-      final SSTagsAddAtCreationTimePar par    = new SSTagsAddAtCreationTimePar(parA);
+      
+      final SSTagsAddAtCreationTimePar par     = new SSTagsAddAtCreationTimePar(parA);
+      final List<SSUri>                tags    = new ArrayList<>();
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSTagLabel tagString : par.labels) {
-       
-        SSServCaller.tagAddAtCreationTime(
-          par.user, 
-          par.entity, 
-          SSStrU.toStr(tagString), 
-          par.space, 
-          par.creationTime, 
-          false);
+        
+        tags.add(
+          SSServCaller.tagAddAtCreationTime(
+            par.user,
+            par.entity,
+            SSStrU.toStr(tagString),
+            par.space,
+            par.creationTime,
+            false));
       }
+      
+      SSStrU.distinctWithoutNull2(tags);
       
       dbSQL.commit(par.shouldCommit);
       
-      return true;
+      return tags;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
