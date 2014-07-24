@@ -258,8 +258,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
     
     try{
-      SSEntityMiscFct.checkWhetherUserCanEditEntity          (par.user, par.entity);
-      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself(par.user, par.users);
+      SSEntityMiscFct.checkWhetherUserCanEditEntity           (par.user, par.entity);
+      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
+      SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -1425,21 +1426,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       for(SSUri entity : par.entities){
         
-        try{
-          if(!SSServCaller.entityUserCanRead(par.user, entity)){
-            throw new Exception("user cannot read entity to be attached");
-          }
-        }catch(Exception error){
-          SSServErrReg.containsErr(SSEntityDoesntExistErr.class);
-          
-          SSServCaller.entityAdd(
-            par.user, 
-            entity, 
-            null, 
-            SSEntityE.entity, 
-            null, 
-            false);
+        if(!SSServCaller.entityUserCanRead(par.user, entity)){
+          throw new Exception("user cannot read entity to be attached");
         }
+        
+        SSServCaller.entityAdd(
+          par.user,
+          entity,
+          null,
+          SSEntityE.entity,
+          null,
+          false);
         
         sqlFct.attachEntity(par.entity, entity);
       }

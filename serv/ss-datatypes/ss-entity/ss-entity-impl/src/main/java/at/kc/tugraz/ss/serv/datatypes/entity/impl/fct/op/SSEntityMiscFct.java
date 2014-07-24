@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
+import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -444,6 +445,34 @@ public class SSEntityMiscFct{
       
       SSLogU.warn("entity couldnt be copied by entity handlers");
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
+    
+    try{
+      
+      SSEntityE type;
+      
+      for(SSUri user : users){
+        
+        try{
+          type = SSServCaller.entityGet(user).type;
+        }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
+            throw new Exception("provided user doesnt exist");
+          }else{
+            throw error;
+          }
+        }
+        
+        if(!SSStrU.equals(type, SSEntityE.user)){
+          throw new Exception("provided user isnt user");
+        }
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

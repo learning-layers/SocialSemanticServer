@@ -84,7 +84,7 @@ public class SSLogU{
       
     log.error(getMsg(error, logText));
     
-    error.printStackTrace();
+//    error.printStackTrace();
   }
   
   public static void err(final Exception error){
@@ -95,7 +95,7 @@ public class SSLogU{
     
     log.error(getMsg(error));
     
-    error.printStackTrace();
+//    error.printStackTrace();
   }
   
   public static void errThrow(final Exception error) throws Exception{
@@ -106,7 +106,7 @@ public class SSLogU{
     
     log.error(getMsg(error));
     
-    error.printStackTrace();
+//    error.printStackTrace();
     
     throw error;
   }
@@ -119,7 +119,7 @@ public class SSLogU{
     
     log.fatal(getMsg(error));
     
-    error.printStackTrace();
+//    error.printStackTrace();
   }
   
   public static Boolean isNotSame(final SSLogLevelEnum level1, final SSLogLevelEnum level2){

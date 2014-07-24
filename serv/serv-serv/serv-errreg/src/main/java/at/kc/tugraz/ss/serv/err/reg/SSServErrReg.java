@@ -51,7 +51,7 @@ public class SSServErrReg {
     
     return false;
   }
-  
+    
   public static List<SSErrForClient> getServiceImplErrors(){
     return new ArrayList<>(servImplErrors.get());
   }
@@ -88,7 +88,7 @@ public class SSServErrReg {
       return;
     }
     
-    if(!SSStrU.contains(servImplErrors.get(), error)){
+    if(!containsErr(error.getClass())){
       SSLogU.err(error, logText);
     }
     
@@ -113,7 +113,7 @@ public class SSServErrReg {
       return;
     }
     
-    if(!SSStrU.contains(servImplErrors.get(), error)){
+    if(!containsErr(error.getClass())){
       SSLogU.err(error);
     }
     
