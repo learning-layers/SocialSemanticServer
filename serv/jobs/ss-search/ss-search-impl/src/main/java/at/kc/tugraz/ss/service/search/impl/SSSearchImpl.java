@@ -38,12 +38,7 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchCombinedRet;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchMIsRet;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchSolrRet;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsRet;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchTagsWithinEntityRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
@@ -52,26 +47,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf);
-  }
-  
-  /* SSSearchClientI */
-  
-  @Deprecated
-  @Override
-  public void searchCombined(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchCombinedRet.get(searchCombined(parA), parA.op));
-  }
-  
-  @Deprecated
-  @Override
-  public void searchTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchTagsRet.get(searchTags(parA), parA.op));
   }
   
   @Deprecated
@@ -138,15 +113,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Deprecated
   @Override
-  public void searchMIs(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchMIsRet.get(searchMIs(parA), parA.op));
-  }
-  
-  @Deprecated
-  @Override
   public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
     return searchMIs(new SSSearchMIsPar(parA));
   }
@@ -183,15 +149,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
 
   @Deprecated
   @Override
-  public void searchSolr(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchSolrRet.get(searchSolr(parA), parA.op));
-  }
-  
-  @Deprecated
-  @Override
   public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
     return searchSolr(new SSSearchSolrPar(parA));
   }
@@ -224,15 +181,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Deprecated
-  @Override
-  public void searchTagsWithinEntity(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSSearchTagsWithinEntityRet.get(searchTagsWithinEntity(parA), parA.op));
   }
   
   @Deprecated

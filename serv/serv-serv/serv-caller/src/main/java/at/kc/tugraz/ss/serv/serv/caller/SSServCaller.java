@@ -892,7 +892,10 @@ public class SSServCaller {
     final Boolean             addNewDisc,
     final SSEntityE           type,
     final SSLabel             label,
-    final List<SSUri>         users) throws Exception{
+    final SSTextComment       description,
+    final List<SSUri>         users,
+    final List<SSUri>         entities,
+    final Boolean             shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -903,7 +906,10 @@ public class SSServCaller {
     opPars.put(SSVarU.addNewDisc,   addNewDisc);
     opPars.put(SSVarU.type,         type);
     opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.description,  description);
     opPars.put(SSVarU.users,        users);
+    opPars.put(SSVarU.entities,     entities);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     return (SSDiscUserEntryAddRet) SSServA.callServViaServer(new SSServPar(SSMethU.discUserEntryAdd, opPars));
   }

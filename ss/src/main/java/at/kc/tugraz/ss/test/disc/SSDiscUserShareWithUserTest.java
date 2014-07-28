@@ -59,7 +59,10 @@ public class SSDiscUserShareWithUserTest extends SSServOpTestCaseA{
         true, 
         SSEntityE.chat, 
         SSLabel.get("single message chat"),
-        SSUri.asListWithoutNullAndEmpty(userToShareWith));
+        SSTextComment.get("description 1"),
+        SSUri.asListWithoutNullAndEmpty(userToShareWith),
+        SSUri.asListWithoutNullAndEmpty(),
+        true);
     
     System.out.println (op + " test end");
   }

@@ -45,7 +45,6 @@ public class SSVarU{
   public static final String description                                    = "description";
   public static final String activities                                     = "activities";
   public static final String types                                          = "types";
-  public static final String explanation                                    = "explanation";
   public static final String files                                          = "files";
   public static final String accessRights                                   = "accessRights";
   public static final String ue                                             = "ue";

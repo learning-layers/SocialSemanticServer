@@ -274,7 +274,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
           par.entity,
           par.type,
           par.label,
-          par.explanation);
+          par.description);
         
         if(!par.entities.isEmpty()){
         

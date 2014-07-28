@@ -39,7 +39,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public Boolean             addNewDisc     = null;
   public SSEntityE           type           = null;
   public SSLabel             label          = null;
-  public SSTextComment       explanation    = null;
+  public SSTextComment       description    = null;
   public List<SSUri>         users          = new ArrayList<>();
   public List<SSUri>         entities       = new ArrayList<>();
             
@@ -56,7 +56,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         addNewDisc    = (Boolean)            pars.get(SSVarU.addNewDisc);
         type          = (SSEntityE)          pars.get(SSVarU.type);
         label         = (SSLabel)            pars.get(SSVarU.label);
-        explanation   = (SSTextComment)      pars.get(SSVarU.explanation);
+        description   = (SSTextComment)      pars.get(SSVarU.description);
         users         = (List<SSUri>)        pars.get(SSVarU.users);
         entities      = (List<SSUri>)        pars.get(SSVarU.entities);
       }
@@ -88,7 +88,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          explanation   = SSTextComment.get(clientPars.get(SSVarU.explanation));
+          description   = SSTextComment.get(clientPars.get(SSVarU.description));
         }catch(Exception error){}
         
         try{

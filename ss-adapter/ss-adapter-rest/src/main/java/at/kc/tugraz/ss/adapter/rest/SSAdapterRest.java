@@ -417,15 +417,6 @@ public class SSAdapterRest{
   }
   
   @POST
-  @Deprecated
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityLabelSet")
-  public String entityLabelSet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityLabelSet);
-  }
-  
-  @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityUpdate")
@@ -639,86 +630,6 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "recommTags")
   public String recommTags(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.recommTags);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTag")
-  public String scaffRecommTagsBasedOnUserEntityTag(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTag);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagTime")
-  public String scaffRecommTagsBasedOnUserEntityTagTime(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagTime);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagCategory")
-  public String scaffRecommTagsBasedOnUserEntityTagCategory(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "scaffRecommTagsBasedOnUserEntityTagCategoryTime")
-  public String scaffRecommTagsBasedOnUserEntityTagCategoryTime(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "searchCombined")
-  public String searchCombined(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchCombined);
-  }
-  
-  @POST
-  @Deprecated
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "searchTagsWithinEntity")
-  public String searchTagsWithinEntity(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchTagsWithinEntity);
-  }
-  
-  @POST
-  @Deprecated
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "searchMIs")
-  public String searchMIs(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchMIs);
-  }
-  
-  @POST
-  @Deprecated
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "searchSolr")
-  public String searchSolr(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchSolr);
-  }
-  
-  @POST
-  @Deprecated 
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "searchTags")
-  public String searchTags(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.searchTags);
   }
   
   @POST

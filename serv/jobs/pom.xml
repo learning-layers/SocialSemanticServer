@@ -19,7 +19,6 @@
     <module>ss-search</module>
     <module>ss-auth</module>
     <module>ss-dataimport</module>
-    <module>ss-scaff</module>
     <module>ss-solr</module>
     <module>ss-lomextractor</module>
     <module>recomm</module>
