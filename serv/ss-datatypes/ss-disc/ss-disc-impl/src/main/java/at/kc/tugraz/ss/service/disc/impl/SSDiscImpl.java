@@ -144,24 +144,24 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     final SSUri          circle,
     final SSEntityE      entityType) throws Exception{
     
-    if(
-      !SSStrU.equals(entityType, SSEntityE.disc) ||
-      !SSStrU.equals(entityType, SSEntityE.chat) ||
-      !SSStrU.equals(entityType, SSEntityE.qa)){
-      return false;
+    switch(entityType){
+      case disc:
+      case chat:
+      case qa:
+       
+        for(SSUri userToShareWith : usersToShareWith){
+          
+          SSServCaller.discUserShareWithUser(
+            user,
+            userToShareWith,
+            entity,
+            circle,
+            false);
+        }
+        return true;
+        
+      default: return false;
     }
-    
-    for(SSUri userToShareWith : usersToShareWith){
-    
-      SSServCaller.discUserShareWithUser(
-        user, 
-        userToShareWith, 
-        entity, 
-        circle, 
-        false);
-    }
-    
-    return true;
   }
   
   @Override
