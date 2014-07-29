@@ -722,6 +722,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             null,
             SSServCaller.entityGet(collUri).label,
             null, 
+            null,
             null));
       }
 

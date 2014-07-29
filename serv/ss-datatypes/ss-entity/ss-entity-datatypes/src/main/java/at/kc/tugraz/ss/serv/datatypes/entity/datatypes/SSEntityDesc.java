@@ -31,38 +31,40 @@ import java.util.List;
 public class SSEntityDesc extends SSEntityDescA{
 
   public static SSEntityDesc get(
-    final SSUri           entity, 
-    final SSEntityE       type, 
-    final SSLabel         label, 
-    final Long            creationTime, 
-    final List<String>    tags,
-    final SSEntityA       overallRating,
-    final List<SSEntityA> discs,
-    final SSUri           author,
-    final List<SSEntityA> uEs, 
-    final String          thumb,
-    final SSUri           file,
-    final SSTextComment   description,
-    final List<SSEntityA> flags) throws Exception{
+    final SSUri               entity, 
+    final SSEntityE           type, 
+    final SSLabel             label, 
+    final Long                creationTime, 
+    final List<String>        tags,
+    final SSEntityA           overallRating,
+    final List<SSEntityA>     discs,
+    final SSUri               author,
+    final List<SSEntityA>     uEs, 
+    final String              thumb,
+    final SSUri               file,
+    final SSTextComment       description,
+    final List<SSEntityA>     flags,
+    final List<SSTextComment> comments) throws Exception{
     
-    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb, file, description, flags);
+    return new SSEntityDesc(entity, type, label, creationTime, tags, overallRating, discs, author, uEs, thumb, file, description, flags, comments);
   }
   
   protected SSEntityDesc(
-    final SSUri            entity,
-    final SSEntityE        type,
-    final SSLabel          label,
-    final Long             creationTime,
-    final List<String>     tags, 
-    final SSEntityA        overallRating,
-    final List<SSEntityA>  discs,
-    final SSUri            author, 
-    final List<SSEntityA>  uEs, 
-    final String           thumb,
-    final SSUri            file,
-    final SSTextComment    description,
-    final List<SSEntityA>  flags) throws Exception{
+    final SSUri               entity,
+    final SSEntityE           type,
+    final SSLabel             label,
+    final Long                creationTime,
+    final List<String>        tags, 
+    final SSEntityA           overallRating,
+    final List<SSEntityA>     discs,
+    final SSUri               author, 
+    final List<SSEntityA>     uEs, 
+    final String              thumb,
+    final SSUri               file,
+    final SSTextComment       description,
+    final List<SSEntityA>     flags, 
+    final List<SSTextComment> comments) throws Exception{
     
-    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb, file, description, flags);
+    super(entity, label, creationTime, type, author, overallRating, tags, discs, uEs, thumb, file, description, flags, comments);
   }
 }

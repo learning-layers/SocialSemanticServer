@@ -388,6 +388,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     try{
       final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
+      SSDiscEntry discEntry;
+      
       
       if(!SSServCaller.entityUserCanRead(par.user, par.disc)){
         throw new Exception("user cannot access disc");
@@ -397,15 +399,22 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       
       disc.attachedEntities.addAll(
         SSServCaller.entityEntitiesAttachedGet(
-          par.user, 
+          par.user,
           disc.id));
       
       for(Object entry : disc.entries){
         
-        ((SSDiscEntry) entry).attachedEntities.addAll(
+        discEntry = (SSDiscEntry) entry;
+        
+        discEntry.attachedEntities.addAll(
           SSServCaller.entityEntitiesAttachedGet(
             par.user,
-            ((SSDiscEntry) entry).id));
+            discEntry.id));
+        
+        discEntry.comments.addAll(
+          SSServCaller.entityCommentsGet(
+            par.user,
+            discEntry.id));
       }
       
       return disc;

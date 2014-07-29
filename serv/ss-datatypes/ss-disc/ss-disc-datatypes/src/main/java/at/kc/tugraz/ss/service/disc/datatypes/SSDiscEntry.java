@@ -42,9 +42,10 @@ public class SSDiscEntry extends SSEntity{
     final SSTextComment         content,
     final Long                  creationTime,
     final List<SSEntity>        attachedEntities,
-    final SSUri                 author) throws Exception{
+    final SSUri                 author, 
+    final List<SSTextComment>   comments) throws Exception{
     
-    return new SSDiscEntry(id, type, pos, content, creationTime, attachedEntities, author);
+    return new SSDiscEntry(id, type, pos, content, creationTime, attachedEntities, author, comments);
   }
   
   private SSDiscEntry(
@@ -54,7 +55,8 @@ public class SSDiscEntry extends SSEntity{
     final SSTextComment         content,
     final Long                  creationTime,
     final List<SSEntity>        attachedEntities,
-    final SSUri                 author) throws Exception{
+    final SSUri                 author,
+    final List<SSTextComment>   comments) throws Exception{
     
     super(
       id,
@@ -65,7 +67,8 @@ public class SSDiscEntry extends SSEntity{
       null,
       null,
       null,
-      attachedEntities);
+      attachedEntities, 
+      comments);
     
     this.pos          = pos;
     this.content      = content;

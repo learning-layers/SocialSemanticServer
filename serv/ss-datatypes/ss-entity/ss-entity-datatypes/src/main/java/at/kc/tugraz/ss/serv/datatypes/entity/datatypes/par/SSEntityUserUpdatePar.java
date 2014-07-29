@@ -20,18 +20,22 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSEntityUserUpdatePar extends SSServPar{
   
-  public SSUri           entity        = null;
-  public SSLabel         label         = null;
-  public SSTextComment   description   = null;
+  public SSUri               entity        = null;
+  public SSLabel             label         = null;
+  public SSTextComment       description   = null;
+  public List<SSTextComment> comments      = new ArrayList<>();
 
   public SSEntityUserUpdatePar(SSServPar par) throws Exception{
       
@@ -40,9 +44,10 @@ public class SSEntityUserUpdatePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity         = (SSUri)         pars.get(SSVarU.entity);
-        label          = (SSLabel)       pars.get(SSVarU.label);
-        description    = (SSTextComment) pars.get(SSVarU.description);
+        entity         = (SSUri)               pars.get(SSVarU.entity);
+        label          = (SSLabel)             pars.get(SSVarU.label);
+        description    = (SSTextComment)       pars.get(SSVarU.description);
+        comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
       }
       
       if(clientPars != null){
@@ -54,6 +59,10 @@ public class SSEntityUserUpdatePar extends SSServPar{
         
         try{
           description  = SSTextComment.get(clientPars.get(SSVarU.description));
+        }catch(Exception error){}
+        
+        try{
+          comments  = SSTextComment.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.comments), SSStrU.comma));
         }catch(Exception error){}
       }
     }catch(Exception error){

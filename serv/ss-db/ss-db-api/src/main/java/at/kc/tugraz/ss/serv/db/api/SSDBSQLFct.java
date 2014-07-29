@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
@@ -82,6 +81,8 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   evernoteNoteTable                   = "evernotenote";
   protected static final String   evernoteResourceTable               = "evernoteresource";
   protected static final String   evernoteUserTable                   = "evernoteuser";
+  protected static final String   commentsTable                       = "comments";
+  protected static final String   commentTable                        = "comment";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
@@ -345,6 +346,19 @@ public class SSDBSQLFct extends SSDBFct{
     }
     
     return strings;
+  }
+  
+  protected static List<SSTextComment> getTextCommentsFromResult(
+    final ResultSet result,
+    final String    key) throws Exception{
+    
+    final List<SSTextComment> textComments = new ArrayList<>();
+    
+    while(result.next()){
+      textComments.add(bindingStrToTextComment(result, key));
+    }
+    
+    return textComments;
   }
   
   protected static List<SSUri> getURIsFromResult(

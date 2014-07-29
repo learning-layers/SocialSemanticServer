@@ -26,12 +26,15 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSEntityUpdatePar extends SSServPar{
   
-  public SSUri           entity        = null;
-  public SSLabel         label         = null;
-  public SSTextComment   description   = null;
+  public SSUri               entity        = null;
+  public SSLabel             label         = null;
+  public SSTextComment       description   = null;
+  public List<SSTextComment> comments      = new ArrayList<>();
 
   public SSEntityUpdatePar(SSServPar par) throws Exception{
       
@@ -40,21 +43,10 @@ public class SSEntityUpdatePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity         = (SSUri)         pars.get(SSVarU.entity);
-        label          = (SSLabel)       pars.get(SSVarU.label);
-        description    = (SSTextComment) pars.get(SSVarU.description);
-      }
-      
-      if(clientPars != null){
-        entity       = SSUri.get      (clientPars.get(SSVarU.entity));
-        
-        try{
-          label        = SSLabel.get (clientPars.get(SSVarU.label));
-        }catch(Exception error){}
-        
-        try{
-          description  = SSTextComment.get(clientPars.get(SSVarU.description));
-        }catch(Exception error){}
+        entity         = (SSUri)               pars.get(SSVarU.entity);
+        label          = (SSLabel)             pars.get(SSVarU.label);
+        description    = (SSTextComment)       pars.get(SSVarU.description);
+        comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -144,6 +145,7 @@ public class SSDataImportEvernoteHelper {
       notebookUri,
       notebookLabel,
       null,
+      SSTextComment.asListWithoutNullAndEmpty(),
       false);
     
     SSServCaller.entityEntitiesToCircleAdd(
@@ -444,6 +446,7 @@ public class SSDataImportEvernoteHelper {
       noteUri,
       noteLabel,
       null,
+      SSTextComment.asListWithoutNullAndEmpty(),
       false);
     
     SSServCaller.entityEntitiesToCircleAdd(
@@ -536,6 +539,7 @@ public class SSDataImportEvernoteHelper {
       resourceUri,
       resourceLabel,
       null,
+      SSTextComment.asListWithoutNullAndEmpty(),
       false);
     
     SSServCaller.entityEntitiesToCircleAdd(

@@ -38,7 +38,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddAtCreationTimePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityLabelSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
@@ -53,6 +52,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGe
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCommentsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
@@ -290,36 +290,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  @Deprecated
-  public SSUri entityLabelSet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityLabelSetPar par = new SSEntityLabelSetPar(parA);
-      
-      sqlFct.updateEntityIfExists(
-        par.entity, 
-        par.label, 
-        null);
-      
-      return par.entity;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return entityLabelSet(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public void entityUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCaller.checkKey(parA);
@@ -337,19 +307,83 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserUpdatePar par = new SSEntityUserUpdatePar(parA);
       
       if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-          throw new Exception("user cannot update entity");
-        }
+        throw new Exception("user cannot update entity");
+      }
       
-      sqlFct.updateEntityIfExists(
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityUpdate(
         par.entity, 
         par.label, 
-        par.description);
+        par.description, 
+        par.comments,
+        false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserUpdate(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityUpdate(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityUpdatePar par = new SSEntityUpdatePar(parA);
+      Boolean worked;
+      SSUri   commentUri;
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      worked =
+        sqlFct.updateEntity(
+          par.entity,
+          par.label,
+          par.description);
+      
+      if(
+        worked &&
+        !par.comments.isEmpty()){
+        
+        for(SSTextComment content : par.comments){
+          
+          commentUri = SSServCaller.vocURICreate();
+          
+          SSServCaller.entityAdd(
+            par.user, 
+            commentUri, 
+            null, 
+            SSEntityE.comment, 
+            null, 
+            false);
+          
+          sqlFct.createComment (commentUri, content);
+          sqlFct.addComment    (par.entity, commentUri);
+        }
+      }
+      
+      dbSQL.commit(par.shouldCommit);
       
       return par.entity;
     }catch(SSSQLDeadLockErr deadLockErr){
       
       if(dbSQL.rollBack(parA)){
-        return entityUserUpdate(parA);
+        return entityUpdate(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;
@@ -403,8 +437,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           new ArrayList<>(),
           null, 
           file,
-          entity.description, 
-          new ArrayList<>()));
+          entity.description,
+          new ArrayList<>(),
+          sqlFct.getComments(entity.id)));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -917,35 +952,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }
   }
 
-  @Override
-  public SSUri entityUpdate(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityUpdatePar par = new SSEntityUpdatePar(parA);
-      
-      sqlFct.updateEntityIfExists(
-        par.entity, 
-        par.label, 
-        par.description);
-      
-      return par.entity;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return entityUserUpdate(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public SSUri entityAdd(final SSServPar parA) throws Exception {
     
@@ -1487,6 +1493,21 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
       
       return sqlFct.getFiles(par.entity);
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSTextComment> entityCommentsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityCommentsGetPar par = new SSEntityCommentsGetPar(parA);
+      
+      return sqlFct.getComments(par.entity);
       
     }catch(Exception error){
       dbSQL.rollBack(parA);

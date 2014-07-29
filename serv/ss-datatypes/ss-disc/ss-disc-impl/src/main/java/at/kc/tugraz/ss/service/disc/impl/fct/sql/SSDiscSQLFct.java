@@ -355,6 +355,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         SSTextComment.get(bindingStr(resultSet, SSSQLVarU.description)),
         bindingStrToLong(resultSet, SSSQLVarU.creationTime),
         null, 
+        null,
         null);
       
     }catch(Exception error){
@@ -461,7 +462,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.discEntryContent)),
             bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
             null,
-            bindingStrToUri        (resultSet, SSSQLVarU.author)));
+            bindingStrToUri        (resultSet, SSSQLVarU.author), 
+            null));
       }
       
       disc.entries.addAll(discEntries);

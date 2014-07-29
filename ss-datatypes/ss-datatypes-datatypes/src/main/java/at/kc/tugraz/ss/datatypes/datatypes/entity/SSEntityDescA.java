@@ -33,19 +33,20 @@ import java.util.Map;
 
 public abstract class SSEntityDescA extends SSEntityA{
 
-  public SSUri            entity          = null;
-	public SSEntityE        type            = null;
-  public SSLabel          label           = null;
-	public Long             creationTime    = null;
-  public SSUri            author          = null;
-  public SSEntityA        overallRating   = null;
-  public List<String>     tags            = new ArrayList<>();
-  public List<SSEntityA>  discs           = new ArrayList<>();
-  public List<SSEntityA>  uEs             = new ArrayList<>();
-  public String           thumb           = null;
-  public SSUri            file            = null;
-  public SSTextComment    description     = null;
-  public List<SSEntityA>  flags           = new ArrayList<>();
+  public SSUri                entity          = null;
+	public SSEntityE            type            = null;
+  public SSLabel              label           = null;
+	public Long                 creationTime    = null;
+  public SSUri                author          = null;
+  public SSEntityA            overallRating   = null;
+  public List<String>         tags            = new ArrayList<>();
+  public List<SSEntityA>      discs           = new ArrayList<>();
+  public List<SSEntityA>      uEs             = new ArrayList<>();
+  public String               thumb           = null;
+  public SSUri                file            = null;
+  public SSTextComment        description     = null;
+  public List<SSEntityA>      flags           = new ArrayList<>();
+  public List<SSTextComment>  comments        = new ArrayList<>();
 
   protected SSEntityDescA(
     final SSEntityDescA entityDesc) throws Exception{
@@ -65,22 +66,24 @@ public abstract class SSEntityDescA extends SSEntityA{
     this.file            = entityDesc.file;
     this.description     = entityDesc.description;
     this.flags           = entityDesc.flags;
+    this.comments        = entityDesc.comments;
   }
   
   protected SSEntityDescA(
-    final SSUri           entity, 
-    final SSLabel         label, 
-    final Long            creationTime, 
-    final SSEntityE       type, 
-    final SSUri           author,
-    final SSEntityA       overallRating,
-    final List<String>    tags, 
-    final List<SSEntityA> discs,
-    final List<SSEntityA> uEs,
-    final String          thumb,
-    final SSUri           file,
-    final SSTextComment   description,
-    final List<SSEntityA> flags) throws Exception{
+    final SSUri               entity, 
+    final SSLabel             label, 
+    final Long                creationTime, 
+    final SSEntityE           type, 
+    final SSUri               author,
+    final SSEntityA           overallRating,
+    final List<String>        tags, 
+    final List<SSEntityA>     discs,
+    final List<SSEntityA>     uEs,
+    final String              thumb,
+    final SSUri               file,
+    final SSTextComment       description,
+    final List<SSEntityA>     flags,
+    final List<SSTextComment> comments) throws Exception{
     
     super(entity);
     
@@ -109,16 +112,21 @@ public abstract class SSEntityDescA extends SSEntityA{
     if(flags != null){
       this.flags.addAll(flags);
     }
+    
+    if(comments != null){
+      this.comments.addAll(comments);
+    }
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld       = new HashMap<>();
-    final Map<String, Object> tagsObj  = new HashMap<>();
-    final Map<String, Object> discsObj = new HashMap<>();
-    final Map<String, Object> uEsObj   = new HashMap<>();
-    final Map<String, Object> flagsObj = new HashMap<>();
+    final Map<String, Object> ld          = new HashMap<>();
+    final Map<String, Object> tagsObj     = new HashMap<>();
+    final Map<String, Object> discsObj    = new HashMap<>();
+    final Map<String, Object> uEsObj      = new HashMap<>();
+    final Map<String, Object> flagsObj    = new HashMap<>();
+    final Map<String, Object> commentsObj = new HashMap<>();
     
     flagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
     flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -140,6 +148,11 @@ public abstract class SSEntityDescA extends SSEntityA{
 
     ld.put(SSVarU.uEs,      uEsObj);
     
+    commentsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+
+    ld.put(SSVarU.comments,       commentsObj);
+    
     ld.put(SSVarU.entity,         SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.label,          SSVarU.sss  + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarU.creationTime,   SSVarU.xsd  + SSStrU.colon + SSStrU.valueLong);
@@ -149,7 +162,6 @@ public abstract class SSEntityDescA extends SSEntityA{
     ld.put(SSVarU.thumb,          SSVarU.xsd  + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.file,           SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.description,    SSVarU.sss  + SSStrU.colon + SSTextComment.class.getName());
-    
     
     return ld;
   }
@@ -206,5 +218,9 @@ public abstract class SSEntityDescA extends SSEntityA{
   
   public List<SSEntityA> getFlags() throws Exception{
     return flags;
+  }
+  
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
   }
 }

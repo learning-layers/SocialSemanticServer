@@ -53,7 +53,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   circle,
   activity,
   thumbnail,
-  flag;
+  flag,
+  comment;
 
 //  entityDesc,
 //  collDesc,

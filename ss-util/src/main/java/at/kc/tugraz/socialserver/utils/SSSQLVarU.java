@@ -67,6 +67,8 @@ public class SSSQLVarU{
   public static final String collChildId                                    = "collChildId";
   public static final String userId                                         = "userId";
   public static final String entityId                                       = "entityId";
+  public static final String commentId                                      = "commentId";
+  public static final String commentContent                                 = "commentContent";
   public static final String attachedEntityId                               = "attachedEntityId";
   public static final String thumbId                                        = "thumbId";
   public static final String fileId                                         = "fileId";

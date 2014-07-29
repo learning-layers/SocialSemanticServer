@@ -105,6 +105,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
         null, 
         null, 
+        null, 
         null);
       
     }catch(SSNoResultFoundErr error){
@@ -143,6 +144,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
         null,
         null,
+        null, 
         null);
       
     }catch(SSNoResultFoundErr error){
@@ -249,7 +251,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void updateEntityIfExists(
+  public Boolean updateEntity(
     final SSUri         entity, 
     final SSLabel       label, 
     final SSTextComment description) throws Exception{
@@ -260,7 +262,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       if(!existsEntity(entity)){
         SSLogU.warn("entity not updated | doesnt exist");
-        return;
+        return false;
       }
       
       where(wheres, SSSQLVarU.id, entity);
@@ -274,12 +276,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }
       
       if(updates.isEmpty()){
-        return;
+        return true;
       }
       
-      dbSQL.updateIgnore(entityTable, wheres, updates);
+      dbSQL.update(entityTable, wheres, updates);
+      
+      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -421,6 +426,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToEntityType    (resultSet, SSSQLVarU.type),
             bindingStrToUri           (resultSet, SSSQLVarU.author),
             bindingStrToTextComment   (resultSet, SSSQLVarU.description),
+            null, 
             null, 
             null, 
             null));
@@ -978,6 +984,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null,
             null,
+            null, 
             null));
       }
       
@@ -1024,6 +1031,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null,
             null,
+            null, 
             null));
       }
       
@@ -1070,6 +1078,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null, 
             null,
+            null, 
             null));
       }
       
@@ -1080,6 +1089,77 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSTextComment> getComments(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+       if(!existsEntity(entity)){
+        SSLogU.warn("comments not retrieved | entity doesnt exist");
+        return new ArrayList<>();
+      }
+      
+      final List<String>        tables            = new ArrayList<>();
+      final List<String>        columns           = new ArrayList<>();
+      final List<String>        tableCons         = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, SSSQLVarU.commentContent);
+      
+      table(tables, commentTable);
+      table(tables, commentsTable);
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      tableCon(tableCons, commentTable, SSSQLVarU.commentId, commentsTable, SSSQLVarU.commentId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+    
+      return getTextCommentsFromResult(resultSet, SSSQLVarU.commentContent);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void addComment(
+    final SSUri         entity,
+    final SSUri         commentUri) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,  entity);
+      insert(inserts, SSSQLVarU.commentId, commentUri);
+      
+      dbSQL.insert(commentsTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void createComment(
+    final SSUri         commentUri, 
+    final SSTextComment content) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.commentId,      commentUri);
+      insert(inserts, SSSQLVarU.commentContent, content);
+      
+      dbSQL.insert(commentTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

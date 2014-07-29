@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -32,7 +33,6 @@ public interface SSEntityServerI {
 
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntityDescA                   entityDescGet                            (final SSServPar parA) throws Exception;
-  public SSUri                           entityLabelSet                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserCircleCreate                   (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUsersToCircleAdd               (final SSServPar parA) throws Exception;
   public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;
@@ -52,6 +52,7 @@ public interface SSEntityServerI {
   
   public List<SSEntity>                  entityEntitiesAttachedGet                (final SSServPar parA) throws Exception;
   public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
+  public List<SSTextComment>             entityCommentsGet                        (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityFilesGet                           (final SSServPar parA) throws Exception;
   public SSUri                           entityThumbAdd                           (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityThumbsGet                          (final SSServPar parA) throws Exception;

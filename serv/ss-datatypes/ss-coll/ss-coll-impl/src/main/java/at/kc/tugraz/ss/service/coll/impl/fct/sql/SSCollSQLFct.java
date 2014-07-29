@@ -286,6 +286,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
             bindingStrToUri   (resultSet, SSSQLVarU.author),
             bindingStrToLabel (resultSet, SSSQLVarU.label),
             null, 
+            null,
             null));
       }
       
@@ -612,6 +613,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
         bindingStrToUri   (resultSet, SSSQLVarU.author),
         bindingStrToLabel (resultSet, SSSQLVarU.label),
         circleTypes,
+        null,
         null);
       
     }catch(Exception error){

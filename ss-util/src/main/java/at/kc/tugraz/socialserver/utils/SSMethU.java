@@ -64,8 +64,7 @@ public enum SSMethU{
   entityUserParentEntitiesGet,
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityLabelSet                                      ,
-  entityUserUpdate                                        ,
+  entityUserUpdate                                    ,
   entityThumbAdd,
   entityThumbsGet,
   entityFilesGet,
@@ -98,6 +97,7 @@ public enum SSMethU{
   entityDirectlyAdjoinedEntitiesRemove,
   entityShare,
   entityEntitiesAttachedGet,  
+  entityCommentsGet,
   
   //learn ep
   learnEpsGet                                         ,

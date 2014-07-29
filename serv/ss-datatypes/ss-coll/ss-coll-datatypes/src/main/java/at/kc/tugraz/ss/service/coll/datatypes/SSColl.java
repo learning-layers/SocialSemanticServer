@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -35,9 +36,10 @@ public class SSColl extends SSEntity{
     final SSUri                     author,
     final SSLabel                   label,
     final List<SSCircleE>           circleTypes,
-    final List<SSEntity>            attachedEntities) throws Exception{
+    final List<SSEntity>            attachedEntities,
+    final List<SSTextComment>             comments) throws Exception{
     
-    return new SSColl(id, entries, author, label, circleTypes, attachedEntities);
+    return new SSColl(id, entries, author, label, circleTypes, attachedEntities, comments);
   }
   
   private SSColl(
@@ -46,7 +48,8 @@ public class SSColl extends SSEntity{
     final SSUri                           author,
     final SSLabel                         label,
     final List<SSCircleE>                 circleTypes,
-    final List<SSEntity>                  attachedEntities) throws Exception{
+    final List<SSEntity>                  attachedEntities,
+    final List<SSTextComment>             comments) throws Exception{
     
     super(
       id,
@@ -57,7 +60,8 @@ public class SSColl extends SSEntity{
       null,
       circleTypes,
       entries,
-      attachedEntities);
+      attachedEntities, 
+      comments);
   }
   
   public static SSColl[] toCollArray(Collection<SSColl> toConvert) {

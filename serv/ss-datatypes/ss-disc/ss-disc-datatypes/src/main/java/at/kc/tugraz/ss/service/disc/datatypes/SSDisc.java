@@ -32,34 +32,36 @@ import java.util.*;
 
 public class SSDisc extends SSEntity {
   
-  public  SSUri             entity       = null;
+  public  SSUri  entity = null;
 
   public static SSDisc get(
-    final SSUri             id,
-    final SSLabel           label,
-    final SSUri             author,
-    final SSUri             entity,
-    final SSEntityE         type,
-    final List<SSDiscEntry> entries,
-    final SSTextComment     explanation,
-    final Long              creationTime,
-    final List<SSCircleE>   circleTypes,
-    final List<SSEntity>    attachedEntities) throws Exception{
+    final SSUri               id,
+    final SSLabel             label,
+    final SSUri               author,
+    final SSUri               entity,
+    final SSEntityE           type,
+    final List<SSDiscEntry>   entries,
+    final SSTextComment       explanation,
+    final Long                creationTime,
+    final List<SSCircleE>     circleTypes,
+    final List<SSEntity>      attachedEntities,
+    final List<SSTextComment> comments) throws Exception{
     
-    return new SSDisc(id, label, author, entity, type, entries, explanation, creationTime, circleTypes, attachedEntities);
+    return new SSDisc(id, label, author, entity, type, entries, explanation, creationTime, circleTypes, attachedEntities, comments);
   }
 
   private SSDisc(
-    final SSUri             id,
-    final SSLabel           label,
-    final SSUri             author,
-    final SSUri             entity,
-    final SSEntityE         type,
-    final List<SSDiscEntry> entries, 
-    final SSTextComment     description,
-    final Long              creationTime,
-    final List<SSCircleE>   circleTypes,
-    final List<SSEntity>    attachedEntities) throws Exception{
+    final SSUri               id,
+    final SSLabel             label,
+    final SSUri               author,
+    final SSUri               entity,
+    final SSEntityE           type,
+    final List<SSDiscEntry>   entries, 
+    final SSTextComment       description,
+    final Long                creationTime,
+    final List<SSCircleE>     circleTypes,
+    final List<SSEntity>      attachedEntities,
+    final List<SSTextComment> comments) throws Exception{
     
     super(
       id,
@@ -70,7 +72,8 @@ public class SSDisc extends SSEntity {
       description,
       circleTypes,
       entries,
-      attachedEntities);
+      attachedEntities,
+      comments);
     
     this.entity = entity;
   }

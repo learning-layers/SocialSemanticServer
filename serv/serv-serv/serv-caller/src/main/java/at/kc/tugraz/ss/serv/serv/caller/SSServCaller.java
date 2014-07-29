@@ -1003,8 +1003,20 @@ public class SSServCaller {
   
   /* entity */
   
+  public static List<SSTextComment> entityCommentsGet(
+    final SSUri user,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,   user);
+    opPars.put(SSVarU.entity, entity);
+    
+    return (List<SSTextComment>) SSServA.callServViaServer(new SSServPar(SSMethU.entityCommentsGet, opPars));
+  }
+  
   public static List<SSEntity> entityEntitiesAttachedGet(
-    final SSUri user, 
+    final SSUri user,
     final SSUri entity) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
@@ -1088,35 +1100,39 @@ public class SSServCaller {
   }
   
   public static void entityUserUpdate(
-    final SSUri          entity,
-    final SSLabel        label,
-    final SSTextComment  description,
-    final Boolean        shouldCommit) throws Exception{
+    final SSUri               entity,
+    final SSLabel             label,
+    final SSTextComment       description,
+    final List<SSTextComment> comments,
+    final Boolean             shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.description,  description);
+    opPars.put(SSVarU.comments,     comments);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityUserUpdate, opPars));
   }
   
-  public static void entityUpdate(
-    final SSUri          entity,
-    final SSLabel        label,
-    final SSTextComment  description,
-    final Boolean        shouldCommit) throws Exception{
+  public static SSUri entityUpdate(
+    final SSUri               entity,
+    final SSLabel             label,
+    final SSTextComment       description,
+    final List<SSTextComment> comments,
+    final Boolean             shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.description,  description);
+    opPars.put(SSVarU.comments,     comments);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.entityUpdate, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUpdate, opPars));
   }
   
   public static Boolean entityUserCopy(
