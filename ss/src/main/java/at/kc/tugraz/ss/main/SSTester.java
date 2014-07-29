@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
 import at.kc.tugraz.ss.test.serv.flag.SSFlagTester;
 import at.kc.tugraz.ss.test.serv.learnep.SSLearnEpTester;
 import at.kc.tugraz.ss.test.serv.recomm.SSRecommTester;
-import at.kc.tugraz.ss.test.serv.scaff.SSScaffTester;
 
 public class SSTester extends Thread{
   
@@ -37,7 +36,6 @@ public class SSTester extends Thread{
     
       new SSDataImportTester().start();
       new SSEntityTester().start();
-      new SSScaffTester().start();
       new SSI5CloudTester().start();
       new SSLearnEpTester().start();
       new SSCategoryTester().start();

@@ -148,10 +148,6 @@ recommConf:
   updateInterval: #in minutes
   use: true
   usePrivateTagsToo: #true, false
-scaffConf:
-  executeOpAtStartUp: false
-  op: null
-  use: true
 searchConf:
   executeOpAtStartUp: false
   op: null

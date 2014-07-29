@@ -44,7 +44,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.ss.serv.lomextractor.serv.SSLOMExtractorServ;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
-import at.kc.tugraz.ss.serv.scaff.serv.SSScaffServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
@@ -101,7 +100,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSSearchServ.inst.regServ        (SSCoreConf.instGet().getSearchConf());
       SSDataExportServ.inst.regServ    (SSCoreConf.instGet().getDataExportConf());
       SSLOMExtractorServ.inst.regServ  (SSCoreConf.instGet().getLomExtractorConf());
-      SSScaffServ.inst.regServ         (SSCoreConf.instGet().getScaffConf());
       SSSolrServ.inst.regServ          (SSCoreConf.instGet().getSolrConf());
       SSModelUEServ.inst.regServ       (SSCoreConf.instGet().getModelConf());
       SSBroadcasterServ.inst.regServ   (SSCoreConf.instGet().getBroadcasterConf());
@@ -134,7 +132,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSSearchServ.inst.initServ();
       SSDataExportServ.inst.initServ();
       SSLOMExtractorServ.inst.initServ();
-      SSScaffServ.inst.initServ();
       SSSolrServ.inst.initServ();
       SSModelUEServ.inst.initServ();
       SSBroadcasterServ.inst.initServ();

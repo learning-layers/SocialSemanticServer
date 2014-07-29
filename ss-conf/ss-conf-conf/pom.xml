@@ -164,12 +164,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-scaff-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-dataimport-conf</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -86,12 +86,6 @@
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-scaff-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-search-datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>

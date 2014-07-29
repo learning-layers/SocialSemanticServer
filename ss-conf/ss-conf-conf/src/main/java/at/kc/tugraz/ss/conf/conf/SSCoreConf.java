@@ -46,7 +46,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
 import at.kc.tugraz.ss.serv.rating.conf.SSRatingConf;
-import at.kc.tugraz.ss.serv.scaff.conf.SSScaffConf;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
@@ -75,7 +74,6 @@ public class SSCoreConf extends SSCoreConfA{
   private SSI5CloudConf       i5CloudConf        = null;
   private SSCloudConf         cloudConf          = null;
   private SSAuthConf          authConf           = null;
-  private SSScaffConf         scaffConf          = null;
   private SSDataImportConf    dataImportConf     = null;
   private SSDataExportConf    dataExportConf     = null;
   private SSLOMExtractorConf  lomExtractorConf   = null;
@@ -117,7 +115,6 @@ public class SSCoreConf extends SSCoreConfA{
 //    confs.add(inst.i5CloudConf);
 //    confs.add(inst.cloudConf);
 //    confs.add(inst.authConf);
-//    confs.add(inst.scaffConf);
 //    confs.add(inst.dataImportConf);
 //    confs.add(inst.dataExportConf);
 //    confs.add(inst.lomExtractorConf);
@@ -178,7 +175,6 @@ public class SSCoreConf extends SSCoreConfA{
       copy.i5CloudConf        = SSI5CloudConf.copy(inst.i5CloudConf);
       copy.cloudConf          = SSCloudConf.copy(inst.cloudConf);
       copy.authConf           = SSAuthConf.copy(inst.authConf);
-      copy.scaffConf          = SSScaffConf.copy(inst.scaffConf);
       copy.dataImportConf     = SSDataImportConf.copy(inst.dataImportConf);
       copy.dataExportConf     = SSDataExportConf.copy(inst.dataExportConf);
       copy.lomExtractorConf   = SSLOMExtractorConf.copy(inst.lomExtractorConf);
@@ -320,14 +316,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   public void setAuthConf(SSAuthConf authConf){
     this.authConf = authConf;
-  }
-  
-  public SSScaffConf getScaffConf(){
-    return scaffConf;
-  }
-  
-  public void setScaffConf(SSScaffConf scaffConf){
-    this.scaffConf = scaffConf;
   }
   
   public SSDataImportConf getDataImportConf(){
