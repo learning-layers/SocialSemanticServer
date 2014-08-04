@@ -267,6 +267,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagEdit")
+  public String v(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.tagEdit);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collRootGet")
   public String collRootGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.collRootGet);

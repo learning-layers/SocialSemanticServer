@@ -43,6 +43,7 @@ import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
@@ -51,6 +52,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEditRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
@@ -290,6 +292,75 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     }
   }
 
+  @Override
+  public void tagEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op));
+  }
+  
+  @Override
+  public SSUri tagUserEdit(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSTagUserEditPar par       = new SSTagUserEditPar (parA);
+      SSUri                  newTagUri = null;
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      final List<SSTag> tags =
+        SSServCaller.tagsUserGet(
+          par.user,
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSStrU.toStrWithoutEmptyAndNull(SSServCaller.entityGet(par.tag).label),
+          null,
+          null);
+      
+      for(SSTag tag : tags){
+        
+        SSServCaller.tagsRemove(
+          par.user,
+          tag.entity,
+          SSStrU.toStr(tag.label),
+          tag.space,
+          false);
+        
+        newTagUri =
+          SSServCaller.tagAdd(
+            par.user,
+            tag.entity,
+            SSStrU.toStr(par.label),
+            tag.space,
+            false);
+      }
+      
+      if(newTagUri == null){
+        return par.tag;
+      }else{
+        return newTagUri;
+      }
+      
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return tagUserEdit(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
+    }catch(Exception error){
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public void tagsRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
     

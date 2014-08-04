@@ -158,6 +158,8 @@ public enum SSMethU{
   tagFrequsGet,
   tagUserEntitiesForTagsGet,
   tagEntitiesForTagsGet,
+  tagEdit,
+  tagUserEdit,
   
   //
 //  categoriesAdd                                             ,

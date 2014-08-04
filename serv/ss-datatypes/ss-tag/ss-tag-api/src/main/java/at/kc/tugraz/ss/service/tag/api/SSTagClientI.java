@@ -24,7 +24,8 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSTagClientI {
- 
+
+  public void tagEdit                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagAdd                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagsRemove                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagsGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

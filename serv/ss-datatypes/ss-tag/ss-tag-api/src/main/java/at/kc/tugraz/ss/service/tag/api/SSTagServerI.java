@@ -27,7 +27,8 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import java.util.List;
 
 public interface SSTagServerI {
- 
+
+  public SSUri                           tagUserEdit                  (final SSServPar parA) throws Exception;
   public List<SSUri>                     tagUserEntitiesForTagsGet    (final SSServPar parA) throws Exception;
   public List<SSUri>                     tagsAdd                      (final SSServPar parA) throws Exception;
   public List<SSUri>                     tagsAddAtCreationTime        (final SSServPar parA) throws Exception;
