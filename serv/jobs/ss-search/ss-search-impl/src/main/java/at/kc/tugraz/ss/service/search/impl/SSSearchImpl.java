@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -491,15 +492,16 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   private List<SSUri> getLabelAndDescriptionResults(final SSSearchPar par) throws Exception{
     
-    final List<SSUri> results = new ArrayList<>();
+    final List<SSUri>         results  = new ArrayList<>();
+    final List<String>        keywords = SSStrU.toStr(SSSearchLabel.get(par.keywordsToSearchFor));
     
     if(
       par.includeDescription &&
       par.includeLabel){
       
-      if(!par.keywordsToSearchFor.isEmpty()){
+      if(!keywords.isEmpty()){
         
-        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(par.keywordsToSearchFor)){
+        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(keywords)){
           results.add(entity.id);
         }
       }
@@ -523,13 +525,16 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       par.includeDescription &&
       !par.includeLabel){
       
-      for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(par.keywordsToSearchFor)){
-        results.add(entity.id);
+      if(!keywords.isEmpty()){
+       
+        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(keywords)){
+          results.add(entity.id);
+        }
       }
       
-      if(!par.labelsToSearchFor.isEmpty()){
+      if(!par.descriptionsToSearchFor.isEmpty()){
         
-        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.labelsToSearchFor))){
+        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.descriptionsToSearchFor))){
           results.add(entity.id);
         }
       }
@@ -539,13 +544,16 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       !par.includeDescription &&
       par.includeLabel){
       
-      for(SSEntity entity : SSServCaller.entitiesForLabelsGet(par.keywordsToSearchFor)){
-        results.add(entity.id);
+      if(!keywords.isEmpty()){
+       
+        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(keywords)){
+          results.add(entity.id);
+        }
       }
       
-      if(!par.descriptionsToSearchFor.isEmpty()){
+      if(!par.labelsToSearchFor.isEmpty()){
         
-        for(SSEntity entity : SSServCaller.entitiesForLabelsAndDescriptionsGet(SSStrU.toStrWithoutEmptyAndNull(par.descriptionsToSearchFor))){
+        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(SSStrU.toStrWithoutEmptyAndNull(par.labelsToSearchFor))){
           results.add(entity.id);
         }
       }

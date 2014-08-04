@@ -22,12 +22,11 @@ package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +40,9 @@ public class SSSearchPar extends SSServPar{
   public Boolean             includeMIs                 = null;
   public List<String>        misToSearchFor             = new ArrayList<>();
   public Boolean             includeLabel               = null;
-  public List<SSLabel>       labelsToSearchFor          = new ArrayList<>();
+  public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
   public Boolean             includeDescription         = null;
-  public List<SSTextComment> descriptionsToSearchFor    = new ArrayList<>();
+  public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
   public Boolean             includeOnlySubEntities     = null;
   public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
@@ -66,9 +65,9 @@ public class SSSearchPar extends SSServPar{
         includeMIs                 = (Boolean)                pars.get(SSVarU.includeMIs);
         misToSearchFor             = (List<String>)           pars.get(SSVarU.misToSearchFor);
         includeLabel               = (Boolean)                pars.get(SSVarU.includeLabel);
-        labelsToSearchFor          = (List<SSLabel>)          pars.get(SSVarU.labelsToSearchFor);
+        labelsToSearchFor          = (List<SSSearchLabel>)    pars.get(SSVarU.labelsToSearchFor);
         includeDescription         = (Boolean)                pars.get(SSVarU.includeDescription);
-        descriptionsToSearchFor    = (List<SSTextComment>)    pars.get(SSVarU.descriptionsToSearchFor);
+        descriptionsToSearchFor    = (List<SSSearchLabel>)    pars.get(SSVarU.descriptionsToSearchFor);
         typesToSearchOnlyFor       = (List<SSEntityE>)        pars.get(SSVarU.typesToSearchOnlyFor);
         includeOnlySubEntities     = (Boolean)                pars.get(SSVarU.includeOnlySubEntities);
         entitiesToSearchWithin     = (List<SSUri>)            pars.get(SSVarU.entitiesToSearchWithin);
@@ -112,7 +111,7 @@ public class SSSearchPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          labelsToSearchFor            = SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labelsToSearchFor), SSStrU.comma));
+          labelsToSearchFor            = SSSearchLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labelsToSearchFor), SSStrU.comma));
         }catch(Exception error){}
         
         try{
@@ -120,7 +119,7 @@ public class SSSearchPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          descriptionsToSearchFor      = SSTextComment.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.descriptionsToSearchFor), SSStrU.comma));
+          descriptionsToSearchFor      = SSSearchLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.descriptionsToSearchFor), SSStrU.comma));
         }catch(Exception error){}
         
         try{
