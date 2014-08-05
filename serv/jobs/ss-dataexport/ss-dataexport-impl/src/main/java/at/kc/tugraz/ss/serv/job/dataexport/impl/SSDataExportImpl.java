@@ -22,22 +22,31 @@ package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
+import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoriesPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagTimestampsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -200,7 +209,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
     
       final FileOutputStream   out                     = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
       final OutputStreamWriter writer                  = new OutputStreamWriter   (out,    Charset.forName(SSEncodingU.utf8));
-      fileWriterUserEntityTagCategoryTimestamps    = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
+      fileWriterUserEntityTagCategoryTimestamps        = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
     }
     
     final List<String>                              lineParts                    = new ArrayList<>();
@@ -223,6 +232,68 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
 
       fileWriterUserEntityTagCategoryTimestamps.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+    }
+  }
+
+  @Override
+  public void dataExportUserRelations(final SSServPar parA) throws Exception{
+    
+    CSVWriter fileWriter = null;
+      
+    try{
+      
+      final SSDataExportUserRelationsPar par           = new SSDataExportUserRelationsPar(parA);
+      final Map<String, List<SSUri>>     userRelations = new HashMap<>();
+      final List<String>                 lineParts     = new ArrayList<>();
+      final List<String>                 allUsers;
+      List<SSUri>                        users;
+      
+      try{
+        allUsers = SSStrU.toStr(SSServCaller.userAll());
+      }catch(SSServerServNotAvailableErr error){
+        SSLogU.warn("userAll failed | service down");
+        return;
+      }
+      
+      for(SSServA serv : SSServA.getServsGatheringUserRelations()){
+        ((SSUserRelationGathererI) serv.serv()).getUserRelations(allUsers, userRelations);
+      }
+      
+      final FileOutputStream out = 
+        SSFileU.openOrCreateFileWithPathForWrite (
+          SSFileU.dirWorkingDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
+      
+      final OutputStreamWriter writer = 
+        new OutputStreamWriter(
+          out,
+          Charset.forName(SSEncodingU.utf8));
+      
+      fileWriter = 
+        new CSVWriter(
+          writer,
+          SSStrU.semiColon.charAt(0));
+      
+      for(Map.Entry<String, List<SSUri>> entry : userRelations.entrySet()){
+        
+        lineParts.clear();
+        
+        users = entry.getValue();
+        
+        SSStrU.remove(users, entry.getKey());
+        
+        lineParts.add(entry.getKey());
+        lineParts.add(StringUtils.join(users, SSStrU.comma));
+        
+        fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+     
+      if(fileWriter != null){
+        fileWriter.close();
+      }
     }
   }
 }

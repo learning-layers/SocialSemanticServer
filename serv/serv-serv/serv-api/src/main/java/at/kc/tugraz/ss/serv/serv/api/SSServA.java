@@ -40,16 +40,17 @@ import java.util.Map;
 
 public abstract class SSServA{
 
-  public    static final String                          policyFile                    = "<policy-file-request/>";
-  public                 SSConfA                         servConf                      = null;
-  protected        final Class                           servImplClientInteraceClass;
-  protected        final Class                           servImplServerInteraceClass;
-  protected              Exception                       servImplCreationError         = null;
-  private   static final Map<SSMethU, SSServA>           servs                         = new EnumMap<>(SSMethU.class);
-  private   static final Map<SSMethU, SSServA>           servsForClientOps             = new EnumMap<>(SSMethU.class);
-  private   static final Map<SSMethU, SSServA>           servsForServerOps             = new EnumMap<>(SSMethU.class);
-  private   static final Map<SSEntityE, SSServA>         servsForManagingEntities      = new EnumMap<>(SSEntityE.class);
-  private   static final List<SSServA>                   servsForDescribingEntities    = new ArrayList<>();
+  public    static final String                          policyFile                      = "<policy-file-request/>";
+  public                 SSConfA                         servConf                        = null;
+  protected        final Class                           servImplClientInteraceClass;  
+  protected        final Class                           servImplServerInteraceClass;  
+  protected              Exception                       servImplCreationError           = null;
+  private   static final Map<SSMethU, SSServA>           servs                           = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSMethU, SSServA>           servsForClientOps               = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSMethU, SSServA>           servsForServerOps               = new EnumMap<>(SSMethU.class);
+  private   static final Map<SSEntityE, SSServA>         servsForManagingEntities        = new EnumMap<>(SSEntityE.class);
+  private   static final List<SSServA>                   servsForDescribingEntities      = new ArrayList<>();
+  private   static final List<SSServA>                   servsForGatheringUserRelations  = new ArrayList<>();
  
   protected SSServA(
     final Class servImplClientInteraceClass, 
@@ -195,6 +196,27 @@ public abstract class SSServA{
         }
         
         servsForDescribingEntities.add(this);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected void regServForGatheringUserRelations() throws Exception{
+    
+    try{
+     
+      if(!servConf.use){
+        return;
+      }
+
+      synchronized(servsForGatheringUserRelations){
+        
+        if(servsForGatheringUserRelations.contains(this)){
+          throw new Exception("service for gathering user relations already registered");
+        }
+        
+        servsForGatheringUserRelations.add(this);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -367,6 +389,10 @@ public abstract class SSServA{
   
   public static List<SSServA> getServsDescribingEntities(){
     return new ArrayList<>(servsForDescribingEntities);
+  }
+  
+  public static List<SSServA> getServsGatheringUserRelations(){
+    return new ArrayList<>(servsForGatheringUserRelations);
   }
   
   private List<SSMethU> publishClientOps() throws Exception{

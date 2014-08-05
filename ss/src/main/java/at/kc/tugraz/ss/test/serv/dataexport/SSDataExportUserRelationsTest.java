@@ -18,15 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.dataexport.api;
+package at.kc.tugraz.ss.test.serv.dataexport;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-public interface SSDataExportServerI {
+public class SSDataExportUserRelationsTest extends SSServOpTestCaseA{
+  
+  public SSDataExportUserRelationsTest(final SSDataExportConf dataExportConf){
+    super(dataExportConf, SSMethU.dataExportUserRelations);
+  }  
+  
+  @Override
+  protected void test() throws Exception {
+    
+    SSLogU.info("start " + op + "Test");
+    
+    SSServCaller.dataExportUserRelations(SSVoc.systemUserUri);
+    
+    SSLogU.info("end " + op + "Test");
+  }
+  
+  @Override
+  protected void testFromClient() throws Exception{
+  }
 
-  public void dataExportUserRelations                       (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTags                      (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagTimestamps             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategories             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategoryTimestamps     (final SSServPar parA) throws Exception;
+  @Override
+  protected void setUp() throws Exception {
+  }
 }

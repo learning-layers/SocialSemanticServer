@@ -1675,7 +1675,18 @@ public class SSServCaller {
     return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.modelUEMIsForEntityGet, opPars));
   }
   
-  /* data export **/
+  /* data export */
+  
+  public static void dataExportUserRelations(
+    final SSUri                     user) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                  user);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserRelations, opPars));
+  }
+  
   public static void dataExportUserEntityTags(
     final SSUri                     user,
     final Map<String, List<String>> tagsPerEntities,

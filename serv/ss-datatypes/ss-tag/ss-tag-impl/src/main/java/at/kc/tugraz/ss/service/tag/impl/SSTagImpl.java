@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
@@ -60,17 +61,57 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
+import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import java.util.*;
 
-public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
   
-  private final SSTagSQLFct   sqlFct;
+  private final SSTagSQLFct sqlFct;
   
   public SSTagImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     
-    sqlFct    = new SSTagSQLFct   (this);
+    sqlFct = new SSTagSQLFct (this);
+  }
+  
+  @Override
+  public void getUserRelations(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    final List<String>             labels         = new ArrayList<>();
+    final List<SSUri>              entities       = new ArrayList<>();
+    final Map<String, List<SSUri>> usersPerTag    = new HashMap<>();
+    final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
+    List<SSTag>                    tags;
+    
+    for(String user : allUsers){
+      
+      final SSUri userUri = SSUri.get(user);
+      
+      tags =
+        SSServCaller.tagsUserGet(
+          userUri,
+          userUri,
+          entities,
+          labels,
+          null,
+          null);
+      
+      for(SSTag tag : tags){
+      
+        SSTagUserRelationGathererFct.addUserForTag     (tag, usersPerTag);
+        SSTagUserRelationGathererFct.addUserForEntity  (tag, usersPerEntity);
+      }
+    }
+    
+    SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerTag);
+    SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+    
+    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
   }
   
   @Override

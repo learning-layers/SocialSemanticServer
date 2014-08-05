@@ -18,15 +18,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.dataexport.api;
+package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import java.util.List;
+import java.util.Map;
 
-public interface SSDataExportServerI {
-
-  public void dataExportUserRelations                       (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTags                      (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagTimestamps             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategories             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategoryTimestamps     (final SSServPar parA) throws Exception;
+public interface SSUserRelationGathererI{
+  
+  public void getUserRelations(
+    final List<String>             allUsers,
+    final Map<String, List<SSUri>> userRelations) throws Exception;
 }

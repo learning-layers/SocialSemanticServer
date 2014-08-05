@@ -120,6 +120,7 @@ public enum SSMethU{
   
   //data export
   dataExportUserEntityTags                            ,
+  dataExportUserRelations,
   dataExportUserEntityTagTimestamps                   ,
   dataExportUserEntityTagCategories                   ,
   dataExportUserEntityTagCategoryTimestamps           ,

@@ -18,15 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.job.dataexport.api;
+package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public interface SSDataExportServerI {
-
-  public void dataExportUserRelations                       (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTags                      (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagTimestamps             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategories             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategoryTimestamps     (final SSServPar parA) throws Exception;
+public class SSDataExportUserRelationsPar extends SSServPar{
+  
+  public SSDataExportUserRelationsPar(final SSServPar par) throws Exception{
+    
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

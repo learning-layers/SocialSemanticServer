@@ -18,16 +18,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.serv.job.dataexport.conf;
 
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSDataExportConf extends SSServConfA{
   
+  public String fileNameForUserRelationsExport = null;
+  
   public static SSDataExportConf copy(final SSDataExportConf orig){
     
     final SSDataExportConf copy = (SSDataExportConf) SSServConfA.copy(orig, new SSDataExportConf());
+    
+    copy.fileNameForUserRelationsExport = orig.fileNameForUserRelationsExport;
     
     return copy;
   }
