@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -57,6 +58,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
@@ -78,7 +80,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 
 import java.util.*;
 
-public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI{
+public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
 
   private final SSCollSQLFct sqlFct;
 
@@ -88,8 +90,64 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     this.sqlFct = new SSCollSQLFct(dbSQL);
   }
-  
-  /* SSEntityHandlerImplI */
+
+  @Override
+  public void getUserRelations(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    List<SSEntityCircle>           collUserCircles;
+    List<SSEntityCircle>           collEntryUserCircles;
+    List<SSColl>                   allColls;
+    SSCollEntry                    collEntry;
+    
+    for(String user : allUsers){
+      
+      final SSUri userUri = SSUri.get(user);
+      
+      allColls = SSServCaller.collsUserWithEntries(userUri);
+      
+      for(SSColl coll : allColls){
+        
+        collUserCircles =
+          SSServCaller.entityUserEntityCirclesGet(
+            userUri,
+            coll.id);
+        
+        for(SSEntityCircle circle : collUserCircles){
+          
+          if(userRelations.containsKey(user)){
+            userRelations.get(user).addAll(circle.users);
+          }else{
+            userRelations.put(user, circle.users);
+          }
+        }
+        
+        for(Object entry : coll.entries){
+          
+          collEntry = (SSCollEntry) entry;
+          
+          collEntryUserCircles =
+            SSServCaller.entityUserEntityCirclesGet(
+              userUri,
+              collEntry.id);
+          
+          for(SSEntityCircle circle : collEntryUserCircles){
+            
+            if(userRelations.containsKey(user)){
+              userRelations.get(user).addAll(circle.users);
+            }else{
+              userRelations.put(user, circle.users);
+            }
+          }
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
   
   @Override
   public Boolean copyUserEntity(
