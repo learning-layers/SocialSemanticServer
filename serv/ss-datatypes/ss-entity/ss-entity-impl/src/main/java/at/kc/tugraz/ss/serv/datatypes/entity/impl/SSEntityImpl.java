@@ -97,6 +97,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
@@ -126,25 +127,19 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
     try{
-      SSEntityCircle entityCircle;
-
       for(String user : allUsers){
 
         final SSUri userUri = SSUri.get(user);
 
-        for(SSUri entity : SSServCaller.entityEntitiesCommentedGet(userUri, userUri)){
-
-          for(SSUri circleUri : sqlFct.getCircleURIsForEntity(entity)){
-            
-            entityCircle = sqlFct.getCircle(circleUri);
-            
-            if(userRelations.containsKey(user)){
-              userRelations.get(user).addAll(entityCircle.users);
-            }else{
-              userRelations.put(user, entityCircle.users);
-            }
-          }
-        }
+        SSEntityUserRelationsGatherFct.addRelationsForCommentedEntities(
+          sqlFct, 
+          userRelations, 
+          userUri);
+        
+        SSEntityUserRelationsGatherFct.addRelationsForUserCircles(
+          sqlFct, 
+          userRelations,
+          userUri);
       }
       
       for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
