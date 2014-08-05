@@ -638,6 +638,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres     = new HashMap<>();
       final List<String>              columns    = new ArrayList<>();
       final List<String>              tableCons  = new ArrayList<>();
+      SSUri                           circleUri;
       
       table     (tables,  circleUsersTable);
       table     (tables,  circleEntitiesTable);
@@ -656,13 +657,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
+        circleUri = bindingStrToUri         (resultSet, SSSQLVarU.circleId);
+        
         circles.add(
           SSEntityCircle.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.circleId),
+            circleUri,
             bindingStrToLabel       (resultSet, SSSQLVarU.label),
             SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
             null, 
-            null, 
+            getCircleUserURIs(circleUri), 
             null));
       }
       

@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSDiscUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -41,6 +42,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserDiscURIsForTargetGetPar;
@@ -57,7 +59,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
 
-public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI, SSEntityDescriberI {
+public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
 
   private final SSDiscSQLFct sqlFct;
 
@@ -68,7 +70,42 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     sqlFct = new SSDiscSQLFct(this);
   }
 
-  /* SSEntityHandlerImplI */
+  @Override
+  public void getUserRelations(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    List<SSEntityCircle>           discUserCircles;
+    List<SSDisc>                   allDiscs;
+    
+    for(String user : allUsers){
+      
+      final SSUri userUri = SSUri.get(user);
+      
+      allDiscs = SSServCaller.discsUserAllGet(userUri);
+      
+      for(SSDisc disc : allDiscs){
+        
+        discUserCircles =
+          SSServCaller.entityUserEntityCirclesGet(
+            userUri,
+            disc.id);
+        
+        for(SSEntityCircle circle : discUserCircles){
+          
+          if(userRelations.containsKey(user)){
+            userRelations.get(user).addAll(circle.users);
+          }else{
+            userRelations.put(user, circle.users);
+          }
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
   
   @Override
   public Boolean copyUserEntity(
