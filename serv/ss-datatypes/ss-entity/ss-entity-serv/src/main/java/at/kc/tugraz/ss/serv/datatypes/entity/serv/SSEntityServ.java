@@ -62,6 +62,8 @@ public class SSEntityServ extends SSServA{
   
   @Override
   public void initServ() throws Exception{
+    
+    regServForGatheringUserRelations();
   }
   
   @Override

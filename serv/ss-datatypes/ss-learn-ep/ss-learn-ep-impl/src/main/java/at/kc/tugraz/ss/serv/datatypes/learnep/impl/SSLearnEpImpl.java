@@ -597,6 +597,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       if(par.label != null){
 
         SSServCaller.entityUpdate(
+          par.user,
           par.learnEpCircle,
           par.label,
           null,

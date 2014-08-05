@@ -142,6 +142,7 @@ public class SSDataImportEvernoteHelper {
       false);
     
     SSServCaller.entityUpdate(
+      userUri,
       notebookUri,
       notebookLabel,
       null,
@@ -443,6 +444,7 @@ public class SSDataImportEvernoteHelper {
       false);
     
     SSServCaller.entityUpdate(
+      userUri,
       noteUri,
       noteLabel,
       null,
@@ -536,6 +538,7 @@ public class SSDataImportEvernoteHelper {
       false);
     
     SSServCaller.entityUpdate(
+      userUri,
       resourceUri,
       resourceLabel,
       null,

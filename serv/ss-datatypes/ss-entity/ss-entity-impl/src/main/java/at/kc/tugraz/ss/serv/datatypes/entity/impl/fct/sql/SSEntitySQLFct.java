@@ -747,11 +747,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       return SSEntityCircle.get(
-        bindingStrToUri   (resultSet, SSSQLVarU.circleId),
+        circleUri,
         bindingStrToLabel (resultSet, SSSQLVarU.label),
         SSCircleE.get     (bindingStr(resultSet, SSSQLVarU.circleType)),
         null,
-        null,
+        getCircleUserURIs(circleUri),
         null);
       
     }catch(Exception error){
@@ -1095,13 +1095,54 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSTextComment> getComments(
-    final SSUri entity) throws Exception{
+  public List<SSUri> getEntityURIsCommented(
+    final SSUri forUser) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
-       if(!existsEntity(entity)){
+      final List<String>        tables            = new ArrayList<>();
+      final List<String>        columns           = new ArrayList<>();
+      final List<String>        tableCons         = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, commentsTable, SSSQLVarU.entityId);
+      
+      table (tables, commentsTable);
+      
+      if(forUser != null){
+        
+        where   (wheres,    entityTable, SSSQLVarU.author, forUser);
+        table   (tables,    entityTable);
+        tableCon(tableCons, entityTable,  SSSQLVarU.id,    commentsTable,  SSSQLVarU.commentId);
+      }
+      
+      if(!wheres.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      }else{
+        resultSet = dbSQL.select(tables, columns, tableCons);
+      }
+    
+      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSTextComment> getComments(
+    final SSUri entity,
+    final SSUri forUser) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+       if(
+         entity != null &&
+         !existsEntity(entity)){
         SSLogU.warn("comments not retrieved | entity doesnt exist");
         return new ArrayList<>();
       }
@@ -1116,11 +1157,24 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       table(tables, commentTable);
       table(tables, commentsTable);
       
-      where(wheres, SSSQLVarU.entityId, entity);
+      if(entity != null){
+        where(wheres, commentsTable, SSSQLVarU.entityId, entity);
+      }
+      
+      if(forUser != null){
+        
+        where   (wheres,    entityTable, SSSQLVarU.author, forUser);
+        table   (tables,    entityTable);
+        tableCon(tableCons, entityTable,  SSSQLVarU.id,        commentTable,  SSSQLVarU.commentId);
+      }
       
       tableCon(tableCons, commentTable, SSSQLVarU.commentId, commentsTable, SSSQLVarU.commentId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      if(!wheres.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      }else{
+        resultSet = dbSQL.select(tables, columns, tableCons);
+      }
     
       return getTextCommentsFromResult(resultSet, SSSQLVarU.commentContent);
       

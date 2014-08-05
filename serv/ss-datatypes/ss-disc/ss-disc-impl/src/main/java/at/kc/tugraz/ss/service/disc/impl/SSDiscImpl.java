@@ -451,6 +451,7 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         discEntry.comments.addAll(
           SSServCaller.entityCommentsGet(
             par.user,
+            null,
             discEntry.id));
       }
       

@@ -1003,14 +1003,28 @@ public class SSServCaller {
   
   /* entity */
   
+  public static List<SSUri> entityEntitiesCommentedGet(
+    final SSUri user,
+    final SSUri forUser) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntitiesCommentedGet, opPars));
+  }
+  
   public static List<SSTextComment> entityCommentsGet(
     final SSUri user,
+    final SSUri forUser,
     final SSUri entity) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,   user);
-    opPars.put(SSVarU.entity, entity);
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    opPars.put(SSVarU.entity,    entity);
     
     return (List<SSTextComment>) SSServA.callServViaServer(new SSServPar(SSMethU.entityCommentsGet, opPars));
   }
@@ -1100,6 +1114,7 @@ public class SSServCaller {
   }
   
   public static void entityUserUpdate(
+    final SSUri               user, 
     final SSUri               entity,
     final SSLabel             label,
     final SSTextComment       description,
@@ -1108,6 +1123,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
+    opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.description,  description);
@@ -1118,6 +1134,7 @@ public class SSServCaller {
   }
   
   public static SSUri entityUpdate(
+    final SSUri               user, 
     final SSUri               entity,
     final SSLabel             label,
     final SSTextComment       description,
@@ -1126,6 +1143,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
+    opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.description,  description);

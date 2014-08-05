@@ -25,12 +25,11 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityCommentsGetPar extends SSServPar{
+public class SSEntityEntitiesCommentedGetPar extends SSServPar{
   
   public SSUri forUser  = null;
-  public SSUri entity   = null;
     
-  public SSEntityCommentsGetPar(SSServPar par) throws Exception{
+  public SSEntityEntitiesCommentedGetPar(SSServPar par) throws Exception{
       
     super(par);
     
@@ -38,7 +37,6 @@ public class SSEntityCommentsGetPar extends SSServPar{
       
       if(pars != null){
         forUser  = (SSUri) pars.get(SSVarU.forUser);
-        entity   = (SSUri) pars.get(SSVarU.entity);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

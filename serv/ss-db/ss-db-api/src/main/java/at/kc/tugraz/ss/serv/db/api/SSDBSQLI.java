@@ -56,6 +56,11 @@ public interface SSDBSQLI{
   public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
+    final List<String>        tableConnections) throws Exception;
+    
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
     final Map<String, String> wheres, 
     final List<String>        tableCons) throws Exception;
 

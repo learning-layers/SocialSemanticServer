@@ -194,6 +194,37 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
+    final List<String>        tableConnections) throws Exception{
+    
+    String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    PreparedStatement                   stmt;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.blank;
+    
+    for(String tableConection : tableConnections){
+      query += tableConection + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    stmt           = connector.prepareStatement(query);
+
+    return stmt.executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
     final Map<String, String> wheres, 
     final List<String>        tableConnections) throws Exception{
     

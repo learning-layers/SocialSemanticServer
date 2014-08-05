@@ -98,6 +98,8 @@ public enum SSMethU{
   entityShare,
   entityEntitiesAttachedGet,  
   entityCommentsGet,
+  entityEntitiesCommentedGet,
+  entityUserCommentsGet,
   
   //learn ep
   learnEpsGet                                         ,
