@@ -20,6 +20,8 @@
 */
  package at.kc.tugraz.ss.service.rating.impl;
 
+import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -33,13 +35,16 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserGetRet;
@@ -48,9 +53,11 @@ import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
  
   private final SSRatingSQLFct   sqlFct;
 //  private final SSRatingGraphFct graphFct;
@@ -62,8 +69,32 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     sqlFct   = new SSRatingSQLFct   (this);
 //    graphFct = new SSRatingGraphFct (this);
   }
-  
-  /* SSEntityHandlerImplI */
+
+  @Override
+  public void getUserRelations(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
+    List<SSRating>                 userRatings;
+    
+    for(String user : allUsers){
+      
+      final SSUri userUri = SSUri.get(user);
+      
+      userRatings = sqlFct.getUserRatings(userUri);
+      
+      for(SSRating rating : userRatings){
+        SSRatingUserRelationGathererFct.addUserForEntity(rating, usersPerEntity);
+      }
+    }
+    
+    SSRatingUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+    
+    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
   
   @Override
   public Boolean copyUserEntity(

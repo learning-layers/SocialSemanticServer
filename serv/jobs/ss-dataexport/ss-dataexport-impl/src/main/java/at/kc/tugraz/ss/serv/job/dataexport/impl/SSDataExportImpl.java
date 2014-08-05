@@ -277,7 +277,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         
         lineParts.clear();
         
-        users = entry.getValue();
+        users = new ArrayList<>(entry.getValue());
         
         SSStrU.remove(users, entry.getKey());
         

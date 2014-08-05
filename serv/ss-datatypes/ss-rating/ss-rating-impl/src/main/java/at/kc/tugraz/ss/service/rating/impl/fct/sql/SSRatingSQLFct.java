@@ -23,15 +23,19 @@ package at.kc.tugraz.ss.service.rating.impl.fct.sql;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSRatingSQLFct extends SSDBSQLFct{
@@ -42,24 +46,50 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-public void deleteRatingAss(
-    final SSUri userUri,
+  public List<SSUri> getEntitiesRated(
+    final SSUri user) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId, user);
+      
+      resultSet = dbSQL.select(ratingAssTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void deleteRatingAss(
+    final SSUri user,
     final SSUri entityUri) throws Exception{
     
-    final Map<String, String> whereParNamesWithValues = new HashMap<>();
-    
-    if(userUri != null){
-      whereParNamesWithValues.put(SSSQLVarU.userId,   userUri.toString());
-    }
-    
-    if(entityUri != null){
-      whereParNamesWithValues.put(SSSQLVarU.entityId, entityUri.toString());
-    }
-    
-    if(whereParNamesWithValues.isEmpty()){
-      dbSQL.delete(ratingAssTable);
-    }else{
-      dbSQL.delete(ratingAssTable, whereParNamesWithValues);
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+
+      if(user != null){
+        delete(deletes, SSSQLVarU.userId, user);
+      }
+
+      if(entityUri != null){
+        delete(deletes, SSSQLVarU.entityId, entityUri);
+      }
+
+      if(deletes.isEmpty()){
+        dbSQL.delete(ratingAssTable);
+      }else{
+        dbSQL.delete(ratingAssTable, deletes);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 
@@ -109,6 +139,41 @@ public void deleteRatingAss(
     insertPars.put(SSSQLVarU.ratingValue,  ratingValue.toString());
     
     dbSQL.insert(ratingAssTable, insertPars);
+  }
+  
+  public List<SSRating> getUserRatings(
+    final SSUri userUri) throws Exception{
+    
+    ResultSet resultSet   = null;
+    
+    try{
+      
+      final List<SSRating>          ratings     = new ArrayList<>();
+      final HashMap<String, String> wheres      = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId,   userUri);
+      
+      resultSet = dbSQL.select(ratingAssTable, wheres);
+      
+      while(resultSet.next()){
+        
+        ratings.add(
+          SSRating.get(
+            bindingStrToUri     (resultSet, SSSQLVarU.ratingId), 
+            bindingStrToInteger (resultSet, SSSQLVarU.ratingValue), 
+            bindingStrToUri     (resultSet, SSSQLVarU.entityId), 
+            bindingStrToUri     (resultSet, SSSQLVarU.userId), 
+            0L));
+      }
+      
+      return ratings;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
   
   public Integer getUserRating(
