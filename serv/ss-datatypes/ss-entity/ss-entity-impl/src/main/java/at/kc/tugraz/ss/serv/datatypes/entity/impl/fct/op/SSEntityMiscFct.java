@@ -276,7 +276,7 @@ public class SSEntityMiscFct{
         }
         
         if(!handledEntity){
-          throw new Exception("entity couldnt not be added to circle by entity handlers");
+          throw new Exception("entity couldnt be added to circle by entity handlers");
         }
       }
     }catch(Exception error){

@@ -72,8 +72,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     this.fct = new SSFilerepoFct();
   }
   
-  /* SSEntityHandlerImplI */
-  
   @Override
   public Boolean copyUserEntity(
     final SSUri        user,
@@ -131,13 +129,17 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   
   @Override
   public Boolean addEntityToCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSUri        userUri,
+    final SSUri        circleUri,
+    final SSUri        entityUri,
+    final SSEntityE    entityType) throws Exception{
     
-    return false;
-  }  
+    if(!SSStrU.equals(entityType, SSEntityE.file)){
+      return false;
+    }
+    
+    return true;
+  }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
