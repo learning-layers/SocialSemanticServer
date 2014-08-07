@@ -42,7 +42,7 @@ public class SSEntityUserRelationsGatherFct{
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(entity)){
         
-        entityCircle = sqlFct.getCircle(circleUri);
+        entityCircle = sqlFct.getCircle(circleUri, true, false);
         
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(entityCircle.users);

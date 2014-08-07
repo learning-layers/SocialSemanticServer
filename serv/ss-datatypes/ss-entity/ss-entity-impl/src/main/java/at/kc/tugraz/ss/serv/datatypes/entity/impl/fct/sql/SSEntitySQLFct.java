@@ -723,7 +723,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
    
   public SSEntityCircle getCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri   circleUri,
+    final Boolean withUsers,
+    final Boolean withEntities) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -733,6 +735,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
+      final List<SSUri>         circleUsers       = new ArrayList<>();
+      final List<SSUri>         circleEntities    = new ArrayList<>();
       
       table    (tables,    circleTable);
       table    (tables,    entityTable);
@@ -746,13 +750,21 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
+      if(withUsers){
+        circleUsers.addAll(getCircleUserURIs(circleUri));
+      }
+      
+      if(withEntities){
+        circleEntities.addAll(getCircleEntityURIs(circleUri));
+      }
+      
       return SSEntityCircle.get(
         circleUri,
         bindingStrToLabel (resultSet, SSSQLVarU.label),
         SSCircleE.get     (bindingStr(resultSet, SSSQLVarU.circleType)),
         null,
-        getCircleUserURIs(circleUri),
-        null);
+        circleUsers,
+        circleEntities);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

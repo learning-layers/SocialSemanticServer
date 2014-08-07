@@ -477,4 +477,34 @@ public class SSEntityMiscFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public static Boolean hasCircleTypeRight(
+    final SSCircleE      circleType, 
+    final SSCircleRightE accessRight) throws Exception{
+    
+    switch(circleType){
+      case priv: return true;
+      case pub:{
+        
+        if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
+          return true;
+        }
+        
+        break;
+      }
+      
+      default:{
+        
+        if(
+          SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
+          SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
+          return true;
+        }
+        
+        break;
+      }
+    }
+    
+    return false;
+  }
 }

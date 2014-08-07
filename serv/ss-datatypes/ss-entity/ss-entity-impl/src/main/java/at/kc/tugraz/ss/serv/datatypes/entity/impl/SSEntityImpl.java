@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddAtCreationTimePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
@@ -732,13 +731,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         throw new Exception("user cannot access circle");
       }
       
-      final SSEntityCircle circle = sqlFct.getCircle(par.circle);
-      
-      circle.users.addAll        (sqlFct.getCircleUserURIs        (par.circle));
-      circle.entities.addAll     (sqlFct.getCircleEntityURIs      (par.circle));
-//      circle.accessRights.addAll (SSEntityMiscFct.getCircleRights (circle.type));
-
-      return circle;
+      return sqlFct.getCircle(par.circle, true, true);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -763,10 +756,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           continue;
         }
         
-        circle              = sqlFct.getCircle                (circleUri);
+        circle              = sqlFct.getCircle                (circleUri, true, true);
         circle.accessRights = SSEntityMiscFct.getCircleRights (circle.type);
-        circle.users     = sqlFct.getCircleUserURIs        (circleUri);
-        circle.entities   = sqlFct.getCircleEntityURIs      (circleUri);
           
         circles.add(circle);
       }
@@ -1145,15 +1136,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.entities, 
         false);
       
-      sqlFct.addUserToCircleIfNotExists(
-        circleUri, 
-        par.user);
-      
       SSServCaller.entityUsersToCircleAdd(
         par.user, 
         circleUri,   
         par.users,  
         false);
+      
+      sqlFct.addUserToCircleIfNotExists(
+        circleUri, 
+        par.user);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -1318,27 +1309,20 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       switch(entity.type){
         case entity: return true;
+        case circle: {
+          
+          if(!SSStrU.contains(sqlFct.getCircleUserURIs(entity.id), par.user)){
+            return false;
+          }
+          
+          return SSEntityMiscFct.hasCircleTypeRight(sqlFct.getCircleType(entity.id), par.accessRight);
+        }
       }
       
       for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity)){
        
-        switch(circleType){
-          case priv: return true;
-          case pub:{
-            
-            if(SSCircleRightE.equals(par.accessRight, SSCircleRightE.read)){ 
-              return true;
-            }
-            
-            continue;
-          }
-          default:{
-            if(
-              SSCircleRightE.equals(par.accessRight, SSCircleRightE.read) ||
-              SSCircleRightE.equals(par.accessRight, SSCircleRightE.edit)){ 
-              return true;
-            }
-          }
+        if(SSEntityMiscFct.hasCircleTypeRight(circleType, par.accessRight)){
+          return true;
         }
       }
       
