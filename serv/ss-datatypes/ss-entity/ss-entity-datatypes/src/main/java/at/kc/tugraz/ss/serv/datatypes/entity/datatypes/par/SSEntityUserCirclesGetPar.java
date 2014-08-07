@@ -16,11 +16,13 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityUserCirclesGetPar extends SSServPar{
 
+  public SSUri   forUser                    = null;
   public Boolean withSystemGeneratedCircles = false;
     
   public SSEntityUserCirclesGetPar(final SSServPar par) throws Exception{
@@ -31,10 +33,15 @@ public class SSEntityUserCirclesGetPar extends SSServPar{
       
       if(pars != null){
         withSystemGeneratedCircles = (Boolean) pars.get(SSVarU.withSystemGeneratedCircles);
+        forUser                    = (SSUri)   pars.get(SSVarU.forUser);
       }
       
       if(clientPars != null){
         withSystemGeneratedCircles = false;
+
+        try{
+          forUser                    = SSUri.get(clientPars.get(SSVarU.forUser));
+        }catch(Exception error){}
       }
       
     }catch(Exception error){

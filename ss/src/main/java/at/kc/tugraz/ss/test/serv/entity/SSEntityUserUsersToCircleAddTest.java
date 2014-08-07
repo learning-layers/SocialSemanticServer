@@ -42,8 +42,8 @@ public class SSEntityUserUsersToCircleAddTest extends SSServOpTestCaseA{
     
     userUris.add   (SSUri.get("http://test.dt/user/dk/"));
     
-    final List<SSEntityCircle> userCircles = SSServCaller.entityUserCirclesGet(SSVoc.systemUserUri, true);
-    final SSUri          circleUri   = SSServCaller.entityUserUsersToCircleAdd(SSVoc.systemUserUri, userCircles.get(0).id, userUris, true);
+    final List<SSEntityCircle> userCircles = SSServCaller.entityUserCirclesGet(SSVoc.systemUserUri, SSVoc.systemUserUri, true);
+    final SSUri                circleUri   = SSServCaller.entityUserUsersToCircleAdd(SSVoc.systemUserUri, userCircles.get(0).id, userUris, true);
     
     SSLogU.info("end " + op + "Test");
   }

@@ -45,6 +45,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.err.SSEntityUserAccessedOtherUsersPrivateGroupErr;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -724,14 +725,35 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityUserCircleGetPar par = new SSEntityUserCircleGetPar(parA);
+      final SSEntityCircle           otherUserCircle;
       
-      SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.circle);
-      
-      if(sqlFct.isSystemCircle(par.circle)){
+      if(
+        !par.withSystemGeneratedCircles &&
+        sqlFct.isSystemCircle(par.circle)){
         throw new Exception("user cannot access circle");
       }
       
-      return sqlFct.getCircle(par.circle, true, true);
+      if(
+        par.forUser == null ||
+        SSStrU.equals(par.user, par.forUser)){
+        SSEntityMiscFct.checkWhetherUserCanReadEntity(par.user, par.circle);
+        
+        return sqlFct.getCircle(par.circle, true, true, true);
+      }else{
+        
+        otherUserCircle = sqlFct.getCircle(par.circle, false, false, true);
+        
+        switch(otherUserCircle.type){
+          case pub:
+          case group:
+            otherUserCircle.entities = sqlFct.getCircleEntityURIs(otherUserCircle.id);
+            otherUserCircle.users    = sqlFct.getCircleEntityURIs(otherUserCircle.id);
+            
+            return otherUserCircle;
+          default:
+            throw new SSEntityUserAccessedOtherUsersPrivateGroupErr();
+        }
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -744,22 +766,31 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      final SSEntityUserCirclesGetPar       par     = new SSEntityUserCirclesGetPar(parA);
-      final List<SSEntityCircle>            circles = new ArrayList<>();
-      SSEntityCircle                        circle;
+      final SSEntityUserCirclesGetPar       par        = new SSEntityUserCirclesGetPar(parA);
+      final List<SSEntityCircle>            circles    = new ArrayList<>();
+      final List<SSUri>                     circleUris = new ArrayList<>();
       
-      for(SSUri circleUri : sqlFct.getCircleURIsForUser(par.user)){
-
-        if(
-          !par.withSystemGeneratedCircles &&
-          sqlFct.isSystemCircle(circleUri)){
-          continue;
-        }
+      if(par.forUser == null){
+        circleUris.addAll(sqlFct.getCircleURIsForUser(par.user,    par.withSystemGeneratedCircles));
+      }else{
+        circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemGeneratedCircles));
+      }
+      
+      for(SSUri circleUri : circleUris){
         
-        circle              = sqlFct.getCircle                (circleUri, true, true);
-        circle.accessRights = SSEntityMiscFct.getCircleRights (circle.type);
+        try{
+          circles.add(
+            SSServCaller.entityUserCircleGet(
+              par.user, 
+              par.forUser,
+              circleUri,
+              par.withSystemGeneratedCircles));
+        }catch(Exception error){
           
-        circles.add(circle);
+          if(SSServErrReg.containsErr(SSEntityUserAccessedOtherUsersPrivateGroupErr.class)){
+            SSServErrReg.reset();
+          }
+        }
       }
       
       return circles;
@@ -828,7 +859,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
       final List<SSUri>                   userUris        = new ArrayList<>();
-      final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user);
+      final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user, true);
       final List<SSEntity>                users           = new ArrayList<>();
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){

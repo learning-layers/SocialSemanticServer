@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -312,19 +313,35 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public List<SSUri> getCircleURIsForUser(
-    final SSUri userUri) throws Exception{
+    final SSUri   userUri,
+    final Boolean withSystemGeneratedCircles) throws Exception{
    
     ResultSet resultSet = null;
     
     try{
       
+      final List<SSUri>         circleUris  = new ArrayList<>();
       final Map<String, String> wheres      = new HashMap<>();
+      final List<SSUri>         tmpCircleUris;
       
       where(wheres, SSSQLVarU.userId, userUri);
       
       resultSet = dbSQL.select(circleUsersTable, wheres);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      
+      if(withSystemGeneratedCircles){
+        return tmpCircleUris;
+      }else{
+        
+        for(SSUri circleUri : tmpCircleUris){
+          if(!isSystemCircle(circleUri)){
+            circleUris.add(circleUri);
+          }
+        }
+        
+        return circleUris;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -723,9 +740,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
    
   public SSEntityCircle getCircle(
-    final SSUri   circleUri,
-    final Boolean withUsers,
-    final Boolean withEntities) throws Exception{
+    final SSUri                circleUri,
+    final Boolean              withUsers,
+    final Boolean              withEntities,
+    final Boolean              withCircleRights) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -737,6 +755,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> wheres            = new HashMap<>();
       final List<SSUri>         circleUsers       = new ArrayList<>();
       final List<SSUri>         circleEntities    = new ArrayList<>();
+      final SSEntityCircle      circle;
       
       table    (tables,    circleTable);
       table    (tables,    entityTable);
@@ -758,13 +777,20 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         circleEntities.addAll(getCircleEntityURIs(circleUri));
       }
       
-      return SSEntityCircle.get(
-        circleUri,
-        bindingStrToLabel (resultSet, SSSQLVarU.label),
-        SSCircleE.get     (bindingStr(resultSet, SSSQLVarU.circleType)),
-        null,
-        circleUsers,
-        circleEntities);
+      circle =
+        SSEntityCircle.get(
+          circleUri,
+          bindingStrToLabel (resultSet, SSSQLVarU.label),
+          SSCircleE.get     (bindingStr(resultSet, SSSQLVarU.circleType)),
+          null,
+          circleUsers,
+          circleEntities);
+      
+      if(withCircleRights){
+        circle.accessRights = SSEntityMiscFct.getCircleRights(circle.type);
+      }
+      
+      return circle;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -852,7 +878,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri          circleUri) throws Exception{
   
     try{
-      return SSStrU.contains(getCircleURIsForUser(userUri), circleUri);
+      return SSStrU.contains(getCircleURIsForUser(userUri, true), circleUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -1392,13 +1392,31 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityCirclePublicAdd,  opPars));
   }
   
-  public static List<SSEntityCircle> entityUserCirclesGet(
+   public static SSEntityCircle entityUserCircleGet(
     final SSUri   user,
+    final SSUri   forUser,
+    final SSUri   circle,
     final Boolean withSystemGeneratedCircles) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,                       user);
+    opPars.put(SSVarU.forUser,                    forUser);
+    opPars.put(SSVarU.circle,                     circle);
+    opPars.put(SSVarU.withSystemGeneratedCircles, withSystemGeneratedCircles);
+    
+    return (SSEntityCircle) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCircleGet, opPars));
+  }
+   
+  public static List<SSEntityCircle> entityUserCirclesGet(
+    final SSUri   user,
+    final SSUri   forUser,
+    final Boolean withSystemGeneratedCircles) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                       user);
+    opPars.put(SSVarU.forUser,                    forUser);
     opPars.put(SSVarU.withSystemGeneratedCircles, withSystemGeneratedCircles);
     
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));

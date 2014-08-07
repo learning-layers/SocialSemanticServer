@@ -42,7 +42,7 @@ public class SSEntityUserRelationsGatherFct{
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(entity)){
         
-        entityCircle = sqlFct.getCircle(circleUri, true, false);
+        entityCircle = sqlFct.getCircle(circleUri, true, false, false);
         
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(entityCircle.users);
@@ -60,7 +60,7 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(userUri, false)){
+    for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(userUri, userUri, true)){
       
       if(userRelations.containsKey(userStr)){
         userRelations.get(userStr).addAll(circle.users);
