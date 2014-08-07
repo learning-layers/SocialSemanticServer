@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -30,6 +31,7 @@ public class SSEntityCircle extends SSEntityA{
  
   public SSUri                          id           = null;
   public SSLabel                        label        = null;
+  public SSTextComment                  description  = null;
   public SSCircleE                      type         = null;
   public List<SSCircleRightE>           accessRights = new ArrayList<>();
   public List<SSUri>                    users        = new ArrayList<>();
@@ -38,17 +40,19 @@ public class SSEntityCircle extends SSEntityA{
   public static SSEntityCircle get(
     final SSUri                          circleUri,
     final SSLabel                        label, 
+    final SSTextComment                  description,
     final SSCircleE                      circleType, 
     final List<SSCircleRightE>           circleRights,
     final List<SSUri>                    userUris,
     final List<SSUri>                    entityUris) throws Exception{
     
-    return new SSEntityCircle(circleUri, label, circleType, circleRights, userUris, entityUris);
+    return new SSEntityCircle(circleUri, label, description, circleType, circleRights, userUris, entityUris);
   }
 
   protected SSEntityCircle(
     final SSUri                           circleUri,
     final SSLabel                         label,
+    final SSTextComment                   description,
     final SSCircleE                       circleType, 
     final List<SSCircleRightE>            circleRights,
     final List<SSUri>                     userUris,
@@ -56,9 +60,10 @@ public class SSEntityCircle extends SSEntityA{
     
     super(SSStrU.toStr(circleUri));
     
-    this.id    = circleUri;
-    this.label        = label;
-    this.type   = circleType;
+    this.id          = circleUri;
+    this.label       = label;
+    this.description = description;
+    this.type        = circleType;
     
     if(circleRights != null){
       this.accessRights.addAll(circleRights);
@@ -81,9 +86,10 @@ public class SSEntityCircle extends SSEntityA{
     final Map<String, Object> userUrisObj     = new HashMap<>();
     final Map<String, Object> entityUrisObj   = new HashMap<>();
     
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarU.id,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.label,       SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.description, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarU.type,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     
     circleRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleRightE.class.getName());
     circleRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -111,6 +117,10 @@ public class SSEntityCircle extends SSEntityA{
 
   public String getLabel(){
     return SSStrU.toStr(label);
+  }
+  
+  public String getDescription(){
+    return SSStrU.toStr(description);
   }
 
   public SSCircleE getType(){

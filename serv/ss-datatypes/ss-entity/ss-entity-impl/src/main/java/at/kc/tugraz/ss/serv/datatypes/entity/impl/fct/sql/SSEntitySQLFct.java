@@ -662,6 +662,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       table     (tables,  circleTable);
       table     (tables,  entityTable);
       column    (columns, SSSQLVarU.label);
+      column    (columns, SSSQLVarU.description);
       column    (columns, SSSQLVarU.circleType);
       column    (columns, circleTable,        SSSQLVarU.circleId);
       where     (wheres,  SSSQLVarU.entityId, entityUri);
@@ -680,6 +681,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           SSEntityCircle.get(
             circleUri,
             bindingStrToLabel       (resultSet, SSSQLVarU.label),
+            bindingStrToTextComment (resultSet, SSSQLVarU.description),
             SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
             null, 
             getCircleUserURIs(circleUri), 
@@ -760,6 +762,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       table    (tables,    circleTable);
       table    (tables,    entityTable);
       column   (columns,   SSSQLVarU.label);
+      column   (columns,   SSSQLVarU.description);
       column   (columns,   SSSQLVarU.circleId);
       column   (columns,   SSSQLVarU.circleType);
       where    (wheres,    SSSQLVarU.circleId, circleUri);
@@ -780,8 +783,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       circle =
         SSEntityCircle.get(
           circleUri,
-          bindingStrToLabel (resultSet, SSSQLVarU.label),
-          SSCircleE.get     (bindingStr(resultSet, SSSQLVarU.circleType)),
+          bindingStrToLabel       (resultSet, SSSQLVarU.label),
+          bindingStrToTextComment (resultSet, SSSQLVarU.description),
+          SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
           null,
           circleUsers,
           circleEntities);
