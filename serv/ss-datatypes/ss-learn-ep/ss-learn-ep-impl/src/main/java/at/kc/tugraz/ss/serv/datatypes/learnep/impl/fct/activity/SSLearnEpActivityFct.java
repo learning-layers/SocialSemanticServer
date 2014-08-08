@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
@@ -220,6 +221,30 @@ public class SSLearnEpActivityFct{
         SSActivityE.setCurrentLearnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpVersion),
+        SSTextComment.asListWithoutNullAndEmpty(),
+        false);
+      
+    }catch(SSServerServNotAvailableErr error){
+      SSLogU.warn("activityAdd failed | service down");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void shareLearnEp(
+    final SSLearnEpUserShareWithUserPar par) throws Exception{
+    
+    if(!par.saveActivity){
+      return;
+    }
+    
+    try{
+      
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.shareLearnEpWithUser,
+        SSUri.asListWithoutNullAndEmpty(par.forUser),
+        SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       

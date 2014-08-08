@@ -203,17 +203,15 @@ public class SSEntityMiscFct{
     final SSUri        userUri, 
     final List<SSUri>  userUris,
     final SSUri        entityUri,
-    final SSUri        circleUri) throws Exception{
+    final SSUri        circleUri,
+    final Boolean      saveActivity) throws Exception{
     
     try{
       
       final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
       for(SSServA serv : SSServA.getServsManagingEntities()){
-        
-        if(((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType)){
-          return;
-        }
+        ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType, saveActivity);
       }
       
     }catch(Exception error){

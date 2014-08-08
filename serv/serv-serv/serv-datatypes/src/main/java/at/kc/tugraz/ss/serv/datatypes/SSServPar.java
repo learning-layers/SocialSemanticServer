@@ -33,14 +33,15 @@ import org.codehaus.jackson.JsonParser;
 
 public class SSServPar{
   
-  public        SSMethU              op           = null;
-  public        Map<String, Object>  pars         = null;
-  public        Map<String, String>  clientPars   = null;
-  public        SSUri                user         = null;
-  public        String               key          = null;
-  public        Boolean              shouldCommit = true;
-  public        Boolean              saveUE       = true;
-  public        Boolean              tryAgain     = true;
+  public        SSMethU              op            = null;
+  public        Map<String, Object>  pars          = null;
+  public        Map<String, String>  clientPars    = null;
+  public        SSUri                user          = null;
+  public        String               key           = null;
+  public        Boolean              shouldCommit  = true;
+  public        Boolean              saveUE        = true;
+  public        Boolean              saveActivity  = false;
+  public        Boolean              tryAgain      = true;
   
   public SSServPar(final String jsonRequ) throws Exception{
     
@@ -126,6 +127,10 @@ public class SSServPar{
       saveUE = (Boolean) pars.get(SSVarU.saveUE);
     }catch(Exception error4){}
     
+    try{
+      saveActivity = (Boolean) pars.get(SSVarU.saveActivity);
+    }catch(Exception error5){}
+    
     if(
       this.op   == null ||
       this.pars == null){
@@ -149,6 +154,10 @@ public class SSServPar{
     
     if(par.saveUE != null){
       this.saveUE = par.saveUE;
+    }
+    
+    if(par.saveActivity != null){
+      this.saveActivity = par.saveActivity;
     }
     
     this.pars         = par.pars;

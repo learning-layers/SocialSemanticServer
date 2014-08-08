@@ -134,33 +134,33 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public Boolean shareUserEntity(
-    final SSUri user,
-    final List<SSUri> usersToShareWith,
-    final SSUri entity,
-    final SSUri circle,
-    final SSEntityE entityType) throws Exception{
-
+  public void shareUserEntity(
+    final SSUri         user,
+    final List<SSUri>   usersToShareWith,
+    final SSUri         entity,
+    final SSUri         circle,
+    final SSEntityE     entityType,
+    final Boolean       saveActivity) throws Exception{
+    
     try{
-
-      if(!SSStrU.equals(entityType, SSEntityE.learnEp)){
-        return false;
+      
+      switch(entityType){
+        
+        case learnEp:
+          for(SSUri userUriToShareWith : usersToShareWith){
+            
+            SSServCaller.learnEpUserShareWithUser(
+              user,
+              userUriToShareWith,
+              entity,
+              circle,
+              saveActivity,
+              false);
+          }
       }
-
-      for(SSUri userUriToShareWith : usersToShareWith){
-
-        SSServCaller.learnEpUserShareWithUser(
-          user,
-          userUriToShareWith,
-          entity,
-          circle,
-          false);
-      }
-
-      return true;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
 
@@ -964,8 +964,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.entity,
         par.circle);
 
+      SSLearnEpActivityFct.shareLearnEp(par);
+      
       dbSQL.commit(par.shouldCommit);
-
+      
       return par.entity;
 
     }catch(SSSQLDeadLockErr deadLockErr){

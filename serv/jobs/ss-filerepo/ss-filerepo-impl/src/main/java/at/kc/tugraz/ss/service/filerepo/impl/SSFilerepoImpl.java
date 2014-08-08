@@ -53,6 +53,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
+import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
 import java.util.*;
 import java.util.List;
 
@@ -112,18 +113,17 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
   
   @Override
-  public Boolean shareUserEntity(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
+  public void shareUserEntity(
+    final SSUri          user, 
+    final List<SSUri>    usersToShareWith,
+    final SSUri          entity, 
     final SSUri          circleUri,
-    final SSEntityE      entityType) throws Exception{
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception{
     
-    try{
-      return false;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+    switch(entityType){
+      case file: 
+        SSFileRepoActivityFct.shareFileWithUser(user, entity, usersToShareWith, saveActivity);
     }
   }
   

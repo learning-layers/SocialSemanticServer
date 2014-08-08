@@ -174,12 +174,13 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
   
   @Override
-  public Boolean shareUserEntity(
+  public void shareUserEntity(
     final SSUri          user, 
     final List<SSUri>    usersToShareWith,
     final SSUri          entity, 
     final SSUri          circle,
-    final SSEntityE      entityType) throws Exception{
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception{
     
     switch(entityType){
       case disc:
@@ -195,9 +196,6 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
             circle,
             false);
         }
-        return true;
-        
-      default: return false;
     }
   }
   

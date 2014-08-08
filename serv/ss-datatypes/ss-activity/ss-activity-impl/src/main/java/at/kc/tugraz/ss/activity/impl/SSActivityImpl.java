@@ -95,19 +95,13 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
 
   @Override
-  public Boolean shareUserEntity(
+  public void shareUserEntity(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          circleUri,
-    final SSEntityE      entityType) throws Exception{
-
-    try{
-      return false;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception{
   }
   
   @Override

@@ -41,12 +41,13 @@ public interface SSEntityHandlerImplI{
     final SSEntityE             entityType,
     final SSUri                 publicCircleUri) throws Exception;
 
-  public Boolean shareUserEntity(
+  public void shareUserEntity(
     final SSUri          user, 
     final List<SSUri>    usersToShareWith,
     final SSUri          entity, 
     final SSUri          circle,
-    final SSEntityE      entityType) throws Exception;
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception;
   
   public Boolean copyUserEntity(
     final SSUri        user,

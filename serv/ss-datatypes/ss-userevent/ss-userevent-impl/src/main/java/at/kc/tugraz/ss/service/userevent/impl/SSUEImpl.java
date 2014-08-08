@@ -109,14 +109,13 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   }
   
   @Override
-  public Boolean shareUserEntity(
+  public void shareUserEntity(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          entityCircleUri,
-    final SSEntityE   entityType) throws Exception{
-    
-    return false;
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception{
   }
   
   @Override

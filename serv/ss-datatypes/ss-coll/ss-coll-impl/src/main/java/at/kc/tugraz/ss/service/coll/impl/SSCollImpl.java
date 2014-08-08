@@ -228,36 +228,34 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public Boolean shareUserEntity(
+  public void shareUserEntity(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
     final SSUri          circleUri,
-    final SSEntityE      entityType) throws Exception{
+    final SSEntityE      entityType,
+    final Boolean        saveActivity) throws Exception{
     
     try{
       
-      if(
-        !SSStrU.equals(entityType, SSEntityE.coll) &&
-        !SSStrU.equals(entityType, SSEntityE.file) &&
-        !SSStrU.equals(entityType, SSEntityE.entity)){
-        return false;
+      switch(entityType){
+        case coll:
+        case file:
+        case entity:
+          
+          for(SSUri userUriToShareWith : userUrisToShareWith){
+            
+            SSServCaller.collUserShareWithUser(
+              userUri,
+              userUriToShareWith,
+              entityUri,
+              circleUri,
+              false);
+          }
       }
       
-      for(SSUri userUriToShareWith : userUrisToShareWith){
-        
-        SSServCaller.collUserShareWithUser(
-          userUri,
-          userUriToShareWith,
-          entityUri,
-          circleUri,
-          false);
-      }
-      
-      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   

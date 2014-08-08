@@ -37,6 +37,7 @@ public enum SSActivityE{
   
   //files 
   downloadFile,
+  shareFileWithUsers,
   
   //collections
   removeCollEntry,
@@ -53,6 +54,7 @@ public enum SSActivityE{
   createLearnEpVersion,
   addEntityToLearnEpVersion,
   addCircleToLearnEpVersion,
+  shareLearnEpWithUser,
   
   //entity circles
   createCircle,

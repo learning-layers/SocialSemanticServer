@@ -128,6 +128,7 @@ public class SSServCaller {
     final SSUri    forUser, 
     final SSUri    entity, 
     final SSUri    circle, 
+    final Boolean  saveActivity,
     final Boolean  shouldCommit) throws Exception{
   
     final Map<String, Object> opPars = new HashMap<>();
@@ -136,6 +137,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,            forUser);
     opPars.put(SSVarU.entity,             entity);
     opPars.put(SSVarU.circle,             circle);
+    opPars.put(SSVarU.saveActivity,       saveActivity);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpUserShareWithUser, opPars)); 

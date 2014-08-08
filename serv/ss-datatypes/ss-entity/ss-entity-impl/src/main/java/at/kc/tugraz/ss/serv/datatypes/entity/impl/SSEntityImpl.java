@@ -237,61 +237,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCaller.checkKey(parA);
     
-    try{
-      
-      dbSQL.startTrans(true);
-      
-      final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
-      
-      par.shouldCommit = false;
-      
-      final SSUri entityUri = entityUserShare(par);
-      
-      SSEntityActivityFct.shareEntityWithUsers(par);
-      
-      dbSQL.commit(true);
-      
-      sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUri, parA.op));
-      
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        entityShare(sSCon, parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-      }
-      
-    }catch(Exception error){
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-    }
+    sSCon.writeRetFullToClient(SSEntityUserShareRet.get(entityUserShare(parA), parA.op));
   }
   
-  @Override 
+  @Override  
   public SSUri entityUserShare(final SSServPar parA) throws Exception{
     
     try{
-      return entityUserShare(new SSEntityUserSharePar(parA));
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return entityUserShare(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  protected SSUri entityUserShare(final SSEntityUserSharePar par) throws Exception{
-    
-    try{
+      final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
+        
       SSEntityMiscFct.checkWhetherUserCanEditEntity           (par.user, par.entity);
       SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
       SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
@@ -313,12 +267,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.user,
         par.users,
         par.entity,
-        circleUri);
+        circleUri,
+        par.saveActivity);
+      
+      SSEntityActivityFct.shareEntityWithUsers(par);
       
       dbSQL.commit(par.shouldCommit);
       
       return circleUri;
+    }catch(SSSQLDeadLockErr deadLockErr){
+      
+      if(dbSQL.rollBack(parA)){
+        return entityUserShare(parA);
+      }else{
+        SSServErrReg.regErrThrow(deadLockErr);
+        return null;
+      }
+      
     }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

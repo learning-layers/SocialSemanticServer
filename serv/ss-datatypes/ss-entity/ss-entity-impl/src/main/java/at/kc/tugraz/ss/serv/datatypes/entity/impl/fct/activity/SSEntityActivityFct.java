@@ -43,6 +43,10 @@ public class SSEntityActivityFct{
   public static void shareEntityWithUsers(
     final SSEntityUserSharePar par) throws Exception{
     
+    if(!par.saveActivity){
+      return;
+    }
+    
     try{
       
       SSServCaller.activityAdd(
