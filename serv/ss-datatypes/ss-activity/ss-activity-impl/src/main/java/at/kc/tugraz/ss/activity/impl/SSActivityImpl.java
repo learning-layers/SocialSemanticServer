@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -33,6 +34,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -138,15 +140,49 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
    
     try{
-      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
+      final SSActivitiesUserGetPar par         = new SSActivitiesUserGetPar(parA);
+      final List<SSUri>            entities    = new ArrayList<>();
+      
+      if(!par.entities.isEmpty()){
+        
+        for(SSUri entity : par.entities){
+          
+          if(!SSServCaller.entityUserAllowedIs(par.user, entity, SSCircleRightE.read)){
+            SSLogU.warn("user cannot access entity for activities");
+            continue;
+          }
+          
+          entities.add(entity);
+        }
+      }
+      
+      if(!par.circles.isEmpty()){
+        
+        for(SSUri circle : par.circles){
+          
+          if(!SSServCaller.entityUserAllowedIs(par.user, circle, SSCircleRightE.read)){
+            SSLogU.warn("user cannot access circle for activities");
+            continue;
+          }
+          
+          entities.addAll(
+            SSServCaller.entityUserCircleGet(
+              par.user, 
+              null, 
+              circle, 
+              false).entities);
+        }
+      }
+
+      SSStrU.distinctWithoutNull2(entities);
       
       return sqlFct.getActivities(
-        par.users, 
-        par.entities, 
-        par.types, 
-        par.startTime, 
-        par.endTime);
-      
+          par.users,
+          entities,
+          par.types,
+          par.startTime,
+          par.endTime);
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

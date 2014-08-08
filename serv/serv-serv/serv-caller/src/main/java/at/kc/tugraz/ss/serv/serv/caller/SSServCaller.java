@@ -2493,6 +2493,7 @@ public class SSServCaller {
     final List<SSActivityE>   types, 
     final List<SSUri>         users, 
     final List<SSUri>         entities,
+    final List<SSUri>         circles,
     final Long                startTime,
     final Long                endTime) throws Exception{
    
@@ -2502,6 +2503,7 @@ public class SSServCaller {
     opPars.put(SSVarU.types,            types);
     opPars.put(SSVarU.users,            users);
     opPars.put(SSVarU.entities,         entities);
+    opPars.put(SSVarU.circles,          circles);
     opPars.put(SSVarU.startTime,        startTime);
     opPars.put(SSVarU.endTime,          endTime);
     

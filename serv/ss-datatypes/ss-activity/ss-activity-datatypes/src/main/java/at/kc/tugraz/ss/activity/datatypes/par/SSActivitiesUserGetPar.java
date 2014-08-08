@@ -34,6 +34,7 @@ public class SSActivitiesUserGetPar extends SSServPar{
   public List<SSActivityE>      types            = new ArrayList<>();
   public List<SSUri>            users            = new ArrayList<>();
   public List<SSUri>            entities         = new ArrayList<>();
+  public List<SSUri>            circles          = new ArrayList<>();
   public Long                   startTime        = null; 
   public Long                   endTime          = null;
 
@@ -48,6 +49,7 @@ public class SSActivitiesUserGetPar extends SSServPar{
         types           = (List<SSActivityE>)   pars.get(SSVarU.types);
         users           = (List<SSUri>)         pars.get(SSVarU.users);
         entities        = (List<SSUri>)         pars.get(SSVarU.entities);
+        circles         = (List<SSUri>)         pars.get(SSVarU.circles);
         startTime       = (Long)                pars.get(SSVarU.startTime);
         endTime         = (Long)                pars.get(SSVarU.endTime);
       }
@@ -57,6 +59,7 @@ public class SSActivitiesUserGetPar extends SSServPar{
         try{ types      = SSActivityE.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types),    SSStrU.comma));    }catch(Exception error){}
         try{ users      = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users),    SSStrU.comma));    }catch(Exception error){}
         try{ entities   = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));    }catch(Exception error){}
+        try{ circles    = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.circles), SSStrU.comma));     }catch(Exception error){}
         try{ startTime  = Long.valueOf    (clientPars.get(SSVarU.startTime));                                                          }catch(Exception error){}
         try{ endTime    = Long.valueOf    (clientPars.get(SSVarU.endTime));                                                            }catch(Exception error){}
       }
