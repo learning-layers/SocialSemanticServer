@@ -29,6 +29,7 @@ public interface SSEntityClientI {
   public void entityUpdate                         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDescGet                        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityDescsGet                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

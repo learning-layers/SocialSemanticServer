@@ -28,22 +28,30 @@ import java.util.Map;
 
 public class SSEvernoteResourceDesc extends SSEntityDescA{
   
-  public SSUri note  = null;
+  public SSUri  note     = null;
+  public String fileExt  = null;
+  public String mimeType = null;
 
   public static SSEvernoteResourceDesc get(
     final SSEntityDescA   entityDesc,
-    final SSUri           note) throws Exception{
+    final SSUri           note,
+    final String          fileExt,
+    final String          mimeType) throws Exception{
     
-    return new SSEvernoteResourceDesc(entityDesc, note);
+    return new SSEvernoteResourceDesc(entityDesc, note, fileExt, mimeType);
   }
   
   private SSEvernoteResourceDesc(
     final SSEntityDescA    entityDesc,
-    final SSUri            note) throws Exception{
+    final SSUri            note,
+    final String           fileExt,
+    final String           mimeType) throws Exception{
     
     super(entityDesc);
     
-    this.note = note;
+    this.note     = note;
+    this.fileExt  = fileExt;
+    this.mimeType = mimeType;
   }
   
   @Override
@@ -51,7 +59,9 @@ public class SSEvernoteResourceDesc extends SSEntityDescA{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.note, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.note,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.mimeType,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.fileExt,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

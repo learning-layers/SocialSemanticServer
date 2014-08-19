@@ -39,6 +39,7 @@ import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
@@ -64,7 +65,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     if(par.getFlags){
       
       entityDesc.flags.addAll(
-        SSServCaller.flagsUserGet(
+        SSServCaller.flagsGet(
           par.user,
           SSUri.asListWithoutNullAndEmpty(par.entity),
           SSStrU.toStrWithoutEmptyAndNull(),
@@ -174,6 +175,27 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSFlag> flagsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSFlagsGetPar par = new SSFlagsGetPar(parA);
+      
+      //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
+      return sqlFct.getFlags(
+        SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
+        par.entities,
+        par.types, 
+        par.startTime,
+        par.endTime);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override

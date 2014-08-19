@@ -34,6 +34,7 @@ public interface SSEntityServerI {
   public List<SSTextComment>             entityUserCommentsGet                    (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntityDescA                   entityDescGet                            (final SSServPar parA) throws Exception;
+  public List<SSEntityDescA>             entityDescsGet                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserCircleCreate                   (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUsersToCircleAdd               (final SSServPar parA) throws Exception;
   public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;

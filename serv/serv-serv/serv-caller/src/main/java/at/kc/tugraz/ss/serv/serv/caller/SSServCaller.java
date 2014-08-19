@@ -67,6 +67,24 @@ public class SSServCaller {
   
   /* flag */
   
+  public static List<SSFlag> flagsGet(
+    final SSUri          user,
+    final List<SSUri>    entities,
+    final List<String>   types,
+    final Long           startTime,
+    final Long           endTime) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,              user);
+    opPars.put(SSVarU.entities,          entities);
+    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.startTime,         startTime);
+    opPars.put(SSVarU.endTime,           endTime);
+    
+    return (List<SSFlag>) SSServA.callServViaServer(new SSServPar(SSMethU.flagsGet, opPars));
+  }
+  
   public static Boolean flagsUserSet(
     final SSUri          user,
     final List<SSUri>    entities,
@@ -1312,7 +1330,10 @@ public class SSServCaller {
     final SSUri   entity,
     final Boolean getTags,
     final Boolean getOverallRating,
-    final Boolean getDiscs) throws Exception{
+    final Boolean getDiscs,
+    final Boolean getUEs,
+    final Boolean getThumb,
+    final Boolean getFlags) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1321,6 +1342,9 @@ public class SSServCaller {
     opPars.put(SSVarU.getTags,          getTags);
     opPars.put(SSVarU.getOverallRating, getOverallRating);
     opPars.put(SSVarU.getDiscs,         getDiscs);
+    opPars.put(SSVarU.getUEs,           getUEs);
+    opPars.put(SSVarU.getThumb,         getThumb);
+    opPars.put(SSVarU.getFlags,         getFlags);
     
     return (SSEntityDescA) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
   }

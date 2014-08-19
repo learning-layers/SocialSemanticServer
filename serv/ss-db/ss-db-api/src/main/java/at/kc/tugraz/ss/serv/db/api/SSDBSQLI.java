@@ -28,9 +28,10 @@ import java.util.Map;
 
 public interface SSDBSQLI{
 
+  public Integer    getMaxActive() throws Exception;
+  public Integer    getActive()    throws Exception;
   public Connection getConnection();
-  
-  public void       closeCon  () throws Exception;
+  public void       closeCon  ()   throws Exception;
   
   public Boolean rollBack(
     final SSServPar parA);

@@ -20,6 +20,7 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.serv;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
@@ -31,6 +32,7 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class SSDataImportServ extends SSServA{
@@ -56,6 +58,8 @@ public class SSDataImportServ extends SSServA{
       return;
     }
     
+    setMaxRequsForClientOps();
+    
     if(!((SSDataImportConf)servConf).initAtStartUp){
       return;
     }
@@ -68,5 +72,19 @@ public class SSDataImportServ extends SSServA{
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  private void setMaxRequsForClientOps() throws Exception{
+    
+    SSMethU op;
+      
+    for(Method method : servImplClientInteraceClass.getMethods()){
+      
+      op = SSMethU.get(method.getName());
+
+      switch(op){
+        case dataImportEvernote: maxRequsForClientOpsPerUser.put(op, 1);
+      }
+    }
   }
 }

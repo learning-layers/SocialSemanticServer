@@ -26,6 +26,7 @@ import java.util.List;
 
 public interface SSFlagServerI{
   
+  public List<SSFlag> flagsGet     (final SSServPar parA) throws Exception;
   public Boolean      flagsUserSet (final SSServPar parA) throws Exception;
   public List<SSFlag> flagsUserGet (final SSServPar parA) throws Exception;
 }

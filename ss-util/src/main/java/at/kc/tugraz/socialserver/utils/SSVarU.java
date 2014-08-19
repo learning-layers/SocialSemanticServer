@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String descs                                          = "descs";
   public static final String attachedEntities                               = "attachedEntities";
   public static final String includeOnlySubEntities                         = "includeOnlySubEntities";
   public static final String wordsToSearchFor                               = "wordsToSearchFor";

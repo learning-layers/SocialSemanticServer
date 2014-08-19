@@ -29,7 +29,8 @@ public class SSServErrReg {
 
   private static final ThreadLocal<List<SSErrForClient>> servImplErrors  = new ThreadLocal<List<SSErrForClient>>(){
     
-    @Override protected List<SSErrForClient> initialValue() {
+    @Override 
+    protected List<SSErrForClient> initialValue() {
       
       try{
         return new ArrayList<>();
@@ -147,7 +148,7 @@ public class SSServErrReg {
         error.message           + SSStrU.blank);
     }
     
-    servImplErrors.get().clear();
+    reset();
   }
 
   public static void reset(){

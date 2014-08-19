@@ -120,7 +120,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         new Thread(
           new SSDataImportEvernoteHandler(
             (SSDataImportConf)conf, 
-            par));
+            par,
+            this));
       
       evernoteImportHandler.start();
       

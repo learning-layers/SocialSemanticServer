@@ -56,6 +56,7 @@ public enum SSMethU{
   entitiesForDescriptionsGet,
   entityPublicSet,
   entityDescGet                                       ,
+  entityDescsGet ,
   entityAdd                                           ,
   entityAddAtCreationTime                             ,
   entityGet                                           ,
@@ -189,7 +190,6 @@ public enum SSMethU{
   searchSolr                                          ,
   searchMIs                                           ,
   searchTagsWithinEntity                              ,
-  searchCombined                                      ,
   search,
   
   //rating

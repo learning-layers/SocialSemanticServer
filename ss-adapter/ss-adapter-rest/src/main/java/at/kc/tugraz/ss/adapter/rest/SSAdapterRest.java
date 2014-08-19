@@ -139,6 +139,14 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityDescsGet")
+  public String entityDescsGet(String jsonRequ){
+    return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityDescsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "authCheckCred")
   public String authCheckCred(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.authCheckCred);

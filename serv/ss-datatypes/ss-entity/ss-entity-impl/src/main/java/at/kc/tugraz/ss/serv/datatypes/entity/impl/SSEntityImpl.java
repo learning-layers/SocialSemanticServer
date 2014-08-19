@@ -53,6 +53,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircl
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAllowedIsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCommentsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesCommentedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
@@ -91,6 +92,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -100,6 +102,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityF
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
@@ -399,12 +402,80 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }
   }
   
+@Override
+  public void entityDescsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op));
+    
+    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
+  }
+  
   @Override
-  public void entityDescGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public List<SSEntityDescA> entityDescsGet(final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(par);
+    try{
+      
+      final SSEntityDescsGetPar  par      = new SSEntityDescsGetPar(parA);
+      final List<SSEntityDescA>  entities = new ArrayList<>();
+      
+      for(SSUri entityUri : par.entities){
+        
+        if(
+          !par.types.isEmpty() &&
+          !SSStrU.contains(par.types, sqlFct.getEntity (entityUri).type)){
+          continue;
+        }
+        
+        entities.add(
+          SSServCaller.entityDescGet(
+            par.user,
+            entityUri,
+            par.getTags,
+            par.getOverallRating,
+            par.getDiscs,
+            par.getUEs,
+            par.getThumb,
+            par.getFlags));
+      }
+      
+      if(par.entities.isEmpty()){
+        
+        if(par.types.isEmpty()){
+          throw new Exception("either types or entites must be set");
+        }
+        
+        for(SSUri entityUri : sqlFct.getEntities(par.user, par.types)){
+          entities.add(
+            SSServCaller.entityDescGet(
+              par.user,
+              entityUri,
+              par.getTags,
+              par.getOverallRating,
+              par.getDiscs,
+              par.getUEs,
+              par.getThumb,
+              par.getFlags));
+        }
+      }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entityDescGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(par), par.op));
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op));
+    
+    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
   }
   
   @Override

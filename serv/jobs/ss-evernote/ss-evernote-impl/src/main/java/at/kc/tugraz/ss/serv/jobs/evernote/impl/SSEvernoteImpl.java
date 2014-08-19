@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
@@ -103,9 +104,27 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
     
     if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteResource)){
       
+      String      fileExt  = null;
+      String      mimeType = null;
+      
+      try{
+      
+        final List<SSUri> filesForEntity = SSServCaller.entityFilesGet    (par.user, par.entity);
+        
+        fileExt        = SSServCaller.fileExtGet        (par.user, filesForEntity.get(0));
+        mimeType       = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+        
+      }catch(Exception error){
+        SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
+        
+        SSServErrReg.reset();
+      }
+      
       return SSEvernoteResourceDesc.get(
         entityDesc,
-        sqlFct.getResource(par.entity).note);
+        sqlFct.getResource(par.entity).note, 
+        fileExt, 
+        mimeType);
     }
     
     return entityDesc;

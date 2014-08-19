@@ -31,18 +31,21 @@ import com.evernote.edam.type.Note;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
+  private final SSUri   user;
+  private final SSUri   userCircle;
   private final SSUri   noteUri;
   private final Note    note;
-  private final SSUri   user;
   private final String  localWorkPath;
   
   public SSDataImportEvernoteNoteContentHandler(
     final SSUri   user,
+    final SSUri   userCircle,
     final Note    note,
     final SSUri   noteUri,
     final String  localWorkPath){
     
     this.user          = user;
+    this.userCircle    = userCircle;
     this.note          = note;
     this.noteUri       = noteUri;
     this.localWorkPath = localWorkPath;
@@ -101,8 +104,15 @@ public class SSDataImportEvernoteNoteContentHandler{
         fileUri,
         false);
       
+      SSServCaller.entityEntitiesToCircleAdd(
+        user,
+        userCircle,
+        fileUri,
+        false);
+      
       SSDataImportEvernoteThumbHelper.addThumbFromFile(
         user,
+        userCircle,
         localWorkPath,
         noteUri,
         fileUri,

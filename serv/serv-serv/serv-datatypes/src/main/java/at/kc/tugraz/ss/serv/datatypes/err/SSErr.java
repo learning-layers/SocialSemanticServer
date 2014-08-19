@@ -18,26 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.search.api;
+package at.kc.tugraz.ss.serv.datatypes.err;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
-import java.util.List;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 
-public interface SSSearchServerI {
-
-  public List<SSEntity>       search                 (final SSServPar parA) throws Exception;
+public class SSErr extends Exception{
   
-  @Deprecated
-  public List<SSSearchResult> searchTags             (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSSearchResult> searchTagsWithinEntity (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSSearchResult> searchMIs              (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSSearchResult> searchSolr             (final SSServPar parA) throws Exception;
+  public SSErr(final SSErrE code){
+    super(SSStrU.toStr(code));
+  }
 }

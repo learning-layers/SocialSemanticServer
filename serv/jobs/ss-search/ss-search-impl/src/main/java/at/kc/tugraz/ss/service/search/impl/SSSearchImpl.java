@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -222,12 +221,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSSearchResult> searchCombined(final SSServPar parA) throws Exception {
-    return searchCombined(new SSSearchCombinedPar(parA));
   }
   
   @Deprecated
