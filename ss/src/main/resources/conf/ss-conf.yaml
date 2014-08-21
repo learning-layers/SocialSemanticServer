@@ -33,6 +33,7 @@ dataExportConf:
   executeOpAtStartUp: false
   op: null
   use: true
+  fileNameForUserRelationsExport:
 dataImportConf:
   executeOpAtStartUp: #true, false
   initAtStartUp: #true, false
