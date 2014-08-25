@@ -85,7 +85,7 @@ The source-code can be directly checked-out through this repository. It contains
 
 #### Run
 * run `mvn clean install` on project `SSS/ss-root` to have 
- * `SSS/ss/target/ss-app`
+ * `SSS/ss/target/ss-app/`
  * `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war`
 * execute `SSS/ss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
 
