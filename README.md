@@ -29,7 +29,7 @@ The source-code can be directly checked-out through this repository. It contains
 * please use Tomcat 7 or higher from [Tomcat Site](http://tomcat.apache.org/download-70.cgi)
 
 #### Apache Solr 4.9
-* this guide was derived form [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
+* this guide was derived from [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
 * download Solr from http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/ 
 * decompress solr package
 * rename folder for convenience to `solrPackage`
