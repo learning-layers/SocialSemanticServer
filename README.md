@@ -76,9 +76,7 @@ The source-code can be directly checked-out through this repository. It contains
 
 #### SSS and REST adapter
 * download SSS containing its REST adapter from this repository
-
-#### Code import
-* import the SSS project as Maven project into, e.g. Netbeans or Eclipse
+* import SSS as Maven project into, e.g. Netbeans or Eclipse
 
 #### Logging and Configuration
 * adjust `SSS/ss/src/main/resources/conf/log4j.properties` and copy to `SSS/ss/`
