@@ -52,7 +52,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `<lib dir="/solr/lib/dist/" regex="solr-velocity-\d.*\.jar" />`
 * set user `tomcat7` as owner for `solr home dir`
 * stop tomcat
-* edit tomcat's `catalina.sh` to point to your `solr home dir` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`)
+* edit tomcat's `catalina.sh` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`) to point to `solr home dir` 
  * `export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"`
 * copy to `tomcat lib` dir: (e.g.: `/usr/share/tomcat7/lib`)
  * `/solrPackage/example/lib/ext/`
