@@ -19,7 +19,7 @@ The source-code can be directly checked-out through this repository. It contains
 * In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
 
 #### Java 8
-* please use Java 8 or higher from (Java Site){https://java.com/en/download/index.jsp]
+* please use Java 8 or higher from (Java Site)[https://java.com/en/download/index.jsp]
 
 #### Apache Maven 3
 * please use Maven 3 or higher from [Maven Site](http://maven.apache.org/download.cg)
