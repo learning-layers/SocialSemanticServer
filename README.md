@@ -1,6 +1,6 @@
 SocialSemanticServer
 ====================
-##Towards A Framework for Social Semantic Network Data
+## Towards A Framework for Social Semantic Network Data
 [![BuildStatus](http://layers.dbis.rwth-aachen.de/jenkins/buildStatus/icon?job=SocialSemanticServer)](http://layers.dbis.rwth-aachen.de/jenkins/job/SocialSemanticServer/)
 
 ## Description
@@ -17,18 +17,52 @@ The source-code can be directly checked-out through this repository. It contains
 ## How-to-use
 ### Set-up
 In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
-####Java
-* please use Java 8.x
+#### Java 8
+* please use Java 8 or higher from (Java Site){https://java.com/en/download/index.jsp]
 
-####Apache Maven
-* install from [Maven Site](http://maven.apache.org/download.cg)
+#### Apache Maven 3 (for developement only)
+* please use Maven 3 or higher from [Maven Site](http://maven.apache.org/download.cg)
 * check out the Maven installation guide at [Maven Guides](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
-####Apache Solr
-* install Solr following instructions at [Solr Wiki](http://wiki.apache.org/solr/SolrInstall)
+#### Apache Tomcat 7
+* please use Tomcat 7 or higher from [Tomcat Site](http://tomcat.apache.org/download-70.cgi)
 
-####MySQL database
-* install MySQL 5.6 from [MySQL Site](http://www.mysql.com/downloads/)
+#### Apache Solr 4.9
+* this guide was derived form [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
+* download Solr from http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/ 
+* decompress solr package
+* rename folder for convenience to `solrPackage`
+* copy to `solr home dir` (e.g.: /solr/)
+ * /solrPackage/example/solr/ 
+* copy to `solr home lib` dir (e.g.: /solr/lib/)
+ * /solrPackage/contrib/
+ * /solrPackage/dist/
+* replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir with (e.g.: /solr/collection1/conf)
+ * SocialSemanticServer/ss/src/main/resources/conf/solr_schema.xml
+ * SocialSemanticServer/ss/src/main/resources/conf/solr_solrconfig.xml
+* adjust `solrconfig.xml` to have directives pointing to solr home lib subfolders, e.g.:
+ * <lib dir="/solr/lib/contrib/extraction/lib" regex=".*\.jar" />
+ * <lib dir="/solr/lib/dist/" regex="solr-cell-\d.*\.jar" />
+ * <lib dir="/solr/lib/contrib/clustering/lib/" regex=".*\.jar" />
+ * <lib dir="/solr/lib/dist/" regex="solr-clustering-\d.*\.jar" />
+ * <lib dir="/solr/lib/contrib/langid/lib/" regex=".*\.jar" />
+ * <lib dir="/solr/lib/dist/" regex="solr-langid-\d.*\.jar" />
+ * <lib dir="/solr/lib/contrib/velocity/lib" regex=".*\.jar" />
+ * <lib dir="/solr/lib/dist/" regex="solr-velocity-\d.*\.jar" />
+* set user `tomcat7` as owner for `solr home dir`
+* stop tomcat
+* edit tomcat's `catalina.sh` to point to your `solr home dir` (e.g.: /usr/share/tomcat7/bin/catalina.sh)
+ * export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"
+* copy to `tomcat lib` dir: (e.g.: /usr/share/tomcat7/lib)
+ * /solrPackage/example/lib/ext/
+ * /solrPackage/example/resources/log4j.properties
+* adjust `log4j.properties` to your needs
+* copy to `tomcat webapps` dir (e.g.: /var/lib/tomcat7/webapps/)
+ * /solrPackage/example/webapps/solr.war
+* start tomcat
+
+#### MySQL 5.6
+* please use MySQL 5.6 or higher from [MySQL Site](http://www.mysql.com/downloads/)
 * have at least the following set in your `my.cnf` 
  * [client] 
    * default-character-set=utf8
