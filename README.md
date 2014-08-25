@@ -21,7 +21,7 @@ The source-code can be directly checked-out through this repository. It contains
 * copy `ss-package/ss-app/` to custom SSS's execution dir
 * copy `ss-package/ss-adapter-rest.war` to `tomcat webapps` dir
 * adjust and copy `ss-package/ss-adapter-rest-conf.yaml` to `tomcat conf` dir
-* run `ss.jar`
+* run `runit.sh / .bat`
  
 ## SSS for development
 
