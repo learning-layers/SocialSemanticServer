@@ -861,6 +861,7 @@ public class SSServCaller {
   public static void solrAddDoc(
     final SSUri   user,
     final String  fileID,
+    final String  mimeType,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -868,6 +869,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,    shouldCommit);
     opPars.put(SSVarU.user,            user);
     opPars.put(SSVarU.id,              fileID);
+    opPars.put(SSVarU.mimeType,        mimeType);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.solrAddDoc, opPars));
   }

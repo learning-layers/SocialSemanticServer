@@ -29,51 +29,23 @@ public class SSSolrSearchResult {
 
   public final String id;
   
-	public String title;
-	public String content;
-	public String language;
-	public String keywords;
-	public String abstracts;
-  
-	public static synchronized SSSolrSearchResult get(
-    String id,
-    String content,
-    String language,
-    String keywords,
-    String title, 
-    String abstracts){
+	public static SSSolrSearchResult get(
+    final String id){
 		
-    SSSolrSearchResult result = new SSSolrSearchResult(id);
-    
-    result.content   = content;
-    result.language  = language;
-    result.keywords  = keywords;
-    result.title     = title;
-    result.abstracts = abstracts;
-    
-    return result;
+    return new SSSolrSearchResult(id);
 	}
   
   public static synchronized List<SSSolrSearchResult> get(final SolrDocumentList solrDocList) throws Exception {
     
-    List<SSSolrSearchResult> result = new ArrayList<SSSolrSearchResult>();
+    final List<SSSolrSearchResult> result = new ArrayList<>();
     
 		for(SolrDocument doc : solrDocList){
 			
-      String id = getFieldAsString(doc, SSSolrSearchFieldEnum.id);
-			
-      if (id.isEmpty()) {
-        SSLogU.warn("document retrieved from solr does not have any ID. skipping...");
-				continue;
-			}
-      
-			result.add(get(
-        id,
-        getFieldAsString (doc, SSSolrSearchFieldEnum.docText),
-        getFieldAsString (doc, SSSolrSearchFieldEnum.docLang),
-        getFieldAsString (doc, SSSolrSearchFieldEnum.keywords),
-        getFieldAsString (doc, SSSolrSearchFieldEnum.title),
-        getFieldAsString (doc, SSSolrSearchFieldEnum.abstracT)));
+			result.add(
+        get(
+          getFieldAsString (
+            doc, 
+            SSSolrSearchFieldEnum.id)));
 		}
     
     return result;
@@ -115,7 +87,6 @@ public class SSSolrSearchResult {
   }
   
   private SSSolrSearchResult(String id){
-  
     this.id = id;
   }
 }

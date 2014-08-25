@@ -213,7 +213,7 @@ public class SSFileUploader extends SSServImplStartA{
   private void addFileToSolr(){
     
     try{
-      SSServCaller.solrAddDoc(par.user, fileId, true);
+      SSServCaller.solrAddDoc(par.user, fileId, par.mimeType, true);
     }catch(SSServerServNotAvailableErr error){
       SSLogU.warn(error.getMessage());
       SSServErrReg.reset();

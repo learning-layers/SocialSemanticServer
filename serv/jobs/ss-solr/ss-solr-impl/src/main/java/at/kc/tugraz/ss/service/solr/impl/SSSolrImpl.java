@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.solr.impl;
+package at.kc.tugraz.ss.service.solr.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.service.solr.datatypes.*;
 import at.kc.tugraz.ss.service.solr.impl.fct.SSSolrFct;
 import java.io.*;
 import java.util.*;
-import org.apache.solr.client.solrj.*;
 import org.apache.solr.client.solrj.impl.*;
 import org.apache.solr.client.solrj.request.*;
 import org.apache.solr.client.solrj.response.*;
@@ -44,88 +43,98 @@ import org.apache.solr.common.util.*;
 
 public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolrServerI{
   
-  private final SolrServer     server;
-  private final String         localWorkPath;
+  private final ConcurrentUpdateSolrServer solrUpdater;
+  private final String                     localWorkPath;
   
   public SSSolrImpl(final SSConfA conf) throws Exception{
     
     super(conf);
     
-    server         = new CommonsHttpSolrServer(((SSFileRepoConf) conf).getPath());
+    solrUpdater    = new ConcurrentUpdateSolrServer(((SSFileRepoConf) conf).getPath(), 1, 10);
     localWorkPath  = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
     
     SSLogU.info("connected to Solr server @ " + ((SSFileRepoConf) conf).getPath() + ".");
   }
   
-  /****** SSSolrServerI ******/
-
-  /** 
-	 * according to Solr specification by adding a document with an ID already
-	 * existing in the index will replace the document (eg. refer to 
-	 * http://stackoverflow.com/questions/8494923/solr-block-updating-of-existing-document or
-	 * http://lucene.apache.org/solr/api-4_0_0-ALPHA/doc-files/tutorial.html ) 
-	 */
-  
   @Override
-	public void solrAddDoc(final SSServPar parA) throws Exception {
-		
-    final SSSolrAddDocPar            par  = new SSSolrAddDocPar(parA);
-    final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
-    final NamedList<Object>          response;
+  public void solrAddDoc(final SSServPar parA) throws Exception {
     
-    csur.addFile   (new File(localWorkPath + par.id));
-    csur.setParam  ("literal.id", par.id);
-    csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
-
-    response = server.request(csur);
-
-    SSLogU.info("document w/ id " + par.id + " added successfully. ");
-	}
-	
-	@Override
-	public void solrRemoveDoc(SSServPar parI) throws Exception {
-		
-    SSSolrRemoveDocPar par = new SSSolrRemoveDocPar(parI);
-    
-    try {
-			server.deleteById(par.id);
-			server.commit();
+//    according to Solr specification by adding a document with an ID already
+//	  existing in the index will replace the document (eg. refer to 
+//	  http://stackoverflow.com/questions/8494923/solr-block-updating-of-existing-document or
+//	  http://lucene.apache.org/solr/api-4_0_0-ALPHA/doc-files/tutorial.html ) 
+   
+    try{
+      final SSSolrAddDocPar            par  = new SSSolrAddDocPar(parA);
+      final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
+      final NamedList<Object>          response;
       
-			SSLogU.info("document w/ id " + par.id + " deleted successfully.");
-		} catch (Exception error) {
+      csur.addContentStream(new ContentStreamBase.FileStream(new File(localWorkPath + par.id)));
+
+      csur.setParam  ("literal.id", par.id);
+      csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
+
+      response = solrUpdater.request(csur);
+      
+      SSLogU.info("document w/ id " + par.id + " added successfully. ");
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-		}
-	}
+    }
+  }
+	
+  @Override
+  public void solrRemoveDoc(final SSServPar parA) throws Exception{
+
+    try{
+      final SSSolrRemoveDocPar par = new SSSolrRemoveDocPar(parA);
+      
+      solrUpdater.deleteById(par.id);
+      solrUpdater.commit();
+
+      SSLogU.info("document w/ id " + par.id + " deleted successfully.");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 
   @Override
-	public void solrRemoveDocsAll(SSServPar parI) throws Exception {
-		
-    NamedList<Object>      nl;
-    UpdateResponse         ur;
+  public void solrRemoveDocsAll(final SSServPar parA) throws Exception {
+    
+    try{
       
-    SSLogU.info("starting to remove all documents from index.");
-    
-    ur = server.deleteByQuery("*:*");
-    server.commit();
-    
-    nl = ur.getResponse();
-    
-    SSLogU.info("removed all documents from index.");
-	}
-	
-  
-	@Override
-	public List<String> solrSearch(final SSServPar parA) throws Exception {
-		
-    final SSSolrSearchPar par           = new SSSolrSearchPar(parA);
-    final List<String>    searchResults = new ArrayList<>();
-    final SSSolrQueryPars qp            = new SSSolrQueryPars(par.keyword, par.maxResults);
-    
-    for(SSSolrSearchResult result : SSSolrSearchResult.get(SSSolrFct.query(server, qp))){
-      searchResults.add(result.id);
+      NamedList<Object>      nl;
+      UpdateResponse         ur;
+      
+      SSLogU.info("starting to remove all documents from index.");
+      
+      ur = solrUpdater.deleteByQuery("*:*");
+      solrUpdater.commit();
+      
+      nl = ur.getResponse();
+      
+      SSLogU.info("removed all documents from index.");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public List<String> solrSearch(final SSServPar parA) throws Exception {
     
-		return searchResults;
+    try{
+      final SSSolrSearchPar par           = new SSSolrSearchPar(parA);
+      final List<String>    searchResults = new ArrayList<>();
+      final SSSolrQueryPars qp            = new SSSolrQueryPars(par.keyword, par.maxResults);
+      
+      for(SSSolrSearchResult result : SSSolrSearchResult.get(SSSolrFct.query(solrUpdater, qp))){
+        searchResults.add(result.id);
+      }
+      
+      return searchResults;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
 	}
 }
 

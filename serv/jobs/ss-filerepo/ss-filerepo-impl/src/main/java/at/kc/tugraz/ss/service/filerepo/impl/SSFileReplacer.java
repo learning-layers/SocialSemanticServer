@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -171,7 +172,7 @@ public class SSFileReplacer extends SSServImplStartA{
   private void uploadFileToI5Cloud() throws Exception{
 
     try{
-      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+      SSServCaller.i5CloudFileUpload(fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -193,7 +194,14 @@ public class SSFileReplacer extends SSServImplStartA{
   private void replaceFileInSolr(){
     
     try{
-      SSServCaller.solrAddDoc(par.user, fileId, true);
+      SSServCaller.solrAddDoc(
+        par.user, 
+        fileId, 
+        SSMimeTypeU.mimeTypeForFileExt(
+          SSServCaller.fileExtGet(
+            par.user, 
+            par.file)),
+        true);
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }

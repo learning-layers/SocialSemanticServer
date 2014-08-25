@@ -33,7 +33,7 @@ public class SSSolrFct {
 		
     final SolrQuery solrQuery = new SolrQuery();
 		
-    solrQuery.setQuery(queryPars.getQuery());
+    solrQuery.setQuery(queryPars.query);
 		solrQuery.setRows (queryPars.numRows);
 		
     return server.query(solrQuery).getResults();

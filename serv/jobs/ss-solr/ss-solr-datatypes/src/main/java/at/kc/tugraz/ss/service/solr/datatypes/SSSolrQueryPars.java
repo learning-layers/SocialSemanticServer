@@ -24,56 +24,18 @@ import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.solr.datatypes.enums.*;
 
-/**
- * class that offers setting the field and the term to query for. add 
- * further restrictions (eg date-range) here and update {@link QueryParser}
- */
 public class SSSolrQueryPars {
 
 	public final SSSolrKeywordLabel    searchTerm;
-	public final SSSolrSearchFieldEnum searchField;
   public final Integer               numRows;
+  public final String                query;
 	
-	/**
-	 * sets the field to the default SSSolrSearchField DOC_TEXT
-	 */
 	public SSSolrQueryPars(
     final SSSolrKeywordLabel  searchTerm, 
     final Integer             numRows) {
 		
     this.searchTerm  = searchTerm;
-		this.searchField = SSSolrSearchFieldEnum.docText;
     this.numRows     = numRows;
-	}
-	
-	/**
-	 * use in case you want to set your own field to query for than 
-	 * the default one  
-	 */
-	public SSSolrQueryPars(
-    final SSSolrKeywordLabel    searchTerm, 
-    final SSSolrSearchFieldEnum field, 
-    final Integer               numRows) {
-		
-    this.searchField = field;
-		this.searchTerm  = searchTerm;
-    this.numRows     = numRows;
-	}
-	
-	public static synchronized SSSolrQueryPars getQueryParamsAll(
-    final Integer numRows) throws Exception {
-		
-    return new SSSolrQueryPars(
-      SSSolrKeywordLabel.get(SSSolrSearchFieldEnum.all.toString()), 
-      SSSolrSearchFieldEnum.all, 
-      numRows);
-	}
-  
-  public String getQuery(){
-    return searchField.getSolrField() + SSStrU.colon + searchTerm;
-	}
-
-	public String getQueryAll() {
-		return SSSolrSearchFieldEnum.all + SSStrU.colon + SSSolrSearchFieldEnum.all;
+    this.query       = SSSolrSearchFieldEnum.docText.val + SSStrU.colon + searchTerm;
 	}
 }

@@ -31,14 +31,10 @@ public enum SSSolrSearchFieldEnum {
   keywords    ("keywords"),
   all         ("*");
   
-  final String solrField;
+  final public String val;
 
-  private SSSolrSearchFieldEnum(String solrField) {
-    this.solrField = solrField;
-  }
-
-  public String getSolrField() {
-    return solrField;
+  private SSSolrSearchFieldEnum(final String val) {
+    this.val = val;
   }
 
   @Override

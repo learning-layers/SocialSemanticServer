@@ -26,7 +26,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSSolrAddDocPar extends SSServPar{
   
-  public String id                = null;
+  public String id                      = null;
+  public String mimeType                = null;
   
   public SSSolrAddDocPar(SSServPar par) throws Exception{
     
@@ -36,11 +37,9 @@ public class SSSolrAddDocPar extends SSServPar{
       
       if(pars != null){
         id               = (String)          pars.get(SSVarU.id);
+        mimeType         = (String)          pars.get(SSVarU.mimeType);
       }
       
-      if(clientPars != null){
-        id               = (String)          pars.get(SSVarU.id);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
