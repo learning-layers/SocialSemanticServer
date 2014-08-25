@@ -55,7 +55,7 @@ The source-code can be directly checked-out through this repository. It contains
 * edit tomcat's `catalina.sh` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`) to point to `solr home dir` 
  * `export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"`
 * copy to `tomcat lib` dir: (e.g.: `/usr/share/tomcat7/lib`)
- * `/solrPackage/example/lib/ext/`
+ * `/solrPackage/example/lib/ext/` contents
  * `/solrPackage/example/resources/log4j.properties`
 * adjust `log4j.properties` to your needs
 * copy to `tomcat webapps` dir (e.g.: `/var/lib/tomcat7/webapps/`)
