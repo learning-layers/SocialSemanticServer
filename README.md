@@ -88,6 +88,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `SSS/ss/target/ss-app/`
  * `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war`
 * execute `SSS/ss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
+* rename `ss-adapter-rest-X.X-SNAPSHOT.war` to `ss-adapter-rest.war` and copy to `tomcat webapps` dir
 
 ## How-to-use SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters above
