@@ -33,33 +33,33 @@ The source-code can be directly checked-out through this repository. It contains
 * download Solr from, e.g. [Solr Mirror](http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/)
 * decompress solr package
 * rename folder for convenience to `solrPackage`
-* copy to `solr home dir` (e.g.: /solr/)
- * /solrPackage/example/solr/ 
-* copy to `solr home lib` dir (e.g.: /solr/lib/)
- * /solrPackage/contrib/
- * /solrPackage/dist/
-* replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir with (e.g.: /solr/collection1/conf)
- * SSS/ss/src/main/resources/conf/solr_schema.xml
- * SSS/ss/src/main/resources/conf/solr_solrconfig.xml
-* adjust `solrconfig.xml` to have directives pointing to solr home lib subfolders, e.g.:
- * <lib dir="/solr/lib/contrib/extraction/lib" regex=".*\.jar" />
- * <lib dir="/solr/lib/dist/" regex="solr-cell-\d.*\.jar" />
- * <lib dir="/solr/lib/contrib/clustering/lib/" regex=".*\.jar" />
- * <lib dir="/solr/lib/dist/" regex="solr-clustering-\d.*\.jar" />
- * <lib dir="/solr/lib/contrib/langid/lib/" regex=".*\.jar" />
- * <lib dir="/solr/lib/dist/" regex="solr-langid-\d.*\.jar" />
- * <lib dir="/solr/lib/contrib/velocity/lib" regex=".*\.jar" />
- * <lib dir="/solr/lib/dist/" regex="solr-velocity-\d.*\.jar" />
+* copy to `solr home dir` (e.g.: `/solr/`)
+ * `/solrPackage/example/solr/`
+* copy to `solr home lib` dir (e.g.: `/solr/lib/`)
+ * `/solrPackage/contrib/`
+ * `/solrPackage/dist/`
+* replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir (e.g.: `/solr/collection1/conf`) with: 
+ * `SSS/ss/src/main/resources/conf/solr_schema.xml`
+ * `SSS/ss/src/main/resources/conf/solr_solrconfig.xml`
+* adjust `solrconfig.xml` to have directives pointing to `solr home lib subfolders`, e.g.:
+ * `<lib dir="/solr/lib/contrib/extraction/lib" regex=".*\.jar" />`
+ * `<lib dir="/solr/lib/dist/" regex="solr-cell-\d.*\.jar" />`
+ * `<lib dir="/solr/lib/contrib/clustering/lib/" regex=".*\.jar" />`
+ * `<lib dir="/solr/lib/dist/" regex="solr-clustering-\d.*\.jar" />`
+ * `<lib dir="/solr/lib/contrib/langid/lib/" regex=".*\.jar" />`
+ * `<lib dir="/solr/lib/dist/" regex="solr-langid-\d.*\.jar" />`
+ * `<lib dir="/solr/lib/contrib/velocity/lib" regex=".*\.jar" />`
+ * `<lib dir="/solr/lib/dist/" regex="solr-velocity-\d.*\.jar" />`
 * set user `tomcat7` as owner for `solr home dir`
 * stop tomcat
-* edit tomcat's `catalina.sh` to point to your `solr home dir` (e.g.: /usr/share/tomcat7/bin/catalina.sh)
- * export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"
-* copy to `tomcat lib` dir: (e.g.: /usr/share/tomcat7/lib)
- * /solrPackage/example/lib/ext/
- * /solrPackage/example/resources/log4j.properties
+* edit tomcat's `catalina.sh` to point to your `solr home dir` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`)
+ * `export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"`
+* copy to `tomcat lib` dir: (e.g.: `/usr/share/tomcat7/lib`)
+ * `/solrPackage/example/lib/ext/`
+ * `/solrPackage/example/resources/log4j.properties`
 * adjust `log4j.properties` to your needs
-* copy to `tomcat webapps` dir (e.g.: /var/lib/tomcat7/webapps/)
- * /solrPackage/example/webapps/solr.war
+* copy to `tomcat webapps` dir (e.g.: `/var/lib/tomcat7/webapps/`)
+ * `/solrPackage/example/webapps/solr.war`
 * start tomcat
 
 #### MySQL 5.6
@@ -80,33 +80,25 @@ The source-code can be directly checked-out through this repository. It contains
 #### Code import
 * import the SSS project as Maven project into, e.g. Netbeans or Eclipse
 
-#### Logging
-* modify `log4j.properties` in `SSS/ss/src/main/resources/conf/` for your needs
-* customize `log4j.properties` in `SSS/ss-adapter/ss-adapter-rest/src/main/resources`
-
-#### Configuration
-* adjust `SSS/ss/src/main/resources/conf/ss-conf.yaml`
-* adjust and copy to `tomcat conf` dir (e.g. /var/lib/tomcat7/conf/) 
- * `SSS/ss-adapter/ss-adapter-rest/src/main/resources/ss-adapter-rest-conf.yaml`
+#### Logging and Configuration
+* adjust `SSS/ss/src/main/resources/conf/log4j.properties` and copy to `SSS/ss/`
+* adjust `SSS/ss/src/main/resources/conf/ss-conf.yaml` and copy to `SSS/ss/`
+* adjust `SSS/ss-adapter/ss-adapter-rest/src/main/resources/ss-adapter-rest-conf.yaml` and copy to `tomcat conf` dir
 
 #### Run
 * run `mvn clean install` on project `SSS/ss-root` to have 
  * `SSS/ss/target/ss-app`
  * `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war`
-* copy directory `SSS/ss/target/ss-app/` to your SSS execution dir
-* for configuration and logging please see chapter Logging and Configuration
-* run `ss.jar` with `runinit.bat` or `.sh`
-* deploy `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war` 
- * rename `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war` to `ss-adapter-rest.war` 
- * copy `ss-adapter-rest.war` to 'tomcat webapps' dir
+* execute `SSS/ss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
 
-## How-to-use SSS from releases for deployment only
+## How-to-use SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters above
 * download `ss-package` from respective release from within this repository
 * adjust `ss-package/ss-app/ss-conf.yaml` and `ss-package/ss-app/log4j.properties`
 * copy `ss-package/ss-app/` to SSS's execution dir
-* copy `ss-adapter-rest.war` to `tomcat webapps` dir
-* adjust and copy `ss-adapter-rest-conf.yaml` to `tomcat conf` dir
+* copy `ss-package/ss-adapter-rest.war` to `tomcat webapps` dir
+* adjust and copy `ss-package/ss-adapter-rest-conf.yaml` to `tomcat conf` dir
+* run `ss.jar`
 
 ## SSS client-side libraries
 * download [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libs
