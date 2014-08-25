@@ -30,7 +30,7 @@ The source-code can be directly checked-out through this repository. It contains
 
 #### Apache Solr 4.9
 * this guide was derived from [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
-* download Solr from http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/ 
+* download Solr from, e.g. [Solr Mirror](http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/)
 * decompress solr package
 * rename folder for convenience to `solrPackage`
 * copy to `solr home dir` (e.g.: /solr/)
