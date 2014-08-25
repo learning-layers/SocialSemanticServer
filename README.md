@@ -72,7 +72,7 @@ The source-code can be directly checked-out through this repository. It contains
  * [mysqld] 
    * init-connect='SET NAMES utf8'
     * character-set-server = utf8
-* run `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup MySQL database schema
+* import `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup `sss` scheme
 
 #### SSS and REST adapter
 * download SSS containing its REST adapter from this repository
