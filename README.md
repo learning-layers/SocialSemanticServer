@@ -14,21 +14,28 @@ Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#
 ## Download
 The source-code can be directly checked-out through this repository. It contains a Maven project to edit and build it.
 
-## How-to-use SSS for development
-### Set-up
-* In order to deploy and run your own server instance of the SSS, please follow instructions below. For REST-API access, please have a look at at project [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) as well.
+## SSS for deployment
+* follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
+* download `ss-package` from respective release from within this repository
+* adjust `ss-package/ss-app/ss-conf.yaml` and `ss-package/ss-app/log4j.properties`
+* copy `ss-package/ss-app/` to custom SSS's execution dir
+* copy `ss-package/ss-adapter-rest.war` to `tomcat webapps` dir
+* adjust and copy `ss-package/ss-adapter-rest-conf.yaml` to `tomcat conf` dir
+* run `ss.jar`
+ 
+## SSS for development
 
-#### Java 8
+### Java 8
 * please use Java 8 or higher from [Java Site](https://java.com/en/download/index.jsp)
 
-#### Apache Maven 3
+### Apache Maven 3
 * please use Maven 3 or higher from [Maven Site](http://maven.apache.org/download.cg)
 * check out the Maven installation guide at [Maven Guides](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
-#### Apache Tomcat 7
+### Apache Tomcat 7
 * please use Tomcat 7 or higher from [Tomcat Site](http://tomcat.apache.org/download-70.cgi)
 
-#### Apache Solr 4.9
+### Apache Solr 4.9
 * this guide was derived from [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
 * download Solr from, e.g. [Solr Mirror](http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/)
 * decompress solr package
@@ -62,7 +69,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `/solrPackage/example/webapps/solr.war`
 * start tomcat
 
-#### MySQL 5.6
+### MySQL 5.6
 * please use MySQL 5.6 or higher from [MySQL Site](http://www.mysql.com/downloads/)
 * have at least the following set in your `my.cnf` 
  * [client] 
@@ -74,30 +81,21 @@ The source-code can be directly checked-out through this repository. It contains
     * character-set-server = utf8
 * import `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup `sss` scheme
 
-#### SSS and REST adapter
+### SSS and REST adapter
 * download SSS containing its REST adapter from this repository
 * import SSS as Maven project into, e.g. Netbeans or Eclipse
 
-#### Logging and Configuration
+### Logging and Configuration
 * adjust `SSS/ss/src/main/resources/conf/log4j.properties` and copy to `SSS/ss/`
 * adjust `SSS/ss/src/main/resources/conf/ss-conf.yaml` and copy to `SSS/ss/`
 * adjust `SSS/ss-adapter/ss-adapter-rest/src/main/resources/ss-adapter-rest-conf.yaml` and copy to `tomcat conf` dir
 
-#### Run
+### Run
 * run `mvn clean install` on project `SSS/ss-root` to have 
  * `SSS/ss/target/ss-app/`
  * `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war`
 * execute `SSS/ss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
 * rename `ss-adapter-rest-X.X-SNAPSHOT.war` to `ss-adapter-rest.war` and copy to `tomcat webapps` dir
-
-## How-to-use SSS for deployment
-* follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters above
-* download `ss-package` from respective release from within this repository
-* adjust `ss-package/ss-app/ss-conf.yaml` and `ss-package/ss-app/log4j.properties`
-* copy `ss-package/ss-app/` to SSS's execution dir
-* copy `ss-package/ss-adapter-rest.war` to `tomcat webapps` dir
-* adjust and copy `ss-package/ss-adapter-rest-conf.yaml` to `tomcat conf` dir
-* run `ss.jar`
 
 ## SSS client-side libraries
 * download [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libs
