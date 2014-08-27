@@ -111,8 +111,6 @@ import java.util.Map;
 
 public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI{
   
-  private static SSUri publicCircleUri = null;
-  
 //  private final SSEntityGraphFct       graphFct;
   private final SSEntitySQLFct         sqlFct;
   
@@ -901,8 +899,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.addEntityToCircleIfNotExists        (publicCircleUri, par.entity);
-      SSEntityMiscFct.setPublicByEntityHandlers  (par.user,        par.entity, publicCircleUri);
+      sqlFct.addEntityToCircleIfNotExists(
+        SSEntityMiscFct.getPubCircleURI(sqlFct), 
+        par.entity);
+      
+      SSEntityMiscFct.setPublicByEntityHandlers(
+        par.user,        
+        par.entity, 
+        SSEntityMiscFct.getPubCircleURI(sqlFct));
 
       dbSQL.commit(par.shouldCommit);
       
@@ -1183,13 +1187,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
+      final SSUri circleUri;
+      
       dbSQL.startTrans(parA.shouldCommit);
       
-      publicCircleUri = sqlFct.addOrGetPubCircleURI();
-      
+      circleUri = SSEntityMiscFct.getPubCircleURI(sqlFct);
+
       dbSQL.commit(parA.shouldCommit);
       
-      return publicCircleUri;
+      return circleUri;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

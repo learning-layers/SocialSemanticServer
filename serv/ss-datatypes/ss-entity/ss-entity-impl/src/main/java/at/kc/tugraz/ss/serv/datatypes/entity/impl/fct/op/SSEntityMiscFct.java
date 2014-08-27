@@ -45,6 +45,8 @@ import java.util.List;
 
 public class SSEntityMiscFct{
   
+  private static SSUri pubCircleUri = null;
+  
   public static void checkWhetherUserIsAllowedToEditCircle(
     final SSEntitySQLFct sqlFct, 
     final SSUri          userUri,
@@ -506,5 +508,17 @@ public class SSEntityMiscFct{
     }
     
     return false;
+  }
+
+  public static SSUri getPubCircleURI(
+    final SSEntitySQLFct sqlFct) throws Exception{
+    
+    if(pubCircleUri != null){
+      return pubCircleUri;
+    }
+    
+    pubCircleUri = sqlFct.addOrGetPubCircleURI();
+    
+    return pubCircleUri;
   }
 }
