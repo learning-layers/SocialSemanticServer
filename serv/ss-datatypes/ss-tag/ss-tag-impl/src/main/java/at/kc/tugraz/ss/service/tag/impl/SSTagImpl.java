@@ -286,10 +286,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       final Boolean     existsTag = sqlFct.existsTagLabel    (par.label);
       final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user insnt allowed to add tag to entity");
-      }
-      
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+        
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityEntityToPrivCircleAdd(

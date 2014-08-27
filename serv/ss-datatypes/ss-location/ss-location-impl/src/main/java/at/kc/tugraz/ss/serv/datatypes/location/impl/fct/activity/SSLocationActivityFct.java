@@ -18,7 +18,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.serv.datatypes.location.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
@@ -28,7 +27,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationAddPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSLocationActivityFct{
 
@@ -45,8 +44,13 @@ public class SSLocationActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

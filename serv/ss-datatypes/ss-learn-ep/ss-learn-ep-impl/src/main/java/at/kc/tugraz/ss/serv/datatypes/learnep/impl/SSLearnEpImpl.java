@@ -249,10 +249,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionsGetPar par = new SSLearnEpVersionsGetPar(parI);
       final List<SSLearnEpVersion> result = new ArrayList<>();
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.learnEp)){
-        throw new Exception("user cannot read this learning ep");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.learnEp);
+      
       for(SSUri learnEpVersionUri : sqlFct.getLearnEpVersionURIs(par.learnEp)){
 
         result.add(
@@ -283,10 +281,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionGetPar par = new SSLearnEpVersionGetPar(parA);
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot read this learning ep version");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.learnEpVersion);
+      
       return sqlFct.getLearnEpVersion(par.learnEpVersion, false);
 
     }catch(Exception error){
@@ -314,10 +310,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionCreatePar par               = new SSLearnEpVersionCreatePar(parA);
       final SSUri                     learnEpVersionUri = sqlFct.createLearnEpVersionUri();
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEp)){
-        throw new Exception("user cannot add to this learning ep");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEp);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSServCaller.entityEntityToPrivCircleAdd(
@@ -380,10 +374,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionAddCirclePar par = new SSLearnEpVersionAddCirclePar(parA);
       final SSUri circleUri = sqlFct.createLearnEpCircleUri();
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot add to this learning ep version");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityEntityToPrivCircleAdd(
@@ -453,13 +445,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionAddEntityPar par              = new SSLearnEpVersionAddEntityPar(parA);
       final SSUri                        learnEpEntityUri = sqlFct.createLearnEpEntityUri();
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot add to this learning ep version");
-      }
-      
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot add this entity to learning ep version");
-      }
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -576,10 +563,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
-        throw new Exception("user cannot update this learn ep circle");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSServCaller.entityEntityToPrivCircleAdd(
@@ -635,15 +620,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       
       final SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parA);
+
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity);
       
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
-        throw new Exception("user cannot update this learn ep entity");
-      }
-      
-      if(
-        par.entity != null &&
-        !SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot update this learn ep entity with provided entity");
+      if(par.entity != null){
+        SSServCaller.entityUserCanEdit(par.user, par.entity);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -702,10 +683,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle)){
-        throw new Exception("user cannot remove this learn ep circle");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSServCaller.entityRemove(par.learnEpCircle, false);
@@ -746,10 +725,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity)){
-        throw new Exception("user cannot remove this learn ep entity");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSServCaller.entityRemove(par.learnEpEntity, false);
@@ -791,10 +768,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionSetTimelineStatePar par                     = new SSLearnEpVersionSetTimelineStatePar(parA);
       final SSUri                               learnEpTimelineStateUri = sqlFct.createLearnEpTimelineStateUri();
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot edit this learning ep version");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSServCaller.entityEntityToPrivCircleAdd(
@@ -859,10 +834,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionGetTimelineStatePar par = new SSLearnEpVersionGetTimelineStatePar(parA);
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot access this learning ep version");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.learnEpVersion);
+      
       return sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -912,10 +885,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionCurrentSetPar par = new SSLearnEpVersionCurrentSetPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion)){
-        throw new Exception("user cannot edit this learning ep version");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.setLearnEpCurrentVersion(par.user, par.learnEpVersion);
@@ -945,10 +916,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpUserShareWithUserPar par = new SSLearnEpUserShareWithUserPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot share this entity");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      
       if(sqlFct.ownsUserLearnEp(par.forUser, par.entity)){
         throw new Exception("learn ep is already shared with user");
       }
@@ -990,10 +959,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpUserCopyForUserPar par = new SSLearnEpUserCopyForUserPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot share this entity");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSLearnEpMiscFct.copyLearnEpForUser(

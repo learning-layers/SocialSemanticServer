@@ -34,9 +34,9 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSEntityActivityFct{
   
@@ -57,8 +57,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -77,8 +82,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -97,8 +107,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -123,8 +138,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -148,8 +168,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -168,8 +193,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+     }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -188,8 +218,13 @@ public class SSEntityActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

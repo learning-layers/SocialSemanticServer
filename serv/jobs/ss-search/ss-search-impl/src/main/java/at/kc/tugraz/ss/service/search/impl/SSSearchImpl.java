@@ -304,7 +304,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       for(SSSearchResult searchResult : searchResults){
         
-        if(!SSServCaller.entityUserCanRead(par.user, searchResult.entity)){
+        try{
+          SSServCaller.entityUserCanRead(par.user, searchResult.entity);
+        }catch(Exception error){
+          SSServErrReg.reset();
           continue;
         }
         
@@ -360,8 +363,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           !SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
           continue;
         }
-        
-        if(!SSServCaller.entityUserCanRead(par.user, result)){
+
+        try{
+          SSServCaller.entityUserCanRead(par.user, result);
+        }catch(Exception error){
+          SSServErrReg.reset();
           continue;
         }
         

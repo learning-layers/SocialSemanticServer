@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSDeployServiceOnNodeErr;
 import com.sun.jersey.multipart.FormDataParam;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +50,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 @Path("/SSAdapterRest")
 public class SSAdapterRest{
@@ -1003,7 +1004,7 @@ public class SSAdapterRest{
       
     }catch(Exception error){
       SSServErrReg.regErr     (error);
-      SSServErrReg.regErrThrow(new SSDeployServiceOnNodeErr());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.deployingServiceOnNodeFailed));
       return null;
     }finally{
       if(sssNodeSocketCon != null){

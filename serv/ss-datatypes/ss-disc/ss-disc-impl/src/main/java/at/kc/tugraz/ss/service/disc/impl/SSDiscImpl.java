@@ -425,12 +425,9 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     try{
       final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
-      SSDiscEntry discEntry;
+      SSDiscEntry                       discEntry;
       
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.disc)){
-        throw new Exception("user cannot access disc");
-      }
+      SSServCaller.entityUserCanRead(par.user, par.disc);
       
       final SSDisc disc = sqlFct.getDiscWithEntries(par.disc);
       
@@ -477,10 +474,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     try {
       final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
-      
-      if(!SSServCaller.entityUserCanAll(par.user, par.disc)){
-        throw new Exception("user cannot remove disc");
-      }
+
+      SSServCaller.entityUserCanAll(par.user, par.disc);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -523,11 +518,9 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
     try{
       final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
+
+      SSServCaller.entityUserCanRead(par.user, par.entity);
       
-      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user cannot access target");
-      }
-    
       return sqlFct.getDiscURIs(par.user, par.entity);
     } catch (Exception error){
       SSServErrReg.regErrThrow(error);
@@ -541,10 +534,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     try{
       final SSDiscUserShareWithUserPar par = new SSDiscUserShareWithUserPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot share this entity");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      
       if(sqlFct.ownsUserDisc(par.forUser, par.entity)){
         throw new Exception("disc is already shared with user");
       }

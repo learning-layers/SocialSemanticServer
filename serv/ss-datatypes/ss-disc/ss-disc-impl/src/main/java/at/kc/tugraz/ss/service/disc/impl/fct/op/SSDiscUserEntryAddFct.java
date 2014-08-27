@@ -145,10 +145,8 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      if(
-        !SSObjU.isNull(par.entity) &&
-        !SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user cannot edit disc target");
+      if(!SSObjU.isNull(par.entity)){
+        SSServCaller.entityUserCanRead(par.user, par.entity);
       }
       
     }catch(Exception error){
@@ -165,10 +163,8 @@ public class SSDiscUserEntryAddFct{
         throw new Exception("content missing");
       }
       
-      if(!SSServCaller.entityUserCanEdit(par.user, par.disc)){
-        throw new Exception("user cannot edit discussion");
-      }
-      
+      SSServCaller.entityUserCanEdit(par.user, par.disc);
+       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -17,5 +17,6 @@
     <module>serv-datatypes</module>
     <module>serv-errreg</module>
     <module>serv-test-api</module>
+    <module>serv-err-datatypes</module>
   </modules>
 </project>

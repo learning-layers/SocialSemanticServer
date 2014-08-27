@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -252,7 +251,10 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
       final SSUri                    ueUri = SSUEMiscFct.createUEUri();
     
-      if(!SSServCaller.entityUserAllowedIs(par.user, par.entity, SSCircleRightE.read)){
+      try{
+        SSServCaller.entityUserCanRead(par.user, par.entity);
+      }catch(Exception error){
+        SSServErrReg.reset();
         SSLogU.warn("user is not allowed to add user event to entity");
         return false;
       }
@@ -311,11 +313,15 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       final SSUEAddPar par   = new SSUEAddPar(parA);
       final SSUri      ueUri = SSUEMiscFct.createUEUri();
       
-      if(
-        par.entity != null &&
-        !SSServCaller.entityUserAllowedIs(par.user, par.entity, SSCircleRightE.read)){
-        SSLogU.warn("user is not allowed to add user event to entity");
-        return false;
+      if(par.entity != null){
+
+        try{
+          SSServCaller.entityUserCanRead(par.user, par.entity);
+        }catch(Exception error){
+          SSServErrReg.reset();
+          SSLogU.warn("user is not allowed to add user event to entity");
+          return false;
+        }
       }
       
       if(par.entity == null){

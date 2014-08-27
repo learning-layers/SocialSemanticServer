@@ -28,18 +28,15 @@ import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.serv.datatypes.err.SSErr;
-import at.kc.tugraz.ss.serv.datatypes.err.SSErrE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSClientServForOpNotAvailableOnMachineErr;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSClientServForOpNotAvailableOnNodesErr;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public abstract class SSServA{
 
@@ -374,8 +371,12 @@ public abstract class SSServA{
        
         servImpl.handleClientOp(serv.servImplClientInteraceClass, sSCon, parA);
         
-      }catch(SSClientServForOpNotAvailableOnMachineErr error){
+      }catch(Exception error){
 
+        if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
+          throw error;
+        }
+          
         if(useCloud){
           
           deployServNode(
@@ -414,12 +415,18 @@ public abstract class SSServA{
       final SSServA serv = servs.get(par.op);
       
       if(serv == null){
-        throw new SSClientServForOpNotAvailableOnNodesErr(SSMethU.toStr(par.op));
+        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnNodes);
       }
       
       return serv;
-    }catch(SSClientServForOpNotAvailableOnNodesErr error){
-      throw error;
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case noClientServiceForOpAvailableOnNodes: throw error;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -433,12 +440,18 @@ public abstract class SSServA{
       final SSServA serv = servsForClientOps.get(par.op);
       
       if(serv == null){
-        throw new SSClientServForOpNotAvailableOnMachineErr(SSMethU.toStr(par.op));
+        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnMachine);
       }
       
       return serv;
-    }catch(SSClientServForOpNotAvailableOnMachineErr error){
-      throw error;
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case noClientServiceForOpAvailableOnMachine: throw error;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -450,16 +463,22 @@ public abstract class SSServA{
     SSServA serv;
     
     try{
-
+      
       serv = servsForServerOps.get(par.op);
       
       if(serv == null){
-        throw new SSServerServNotAvailableErr(SSMethU.toStr(par.op));
+        throw new SSErr(SSErrE.notServerServiceForOpAvailable);
       }
-
+      
       return serv.serv().handleServerOp(serv.servImplServerInteraceClass, par);
-    }catch(SSServerServNotAvailableErr error){
-      throw error;
+    }catch(SSErr error){
+
+      switch(error.code){
+        case notServerServiceForOpAvailable: throw error;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

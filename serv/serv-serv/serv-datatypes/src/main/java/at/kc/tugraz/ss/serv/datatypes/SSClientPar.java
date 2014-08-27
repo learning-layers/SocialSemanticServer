@@ -26,7 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import org.codehaus.jackson.JsonParser;
 
 public class SSClientPar{
@@ -98,7 +97,7 @@ public class SSClientPar{
         throw new Exception("pars for service node change missing");
       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      throw error;
     }finally{
      
       if(jp != null){

@@ -24,13 +24,46 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
 import java.util.Map;
 
 public class SSEntityUserRelationsGatherFct{
   
-  public static void addRelationsForCommentedEntities(
+  public static void getUserRelations(
+    final SSEntitySQLFct           sqlFct, 
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    try{
+      
+      for(String user : allUsers){
+
+        final SSUri userUri = SSUri.get(user);
+
+        SSEntityUserRelationsGatherFct.addRelationsForCommentedEntities(
+          sqlFct, 
+          userRelations, 
+          userUri);
+        
+        SSEntityUserRelationsGatherFct.addRelationsForUserCircles(
+          sqlFct, 
+          userRelations,
+          userUri);
+      }
+      
+      for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+        SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  
+  private static void addRelationsForCommentedEntities(
     final SSEntitySQLFct            sqlFct, 
     final Map<String, List<SSUri>>  userRelations,
     final SSUri                     userUri) throws Exception{
@@ -53,7 +86,7 @@ public class SSEntityUserRelationsGatherFct{
     }
   }
   
-  public static void addRelationsForUserCircles(
+  private static void addRelationsForUserCircles(
     final SSEntitySQLFct            sqlFct,
     final Map<String, List<SSUri>>  userRelations,
     final SSUri                     userUri) throws Exception{

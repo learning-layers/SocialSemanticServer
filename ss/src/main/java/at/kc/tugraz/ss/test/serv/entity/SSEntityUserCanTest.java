@@ -23,11 +23,10 @@ import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-
-public class SSEntityUserAllowedIsTest extends SSServOpTestCaseA{
+public class SSEntityUserCanTest extends SSServOpTestCaseA{
   
-  public SSEntityUserAllowedIsTest(SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityUserAllowedIs);
+  public SSEntityUserCanTest(final SSEntityConf entityConf){
+    super(entityConf, SSMethU.entityUserCan);
   }
   
   @Override
@@ -37,10 +36,9 @@ public class SSEntityUserAllowedIsTest extends SSServOpTestCaseA{
     
 //    final List<SSCircle> userCircles = SSServCaller.accessRightsUserCirclesGet(userUri);
     
-    final Boolean result = 
-      SSServCaller.entityUserCanAll(
-        SSVoc.systemUserUri, 
-        SSUri.get("http://www.google.at"));
+    SSServCaller.entityUserCanAll(
+      SSVoc.systemUserUri,
+      SSUri.get("http://www.google.at"));
     
     SSLogU.info("end " + op + "Test");
   }

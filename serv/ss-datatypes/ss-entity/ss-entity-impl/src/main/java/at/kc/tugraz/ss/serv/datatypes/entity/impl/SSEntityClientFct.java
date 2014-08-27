@@ -18,13 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.serv.datatypes.err;
 
-public class SSClientServForOpNotAvailableOnNodesErr extends Exception{
+package at.kc.tugraz.ss.serv.datatypes.entity.impl;
+
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+
+public class SSEntityClientFct{
   
-  public static final String message = "no service found on nodes to handle client op: ";
+  public static void entityUserCopy(
+    final SSSocketCon     sSCon, 
+    final SSServPar       parA,
+    final SSEntityServerI impl) throws Exception{
   
-  public SSClientServForOpNotAvailableOnNodesErr(String msg){
-    super(message + msg);
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(impl.entityUserCopy(parA), parA.op));
+    
+    SSEntityActivityFct.copyEntityForUsers(new SSEntityUserCopyPar(parA));
   }
 }

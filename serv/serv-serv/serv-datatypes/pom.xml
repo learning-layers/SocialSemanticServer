@@ -20,12 +20,6 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv-errreg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-jsonld-datatypes-api</artifactId>
       <version>${project.version}</version>
     </dependency>

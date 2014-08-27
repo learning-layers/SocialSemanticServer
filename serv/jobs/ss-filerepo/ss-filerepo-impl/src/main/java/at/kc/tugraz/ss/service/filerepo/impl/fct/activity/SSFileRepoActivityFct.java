@@ -26,8 +26,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSFileRepoActivityFct{
   
@@ -51,8 +51,13 @@ public class SSFileRepoActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

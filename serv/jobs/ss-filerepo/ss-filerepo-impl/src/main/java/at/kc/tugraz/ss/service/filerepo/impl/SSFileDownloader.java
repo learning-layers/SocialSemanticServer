@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
@@ -38,6 +37,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSFileDownloader extends SSServImplStartA{
   
@@ -151,8 +151,13 @@ public class SSFileDownloader extends SSServImplStartA{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -18,9 +18,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.err;
+package sss.serv.err.datatypes;
 
 public enum SSErrE{
-   maxNumDBConsReached,          //number of possible database connections nearly reached; please try again later
-   maxNumClientConsForOpReached; //"number of possible client side connections for op :" + op + "reached; please try again later"
+   deployingServiceOnNodeFailed,           //could not deploy requested service on new node 
+   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op
+   notServerServiceForOpAvailable,         //no service found on machine to handle server op
+   noClientServiceForOpAvailableOnMachine, //no service found on machine to handle client op
+   userNotAllowedToAccessEntity,           //user is not allowed to access requested entity
+   maxNumDBConsReached,                    //number of possible database connections nearly reached; please try again later
+   maxNumClientConsForOpReached;           //"number of possible client side connections for op :" + op + "reached; please try again later"
 }

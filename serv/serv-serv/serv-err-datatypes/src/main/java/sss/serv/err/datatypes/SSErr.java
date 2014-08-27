@@ -18,13 +18,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.serv.datatypes.err;
+package sss.serv.err.datatypes;
 
-public class SSServerServNotAvailableErr extends Exception{
+import at.kc.tugraz.socialserver.utils.SSStrU;
+
+public class SSErr extends Exception{
   
-  protected static final String message = "no service found to handle server op: ";
+  public SSErrE code = null;
   
-  public SSServerServNotAvailableErr(final String msg){
-    super(message + msg);
+  public SSErr(final SSErrE code){
+    super(SSStrU.toStr(code));
+    
+    this.code = code;
   }
 }

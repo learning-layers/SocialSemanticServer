@@ -134,11 +134,11 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
     
-    if(!SSStrU.equals(entityType, SSEntityE.file)){
-      return false;
+    if(SSStrU.equals(entityType, SSEntityE.file)){
+      return true;
     }
     
-    return true;
+    return false;
   }
   
   @Override
@@ -227,10 +227,8 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     try{
       
       final SSFileDownloadPar par = new SSFileDownloadPar(parA);
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.file)){
-        throw new Exception("user cannot access this file");
-      }
+
+      SSServCaller.entityUserCanRead(par.user, par.file);
       
       new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
       

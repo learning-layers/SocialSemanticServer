@@ -77,7 +77,7 @@ public enum SSMethU{
   entityEntitiesToCircleAdd,
   entityUsersToCircleAdd,
   entityUserCircleCreate,
-  entityUserAllowedIs,
+  entityUserCan,
   entityUserCirclesGet,
   entityEntityUsersGet,
   entityUserEntityCirclesGet,

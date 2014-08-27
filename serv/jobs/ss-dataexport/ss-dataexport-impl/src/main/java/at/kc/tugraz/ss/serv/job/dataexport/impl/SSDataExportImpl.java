@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -51,6 +50,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportClientI, SSDataExportServerI{
 
@@ -250,9 +250,12 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       
       try{
         allUsers = SSStrU.toStr(SSServCaller.userAll());
-      }catch(SSServerServNotAvailableErr error){
-        SSLogU.warn("userAll failed | service down");
-        return;
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+          default: SSServErrReg.regErrThrow(error); return;
+        }
       }
       
       for(SSServA serv : SSServA.getServsGatheringUserRelations()){

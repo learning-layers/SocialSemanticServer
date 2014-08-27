@@ -8,28 +8,21 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>serv-errreg</artifactId>
+  <artifactId>serv-err-datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>serv-errreg</name>
+  <name>serv-err-datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
   <dependencies>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv-err-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
     
     <dependency>
       <groupId>sss.util</groupId>
       <artifactId>ss-util</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

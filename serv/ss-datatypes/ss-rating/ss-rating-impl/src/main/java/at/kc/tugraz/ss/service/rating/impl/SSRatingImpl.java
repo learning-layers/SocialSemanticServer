@@ -213,9 +213,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     try{
       final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
     
-      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user is not allowed to rate entity");
-      }
+      SSServCaller.entityUserCanRead(par.user, par.entity);
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;

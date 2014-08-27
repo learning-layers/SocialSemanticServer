@@ -24,6 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSServErrReg {
 
@@ -40,6 +42,20 @@ public class SSServErrReg {
       }
     }
   };
+  
+  public static Boolean containsErr(final SSErrE code){
+     
+    for(SSErrForClient error : servImplErrors.get()){
+      
+      if(
+        error.exception.getClass() == SSErr.class && 
+        SSStrU.equals(((SSErr)error.exception).code, code)){
+        return true;
+      }
+    }
+    
+    return false;
+  }
   
   public static Boolean containsErr(final Class errClass){
     

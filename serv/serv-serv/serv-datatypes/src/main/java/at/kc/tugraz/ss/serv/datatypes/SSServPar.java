@@ -26,7 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.jackson.JsonParser;
@@ -91,11 +90,11 @@ public class SSServPar{
       if(
         SSObjU.isNull  (this.op, this.user)||
         SSStrU.isEmpty (this.key)){
-        SSServErrReg.regErr(new Exception("op, user or key is empty"));
+        throw new Exception("op, user or key is empty");
       }
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      throw error;
     }finally{
       
       if(jp != null){
@@ -134,7 +133,7 @@ public class SSServPar{
     if(
       this.op   == null ||
       this.pars == null){
-      SSServErrReg.regErrThrow(new Exception("op or pars is/are empty"));
+      throw new Exception("op or pars is/are empty");
     }
   }
   

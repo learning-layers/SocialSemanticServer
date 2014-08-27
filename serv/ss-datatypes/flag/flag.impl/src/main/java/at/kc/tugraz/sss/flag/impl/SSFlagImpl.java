@@ -91,12 +91,10 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       final SSFlagsUserSetPar par = new SSFlagsUserSetPar(parA);
       
+      SSServCaller.entityUserCanEdit(par.user, par.entities);
+      
       for(SSUri entity : par.entities){
-       
-        if(!SSServCaller.entityUserCanEdit(par.user, entity)){
-          throw new Exception("user cannot edit entity");
-        }
-        
+
         SSServCaller.entityEntityToPrivCircleAdd(
           par.user, 
           entity,
@@ -207,12 +205,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       final SSFlagsUserGetPar par = new SSFlagsUserGetPar(parA);
       
-      for(SSUri entity : par.entities){
-       
-        if(!SSServCaller.entityUserCanRead(par.user, entity)){
-         throw new Exception("user cannot read entity");
-        }
-      }
+      SSServCaller.entityUserCanRead(par.user, par.entities);
       
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       return sqlFct.getFlags(

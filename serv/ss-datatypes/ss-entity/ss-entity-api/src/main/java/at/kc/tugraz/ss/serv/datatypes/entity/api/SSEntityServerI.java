@@ -38,7 +38,7 @@ public interface SSEntityServerI {
   public SSUri                           entityUserCircleCreate                   (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUsersToCircleAdd               (final SSServPar parA) throws Exception;
   public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;
-  public Boolean                         entityUserAllowedIs                      (final SSServPar parA) throws Exception;
+  public void                            entityUserCan                            (final SSServPar parA) throws Exception;
   public SSUri                           entityUserPublicSet                      (final SSServPar parA) throws Exception;
   public SSUri                           entityUserShare                          (final SSServPar parA) throws Exception;
   public List<SSEntityCircle>            entityUserCirclesGet                     (final SSServPar parA) throws Exception;

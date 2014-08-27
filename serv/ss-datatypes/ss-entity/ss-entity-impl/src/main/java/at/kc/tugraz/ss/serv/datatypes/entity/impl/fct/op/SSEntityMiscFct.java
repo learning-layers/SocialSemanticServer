@@ -101,51 +101,6 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static void checkWhetherUserCanEditEntity(
-    final SSUri userUri, 
-    final SSUri entityUri) throws Exception{
-    
-    try{
-      
-      if(!SSServCaller.entityUserCanEdit(userUri, entityUri)){
-        throw new Exception("user cannot edit entity");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void checkWhetherUserCanReadEntity(
-    final SSUri userUri, 
-    final SSUri entityUri) throws Exception{
-    
-    try{
-      
-      if(!SSServCaller.entityUserCanRead(userUri, entityUri)){
-        throw new Exception("user cannot read");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void checkWhetherUserCanEditEntities(
-    final SSUri       userUri, 
-    final List<SSUri> entityUris) throws Exception{
-    
-    try{
-      
-      for(SSUri entityUri : entityUris){
-        
-        if(!SSServCaller.entityUserCanEdit(userUri, entityUri)){
-          throw new Exception("user cannot edit entity");
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static SSUri createCircle(
     final SSEntitySQLFct          sqlFct,
     final SSUri                   user,

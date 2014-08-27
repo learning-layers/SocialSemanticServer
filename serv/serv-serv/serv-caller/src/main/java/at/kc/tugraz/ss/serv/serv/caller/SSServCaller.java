@@ -40,6 +40,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -1317,10 +1318,10 @@ public class SSServCaller {
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
   }
   
-  public static Boolean entityUserAllowedIs(
+  private static void entityUserCan(
     final SSUri                    user,
     final SSUri                    entity, 
-    final SSCircleRightE       accessRight) throws Exception{
+    final SSCircleRightE           accessRight) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1328,28 +1329,46 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,      entity);
     opPars.put(SSVarU.accessRight, accessRight);
     
-    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserAllowedIs, opPars));
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCan, opPars));
   }
   
-  public static Boolean entityUserCanEdit(
+  public static void entityUserCanEdit(
+    final SSUri       user, 
+    final List<SSUri> entities) throws Exception{
+    
+    for(SSUri entity : entities){
+      entityUserCanEdit(user, entity);
+    }
+  }
+  
+  public static void entityUserCanEdit(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserAllowedIs(user, entity, SSCircleRightE.edit);
+    entityUserCan(user, entity, SSCircleRightE.edit);
   }
   
-  public static Boolean entityUserCanRead(
+  public static void entityUserCanRead(
+    final SSUri       user, 
+    final List<SSUri> entities) throws Exception{
+    
+    for(SSUri entity : entities){
+      entityUserCanRead(user, entity);
+    }
+  }
+    
+  public static void entityUserCanRead(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserAllowedIs(user, entity, SSCircleRightE.read);
+    entityUserCan(user, entity, SSCircleRightE.read);
   }
   
-  public static Boolean entityUserCanAll(
+  public static void entityUserCanAll(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserAllowedIs(user, entity, SSCircleRightE.all);
+    entityUserCan(user, entity, SSCircleRightE.all);
   }
   
   public static SSEntityCircle entityUserCircleGet(

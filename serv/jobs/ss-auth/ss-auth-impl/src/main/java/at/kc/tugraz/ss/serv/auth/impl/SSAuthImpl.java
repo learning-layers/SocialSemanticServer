@@ -39,7 +39,6 @@ import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthLoadKeysPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
@@ -85,12 +85,16 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     try{
       final SSAuthUsersFromCSVFileAddPar par                          = new SSAuthUsersFromCSVFileAddPar(parA);
       final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<>();
-        
+      
       try{
         passwordsForUsersFromCSVFile.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
-      }catch(SSServerServNotAvailableErr error){
-        SSLogU.warn("dataImportSSSUsersFromCSVFile failed | service down");
-      }
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+          default: SSServErrReg.regErrThrow(error);
+        }
+      }      
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -141,8 +145,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       try{
         SSServCaller.collUserRootAdd (userUri, false);
-      }catch(SSServerServNotAvailableErr error){
-        SSLogU.warn("collUserRootAdd failed | service down");
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+          default: SSServErrReg.regErrThrow(error);
+        }
       }
       
       dbSQL.commit(par.shouldCommit);

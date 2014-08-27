@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
@@ -147,7 +146,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         
         for(SSUri entity : par.entities){
           
-          if(!SSServCaller.entityUserAllowedIs(par.user, entity, SSCircleRightE.read)){
+          try{
+            SSServCaller.entityUserCanRead(par.user, entity);
+          }catch(Exception error){
+            SSServErrReg.reset();
             SSLogU.warn("user cannot access entity for activities");
             continue;
           }
@@ -160,7 +162,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         
         for(SSUri circle : par.circles){
           
-          if(!SSServCaller.entityUserAllowedIs(par.user, circle, SSCircleRightE.read)){
+          try{
+            SSServCaller.entityUserCanRead(par.user, circle);
+          }catch(Exception error){
+            SSServErrReg.reset();
             SSLogU.warn("user cannot access circle for activities");
             continue;
           }

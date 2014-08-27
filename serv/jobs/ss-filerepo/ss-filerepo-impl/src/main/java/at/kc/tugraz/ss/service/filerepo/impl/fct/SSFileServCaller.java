@@ -26,9 +26,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSFileServCaller{
   
@@ -56,7 +56,7 @@ public class SSFileServCaller{
   public static void addFileContentsToSolr(
     final SSFileUploadPar par,
     final String          fileId,
-    final Boolean         shouldCommit){
+    final Boolean         shouldCommit) throws Exception{
     
     try{
       
@@ -66,9 +66,13 @@ public class SSFileServCaller{
         par.mimeType,
         shouldCommit);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn(error.getMessage());
-      SSServErrReg.reset();
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
@@ -77,7 +81,7 @@ public class SSFileServCaller{
   public static void replaceFileContentsInSolr(
     final SSFileReplacePar par,
     final String           fileId,
-    final Boolean          shouldCommit){
+    final Boolean          shouldCommit) throws Exception{
     
     try{
       
@@ -90,9 +94,13 @@ public class SSFileServCaller{
             par.file)),
         shouldCommit);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn(error.getMessage());
-      SSServErrReg.reset();
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }

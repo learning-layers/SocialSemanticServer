@@ -26,9 +26,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.datatypes.err.SSServerServNotAvailableErr;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSTagActivityFct{
   
@@ -46,8 +46,12 @@ public class SSTagActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -65,8 +69,12 @@ public class SSTagActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         false);
       
-    }catch(SSServerServNotAvailableErr error){
-      SSLogU.warn("activityAdd failed | service down");
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -333,10 +333,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot change the order of entities in this coll");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.coll);
+      
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
         sqlFct,
         par.user,
@@ -391,13 +389,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot delete from this coll");
-      }
-
-      if(!SSServCaller.entityUserCanRead(par.user, par.entry)){
-        throw new Exception("user cannot delete this coll entry");
-      }
+      SSServCaller.entityUserCanEdit(par.user, par.coll);
+      SSServCaller.entityUserCanRead(par.user, par.entry);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -517,10 +510,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot add to this coll");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.coll);
+      
       if(par.addNewColl){
 
         dbSQL.startTrans(par.shouldCommit);
@@ -532,9 +523,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         return par.entry;
       }
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entry)){
-        throw new Exception("user cannot add to this entry to coll");
-      }
+      SSServCaller.entityUserCanEdit(par.user, par.entry);
 
       if(sqlFct.containsCollEntry(par.coll, par.entry)){
         return par.entry;
@@ -645,10 +634,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final List<Integer>               order       = new ArrayList<>();
       Integer                           counter     = 0;
       
-      if(!SSServCaller.entityUserCanEdit(par.user, par.coll)){
-        throw new Exception("user cannot change the order of entities in this coll");
-      }
-
+      SSServCaller.entityUserCanEdit(par.user, par.coll);
+      
       while(counter < par.order.size()){
         collEntries.add(SSUri.get(par.order.get(counter++)));
         order.add(Integer.valueOf(par.order.get(counter++)));
@@ -691,10 +678,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot access this collection");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.coll);
+      
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -753,9 +738,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final SSUri                     rootCollUri;
       SSUri                           directPartentCollUri;
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user access this collection");
-      }
+      SSServCaller.entityUserCanRead(par.user, par.coll);
 
       rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
       directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
@@ -809,11 +792,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       SSColl                                coll;
       SSCollEntry                           collEntry;
       String                                tagLabel;
-      
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user cannot access this collection");
-      }
 
+      SSServCaller.entityUserCanRead(par.user, par.coll);
+      
       coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
       for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, null, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null)){
@@ -893,10 +874,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
-        throw new Exception("user cannot access entity");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.entity);
+      
       userCollUris = sqlFct.getCollURIsForUser(par.user);
       collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
 
@@ -986,9 +965,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollUserShareWithUserPar par = new SSCollUserShareWithUserPar(parA);
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user cannot share this entity");
-      }
+      SSServCaller.entityUserCanRead(par.user, par.entity);
       
       if(sqlFct.isColl(par.entity)){
         
@@ -1061,9 +1038,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      if(!SSServCaller.entityUserCanAll(par.user, par.coll)){
-        throw new Exception("user is not allowed to set coll public");
-      }
+      SSServCaller.entityUserCanAll(par.user, par.coll);
       
       if(sqlFct.isCollSpecial(par.coll)){
         throw new Exception("cannot set special collection public");
@@ -1104,10 +1079,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollToCircleAddPar par = new SSCollToCircleAddPar(parA);
 
-      if(!SSServCaller.entityUserCanRead(par.user, par.coll)){
-        throw new Exception("user is not allowed to add collection to circle");
-      }
-
+      SSServCaller.entityUserCanRead(par.user, par.coll);
+      
       dbSQL.startTrans(par.shouldCommit);
 
       SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(

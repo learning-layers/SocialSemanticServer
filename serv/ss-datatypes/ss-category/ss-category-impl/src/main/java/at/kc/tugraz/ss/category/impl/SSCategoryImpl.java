@@ -224,9 +224,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       final Boolean                        existsCategory = sqlFct.existsCategoryLabel    (par.label);
       final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
 
-      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
-        throw new Exception("user isnt allowed to add category to this entity");
-      }
+      SSServCaller.entityUserCanEdit(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       
