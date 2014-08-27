@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -51,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
@@ -166,52 +166,53 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   @Override
   public SSAuthCheckCredRet authCheckCred(final SSServPar parA) throws Exception {
     
-    final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
-    final SSUri              userUri;
-    
-    switch(((SSAuthConf)conf).authType){
-      
-      case noAuth:{
-        
-        userUri =
-          SSServCaller.authRegisterUser(
-            SSVoc.systemUserUri,
-            par.label,
-            par.password,
-            true);
-        
-        return SSAuthCheckCredRet.get(noAuthKey, userUri, SSMethU.authCheckCred);
-      }
-      
-      case csvFileAuth:{
-        
-        try{
-          userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
-            throw new Exception("user doesnt exist");
-          }else{
+    try{
+      final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
+      final SSUri              userUri;
+
+      switch(((SSAuthConf)conf).authType){
+
+        case noAuth:{
+
+          userUri =
+            SSServCaller.authRegisterUser(
+              SSVoc.systemUserUri,
+              par.label,
+              par.password,
+              true);
+
+          return SSAuthCheckCredRet.get(noAuthKey, userUri, SSMethU.authCheckCred);
+        }
+
+        case csvFileAuth:{
+
+          try{
+            userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
+          }catch(Exception error){
+
+            if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
+              throw new SSErr(SSErrE.userIsNotRegistered);
+            }
+
             throw error;
           }
+
+          if(!sqlFct.hasKey(userUri)){
+            throw new SSErr(SSErrE.userIsNotRegistered);
+          }
+
+          return SSAuthCheckCredRet.get(
+            SSAuthMiscFct.checkAndGetKey(
+              sqlFct,
+              userUri,
+              par.label,
+              par.password),
+            userUri, 
+            SSMethU.authCheckCred);
         }
-        
-        if(!sqlFct.hasKey(userUri)){
-          throw new Exception("user not registered");
-        }
-        
-        return SSAuthCheckCredRet.get(
-          SSAuthMiscFct.checkAndGetKey(
-            sqlFct,
-            userUri,
-            par.label,
-            par.password),
-          userUri, 
-          SSMethU.authCheckCred);
-      }
-      
-      default: 
-        throw new UnsupportedOperationException();
+
+        default: 
+          throw new UnsupportedOperationException();
         
         
 //      case wikiAuth:{
@@ -231,6 +232,10 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //          throw ile;
 //        }
 //      }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

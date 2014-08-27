@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -42,6 +41,8 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSEntityMiscFct{
   
@@ -71,7 +72,7 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void checkWhetherEntitiesExist(
+  public static void checkWhetherEntitiesHaveType(
     final SSEntitySQLFct sqlFct, 
     final List<SSUri>    entityUris,
     final SSEntityE      entityType) throws Exception{
@@ -411,23 +412,10 @@ public class SSEntityMiscFct{
     
     try{
       
-      SSEntityE type;
-      
       for(SSUri user : users){
         
-        try{
-          type = SSServCaller.entityGet(user).type;
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
-            throw new Exception("provided user doesnt exist");
-          }else{
-            throw error;
-          }
-        }
-        
-        if(!SSStrU.equals(type, SSEntityE.user)){
-          throw new Exception("provided user isnt user");
+        if(!SSStrU.equals(SSServCaller.entityGet(user).type, SSEntityE.user)){
+          throw new SSErr(SSErrE.providedUserIsNotRegistered);
         }
       }
     }catch(Exception error){
@@ -435,7 +423,46 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static Boolean hasCircleTypeRight(
+  public static void checkWhetherUserHasRightInAnyCircleOfEntity(
+    final SSEntitySQLFct sqlFct,
+    final SSUri          user,
+    final SSUri          entity,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      
+      if(!doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity, accessRight)){
+        throw new SSErr(SSErrE.userDoesntHaveRightInAnyCircleOfEntity);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static Boolean doesUserHaveRightInAnyCircleOfEntity(
+    final SSEntitySQLFct sqlFct, 
+    final SSUri          user, 
+    final SSUri          entity,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      
+      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(user, entity)){
+        
+        if(doesCircleOfTypeHaveRight(circleType, accessRight)){
+          return true;
+        }
+      }
+      
+      return false;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public static Boolean doesCircleOfTypeHaveRight(
     final SSCircleE      circleType, 
     final SSCircleRightE accessRight) throws Exception{
     
@@ -475,5 +502,54 @@ public class SSEntityMiscFct{
     pubCircleUri = sqlFct.addOrGetPubCircleURI();
     
     return pubCircleUri;
+  }
+
+  public static void checkWhetherUserIsInCircle(
+    final SSEntitySQLFct sqlFct,
+    final SSUri          user,
+    final SSUri          circle) throws Exception{
+    
+    try{
+      if(!isUserInCircle(sqlFct, user, circle)){
+        throw new SSErr(SSErrE.userIsNotInCircle);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
+  public static Boolean isUserInCircle(
+    final SSEntitySQLFct sqlFct,
+    final SSUri          user,
+    final SSUri          circle) throws Exception{
+    
+    try{
+      
+      return SSStrU.contains(
+        sqlFct.getUserURIsForCircle(
+          circle),
+        user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public static void checkWhetherCircleOfTypeHasRight(
+    final SSEntitySQLFct sqlFct,
+    final SSUri          circle,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      final SSCircleE circleType = sqlFct.getTypeForCircle(circle);
+      
+      if(!doesCircleOfTypeHaveRight(circleType, accessRight)){
+        throw new SSErr(SSErrE.circleDoesntHaveQueriedRight);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

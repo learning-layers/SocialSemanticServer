@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -47,6 +46,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
 
@@ -110,7 +111,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null);
       
     }catch(SSNoResultFoundErr error){
-      throw new SSEntityDoesntExistErr();
+      throw new SSErr(SSErrE.entityDoesntExist);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -149,7 +150,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null);
       
     }catch(SSNoResultFoundErr error){
-      throw new SSEntityDoesntExistErr();
+      throw new SSErr(SSErrE.entityDoesntExist);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -468,7 +469,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       try{
         return getPrivCircleURI(user);
-      }catch(SSEntityDoesntExistErr error){}
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case entityDoesntExist: break;
+          default: throw error;
+        }
+      }
 
       final SSUri               circleUri  = createCircleURI();
       
@@ -502,7 +509,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       try{
         return getPubCircleURI();
-      }catch(SSEntityDoesntExistErr error){}
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case entityDoesntExist: break;
+          default: throw error;
+        }
+      }
 
       final Map<String, String> inserts    = new HashMap<>();
       final SSUri               circleUri  = createCircleURI();
@@ -571,7 +584,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getCircleUserURIs(
+  public List<SSUri> getUserURIsForCircle(
     final SSUri circleUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -711,7 +724,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToTextComment (resultSet, SSSQLVarU.description),
             SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
             null, 
-            getCircleUserURIs(circleUri), 
+            getUserURIsForCircle(circleUri), 
             null,
             bindingStrToBoolean     (resultSet,SSSQLVarU.isSystemCircle)));
       }
@@ -826,7 +839,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       if(withUsers){
-        circleUsers.addAll(getCircleUserURIs(circleUri));
+        circleUsers.addAll(getUserURIsForCircle(circleUri));
       }
       
       if(withEntities){
@@ -906,7 +919,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSCircleE getCircleType(
+  public SSCircleE getTypeForCircle(
     final SSUri circleUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -947,7 +960,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSCircleE.equals(getCircleType(circleUri), SSCircleE.group);
+      return SSCircleE.equals(getTypeForCircle(circleUri), SSCircleE.group);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1039,7 +1052,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return bindingStrToUri(resultSet, SSSQLVarU.circleId);
       
     }catch(SSNoResultFoundErr error){
-      throw new SSEntityDoesntExistErr();
+      throw new SSErr(SSErrE.entityDoesntExist);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1065,7 +1078,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       return bindingStrToUri(resultSet, SSSQLVarU.circleId);
       
     }catch(SSNoResultFoundErr error){
-      throw new SSEntityDoesntExistErr();
+      throw new SSErr(SSErrE.entityDoesntExist);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

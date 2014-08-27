@@ -99,8 +99,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityUserCanFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntityUserRelationsGatherFct;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSEntityDoesntExistErr;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
@@ -112,14 +112,12 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI{
   
-//  private final SSEntityGraphFct       graphFct;
   private final SSEntitySQLFct         sqlFct;
   
   public SSEntityImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     
     super(conf, dbGraph, dbSQL);
     
-//    graphFct  = new SSEntityGraphFct (this);
     sqlFct    = new SSEntitySQLFct   (this);
   }
   
@@ -139,47 +137,36 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
    
     try{
 
-      final SSEntityUserCanPar par = new SSEntityUserCanPar(parA);
+      final SSEntityUserCanPar par    = new SSEntityUserCanPar(parA);
       final SSEntity           entity;
       
       try{
-        entity = SSServCaller.entityGet(par.entity);
+        entity = sqlFct.getEntity(par.entity);
       }catch(Exception error){
         
-        if(SSServErrReg.containsErr(SSEntityDoesntExistErr.class)){
-          
+        if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
           SSServErrReg.reset();
           return;
-        }else{
-          throw error;
         }
+        
+        throw error;
       }
       
-      switch(entity.type){
-        case entity: return; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
-        case circle: {
-          
-          if(
-            !SSStrU.contains                   (sqlFct.getCircleUserURIs(entity.id), par.user) ||
-            !SSEntityMiscFct.hasCircleTypeRight(sqlFct.getCircleType(entity.id),     par.accessRight)){
-            
-            throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
-          }
-          
-          return;
-        }
-      }
+      SSEntityUserCanFct.checkWhetherUserCanForEntityType(
+        sqlFct, 
+        par.user, 
+        entity, 
+        par.accessRight);
       
-      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity)){
-       
-        if(SSEntityMiscFct.hasCircleTypeRight(circleType, par.accessRight)){
-          return;
-        }
-      }
+      SSEntityMiscFct.checkWhetherUserHasRightInAnyCircleOfEntity(
+        sqlFct, 
+        par.user, 
+        par.entity, 
+        par.accessRight);
       
-      throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
-      
-    }catch(Exception error){
+    }catch(SSErr error){
+      SSServErrReg.regErrThrow (new SSErr(SSErrE.userNotAllowedToAccessEntity));
+    }catch(Exception error){      
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -939,7 +926,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
         
-        switch(sqlFct.getCircleType(circleUri)){
+        switch(sqlFct.getTypeForCircle(circleUri)){
           
           case priv:{
             
@@ -956,7 +943,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           
           case pub:{
             
-            for(SSUri userUri : sqlFct.getCircleUserURIs(circleUri)){
+            for(SSUri userUri : sqlFct.getUserURIsForCircle(circleUri)){
               
               if(!SSStrU.contains(userUris, userUri)){
                 userUris.add(userUri);
@@ -972,7 +959,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
               continue;
             }
             
-            for(SSUri userUri : sqlFct.getCircleUserURIs(circleUri)){
+            for(SSUri userUri : sqlFct.getUserURIsForCircle(circleUri)){
               
               if(!SSStrU.contains(userUris, userUri)){
                 userUris.add(userUri);
@@ -1050,7 +1037,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         return sqlFct.getEntity(par.label, par.type);  
       }
       
-      throw new Exception("entity cannot be queried this way");
+      throw new SSErr(SSErrE.entityCouldntBeQueried);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1075,10 +1062,16 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         return true;
       }
       
-      throw new Exception("entity cannot be queried this way");
+      throw new SSErr(SSErrE.entityCouldntBeQueried);
       
-    }catch(SSEntityDoesntExistErr error){
-      return false;
+    }catch(SSErr error){
+      
+      if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
+        SSServErrReg.reset();
+        return false;
+      }
+      
+      throw error;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1255,8 +1248,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUsersToCircleAddPar par = new SSEntityUsersToCircleAddPar(parA);
       
-      SSEntityMiscFct.checkWhetherEntitiesExist(sqlFct, par.users, SSEntityE.user);
-        
+      SSEntityMiscFct.checkWhetherUsersAreUsers(par.users);
+
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri userUri : par.users){
