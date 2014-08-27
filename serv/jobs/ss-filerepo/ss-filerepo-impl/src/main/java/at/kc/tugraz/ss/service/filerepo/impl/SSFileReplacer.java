@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -35,6 +34,7 @@ import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
+import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
@@ -103,7 +103,10 @@ public class SSFileReplacer extends SSServImplStartA{
             
             SSServCaller.fileRemoveReaderOrWriter(par.user, par.file, true, true);
             
-            replaceFileInSolr();
+            SSFileServCaller.replaceFileContentsInSolr(
+              par, 
+              fileId,  
+              true);
           }
         }
         
@@ -188,22 +191,6 @@ public class SSFileReplacer extends SSServImplStartA{
       SSFileU.delFile(localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void replaceFileInSolr(){
-    
-    try{
-      SSServCaller.solrAddDoc(
-        par.user, 
-        fileId, 
-        SSMimeTypeU.mimeTypeForFileExt(
-          SSServCaller.fileExtGet(
-            par.user, 
-            par.file)),
-        true);
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
     }
   }
 }

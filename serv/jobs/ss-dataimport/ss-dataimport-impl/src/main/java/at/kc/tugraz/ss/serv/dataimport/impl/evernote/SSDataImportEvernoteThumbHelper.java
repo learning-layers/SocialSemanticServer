@@ -36,7 +36,6 @@ public class SSDataImportEvernoteThumbHelper{
   //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   public static void addThumbFromFile(
     final SSUri   user,
-    final SSUri   userCircle,
     final String  localWorkPath,
     final SSUri   entity,
     final SSUri   fileUri,
@@ -87,19 +86,14 @@ public class SSDataImportEvernoteThumbHelper{
         return;
       }
       
-      SSServCaller.entityAdd(
-        user,
-        pngFileUri,
+      SSServCaller.entityEntityToPrivCircleAdd(
+        user, 
+        pngFileUri, 
+        SSEntityE.thumbnail, 
         null,
-        SSEntityE.thumbnail,
-        null,
-        shouldCommit);
-      
-      SSServCaller.entityEntitiesToCircleAdd(
-        user,
-        userCircle,
-        pngFileUri,
-        shouldCommit);
+        null, 
+        null, 
+        false);
       
       for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity)){
 

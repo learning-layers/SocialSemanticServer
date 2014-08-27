@@ -42,14 +42,12 @@ import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
@@ -288,22 +286,28 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       final Boolean     existsTag = sqlFct.existsTagLabel    (par.label);
       final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
 
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user insnt allowed to add tag to entity");
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
-        tagUri,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        SSEntityE.tag,
+        par.entity,
+        SSEntityE.entity,
+        null,
+        null,
         null,
         false);
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
-        par.entity,
-        SSLabel.get(SSStrU.toStr(par.entity)),
-        SSEntityE.entity,
+        tagUri,
+        SSEntityE.tag,
+        SSLabel.get(SSStrU.toStr(par.label)),
         null,
+        par.creationTime,
         false);
       
       sqlFct.addTagAssIfNotExists(
@@ -376,6 +380,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
             tag.entity,
             SSStrU.toStr(par.label),
             tag.space,
+            null,
             false);
       }
       
@@ -522,59 +527,6 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   @Override
-  public SSUri tagAddAtCreationTime(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSTagAddAtCreationTimePar par       = new SSTagAddAtCreationTimePar(parA);
-      final Boolean                   existsTag = sqlFct.existsTagLabel   (par.label);
-      final SSUri                     tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label); 
-
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityAddAtCreationTime(
-        par.user,
-        tagUri,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        par.creationTime,
-        SSEntityE.tag,
-        null,
-        false);
-      
-      SSServCaller.entityAdd(
-        par.user,
-        par.entity,
-        SSLabel.get(par.entity.toString()),
-        SSEntityE.entity,
-        null,
-        false);
-      
-      sqlFct.addTagAssIfNotExists(
-        tagUri, 
-        par.user, 
-        par.entity, 
-        par.space);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return tagUri;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return tagAddAtCreationTime(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public List<SSUri> tagsAdd(final SSServPar parA) throws Exception {
     
     try{
@@ -590,6 +542,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
             par.entity,
             SSStrU.toStr(tagLabel),
             par.space,
+            par.creationTime,
             par.shouldCommit));
       }
       
@@ -600,49 +553,6 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       if(dbSQL.rollBack(parA)){
         return tagsAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> tagsAddAtCreationTime(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSTagsAddAtCreationTimePar par     = new SSTagsAddAtCreationTimePar(parA);
-      final List<SSUri>                tags    = new ArrayList<>();
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(SSTagLabel tagString : par.labels) {
-        
-        tags.add(
-          SSServCaller.tagAddAtCreationTime(
-            par.user,
-            par.entity,
-            SSStrU.toStr(tagString),
-            par.space,
-            par.creationTime,
-            false));
-      }
-      
-      SSStrU.distinctWithoutNull2(tags);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return tags;
-    }catch(SSSQLDeadLockErr deadLockErr){
-      
-      if(dbSQL.rollBack(parA)){
-        return tagsAddAtCreationTime(parA);
       }else{
         SSServErrReg.regErrThrow(deadLockErr);
         return null;

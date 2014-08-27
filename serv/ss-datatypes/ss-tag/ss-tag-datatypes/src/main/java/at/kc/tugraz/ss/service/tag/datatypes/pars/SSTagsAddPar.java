@@ -33,8 +33,9 @@ import java.util.List;
 public class SSTagsAddPar extends SSServPar{
   
   public SSUri             entity       = null;
-  public List<SSTagLabel>  labels       = new ArrayList<SSTagLabel>();
+  public List<SSTagLabel>  labels       = new ArrayList<>();
   public SSSpaceE          space        = null;
+  public Long              creationTime = null;
   
   public SSTagsAddPar(SSServPar par) throws Exception{
     
@@ -44,8 +45,9 @@ public class SSTagsAddPar extends SSServPar{
       
       if(pars != null){
         labels.addAll(SSTagLabel.get((List<String>) pars.get(SSVarU.labels)));
-        entity       =  (SSUri)           pars.get(SSVarU.entity);
-        space        =  (SSSpaceE)        pars.get(SSVarU.space);
+        entity       =  (SSUri)                     pars.get(SSVarU.entity);
+        space        =  (SSSpaceE)                  pars.get(SSVarU.space);
+        creationTime =  (Long)                      pars.get(SSVarU.creationTime);
       }
       
       if(clientPars != null){
@@ -53,6 +55,10 @@ public class SSTagsAddPar extends SSServPar{
         entity   = SSUri.get        (clientPars.get(SSVarU.entity));
         space    = SSSpaceE.get     (clientPars.get(SSVarU.space));
         labels   = SSTagLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        
+        try{
+          creationTime = Long.valueOf(clientPars.get(SSVarU.creationTime));
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

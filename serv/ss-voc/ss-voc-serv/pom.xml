@@ -17,7 +17,7 @@
   </properties>
   <dependencies>
     
-        <dependency>
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv-api</artifactId>
       <version>${project.version}</version>

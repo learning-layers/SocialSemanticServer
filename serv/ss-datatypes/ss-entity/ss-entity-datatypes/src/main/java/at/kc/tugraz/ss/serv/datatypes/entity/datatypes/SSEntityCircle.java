@@ -29,13 +29,14 @@ import java.util.Map;
 
 public class SSEntityCircle extends SSEntityA{
  
-  public SSUri                          id           = null;
-  public SSLabel                        label        = null;
-  public SSTextComment                  description  = null;
-  public SSCircleE                      type         = null;
-  public List<SSCircleRightE>           accessRights = new ArrayList<>();
-  public List<SSUri>                    users        = new ArrayList<>();
-  public List<SSUri>                    entities     = new ArrayList<>();
+  public SSUri                          id             = null;
+  public SSLabel                        label          = null;
+  public SSTextComment                  description    = null;
+  public SSCircleE                      type           = null;
+  public List<SSCircleRightE>           accessRights   = new ArrayList<>();
+  public List<SSUri>                    users          = new ArrayList<>();
+  public List<SSUri>                    entities       = new ArrayList<>();
+  public Boolean                        isSystemCircle = null;
   
   public static SSEntityCircle get(
     final SSUri                          circleUri,
@@ -44,9 +45,10 @@ public class SSEntityCircle extends SSEntityA{
     final SSCircleE                      circleType, 
     final List<SSCircleRightE>           circleRights,
     final List<SSUri>                    userUris,
-    final List<SSUri>                    entityUris) throws Exception{
+    final List<SSUri>                    entityUris,
+    final Boolean                        isSystemCircle) throws Exception{
     
-    return new SSEntityCircle(circleUri, label, description, circleType, circleRights, userUris, entityUris);
+    return new SSEntityCircle(circleUri, label, description, circleType, circleRights, userUris, entityUris, isSystemCircle);
   }
 
   protected SSEntityCircle(
@@ -56,14 +58,16 @@ public class SSEntityCircle extends SSEntityA{
     final SSCircleE                       circleType, 
     final List<SSCircleRightE>            circleRights,
     final List<SSUri>                     userUris,
-    final List<SSUri>                     entityUris) throws Exception{
+    final List<SSUri>                     entityUris,
+    final Boolean                         isSystemCircle) throws Exception{
     
     super(SSStrU.toStr(circleUri));
     
-    this.id          = circleUri;
-    this.label       = label;
-    this.description = description;
-    this.type        = circleType;
+    this.id             = circleUri;
+    this.label          = label;
+    this.description    = description;
+    this.type           = circleType;
+    this.isSystemCircle = isSystemCircle;
     
     if(circleRights != null){
       this.accessRights.addAll(circleRights);
@@ -86,10 +90,11 @@ public class SSEntityCircle extends SSEntityA{
     final Map<String, Object> userUrisObj     = new HashMap<>();
     final Map<String, Object> entityUrisObj   = new HashMap<>();
     
-    ld.put(SSVarU.id,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,       SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.description, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarU.type,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarU.id,              SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.label,           SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarU.description,     SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarU.type,            SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarU.isSystemCircle,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     circleRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleRightE.class.getName());
     circleRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -121,14 +126,6 @@ public class SSEntityCircle extends SSEntityA{
   
   public String getDescription(){
     return SSStrU.toStr(description);
-  }
-
-  public SSCircleE getType(){
-    return type;
-  }
-
-  public List<SSCircleRightE> getAccessRights(){
-    return accessRights;
   }
 
   public List<String> getUsers() throws Exception{

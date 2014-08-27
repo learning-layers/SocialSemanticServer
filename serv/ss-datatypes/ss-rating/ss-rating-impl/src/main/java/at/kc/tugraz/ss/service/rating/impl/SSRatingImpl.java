@@ -213,6 +213,10 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     try{
       final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
     
+      if(!SSServCaller.entityUserCanRead(par.user, par.entity)){
+        throw new Exception("user is not allowed to rate entity");
+      }
+      
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;
       }
@@ -221,23 +225,29 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user,
-        ratingUri,
-        SSLabel.get(ratingUri.toString()),
-        SSEntityE.rating,
-        null,
-        false);
-      
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         par.entity,
-        SSLabel.get(par.entity),
         SSEntityE.entity,
+        SSLabel.get(par.entity),
+        null,
         null,
         false);
       
-      sqlFct.rateEntityByUser (ratingUri, par.user, par.entity, par.value);
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user, 
+        ratingUri, 
+        SSEntityE.rating, 
+        null, 
+        null, 
+        null, 
+        false);
+      
+      sqlFct.rateEntityByUser(
+        ratingUri, 
+        par.user,
+        par.entity, 
+        par.value);
       
       dbSQL.commit(par.shouldCommit);
       

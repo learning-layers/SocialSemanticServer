@@ -181,12 +181,13 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         existsCategory = sqlFct.existsCategoryLabel    (label);
         categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, label);
 
-        SSServCaller.entityAdd(
-          par.user,
-          categoryUri,       
+        SSServCaller.entityEntityToPrivCircleAdd(
+          par.user, 
+          categoryUri, 
+          SSEntityE.category, 
           SSLabel.get(SSStrU.toStr(label)), 
-          SSEntityE.category,
-          null,
+          null, 
+          null, 
           false);
 
         sqlFct.addCategoryIfNotExists(
@@ -223,25 +224,30 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       final Boolean                        existsCategory = sqlFct.existsCategoryLabel    (par.label);
       final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
 
+      if(!SSServCaller.entityUserCanEdit(par.user, par.entity)){
+        throw new Exception("user isnt allowed to add category to this entity");
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAddAtCreationTime(
-        par.user,
-        categoryUri,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        par.creationTime,
-        SSEntityE.category,
-        null,
-        false);
-      
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         par.entity,
-        SSLabel.get(par.entity.toString()),
         SSEntityE.entity,
+        null,
+        null,
         null,
         false);
       
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user,
+        categoryUri,
+        SSEntityE.category,
+        SSLabel.get(SSStrU.toStr(par.label)),
+        null,
+        par.creationTime,
+        false);
+              
       if(!existsCategory){
         
         sqlFct.addCategoryIfNotExists(

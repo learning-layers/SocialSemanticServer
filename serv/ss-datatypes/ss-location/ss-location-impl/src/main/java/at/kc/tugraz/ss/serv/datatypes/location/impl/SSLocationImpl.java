@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.serv.datatypes.location.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -29,6 +28,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationClientI;
 import at.kc.tugraz.ss.serv.datatypes.location.api.SSLocationServerI;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.par.SSLocationsGetPar;
@@ -164,21 +164,27 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       final Boolean          existsLocation    = sqlFct.existsLocationString   (par.location);
       final SSUri            locationUri       = sqlFct.getOrCreateLocationURI (existsLocation, par.location);
       
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.entity, SSCircleRightE.edit)){
+        throw new Exception("user isnt allowed to add location to entity");
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         locationUri,
-        SSLabel.get(par.location),
         SSEntityE.location,
+        SSLabel.get(par.location),
+        null,
         null,
         false);
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         par.entity,
-        SSLabel.get(SSStrU.empty),
         SSEntityE.entity,
+        null,
+        null,
         null,
         false);
       

@@ -25,11 +25,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 
@@ -54,29 +52,21 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         userUri,
         discUri,
-        discLabel,
         discType,
+        discLabel,
         description,
-        false);
-      
-      SSServCaller.entityAdd(
-        userUri,
-        tmpTargetUri,
-        SSLabel.get(tmpTargetUri),
-        SSEntityE.entity,
         null,
         false);
       
-      SSServCaller.entityCircleCreate(
-        userUri, 
-        SSUri.asListWithoutNullAndEmpty(discUri),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSCircleE.priv, 
-        discLabel,
-        SSVoc.systemUserUri,
+      SSServCaller.entityEntityToPrivCircleAdd(
+        userUri,
+        tmpTargetUri,
+        SSEntityE.entity,
+        SSLabel.get(tmpTargetUri),
+        description,
         null,
         false);
       
@@ -108,20 +98,21 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         userUri,
         discEntryUri,
-        SSLabel.get(discEntryUri),
         discEntryType,
+        SSLabel.get(discEntryUri),
+        null,
         null,
         false);
-      
-      for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(userUri, discUri)){
+            
+      for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(userUri, discUri, true)){
         
         SSServCaller.entityEntitiesToCircleAdd(
           userUri,
           entityUserCircle.id,
-          discEntryUri,
+          SSUri.asListWithoutNullAndEmpty(discEntryUri),
           false);
       }
       

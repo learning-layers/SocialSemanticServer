@@ -103,9 +103,9 @@ public class SSCollMiscFct{
 
   public static void addCollAndSubCollsWithEntriesToCircle(
     final SSCollSQLFct sqlFct,
-    final SSUri userUri,
-    final SSColl startColl,
-    final SSUri circleUri) throws Exception{
+    final SSUri        userUri,
+    final SSColl       startColl,
+    final SSUri        circleUri) throws Exception{
 
     try{
       SSServCaller.entityEntitiesToCircleAdd(

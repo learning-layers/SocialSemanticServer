@@ -84,18 +84,19 @@ public class SSAuthMiscFct{
     
     if(!SSServCaller.entityExists(SSEntityE.user, SSLabel.get(SSVoc.systemUserLabel))){
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         SSVoc.systemUserUri,
         SSVoc.systemUserUri,
-        SSVoc.systemUserLabel,
         SSEntityE.user,
+        SSVoc.systemUserLabel,
+        null,
         null,
         false);
-      
+          
       SSServCaller.entityEntitiesToCircleAdd(
         SSVoc.systemUserUri,
-        SSServCaller.entityCircleURIPublicGet(),
-        SSVoc.systemUserUri,
+        SSServCaller.entityCircleURIPubGet(false),
+        SSUri.asListWithoutNullAndEmpty(SSVoc.systemUserUri),
         false);
     }
     
@@ -107,18 +108,19 @@ public class SSAuthMiscFct{
     
     final SSUri userUri = SSServCaller.vocURICreate();
     
-    SSServCaller.entityAdd(
-      SSVoc.systemUserUri,
-      userUri,
-      label,
+    SSServCaller.entityEntityToPrivCircleAdd(
+      SSVoc.systemUserUri,  
+      userUri, 
       SSEntityE.user,
-      null,
+      label, 
+      null, 
+      null, 
       false);
     
     SSServCaller.entityEntitiesToCircleAdd(
       SSVoc.systemUserUri,
-      SSServCaller.entityCircleURIPublicGet(),
-      userUri,
+      SSServCaller.entityCircleURIPubGet(false),
+      SSUri.asListWithoutNullAndEmpty(userUri),
       false);
     
     return userUri;

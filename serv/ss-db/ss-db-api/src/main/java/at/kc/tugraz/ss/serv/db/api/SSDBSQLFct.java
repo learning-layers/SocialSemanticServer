@@ -374,39 +374,73 @@ public class SSDBSQLFct extends SSDBFct{
     return uris;
   }
   
-  protected static SSUri bindingStrToUri(ResultSet resultSet, String binding) throws Exception{
+  protected static SSUri bindingStrToUri(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return SSUri.get(bindingStr(resultSet, binding));
   }
   
-  protected static SSSpaceE bindingStrToSpace(ResultSet resultSet, String binding) throws Exception{
+  protected static SSSpaceE bindingStrToSpace(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return SSSpaceE.get(bindingStr(resultSet, binding));
   }
   
-  protected static String bindingStr(ResultSet resultSet, String binding) throws Exception{
+  protected static String bindingStr(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return resultSet.getString(binding);
   }
   
-  protected static SSLabel bindingStrToLabel(ResultSet resultSet, String binding) throws Exception{
+  protected static SSLabel bindingStrToLabel(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return SSLabel.get(bindingStr(resultSet, binding));
   }
   
-  protected static SSTextComment bindingStrToTextComment(ResultSet resultSet, String binding) throws Exception{
+  protected static Boolean bindingStrToBoolean(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
+    return Boolean.valueOf(bindingStr(resultSet, binding));
+  }
+  
+  protected static SSTextComment bindingStrToTextComment(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return SSTextComment.get(bindingStr(resultSet, binding));
   }
   
-  protected static SSEntityE bindingStrToEntityType(ResultSet resultSet, String binding) throws Exception{
+  protected static SSEntityE bindingStrToEntityType(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return SSEntityE.valueOf(bindingStr(resultSet, binding));
   }
   
-  protected static Float bindingStrToFloat(ResultSet resultSet, String binding) throws Exception{
+  protected static Float bindingStrToFloat(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return Float.parseFloat(bindingStr(resultSet, binding));
   }
   
-  protected static  Integer bindingStrToInteger(ResultSet resultSet, String binding) throws Exception{
+  protected static  Integer bindingStrToInteger(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return Integer.parseInt(bindingStr(resultSet, binding));
   }
   
-  protected static Long bindingStrToLong(ResultSet resultSet, String binding) throws Exception{
+  protected static Long bindingStrToLong(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
     return Long.parseLong(bindingStr(resultSet, binding));
   }
 }

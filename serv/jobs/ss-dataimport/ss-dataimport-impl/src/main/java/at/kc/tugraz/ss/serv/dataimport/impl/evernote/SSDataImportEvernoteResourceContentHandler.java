@@ -35,18 +35,15 @@ public class SSDataImportEvernoteResourceContentHandler{
   private final SSUri    resourceUri;
   private final Resource resource;
   private final SSUri    user;
-  private final SSUri    userCircle;
   private final String   localWorkPath;
       
   public SSDataImportEvernoteResourceContentHandler(
     final SSUri    user,
-    final SSUri    userCircle,
     final Resource resource,
     final SSUri    resourceUri,
     final String   localWorkPath){
     
     this.user          = user;
-    this.userCircle    = userCircle;
     this.resource      = resource;
     this.resourceUri   = resourceUri;
     this.localWorkPath = localWorkPath;
@@ -77,12 +74,13 @@ public class SSDataImportEvernoteResourceContentHandler{
         return;
       }
       
-      SSServCaller.entityAdd(
-        user,
-        fileUri,
+      SSServCaller.entityEntityToPrivCircleAdd(
+        user, 
+        fileUri, 
+        SSEntityE.file, 
         null,
-        SSEntityE.file,
-        null,
+        null, 
+        null, 
         false);
       
       for(SSUri file : SSServCaller.entityFilesGet(user, resourceUri)){
@@ -102,15 +100,8 @@ public class SSDataImportEvernoteResourceContentHandler{
         fileUri,
         false);
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        user,
-        userCircle,
-        fileUri,
-        false);
-      
       SSDataImportEvernoteThumbHelper.addThumbFromFile(
         user,
-        userCircle,
         localWorkPath,
         resourceUri,
         fileUri,

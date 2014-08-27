@@ -22,6 +22,7 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String isSystemCircle                                 = "isSystemCircle";
   public static final String flagId                                         = "flagId";
   public static final String noteId                                         = "noteId";
   public static final String notebookId                                     = "notebookId";

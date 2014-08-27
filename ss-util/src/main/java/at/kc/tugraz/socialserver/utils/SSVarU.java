@@ -60,10 +60,10 @@ public class SSVarU{
   public static final String sssNodePort                                    = "sssNodePort";
   public static final String categoryFrequs                                 = "categoryFrequs";
   public static final String entity                                         = "entity";
+  public static final String withSystemCircles                              = "withSystemCircles";
   public static final String entitiesToExclude                              = "entitiesToExclude";
   public static final String comment                                        = "comment";
   public static final String comments                                       = "comments";
-  public static final String withSystemGeneratedCircles                     = "withSystemGeneratedCircles";
   public static final String username                                       = "username";
   public static final String password                                       = "password";
   public static final String fileExt                                        = "fileExt";
@@ -211,6 +211,7 @@ public class SSVarU{
   public static final String saveActivity                                   = "saveActivity";
   public static final String key                                            = "key";
   public static final String type                                           = "type";
+  public static final String isSystemCircle                                 = "isSystemCircle";
   public static final String overallRating                                  = "overallRating";
   public static final String sss                                            = "sss";
   public static final String xsd                                            = "xsd";

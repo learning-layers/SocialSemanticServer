@@ -197,69 +197,25 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addEntityAtCreationTimeIfNotExists(
-    final SSUri         entityUri, 
-    final SSEntityA     label, 
-    final Long          creationTime, 
-    final SSEntityE     entityType, 
-    final SSUri         authorUri,
-    final SSTextComment description) throws Exception{
-
-    try{
-      final Map<String, String> inserts     = new HashMap<>();
-      final Map<String, String> uniqueKeys  = new HashMap<>();
-      
-      uniqueKey (uniqueKeys,  SSSQLVarU.id,           entityUri);
-      insert    (inserts,     SSSQLVarU.id,           entityUri);
-      insert    (inserts,     SSSQLVarU.creationTime, creationTime);
-      
-      if(label == null){
-        insert(inserts, SSSQLVarU.label, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarU.label, label);
-      }
-      
-      if(entityType == null){
-        insert(inserts, SSSQLVarU.type, SSEntityE.entity);
-      }else{
-        insert(inserts, SSSQLVarU.type, entityType);
-      }
-      
-      if(authorUri == null){
-        insert(inserts, SSSQLVarU.author, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarU.author, authorUri);
-      }
-      
-      if(description == null){
-        insert(inserts, SSSQLVarU.description, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarU.description, description);
-      }
-      
-      dbSQL.insertIfNotExists(entityTable, inserts, uniqueKeys);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void addEntityIfNotExists(
-    final SSUri         entityUri,
-    final SSEntityA     label,
+    final SSUri         entity, 
     final SSEntityE     entityType,
+    final SSEntityA     label,
+    final SSTextComment description,
     final SSUri         authorUri,
-    final SSTextComment description) throws Exception{
+    final Long          creationTime) throws Exception{
     
-    try{
-     
-      if(existsEntity(entityUri)){
-        return;
-      }
+    if(!existsEntity(entity)){
       
       final Map<String, String> inserts    = new HashMap<>();
       
-      insert    (inserts,     SSSQLVarU.id,           entityUri);
-      insert    (inserts,     SSSQLVarU.creationTime, SSDateU.dateAsLong());
+      insert    (inserts,     SSSQLVarU.id, entity);
+      
+      if(creationTime == null){
+        insert(inserts, SSSQLVarU.creationTime, SSDateU.dateAsLong());
+      }else{
+        insert(inserts, SSSQLVarU.creationTime, creationTime);
+      }
       
       if(label == null){
         insert(inserts, SSSQLVarU.label, SSStrU.empty);
@@ -286,45 +242,31 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }
       
       dbSQL.insert(entityTable, inserts);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public Boolean updateEntity(
-    final SSUri         entity, 
-    final SSLabel       label, 
-    final SSTextComment description) throws Exception{
-    
-    try{
-      final Map<String, String>  wheres   = new HashMap<>();
-      final Map<String, String>  updates  = new HashMap<>();
+    }else{
       
-      if(!existsEntity(entity)){
-        SSLogU.warn("entity not updated | doesnt exist");
-        return false;
+      try{
+        final Map<String, String>  wheres   = new HashMap<>();
+        final Map<String, String>  updates  = new HashMap<>();
+        
+        where(wheres, SSSQLVarU.id, entity);
+        
+        if(label != null){
+          update (updates, SSSQLVarU.label, label);
+        }
+        
+        if(description != null){
+          update (updates, SSSQLVarU.description, description);
+        }
+        
+        if(updates.isEmpty()){
+          return;
+        }
+        
+        dbSQL.update(entityTable, wheres, updates);
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
-      
-      where(wheres, SSSQLVarU.id, entity);
-      
-      if(label != null){
-        update (updates, SSSQLVarU.label, label);
-      }
-      
-      if(description != null){
-        update (updates, SSSQLVarU.description, description);
-      }
-      
-      if(updates.isEmpty()){
-        return true;
-      }
-      
-      dbSQL.update(entityTable, wheres, updates);
-      
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   
@@ -353,7 +295,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   
   public List<SSUri> getCircleURIsForUser(
     final SSUri   userUri,
-    final Boolean withSystemGeneratedCircles) throws Exception{
+    final Boolean withSystemCircles) throws Exception{
    
     ResultSet resultSet = null;
     
@@ -369,11 +311,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
-      if(withSystemGeneratedCircles){
+      if(withSystemCircles){
         return tmpCircleUris;
       }else{
         
         for(SSUri circleUri : tmpCircleUris){
+          
           if(!isSystemCircle(circleUri)){
             circleUris.add(circleUri);
           }
@@ -392,14 +335,16 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
   public void addCircle(
     final SSUri     circleUri, 
-    final SSCircleE circleType) throws Exception{
+    final SSCircleE circleType,
+    final Boolean   isSystemCircle) throws Exception{
     
     try{
 
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.circleId,   circleUri);
-      insert(inserts, SSSQLVarU.circleType, circleType);
+      insert(inserts, SSSQLVarU.circleId,       circleUri);
+      insert(inserts, SSSQLVarU.circleType,     circleType);
+      insert(inserts, SSSQLVarU.isSystemCircle, isSystemCircle);
       
       dbSQL.insert(circleTable, inserts);
       
@@ -516,12 +461,47 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSUri addOrGetPublicCircle() throws Exception{
+  public SSUri addOrGetPrivCircleURI(
+    final SSUri user) throws Exception{
     
     try{
       
       try{
-        return getCirclePublicURI();
+        return getPrivCircleURI(user);
+      }catch(SSEntityDoesntExistErr error){}
+
+      final SSUri               circleUri  = createCircleURI();
+      
+      addEntityIfNotExists(
+        circleUri, 
+        SSEntityE.circle, 
+        null, 
+        null, 
+        SSVoc.systemUserUri, 
+        null);
+
+      addCircle(
+        circleUri, 
+        SSCircleE.priv,
+        true);
+      
+      addUserToCircleIfNotExists(
+        circleUri, 
+        user);
+
+      return circleUri;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
+  public SSUri addOrGetPubCircleURI() throws Exception{
+    
+    try{
+      
+      try{
+        return getPubCircleURI();
       }catch(SSEntityDoesntExistErr error){}
 
       final Map<String, String> inserts    = new HashMap<>();
@@ -529,15 +509,16 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       addEntityIfNotExists(
         circleUri, 
-        SSLabel.get(SSStrU.empty), 
         SSEntityE.circle, 
-        SSVoc.systemUserUri,
+        null, 
+        null, 
+        SSVoc.systemUserUri, 
         null);
 
-      insert(inserts, SSSQLVarU.circleId,   circleUri);
-      insert(inserts, SSSQLVarU.circleType, SSCircleE.pub);
-
-      dbSQL.insert(circleTable, inserts);
+      addCircle(
+        circleUri, 
+        SSCircleE.pub,
+        true);
 
       return circleUri;
     }catch(Exception error){
@@ -682,8 +663,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public List<SSEntityCircle> getCirclesCommonForUserAndEntity(
-    final SSUri userUri,
-    final SSUri entityUri) throws Exception{
+    final SSUri   userUri,
+    final SSUri   entityUri,
+    final Boolean withSystemCircles) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -703,9 +685,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column    (columns, SSSQLVarU.label);
       column    (columns, SSSQLVarU.description);
       column    (columns, SSSQLVarU.circleType);
+      column    (columns, SSSQLVarU.isSystemCircle);
       column    (columns, circleTable,        SSSQLVarU.circleId);
       where     (wheres,  SSSQLVarU.entityId, entityUri);
       where     (wheres,  SSSQLVarU.userId,   userUri);
+      
+      if(!withSystemCircles){
+        where     (wheres,  SSSQLVarU.isSystemCircle, false);
+      }
+      
       tableCon  (tableCons, circleTable, SSSQLVarU.circleId, circleEntitiesTable, SSSQLVarU.circleId);
       tableCon  (tableCons, circleTable, SSSQLVarU.circleId, circleUsersTable,    SSSQLVarU.circleId);
       tableCon  (tableCons, circleTable, SSSQLVarU.circleId, entityTable,         SSSQLVarU.id);
@@ -724,7 +712,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
             null, 
             getCircleUserURIs(circleUri), 
-            null));
+            null,
+            bindingStrToBoolean     (resultSet,SSSQLVarU.isSystemCircle)));
       }
       
       return circles;
@@ -779,7 +768,31 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-   
+  
+  public Boolean isSystemCircle(
+    final SSUri circleUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where (wheres,    SSSQLVarU.circleId, circleUri);
+      
+      resultSet = dbSQL.select(circleTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToBoolean(resultSet, SSSQLVarU.isSystemCircle);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public SSEntityCircle getCircle(
     final SSUri                circleUri,
     final Boolean              withUsers,
@@ -804,6 +817,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.description);
       column   (columns,   SSSQLVarU.circleId);
       column   (columns,   SSSQLVarU.circleType);
+      column   (columns,   SSSQLVarU.isSystemCircle);
       where    (wheres,    SSSQLVarU.circleId, circleUri);
       tableCon (tableCons, circleTable,        SSSQLVarU.circleId, entityTable, SSSQLVarU.id);
       
@@ -827,7 +841,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
           null,
           circleUsers,
-          circleEntities);
+          circleEntities,
+          bindingStrToBoolean      (resultSet, SSSQLVarU.isSystemCircle));
       
       if(withCircleRights){
         circle.accessRights = SSEntityMiscFct.getCircleRights(circle.type);
@@ -939,17 +954,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public Boolean isSystemCircle(
-    final SSUri circleUri) throws Exception{
-    
-    try{
-      return SSStrU.equals(getEntity(circleUri).author, SSVoc.systemUserUri);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public SSUri createCircleURI() throws Exception{
     return SSUri.get(SSIDU.uniqueID(objCircle().toString()));
   }
@@ -1008,7 +1012,43 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  private SSUri getCirclePublicURI() throws Exception{
+  private SSUri getPrivCircleURI(
+    final SSUri     user) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>        tables            = new ArrayList<>();
+      final List<String>        columns           = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
+      final List<String>        tableCons         = new ArrayList<>();
+      
+      column   (columns,   SSSQLVarU.circleId);
+      table    (tables,    circleTable);
+      table    (tables,    entityTable);
+      
+      where(wheres, SSSQLVarU.circleType, SSCircleE.priv);
+      where(wheres, SSSQLVarU.author,     user);
+      
+      tableCon (tableCons, circleTable, SSSQLVarU.circleId, entityTable, SSSQLVarU.id);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.circleId);
+      
+    }catch(SSNoResultFoundErr error){
+      throw new SSEntityDoesntExistErr();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  private SSUri getPubCircleURI() throws Exception{
     
     ResultSet resultSet = null;
     

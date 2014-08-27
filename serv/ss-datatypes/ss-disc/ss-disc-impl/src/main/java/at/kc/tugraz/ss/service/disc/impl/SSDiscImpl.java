@@ -89,7 +89,8 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         discUserCircles =
           SSServCaller.entityUserEntityCirclesGet(
             userUri,
-            disc.id);
+            disc.id, 
+            true);
         
         for(SSEntityCircle circle : discUserCircles){
           
@@ -278,18 +279,19 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       
       if(par.addNewDisc){
         
+        SSDiscUserEntryAddFct.checkWhetherUserCanAddDisc(par);
+        
         if(par.entity != null){
           
-          SSServCaller.entityAdd(
-            par.user,
-            par.entity, 
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user, 
+            par.entity,  
+            SSEntityE.entity, 
             null, 
-            SSEntityE.entity,
-            null,
+            null, 
+            null, 
             false);
-        }
-        
-        SSDiscUserEntryAddFct.checkWhetherUserCanAddDisc(par);
+        }  
       }
       
       if(!par.addNewDisc){

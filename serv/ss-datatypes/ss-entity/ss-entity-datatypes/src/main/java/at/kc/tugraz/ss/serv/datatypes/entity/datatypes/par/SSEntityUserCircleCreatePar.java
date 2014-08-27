@@ -28,12 +28,12 @@ import java.util.List;
 
 public class SSEntityUserCircleCreatePar extends SSServPar{
 
-  public List<SSUri>            entities     = new ArrayList<>();
-  public List<SSUri>            users        = new ArrayList<>();
-  public SSCircleE              type         = null;
-  public SSLabel                label        = null;
-  public SSTextComment          description  = null;
-  
+  public List<SSUri>            entities       = new ArrayList<>();
+  public List<SSUri>            users          = new ArrayList<>();
+  public SSCircleE              type           = null;
+  public SSLabel                label          = null;
+  public SSTextComment          description    = null;
+  public Boolean                isSystemCircle = null;
   
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
     
@@ -42,16 +42,18 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     try{
     
       if(pars != null){
-        type        = (SSCircleE)       pars.get(SSVarU.type);
-        label       = (SSLabel)         pars.get(SSVarU.label);
-        entities    = (List<SSUri>)     pars.get(SSVarU.entities);
-        users       = (List<SSUri>)     pars.get(SSVarU.users);
-        description = (SSTextComment)   pars.get(SSVarU.description);
+        type           = (SSCircleE)       pars.get(SSVarU.type);
+        label          = (SSLabel)         pars.get(SSVarU.label);
+        entities       = (List<SSUri>)     pars.get(SSVarU.entities);
+        users          = (List<SSUri>)     pars.get(SSVarU.users);
+        description    = (SSTextComment)   pars.get(SSVarU.description);
+        isSystemCircle = (Boolean)         pars.get(SSVarU.isSystemCircle);
       }
       
       if(clientPars != null){
-        type       = SSCircleE.get       (clientPars.get(SSVarU.type));
-        label      = SSLabel.get         (clientPars.get(SSVarU.label));
+        isSystemCircle = false;
+        type           = SSCircleE.get       (clientPars.get(SSVarU.type));
+        label          = SSLabel.get         (clientPars.get(SSVarU.label));
         
         try{
           entities       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));

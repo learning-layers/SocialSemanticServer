@@ -44,14 +44,15 @@ public class SSCollEntryAddFct{
     
     par.entry = sqlFct.createCollURI();
     
-    SSServCaller.entityAdd(
-      par.user,
+    SSServCaller.entityEntityToPrivCircleAdd(
+      par.user, 
       par.entry,
-      par.label,
       SSEntityE.coll, 
+      par.label, 
+      null,
       null,
       false);
-    
+   
     sqlFct.addColl(par.entry);
     
     sqlFct.addCollToColl(
@@ -61,12 +62,12 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
+    for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll, true)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         entityUserCircle.id,
-        par.entry,
+        SSUri.asListWithoutNullAndEmpty(par.entry),
         false);
     }
     
@@ -108,22 +109,23 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{
   
-    SSServCaller.entityAdd(
-      par.user,
+    SSServCaller.entityEntityToPrivCircleAdd(
+      par.user, 
       par.entry,
-      par.label,
-      SSEntityE.entity,
+      SSEntityE.entity, 
+      par.label, 
+      null,
       null,
       false);
     
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll)){
+    for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll, true)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         circle.id,
-        par.entry,
+        SSUri.asListWithoutNullAndEmpty(par.entry),
         false);
     }
     

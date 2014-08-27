@@ -64,14 +64,14 @@ public interface SSEntityServerI {
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
   public Boolean                         entityExists                             (final SSServPar parA) throws Exception;
   public SSEntity                        entityGet                                (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleURIPublicGet                 (final SSServPar parA) throws Exception;
+  public SSUri                           entityCircleURIPrivGet                   (final SSServPar parA) throws Exception;
+  public SSUri                           entityCircleURIPubGet                    (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleCreate                       (final SSServPar parA) throws Exception;
-  public SSUri                           entityCirclePublicAdd                    (final SSServPar parA) throws Exception;
+  public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
   public SSUri                           entityEntitiesToCircleAdd                (final SSServPar parA) throws Exception;
   public SSUri                           entityUsersToCircleAdd                   (final SSServPar parA) throws Exception;
   public SSCircleE                       entityMostOpenCircleTypeGet              (final SSServPar parA) throws Exception;
   public SSUri                           entityAdd                                (final SSServPar parA) throws Exception;
-  public SSUri                           entityAddAtCreationTime                  (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
   public SSUri                           entityUpdate                             (final SSServPar parA) throws Exception;

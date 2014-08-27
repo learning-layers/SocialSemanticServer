@@ -24,13 +24,11 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -38,7 +36,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.evernote.edam.error.EDAMErrorCode;
@@ -62,7 +59,6 @@ public class SSDataImportEvernoteHelper {
   private        SSUri                   userUri                  = null;
   private        List<SharedNotebook>    sharedNotebooks          = null;
   private        List<String>            sharedNotebookGuids      = null;
-  private        SSUri                   userCircle               = null;
   private        long                    april01                  = new Date().getTime() - SSDateU.dayInMilliSeconds * 109;
   
   public SSDataImportEvernoteHelper(final SSDBSQLI dbSQL) throws Exception{
@@ -83,16 +79,7 @@ public class SSDataImportEvernoteHelper {
     
     evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);
     
-    this.userCircle      =
-      SSServCaller.entityCircleCreate(
-        userUri,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSCircleE.priv,
-        null,
-        SSVoc.systemUserUri,
-        null,
-        false);
+//    this.userCircle      = SSServCaller.entityCircleURIPrivGet(userUri);
   }
   
   public void setSharedNotebooks() throws Exception{
@@ -133,27 +120,13 @@ public class SSDataImportEvernoteHelper {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    SSServCaller.entityAddAtCreationTime(
+    SSServCaller.entityEntityToPrivCircleAdd(
       userUri,
       notebookUri,
-      notebookLabel,
-      notebookCreationTime,
       SSEntityE.evernoteNotebook,
-      null,
-      false);
-    
-    SSServCaller.entityUpdate(
-      userUri,
-      notebookUri,
       notebookLabel,
       null,
-      SSTextComment.asListWithoutNullAndEmpty(),
-      false);
-    
-    SSServCaller.entityEntitiesToCircleAdd(
-      userUri,
-      userCircle,
-      notebookUri,
+      notebookCreationTime,
       false);
   }
   
@@ -325,7 +298,6 @@ public class SSDataImportEvernoteHelper {
       
       new SSDataImportEvernoteNoteContentHandler(
         userUri,
-        userCircle,
         note,
         noteUri,
         localWorkPath).handleNoteContent();
@@ -517,7 +489,7 @@ public class SSDataImportEvernoteHelper {
     final SSLabel      notebookLabel,
     final List<String> noteTags) throws Exception{
     
-    SSServCaller.tagsAddAtCreationTime(
+    SSServCaller.tagsAdd(
       userUri,
       noteUri,
       noteTags,
@@ -532,6 +504,7 @@ public class SSDataImportEvernoteHelper {
         noteUri,
         SSStrU.toStr(notebookLabel),
         SSSpaceE.privateSpace,
+        null,
         false);
     }
   }
@@ -542,29 +515,13 @@ public class SSDataImportEvernoteHelper {
     final Note    note,
     final SSUri   notebookUri) throws Exception{
     
-//    SSLogU.debug("note creationTime: " + note.getCreated() + " date: " + new Date(note.getCreated()));
-    
-    SSServCaller.entityAddAtCreationTime(
-      userUri,
-      noteUri,
-      noteLabel,
+    SSServCaller.entityEntityToPrivCircleAdd(
+      userUri, 
+      noteUri, 
+      SSEntityE.evernoteNote, 
+      noteLabel, 
+      null, 
       note.getCreated(),
-      SSEntityE.evernoteNote,
-      null,
-      false);
-    
-    SSServCaller.entityUpdate(
-      userUri,
-      noteUri,
-      noteLabel,
-      null,
-      SSTextComment.asListWithoutNullAndEmpty(),
-      false);
-    
-    SSServCaller.entityEntitiesToCircleAdd(
-      userUri,
-      userCircle,
-      noteUri,
       false);
     
     evernoteHelper.sqlFct.addNoteIfNotExists (notebookUri, noteUri);
@@ -598,7 +555,6 @@ public class SSDataImportEvernoteHelper {
       
       new SSDataImportEvernoteResourceContentHandler(
         userUri,
-        userCircle,
         resource,
         resourceUri,
         localWorkPath).handleResourceContent();
@@ -639,35 +595,20 @@ public class SSDataImportEvernoteHelper {
       false);
   }
   
+
   private void addResource(
     final SSUri   resourceUri,
     final SSLabel resourceLabel,
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-//    SSLogU.debug("resource added Time: " + resourceAddTime + " date: " + new Date(resourceAddTime));
-    
-    SSServCaller.entityAddAtCreationTime(
-      userUri,
-      resourceUri,
-      resourceLabel,
+    SSServCaller.entityEntityToPrivCircleAdd(
+      userUri, 
+      resourceUri, 
+      SSEntityE.evernoteResource, 
+      resourceLabel, 
+      null, 
       resourceAddTime,
-      SSEntityE.evernoteResource,
-      null,
-      false);
-    
-    SSServCaller.entityUpdate(
-      userUri,
-      resourceUri,
-      resourceLabel,
-      null,
-      SSTextComment.asListWithoutNullAndEmpty(),
-      false);
-    
-    SSServCaller.entityEntitiesToCircleAdd(
-      userUri,
-      userCircle,
-      resourceUri,
       false);
     
     evernoteHelper.sqlFct.addResourceIfNotExists(
@@ -686,6 +627,7 @@ public class SSDataImportEvernoteHelper {
         resourceUri,
         SSStrU.toStr(notebookLabel),
         SSSpaceE.privateSpace,
+        null,
         false);
     }    
   }

@@ -38,7 +38,6 @@ import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -60,7 +59,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -112,7 +110,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         collUserCircles =
           SSServCaller.entityUserEntityCirclesGet(
             userUri,
-            coll.id);
+            coll.id,
+            true);
         
         for(SSEntityCircle circle : collUserCircles){
           
@@ -130,7 +129,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           collEntryUserCircles =
             SSServCaller.entityUserEntityCirclesGet(
               userUri,
-              collEntry.id);
+              collEntry.id,
+              true);
           
           for(SSEntityCircle circle : collEntryUserCircles){
             
@@ -926,29 +926,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       final SSUri rootCollUri = sqlFct.createCollURI();
 
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
-        rootCollUri,
-        SSLabel.get(SSStrU.valueRoot),
+        rootCollUri, 
         SSEntityE.coll,
+        SSLabel.get(SSStrU.valueRoot), 
+        null,
         null,
         false);
       
       sqlFct.addColl (rootCollUri);
 
-      SSServCaller.entityCircleCreate(
-        par.user,
-        SSUri.asListWithoutNullAndEmpty(rootCollUri),
-        new ArrayList<>(),
-        SSCircleE.priv,
-        SSLabel.get(SSStrU.toStr(par.user) + SSStrU.underline + SSStrU.valueRoot),
-        SSVoc.systemUserUri,
-        null,
-        false);
-
       SSServCaller.entityUsersToCircleAdd(
         par.user,
-        SSServCaller.entityCircleURIPublicGet(),
+        SSServCaller.entityCircleURIPubGet(false),
         par.user,
         false);
       

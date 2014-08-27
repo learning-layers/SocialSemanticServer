@@ -34,6 +34,7 @@ public class SSEntityAddPar extends SSServPar{
   public SSLabel       label          = null;
   public SSEntityE     type           = null;
   public SSTextComment description    = null;
+  public Long          creationTime   = null;
     
   public SSEntityAddPar(SSServPar par) throws Exception{
       
@@ -46,6 +47,7 @@ public class SSEntityAddPar extends SSServPar{
         label           = (SSLabel)       pars.get(SSVarU.label);
         type            = (SSEntityE)     pars.get(SSVarU.type);
         description     = (SSTextComment) pars.get(SSVarU.description);
+        creationTime    = (Long)          pars.get(SSVarU.creationTime);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

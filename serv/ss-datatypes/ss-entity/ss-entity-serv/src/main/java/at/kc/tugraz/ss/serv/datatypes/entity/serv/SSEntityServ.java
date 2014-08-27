@@ -57,8 +57,6 @@ public class SSEntityServ extends SSServA{
     
     super.regServ(conf);
     
-    SSServCaller.entityCirclePublicAdd(true);
-    
     return this;
   }
   
@@ -68,6 +66,8 @@ public class SSEntityServ extends SSServA{
     if(!servConf.use){
       return;
     }
+    
+    SSServCaller.entityCircleURIPubGet(true);    
     
     regServForGatheringUserRelations();
     

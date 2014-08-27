@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -27,6 +28,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -250,22 +252,28 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
       final SSUri                    ueUri = SSUEMiscFct.createUEUri();
     
+      if(!SSServCaller.entityUserAllowedIs(par.user, par.entity, SSCircleRightE.read)){
+        SSLogU.warn("user is not allowed to add user event to entity");
+        return false;
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAddAtCreationTime(
-        par.user,
-        ueUri,
-        null,
-        par.creationTime,
-        SSEntityE.userEvent,
-        null,
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user, 
+        ueUri, 
+        SSEntityE.userEvent, 
+        null, 
+        null, 
+        par.creationTime, 
         false);
       
-      SSServCaller.entityAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         par.entity,
-        null,
         SSEntityE.entity,
+        null,
+        null,
         null,
         false);
       
@@ -303,28 +311,37 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       final SSUEAddPar par   = new SSUEAddPar(parA);
       final SSUri      ueUri = SSUEMiscFct.createUEUri();
       
+      if(
+        par.entity != null &&
+        !SSServCaller.entityUserAllowedIs(par.user, par.entity, SSCircleRightE.read)){
+        SSLogU.warn("user is not allowed to add user event to entity");
+        return false;
+      }
+      
       if(par.entity == null){
         par.entity = SSUri.get(SSVoc.sssUri);
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user,
-        par.entity,
-        null,
-        SSEntityE.entity,
-        null,
-        false);
-      
-      SSServCaller.entityAdd(
+       SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         ueUri,
-        null,
         SSEntityE.userEvent,
         null,
+        null,
+        null,
         false);
-      
+        
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user, 
+        par.entity, 
+        SSEntityE.entity, 
+        null, 
+        null, 
+        null, 
+        false);
+
       sqlFct.addUE(
         ueUri,
         par.user,

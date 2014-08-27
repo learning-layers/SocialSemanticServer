@@ -37,7 +37,7 @@ public class SSSearchMiscFct{
       final List<SSUri> privateAddedUris = new ArrayList<>();
       final List<SSUri> publicAddedUris  = new ArrayList<>();
       
-      for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(userUri, searchResultUri)){
+      for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(userUri, searchResultUri, true)){
         
         switch(circle.type){
           case priv:{

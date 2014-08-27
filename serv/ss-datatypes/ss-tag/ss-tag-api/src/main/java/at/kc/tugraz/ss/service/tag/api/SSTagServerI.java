@@ -31,9 +31,7 @@ public interface SSTagServerI {
   public SSUri                           tagUserEdit                  (final SSServPar parA) throws Exception;
   public List<SSUri>                     tagUserEntitiesForTagsGet    (final SSServPar parA) throws Exception;
   public List<SSUri>                     tagsAdd                      (final SSServPar parA) throws Exception;
-  public List<SSUri>                     tagsAddAtCreationTime        (final SSServPar parA) throws Exception;
   public SSUri                           tagAdd                       (final SSServPar parA) throws Exception;
-  public SSUri                           tagAddAtCreationTime         (final SSServPar parA) throws Exception;
   public Boolean                         tagsRemove                   (final SSServPar parA) throws Exception;
   public Boolean                         tagsUserRemove               (final SSServPar parA) throws Exception;
   public List<SSTag>                     tagsUserGet                  (final SSServPar parA) throws Exception;

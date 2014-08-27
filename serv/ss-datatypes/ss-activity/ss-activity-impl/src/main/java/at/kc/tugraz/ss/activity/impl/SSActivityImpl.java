@@ -199,12 +199,13 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user,
-        activityUri,
-        SSLabel.get(SSStrU.toStr(par.type)),
-        SSEntityE.activity,
-        null,
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user, 
+        activityUri, 
+        SSEntityE.activity, 
+        SSLabel.get(SSStrU.toStr(par.type)), 
+        null, 
+        null, 
         false);
       
       sqlFct.addActivity(

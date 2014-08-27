@@ -146,27 +146,28 @@ public class SSEntityMiscFct{
   
   public static SSUri createCircle(
     final SSEntitySQLFct          sqlFct,
-    final SSUri                   circleAuthor,
+    final SSUri                   user,
     final SSCircleE               circleType,
     final SSLabel                 circleLabel,
-    final SSTextComment           description) throws Exception{
+    final SSTextComment           description,
+    final Boolean                 isSystemCircle) throws Exception{
     
     try{
       
       final SSUri circleUri = sqlFct.createCircleURI();
-      
-      SSServCaller.entityAdd(
-        circleAuthor,
-        circleUri,
-        circleLabel,
-        SSEntityE.circle,
-        description,
-        false);
+
+      sqlFct.addEntityIfNotExists(
+        circleUri, 
+        SSEntityE.circle, 
+        circleLabel, 
+        description, 
+        user,
+        null);
       
       switch(circleType){
-        case priv:
+        case priv: 
         case group:
-        case pub: sqlFct.addCircle(circleUri, circleType); break;
+        case pub: sqlFct.addCircle(circleUri, circleType, isSystemCircle); break;
         default: throw new Exception("circle type " + circleType + "currently not supported");
       }
       
@@ -179,20 +180,21 @@ public class SSEntityMiscFct{
   }
   
   public static void addEntities(
-    final SSUri       userUri, 
-    final List<SSUri> entityUris) throws Exception{
+    final SSEntitySQLFct sqlFct, 
+    final SSUri          userUri, 
+    final List<SSUri>    entities) throws Exception{
   
     try{
       
-      for(SSUri entityUri : entityUris){
-        
-        SSServCaller.entityAdd(
-          userUri,
-          entityUri,
-          SSLabel.get(entityUri),
-          SSEntityE.entity,
-          null,
-          false);
+      for(SSUri entity : entities){
+
+        sqlFct.addEntityIfNotExists(
+          entity, 
+          SSEntityE.entity, 
+          null, 
+          null, 
+          userUri, 
+          null);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

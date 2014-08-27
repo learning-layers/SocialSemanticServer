@@ -18,34 +18,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.tag.datatypes.pars;
+ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSTagAddAtCreationTimePar extends SSServPar{
+public class SSEntityCircleURIPrivGetPar extends SSServPar{
   
-  public SSUri        entity       = null;
-  public SSTagLabel   label        = null;
-  public SSSpaceE     space        = null;
-  public Long         creationTime = null;
-  
-  public SSTagAddAtCreationTimePar(SSServPar par) throws Exception{
-    
+  public SSEntityCircleURIPrivGetPar(SSServPar par) throws Exception{
+      
     super(par);
     
     try{
-      
-      if(pars != null){
-        entity       = (SSUri)                 pars.get(SSVarU.entity);
-        label        = SSTagLabel.get((String) pars.get(SSVarU.label));
-        space        = (SSSpaceE)              pars.get(SSVarU.space);
-        creationTime = (Long)                  pars.get(SSVarU.creationTime);
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

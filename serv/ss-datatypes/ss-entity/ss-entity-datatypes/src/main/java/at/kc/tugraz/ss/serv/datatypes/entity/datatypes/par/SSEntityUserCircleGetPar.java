@@ -23,7 +23,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSEntityUserCircleGetPar extends SSServPar{
   
   public SSUri   forUser                    = null;
-  public Boolean withSystemGeneratedCircles = false;
+  public Boolean withSystemCircles          = false;
   public SSUri   circle                     = null;
   
   public SSEntityUserCircleGetPar(final SSServPar par) throws Exception{
@@ -33,9 +33,9 @@ public class SSEntityUserCircleGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser                     = (SSUri)   pars.get(SSVarU.forUser);
-        circle                      = (SSUri)   pars.get(SSVarU.circle);
-        withSystemGeneratedCircles  = (Boolean) pars.get(SSVarU.withSystemGeneratedCircles);
+        forUser              = (SSUri)   pars.get(SSVarU.forUser);
+        circle               = (SSUri)   pars.get(SSVarU.circle);
+        withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
       }
       
       if(clientPars != null){
@@ -44,8 +44,8 @@ public class SSEntityUserCircleGetPar extends SSServPar{
           forUser = SSUri.get(clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
-        circle                      = SSUri.get(clientPars.get(SSVarU.circle));
-        withSystemGeneratedCircles  = false;
+        circle           = SSUri.get(clientPars.get(SSVarU.circle));
+        withSystemCircles= false;
       }
       
     }catch(Exception error){

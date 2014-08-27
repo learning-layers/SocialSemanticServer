@@ -93,17 +93,18 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       for(SSUri entity : par.entities){
        
-        SSServCaller.entityAdd(
-          par.user, 
-          entity, 
-          null, 
-          SSEntityE.entity,
-          null,
-          false);
-        
         if(!SSServCaller.entityUserCanEdit(par.user, entity)){
-         throw new Exception("user cannot edit entity");
+          throw new Exception("user cannot edit entity");
         }
+        
+        SSServCaller.entityEntityToPrivCircleAdd(
+          par.user, 
+          entity,
+          SSEntityE.entity,
+          null, 
+          null, 
+          null, 
+          false);
       }
       
       for(SSUri entity : par.entities){
@@ -112,14 +113,15 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
           
           SSUri flagUri = SSServCaller.vocURICreate();
           
-          SSServCaller.entityAdd(
-            par.user,
-            flagUri,
-            null,
-            SSEntityE.flag,
-            null,
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user, 
+            flagUri, 
+            SSEntityE.flag, 
+            null, 
+            null, 
+            null, 
             false);
-          
+            
           sqlFct.createFlag(
             flagUri,
             flag,

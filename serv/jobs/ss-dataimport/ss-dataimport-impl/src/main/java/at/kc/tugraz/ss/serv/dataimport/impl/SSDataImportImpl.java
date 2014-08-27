@@ -210,21 +210,21 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             "1234",
             true);
         
-        SSServCaller.entityAddAtCreationTime(
+        SSServCaller.entityEntityToPrivCircleAdd(
           authorUri, 
-          video.id,
-          video.label, 
-          video.creationTime,
+          video.id, 
           SSEntityE.entity, 
-          null,
+          video.label, 
+          null, 
+          video.creationTime, 
           true);
         
-        SSServCaller.tagsAddAtCreationTime(
+        SSServCaller.tagsAdd(
           authorUri, 
           video.id,
           video.keywords,
           SSSpaceE.sharedSpace, 
-          video.creationTime, 
+          video.creationTime,
           true);
         
         final List<String> categoryLabels = new ArrayList<>();
@@ -323,7 +323,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
         tagCounter += tagList.size();
 
-        SSServCaller.tagsAddAtCreationTime(
+        SSServCaller.tagsAdd(
           user, 
           resource,
           tagList, 
