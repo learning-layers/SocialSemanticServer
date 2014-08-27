@@ -175,6 +175,7 @@ DROP TABLE IF EXISTS `circle`;
 CREATE TABLE `circle` (
   `circleId` varchar(100) NOT NULL,
   `circleType` varchar(100) NOT NULL,
+  `isSystemCircle` varchar(200) NOT NULL,
   PRIMARY KEY (`circleId`),
   CONSTRAINT `circleIdcircle` FOREIGN KEY (`circleId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1237,4 +1238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-29 11:31:33
+-- Dump completed on 2014-08-27 10:44:08
