@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -335,20 +334,20 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static SSEntityDescA getDescForEntityByEntityHandlers(
+  public static SSEntity getDescForEntityByEntityHandlers(
     final SSEntityDescGetPar par,
-    SSEntityDescA            entityDesc) throws Exception{
+    SSEntity                 desc) throws Exception{
     
     try{
       
       for(SSServA serv : SSServA.getServsDescribingEntities()){
         
-        entityDesc = ((SSEntityDescriberI) serv.serv()).getDescForEntity(
+        desc = ((SSEntityDescriberI) serv.serv()).getDescForEntity(
           par,
-          entityDesc);
+          desc);
       }
       
-      return entityDesc;
+      return desc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

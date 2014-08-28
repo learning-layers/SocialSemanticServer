@@ -22,26 +22,26 @@ package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.Map;
 
-public class SSEvernoteNoteDesc extends SSEntityDescA{
+public class SSEvernoteNoteDesc extends SSEntity{
   
   public SSUri notebook  = null;
 
   public static SSEvernoteNoteDesc get(
-    final SSEntityDescA   entityDesc,
-    final SSUri           notebook) throws Exception{
+    final SSEntity   desc,
+    final SSUri      notebook) throws Exception{
     
-    return new SSEvernoteNoteDesc(entityDesc, notebook);
+    return new SSEvernoteNoteDesc(desc, notebook);
   }
   
   private SSEvernoteNoteDesc(
-    final SSEntityDescA    entityDesc,
-    final SSUri            notebook) throws Exception{
+    final SSEntity    desc,
+    final SSUri       notebook) throws Exception{
     
-    super(entityDesc);
+    super(desc);
     
     this.notebook = notebook;
   }

@@ -23,11 +23,11 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -42,7 +42,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyA
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityDesc;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.err.SSEntityUserAccessedOtherUsersPrivateGroupErr;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
@@ -381,12 +380,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public List<SSEntityDescA> entityDescsGet(final SSServPar parA) throws Exception{
+  public List<SSEntityA> entityDescsGet(final SSServPar parA) throws Exception{
     
     try{
       
       final SSEntityDescsGetPar  par      = new SSEntityDescsGetPar(parA);
-      final List<SSEntityDescA>  entities = new ArrayList<>();
+      final List<SSEntityA>      entities = new ArrayList<>();
       
       for(SSUri entityUri : par.entities){
         
@@ -447,7 +446,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public SSEntityDescA entityDescGet(final SSServPar parA) throws Exception{
+  public SSEntity entityDescGet(final SSServPar parA) throws Exception{
     
     try{
       
@@ -467,21 +466,24 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       return SSEntityMiscFct.getDescForEntityByEntityHandlers(
         par,
-        SSEntityDesc.get(
+        SSEntity.get(
           entity.id,
-          entity.type,
           entity.label,
           entity.creationTime,
-          new ArrayList<>(),
-          null,
-          new ArrayList<>(),
+          entity.type,
           entity.author,
-          new ArrayList<>(),
-          null, 
-          file,
           entity.description,
-          new ArrayList<>(),
-          new ArrayList<>()));
+          new ArrayList<>(), //circleTypes
+          new ArrayList<>(), //entries
+          new ArrayList<>(), //attachedEntities
+          new ArrayList<>(), //comments
+          null, //overallRating
+          new ArrayList<>(), //tags
+          new ArrayList<>(),//discs
+          new ArrayList<>(),  //uEs
+          null,//thumb
+          file, //file
+          new ArrayList<>())); //flags
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

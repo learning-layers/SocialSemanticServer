@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
@@ -31,8 +31,8 @@ import java.util.List;
 public interface SSEntityServerI {
 
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
-  public SSEntityDescA                   entityDescGet                            (final SSServPar parA) throws Exception;
-  public List<SSEntityDescA>             entityDescsGet                           (final SSServPar parA) throws Exception;
+  public SSEntity                        entityDescGet                            (final SSServPar parA) throws Exception;
+  public List<SSEntityA>                 entityDescsGet                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserCircleCreate                   (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUsersToCircleAdd               (final SSServPar parA) throws Exception;
   public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;

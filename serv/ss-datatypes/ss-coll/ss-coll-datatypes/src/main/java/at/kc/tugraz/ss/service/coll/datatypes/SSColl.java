@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -31,25 +32,53 @@ import java.util.*;
 public class SSColl extends SSEntity{
 
   public static SSColl get(
-    final SSUri                     id,
-    final List<SSCollEntry>         entries,
-    final SSUri                     author,
-    final SSLabel                   label,
-    final List<SSCircleE>           circleTypes,
-    final List<SSEntity>            attachedEntities,
-    final List<SSTextComment>             comments) throws Exception{
+    final SSUri                  id,
+    final List<SSCollEntry>      entries,
+    final SSUri                  author,
+    final SSLabel                label,
+    final List<SSCircleE>        circleTypes,
+    final List<SSEntity>         attachedEntities,
+    final List<SSTextComment>    comments,
+    final SSEntityA              overallRating, //new
+    final List<String>           tags, //new
+    final List<SSEntityA>        discs,//new
+    final List<SSEntityA>        uEs,  //new
+    final String                 thumb,//new
+    final SSUri                  file, //new
+    final List<SSEntityA>        flags) throws Exception{
     
-    return new SSColl(id, entries, author, label, circleTypes, attachedEntities, comments);
+    return new SSColl(
+      id, 
+      entries, 
+      author, 
+      label, 
+      circleTypes, 
+      attachedEntities, 
+      comments, 
+      overallRating, 
+      tags, 
+      discs, 
+      uEs, 
+      thumb, 
+      file, 
+      flags);
   }
   
   private SSColl(
-    final SSUri                           id,
-    final List<SSCollEntry>               entries,
-    final SSUri                           author,
-    final SSLabel                         label,
-    final List<SSCircleE>                 circleTypes,
-    final List<SSEntity>                  attachedEntities,
-    final List<SSTextComment>             comments) throws Exception{
+    final SSUri                  id,
+    final List<SSCollEntry>      entries,
+    final SSUri                  author,
+    final SSLabel                label,
+    final List<SSCircleE>        circleTypes,
+    final List<SSEntity>         attachedEntities,
+    final List<SSTextComment>    comments,
+    final SSEntityA              overallRating, //new
+    final List<String>           tags, //new
+    final List<SSEntityA>        discs,//new
+    final List<SSEntityA>        uEs,  //new
+    final String                 thumb,//new
+    final SSUri                  file, //new
+    final List<SSEntityA>        flags) throws Exception{
     
     super(
       id,
@@ -61,7 +90,14 @@ public class SSColl extends SSEntity{
       circleTypes,
       entries,
       attachedEntities, 
-      comments);
+      comments, 
+      overallRating, 
+      tags, 
+      discs, 
+      uEs, 
+      thumb, 
+      file, 
+      flags);
   }
   
   public static SSColl[] toCollArray(Collection<SSColl> toConvert) {

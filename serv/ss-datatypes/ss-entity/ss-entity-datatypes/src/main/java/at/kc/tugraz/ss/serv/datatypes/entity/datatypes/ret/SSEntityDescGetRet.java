@@ -23,29 +23,29 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityDescGetRet extends SSServRetI{
 
-  public SSEntityDescA desc = null;
+  public SSEntityA desc = null;
 
   public static SSEntityDescGetRet get(
-    final SSEntityDescA entityDesc, 
+    final SSEntityA     desc, 
     final SSMethU       op){
     
-    return new SSEntityDescGetRet(entityDesc, op);
+    return new SSEntityDescGetRet(desc, op);
   }
   
   private SSEntityDescGetRet(
-    final SSEntityDescA entityDesc, 
+    final SSEntityA     desc, 
     final SSMethU       op){
     
     super(op);
     
-    this.desc = entityDesc;
+    this.desc = desc;
   }
 
   @Override
@@ -53,12 +53,8 @@ public class SSEntityDescGetRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.desc, SSVarU.sss + SSStrU.colon + SSEntityDescA.class.getName());
+    ld.put(SSVarU.desc, SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
     
     return ld;
-  }
-  
-  public SSEntityDescA getDesc() {
-    return desc;
   }
 }

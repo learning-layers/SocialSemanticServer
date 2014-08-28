@@ -108,12 +108,19 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         bindingStrToLabel      (resultSet, SSSQLVarU.label),
         bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
         bindingStrToEntityType (resultSet, SSSQLVarU.type),
-        bindingStrToUri        (resultSet, SSSQLVarU.author), 
+        bindingStrToUri        (resultSet, SSSQLVarU.author),
         SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-        null, 
-        null, 
-        null, 
-        null);
+        null,
+        null,
+        null,
+        new ArrayList<>(), //comments
+        null,              //overallRating
+        new ArrayList<>(), //tags
+        new ArrayList<>(), //discs
+        new ArrayList<>(),  //uEs
+        null,//thumb
+        null, //file
+        new ArrayList<>());
       
     }catch(Exception error){
       
@@ -156,7 +163,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null,
         null,
         null, 
-        null);
+        new ArrayList<>(), //comments
+        null,              //overallRating
+        new ArrayList<>(), //tags
+        new ArrayList<>(), //discs
+        new ArrayList<>(),  //uEs
+        null,//thumb
+        null, //file
+        new ArrayList<>());
       
     }catch(Exception error){
       
@@ -441,10 +455,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToEntityType    (resultSet, SSSQLVarU.type),
             bindingStrToUri           (resultSet, SSSQLVarU.author),
             bindingStrToTextComment   (resultSet, SSSQLVarU.description),
-            null, 
-            null, 
-            null, 
-            null));
+            null,
+            null,
+            null,
+            new ArrayList<>(), //comments
+            null,              //overallRating
+            new ArrayList<>(), //tags
+            new ArrayList<>(), //discs
+            new ArrayList<>(),  //uEs
+            null,//thumb
+            null, //file
+            new ArrayList<>()));
       }
       
       return attachedEntities;
@@ -1142,8 +1163,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null,
             null,
-            null, 
-            null));
+            null,
+            new ArrayList<>(), //comments
+            null,              //overallRating
+            new ArrayList<>(), //tags
+            new ArrayList<>(), //discs
+            new ArrayList<>(),  //uEs
+            null,//thumb
+            null, //file
+            new ArrayList<>()));
       }
       
       return entities;
@@ -1189,8 +1217,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
             null,
             null,
-            null, 
-            null));
+            null,
+            new ArrayList<>(), //comments
+            null,              //overallRating
+            new ArrayList<>(), //tags
+            new ArrayList<>(), //discs
+            new ArrayList<>(),  //uEs
+            null,//thumb
+            null, //file
+            new ArrayList<>()));
       }
       
       return entities;
@@ -1234,10 +1269,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
             null,
             SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-            null, 
             null,
-            null, 
-            null));
+            null,
+            null,
+            new ArrayList<>(), //comments
+            null,              //overallRating
+            new ArrayList<>(), //tags
+            new ArrayList<>(), //discs
+            new ArrayList<>(),  //uEs
+            null,//thumb
+            null, //file
+            new ArrayList<>()));
       }
       
       return entities;

@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,18 +33,18 @@ import java.util.Map;
 
 public class SSEntityDescsGetRet extends SSServRetI{
 
-  public List<SSEntityDescA> descs = new ArrayList<>();
+  public List<SSEntityA> descs = new ArrayList<>();
 
   public static SSEntityDescsGetRet get(
-    final List<SSEntityDescA> entityDesc, 
-    final SSMethU       op){
+    final List<SSEntityA> descs, 
+    final SSMethU         op){
     
-    return new SSEntityDescsGetRet(entityDesc, op);
+    return new SSEntityDescsGetRet(descs, op);
   }
   
   private SSEntityDescsGetRet(
-    final List<SSEntityDescA> descs, 
-    final SSMethU       op){
+    final List<SSEntityA> descs, 
+    final SSMethU         op){
     
     super(op);
     
@@ -59,15 +59,11 @@ public class SSEntityDescsGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> descsObj   = new HashMap<>();
     
-    descsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityDescA.class.getName());
+    descsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
     descsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.descs, descsObj);
     
     return ld;
-  }
-  
-  public List<SSEntityDescA> getDescs() {
-    return descs;
   }
 }

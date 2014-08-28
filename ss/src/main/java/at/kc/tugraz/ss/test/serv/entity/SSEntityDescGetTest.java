@@ -23,14 +23,13 @@ package at.kc.tugraz.ss.test.serv.entity;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-
 
 public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
@@ -43,7 +42,7 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + " Test");
     
-    SSEntityDescA entityDesc = SSServCaller.entityDescGet(
+    final SSEntity desc = SSServCaller.entityDescGet(
       SSVoc.systemUserUri, 
       SSVoc.systemUserUri,
       true, 
@@ -63,7 +62,7 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
       "{\"op\":\"entityDescGet\",\"user\":\"http://m.domi/user/domi\",\"entityUri\":\"http://bbb.com\",\"getTags\":true,\"getOverallRating\":true,\"getDiscUris\":true,\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
     clientServPar                              = new SSServPar          (jsonRequ);
     final SSEntityDescGetPar  serverServPar    = new SSEntityDescGetPar (clientServPar);
-    final SSEntityDescA       serverServResult = 
+    final SSEntity            serverServResult = 
       SSServCaller.entityDescGet(
       serverServPar.user, 
       serverServPar.entity,

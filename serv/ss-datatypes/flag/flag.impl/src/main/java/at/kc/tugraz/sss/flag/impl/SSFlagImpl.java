@@ -22,10 +22,10 @@ package at.kc.tugraz.sss.flag.impl;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -58,13 +58,13 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   }
   
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception{
+    final SSEntity           desc) throws Exception{
     
     if(par.getFlags){
       
-      entityDesc.flags.addAll(
+      desc.flags.addAll(
         SSServCaller.flagsGet(
           par.user,
           SSUri.asListWithoutNullAndEmpty(par.entity),
@@ -73,7 +73,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
           null));
     }
     
-    return entityDesc;
+    return desc;
   }
   
   @Override

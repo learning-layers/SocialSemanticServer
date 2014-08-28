@@ -23,10 +23,10 @@ package at.kc.tugraz.sss.comment.impl;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -70,17 +70,17 @@ public class SSCommentImpl extends SSServImplWithDBA implements SSCommentClientI
   }
   
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par, 
-    SSEntityDescA            entityDesc) throws Exception{
+    SSEntity                 desc) throws Exception{
     
-    entityDesc.comments.addAll(
+    desc.comments.addAll(
       SSServCaller.commentsGet(
         par.user, 
         null, 
-        entityDesc.entity));
+        desc.id));
     
-    return entityDesc;
+    return desc;
   }
   
   @Override

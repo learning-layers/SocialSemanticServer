@@ -22,32 +22,32 @@ package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.Map;
 
-public class SSEvernoteResourceDesc extends SSEntityDescA{
+public class SSEvernoteResourceDesc extends SSEntity{
   
   public SSUri  note     = null;
   public String fileExt  = null;
   public String mimeType = null;
 
   public static SSEvernoteResourceDesc get(
-    final SSEntityDescA   entityDesc,
+    final SSEntity        desc,
     final SSUri           note,
     final String          fileExt,
     final String          mimeType) throws Exception{
     
-    return new SSEvernoteResourceDesc(entityDesc, note, fileExt, mimeType);
+    return new SSEvernoteResourceDesc(desc, note, fileExt, mimeType);
   }
   
   private SSEvernoteResourceDesc(
-    final SSEntityDescA    entityDesc,
+    final SSEntity         desc,
     final SSUri            note,
     final String           fileExt,
     final String           mimeType) throws Exception{
     
-    super(entityDesc);
+    super(desc);
     
     this.note     = note;
     this.fileExt  = fileExt;

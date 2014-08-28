@@ -356,7 +356,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         bindingStrToLong(resultSet, SSSQLVarU.creationTime),
         null, 
         null,
-        null);
+        null,
+        null, //overallRating,
+        new ArrayList<>(), //tags,
+        new ArrayList<>(), //discs,
+        new ArrayList<>(), //uEs,
+        null, //thumb,
+        null, //file,
+        new ArrayList<>()); //flags);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -463,7 +470,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
             null,
             bindingStrToUri        (resultSet, SSSQLVarU.author), 
-            null));
+            null,
+            null, //overallRating,
+            new ArrayList<>(), //tags,
+            new ArrayList<>(), //discs,
+            new ArrayList<>(), //uEs,
+            null, //thumb,
+            null, //file,
+            new ArrayList<>())); //flags
       }
       
       disc.entries.addAll(discEntries);

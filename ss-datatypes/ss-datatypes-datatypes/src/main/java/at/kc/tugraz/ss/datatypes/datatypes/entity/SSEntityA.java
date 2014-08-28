@@ -31,34 +31,7 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return val;
   }
   
-  protected SSEntityA(final String value) throws Exception{
-    
-    if(value == null){
-      throw new Exception("entity cannot be created from null");
-    }
-    
-    this.val = value;
-  }
-  
-  protected SSEntityA(final SSEntityA entity) throws Exception{
-    
-    if(entity == null){
-      throw new Exception("entity cannot be created from null");
-    }
-    
-    this.val = entity.toString();
-  }
-  
-  protected SSEntityA(final Integer value) throws Exception{
-    
-    if(value == null){
-      throw new Exception("entity cannot be created from null");
-    }
-    
-    this.val = value.toString();
-  }
-  
-  protected SSEntityA(final Double value) throws Exception{
+  protected SSEntityA(final Object value) throws Exception{
     
     if(value == null){
       throw new Exception("entity cannot be created from null");

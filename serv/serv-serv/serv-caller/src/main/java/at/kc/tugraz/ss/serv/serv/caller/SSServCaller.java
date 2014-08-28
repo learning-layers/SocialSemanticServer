@@ -29,12 +29,12 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
@@ -1285,7 +1285,7 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
   
-  public static SSEntityDescA entityDescGet(
+  public static SSEntity entityDescGet(
     final SSUri   user, 
     final SSUri   entity,
     final Boolean getTags,
@@ -1306,7 +1306,7 @@ public class SSServCaller {
     opPars.put(SSVarU.getThumb,         getThumb);
     opPars.put(SSVarU.getFlags,         getFlags);
     
-    return (SSEntityDescA) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
   }
   
   public static void entityRemove(

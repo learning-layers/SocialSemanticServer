@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -285,9 +286,16 @@ public class SSCollSQLFct extends SSDBSQLFct{
             null,
             bindingStrToUri   (resultSet, SSSQLVarU.author),
             bindingStrToLabel (resultSet, SSSQLVarU.label),
-            null, 
             null,
-            null));
+            null,
+            null,
+            null, //overallRating,
+            new ArrayList<>(), //tags,
+            new ArrayList<>(), //discs,
+            new ArrayList<>(), //uEs,
+            null, //thumb,
+            null, //file,
+            new ArrayList<>())); //flags
       }
       
       return publicColls;
@@ -614,7 +622,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
         bindingStrToLabel (resultSet, SSSQLVarU.label),
         circleTypes,
         null,
-        null);
+        null,
+        null, //overallRating,
+        new ArrayList<>(), //tags,
+        new ArrayList<>(), //discs,
+        new ArrayList<>(), //uEs,
+        null, //thumb,
+        null, //file,
+        new ArrayList<>()); //flags
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

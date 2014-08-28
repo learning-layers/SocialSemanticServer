@@ -33,7 +33,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSDiscUserShareWithUserPar;
@@ -222,19 +222,19 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
   }
 
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception{
+    final SSEntity           desc) throws Exception{
     
     if(par.getDiscs){
       
-      entityDesc.discs.addAll(
+      desc.discs.addAll(
         SSServCaller.discUserDiscURIsForTargetGet(
           par.user, 
           par.entity));
     }
     
-    return entityDesc;
+    return desc;
   }
   
   @Override 

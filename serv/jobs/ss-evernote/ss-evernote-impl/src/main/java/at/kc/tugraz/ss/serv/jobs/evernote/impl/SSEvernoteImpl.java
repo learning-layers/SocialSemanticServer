@@ -25,10 +25,11 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -78,31 +79,31 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   }
 
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception{
+    final SSEntity           desc) throws Exception{
     
     if(
-      SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote) ||
-      SSStrU.equals(entityDesc.type, SSEntityE.evernoteResource)){
+      SSStrU.equals(desc.type, SSEntityE.evernoteNote) ||
+      SSStrU.equals(desc.type, SSEntityE.evernoteResource)){
       
       if(par.getThumb){
       
-        entityDesc.thumb = 
+        desc.thumb = 
          getThumbBase64(
            par.user, 
            par.entity);
       }
     }
     
-    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteNote)){
+    if(SSStrU.equals(desc.type, SSEntityE.evernoteNote)){
      
       return SSEvernoteNoteDesc.get(
-        entityDesc,
+        desc,
         sqlFct.getNote(par.entity).notebook);
     }
     
-    if(SSStrU.equals(entityDesc.type, SSEntityE.evernoteResource)){
+    if(SSStrU.equals(desc.type, SSEntityE.evernoteResource)){
       
       String      fileExt  = null;
       String      mimeType = null;
@@ -121,13 +122,13 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       }
       
       return SSEvernoteResourceDesc.get(
-        entityDesc,
+        desc,
         sqlFct.getResource(par.entity).note, 
         fileExt, 
         mimeType);
     }
     
-    return entityDesc;
+    return desc;
   }
   
   private String getThumbBase64(

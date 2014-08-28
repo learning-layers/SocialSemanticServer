@@ -782,7 +782,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
             SSServCaller.entityGet(collUri).label,
             null, 
             null,
-            null));
+            null,
+            null, //overallRating,
+            new ArrayList<>(), //tags,
+            new ArrayList<>(), //discs,
+            new ArrayList<>(), //uEs,
+            null, //thumb,
+            null, //file,
+            new ArrayList<>())); //flags
       }
 
       return colls;

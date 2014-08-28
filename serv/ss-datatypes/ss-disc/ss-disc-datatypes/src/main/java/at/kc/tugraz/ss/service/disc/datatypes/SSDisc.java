@@ -23,6 +23,7 @@
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -35,33 +36,65 @@ public class SSDisc extends SSEntity {
   public  SSUri  entity = null;
 
   public static SSDisc get(
-    final SSUri               id,
-    final SSLabel             label,
-    final SSUri               author,
-    final SSUri               entity,
-    final SSEntityE           type,
-    final List<SSDiscEntry>   entries,
-    final SSTextComment       explanation,
-    final Long                creationTime,
-    final List<SSCircleE>     circleTypes,
-    final List<SSEntity>      attachedEntities,
-    final List<SSTextComment> comments) throws Exception{
+    final SSUri                  id,
+    final SSLabel                label,
+    final SSUri                  author,
+    final SSUri                  entity,
+    final SSEntityE              type,
+    final List<SSDiscEntry>      entries,
+    final SSTextComment          explanation,
+    final Long                   creationTime,
+    final List<SSCircleE>        circleTypes,
+    final List<SSEntity>         attachedEntities,
+    final List<SSTextComment>    comments,
+    final SSEntityA              overallRating, //new
+    final List<String>           tags, //new
+    final List<SSEntityA>        discs,//new
+    final List<SSEntityA>        uEs,  //new
+    final String                 thumb,//new
+    final SSUri                  file, //new
+    final List<SSEntityA>        flags) throws Exception{
     
-    return new SSDisc(id, label, author, entity, type, entries, explanation, creationTime, circleTypes, attachedEntities, comments);
+    return new SSDisc(
+      id, 
+      label, 
+      author, 
+      entity, 
+      type, 
+      entries, 
+      explanation, 
+      creationTime, 
+      circleTypes, 
+      attachedEntities, 
+      comments, 
+      overallRating, 
+      tags, 
+      discs, 
+      uEs, 
+      thumb, 
+      file, 
+      flags);
   }
 
   private SSDisc(
-    final SSUri               id,
-    final SSLabel             label,
-    final SSUri               author,
-    final SSUri               entity,
-    final SSEntityE           type,
-    final List<SSDiscEntry>   entries, 
-    final SSTextComment       description,
-    final Long                creationTime,
-    final List<SSCircleE>     circleTypes,
-    final List<SSEntity>      attachedEntities,
-    final List<SSTextComment> comments) throws Exception{
+    final SSUri                  id,
+    final SSLabel                label,
+    final SSUri                  author,
+    final SSUri                  entity,
+    final SSEntityE              type,
+    final List<SSDiscEntry>      entries, 
+    final SSTextComment          description,
+    final Long                   creationTime,
+    final List<SSCircleE>        circleTypes,
+    final List<SSEntity>         attachedEntities,
+    final List<SSTextComment>    comments,
+    final SSEntityA              overallRating, //new
+    final List<String>           tags, //new
+    final List<SSEntityA>        discs,//new
+    final List<SSEntityA>        uEs,  //new
+    final String                 thumb,//new
+    final SSUri                  file, //new
+    final List<SSEntityA>        flags) throws Exception{
     
     super(
       id,
@@ -73,7 +106,14 @@ public class SSDisc extends SSEntity {
       circleTypes,
       entries,
       attachedEntities,
-      comments);
+      comments, 
+      overallRating, 
+      tags, 
+      discs, 
+      uEs, 
+      thumb, 
+      file, 
+      flags);
     
     this.entity = entity;
   }

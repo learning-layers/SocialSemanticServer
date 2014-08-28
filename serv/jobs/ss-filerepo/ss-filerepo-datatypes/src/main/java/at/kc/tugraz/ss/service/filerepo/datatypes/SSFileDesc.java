@@ -22,28 +22,28 @@ package at.kc.tugraz.ss.service.filerepo.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import java.util.Map;
 
-public class SSFileDesc extends SSEntityDescA{
+public class SSFileDesc extends SSEntity{
   
   public String fileExt  = null;
   public String mimeType = null;
   
   public static SSFileDesc get(
-    final SSEntityDescA   entityDesc,
+    final SSEntity        desc,
     final String          fileExt,
     final String          mimeType) throws Exception{
     
-    return new SSFileDesc(entityDesc, fileExt, mimeType);
+    return new SSFileDesc(desc, fileExt, mimeType);
   }
   
   private SSFileDesc(
-    final SSEntityDescA    entityDesc,
+    final SSEntity         desc,
     final String           fileExt,
     final String           mimeType) throws Exception{
     
-    super(entityDesc);
+    super(desc);
     
     this.fileExt  = fileExt;
     this.mimeType = mimeType;

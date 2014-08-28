@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 
 public interface SSEntityDescriberI{
   
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception;
+    final SSEntity           desc) throws Exception;
 }

@@ -40,7 +40,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftR
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -153,30 +153,30 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
   
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception{
+    final SSEntity      desc) throws Exception{
     
-    if(SSStrU.equals(entityDesc.type, SSEntityE.file)){
+    if(SSStrU.equals(desc.type, SSEntityE.file)){
       
       final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
       final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
       
       if(par.getThumb){
         
-        entityDesc.thumb = 
+        desc.thumb = 
           SSFilerepoFct.getThumbBase64(
             par.user,
             par.entity);
       }
       
       return SSFileDesc.get(
-        entityDesc,
+        desc,
         fileExt,
         mimeType);
     }
     
-    return entityDesc;
+    return desc;
   }
   
   @Override

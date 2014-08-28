@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -200,13 +200,13 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
   }
   
   @Override
-  public SSEntityDescA getDescForEntity(
+  public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
-    final SSEntityDescA      entityDesc) throws Exception{
+    final SSEntity           desc) throws Exception{
     
     if(par.getTags){
       
-      entityDesc.tags.addAll(
+      desc.tags.addAll(
         SSStrU.toStr(
           SSServCaller.tagsUserGet(
             par.user, 
@@ -217,7 +217,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
             null)));
     }
     
-    return entityDesc;
+    return desc;
   }
     
   @Override
