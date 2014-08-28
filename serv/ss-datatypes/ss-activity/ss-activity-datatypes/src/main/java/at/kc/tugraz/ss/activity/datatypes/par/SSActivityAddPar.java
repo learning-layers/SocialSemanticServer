@@ -35,6 +35,7 @@ public class SSActivityAddPar extends SSServPar{
   public List<SSUri>            users            = new ArrayList<>();
   public List<SSUri>            entities         = new ArrayList<>();
   public List<SSTextComment>    comments         = new ArrayList<>();
+  public Long                   creationTime     = null;
   
   public SSActivityAddPar(final SSServPar par) throws Exception{
     
@@ -44,19 +45,11 @@ public class SSActivityAddPar extends SSServPar{
       
       if(pars != null){
         
-        type = (SSActivityE) pars.get(SSVarU.type);
-          
-        try{
-          users             = (List<SSUri>)         pars.get(SSVarU.users);
-        }catch(Exception error){}
-        
-        try{
-          entities     = (List<SSUri>)         pars.get(SSVarU.entities);
-        }catch(Exception error){}
-        
-        try{
-          comments         = (List<SSTextComment>) pars.get(SSVarU.comments);
-        }catch(Exception error){}
+        type          = (SSActivityE)         pars.get(SSVarU.type);
+        users         = (List<SSUri>)         pars.get(SSVarU.users);
+        entities      = (List<SSUri>)         pars.get(SSVarU.entities);
+        comments      = (List<SSTextComment>) pars.get(SSVarU.comments);
+        creationTime  = (Long)                pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

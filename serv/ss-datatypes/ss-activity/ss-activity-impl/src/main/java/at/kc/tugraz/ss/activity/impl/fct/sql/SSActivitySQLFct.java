@@ -63,11 +63,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     
     try{
       
-      if(SSObjU.isNull(activity, type)){
-        throw new Exception("pars null");
-      }
-      
-      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> inserts = new HashMap<>();
       
       insert(inserts, SSSQLVarU.activityId,     activity);
       insert(inserts, SSSQLVarU.activityType,   type);

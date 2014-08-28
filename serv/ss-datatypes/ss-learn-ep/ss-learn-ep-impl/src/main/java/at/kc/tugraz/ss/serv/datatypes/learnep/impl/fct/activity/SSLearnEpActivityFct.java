@@ -54,6 +54,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(learnEpVersion),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -80,6 +81,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(circle),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -111,6 +113,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         eventEntities,
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -137,6 +140,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -162,6 +166,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -187,6 +192,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -212,6 +218,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -237,6 +244,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -262,6 +270,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpVersion),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -291,6 +300,7 @@ public class SSLearnEpActivityFct{
         SSUri.asListWithoutNullAndEmpty(par.forUser),
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

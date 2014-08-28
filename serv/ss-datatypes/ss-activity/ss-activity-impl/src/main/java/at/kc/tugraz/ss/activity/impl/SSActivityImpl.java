@@ -210,7 +210,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         SSEntityE.activity, 
         SSLabel.get(SSStrU.toStr(par.type)), 
         null, 
-        null, 
+        par.creationTime, 
         false);
       
       sqlFct.addActivity(

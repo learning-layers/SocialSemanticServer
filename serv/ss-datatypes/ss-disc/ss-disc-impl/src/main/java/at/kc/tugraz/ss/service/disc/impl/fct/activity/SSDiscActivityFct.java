@@ -47,6 +47,7 @@ public class SSDiscActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
           SSTextComment.asListWithoutNullAndEmpty(),
+        null,
           true);
         
         if(par.entry != null){
@@ -57,6 +58,7 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(),
             SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
+        null,
             true);
         }
         
@@ -68,6 +70,7 @@ public class SSDiscActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
           SSTextComment.asListWithoutNullAndEmpty(par.entry),
+        null,
           true);
       }
     }catch(SSErr error){
@@ -92,6 +95,7 @@ public class SSDiscActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.disc),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

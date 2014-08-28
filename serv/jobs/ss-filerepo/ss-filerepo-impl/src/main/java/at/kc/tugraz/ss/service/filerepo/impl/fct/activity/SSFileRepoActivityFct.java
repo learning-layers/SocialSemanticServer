@@ -49,6 +49,7 @@ public class SSFileRepoActivityFct{
         SSUri.asListWithoutNullAndEmpty(usersToShareWith),
         SSUri.asListWithoutNullAndEmpty(entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

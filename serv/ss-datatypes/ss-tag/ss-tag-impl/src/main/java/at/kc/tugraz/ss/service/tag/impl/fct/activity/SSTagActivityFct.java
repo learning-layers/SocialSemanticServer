@@ -44,6 +44,7 @@ public class SSTagActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.entity, tagUri),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -67,6 +68,7 @@ public class SSTagActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

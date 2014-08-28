@@ -42,6 +42,7 @@ public class SSLocationActivityFct{
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

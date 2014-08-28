@@ -54,6 +54,7 @@ public class SSEntityActivityFct{
         par.users,
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
+        null,
         false);
       
     }catch(SSErr error){
@@ -79,6 +80,7 @@ public class SSEntityActivityFct{
         par.users,
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
+        null,
         false);
       
     }catch(SSErr error){
@@ -104,6 +106,7 @@ public class SSEntityActivityFct{
         new ArrayList<>(),
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -135,6 +138,7 @@ public class SSEntityActivityFct{
         par.users,
         eventEntities,
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -165,6 +169,7 @@ public class SSEntityActivityFct{
         new ArrayList<>(),
         eventEntities,
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){
@@ -190,6 +195,7 @@ public class SSEntityActivityFct{
         par.users,
         SSUri.asListWithoutNullAndEmpty(par.circle),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
      }catch(SSErr error){
@@ -215,6 +221,7 @@ public class SSEntityActivityFct{
         new ArrayList<>(),
         SSUri.asListWithoutNullAndEmpty(par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
+        null,
         false);
       
     }catch(SSErr error){

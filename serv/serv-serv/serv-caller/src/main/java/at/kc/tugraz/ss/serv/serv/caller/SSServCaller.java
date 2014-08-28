@@ -2413,7 +2413,8 @@ public class SSServCaller {
     final SSActivityE         type, 
     final List<SSUri>         users, 
     final List<SSUri>         entities,
-    final List<SSTextComment> comments, 
+    final List<SSTextComment> comments,
+    final Long                creationTime, 
     final Boolean             shouldCommit) throws Exception{
    
     final Map<String, Object>  opPars           = new HashMap<>();
@@ -2423,6 +2424,7 @@ public class SSServCaller {
     opPars.put(SSVarU.users,            users);
     opPars.put(SSVarU.entities,         entities);
     opPars.put(SSVarU.comments,         comments);
+    opPars.put(SSVarU.creationTime,     creationTime);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityAdd, opPars));
