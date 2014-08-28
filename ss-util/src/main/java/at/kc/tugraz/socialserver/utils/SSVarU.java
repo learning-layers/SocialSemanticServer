@@ -173,6 +173,9 @@ public class SSVarU{
   public static final String colls                                          = "colls";
   public static final String order                                          = "order";
   public static final String user                                           = "user";
+  public static final String activity                                       = "activity";
+  public static final String contentType                                    = "contentType";
+  public static final String contents                                       = "contents";
   public static final String file                                           = "file";
   public static final String op                                             = "op";
   public static final String error                                          = "error";

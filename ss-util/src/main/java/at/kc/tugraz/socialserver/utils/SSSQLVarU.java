@@ -56,6 +56,7 @@ public class SSSQLVarU{
   public static final String id                                             = "id";
   public static final String creationTime                                   = "creationTime";
   public static final String activityId                                     = "activityId";
+  public static final String contentType                                    = "contentType";
   public static final String activityType                                   = "activityType";
   public static final String textComment                                    = "textComment";
   public static final String type                                           = "type";

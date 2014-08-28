@@ -19,10 +19,11 @@
 * limitations under the License.
 */
 
-package at.kc.tugraz.ss.activity.datatypes.enums;
+package at.kc.tugraz.ss.activity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;

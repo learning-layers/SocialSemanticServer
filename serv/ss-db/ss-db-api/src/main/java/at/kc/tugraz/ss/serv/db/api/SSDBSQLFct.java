@@ -57,6 +57,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   activityTable                       = "activity";
   protected static final String   activityUsersTable                  = "activityusers";
   protected static final String   activityEntitiesTable               = "activityentities";
+  protected static final String   activityContentsTable               = "activitycontents";
   protected static final String   locationTable                       = "location";
   protected static final String   locationsTable                      = "locations";
   protected static final String   tagAssTable                         = "tagass";

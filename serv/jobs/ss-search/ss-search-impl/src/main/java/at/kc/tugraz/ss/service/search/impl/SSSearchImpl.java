@@ -40,6 +40,7 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
+import at.kc.tugraz.ss.service.search.impl.fct.activity.SSSearchActivityFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
 
@@ -336,6 +337,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSSearchRet.get(search(parA), parA.op));
+    
+    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
   
   @Override

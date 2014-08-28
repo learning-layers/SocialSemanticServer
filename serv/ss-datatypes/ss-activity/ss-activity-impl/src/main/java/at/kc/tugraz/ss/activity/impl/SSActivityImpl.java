@@ -24,9 +24,13 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -241,6 +245,76 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+
+  @Override
+  public SSUri activityContentAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSActivityContentAddPar par = new SSActivityContentAddPar(parA);
+      
+      sqlFct.addActivityContent(
+        par.user, 
+        par.activity, 
+        par.contentType, 
+        par.content);
+      
+      return par.activity;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return activityContentAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public void activityContentsAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSActivityContentsAddPar par = new SSActivityContentsAddPar(parA);
+      
+      for(SSActivityContent content : par.contents){
+        
+        SSServCaller.activityContentAdd(
+          par.user, 
+          par.activity,
+          par.contentType, 
+          content, 
+          false);
+      }
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          activityContentsAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+        
+        return;
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

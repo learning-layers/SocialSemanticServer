@@ -21,10 +21,11 @@
 package at.kc.tugraz.ss.activity.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -52,7 +53,28 @@ public class SSActivitySQLFct extends SSDBSQLFct{
   private static SSUri objActivity() throws Exception{
     return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.activity.toString());
   }  
-
+  
+  public void addActivityContent(
+    final SSUri               user,
+    final SSUri               activity,
+    final SSActivityContentE  contentType,
+    final SSActivityContent   content) throws Exception{
+    
+    try{
+      
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.activityId,     activity);
+      insert(inserts, SSSQLVarU.contentType,    contentType);
+      insert(inserts, SSSQLVarU.content,        content);
+      
+      dbSQL.insert(activityContentsTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void addActivity(
     final SSUri               author,
     final SSUri               activity, 

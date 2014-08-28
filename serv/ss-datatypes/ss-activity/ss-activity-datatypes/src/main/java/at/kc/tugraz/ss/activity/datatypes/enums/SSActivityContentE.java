@@ -18,16 +18,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.activity.api;
+package at.kc.tugraz.ss.activity.datatypes.enums;
 
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.List;
-
-public interface SSActivityServerI{
-  public SSUri            activityAdd            (final SSServPar parA) throws Exception;
-  public SSUri            activityContentAdd     (final SSServPar parA) throws Exception;
-  public void             activityContentsAdd    (final SSServPar parA) throws Exception;
-  public List<SSActivity> activitiesUserGet      (final SSServPar parA) throws Exception;
+public enum SSActivityContentE{
+  keyword;
 }

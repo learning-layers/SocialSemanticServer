@@ -325,6 +325,8 @@ public enum SSMethU{
   
   //activity
   activityAdd,
+  activityContentAdd,
+  activityContentsAdd,
   activitiesGet,
   activitiesUserGet;
   

@@ -24,7 +24,9 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEn
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -2407,6 +2409,42 @@ public class SSServCaller {
   } 
 
   /* activity */
+  
+  public static SSUri activityContentsAdd(
+    final SSUri                     user, 
+    final SSUri                     activity, 
+    final SSActivityContentE        contentType,
+    final List<SSActivityContent>   contents,
+    final Boolean                   shouldCommit) throws Exception{
+   
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.activity,      activity);
+    opPars.put(SSVarU.contentType,   contentType);
+    opPars.put(SSVarU.contents,      contents);
+    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityContentsAdd, opPars));
+  }
+  
+  public static SSUri activityContentAdd(
+    final SSUri               user, 
+    final SSUri               activity, 
+    final SSActivityContentE  contentType,
+    final SSActivityContent   content,
+    final Boolean             shouldCommit) throws Exception{
+   
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.activity,      activity);
+    opPars.put(SSVarU.contentType,   contentType);
+    opPars.put(SSVarU.content,       content);
+    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.activityContentAdd, opPars));
+  }
   
   public static SSUri activityAdd(
     final SSUri               user, 
