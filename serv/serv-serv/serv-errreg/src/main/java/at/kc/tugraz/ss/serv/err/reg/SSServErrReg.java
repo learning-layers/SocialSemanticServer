@@ -158,17 +158,17 @@ public class SSServErrReg {
       SSLogU.err(new Exception("error null"));
       return;
     }
-    
+
     if(!containsErr(error.getClass())){
       SSLogU.err(error);
     }
-    
+
     try{
       servImplErrors.get().add(SSErrForClient.get(error));
     }catch(Exception error1){
-      
+
       SSLogU.err(error1);
-      
+
       try{
         servImplErrors.get().add(SSErrForClient.get(error1));
       }catch(Exception error2){

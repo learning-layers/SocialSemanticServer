@@ -38,12 +38,12 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.*;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClientI, SSCategoryServerI, SSEntityHandlerImplI{
   
@@ -199,16 +199,20 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
             
       return true;
       
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return categoriesPredefinedAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoriesPredefinedAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -262,16 +266,20 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return categoryAddAtCreationTime(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoryAddAtCreationTime(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -418,16 +426,20 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return categoriesAddAtCreationTime(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoriesAddAtCreationTime(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

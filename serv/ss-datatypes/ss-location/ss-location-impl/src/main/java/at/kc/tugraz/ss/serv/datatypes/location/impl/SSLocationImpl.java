@@ -37,13 +37,13 @@ import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.location.datatypes.ret.SSLocationAddRet;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.activity.SSLocationActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.location.impl.fct.sql.SSLocationSQLFct;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClientI, SSLocationServerI, SSEntityHandlerImplI{
   
@@ -196,16 +196,20 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return locationAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return locationAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -251,16 +255,20 @@ public class SSLocationImpl extends SSServImplWithDBA implements SSLocationClien
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return locationsUserRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return locationsUserRemove(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

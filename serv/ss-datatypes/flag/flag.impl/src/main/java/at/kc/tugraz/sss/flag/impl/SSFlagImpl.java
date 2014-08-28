@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -45,6 +44,7 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import java.util.List;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
   
@@ -153,16 +153,20 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       return true;
       
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return flagsUserSet(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return flagsUserSet(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

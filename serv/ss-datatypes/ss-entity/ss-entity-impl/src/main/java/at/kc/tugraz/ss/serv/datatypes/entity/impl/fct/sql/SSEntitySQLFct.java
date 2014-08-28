@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -69,9 +68,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       try{
         checkFirstResult(resultSet);
-      }catch(SSNoResultFoundErr error){
-        SSServErrReg.reset();
-        return false;
+      }catch(Exception error){
+        
+        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+          SSServErrReg.reset();
+          return false;
+        }
+        
+        throw error;
       }
       
       return true;
@@ -111,12 +115,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null, 
         null);
       
-    }catch(SSNoResultFoundErr error){
-      
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist));
-      return null;
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        return null;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -153,10 +158,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         null, 
         null);
       
-    }catch(SSNoResultFoundErr error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
-      return null;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        return null;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -1056,12 +1064,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       return bindingStrToUri(resultSet, SSSQLVarU.circleId);
       
-    }catch(SSNoResultFoundErr error){
-      
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
-      return null;
-      
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        return null;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -1085,10 +1094,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       return bindingStrToUri(resultSet, SSSQLVarU.circleId);
       
-    }catch(SSNoResultFoundErr error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
-      return null;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        return null;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

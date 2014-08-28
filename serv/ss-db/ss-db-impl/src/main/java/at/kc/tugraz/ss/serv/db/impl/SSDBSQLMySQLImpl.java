@@ -26,7 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplDBA;
@@ -42,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
@@ -468,7 +469,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
     }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
     }finally{
       if(stmt != null){
         stmt.close();
@@ -489,7 +490,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       stmt.executeUpdate();
       
     }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
     }finally{
       
       if(stmt != null){
@@ -539,7 +540,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       stmt.executeUpdate();
       
     }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
     }finally{
       
       if(stmt != null){
@@ -590,7 +591,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       stmt.executeUpdate();
       
     }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
     }finally{
       
       if(stmt != null){
@@ -633,7 +634,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
     }catch(MySQLTransactionRollbackException error){
-      throw new SSSQLDeadLockErr(error.getMessage());
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
     }finally{
       if(stmt != null){
         stmt.close();

@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSTagSQLFct extends SSDBSQLFct{
   
@@ -179,9 +179,13 @@ public class SSTagSQLFct extends SSDBSQLFct{
           checkFirstResult(resultSet);
           
           tagURI = bindingStrToUri(resultSet, SSSQLVarU.id);
-        }catch(SSNoResultFoundErr error){
-          return;
         }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+            SSServErrReg.reset();
+            return;
+          }
+          
           SSServErrReg.regErrThrow(error);
           return;
         }finally{

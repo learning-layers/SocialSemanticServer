@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -52,6 +51,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import java.util.*;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
@@ -228,16 +228,20 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return uEsRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return uEsRemove(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -289,16 +293,20 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return uEAddAtCreationTime(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return uEAddAtCreationTime(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -358,16 +366,20 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return uEAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return uEAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

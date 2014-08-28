@@ -37,7 +37,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSDiscUserShareWithUserPar;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -58,6 +57,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
 
@@ -257,17 +257,11 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     
     SSServCaller.checkKey(parA);
     
-    try{
-      
-      final SSDiscUserEntryAddRet ret = discUserEntryAdd(parA);
-      
-      SSDiscActivityFct.discEntryAdd(new SSDiscUserEntryAddPar(parA), ret);
-      
-      sSCon.writeRetFullToClient(ret);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    final SSDiscUserEntryAddRet ret = discUserEntryAdd(parA);
+    
+    SSDiscActivityFct.discEntryAdd(new SSDiscUserEntryAddPar(parA), ret);
+    
+    sSCon.writeRetFullToClient(ret);
   }
   
   @Override
@@ -361,16 +355,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
         discEntryUri, 
         par.op);
       
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return discUserEntryAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return discUserEntryAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -489,16 +487,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
       dbSQL.commit(par.shouldCommit);
       
       return par.disc;
-    }catch(SSSQLDeadLockErr deadLockErr){
+     }catch(Exception error){
       
-      if(dbSQL.rollBack(parA)){
-        return discUserRemove(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return discUserRemove(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -553,16 +555,20 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
 
       return par.entity;
 
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return discUserShareWithUser(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return discUserShareWithUser(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

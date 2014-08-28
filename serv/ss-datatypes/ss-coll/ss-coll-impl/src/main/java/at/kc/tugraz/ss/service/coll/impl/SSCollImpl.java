@@ -39,7 +39,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
@@ -77,6 +76,7 @@ import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 
 import java.util.*;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
 
@@ -404,16 +404,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryDelete(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryDelete(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -477,16 +481,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntriesDelete(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntriesDelete(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -548,16 +556,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       return par.entry;
 
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -598,16 +610,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntriesAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntriesAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -648,16 +664,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserEntryChangePos(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserEntryChangePos(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -943,16 +963,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return true;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserRootAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserRootAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1015,16 +1039,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       return par.entity;
 
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserShareWithUser(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserShareWithUser(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1057,16 +1085,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return par.coll;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collUserSetPublic(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collUserSetPublic(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1094,16 +1126,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.commit(par.shouldCommit);
 
       return par.coll;
-    }catch(SSSQLDeadLockErr deadLockErr){
-
-      if(dbSQL.rollBack(parA)){
-        return collToCircleAdd(parA);
-      }else{
-        SSServErrReg.regErrThrow(deadLockErr);
-        return null;
-      }
-
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return collToCircleAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;

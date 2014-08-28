@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSCategorySQLFct extends SSDBSQLFct{
   
@@ -241,11 +241,17 @@ public class SSCategorySQLFct extends SSDBSQLFct{
           checkFirstResult(resultSet);
           
           categoryUri = bindingStrToUri(resultSet, SSSQLVarU.id);
-        }catch(SSNoResultFoundErr error){
-          return;
+          
         }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+            SSServErrReg.reset();
+            return;
+          }
+          
           SSServErrReg.regErrThrow(error);
           return;
+          
         }finally{
           dbSQL.closeStmt(resultSet);
         }

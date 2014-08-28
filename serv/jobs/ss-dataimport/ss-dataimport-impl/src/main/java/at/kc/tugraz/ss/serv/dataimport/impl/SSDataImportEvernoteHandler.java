@@ -26,11 +26,11 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSSQLDeadLockErr;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartWithDBA;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSDataImportEvernoteHandler extends SSServImplStartWithDBA{
   
@@ -71,15 +71,22 @@ public class SSDataImportEvernoteHandler extends SSServImplStartWithDBA{
       
       SSLogU.info("end data import for evernote account " + par.authToken);
       
-    }catch(SSSQLDeadLockErr deadLockErr){
+    }catch(Exception error){
       
-      if(!dbSQL.rollBack(par)){
-        SSServErrReg.regErr(deadLockErr);
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(!dbSQL.rollBack(par)){
+          SSServErrReg.regErr(error);
+        }
+        
+        return;
       }
       
-    }catch(Exception error){
       dbSQL.rollBack(par);
       SSServErrReg.regErr(error);
+      
     }finally{
       
       try{

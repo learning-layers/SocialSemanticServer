@@ -22,6 +22,8 @@ package sss.serv.err.datatypes;
 
 public enum SSErrE{
 
+  sqlDeadLock,
+  sqlNoResultFound,
   userIsNotRegistered,
   providedUserIsNotRegistered,
   userDoesntHaveRightInAnyCircleOfEntity,

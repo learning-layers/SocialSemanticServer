@@ -24,12 +24,12 @@ import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSAuthSQLFct extends SSDBSQLFct{
   
@@ -53,11 +53,16 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       
       return true;
       
-    }catch(SSNoResultFoundErr error){
-      return false;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return false;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
+      
     }finally{
       dbSQL.closeStmt(resultSet);
     }

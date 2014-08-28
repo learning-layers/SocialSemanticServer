@@ -27,13 +27,13 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.db.datatypes.sql.err.SSNoResultFoundErr;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSDBSQLFct extends SSDBFct{
 
@@ -325,11 +325,13 @@ public class SSDBSQLFct extends SSDBFct{
     try{
       
       if(!result.first()){
-        throw new SSNoResultFoundErr("no result found");
+        throw new SSErr(SSErrE.sqlNoResultFound);
       }
       
-    }catch(Exception error){
+    }catch(SSErr error){
       SSServErrReg.regErrThrow(error, false);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

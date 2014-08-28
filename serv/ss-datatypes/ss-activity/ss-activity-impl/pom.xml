@@ -18,7 +18,7 @@
   
   <dependencies>
 
-<dependency>
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv-errreg</artifactId>
       <version>${project.version}</version>
@@ -78,5 +78,6 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
   </dependencies>
 </project>
