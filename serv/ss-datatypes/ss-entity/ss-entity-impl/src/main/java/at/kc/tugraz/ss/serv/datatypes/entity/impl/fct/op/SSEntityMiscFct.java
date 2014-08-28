@@ -32,11 +32,13 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
@@ -319,6 +321,20 @@ public class SSEntityMiscFct{
     }
   }
 
+  public static void updateEntityByEntityHandlers(
+    final SSEntityUpdatePar par) throws Exception{
+    
+    try{
+      
+      for(SSServA serv : SSServA.getServsUpdatingEntities()){
+        ((SSEntityUpdaterI) serv.serv()).updateEntity(par);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public static SSEntityDescA getDescForEntityByEntityHandlers(
     final SSEntityDescGetPar par,
     SSEntityDescA            entityDesc) throws Exception{
@@ -547,7 +563,6 @@ public class SSEntityMiscFct{
       if(!doesCircleOfTypeHaveRight(circleType, accessRight)){
         throw new SSErr(SSErrE.circleDoesntHaveQueriedRight);
       }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -22,6 +22,11 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //comment
+  commentsGet,
+  commentsUserGet,
+  commentEntitiesCommentedGet,
+  
   //system
   systemVersionGet,
   
@@ -49,6 +54,7 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
+  entityEntityCirclesGet,
   entityUserCircleGet,
   entityCircleGet,
   entitiesForLabelsAndDescriptionsGet,
@@ -98,8 +104,6 @@ public enum SSMethU{
   entityDirectlyAdjoinedEntitiesRemove,
   entityShare,
   entityEntitiesAttachedGet,  
-  entityCommentsGet,
-  entityEntitiesCommentedGet,
   entityUserCommentsGet,
   
   //learn ep

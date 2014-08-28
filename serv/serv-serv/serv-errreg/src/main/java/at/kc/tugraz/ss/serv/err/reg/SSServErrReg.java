@@ -123,6 +123,35 @@ public class SSServErrReg {
     }
   }
   
+  public static void regErrThrow(final Exception error, final Boolean logErr) throws Exception{
+    
+    if(error == null){
+      SSLogU.err(new Exception("error null"));
+      return;
+    }
+    
+    if(
+      logErr &&
+      !containsErr(error.getClass())){
+      SSLogU.err(error);
+    }
+    
+    try{
+      servImplErrors.get().add(SSErrForClient.get(error));
+    }catch(Exception error1){
+      
+      SSLogU.err(error1);
+      
+      try{
+        servImplErrors.get().add(SSErrForClient.get(error1));
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
+    
+    throw error;
+  }
+  
   public static void regErrThrow(final Exception error) throws Exception{
     
     if(error == null){

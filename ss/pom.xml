@@ -236,6 +236,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.serv.comment</groupId>
+      <artifactId>comment.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.flag</groupId>
       <artifactId>flag.serv</artifactId>
       <version>${project.version}</version>

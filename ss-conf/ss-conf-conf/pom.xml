@@ -19,6 +19,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>sss.serv.comment</groupId>
+      <artifactId>comment.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.flag</groupId>
       <artifactId>flag.conf</artifactId>
       <version>${project.version}</version>

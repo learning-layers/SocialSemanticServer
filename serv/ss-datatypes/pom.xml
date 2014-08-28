@@ -25,5 +25,6 @@
     <module>ss-activity</module>
     <module>ss-category</module>
 	<module>flag</module>
+	<module>comment</module>
   </modules>
 </project>

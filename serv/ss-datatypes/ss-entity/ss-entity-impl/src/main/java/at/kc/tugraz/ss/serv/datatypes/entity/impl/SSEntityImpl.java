@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -52,11 +51,10 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircl
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCanPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleURIPrivGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCommentsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesCommentedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPrivCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
@@ -85,7 +83,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCommentsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -326,7 +323,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityUpdatePar par = new SSEntityUpdatePar(parA);
-      SSUri                   commentUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -338,24 +334,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.user,
         null);
       
-      if(!par.comments.isEmpty()){
-        
-        for(SSTextComment content : par.comments){
-          
-          commentUri = SSServCaller.vocURICreate();
-          
-          sqlFct.addEntityIfNotExists(
-            commentUri,
-            SSEntityE.comment,
-            par.label,
-            par.description,
-            par.user,
-            null);
-          
-          sqlFct.createComment (commentUri, content);
-          sqlFct.addComment    (par.entity, commentUri);
-        }
-      }
+      SSEntityMiscFct.updateEntityByEntityHandlers(par);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -487,7 +466,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           file,
           entity.description,
           new ArrayList<>(),
-          SSServCaller.entityCommentsGet(par.user, null, entity.id)));
+          new ArrayList<>()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -847,6 +826,32 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             SSServErrReg.reset();
           }
         }
+      }
+      
+      return circles;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntityCircle> entityEntityCirclesGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityEntityCirclesGetPar       par        = new SSEntityEntityCirclesGetPar(parA);
+      final List<SSEntityCircle>              circles    = new ArrayList<>();
+      
+      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
+        
+        circles.add(
+          sqlFct.getCircle(
+            circleUri,
+            false,
+            true,
+            false));
       }
       
       return circles;
@@ -1541,61 +1546,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
       
       return sqlFct.getFiles(par.entity);
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSTextComment> entityUserCommentsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityUserCommentsGetPar par = new SSEntityUserCommentsGetPar(parA);
-      
-      if(par.entity != null){
-        SSServCaller.entityUserCanRead(par.user, par.entity);
-      }
-      
-      if(
-        par.forUser != null && 
-        !SSStrU.equals(par.user, par.forUser)){
-        throw new Exception("user cannot access comments for user " + par.forUser);
-      }
-      
-      return sqlFct.getComments(par.entity, par.forUser);
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSTextComment> entityCommentsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityCommentsGetPar par = new SSEntityCommentsGetPar(parA);
-      
-      return sqlFct.getComments(par.entity, par.forUser);
-      
-    }catch(Exception error){
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> entityEntitiesCommentedGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityEntitiesCommentedGetPar par = new SSEntityEntitiesCommentedGetPar(parA);
-      
-      return sqlFct.getEntityURIsCommented(par.forUser);
       
     }catch(Exception error){
       dbSQL.rollBack(parA);

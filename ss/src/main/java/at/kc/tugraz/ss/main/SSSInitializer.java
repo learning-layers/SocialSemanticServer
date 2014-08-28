@@ -55,6 +55,7 @@ import at.kc.tugraz.ss.service.solr.service.SSSolrServ;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
+import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -108,6 +109,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSI5CloudServ.inst.regServ       (SSCoreConf.instGet().getI5CloudConf());
       SSCloudServ.inst.regServ         (SSCoreConf.instGet().getCloudConf());
       SSFlagServ.inst.regServ          (SSCoreConf.instGet().getFlagConf());
+      SSCommentServ.inst.regServ       (SSCoreConf.instGet().getCommentConf());
 
       //initializing
       SSVoc.inst.initServ();
@@ -140,6 +142,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSI5CloudServ.inst.initServ();
       SSCloudServ.inst.initServ();
       SSFlagServ.inst.initServ();
+      SSCommentServ.inst.initServ();
       
       //scheduling
       SSModelUEServ.inst.schedule   ();

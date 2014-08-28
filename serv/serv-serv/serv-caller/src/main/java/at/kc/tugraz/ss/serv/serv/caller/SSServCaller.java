@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
@@ -65,6 +64,48 @@ import java.util.List;
 import java.util.Map;
 
 public class SSServCaller {
+  
+   /* comment */
+  
+  public static List<SSUri> commentEntitiesCommentedGet(
+    final SSUri user,
+    final SSUri forUser) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.commentEntitiesCommentedGet, opPars));
+  }
+  
+  public static List<SSTextComment> commentsGet(
+    final SSUri user,
+    final SSUri forUser,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    opPars.put(SSVarU.entity,    entity);
+    
+    return (List<SSTextComment>) SSServA.callServViaServer(new SSServPar(SSMethU.commentsGet, opPars));
+  }
+  
+  public static List<SSTextComment> commentsUserGet(
+    final SSUri user,
+    final SSUri forUser,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.forUser,   forUser);
+    opPars.put(SSVarU.entity,    entity);
+    
+    return (List<SSTextComment>) SSServA.callServViaServer(new SSServPar(SSMethU.commentsUserGet, opPars));
+  }
   
   /* flag */
   
@@ -984,32 +1025,6 @@ public class SSServCaller {
   
   /* entity */
   
-  public static List<SSUri> entityEntitiesCommentedGet(
-    final SSUri user,
-    final SSUri forUser) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    
-    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntitiesCommentedGet, opPars));
-  }
-  
-  public static List<SSTextComment> entityCommentsGet(
-    final SSUri user,
-    final SSUri forUser,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
-    
-    return (List<SSTextComment>) SSServA.callServViaServer(new SSServPar(SSMethU.entityCommentsGet, opPars));
-  }
-  
   public static List<SSEntity> entityEntitiesAttachedGet(
     final SSUri user,
     final SSUri entity) throws Exception{
@@ -1399,6 +1414,18 @@ public class SSServCaller {
     opPars.put(SSVarU.withSystemCircles, withSystemCircles);
     
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCirclesGet, opPars));
+  }
+  
+  public static List<SSEntityCircle> entityEntityCirclesGet(
+    final SSUri   user,
+    final SSUri   entity) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.entity,           entity);
+    
+    return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityEntityCirclesGet, opPars));
   }
   
   public static SSUri entityCircleCreate(

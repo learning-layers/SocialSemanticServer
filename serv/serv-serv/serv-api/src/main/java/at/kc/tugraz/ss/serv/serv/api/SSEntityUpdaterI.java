@@ -18,28 +18,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 
-public class SSEntityEntitiesCommentedGetPar extends SSServPar{
+public interface SSEntityUpdaterI{
   
-  public SSUri forUser  = null;
-    
-  public SSEntityEntitiesCommentedGetPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        forUser  = (SSUri) pars.get(SSVarU.forUser);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+  public void updateEntity(
+    final SSEntityUpdatePar par) throws Exception;
 }

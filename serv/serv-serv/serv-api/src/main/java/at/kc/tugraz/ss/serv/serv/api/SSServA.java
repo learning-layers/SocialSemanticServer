@@ -48,6 +48,7 @@ public abstract class SSServA{
   private   static final Map<SSMethU, SSServA>                        servs                           = new EnumMap<>(SSMethU.class);
   private   static final Map<SSMethU, SSServA>                        servsForClientOps               = new EnumMap<>(SSMethU.class);
   private   static final Map<SSMethU, SSServA>                        servsForServerOps               = new EnumMap<>(SSMethU.class);
+  private   static final List<SSServA>                                servsForUpdatingEntities        = new ArrayList<>();
   private   static final Map<SSEntityE, SSServA>                      servsForManagingEntities        = new EnumMap<>(SSEntityE.class);
   private   static final List<SSServA>                                servsForDescribingEntities      = new ArrayList<>();
   private   static final List<SSServA>                                servsForGatheringUserRelations  = new ArrayList<>();
@@ -203,6 +204,27 @@ public abstract class SSServA{
           
           servsForServerOps.put(op, this);
         }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected void regServForUpdatingEntities() throws Exception{
+    
+    try{
+     
+      if(!servConf.use){
+        return;
+      }
+
+      synchronized(servsForUpdatingEntities){
+        
+        if(servsForUpdatingEntities.contains(this)){
+          throw new Exception("service for updating entities already registered");
+        }
+        
+        servsForUpdatingEntities.add(this);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -485,6 +507,10 @@ public abstract class SSServA{
     }
   }
   
+  public static List<SSServA> getServsUpdatingEntities(){
+    return new ArrayList<>(servsForUpdatingEntities);
+  }
+    
   public static List<SSServA> getServsManagingEntities(){
     return new ArrayList<>(servsForManagingEntities.values());
   }

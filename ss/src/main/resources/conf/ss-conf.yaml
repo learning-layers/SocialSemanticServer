@@ -29,6 +29,10 @@ collConf:
   executeOpAtStartUp: false
   op: null
   use: true
+commentConf:
+  executeOpAtStartUp: false
+  op: null
+  use: true  
 dataExportConf:
   executeOpAtStartUp: false
   op: null

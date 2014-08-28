@@ -42,11 +42,6 @@ public class SSEntityUserRelationsGatherFct{
 
         final SSUri userUri = SSUri.get(user);
 
-        SSEntityUserRelationsGatherFct.addRelationsForCommentedEntities(
-          sqlFct, 
-          userRelations, 
-          userUri);
-        
         SSEntityUserRelationsGatherFct.addRelationsForUserCircles(
           sqlFct, 
           userRelations,
@@ -59,30 +54,6 @@ public class SSEntityUserRelationsGatherFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  
-  private static void addRelationsForCommentedEntities(
-    final SSEntitySQLFct            sqlFct, 
-    final Map<String, List<SSUri>>  userRelations,
-    final SSUri                     userUri) throws Exception{
-    
-    final String   userStr = SSStrU.toStr(userUri);
-    SSEntityCircle entityCircle;
-    
-    for(SSUri entity : SSServCaller.entityEntitiesCommentedGet(userUri, userUri)){
-      
-      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(entity)){
-        
-        entityCircle = sqlFct.getCircle(circleUri, true, false, false);
-        
-        if(userRelations.containsKey(userStr)){
-          userRelations.get(userStr).addAll(entityCircle.users);
-        }else{
-          userRelations.put(userStr, entityCircle.users);
-        }
-      }
     }
   }
   

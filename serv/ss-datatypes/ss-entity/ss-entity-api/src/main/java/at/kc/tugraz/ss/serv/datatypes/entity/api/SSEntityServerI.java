@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityDescA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -31,7 +30,6 @@ import java.util.List;
 
 public interface SSEntityServerI {
 
-  public List<SSTextComment>             entityUserCommentsGet                    (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntityDescA                   entityDescGet                            (final SSServPar parA) throws Exception;
   public List<SSEntityDescA>             entityDescsGet                           (final SSServPar parA) throws Exception;
@@ -52,10 +50,9 @@ public interface SSEntityServerI {
   public List<SSUri>                     entityUserEntitiesAttach                 (final SSServPar parA) throws Exception;
   public SSEntityCircle                  entityUserCircleGet                      (final SSServPar parA) throws Exception;
   
+  public List<SSEntityCircle>            entityEntityCirclesGet                   (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entityEntitiesAttachedGet                (final SSServPar parA) throws Exception;
   public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
-  public List<SSTextComment>             entityCommentsGet                        (final SSServPar parA) throws Exception;
-  public List<SSUri>                     entityEntitiesCommentedGet               (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityFilesGet                           (final SSServPar parA) throws Exception;
   public SSUri                           entityThumbAdd                           (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityThumbsGet                          (final SSServPar parA) throws Exception;

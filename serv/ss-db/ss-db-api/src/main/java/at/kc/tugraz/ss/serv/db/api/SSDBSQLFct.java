@@ -328,10 +328,8 @@ public class SSDBSQLFct extends SSDBFct{
         throw new SSNoResultFoundErr("no result found");
       }
       
-    }catch(SSNoResultFoundErr error){
-      throw error;
-    }catch(SQLException error){
-      SSServErrReg.regErrThrow(error);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error, false);
     }
   }
   

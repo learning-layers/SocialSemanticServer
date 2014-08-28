@@ -82,25 +82,31 @@ public class SSAuthMiscFct{
 
   public static SSUri addSystemUser() throws Exception{
     
-    if(!SSServCaller.entityExists(SSEntityE.user, SSLabel.get(SSVoc.systemUserLabel))){
+    try{
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        SSVoc.systemUserUri,
-        SSVoc.systemUserUri,
-        SSEntityE.user,
-        SSVoc.systemUserLabel,
-        null,
-        null,
-        false);
-          
-      SSServCaller.entityEntitiesToCircleAdd(
-        SSVoc.systemUserUri,
-        SSServCaller.entityCircleURIPubGet(false),
-        SSUri.asListWithoutNullAndEmpty(SSVoc.systemUserUri),
-        false);
+      if(!SSServCaller.entityExists(SSEntityE.user, SSLabel.get(SSVoc.systemUserLabel))){
+        
+        SSServCaller.entityEntityToPrivCircleAdd(
+          SSVoc.systemUserUri,
+          SSVoc.systemUserUri,
+          SSEntityE.user,
+          SSVoc.systemUserLabel,
+          null,
+          null,
+          false);
+        
+        SSServCaller.entityEntitiesToCircleAdd(
+          SSVoc.systemUserUri,
+          SSServCaller.entityCircleURIPubGet(false),
+          SSUri.asListWithoutNullAndEmpty(SSVoc.systemUserUri),
+          false);
+      }
+      
+      return SSVoc.systemUserUri;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return SSVoc.systemUserUri;
   }
 
   public static SSUri addStandardUser(

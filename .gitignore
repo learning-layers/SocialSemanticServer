@@ -391,3 +391,8 @@
 /serv/ss-datatypes/flag/flag.conf/target
 /ss/users_1.csv
 /serv/serv-serv/serv-err-datatypes/target
+/serv/ss-datatypes/comment/comment.api/target
+/serv/ss-datatypes/comment/comment.datatypes/target
+/serv/ss-datatypes/comment/comment.serv/target
+/serv/ss-datatypes/comment/comment.impl/target
+/serv/ss-datatypes/comment/comment.conf/target

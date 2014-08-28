@@ -51,6 +51,7 @@ import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
 import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
+import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 
 public class SSCoreConf extends SSCoreConfA{
@@ -90,6 +91,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSLearnEpConf       learnEpConf        = null;
   private SSCategoryConf      categoryConf       = null;
   private SSFlagConf          flagConf           = null;
+  private SSCommentConf       commentConf        = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -204,6 +206,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setFlagConf(SSFlagConf flagConf) {
     this.flagConf = flagConf;
+  }
+  
+  public SSCommentConf getCommentConf() {
+    return commentConf;
+  }
+
+  public void setCommentConf(SSCommentConf commentConf) {
+    this.commentConf = commentConf;
   }
   
   public SSFileRepoConf getFilerepoConf() {

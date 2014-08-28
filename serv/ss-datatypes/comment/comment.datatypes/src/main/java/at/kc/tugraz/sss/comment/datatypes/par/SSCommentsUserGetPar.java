@@ -18,38 +18,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+ package at.kc.tugraz.sss.comment.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityUserCommentsGetPar extends SSServPar{
-  
-  public SSUri forUser  = null;
-  public SSUri entity   = null;
-    
-  public SSEntityUserCommentsGetPar(SSServPar par) throws Exception{
+public class SSCommentsUserGetPar extends SSServPar{
+
+  public SSUri   entity       = null;
+  public SSUri   forUser      = null;
       
-    super(par);
+  public SSCommentsUserGetPar(SSServPar par) throws Exception{
     
+    super(par);
+     
     try{
       
       if(pars != null){
-        forUser  = (SSUri) pars.get(SSVarU.forUser);
-        entity   = (SSUri) pars.get(SSVarU.entity);
-      }
-      
-      if(clientPars != null){
-        
-        try{
-          forUser  = (SSUri) pars.get(SSVarU.forUser);
-        }catch(Exception error){}
-        
-        try{
-          entity   = (SSUri) pars.get(SSVarU.entity);
-        }catch(Exception error){}
+        entity   = (SSUri)              pars.get(SSVarU.entity);
+        forUser  = (SSUri)              pars.get(SSVarU.forUser);
       }
       
     }catch(Exception error){
