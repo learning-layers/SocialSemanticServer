@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.impl.fct.sql;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
@@ -104,20 +105,28 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       tagUri, 
     final SSUri       userUri,
     final SSUri       entityUri,
-    final SSSpaceE    space) throws Exception{
+    final SSSpaceE    space,
+    final Long        creationTime) throws Exception{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts,    SSSQLVarU.userId,    userUri);
-      insert    (inserts,    SSSQLVarU.entityId,  entityUri);
-      insert    (inserts,    SSSQLVarU.tagId,     tagUri);
-      insert    (inserts,    SSSQLVarU.tagSpace,  space);
-      uniqueKey (uniqueKeys, SSSQLVarU.userId,    userUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.entityId,  entityUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.tagId,     tagUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.tagSpace,  space);
+      insert    (inserts,    SSSQLVarU.userId,       userUri);
+      insert    (inserts,    SSSQLVarU.entityId,     entityUri);
+      insert    (inserts,    SSSQLVarU.tagId,        tagUri);
+      insert    (inserts,    SSSQLVarU.tagSpace,     space);
+      
+      if(creationTime == null){
+        insert    (inserts,    SSSQLVarU.creationTime, SSDateU.dateAsLong());
+      }else{
+        insert    (inserts,    SSSQLVarU.creationTime, creationTime);
+      }
+      
+      uniqueKey (uniqueKeys, SSSQLVarU.userId,       userUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.entityId,     entityUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.tagId,        tagUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.tagSpace,     space);
       
       dbSQL.insertIfNotExists(tagAssTable, inserts, uniqueKeys);
     }catch(Exception error){
@@ -245,7 +254,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.userId);
       column   (columns,   SSSQLVarU.tagSpace);
       column   (columns,   SSSQLVarU.label);
-      column   (columns,   SSSQLVarU.creationTime);
+      column   (columns,   tagAssTable, SSSQLVarU.creationTime);
       tableCon (tableCons, tagAssTable, SSSQLVarU.tagId, entityTable, SSSQLVarU.id);
       
       if(userUri != null){

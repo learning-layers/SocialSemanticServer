@@ -312,7 +312,8 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         tagUri,
         par.user,
         par.entity,
-        par.space);
+        par.space,
+        par.creationTime);
       
       dbSQL.commit(par.shouldCommit);
       
