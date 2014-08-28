@@ -42,6 +42,31 @@ LOCK TABLES `activity` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `activitycontents`
+--
+
+DROP TABLE IF EXISTS `activitycontents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activitycontents` (
+  `activityId` varchar(200) NOT NULL,
+  `content` varchar(200) NOT NULL,
+  `contentType` varchar(200) NOT NULL,
+  PRIMARY KEY (`activityId`,`content`,`contentType`),
+  CONSTRAINT `activityIdFKactivitycontents` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activitycontents`
+--
+
+LOCK TABLES `activitycontents` WRITE;
+/*!40000 ALTER TABLE `activitycontents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activitycontents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `activityentities`
 --
 
@@ -1156,6 +1181,7 @@ CREATE TABLE `tagass` (
   `entityId` varchar(200) NOT NULL,
   `tagId` varchar(200) NOT NULL,
   `tagSpace` varchar(200) NOT NULL,
+  `creationTime` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`,`entityId`,`tagId`,`tagSpace`),
   KEY `entityIdFKtagass_idx` (`entityId`),
   KEY `tagIdFKtagass_idx` (`tagId`),
@@ -1238,4 +1264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-27 10:44:08
+-- Dump completed on 2014-08-28 14:43:17
