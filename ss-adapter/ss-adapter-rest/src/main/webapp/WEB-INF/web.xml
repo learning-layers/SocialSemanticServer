@@ -4,11 +4,27 @@
   
   <servlet>
     <servlet-name>SSAdapterRest</servlet-name>
-    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-value>at.kc.tugraz.ss.adapter.rest, at.kc.tugraz.ss.serv.ss.auth.datatypes.pars</param-value>
     </init-param>
+    
+    <!-- new jersey start -->
+    <init-param>
+     <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
+    </init-param>
+    <!-- new jersey end -->
+        
+    <!-- SWAGGER start -->
+    <init-param>
+      <param-name>swagger.api.basepath</param-name>
+      <param-value>http://localhost:8084/ss-adapter-rest/swagger/</param-value>
+    </init-param>
+    
+    <!-- SWAGGER end -->
+    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -62,5 +78,4 @@
     <filter-name>CORS</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
 </web-app>

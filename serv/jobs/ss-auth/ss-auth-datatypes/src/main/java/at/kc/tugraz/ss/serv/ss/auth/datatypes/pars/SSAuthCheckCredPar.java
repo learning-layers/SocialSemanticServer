@@ -20,16 +20,30 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "authCheckCred request parameter")
 public class SSAuthCheckCredPar extends SSServPar{
   
-  public SSLabel label      = null;
-  public String  password   = null;
+  @XmlElement
+  @ApiModelProperty( value = "label", required = true )
+  public SSLabel label;
   
+  @XmlElement
+  @ApiModelProperty( value = "password", required = true )
+  public String password;
+
+  public SSAuthCheckCredPar(){}
+    
   public SSAuthCheckCredPar(SSServPar par) throws Exception{
     
     super(par);
@@ -49,5 +63,10 @@ public class SSAuthCheckCredPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
 }

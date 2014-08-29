@@ -26,17 +26,30 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonParser;
 
+@XmlRootElement
 public class SSServPar{
   
+  @XmlElement 
+  @ApiModelProperty( value = "op", required = true )
   public        SSMethU              op            = null;
+  
+  @XmlElement 
+  @ApiModelProperty( value = "user", required = true )
+  public        SSUri                user          = null;
+  
+  @XmlElement 
+  @ApiModelProperty( value = "key", required = true )
+  public String key                    = null;
+  
   public        Map<String, Object>  pars          = null;
   public        Map<String, String>  clientPars    = null;
-  public        SSUri                user          = null;
-  public        String               key           = null;
   public        Boolean              shouldCommit  = true;
   public        Boolean              saveUE        = true;
   public        Boolean              saveActivity  = false;
@@ -164,6 +177,19 @@ public class SSServPar{
   }
   
   protected SSServPar(){}
+  
+  /* json getters */
+  public String getOp(){
+    return SSStrU.toStr(op);
+  }
+
+  public String getUser(){
+    return SSStrU.removeTrailingSlash(user);
+  }
+
+  public String getKey(){
+    return key;
+  }
 }
 //public class SSRequ {
 //	

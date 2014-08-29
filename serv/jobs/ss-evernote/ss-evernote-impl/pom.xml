@@ -70,6 +70,8 @@
       <artifactId>evernote-api</artifactId>
       <version>${evernoteVersion}</version>
     </dependency>-->    
+    
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

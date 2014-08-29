@@ -17,7 +17,10 @@
   <build>
     
     <plugins>
-       <plugin>
+      
+      <!-- MAVEN WAR start --> 
+      
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>2.1.1</version>
@@ -26,8 +29,53 @@
           <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
         </configuration>
       </plugin>
+      
+      <!-- MAVEN WAR end -->
+      
+       <!-- SWAGGER start -->
+      
+     <plugin>
+        <groupId>com.github.kongchen</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <apiSources>
+            <apiSource>
+              <locations>at.kc.tugraz.ss.adapter.rest</locations>
+              <apiVersion>${project.version}</apiVersion>
+              <basePath>http://localhost:8084/ss-adapter-rest/rest</basePath>
+              <apiInfo>
+                <title>Social Semantic Server REST API</title>
+                <description>Hellow world!</description>
+                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
+                <contact>${project.contact}</contact>
+                <license>${project.license}</license>
+                <licenseUrl>${project.licenseURI}</licenseUrl>
+              </apiInfo>
+              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
+              <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
+              <mustacheFileRoot>${basedir}/src/main/resources/swagger/</mustacheFileRoot>
+              <outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>
+              <outputPath>${basedir}/src/main/webapp/swagger/generated/document.html</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/swagger/swagger-ui</swaggerDirectory>
+              <swaggerUIDocBasePath>http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/doc</swaggerUIDocBasePath>
+              <useOutputFlatStructure>false</useOutputFlatStructure>
+            </apiSource>
+          </apiSources>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- SWAGGER end -->
+        
     </plugins>
-    
   </build>
   
   <dependencies>
@@ -80,6 +128,8 @@
       <version>${project.version}</version>
     </dependency> 
     
+    <!-- TOMCAT start --> 
+    
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-catalina</artifactId>
@@ -93,25 +143,39 @@
       <version>7.0.41</version>
       <scope>provided</scope>
     </dependency>
-        
-     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>1.17.1</version>
-    </dependency>
+    
+    <!-- TOMCAT end --> 
+     
+     <!-- JERSEY start -->
      
     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-bundle</artifactId>
-      <version>1.17.1</version>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+      <version>2.4.1</version>
     </dependency>
     
     <dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-multipart</artifactId>
-			<version>1.17.1</version>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+           
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+              
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>2.4.1</version>
     </dependency>
     
+    <!-- JERSEY end -->           
+    
+   <!-- CORS start --> 
     <dependency>
       <groupId>com.thetransactioncompany</groupId>
       <artifactId>cors-filter</artifactId>
@@ -123,7 +187,45 @@
       <artifactId>java-property-utils</artifactId>
       <version>1.9</version>
     </dependency>
+    
+    <!-- CORS end --> 
 
+    <!-- SWAGGER start --> 
+    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+      <!--<scope>compile</scope>-->
+      <version>1.3.7</version>
+<!--      <exclusions>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>jsr311-api</artifactId>
+        </exclusion>
+      </exclusions>-->
+    </dependency>
+    
+    <!-- SWAGGER end --> 
+    
   </dependencies>
-
 </project>
+
+
+<!--  dtheiler old jersey use
+     <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.18</version>
+    </dependency>
+     
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-bundle</artifactId>
+      <version>1.18</version>
+    </dependency>
+    
+ <dependency>
+   <groupId>com.sun.jersey.contribs</groupId>
+   <artifactId>jersey-multipart</artifactId>
+   <version>1.18</version>
+ </dependency>
+--> 

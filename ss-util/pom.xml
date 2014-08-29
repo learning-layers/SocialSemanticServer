@@ -46,12 +46,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4jVersion}</version>
-    </dependency>
-    
 <!--    <dependency>
       <groupId>com.github.jsonld-java</groupId>
       <artifactId>jsonld-java</artifactId>
@@ -107,9 +101,15 @@
     </dependency>
     
     <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junitVersion}</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

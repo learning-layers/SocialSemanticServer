@@ -145,12 +145,15 @@
   
   <properties>
     <ssVersion>1.0-SNAPSHOT</ssVersion>
-    <log4jVersion>1.2.17</log4jVersion>
-    <junitVersion>4.10</junitVersion>
-    <snakeyamlVersion>1.10</snakeyamlVersion>
-    <evernoteVersion>1.25.1</evernoteVersion>
+    <!--<log4jVersion>1.2.17</log4jVersion>-->
+    <!--<junitVersion>4.10</junitVersion>-->
+    <!--<snakeyamlVersion>1.10</snakeyamlVersion>-->
+    <!--<evernoteVersion>1.25.1</evernoteVersion>-->
     <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.contact>dtheiler#tugraz$at</project.contact> 
+    <project.license>Apache 2.0</project.license>
+    <project.licenseURI>http://www.apache.org/licenses/LICENSE-2.0.html</project.licenseURI>
   </properties>
 
   <modules>

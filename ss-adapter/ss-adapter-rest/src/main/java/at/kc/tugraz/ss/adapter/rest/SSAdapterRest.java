@@ -20,22 +20,21 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import com.sun.jersey.multipart.FormDataParam;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,32 +49,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 @Path("/SSAdapterRest")
+@Api( value = "/SSAdapterRest", description = "SSS REST API" )
 public class SSAdapterRest{
   
   private SSSocketCon     sSCon   = null;
   private int             read    = -1;
-  private SSConf          conf    = null;
+  public static SSConf    conf    = null;
   
   public SSAdapterRest() throws Exception{
-    
-//    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf.yaml");
-    
-    /* util */
-    SSMimeTypeU.init();
-    SSJSONLDU.init(
-      SSAdapterRestConf.instGet().getJsonLDConf().uri,
-      SSAdapterRestConf.instGet().getVocConf().app,
-      SSAdapterRestConf.instGet().getVocConf().space);
-    
-    /* json-ld */
-//    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
-    
-    conf = SSAdapterRestConf.instGet().getSsConf();
   }
   
   @GET
@@ -116,6 +102,17 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "authCheckCred")
+  @ApiOperation(
+    value = "retrieve the authentication key and user's uri for credentials",
+    response = String.class)
+  public String authCheckCred(final SSAuthCheckCredPar input){
+    return handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "categoriesPredefinedGet")
   public String categoriesPredefinedGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.categoriesPredefinedGet);
@@ -143,14 +140,6 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityDescsGet")
   public String entityDescsGet(String jsonRequ){
     return handleStandardJSONRESTCall(jsonRequ, SSMethU.entityDescsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "authCheckCred")
-  public String authCheckCred(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.authCheckCred);
   }
   
   @POST
@@ -919,6 +908,15 @@ public class SSAdapterRest{
     }
     
     return result;
+  }
+  
+  private String handleStandardJSONRESTCall(final SSServPar input, final SSMethU op){
+    
+    try{
+      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
+    }catch(Exception error){
+      return "";
+    }
   }
   
   private String handleStandardJSONRESTCall(

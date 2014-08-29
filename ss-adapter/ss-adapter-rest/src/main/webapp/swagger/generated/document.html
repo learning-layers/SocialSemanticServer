@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<title>API Document</title>
+
+<xmp theme="united" style="display:none;">
+#Social Semantic Server REST API
+Hellow world!
+
+Terms of Service: [https://github.com/learning-layers/](https://github.com/learning-layers/)
+
+Contact: [dtheiler#tugraz$at](mailto:dtheiler#tugraz$at)
+
+License: [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+
+BasePath: http://localhost:8084/ss-adapter-rest/rest
+
+Api Version: 1.0-SNAPSHOT
+
+## APIs
+### /SSAdapterRest
+
+#### **POST** `/SSAdapterRest/authCheckCred`
+##### authCheckCred 
+
+retrieve the authentication key and user&#39;s uri for credentials
+
+
+###### URL
+http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/authCheckCred
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>false</td>
+        <td></td>
+        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a></td>
+    </tr>
+</table>
+
+###### Response
+[string](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+
+
+- - -
+
+## Data Types
+
+
+## <a name="SSAuthCheckCredPar">SSAuthCheckCredPar</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>required</td>
+        <td>-</td>
+        <td>key</td>
+        <td>key</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>required</td>
+        <td>-</td>
+        <td>user</td>
+        <td>user</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>required</td>
+        <td>-</td>
+        <td>password</td>
+        <td>password</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>required</td>
+        <td>-</td>
+        <td>op</td>
+        <td>op</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>required</td>
+        <td>-</td>
+        <td>label</td>
+        <td>label</td>
+    </tr>
+    <tr>
+        <td><a href="#Map[string,string]">Map[string,string]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Map[string,Object]">Map[string,Object]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>

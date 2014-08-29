@@ -1,0 +1,72 @@
+{
+  "apiVersion" : "1.0-SNAPSHOT",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8084/ss-adapter-rest/rest",
+  "resourcePath" : "/SSAdapterRest",
+  "apis" : [ {
+    "path" : "/SSAdapterRest/authCheckCred",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the authentication key and user's uri for credentials",
+      "notes" : "",
+      "type" : "string",
+      "nickname" : "authCheckCred",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSAuthCheckCredPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "SSAuthCheckCredPar" : {
+      "id" : "SSAuthCheckCredPar",
+      "description" : "",
+      "required" : [ "label", "password", "key", "op", "user" ],
+      "properties" : {
+        "label" : {
+          "type" : "string",
+          "description" : "label"
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "password"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "key"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "op"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "user"
+        },
+        "pars" : {
+          "$ref" : "Map[string,Object]"
+        },
+        "clientPars" : {
+          "$ref" : "Map[string,string]"
+        },
+        "shouldCommit" : {
+          "type" : "boolean"
+        },
+        "saveUE" : {
+          "type" : "boolean"
+        },
+        "saveActivity" : {
+          "type" : "boolean"
+        },
+        "tryAgain" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}
