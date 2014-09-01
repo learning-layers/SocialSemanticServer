@@ -18,21 +18,62 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityDescGet request parameter")
 public class SSEntityDescGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to get details for")
   public SSUri    entity            = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether tags for the entity should be delivered")
   public Boolean  getTags           = false;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the overall rating for the entity should be delivered")
   public Boolean  getOverallRating  = false;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the uris of discussions about the entity should be returned")
   public Boolean  getDiscs          = false;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether user events for given user and entity should be included")
   public Boolean  getUEs            = false;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether a thumbnail for files should be included")
   public Boolean  getThumb          = false;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether flags for this user and entity should be included")
   public Boolean  getFlags          = false;
   
   public static SSEntityDescGetPar get(
@@ -69,6 +110,8 @@ public class SSEntityDescGetPar extends SSServPar{
     this.entity = entity;
   }
   
+  public SSEntityDescGetPar(){}
+    
   public SSEntityDescGetPar(SSServPar par) throws Exception{
     
     super(par);
@@ -115,5 +158,10 @@ public class SSEntityDescGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

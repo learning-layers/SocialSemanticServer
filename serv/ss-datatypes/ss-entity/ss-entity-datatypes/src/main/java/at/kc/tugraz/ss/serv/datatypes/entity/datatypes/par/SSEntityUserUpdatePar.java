@@ -27,16 +27,43 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserUpdate request parameter")
 public class SSEntityUserUpdatePar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to update")
   public SSUri               entity        = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "entity's updated name (optional)")
   public SSLabel             label         = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "entity's updated description (optional)")
   public SSTextComment       description   = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "new textual annotations for the entity (optional)")
   public List<SSTextComment> comments      = new ArrayList<>();
-
+  
+  public SSEntityUserUpdatePar(){}
+  
   public SSEntityUserUpdatePar(SSServPar par) throws Exception{
       
     super(par);
@@ -68,5 +95,22 @@ public class SSEntityUserUpdatePar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
   }
 }

@@ -20,14 +20,31 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserUsersToCircleAdd request parameter")
 public class SSEntityUserUsersToCircleAddPar extends SSServPar{
 
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "circle to add users to")
   public SSUri       circle  = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "users to add")
   public List<SSUri> users   = new ArrayList<>();
   
+  public SSEntityUserUsersToCircleAddPar(){}
+     
   public SSEntityUserUsersToCircleAddPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -46,5 +63,14 @@ public class SSEntityUserUsersToCircleAddPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
   }
 }

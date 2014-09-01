@@ -144,7 +144,7 @@
   </build>
   
   <properties>
-    <ssVersion>1.0-SNAPSHOT</ssVersion>
+    <ssVersion>4.1.0-alpha</ssVersion>
     <!--<log4jVersion>1.2.17</log4jVersion>-->
     <!--<junitVersion>4.10</junitVersion>-->
     <!--<snakeyamlVersion>1.10</snakeyamlVersion>-->

@@ -1,5 +1,5 @@
 {
-  "apiVersion" : "1.0-SNAPSHOT",
+  "apiVersion" : "4.1.0-alpha",
   "swaggerVersion" : "1.2",
   "apis" : [ {
     "path" : "/SSAdapterRest.{format}",
@@ -7,8 +7,6 @@
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
-    "description" : "Hellow world!",
-    "termsOfServiceUrl" : "https://github.com/learning-layers/",
     "contact" : "dtheiler#tugraz$at",
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"

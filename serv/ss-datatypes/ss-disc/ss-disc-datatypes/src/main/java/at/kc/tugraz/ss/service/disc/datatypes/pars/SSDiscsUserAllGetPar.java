@@ -18,14 +18,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "discsUserAllGet request parameter")
 public class SSDiscsUserAllGetPar extends SSServPar{
+  
+  public SSDiscsUserAllGetPar(){}
   
   public SSDiscsUserAllGetPar(SSServPar par) throws Exception{
     super(par);
-    
   }
 }

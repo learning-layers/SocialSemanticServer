@@ -18,11 +18,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.coll.datatypes.pars;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collsUserCouldSubscribeGet request parameter")
 public class SSCollsUserCouldSubscribeGetPar extends SSServPar{
+  
+  public SSCollsUserCouldSubscribeGetPar(){}
   
   public SSCollsUserCouldSubscribeGetPar(final SSServPar par) throws Exception{
     super(par);

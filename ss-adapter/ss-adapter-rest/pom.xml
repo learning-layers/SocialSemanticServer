@@ -42,19 +42,20 @@
           <apiSources>
             <apiSource>
               <locations>at.kc.tugraz.ss.adapter.rest</locations>
-              <apiVersion>${project.version}</apiVersion>
+              <apiVersion>${ssVersion}</apiVersion>
               <basePath>http://localhost:8084/ss-adapter-rest/rest</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
-                <description>Hellow world!</description>
-                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
+<!--                <description>Hellow world!</description>-->
+                <!--<termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>-->
                 <contact>${project.contact}</contact>
                 <license>${project.license}</license>
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
-              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
+<!--              <overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <mustacheFileRoot>${basedir}/src/main/resources/swagger/</mustacheFileRoot>
+              <!--<outputTemplate>${basedir}/src/main/resources/swagger/html.mustache</outputTemplate>-->
               <outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>
               <outputPath>${basedir}/src/main/webapp/swagger/generated/document.html</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/swagger/swagger-ui</swaggerDirectory>
@@ -79,7 +80,13 @@
   </build>
   
   <dependencies>
-
+   
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-dataimport-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  
     <dependency>
       <groupId>sss.conf</groupId>
       <artifactId>ss-conf-conf</artifactId>

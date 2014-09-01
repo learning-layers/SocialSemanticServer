@@ -25,13 +25,30 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collUserEntryChangePos request parameter")
 public class SSCollUserEntryChangePosPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection to change entry order")
   public  SSUri         coll         = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection entries {URI} and their positions {Integer} in the form of [collEntryUri1,pos1,collEntryUri2,pos2,…]")
   public  List<String>  order        = new ArrayList<>();
+  
+  public SSCollUserEntryChangePosPar(){}
   
   public SSCollUserEntryChangePosPar(SSServPar par) throws Exception{
     
@@ -51,5 +68,10 @@ public class SSCollUserEntryChangePosPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getColl(){
+    return SSStrU.removeTrailingSlash(coll);
   }
 }

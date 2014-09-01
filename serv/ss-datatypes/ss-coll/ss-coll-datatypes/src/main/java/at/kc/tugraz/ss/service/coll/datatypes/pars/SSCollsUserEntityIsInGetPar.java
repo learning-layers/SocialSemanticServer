@@ -20,14 +20,27 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collsUserEntityIsInGet request parameter")
 public class SSCollsUserEntityIsInGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to be searched for in user's collections")
   public SSUri entity = null;
+  
+  public SSCollsUserEntityIsInGetPar(){}
   
   public SSCollsUserEntityIsInGetPar(final SSServPar par) throws Exception{
     
@@ -45,5 +58,10 @@ public class SSCollsUserEntityIsInGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

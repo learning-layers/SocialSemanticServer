@@ -23,18 +23,46 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserCircleCreate request parameter")
 public class SSEntityUserCircleCreatePar extends SSServPar{
-
-  public List<SSUri>            entities       = new ArrayList<>();
-  public List<SSUri>            users          = new ArrayList<>();
-  public SSCircleE              type           = null;
-  public SSLabel                label          = null;
-  public SSTextComment          description    = null;
-  public Boolean                isSystemCircle = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "circle name")
+  public SSLabel                label          = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "entities to add")
+  public List<SSUri>            entities       = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "users to add")
+  public List<SSUri>            users          = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "textual annotation")
+  public SSTextComment          description    = null;
+
+  public Boolean                isSystemCircle = null;
+  public SSCircleE              type           = null;
+
+  public SSEntityUserCircleCreatePar(){}
+    
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
     
     super(par);
@@ -52,7 +80,7 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
       
       if(clientPars != null){
         isSystemCircle = false;
-        type           = SSCircleE.get       (clientPars.get(SSVarU.type));
+        type           = SSCircleE.group;
         label          = SSLabel.get         (clientPars.get(SSVarU.label));
         
         try{
@@ -70,5 +98,26 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public String getDescription() throws Exception{
+    return SSStrU.toStr(description);
+  }
+  
+  public String getLabel() throws Exception{
+    return SSStrU.toStr(label);
+  }
+  
+  public String getType() throws Exception{
+    return SSStrU.toStr(type);
   }
 }

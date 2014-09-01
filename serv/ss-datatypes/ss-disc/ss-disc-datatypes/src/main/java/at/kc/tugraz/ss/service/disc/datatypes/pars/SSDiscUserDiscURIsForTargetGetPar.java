@@ -20,15 +20,28 @@
 */
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "discUserDiscURIsForTargetGet request parameter")
 public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to retrieve discussions for")
   public SSUri entity  = null;
             
+  public SSDiscUserDiscURIsForTargetGetPar(){}
+    
   public SSDiscUserDiscURIsForTargetGetPar(SSServPar par) throws Exception{
       
     super(par);
@@ -45,5 +58,10 @@ public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

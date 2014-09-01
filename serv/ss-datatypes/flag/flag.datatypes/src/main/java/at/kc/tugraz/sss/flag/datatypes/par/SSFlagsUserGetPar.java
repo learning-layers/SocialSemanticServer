@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.sss.flag.datatypes.par;
+package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -26,20 +26,39 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "flagsUserGet request parameter")
 public class SSFlagsUserGetPar extends SSServPar{
-
+  
+  @XmlElement
+  @ApiModelProperty( value = "entities", required = false )
   public List<SSUri>   entities       = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( value = "types", required = false )
   public List<SSFlagE> types          = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( value = "startTime", required = false )
   public Long          startTime      = null;
+  
+  @XmlElement
+  @ApiModelProperty( value = "endTime", required = false )
   public Long          endTime        = null;
-      
+  
+  public SSFlagsUserGetPar(){}
+  
   public SSFlagsUserGetPar(SSServPar par) throws Exception{
     
     super(par);
-     
+    
     try{
       
       if(pars != null){
@@ -70,5 +89,14 @@ public class SSFlagsUserGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getTypes() throws Exception{
+    return SSStrU.toStr(types);
   }
 }

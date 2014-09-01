@@ -25,16 +25,43 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "recommTags request parameter")
 public class SSRecommTagsPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "user to be considered to retrieve recommendations for")
   public SSUri         forUser    = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "additional information to be taken into account")
   public List<String>  categories = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "number of tags to be returned")
   public Integer       maxTags    = 10;
   
+  public SSRecommTagsPar(){}
+    
   public SSRecommTagsPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -69,5 +96,14 @@ public class SSRecommTagsPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

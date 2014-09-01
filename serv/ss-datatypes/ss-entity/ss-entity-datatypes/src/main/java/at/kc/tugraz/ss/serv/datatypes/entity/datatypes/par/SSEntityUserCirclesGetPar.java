@@ -15,15 +15,29 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserCirclesGet request parameter")
 public class SSEntityUserCirclesGetPar extends SSServPar{
 
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "user to retrieve circles for (optional)")
   public SSUri   forUser             = null;
+  
   public Boolean withSystemCircles   = false;
+  
+  public SSEntityUserCirclesGetPar(){}
     
   public SSEntityUserCirclesGetPar(final SSServPar par) throws Exception{
     
@@ -47,5 +61,10 @@ public class SSEntityUserCirclesGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
   }
 }

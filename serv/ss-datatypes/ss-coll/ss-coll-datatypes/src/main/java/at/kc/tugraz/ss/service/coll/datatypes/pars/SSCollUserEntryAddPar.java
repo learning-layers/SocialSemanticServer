@@ -20,19 +20,47 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collUserEntryAdd request parameter")
 public class SSCollUserEntryAddPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection to add an entity to")
   public SSUri        coll        = null;
-  public SSUri        entry       = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "title of the collection entry ")
   public SSLabel      label       = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "either null for the creation of new sub-collection, an existing collection or an entity")
+  public SSUri        entry       = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether a new collection should be created instead of adding an existing one")
   public Boolean      addNewColl  = null;
   
+  public SSCollUserEntryAddPar(){}
+    
   public SSCollUserEntryAddPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -61,5 +89,18 @@ public class SSCollUserEntryAddPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getColl(){
+    return SSStrU.removeTrailingSlash(coll);
+  }
+  
+  public String getEntry(){
+    return SSStrU.removeTrailingSlash(entry);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
 }

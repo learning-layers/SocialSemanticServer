@@ -15,15 +15,28 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserPublicSet request parameter")
 public class SSEntityUserPublicSetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to make public")
   public SSUri entity  = null;
 
+  public SSEntityUserPublicSetPar(){}
+    
   public SSEntityUserPublicSetPar(SSServPar par) throws Exception{
       
     super(par);
@@ -40,5 +53,10 @@ public class SSEntityUserPublicSetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

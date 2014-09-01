@@ -20,16 +20,34 @@
 */
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "discUserWithEntriesGet request parameter")
 public class SSDiscUserWithEntriesGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "discussion to retrieve")
   public SSUri  disc             = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "max entries to retrieve")
   public int    maxEntries       = 10;
       
+  public SSDiscUserWithEntriesGetPar(){}
+    
   public SSDiscUserWithEntriesGetPar(SSServPar par) throws Exception{
     
     super(par);
@@ -48,5 +66,10 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getDisc(){
+    return SSStrU.removeTrailingSlash(disc);
   }
 }

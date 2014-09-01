@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.serv.auth.serv.SSAuthServ;
 import at.kc.tugraz.ss.serv.dataimport.serv.SSDataImportServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
-import at.kc.tugraz.ss.serv.datatypes.location.serv.SSLocationServ;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
 import at.kc.tugraz.ss.serv.job.file.sys.local.serv.SSFileSysLocalServ;
@@ -96,7 +95,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSCategoryServ.inst.regServ      (SSCoreConf.instGet().getCategoryConf());
       SSDiscServ.inst.regServ          (SSCoreConf.instGet().getDiscConf());
       SSLearnEpServ.inst.regServ       (SSCoreConf.instGet().getLearnEpConf());
-      SSLocationServ.inst.regServ      (SSCoreConf.instGet().getLocationConf());
       SSActivityServ.inst.regServ      (SSCoreConf.instGet().getActivityConf());
       SSSearchServ.inst.regServ        (SSCoreConf.instGet().getSearchConf());
       SSDataExportServ.inst.regServ    (SSCoreConf.instGet().getDataExportConf());
@@ -129,7 +127,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSCategoryServ.inst.initServ();
       SSDiscServ.inst.initServ();
       SSLearnEpServ.inst.initServ();
-      SSLocationServ.inst.initServ();
       SSActivityServ.inst.initServ();
       SSSearchServ.inst.initServ();
       SSDataExportServ.inst.initServ();

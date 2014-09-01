@@ -20,14 +20,27 @@
 */
  package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "ueGetPar request parameter")
 public class SSUEGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty(
+    required = true, 
+    value = "user event to retrieve")
   public SSUri ue       = null;
+  
+  public SSUEGetPar(){}
   
   public SSUEGetPar(SSServPar par) throws Exception{
 
@@ -45,5 +58,10 @@ public class SSUEGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getUe(){
+    return SSStrU.removeTrailingSlash(ue);
   }
 }

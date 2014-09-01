@@ -58,7 +58,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     connectToMYSQL();
   }
   
-   @Override
+  @Override
   public Integer getActive() throws Exception{
     return connectionPool.getActive();
   }
@@ -877,7 +877,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     
     PoolProperties prop = new PoolProperties();
-    prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema); //+ "?autoReconnect=true"
+    prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
     prop.setDriverClassName ("com.mysql.jdbc.Driver");
     prop.setUsername        (((SSDBSQLConf)conf).username);
     prop.setPassword        (((SSDBSQLConf)conf).password);
@@ -890,6 +890,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     prop.setMaxWait(10000);
     prop.setRemoveAbandoned(false);
     prop.setMinEvictableIdleTimeMillis(30000);
+    prop.setTestOnBorrow(true);
+    prop.setValidationQuery("select 1");
     
     connectionPool = new DataSource(prop);
   }

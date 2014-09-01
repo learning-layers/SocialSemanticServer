@@ -20,16 +20,34 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collUserEntryDelete request parameter")
 public class SSCollUserEntryDeletePar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection to delete an item from")
   public SSUri       coll     = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to remove")
   public SSUri       entry    = null;
       
+  public SSCollUserEntryDeletePar(){}
+    
   public SSCollUserEntryDeletePar(SSServPar par) throws Exception{
     
     super(par);
@@ -48,5 +66,14 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getColl(){
+    return SSStrU.removeTrailingSlash(coll);
+  }
+  
+  public String getEntry(){
+    return SSStrU.removeTrailingSlash(entry);
   }
 }

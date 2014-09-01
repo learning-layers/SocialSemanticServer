@@ -26,18 +26,43 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "activitiesUserGet request parameter")
 public class SSActivitiesUserGetPar extends SSServPar{
 
+  @XmlElement
+  @ApiModelProperty(required = false, value = "types of activities to be queried (optional)" )
   public List<SSActivityE>      types            = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "users which have been involved in activities (optional)" )
   public List<SSUri>            users            = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)" )
   public List<SSUri>            entities         = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "groups for which activities shall be retrieved (optional)" )
   public List<SSUri>            circles          = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(required = false, value = "time frame start (optional)" )
   public Long                   startTime        = null; 
+  
+  @XmlElement
+  @ApiModelProperty(required = false, value = "time frame end (optional)" )
   public Long                   endTime          = null;
 
+  public SSActivitiesUserGetPar(){}
+  
   public SSActivitiesUserGetPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -67,5 +92,22 @@ public class SSActivitiesUserGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getCircles() throws Exception{
+    return SSStrU.removeTrailingSlash(circles);
+  }
+   
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getTypes() throws Exception{
+    return SSStrU.toStr(types);
   }
 }

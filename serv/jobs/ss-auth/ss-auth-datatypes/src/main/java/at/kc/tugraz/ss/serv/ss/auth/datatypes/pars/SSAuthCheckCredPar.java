@@ -35,11 +35,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SSAuthCheckCredPar extends SSServPar{
   
   @XmlElement
-  @ApiModelProperty( value = "label", required = true )
+  @ApiModelProperty( required = true, value = "name of the user, e.g. 'hugo'" )
   public SSLabel label;
   
   @XmlElement
-  @ApiModelProperty( value = "password", required = true )
+  @ApiModelProperty( required = true, value = "the user’s password" )
   public String password;
 
   public SSAuthCheckCredPar(){}

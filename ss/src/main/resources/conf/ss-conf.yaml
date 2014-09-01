@@ -111,10 +111,6 @@ learnEpConf:
   executeOpAtStartUp: false
   op: null
   use: true
-locationConf:
-  executeOpAtStartUp: false
-  op: null
-  use: true
 logConf:
   executeOpAtStartUp: false
   logLevel: debug

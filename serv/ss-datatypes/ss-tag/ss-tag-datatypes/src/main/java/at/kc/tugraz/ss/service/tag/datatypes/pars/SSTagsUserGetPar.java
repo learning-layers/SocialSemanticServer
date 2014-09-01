@@ -27,17 +27,49 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "tagsUserGet request parameter")
 public class SSTagsUserGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "user to retrieve tag assignments for (optional)")
   public SSUri              forUser        = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "entities to retrieve tag assignments for (optional)")
   public List<SSUri>        entities       = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "tag labels to consider for retrieving tag assignments (optional)")
   public List<SSTagLabel>   labels         = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "access restriction for to be retrieved tag assignments (i.e. privateSpace, sharedSpace) (optional)")
   public SSSpaceE           space          = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "timestamp to retrieve tag assignments from a certain point in time (optional)")
   public Long               startTime      = null;
   
+  public SSTagsUserGetPar(){}
+    
   public SSTagsUserGetPar(SSServPar par) throws Exception{
     
     super(par);
@@ -77,5 +109,22 @@ public class SSTagsUserGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  public List<String> getLabels() throws Exception{
+    return SSStrU.toStr(labels);
+  }
+
+  public String getSpace(){
+    return SSStrU.toStr(space);
   }
 }

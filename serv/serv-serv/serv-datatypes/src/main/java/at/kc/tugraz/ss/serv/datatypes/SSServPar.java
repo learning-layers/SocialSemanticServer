@@ -26,6 +26,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,22 +38,39 @@ import org.codehaus.jackson.JsonParser;
 public class SSServPar{
   
   @XmlElement 
-  @ApiModelProperty( value = "op", required = true )
+  @ApiModelProperty( 
+    value = "operation to be executed", 
+    required = true)
   public        SSMethU              op            = null;
   
   @XmlElement 
-  @ApiModelProperty( value = "user", required = true )
+  @ApiModelProperty( 
+    value = "the user's identifier", 
+    required = true)
   public        SSUri                user          = null;
   
   @XmlElement 
-  @ApiModelProperty( value = "key", required = true )
+  @ApiModelProperty( 
+    value = "the user's access tocken", 
+    required = true)
   public String key                    = null;
   
+  @JsonIgnore (value = true)
   public        Map<String, Object>  pars          = null;
+  
+  @JsonIgnore (value = true)
   public        Map<String, String>  clientPars    = null;
+  
+  @JsonIgnore (value = true)
   public        Boolean              shouldCommit  = true;
+  
+  @JsonIgnore (value = true)
   public        Boolean              saveUE        = true;
+  
+  @JsonIgnore (value = true)
   public        Boolean              saveActivity  = false;
+  
+  @JsonIgnore (value = true)
   public        Boolean              tryAgain      = true;
   
   public SSServPar(final String jsonRequ) throws Exception{

@@ -249,12 +249,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-location-serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-solr-serv</artifactId>
       <version>${project.version}</version>
     </dependency>

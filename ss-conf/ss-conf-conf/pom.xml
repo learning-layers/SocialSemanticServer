@@ -92,12 +92,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-location-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-file-sys-local-conf</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -20,17 +20,35 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "tagUserEdit request parameter")
 public class SSTagUserEditPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "tag to change the label for")
   public SSUri           tag     = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "new label of the tag")
   public SSTagLabel      label   = null;
       
+  public SSTagUserEditPar(){}
+  
   public SSTagUserEditPar(SSServPar par) throws Exception{
       
     super(par);
@@ -51,5 +69,14 @@ public class SSTagUserEditPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getTag(){
+    return SSStrU.removeTrailingSlash(tag);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
 }

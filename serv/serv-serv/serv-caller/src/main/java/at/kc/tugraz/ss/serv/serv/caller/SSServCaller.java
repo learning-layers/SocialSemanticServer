@@ -2081,22 +2081,6 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.tagsAdd, opPars));
   }
   
-  /* location */
-  
-  public static void locationsUserRemove(
-    final SSUri        user,
-    final SSUri        entity,
-    final Boolean      shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,    entity);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.locationsUserRemove, opPars));
-  }
-  
   /* recommendation */
   
    public static Map<String, Double> recommTags(

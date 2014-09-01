@@ -20,19 +20,52 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserDirectlyAdjoinedEntitiesRemove request parameter")
 public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to be removed")
   public SSUri   entity              = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the user's tags should be removed from the entity")
   public Boolean removeUserTags      = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the user's ratings should be removed from the entity")
   public Boolean removeUserRatings   = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the entity should be removed from all the user's collections")
   public Boolean removeFromUserColls = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether locations added by the user should be removed from the entity")
   public Boolean removeUserLocations = null;
   
+  public SSEntityUserDirectlyAdjoinedEntitiesRemovePar(){}
+    
   public SSEntityUserDirectlyAdjoinedEntitiesRemovePar(final SSServPar par) throws Exception{
       
     super(par);
@@ -69,5 +102,10 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

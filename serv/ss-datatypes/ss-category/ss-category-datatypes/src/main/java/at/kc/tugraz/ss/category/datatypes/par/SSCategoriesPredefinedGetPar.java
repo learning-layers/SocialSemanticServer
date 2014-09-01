@@ -22,20 +22,21 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "categoriesPredefinedGet request parameter")
 public class SSCategoriesPredefinedGetPar extends SSServPar{
   
+  public SSCategoriesPredefinedGetPar(){}
+    
   public SSCategoriesPredefinedGetPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
-      if(pars != null){
-      }
-      
-      if(clientPars != null){
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

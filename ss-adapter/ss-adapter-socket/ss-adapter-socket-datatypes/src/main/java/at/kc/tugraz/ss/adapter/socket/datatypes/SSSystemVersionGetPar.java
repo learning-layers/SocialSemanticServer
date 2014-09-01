@@ -18,35 +18,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.location.datatypes.par;
+package at.kc.tugraz.ss.adapter.socket.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSLocationAddPar extends SSServPar{
+@XmlRootElement
+@ApiModel(value = "systemVersionGet request parameter")
+public class SSSystemVersionGetPar extends SSServPar{
   
-  public SSUri             entity       = null;
-  public String            location     = null;
-    
-  public SSLocationAddPar(SSServPar par) throws Exception{
-      
+  public SSSystemVersionGetPar(){}
+  
+  public SSSystemVersionGetPar(SSServPar par) throws Exception{
     super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity     = (SSUri)  pars.get(SSVarU.entity);
-        location   = (String) pars.get(SSVarU.location);
-      }
-      
-      if(clientPars != null){
-        entity     = SSUri.get      (clientPars.get(SSVarU.entity));
-        location   = clientPars.get (SSVarU.location);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

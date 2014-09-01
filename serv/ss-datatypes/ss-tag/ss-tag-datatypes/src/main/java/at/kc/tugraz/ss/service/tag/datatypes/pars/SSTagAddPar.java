@@ -20,20 +20,44 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-
-public class SSTagAddPar extends SSServPar{
-  
-  public SSUri        entity       = null;
+ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+ import com.wordnik.swagger.annotations.ApiModel;
+ import com.wordnik.swagger.annotations.ApiModelProperty;
+ import javax.xml.bind.annotation.XmlElement;
+ import javax.xml.bind.annotation.XmlRootElement;
+ 
+ @XmlRootElement
+ @ApiModel(value = "tagAdd request parameter")
+ public class SSTagAddPar extends SSServPar{
+   
+   @XmlElement
+   @ApiModelProperty(
+     required = true,
+     value = "entity to add tag to")
+   public SSUri        entity       = null;
+   
+   @XmlElement
+   @ApiModelProperty(
+    required = true, 
+    value = "label of the tag to add")
   public SSTagLabel   label        = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = true, 
+    value = "access restriction for the tag (i.e. privateSpace, sharedSpace)")
   public SSSpaceE     space        = null;
+  
   public Long         creationTime = null;
   
+  public SSTagAddPar(){}
+    
   public SSTagAddPar(SSServPar par) throws Exception{
     
     super(par);
@@ -60,5 +84,18 @@ public class SSTagAddPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public String getSpace(){
+    return SSStrU.toStr(space);
   }
 }

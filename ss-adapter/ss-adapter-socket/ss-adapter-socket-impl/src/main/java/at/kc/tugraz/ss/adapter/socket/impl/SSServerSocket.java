@@ -21,18 +21,15 @@
 package at.kc.tugraz.ss.adapter.socket.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSServerSocket implements Runnable{
   
@@ -126,30 +123,6 @@ public class SSServerSocket implements Runnable{
     @Override
     protected void finalizeImpl() throws Exception{
       finalizeThread();
-    }
-  }
-  
-  private class SSSystemVersionGetRet extends SSServRetI{
-    
-    public String version = null;
-    
-    protected SSSystemVersionGetRet(
-      final String  version,
-      final SSMethU op){
-      
-      super(op);
-      
-      this.version = version;
-    }
-    
-    @Override
-    public Map<String, Object> jsonLDDesc(){
-      return new HashMap<>();
-    }
-    /* getters for json enconding */
-    
-    public String getVersion(){
-      return version;
     }
   }
 }

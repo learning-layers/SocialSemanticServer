@@ -26,20 +26,47 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "flagsUserSet request parameter")
 public class SSFlagsUserSetPar extends SSServPar{
-
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = true, 
+    value = "")
   public List<SSUri>   entities       = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "" )
   public List<SSFlagE> types          = new ArrayList<>();
-  public Integer       value          = null;  
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "" )
+  public Integer       value          = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "" )
   public Long          endTime        = null;
-      
+  
+  public SSFlagsUserSetPar(){}
+  
   public SSFlagsUserSetPar(SSServPar par) throws Exception{
     
     super(par);
-     
+    
     try{
       
       if(pars != null){
@@ -65,5 +92,14 @@ public class SSFlagsUserSetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getTypes() throws Exception{
+    return SSStrU.toStr(types);
   }
 }

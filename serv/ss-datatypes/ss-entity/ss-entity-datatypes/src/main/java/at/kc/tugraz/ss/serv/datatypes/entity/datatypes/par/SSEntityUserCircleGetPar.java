@@ -15,16 +15,35 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityUserCircleGet request parameter")
 public class SSEntityUserCircleGetPar extends SSServPar{
   
-  public SSUri   forUser                    = null;
-  public Boolean withSystemCircles          = false;
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "circle the circle to retrieve")
   public SSUri   circle                     = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false,
+    value = "user for which the circle shall be retrieved")
+  public SSUri   forUser                    = null;
+  
+  public Boolean withSystemCircles          = false;
+  
+  public SSEntityUserCircleGetPar(){}
   
   public SSEntityUserCircleGetPar(final SSServPar par) throws Exception{
     
@@ -44,12 +63,21 @@ public class SSEntityUserCircleGetPar extends SSServPar{
           forUser = SSUri.get(clientPars.get(SSVarU.forUser));
         }catch(Exception error){}
         
-        circle           = SSUri.get(clientPars.get(SSVarU.circle));
-        withSystemCircles= false;
+        circle            = SSUri.get(clientPars.get(SSVarU.circle));
+        withSystemCircles = false;
       }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+   /* json getters */
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
+  public String getForUser() throws Exception{
+    return SSStrU.removeTrailingSlash(forUser);
   }
 }

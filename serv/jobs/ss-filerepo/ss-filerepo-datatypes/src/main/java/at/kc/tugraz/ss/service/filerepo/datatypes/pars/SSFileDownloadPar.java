@@ -20,30 +20,48 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSFileDownloadPar extends SSServPar{
-
-  public SSUri   file    = null;
-  
-  public SSFileDownloadPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        file   = (SSUri)pars.get(SSVarU.file);
-      }
-      
-      if(clientPars != null){
-        file   = SSUri.get(clientPars.get(SSVarU.file));
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-}
+ @XmlRootElement
+ @ApiModel(value = "fileDownload request parameter")
+ public class SSFileDownloadPar extends SSServPar{
+   
+   @XmlElement
+   @ApiModelProperty(
+     required = true,
+     value = "file to be downloaded")
+   public SSUri   file    = null;
+   
+   public SSFileDownloadPar(){}
+   
+   public SSFileDownloadPar(SSServPar par) throws Exception{
+     
+     super(par);
+     
+     try{
+       
+       if(pars != null){
+         file   = (SSUri)pars.get(SSVarU.file);
+       }
+       
+       if(clientPars != null){
+         file   = SSUri.get(clientPars.get(SSVarU.file));
+       }
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+   }
+   
+   /* json getters */
+   public String getFile(){
+     return SSStrU.removeTrailingSlash(file);
+   }
+ }

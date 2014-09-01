@@ -20,14 +20,27 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "fileExtGet request parameter")
 public class SSFileExtGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "file to retrieve the extension for")
   public SSUri file = null;
+  
+  public SSFileExtGetPar(){}
   
   public SSFileExtGetPar(final SSServPar par) throws Exception{
     
@@ -45,5 +58,10 @@ public class SSFileExtGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
   }
 }

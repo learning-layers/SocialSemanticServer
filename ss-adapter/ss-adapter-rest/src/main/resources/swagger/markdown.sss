@@ -25,47 +25,26 @@ Api Version: {{apiVersion}}
 {{#apis}}
 {{#operations}}
 #### **{{httpMethod}}** `{{path}}`
-##### {{nickname}} 
 
 {{summary}}
 {{{notes}}}
 
-###### URL
-{{url}}
-###### Parameters
 {{#parameters}}
-- {{paramType}}
 
 <table border="1">
     <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
+        <td>In</td>
+        <td>Out</td>
     </tr>
     {{#paras}}
     <tr>
-        <th>{{name}}</th>
-        <td>{{required}}</td>
-        <td>{{description}}</td>
-        <td>{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}}</td>
+        <td>{{#paras}}{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}}{{/paras}} </td>
+        <td> {{#responseClass}} [{{className}}](#{{classLinkName}}){{^genericClasses}}{{/genericClasses}}{{#genericClasses}}< [{{className}}](#{{classLinkName}}) >{{/genericClasses}}{{/responseClass}} </td>
     </tr>
     {{/paras}}
 </table>
+
 {{/parameters}}
-
-{{#responseClass}}
-###### Response
-[{{className}}](#{{classLinkName}}){{^genericClasses}}{{/genericClasses}}{{#genericClasses}}< [{{className}}](#{{classLinkName}}) >{{/genericClasses}}
-{{/responseClass}}
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-{{#errorResponses}}
-| {{code}}    | {{message}} | {{#linkType}}[{{type}}](#{{linkType}}){{/linkType}}{{^linkType}}{{#type}}{{{type}}}{{/type}}{{^type}}-{{/type}}{{/linkType}} |
-{{/errorResponses}}
 
 {{#samples}}
 ###### Samples
@@ -95,25 +74,22 @@ Api Version: {{apiVersion}}
 ## Data Types
 {{#dataTypes}}
 
-
 ## <a name="{{name}}">{{name}}</a>
 
 <table border="1">
     <tr>
+        <th>name</th>
         <th>type</th>
         <th>required</th>
-        <th>access</th>
         <th>description</th>
-        <th>notes</th>
     </tr>
     {{#items}}
     <tr>
+        <td>{{name}}</td>
         <td>{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}}</td>
-        <td>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
-        <td>{{#access}}{{{access}}}{{/access}}{{^access}}-{{/access}}</td>
+        <td>{{#required}}true{{/required}}{{^required}}{{/required}}</td>
         <td>{{#description}}{{{description}}}{{/description}}{{^description}}-{{/description}}{{#allowableValue}} Allowable
         values:{{.}}{{/allowableValue}}</td>
-        <td>{{#notes}}{{{notes}}}{{/notes}}{{^notes}}-{{/notes}}</td>
     </tr>
     {{/items}}
 </table>

@@ -21,9 +21,15 @@
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collUserRootGet request parameter")
 public class SSCollUserRootGetPar extends SSServPar{
 
+  public SSCollUserRootGetPar(){}
+    
   public SSCollUserRootGetPar(SSServPar par) throws Exception{
     super(par);
   }

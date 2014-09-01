@@ -26,19 +26,50 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "entityDescsGet request parameter")
 public class SSEntityDescsGetPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( required = false, value = "entities to get details for (optional if types is set)")
   public List<SSUri>     entities          = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty(required = false, value = "types of entities (optional if entities is set)")
   public List<SSEntityE> types             = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "whether tags for entities should be delivered (optional)")
   public Boolean         getTags           = false;
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "whether overall ratings for entities should be delivered (optional)")
   public Boolean         getOverallRating  = false;
+  
+  @XmlElement
+  @ApiModelProperty(  required = false, value = "whether discussion uris for entities shall be included (optional)")
   public Boolean         getDiscs          = false;
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "whether user events for user's given/resulting entities shall be returned (optional)")
   public Boolean         getUEs            = false;
+  
+  @XmlElement
+  @ApiModelProperty( required = false, value = "whether a thumbnail for files should be included (optional)")
   public Boolean         getThumb          = false;
+  
+  @XmlElement
+  @ApiModelProperty(  required = false, value = "whether flags for the user's entities should be included (optional)")
   public Boolean         getFlags          = false;
+  
+  public SSEntityDescsGetPar(){}
   
   public SSEntityDescsGetPar(SSServPar par) throws Exception{
     
@@ -93,5 +124,14 @@ public class SSEntityDescsGetPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getTypes() throws Exception{
+    return SSStrU.toStr(types);
   }
 }

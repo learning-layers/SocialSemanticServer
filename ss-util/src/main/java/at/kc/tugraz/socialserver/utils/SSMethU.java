@@ -222,11 +222,6 @@ public enum SSMethU{
   modelUEEditors                                      ,
   modelUEAuthor                                       ,
   
-  //location
-  locationAdd                                         ,
-  locationsGet                                        ,
-  locationsUserRemove                                 ,
-  
   //lom
   lomExtractFromDir                                   ,
   

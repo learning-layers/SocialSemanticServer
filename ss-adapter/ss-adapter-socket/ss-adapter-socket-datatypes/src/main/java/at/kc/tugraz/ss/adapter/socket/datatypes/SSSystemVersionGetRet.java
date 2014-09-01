@@ -18,32 +18,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.location.datatypes.par;
+package at.kc.tugraz.ss.adapter.socket.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSLocationsGetPar extends SSServPar{
+public class SSSystemVersionGetRet extends SSServRetI{
   
-  public SSUri entity = null;
+  public String version = null;
+  
+  public SSSystemVersionGetRet(
+    final String  version,
+    final SSMethU op){
     
-  public SSLocationsGetPar(SSServPar par) throws Exception{
-      
-    super(par);
+    super(op);
     
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri) pars.get(SSVarU.entity);
-      }
-      
-      if(clientPars != null){
-        entity   = SSUri.get(clientPars.get(SSVarU.entity));
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.version = version;
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    return new HashMap<>();
+  }
+  
+  /* json getters */
+  public String getVersion(){
+    return version;
   }
 }

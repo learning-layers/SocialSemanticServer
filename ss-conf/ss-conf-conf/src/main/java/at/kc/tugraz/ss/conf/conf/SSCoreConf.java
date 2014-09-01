@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
-import at.kc.tugraz.ss.serv.datatypes.location.conf.SSLocationConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
@@ -81,7 +80,6 @@ public class SSCoreConf extends SSCoreConfA{
   private SSUserConf          userConf           = null;
   private SSEntityConf        entityConf         = null;
   private SSCollConf          collConf           = null;
-  private SSLocationConf      locationConf       = null;
   private SSActivityConf      activityConf       = null;
   private SSUEConf            ueConf             = null;
   private SSRatingConf        ratingConf         = null;
@@ -183,7 +181,6 @@ public class SSCoreConf extends SSCoreConfA{
       copy.userConf           = SSUserConf.copy(inst.userConf);
       copy.entityConf         = SSEntityConf.copy(inst.entityConf);
       copy.collConf           = SSCollConf.copy(inst.collConf);
-      copy.locationConf       = SSLocationConf.copy(inst.locationConf);
       copy.activityConf       = SSActivityConf.copy(inst.activityConf);
       copy.ueConf             = SSUEConf.copy(inst.ueConf);
       copy.ratingConf         = SSRatingConf.copy(inst.ratingConf);
@@ -374,14 +371,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   public void setCollConf(SSCollConf collConf){
     this.collConf = collConf;
-  }
-  
-  public SSLocationConf getLocationConf() {
-    return locationConf;
-  }
-
-  public void setLocationConf(SSLocationConf locationConf) {
-    this.locationConf = locationConf;
   }
   
   public SSActivityConf getActivityConf() {

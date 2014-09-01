@@ -26,15 +26,37 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "collUserEntriesAdd request parameter")
 public class SSCollUserEntriesAddPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection to add sub-entities to")
   public SSUri             coll          = null;
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "entities to add")
   public List<SSUri>       entries       = new ArrayList<>();
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "collection item labels")
   public List<SSLabel>     labels        = new ArrayList<>();
       
+  public SSCollUserEntriesAddPar(){}
+    
   public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
     
     super(par);
@@ -49,13 +71,25 @@ public class SSCollUserEntriesAddPar extends SSServPar{
       
       if(clientPars != null){
         
-        coll = SSUri.get(clientPars.get(SSVarU.coll));
-        
+        coll        = SSUri.get(clientPars.get(SSVarU.coll));
         entries     = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entries), SSStrU.comma));
         labels      = SSLabel.get  (SSStrU.split                           (clientPars.get(SSVarU.labels),  SSStrU.comma));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getColl(){
+    return SSStrU.removeTrailingSlash(coll);
+  }
+  
+  public List<String> getEntries() throws Exception{
+    return SSStrU.removeTrailingSlash(entries);
+  }
+  
+  public List<String> getLabels() throws Exception{
+    return SSStrU.toStr(labels);
   }
 }

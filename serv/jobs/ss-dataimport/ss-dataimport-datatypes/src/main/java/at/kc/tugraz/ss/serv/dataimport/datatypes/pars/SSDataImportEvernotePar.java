@@ -20,17 +20,27 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-
-public class SSDataImportEvernotePar extends SSServPar{
-  
-  public String authToken = null;
-  
-  public SSDataImportEvernotePar(SSServPar par) throws Exception{
+ import at.kc.tugraz.socialserver.utils.SSVarU;
+ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+ import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+ import javax.xml.bind.annotation.XmlRootElement;
+ 
+ @XmlRootElement
+ @ApiModel(value = "dataImportEvernote request parameter")
+ public class SSDataImportEvernotePar extends SSServPar{
    
-    super(par);
+   @XmlElement
+   @ApiModelProperty( required = true , value = "evernote authentication key")
+   public String authToken = null;
+   
+   public SSDataImportEvernotePar(){}
+   
+   public SSDataImportEvernotePar(SSServPar par) throws Exception{
+     
+     super(par);
     
     try{
       
@@ -39,10 +49,7 @@ public class SSDataImportEvernotePar extends SSServPar{
       }
       
       if(clientPars != null){
-        
-        try{
-          authToken       = (String)          pars.get(SSVarU.authToken);
-        }catch(Exception error){}
+        authToken       = (String)          pars.get(SSVarU.authToken);
       }
       
     }catch(Exception error){

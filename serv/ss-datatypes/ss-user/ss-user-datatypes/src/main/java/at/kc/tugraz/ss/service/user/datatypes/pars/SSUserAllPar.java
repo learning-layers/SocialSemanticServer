@@ -21,8 +21,14 @@
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "userAll request parameter")
 public class SSUserAllPar extends SSServPar{
+  
+  public SSUserAllPar(){}
   
   public SSUserAllPar(SSServPar par) throws Exception{
     super(par);

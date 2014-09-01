@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityUserShareRet extends SSServRetI{
-
+  
   public SSUri circle = null;
 
   public static SSEntityUserShareRet get(
