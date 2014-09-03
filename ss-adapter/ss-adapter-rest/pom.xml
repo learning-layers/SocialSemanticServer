@@ -47,7 +47,7 @@
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
 <!--                <description>Hellow world!</description>-->
-                <!--<termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>-->
+                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
                 <contact>${project.contact}</contact>
                 <license>${project.license}</license>
                 <licenseUrl>${project.licenseURI}</licenseUrl>
