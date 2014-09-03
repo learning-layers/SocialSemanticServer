@@ -31,10 +31,6 @@ public enum SSSpaceE implements SSJSONLDPropI{
   sharedSpace,
   privateSpace;
   
-  public static String toStr(final SSSpaceE space){
-    return SSStrU.toStr(space);
-  }
-  
   public static SSSpaceE get(final String space) throws Exception{
     return SSSpaceE.valueOf(space);
   }

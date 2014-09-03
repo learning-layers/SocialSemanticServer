@@ -30,10 +30,10 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -96,6 +96,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
       
       final Map<String, String> where = new HashMap<>();
+      final SSEntity            entityObj;
       
       where(where, SSSQLVarU.id, entityUri);
       
@@ -103,25 +104,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      return SSEntity.get(
-        entityUri,
-        bindingStrToLabel      (resultSet, SSSQLVarU.label),
-        bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
-        bindingStrToEntityType (resultSet, SSSQLVarU.type),
-        bindingStrToUri        (resultSet, SSSQLVarU.author),
-        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-        null,
-        null,
-        null,
-        new ArrayList<>(), //comments
-        null,              //overallRating
-        new ArrayList<>(), //tags
-        new ArrayList<>(), //discs
-        new ArrayList<>(),  //uEs
-        null,//thumb
-        null, //file
-        new ArrayList<>());
+      entityObj =
+        SSEntity.get(
+          entityUri,
+          bindingStrToEntityType (resultSet, SSSQLVarU.type),
+          bindingStrToLabel      (resultSet, SSSQLVarU.label));
       
+      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
+      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
+      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+
+      return entityObj;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
@@ -145,6 +138,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
       
       final Map<String, String> where = new HashMap<>();
+      final SSEntity            entityObj;
       
       where(where, SSSQLVarU.label, label);
       where(where, SSSQLVarU.type,  type);
@@ -153,25 +147,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      return SSEntity.get(
-        bindingStrToUri        (resultSet, SSSQLVarU.id),
-        label,
-        bindingStrToLong       (resultSet, SSSQLVarU.creationTime),
-        type,
-        bindingStrToUri        (resultSet, SSSQLVarU.author),
-        SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-        null,
-        null,
-        null, 
-        new ArrayList<>(), //comments
-        null,              //overallRating
-        new ArrayList<>(), //tags
-        new ArrayList<>(), //discs
-        new ArrayList<>(),  //uEs
-        null,//thumb
-        null, //file
-        new ArrayList<>());
+      entityObj =
+        SSEntity.get(
+          bindingStrToUri        (resultSet, SSSQLVarU.id),
+          type,
+          label);
       
+      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
+      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
+      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+
+      return entityObj;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
@@ -428,6 +414,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
+      SSEntity                  entityObj;
       
       column(columns, SSSQLVarU.id);
       column(columns, SSSQLVarU.label);
@@ -447,25 +434,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        attachedEntities.add(
+        entityObj =
           SSEntity.get(
             bindingStrToUri           (resultSet, SSSQLVarU.id),
-            bindingStrToLabel         (resultSet, SSSQLVarU.label),
-            bindingStrToLong          (resultSet, SSSQLVarU.creationTime),
             bindingStrToEntityType    (resultSet, SSSQLVarU.type),
-            bindingStrToUri           (resultSet, SSSQLVarU.author),
-            bindingStrToTextComment   (resultSet, SSSQLVarU.description),
-            null,
-            null,
-            null,
-            new ArrayList<>(), //comments
-            null,              //overallRating
-            new ArrayList<>(), //tags
-            new ArrayList<>(), //discs
-            new ArrayList<>(),  //uEs
-            null,//thumb
-            null, //file
-            new ArrayList<>()));
+            bindingStrToLabel         (resultSet, SSSQLVarU.label));
+        
+        entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarU.creationTime);
+        entityObj.author       = bindingStrToUri           (resultSet, SSSQLVarU.author);
+        entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarU.description);
+
+        attachedEntities.add(entityObj);
       }
       
       return attachedEntities;
@@ -723,7 +702,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres     = new HashMap<>();
       final List<String>              columns    = new ArrayList<>();
       final List<String>              tableCons  = new ArrayList<>();
-      SSUri                           circleUri;
+      SSEntityCircle                  circleObj;
       
       table     (tables,  circleUsersTable);
       table     (tables,  circleEntitiesTable);
@@ -749,18 +728,16 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        circleUri = bindingStrToUri         (resultSet, SSSQLVarU.circleId);
-        
-        circles.add(
+        circleObj =
           SSEntityCircle.get(
-            circleUri,
+            bindingStrToUri         (resultSet, SSSQLVarU.circleId),
             bindingStrToLabel       (resultSet, SSSQLVarU.label),
-            bindingStrToTextComment (resultSet, SSSQLVarU.description),
             SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
-            null, 
-            getUserURIsForCircle(circleUri), 
-            null,
-            bindingStrToBoolean     (resultSet,SSSQLVarU.isSystemCircle)));
+            bindingStrToBoolean     (resultSet,SSSQLVarU.isSystemCircle));
+
+        circleObj.description = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+        
+        circleObj.users.addAll(getUserURIsForCircle(circleObj.id));
       }
       
       return circles;
@@ -854,9 +831,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
-      final List<SSUri>         circleUsers       = new ArrayList<>();
-      final List<SSUri>         circleEntities    = new ArrayList<>();
-      final SSEntityCircle      circle;
+      final SSEntityCircle      circleObj;
       
       table    (tables,    circleTable);
       table    (tables,    entityTable);
@@ -872,30 +847,28 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      if(withUsers){
-        circleUsers.addAll(getUserURIsForCircle(circleUri));
-      }
-      
-      if(withEntities){
-        circleEntities.addAll(getCircleEntityURIs(circleUri));
-      }
-      
-      circle =
+      circleObj =
         SSEntityCircle.get(
           circleUri,
           bindingStrToLabel       (resultSet, SSSQLVarU.label),
-          bindingStrToTextComment (resultSet, SSSQLVarU.description),
           SSCircleE.get           (bindingStr(resultSet, SSSQLVarU.circleType)),
-          null,
-          circleUsers,
-          circleEntities,
-          bindingStrToBoolean      (resultSet, SSSQLVarU.isSystemCircle));
+          bindingStrToBoolean     (resultSet,SSSQLVarU.isSystemCircle));
       
-      if(withCircleRights){
-        circle.accessRights = SSEntityMiscFct.getCircleRights(circle.type);
+      circleObj.description = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+      
+      if(withUsers){
+        circleObj.users.addAll(getUserURIsForCircle(circleObj.id));
       }
       
-      return circle;
+      if(withEntities){
+        circleObj.entities.addAll(getCircleEntityURIs(circleUri));
+      }
+
+      if(withCircleRights){
+        circleObj.accessRights.addAll(SSEntityMiscFct.getCircleRights(circleObj.circleType));
+      }
+      
+      return circleObj;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1139,6 +1112,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();
+      SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -1153,25 +1127,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
       
-        entities.add(
+        entityObj =
           SSEntity.get(
             bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null, 
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-            null,
-            null,
-            null,
-            new ArrayList<>(), //comments
-            null,              //overallRating
-            new ArrayList<>(), //tags
-            new ArrayList<>(), //discs
-            new ArrayList<>(),  //uEs
-            null,//thumb
-            null, //file
-            new ArrayList<>()));
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+        
+        entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+        
+        entities.add(entityObj);
       }
       
       return entities;
@@ -1194,6 +1158,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();
+      SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -1207,26 +1172,16 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        entities.add(
+        entityObj =
           SSEntity.get(
             bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-            null,
-            null,
-            null,
-            new ArrayList<>(), //comments
-            null,              //overallRating
-            new ArrayList<>(), //tags
-            new ArrayList<>(), //discs
-            new ArrayList<>(),  //uEs
-            null,//thumb
-            null, //file
-            new ArrayList<>()));
-      }
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+         
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         
+         entities.add(entityObj);
+      }      
       
       return entities;
       
@@ -1248,6 +1203,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
       final List<String>              againsts  = new ArrayList<>();
+      SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
       column (columns, SSSQLVarU.label);
@@ -1261,25 +1217,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        entities.add(
+        entityObj =
           SSEntity.get(
             bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label),
-            null,
             bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            null,
-            SSTextComment.get      (bindingStr(resultSet, SSSQLVarU.description)),
-            null,
-            null,
-            null,
-            new ArrayList<>(), //comments
-            null,              //overallRating
-            new ArrayList<>(), //tags
-            new ArrayList<>(), //discs
-            new ArrayList<>(),  //uEs
-            null,//thumb
-            null, //file
-            new ArrayList<>()));
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+         
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         
+         entities.add(entityObj);
       }
       
       return entities;

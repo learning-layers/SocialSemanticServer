@@ -58,13 +58,4 @@ public class SSRatingOverall extends SSEntityA{
     
     return ld;
   }
-  
-  /* getters to allow for json enconding */
-  public double getScore() {
-    return score;
-  }
-
-  public int getFrequ() {
-    return frequ;
-  }  
 }

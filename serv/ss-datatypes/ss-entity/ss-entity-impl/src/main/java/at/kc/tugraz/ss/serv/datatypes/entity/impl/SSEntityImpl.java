@@ -31,8 +31,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
@@ -41,8 +41,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.err.SSEntityUserAccessedOtherUsersPrivateGroupErr;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -453,37 +452,17 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityDescGetPar  par    = new SSEntityDescGetPar(parA);
       final SSEntity            entity;
       final List<SSUri>         files;
-      final SSUri               file;
       
       entity = sqlFct.getEntity (par.entity);
       files  = sqlFct.getFiles  (par.entity);
       
-      if(files.isEmpty()){
-        file = null;
-      }else{
-        file = files.get(0);
+      if(!files.isEmpty()){
+        entity.file = files.get(0);
       }
-      
+        
       return SSEntityMiscFct.getDescForEntityByEntityHandlers(
         par,
-        SSEntity.get(
-          entity.id,
-          entity.label,
-          entity.creationTime,
-          entity.type,
-          entity.author,
-          entity.description,
-          new ArrayList<>(), //circleTypes
-          new ArrayList<>(), //entries
-          new ArrayList<>(), //attachedEntities
-          new ArrayList<>(), //comments
-          null, //overallRating
-          new ArrayList<>(), //tags
-          new ArrayList<>(),//discs
-          new ArrayList<>(),  //uEs
-          null,//thumb
-          file, //file
-          new ArrayList<>())); //flags
+        entity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -720,7 +699,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
-      return;
     }
   }
   
@@ -817,7 +795,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         otherUserCircle = sqlFct.getCircle(par.circle, false, false, true);
         
-        switch(otherUserCircle.type){
+        switch(otherUserCircle.circleType){
           case pub:
           case group:
             otherUserCircle.entities = sqlFct.getCircleEntityURIs(otherUserCircle.id);
@@ -825,7 +803,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             
             return otherUserCircle;
           default:
-            throw new SSEntityUserAccessedOtherUsersPrivateGroupErr();
+            throw new SSErr(SSErrE.userAccessedOtherUsersPrivateGroup);
         }
       }
       
@@ -861,9 +839,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
               par.withSystemCircles));
         }catch(Exception error){
           
-          if(SSServErrReg.containsErr(SSEntityUserAccessedOtherUsersPrivateGroupErr.class)){
+          if(SSServErrReg.containsErr(SSErrE.userAccessedOtherUsersPrivateGroup)){
             SSServErrReg.reset();
+            continue;
           }
+          
+          throw error;
         }
       }
       

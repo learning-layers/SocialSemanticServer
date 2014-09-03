@@ -18,34 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCategoryFrequ implements SSJSONLDPropI{
+public class SSCategoryFrequ extends SSEntityA{
   
   public SSCategoryLabel    label  = null;
   public SSSpaceE           space  = null;
 	public Integer            frequ  = -1;
 
   public static SSCategoryFrequ get(
-    SSCategoryLabel    label,
-    SSSpaceE           space,
-    Integer            frequ){
+    final SSCategoryLabel    label,
+    final SSSpaceE           space,
+    final Integer            frequ) throws Exception{
     
     return new SSCategoryFrequ(label, space, frequ);
   }  
 	
-  private SSCategoryFrequ(
-    SSCategoryLabel    label,
-    SSSpaceE           space,
-    Integer            frequ){
+  protected SSCategoryFrequ(
+    final SSCategoryLabel    label,
+    final SSSpaceE           space,
+    final Integer            frequ) throws Exception{
 		
+    super(label);
+    
 		this.label      = label;
     this.space      = space;
 		this.frequ      = frequ;
@@ -63,16 +65,12 @@ public class SSCategoryFrequ implements SSJSONLDPropI{
     return ld;
   }  
   
-  /* getters to allow for json enconding */
+  /* json getters */
   public String getLabel() {
 		return SSStrU.toStr(label);
 	}
   
   public String getSpace() {
-		return SSSpaceE.toStr(space);
+		return SSStrU.toStr(space);
 	}
-
-	public int getFrequ() {
-		return frequ;
-	}	
 }

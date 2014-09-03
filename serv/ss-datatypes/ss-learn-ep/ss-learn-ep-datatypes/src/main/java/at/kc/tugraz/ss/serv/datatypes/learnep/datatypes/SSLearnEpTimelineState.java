@@ -22,28 +22,36 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpTimelineState extends SSEntityA {
+public class SSLearnEpTimelineState extends SSEntity {
 
-  public SSUri id                      = null;
   public SSUri learnEpVersion          = null;
   public Long  startTime               = null;
   public Long  endTime                 = null;
   
-  public static SSLearnEpTimelineState get(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime)throws Exception{
-    return new SSLearnEpTimelineState(learnEpTimelineStateUri, learnEpVersionUri, startTime, endTime);
+  public static SSLearnEpTimelineState get(
+    final SSUri id, 
+    final SSUri learnEpVersion, 
+    final Long  startTime, 
+    final Long  endTime) throws Exception{
+    
+    return new SSLearnEpTimelineState(id, learnEpVersion, startTime, endTime);
   }
   
-  private SSLearnEpTimelineState(SSUri learnEpTimelineStateUri, SSUri learnEpVersionUri, Long startTime, Long endTime)throws Exception{
+  protected SSLearnEpTimelineState(
+    final SSUri id,
+    final SSUri learnEpVersion,
+    final Long  startTime,
+    final Long  endTime)throws Exception{
     
-    super(learnEpTimelineStateUri);
+    super(id, SSEntityE.learnEpTimelineState);
     
-    this.id                      = learnEpTimelineStateUri;
-    this.learnEpVersion          = learnEpVersionUri;
+    this.learnEpVersion          = learnEpVersion;
     this.startTime               = startTime;
     this.endTime                 = endTime;
   }
@@ -51,9 +59,8 @@ public class SSLearnEpTimelineState extends SSEntityA {
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.id,                      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.learnEpVersion,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.startTime,               SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     ld.put(SSVarU.endTime,                 SSVarU.sss + SSStrU.colon + SSStrU.valueLong);
@@ -63,19 +70,7 @@ public class SSLearnEpTimelineState extends SSEntityA {
   
   /* json getters  */
   
-  public String getId() throws Exception {
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
    public String getLearnEpVersion() throws Exception {
     return SSStrU.removeTrailingSlash(learnEpVersion);
-  }
-
-  public Long getStartTime() {
-    return startTime;
-  }
-
-  public Long getEndTime() {
-    return endTime;
   }
 }

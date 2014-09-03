@@ -18,55 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes;
+package at.kc.tugraz.ss.service.user.datatypes;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import java.util.HashMap;
 import java.util.Map;
 
-public class SSUser extends SSEntityA {
+public class SSUser extends SSEntity{
 
-  public         SSUri        id     = null;
-  public         SSLabel      label   = null;
-  
   public static SSUser get(
-    final SSUri    userUri,
+    final SSUri    id,
     final SSLabel  label) throws Exception{
     
-    return new SSUser(userUri, label);
+    return new SSUser(id, label);
   }
   
-  private SSUser(
-    final SSUri      userUri,
+  protected SSUser(
+    final SSUri   id,
     final SSLabel label) throws Exception{
     
-    super(userUri);
+    super(id, SSEntityE.user, label);
     
-    this.id   = userUri;
-    this.label = label;
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
     return ld;
-  }
-  
-  /* getters to allow for json enconding  */
-  
-  public String getId(){
-    return SSStrU.toStr(id);
-  }
-
-  public String getLabel(){
-    return SSStrU.toStr(label);
   }
 }

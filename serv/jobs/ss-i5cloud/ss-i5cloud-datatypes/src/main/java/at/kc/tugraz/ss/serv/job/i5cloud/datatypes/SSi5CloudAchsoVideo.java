@@ -20,53 +20,50 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SSi5CloudAchsoVideo extends SSEntityA{
+public class SSi5CloudAchsoVideo extends SSEntity{
   
-  public SSUri        id            = null;
-  public SSLabel      label          = null;
-  public SSLabel      author         = null;
-  public Long         creationTime   = null;
+  public SSLabel      authorLabel    = null;
   public List<String> keywords       = new ArrayList<>();
   public List<String> annotations    = new ArrayList<>();
   
   public static SSi5CloudAchsoVideo get(
-    final SSLabel      title,
-    final SSUri        uri,
-    final SSLabel      author,
-    final Long         creationTime,
+    final SSUri        id,
+    final SSLabel      label,
+    final SSLabel      authorLabel, 
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     
     return new SSi5CloudAchsoVideo(
-      title, 
-      uri,
-      author, 
-      creationTime, 
+      id, 
+      label,
+      authorLabel,
       keywords, 
       annotations);
   }
   
-  private SSi5CloudAchsoVideo(
+  protected SSi5CloudAchsoVideo(
+    final SSUri        id,
     final SSLabel      label,
-    final SSUri        uri,
-    final SSLabel      author,
-    final Long         creationTime,
+    final SSLabel      authorLabel, 
     final List<String> keywords,
     final List<String> annotations) throws Exception{
     
-    super(uri);
+    super(id, SSEntityE.video, label);
     
-    this.label        = label;
-    this.id          = uri;
-    this.author       = author;
-    this.creationTime = creationTime;
-    
+    this.authorLabel  = authorLabel;
+      
     if(keywords != null){
       this.keywords.addAll(keywords);
     }
@@ -78,6 +75,28 @@ public class SSi5CloudAchsoVideo extends SSEntityA{
 
   @Override
   public Object jsonLDDesc(){
-    return null;
+    
+    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> keywordsObj    = new HashMap<>();
+    final Map<String, Object> annotationsObj = new HashMap<>();
+    
+    keywordsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    keywordsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.keywords, keywordsObj);
+    
+    annotationsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    annotationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.annotations, annotationsObj);
+    
+    ld.put(SSVarU.authorLabel, SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    
+    return ld;
+  }
+  
+  /* json getters */
+  public String getAuthorLabel(){
+    return SSStrU.toStr(authorLabel);
   }
 }

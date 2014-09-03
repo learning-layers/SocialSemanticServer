@@ -22,27 +22,36 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpEntity extends SSEntityA {
+public class SSLearnEpEntity extends SSEntity {
   
-  public SSUri  id       = null;
   public SSUri  entity   = null;
   public Float  x        = null;
   public Float  y        = null;
   
-  public static SSLearnEpEntity get(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
-    return new SSLearnEpEntity(learnEpEntityUri, entityUri, x, y);
+  public static SSLearnEpEntity get(
+    final SSUri id, 
+    final SSUri entity, 
+    final Float x, 
+    final Float y)throws Exception{
+    
+    return new SSLearnEpEntity(id, entity, x, y);
   }
   
-  private SSLearnEpEntity(SSUri learnEpEntityUri, SSUri entityUri, Float x, Float y)throws Exception{
-    super(learnEpEntityUri);
+  protected SSLearnEpEntity(
+    final SSUri id,
+    final SSUri entity,
+    final Float x,
+    final Float y)throws Exception{
     
-    this.id                 = learnEpEntityUri;
-    this.entity             = entityUri;
+    super(id, SSEntityE.learnEpEntity);
+    
+    this.entity             = entity;
     this.x                  = x;
     this.y                  = y;
   }
@@ -50,9 +59,8 @@ public class SSLearnEpEntity extends SSEntityA {
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.id,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.x,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
     ld.put(SSVarU.y,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
@@ -60,20 +68,8 @@ public class SSLearnEpEntity extends SSEntityA {
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public String getId() throws Exception {
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
+  /* json getters */
   public String getEntity() throws Exception {
     return SSStrU.removeTrailingSlash(entity);
-  }
-  
-  public Float getX() {
-    return x;
-  }
-
-  public Float getY() {
-    return y;
   }
 }

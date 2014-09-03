@@ -59,6 +59,7 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       Long                            timestamp;
       Long                            endTimeForFlag;
       Integer                         value;
+      SSFlag                          flagObj;
 
       table    (tables,    flagTable);
       table    (tables,    flagsTable);
@@ -144,15 +145,18 @@ public class SSFlagSQLFct extends SSDBSQLFct{
           value = null;
         }
         
-        flags.add(
+        flagObj = 
           SSFlag.get(
             bindingStrToUri  (resultSet, SSSQLVarU.id),
             bindingStrToUri  (resultSet, SSSQLVarU.userId),
-            bindingStrToUri  (resultSet, SSSQLVarU.entityId), 
-            SSFlagE.get      (bindingStr(resultSet, SSSQLVarU.type)), 
-            timestamp,
+            bindingStrToUri  (resultSet, SSSQLVarU.entityId),
+            SSFlagE.get      (bindingStr(resultSet, SSSQLVarU.type)),
             endTimeForFlag,
-            value));
+            value);
+              
+        flagObj.creationTime = timestamp;
+        
+        flags.add(flagObj);
       }
       
       return flags;

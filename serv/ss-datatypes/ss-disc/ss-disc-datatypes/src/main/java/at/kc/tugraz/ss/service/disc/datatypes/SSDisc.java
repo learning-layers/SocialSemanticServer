@@ -18,102 +18,44 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes;
+package at.kc.tugraz.ss.service.disc.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.*;
 
 public class SSDisc extends SSEntity {
   
-  public  SSUri  entity = null;
+  @ApiModelProperty(
+    required = false,
+    value = "entity discussed")
+  public SSUri  entity = null;
 
   public static SSDisc get(
     final SSUri                  id,
-    final SSLabel                label,
-    final SSUri                  author,
-    final SSUri                  entity,
     final SSEntityE              type,
-    final List<SSDiscEntry>      entries,
-    final SSTextComment          explanation,
-    final Long                   creationTime,
-    final List<SSCircleE>        circleTypes,
-    final List<SSEntity>         attachedEntities,
-    final List<SSTextComment>    comments,
-    final SSEntityA              overallRating, //new
-    final List<String>           tags, //new
-    final List<SSEntityA>        discs,//new
-    final List<SSEntityA>        uEs,  //new
-    final String                 thumb,//new
-    final SSUri                  file, //new
-    final List<SSEntityA>        flags) throws Exception{
+    final SSLabel                label,
+    final SSUri                  entity) throws Exception{
     
     return new SSDisc(
       id, 
+      type,
       label, 
-      author, 
-      entity, 
-      type, 
-      entries, 
-      explanation, 
-      creationTime, 
-      circleTypes, 
-      attachedEntities, 
-      comments, 
-      overallRating, 
-      tags, 
-      discs, 
-      uEs, 
-      thumb, 
-      file, 
-      flags);
+      entity);
   }
 
-  private SSDisc(
+  protected SSDisc(
     final SSUri                  id,
-    final SSLabel                label,
-    final SSUri                  author,
-    final SSUri                  entity,
     final SSEntityE              type,
-    final List<SSDiscEntry>      entries, 
-    final SSTextComment          description,
-    final Long                   creationTime,
-    final List<SSCircleE>        circleTypes,
-    final List<SSEntity>         attachedEntities,
-    final List<SSTextComment>    comments,
-    final SSEntityA              overallRating, //new
-    final List<String>           tags, //new
-    final List<SSEntityA>        discs,//new
-    final List<SSEntityA>        uEs,  //new
-    final String                 thumb,//new
-    final SSUri                  file, //new
-    final List<SSEntityA>        flags) throws Exception{
+    final SSLabel                label,
+    final SSUri                  entity) throws Exception{
     
-    super(
-      id,
-      label,
-      creationTime,
-      type,
-      author,
-      description,
-      circleTypes,
-      entries,
-      attachedEntities,
-      comments, 
-      overallRating, 
-      tags, 
-      discs, 
-      uEs, 
-      thumb, 
-      file, 
-      flags);
+    super(id, type, label);
     
     this.entity = entity;
   }
@@ -129,7 +71,6 @@ public class SSDisc extends SSEntity {
   }
 
   /* json getters */
-  
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
   }

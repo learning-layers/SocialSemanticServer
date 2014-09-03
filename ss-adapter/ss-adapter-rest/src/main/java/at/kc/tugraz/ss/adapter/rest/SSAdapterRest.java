@@ -34,6 +34,8 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.conf.conf.SSConf;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
@@ -70,7 +72,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -164,14 +165,11 @@ import com.wordnik.swagger.annotations.ApiParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -908,24 +906,30 @@ public class SSAdapterRest{
     value = "replace a file with a newer version",
     response = SSFileReplaceRet.class)
   public Response fileReplace(
-    @ApiParam(
-      value = "jsonRequ",
-      required = true)
-    @FormDataParam(SSVarU.jsonRequ)
-    final SSFileReplacePar input,
-    @ApiParam(
-      value = "fileHandle",
-      required = true)
-    @FormDataParam(SSVarU.fileHandle)
-    final InputStream fileHandle){
+    @FormDataParam(SSVarU.op)         final String op,
+    @FormDataParam(SSVarU.user)       final String user,
+    @FormDataParam(SSVarU.file)       final String file, 
+    @FormDataParam(SSVarU.key)        final String key,
     
+    @ApiParam(
+      value = "file handle",
+      required = true)
+    @FormDataParam(SSVarU.fileHandle) 
+    final InputStream fileHandle){
+
     Response result = null;
-    byte[]   bytes  = new byte[SSSocketU.socketTranmissionSize];
-    String   returnMsg;
     
     try{
+      final SSFileReplacePar par    = new SSFileReplacePar();
+      byte[]                 bytes  = new byte[SSSocketU.socketTranmissionSize];
+      String                 returnMsg;
+    
+      par.op       = SSMethU.fileReplace;
+      par.user     = SSUri.get(user);
+      par.key      = key;
+      par.file     = SSUri.get(file);
       
-      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(input));
+      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(par));
       
       sSCon.writeRequFullToSS ();
       sSCon.readMsgFullFromSS();
@@ -959,27 +963,36 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path(SSStrU.slash + "fileUpload")
   @ApiOperation(
-    value = "upload a file",
+    value = "upload a file", 
     response = SSFileUploadRet.class)
   public Response fileUpload(
-    @ApiParam(
-      value = "jsonRequ",
-      required = true)
-    @FormDataParam(SSVarU.jsonRequ)
-    final SSFileUploadPar input,
-    @ApiParam(
-      value = "fileHandle",
-      required = true)
-    @FormDataParam(SSVarU.fileHandle)
-    final InputStream fileHandle){
+    @FormDataParam(SSVarU.op)         final String      op,
+    @FormDataParam(SSVarU.user)       final String      user,
+    @FormDataParam(SSVarU.mimeType)   final String      mimeType,
+    @FormDataParam(SSVarU.label)      final String      label,
+    @FormDataParam(SSVarU.key)        final String      key,
     
+    @ApiParam(
+      value = "file handle",
+      required = true)
+    @FormDataParam(SSVarU.fileHandle) 
+    final InputStream fileHandle){
+
     Response result = null;
-    byte[]   bytes  = new byte[SSSocketU.socketTranmissionSize];
-    String   resultMsg;
     
     try{
+      final SSFileUploadPar par;
+      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
+      String                resultMsg;
+
+      par          = new SSFileUploadPar();
+      par.op       = SSMethU.fileUpload;
+      par.user     = SSUri.get(user);
+      par.key      = key;
+      par.mimeType = mimeType;
+      par.label    = SSLabel.get(label);
       
-      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(input));
+      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(par));
       
       sSCon.writeRequFullToSS  ();
       sSCon.readMsgFullFromSS  ();

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.List;
 import java.util.Map;

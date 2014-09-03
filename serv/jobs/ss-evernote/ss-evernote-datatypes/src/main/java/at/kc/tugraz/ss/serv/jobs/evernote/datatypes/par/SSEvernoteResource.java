@@ -22,48 +22,87 @@ package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import java.util.HashMap;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
-public class SSEvernoteResource extends SSEntityA{
+public class SSEvernoteResource extends SSEntity{
   
-  public SSUri id   = null;
-  public SSUri note = null;
+  @ApiModelProperty(
+    required = false,
+    value = "note the resource is contained in")
+  public SSUri  note     = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "file extension")
+  public String fileExt  = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "mime type")
+  public String mimeType = null;
   
   public static SSEvernoteResource get(
-    final SSUri id,
-    final SSUri note) throws Exception{
+    final SSEntity entity,
+    final SSUri    note, 
+    final String   fileExt, 
+    final String   mimeType) throws Exception{
     
-    return new SSEvernoteResource(id, note);
+    return new SSEvernoteResource(entity, note, fileExt, mimeType);
   }
   
-  public SSEvernoteResource(
-    final SSUri id,
-    final SSUri note) throws Exception{
-
-    super(id);
+  public static SSEvernoteResource get(
+    final SSUri  id,
+    final SSUri  note, 
+    final String fileExt, 
+    final String mimeType) throws Exception{
     
-    this.id   = id;
-    this.note = note;
+    return new SSEvernoteResource(id, note, fileExt, mimeType);
+  }
+  
+  protected SSEvernoteResource(
+    final SSEntity  entity,
+    final SSUri     note, 
+    final String    fileExt, 
+    final String    mimeType) throws Exception{
+
+    super(entity);
+    
+    this.note     = note;
+    this.fileExt  = fileExt;
+    this.mimeType = mimeType;
+  }
+  
+  protected SSEvernoteResource(
+    final SSUri  id,
+    final SSUri  note, 
+    final String fileExt, 
+    final String mimeType) throws Exception{
+
+    super(id, SSEntityE.evernoteResource);
+    
+    this.id       = id;
+    this.note     = note;
+    this.fileExt  = fileExt;
+    this.mimeType = mimeType;
   }
 
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.id,   SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.note, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.note,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.mimeType,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.fileExt,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }
   
-  public String getId(){
-    return SSStrU.removeTrailingSlash(id);
-  }
-
+  /* json getters */
   public String getNote(){
     return SSStrU.removeTrailingSlash(note);
   }

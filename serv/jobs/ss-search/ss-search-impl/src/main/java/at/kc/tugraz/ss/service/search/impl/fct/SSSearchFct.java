@@ -21,68 +21,39 @@
 package at.kc.tugraz.ss.service.search.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SSSearchFct {
 
-  public static List<SSSearchResult> selectAndFillSearchResults(
-    final SSUri                             userUri, 
-    final String                            searchOp,
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword) throws Exception{
+  public static List<SSEntity> selectSearchResultsWithRegardToSearchOp(
+    final String                      searchOp,
+    final Map<String, List<SSEntity>> searchResultsPerKeyword) throws Exception{
     
-    try{
-      final List<SSSearchResult> searchResults = selectSearchResultsWithRegardToSearchOp(searchOp, searchResultsPerKeyword);
-      SSEntity                   entity;
-
-      for(SSSearchResult searchResult : searchResults){
-
-        entity = SSServCaller.entityGet(searchResult.entity);
-
-        searchResult.type          = entity.type;
-        searchResult.label         = SSStrU.toStr(entity.label);
-      }
-
-      return searchResults;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private static List<SSSearchResult> selectSearchResultsWithRegardToSearchOp(
-    final String                            searchOp,
-    final Map<String, List<SSSearchResult>> searchResultsPerKeyword) throws Exception{
-    
-    final List<SSSearchResult>      searchResults               = new ArrayList<SSSearchResult>();
-    final List<SSUri>               checkEntityUris             = new ArrayList<>();
-    Boolean                         resourceExistsForEachTag;
+    final List<SSEntity>      searchResults               = new ArrayList<>();
+    final List<SSUri>         checkEntityUris             = new ArrayList<>();
+    Boolean                   resourceExistsForEachTag;
     
     if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueAnd)) {
       
-      for(List<SSSearchResult> outerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
+      for(List<SSEntity> outerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
         
-        for(SSSearchResult outerSearchResult : outerSearchResultForOneKeyword) {
+        for(SSEntity outerSearchResult : outerSearchResultForOneKeyword) {
           
-          if(!SSStrU.contains(checkEntityUris, outerSearchResult.entity)){
+          if(!SSStrU.contains(checkEntityUris, outerSearchResult.id)){
             
-            checkEntityUris.add(outerSearchResult.entity);
+            checkEntityUris.add(outerSearchResult.id);
             
             resourceExistsForEachTag = true;
             
-            for(List<SSSearchResult> innerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
+            for(List<SSEntity> innerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
               
-              for(SSSearchResult innerSearchResult : innerSearchResultForOneKeyword) {
+              for(SSEntity innerSearchResult : innerSearchResultForOneKeyword) {
                 
-                if(!SSStrU.equals(innerSearchResult.entity, outerSearchResult.entity)) {
+                if(!SSStrU.equals(innerSearchResult.id, outerSearchResult.id)) {
                   resourceExistsForEachTag = false;
                   break;
                 }
@@ -99,9 +70,11 @@ public class SSSearchFct {
     
     if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueOr)) {
       
-      for(List<SSSearchResult> searchResultsForOneKeyword : searchResultsPerKeyword.values()) {
-        SSSearchResult.addDistinct(searchResults, searchResultsForOneKeyword);
+      for(List<SSEntity> searchResultsForOneKeyword : searchResultsPerKeyword.values()) {
+        searchResults.addAll(searchResultsForOneKeyword);
       }
+      
+      SSStrU.distinctWithoutEmptyAndNull(searchResults);
     }
     
     return searchResults;

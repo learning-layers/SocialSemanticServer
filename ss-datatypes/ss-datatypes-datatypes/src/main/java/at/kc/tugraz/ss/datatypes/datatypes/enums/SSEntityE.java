@@ -41,7 +41,6 @@ public enum SSEntityE implements SSJSONLDPropI{
   tag,
   category,
   userEvent,
-  location,
   learnEp,
   learnEpTimelineState,
   learnEpVersion,
@@ -54,7 +53,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   activity,
   thumbnail,
   flag,
-  comment;
+  comment,
+  video;
 
 //  entityDesc,
 //  collDesc,

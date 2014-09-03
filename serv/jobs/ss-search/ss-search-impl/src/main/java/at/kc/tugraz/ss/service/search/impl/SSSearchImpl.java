@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -52,18 +52,17 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Deprecated
   @Override
-  public List<SSSearchResult> searchTags(final SSServPar parA) throws Exception {
+  public List<SSEntity> searchTags(final SSServPar parA) throws Exception {
     return searchTags(new SSSearchTagsPar(parA));
   }
   
   @Deprecated
-  protected List<SSSearchResult> searchTags(final SSSearchTagsPar par) throws Exception {
+  protected List<SSEntity> searchTags(final SSSearchTagsPar par) throws Exception {
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerTag = new HashMap<>();
-      final List<SSSearchResult>              result;
-      List<SSSearchResult>                    searchResultsForTagOneTag;
+      final Map<String, List<SSEntity>> searchResultsPerTag = new HashMap<>();
+      List<SSEntity>                    searchResultsForTagOneTag;
       
       for(String tagLabel : par.tags){
         
@@ -78,10 +77,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             SSSpaceE.sharedSpace,
             null)){
           
-          searchResultsForTagOneTag.add(
-            SSSearchResult.get(
-              foundEntity,
-              SSSpaceE.sharedSpace));
+          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
         }
         
         for(SSUri foundEntity :
@@ -93,18 +89,15 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             SSSpaceE.privateSpace,
             null)){
           
-          searchResultsForTagOneTag.add(
-            SSSearchResult.get(
-              foundEntity,
-              SSSpaceE.privateSpace));
+          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
         }
         
         searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
       }
       
-      result = SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerTag);
-      
-      return result;
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp, 
+        searchResultsPerTag);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -114,34 +107,42 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Deprecated
   @Override
-  public List<SSSearchResult> searchMIs(final SSServPar parA) throws Exception {
+  public List<SSEntity> searchMIs(final SSServPar parA) throws Exception {
     return searchMIs(new SSSearchMIsPar(parA));
   }
   
   @Deprecated
-  protected List<SSSearchResult> searchMIs(final SSSearchMIsPar par) throws Exception{
+  protected List<SSEntity> searchMIs(final SSSearchMIsPar par) throws Exception{
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
+      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+      SSEntity                          entityObj;
      
       for(String mi : par.mIs){
         
         searchResultsForOneKeyword.clear();
         
         for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
+        
+          entityObj = SSServCaller.entityGet(entityUri);
           
-          SSSearchMiscFct.getPublicAndPrivateResults(
-            par.user,
-            entityUri,
-            searchResultsForOneKeyword);
+          entityObj.circleTypes.addAll(
+            SSServCaller.entityUserEntityCircleTypesGet(
+              par.user, 
+              entityUri));
+            
+          searchResultsForOneKeyword.add(entityObj);
         }
         
         searchResultsPerKeyword.put(mi, new ArrayList<>(searchResultsForOneKeyword));
       }
       
-      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp,  
+        searchResultsPerKeyword);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -150,34 +151,45 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
 
   @Deprecated
   @Override
-  public List<SSSearchResult> searchSolr(final SSServPar parA) throws Exception {
+  public List<SSEntity> searchSolr(final SSServPar parA) throws Exception {
     return searchSolr(new SSSearchSolrPar(parA));
   }
   
   @Deprecated
-  protected List<SSSearchResult> searchSolr(final SSSearchSolrPar par) throws Exception{
+  protected List<SSEntity> searchSolr(final SSSearchSolrPar par) throws Exception{
 
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
+      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+      SSEntity                          entityObj;
       
       for(String keyword : par.keywords){
         
         searchResultsForOneKeyword.clear();
         
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
-
-          SSSearchMiscFct.getPublicAndPrivateResults(
-            par.user, 
-            SSServCaller.fileUriFromID(par.user, entityId),
-            searchResultsForOneKeyword);
+          
+          entityObj =
+            SSServCaller.entityGet(
+              SSServCaller.fileUriFromID(
+                par.user,
+                entityId));
+            
+          entityObj.circleTypes.addAll(
+            SSServCaller.entityUserEntityCircleTypesGet(
+              par.user, 
+              entityObj.id));
+          
+          searchResultsForOneKeyword.add(entityObj);
         }
 
         searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
       }
       
-      return SSSearchFct.selectAndFillSearchResults(par.user, par.searchOp, searchResultsPerKeyword);
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp, 
+        searchResultsPerKeyword);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -186,17 +198,18 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Deprecated
   @Override
-  public List<SSSearchResult> searchTagsWithinEntity(final SSServPar parA) throws Exception{
+  public List<SSEntity> searchTagsWithinEntity(final SSServPar parA) throws Exception{
     return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
   }
   
   @Deprecated
-  protected List<SSSearchResult> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
+  protected List<SSEntity> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
     
     try{
       
-      final Map<String, List<SSSearchResult>> searchResultsPerTag        = new HashMap<>();
-      final List<SSSearchResult>              searchResultsForOneKeyword = new ArrayList<>();
+      final Map<String, List<SSEntity>> searchResultsPerTag        = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+      SSEntity                          entityObj;
       
       for(String tag : par.tags){
         
@@ -208,16 +221,23 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             continue;
           }
           
-          SSSearchMiscFct.getPublicAndPrivateResults(
-            par.user,
-            entityUri,
-            searchResultsForOneKeyword);
+          entityObj = SSServCaller.entityGet(entityUri);
+          
+          entityObj.circleTypes.addAll(
+            SSServCaller.entityUserEntityCircleTypesGet(
+              par.user, 
+              entityObj.id));
+          
+          searchResultsForOneKeyword.add(entityObj);
         }
         
         searchResultsPerTag.put(tag, new ArrayList<>(searchResultsForOneKeyword));
       }
       
-      return SSSearchFct.selectAndFillSearchResults(par.user, SSStrU.valueOr, searchResultsPerTag);
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        SSStrU.valueOr, 
+        searchResultsPerTag);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -225,13 +245,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   }
   
   @Deprecated
-  protected List<SSSearchResult> searchCombined(final SSSearchCombinedPar par) throws Exception{
+  protected List<SSEntity> searchCombined(final SSSearchCombinedPar par) throws Exception{
     
     try{
-      final List<SSSearchResult> searchResults        = new ArrayList<>();
-      final List<SSSearchResult> searchResultsForUser = new ArrayList<>();
-      final List<SSUri>          subEntities          = new ArrayList<>();
-      SSEntity                   entityToCheckType;
+      final List<SSEntity> searchResults        = new ArrayList<>();
+      final List<SSEntity> searchResultsForUser = new ArrayList<>();
+      final List<SSUri>    subEntities          = new ArrayList<>();
+      SSEntity             entityToCheckType;
       
       if(par.onlySubEntities){
       
@@ -303,10 +323,10 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       SSStrU.distinctWithoutEmptyAndNull2(searchResults);
       
-      for(SSSearchResult searchResult : searchResults){
+      for(SSEntity searchResult : searchResults){
         
         try{
-          SSServCaller.entityUserCanRead(par.user, searchResult.entity);
+          SSServCaller.entityUserCanRead(par.user, searchResult.id);
         }catch(Exception error){
           SSServErrReg.reset();
           continue;
@@ -314,7 +334,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         if(!par.types.isEmpty()){
           
-          entityToCheckType = SSServCaller.entityGet(searchResult.entity);
+          entityToCheckType = SSServCaller.entityGet(searchResult.id);
         
           if(!SSStrU.contains(par.types, entityToCheckType.type)){
             continue;
@@ -432,8 +452,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           SSStrU.valueOr,
           10);
       
-      for(SSSearchResult result : searchTags(searchTagsPar)){
-        tagResults.add(result.entity);
+      for(SSEntity result : searchTags(searchTagsPar)){
+        tagResults.add(result.id);
       }
     }
     
@@ -446,8 +466,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           SSStrU.valueOr,
           10);
       
-      for(SSSearchResult result : searchTags(searchTagsPar)){
-        tagResults.add(result.entity);
+      for(SSEntity result : searchTags(searchTagsPar)){
+        tagResults.add(result.id);
       }
     }
 
@@ -471,8 +491,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           par.wordsToSearchFor,
           SSStrU.valueOr);
       
-      for(SSSearchResult solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.entity);
+      for(SSEntity solrResult : searchSolr(searchSolrPar)){
+        textualContentResults.add(solrResult.id);
       }
     }
     
@@ -484,8 +504,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           par.keywordsToSearchFor,
           SSStrU.valueOr);
       
-      for(SSSearchResult solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.entity);
+      for(SSEntity solrResult : searchSolr(searchSolrPar)){
+        textualContentResults.add(solrResult.id);
       }    
     }
     

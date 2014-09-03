@@ -24,6 +24,9 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String learnEpCircles                                 = "learnEpCircles";
+  public static final String learnEpEntities                                = "learnEpEntities";
+  public static final String activityType                                   = "activityType";
   public static final String descs                                          = "descs";
   public static final String attachedEntities                               = "attachedEntities";
   public static final String includeOnlySubEntities                         = "includeOnlySubEntities";
@@ -60,6 +63,8 @@ public class SSVarU{
   public static final String sssNodePort                                    = "sssNodePort";
   public static final String categoryFrequs                                 = "categoryFrequs";
   public static final String entity                                         = "entity";
+  public static final String ueType                                         = "ueType";
+  public static final String flagType                                       = "flagType";
   public static final String withSystemCircles                              = "withSystemCircles";
   public static final String entitiesToExclude                              = "entitiesToExclude";
   public static final String comment                                        = "comment";
@@ -148,6 +153,8 @@ public class SSVarU{
   public static final String tags                                           = "tags";
   public static final String maxResultsPerTag                               = "maxResultsPerTag";
   public static final String keywords                                       = "keywords";
+  public static final String annotations                                    = "annotations";
+  public static final String authorLabel                                    = "authorLabel";
   public static final String mIs                                            = "mIs";
   public static final String searchOp                                       = "searchOp";
   public static final String value                                          = "value";
@@ -215,6 +222,7 @@ public class SSVarU{
   public static final String key                                            = "key";
   public static final String type                                           = "type";
   public static final String isSystemCircle                                 = "isSystemCircle";
+  public static final String circleType                                     = "circleType";
   public static final String overallRating                                  = "overallRating";
   public static final String sss                                            = "sss";
   public static final String xsd                                            = "xsd";

@@ -18,131 +18,52 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.activity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
-public class SSActivity extends SSEntityA{
+public class SSActivity extends SSEntity{
   
-  public SSUri               id           = null;
-  public SSActivityE         type         = null;
-  public Long                creationTime = null;
-  public SSUri               author       = null;
-  public List<SSUri>         users        = new ArrayList<>();
-  public List<SSUri>         entities     = new ArrayList<>();
-  public List<SSTextComment> comments     = new ArrayList<>();
+  @ApiModelProperty(
+    required = false,
+    value = "type of the activity")
+  public SSActivityE         activityType = null;
 
   public static SSActivity get(
     final SSUri               id,
-    final SSActivityE         type, 
-    final Long                creationTime, 
-    final SSUri               author, 
-    final List<SSUri>         users,
-    final List<SSUri>         entities,
-    final List<SSTextComment> comments) throws Exception{
+    final SSActivityE         activityType) throws Exception{
     
-    return new SSActivity(id, type, creationTime, author, users, entities, comments);    
+    return new SSActivity(id, activityType);    
   }
   
-  private SSActivity(
+  protected SSActivity(
     final SSUri               id,
-    final SSActivityE         type, 
-    final Long                creationTime, 
-    final SSUri               author, 
-    final List<SSUri>         users,
-    final List<SSUri>         entities,
-    final List<SSTextComment> comments) throws Exception{
+    final SSActivityE         activityType) throws Exception{
     
-    super(id);
+    super(id, SSEntityE.activity);
     
-    this.id           = id;
-    this.type         = type;
-    this.creationTime = creationTime;
-    this.author       = author;
-    
-    if(users != null){
-      this.users.addAll(users);
-    }
-    
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(comments != null){
-      this.comments.addAll(comments);
-    }
+    this.activityType = activityType;
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld              = new HashMap<>();
-    final Map<String, Object> entitiesObj     = new HashMap<>();
-    final Map<String, Object> usersObj        = new HashMap<>();
-    final Map<String, Object> commentsObj     = new HashMap<>();
-    
-    ld.put(SSVarU.id,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,         SSVarU.sss + SSStrU.colon + SSActivityE.class.getName());
-    ld.put(SSVarU.creationTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.author,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.users, usersObj);
-    
-    entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.entities, entitiesObj);
-    
-    commentsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
-    commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.users, commentsObj);
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+   
+    ld.put(SSVarU.activityType, SSVarU.sss + SSStrU.colon + SSActivityE.class.getName());
     
     return ld;
   }
   
-  
   /* json getters */
-
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
-  public String getType(){
-    return SSStrU.toStr(type);
-  }
-
-  public Long getCreationTime(){
-    return creationTime;
-  }
-
-  public String getAuthor() throws Exception{
-    return SSStrU.removeTrailingSlash(author);
-  }
-
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
-  }
-
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
-  }
-
-  public List<String> getComments() throws Exception{
-    return SSStrU.toStr(comments);
+  public String getActivityType() throws Exception{
+    return SSStrU.toStr(activityType);
   }
 }

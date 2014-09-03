@@ -21,23 +21,22 @@
  package at.kc.tugraz.ss.service.search.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchResult;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import java.util.List;
 
 public interface SSSearchServerI {
 
-  public List<SSEntity>       search                 (final SSServPar parA) throws Exception;
+  public List<SSEntity> search                 (final SSServPar parA) throws Exception;
   
   @Deprecated
-  public List<SSSearchResult> searchTags             (final SSServPar parA) throws Exception;
+  public List<SSEntity> searchTags             (final SSServPar parA) throws Exception;
   
   @Deprecated
-  public List<SSSearchResult> searchTagsWithinEntity (final SSServPar parA) throws Exception;
+  public List<SSEntity> searchTagsWithinEntity (final SSServPar parA) throws Exception;
   
   @Deprecated
-  public List<SSSearchResult> searchMIs              (final SSServPar parA) throws Exception;
+  public List<SSEntity> searchMIs              (final SSServPar parA) throws Exception;
   
   @Deprecated
-  public List<SSSearchResult> searchSolr             (final SSServPar parA) throws Exception;
+  public List<SSEntity> searchSolr             (final SSServPar parA) throws Exception;
 }

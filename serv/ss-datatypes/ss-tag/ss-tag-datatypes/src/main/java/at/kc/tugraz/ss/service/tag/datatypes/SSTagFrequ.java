@@ -18,34 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.tag.datatypes;
+package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSTagFrequ implements SSJSONLDPropI{
+public class SSTagFrequ extends SSEntityA{
   
   public SSTagLabel    label  = null;
   public SSSpaceE      space  = null;
 	public Integer       frequ  = -1;
 
   public static SSTagFrequ get(
-    SSTagLabel    label,
-    SSSpaceE      space,
-    Integer       frequ){
+    final SSTagLabel    label,
+    final SSSpaceE      space,
+    final Integer       frequ) throws Exception{
     
     return new SSTagFrequ(label, space, frequ);
   }  
 	
-  private SSTagFrequ(
-    SSTagLabel    label,
-    SSSpaceE    space,
-    Integer        frequ){
+  protected SSTagFrequ(
+    final SSTagLabel    label,
+    final SSSpaceE      space,
+    final Integer       frequ) throws Exception{
 		
+    super(label);
+    
 		this.label      = label;
     this.space      = space;
 		this.frequ      = frequ;
@@ -54,7 +56,7 @@ public class SSTagFrequ implements SSJSONLDPropI{
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
     ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
     ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
@@ -63,16 +65,12 @@ public class SSTagFrequ implements SSJSONLDPropI{
     return ld;
   }  
   
-  /*************** getters to allow for json enconding ********************/
+  /* json getters */
   public String getLabel() {
 		return SSStrU.toStr(label);
 	}
   
   public String getSpace() {
-		return SSSpaceE.toStr(space);
+		return SSStrU.toStr(space);
 	}
-
-	public int getFrequ() {
-		return frequ;
-	}	
 }

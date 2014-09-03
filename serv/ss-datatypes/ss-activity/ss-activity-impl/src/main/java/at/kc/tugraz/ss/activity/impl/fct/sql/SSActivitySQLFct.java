@@ -143,7 +143,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>              columns        = new ArrayList<>();
       final List<String>              tableCons      = new ArrayList<>();
       Long                            timestamp;
-      SSUri                           activityUri;
+      SSActivity                      activityObj;
 
       table    (tables,    activityTable);
       table    (tables,    entityTable);
@@ -219,17 +219,25 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           continue;
         }
         
-        activityUri = bindingStrToUri  (resultSet, SSSQLVarU.id);
-          
-        activities.add(
+        activityObj = 
           SSActivity.get(
-            activityUri, 
-            SSActivityE.get        (bindingStr(resultSet, SSSQLVarU.activityType)), 
-            timestamp, 
-            bindingStrToUri        (resultSet, SSSQLVarU.author), 
-            getActivityUsers       (activityUri), 
-            getActivityEntities    (activityUri),
-            SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment)))));
+            bindingStrToUri  (resultSet, SSSQLVarU.id), 
+            SSActivityE.get(bindingStr(resultSet, SSSQLVarU.activityType)));
+
+        activityObj.creationTime   = timestamp;
+        activityObj.author         = bindingStrToUri        (resultSet, SSSQLVarU.author);
+        
+        activityObj.users.addAll(
+          getActivityUsers(activityObj.id));
+        
+        activityObj.entities.addAll(
+          getActivityEntities(activityObj.id));
+        
+        activityObj.comments.addAll(
+          SSTextComment.asListWithoutNullAndEmpty(
+            SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment))));
+        
+        activities.add(activityObj);
       }
       
       return activities;

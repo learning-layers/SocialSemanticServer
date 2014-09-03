@@ -214,7 +214,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         authorUri =
           SSServCaller.authRegisterUser(
             par.user,
-            video.author,
+            video.authorLabel,
             "1234",
             true);
         

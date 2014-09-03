@@ -35,7 +35,7 @@ public class SSRestMain extends Application {
   
   public SSRestMain() throws Exception{
    
-    final ResourceConfig resourceConfig = new ResourceConfig(SSAdapterRest.class);
+    ResourceConfig resourceConfig = new ResourceConfig(SSAdapterRest.class);
     resourceConfig.register(MultiPartFeature.class);
     
     //    SSLogU.info("rest enter");

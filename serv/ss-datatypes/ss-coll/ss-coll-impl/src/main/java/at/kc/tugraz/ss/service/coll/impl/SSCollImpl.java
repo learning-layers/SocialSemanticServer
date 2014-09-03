@@ -38,7 +38,7 @@ import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
@@ -773,23 +773,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       hierarchy.add(rootCollUri);
 
       for(SSUri collUri : hierarchy){
-
-        colls.add(
-          SSColl.get(
-            collUri,
-            null,
-            null,
-            SSServCaller.entityGet(collUri).label,
-            null, 
-            null,
-            null,
-            null, //overallRating,
-            new ArrayList<>(), //tags,
-            new ArrayList<>(), //discs,
-            new ArrayList<>(), //uEs,
-            null, //thumb,
-            null, //file,
-            new ArrayList<>())); //flags
+        colls.add(SSColl.get(SSServCaller.entityGet(collUri)));
       }
 
       return colls;

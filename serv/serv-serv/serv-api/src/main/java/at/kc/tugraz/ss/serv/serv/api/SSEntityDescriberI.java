@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 
 public interface SSEntityDescriberI{

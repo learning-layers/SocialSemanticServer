@@ -25,6 +25,7 @@ public enum SSErrE{
   sqlDeadLock,
   sqlNoResultFound,
   userIsNotRegistered,
+  userAccessedOtherUsersPrivateGroup,
   providedUserIsNotRegistered,
   userDoesntHaveRightInAnyCircleOfEntity,
   circleDoesntHaveQueriedRight,

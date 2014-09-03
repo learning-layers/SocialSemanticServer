@@ -55,7 +55,6 @@ public class SSActivityContent extends SSEntityA{
     
     return true;
   }
-    
    
   protected SSActivityContent(final String string) throws Exception{
     

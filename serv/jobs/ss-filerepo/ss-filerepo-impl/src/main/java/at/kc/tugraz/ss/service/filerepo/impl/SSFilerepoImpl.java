@@ -40,7 +40,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftR
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -134,11 +134,10 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
     
-    if(SSStrU.equals(entityType, SSEntityE.file)){
-      return true;
+    switch(entityType){
+      case file: return true;
+      default:   return false;
     }
-    
-    return false;
   }
   
   @Override
@@ -157,26 +156,27 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     final SSEntityDescGetPar par,
     final SSEntity      desc) throws Exception{
     
-    if(SSStrU.equals(desc.type, SSEntityE.file)){
-      
-      final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
-      final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
-      
-      if(par.getThumb){
+    switch(desc.type){
+      case file:{
+        final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
+        final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
         
-        desc.thumb = 
-          SSFilerepoFct.getThumbBase64(
-            par.user,
-            par.entity);
+        if(par.getThumb){
+          
+          desc.thumb =
+            SSFilerepoFct.getThumbBase64(
+              par.user,
+              par.entity);
+        }
+        
+        return SSFile.get(
+          desc,
+          fileExt,
+          mimeType);
+        
       }
-      
-      return SSFileDesc.get(
-        desc,
-        fileExt,
-        mimeType);
+      default: return desc;
     }
-    
-    return desc;
   }
   
   @Override

@@ -22,53 +22,57 @@
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.*;
 
-public class SSCategory extends SSEntityA {
+public class SSCategory extends SSEntity{
 
-  public  SSUri               id           = null;
-  public  SSUri               entity       = null;
-  public  SSUri               user         = null;
-  public  SSSpaceE            space        = null;
-  public  SSCategoryLabel     label        = null;
+  public  SSCategoryLabel     categoryLabel  = null;
+  public  SSUri               entity         = null;
+  public  SSUri               user           = null;
+  public  SSSpaceE            space          = null;
 
+  public static SSCategory get(
+    final SSUri            id       ,
+    final SSUri            entity   ,
+    final SSUri            user     ,
+    final SSSpaceE         space    ,
+    final SSCategoryLabel  categoryLabel) throws Exception{
+    
+    return new SSCategory(id, entity, user, space, categoryLabel);
+  }
+  
+  protected SSCategory(
+    final SSUri             id,
+    final SSUri             entity,
+    final SSUri             user,
+    final SSSpaceE          space,
+    final SSCategoryLabel   categoryLabel) throws Exception{
+    
+    super(id, SSEntityE.category, SSLabel.get(SSStrU.toStr(categoryLabel)));
+    
+    this.entity        = entity;
+    this.user          = user;
+    this.space         = space;
+    this.categoryLabel = categoryLabel;
+  }
+  
   @Override
   public Object jsonLDDesc() {
   
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
     
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSCategoryLabel.class.getName());    
+    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSCategoryLabel.class.getName());
     
     return ld;
   } 
-    
-  public static SSCategory get(
-    SSUri            uri      ,
-    SSUri            resource ,
-    SSUri            user     ,
-    SSSpaceE         space    ,
-    SSCategoryLabel  label) throws Exception{
-    
-    return new SSCategory(uri, resource, user, space, label);
-  }
-  
-//  public static List<SSUri> getDistinctResources(final List<SSCategory> categories) throws Exception{
-//    
-//    final List<SSUri> result = new ArrayList<>();
-//		
-//		for(SSCategory category : categories){
-//      SSUri.addDistinctWithoutNull(result, category.entity);
-//		}
-//		
-//		return result;
-//  }
   
   public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSCategory> categorys) throws Exception{
     
@@ -102,28 +106,8 @@ public class SSCategory extends SSEntityA {
     return categorysPerEntity;
   }
   
-  private SSCategory(
-    SSUri             uri,
-    SSUri             resource,
-    SSUri             user,
-    SSSpaceE          space,
-    SSCategoryLabel   label) throws Exception{
-    
-    super(label);
-    
-    this.id          = uri;
-    this.entity      = resource;
-    this.user        = user;
-    this.space       = space;
-    this.label       = label;
-  }
+  /* json getters */
   
-  /* getters to allow for json enconding */
-  
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -133,10 +117,23 @@ public class SSCategory extends SSEntityA {
   }
 
   public String getSpace(){
-    return SSSpaceE.toStr(space);
+    return SSStrU.toStr(space);
   }
-
+  
+  @Override
   public String getLabel(){
-    return SSStrU.toStr(label);
+    return SSStrU.toStr(categoryLabel);
   }
 }
+
+
+//  public static List<SSUri> getDistinctResources(final List<SSCategory> categories) throws Exception{
+//    
+//    final List<SSUri> result = new ArrayList<>();
+//		
+//		for(SSCategory category : categories){
+//      SSUri.addDistinctWithoutNull(result, category.entity);
+//		}
+//		
+//		return result;
+//  }

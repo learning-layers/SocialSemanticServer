@@ -257,18 +257,18 @@ public class SSModelUEPersonPropertySetter {
     SSUE                event,
     List<Long>          recentTimeStamps) throws Exception{
     
-    if (event.timestamp > recentTimeStamps.get(0)){
+    if (event.creationTime > recentTimeStamps.get(0)){
       
       resource.personsRecentArtifact   = event.entity;
-      recentTimeStamps.set(0,event.timestamp);
+      recentTimeStamps.set(0, event.creationTime);
     }
     
     if (
       SSStrU.contains(SSModelUEU.useTopicEventTypes, event.type) &&
-      event.timestamp > recentTimeStamps.get(1)){
+      event.creationTime > recentTimeStamps.get(1)){
       
       resource.personsRecentTopic = event.content;
-      recentTimeStamps.set(1,event.timestamp);
+      recentTimeStamps.set(1, event.creationTime);
     }
   }
   

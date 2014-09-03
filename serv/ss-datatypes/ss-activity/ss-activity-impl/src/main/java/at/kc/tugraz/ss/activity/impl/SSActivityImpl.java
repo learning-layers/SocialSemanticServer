@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;

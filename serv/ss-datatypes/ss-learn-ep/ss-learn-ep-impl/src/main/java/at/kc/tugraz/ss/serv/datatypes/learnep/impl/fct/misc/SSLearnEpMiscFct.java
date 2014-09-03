@@ -62,7 +62,7 @@ public class SSLearnEpMiscFct{
 
         copyVersionUri = SSServCaller.learnEpVersionCreate(forUser, copyLearnEpUri, false);
         
-        for(SSLearnEpCircle circle : version.circles){
+        for(SSLearnEpCircle circle : version.learnEpCircles){
           
           if(SSStrU.contains(entitiesToExclude, circle.id)){
             continue;
@@ -81,7 +81,7 @@ public class SSLearnEpMiscFct{
             false);
         }
         
-        for(SSLearnEpEntity entity : version.entities){
+        for(SSLearnEpEntity entity : version.learnEpEntities){
           
           if(
             SSStrU.contains(entitiesToExclude, entity.id) ||
@@ -184,11 +184,11 @@ public class SSLearnEpMiscFct{
         
         learnEpVersion = sqlFct.getLearnEpVersion(learnEpVersionUri, true);
           
-        for(SSLearnEpCircle circle : learnEpVersion.circles){
+        for(SSLearnEpCircle circle : learnEpVersion.learnEpCircles){
           learnEpContentUris.add(circle.id);
         }
         
-        for(SSLearnEpEntity entity : learnEpVersion.entities){
+        for(SSLearnEpEntity entity : learnEpVersion.learnEpEntities){
           learnEpContentUris.add(entity.id);
           
           learnEpContentUris.add(entity.entity);

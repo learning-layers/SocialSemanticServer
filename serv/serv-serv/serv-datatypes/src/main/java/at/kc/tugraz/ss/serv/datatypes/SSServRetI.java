@@ -22,9 +22,13 @@ package at.kc.tugraz.ss.serv.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDOpI;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 public abstract class SSServRetI implements SSJSONLDOpI{
   
+  @ApiModelProperty(
+    required = true,
+    value = "service operation executed")
   public final SSMethU op;
 
   public SSServRetI(SSMethU op){

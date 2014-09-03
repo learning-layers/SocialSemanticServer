@@ -23,11 +23,10 @@ package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSCircleE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -237,7 +236,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet.last();
       
-      return new Integer(resultSet.getRow());
+      return resultSet.getRow();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -257,6 +256,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres      = new HashMap<>();
       final List<String>        tableCons   = new ArrayList<>();
       final List<SSColl>        publicColls = new ArrayList<>();
+      SSColl                    collObj;
       
       table(tables, collTable);
       table(tables, entityTable);
@@ -280,22 +280,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        publicColls.add(
+        collObj = 
           SSColl.get(
             bindingStrToUri   (resultSet, SSSQLVarU.id),
-            null,
-            bindingStrToUri   (resultSet, SSSQLVarU.author),
-            bindingStrToLabel (resultSet, SSSQLVarU.label),
-            null,
-            null,
-            null,
-            null, //overallRating,
-            new ArrayList<>(), //tags,
-            new ArrayList<>(), //discs,
-            new ArrayList<>(), //uEs,
-            null, //thumb,
-            null, //file,
-            new ArrayList<>())); //flags
+            bindingStrToLabel (resultSet, SSSQLVarU.label));
+        
+        collObj.author = bindingStrToUri   (resultSet, SSSQLVarU.author);
+          
+        publicColls.add(collObj);
       }
       
       return publicColls;
@@ -602,6 +594,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final List<String>        columns    = new ArrayList<>();
       final List<String>        tableCons  = new ArrayList<>();
       final Map<String, String> wheres     = new HashMap<>();
+      final SSColl              collObj;
       
       table    (tables,    collTable);
       table    (tables,    entityTable);
@@ -615,21 +608,16 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      return SSColl.get(
-        collUri,
-        null,
-        bindingStrToUri   (resultSet, SSSQLVarU.author),
-        bindingStrToLabel (resultSet, SSSQLVarU.label),
-        circleTypes,
-        null,
-        null,
-        null, //overallRating,
-        new ArrayList<>(), //tags,
-        new ArrayList<>(), //discs,
-        new ArrayList<>(), //uEs,
-        null, //thumb,
-        null, //file,
-        new ArrayList<>()); //flags
+      collObj =
+        SSColl.get(
+          collUri,
+          bindingStrToLabel (resultSet, SSSQLVarU.label));
+      
+      collObj.author = bindingStrToUri   (resultSet, SSSQLVarU.author);
+      
+      collObj.circleTypes.addAll(circleTypes);
+      
+      return collObj;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

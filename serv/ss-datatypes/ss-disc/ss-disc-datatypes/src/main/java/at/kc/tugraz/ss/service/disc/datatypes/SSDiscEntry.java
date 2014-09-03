@@ -23,98 +23,54 @@ package at.kc.tugraz.ss.service.disc.datatypes;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SSDiscEntry extends SSEntity{
   
+  @ApiModelProperty(
+    required = false,
+    value = "entry position in discussion")
   public  Integer             pos;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "textual content")
   public  SSTextComment       content;
-
+  
   public static SSDiscEntry get(
     final SSUri                  id,
     final SSEntityE              type,
     final int                    pos,
-    final SSTextComment          content,
-    final Long                   creationTime,
-    final List<SSEntity>         attachedEntities,
-    final SSUri                  author, 
-    final List<SSTextComment>    comments,
-    final SSEntityA              overallRating, //new
-    final List<String>           tags, //new
-    final List<SSEntityA>        discs,//new
-    final List<SSEntityA>        uEs,  //new
-    final String                 thumb,//new
-    final SSUri                  file, //new
-    final List<SSEntityA>        flags) throws Exception{
+    final SSTextComment          content) throws Exception{
     
     return new SSDiscEntry(
       id, 
       type, 
       pos, 
-      content, 
-      creationTime, 
-      attachedEntities, 
-      author, 
-      comments, 
-      overallRating, 
-      tags, 
-      discs, 
-      uEs, 
-      thumb, 
-      file, 
-      flags);
+      content);
   }
   
-  private SSDiscEntry(
+  protected SSDiscEntry(
     final SSUri                  id,
     final SSEntityE              type,
     final int                    pos,
-    final SSTextComment          content,
-    final Long                   creationTime,
-    final List<SSEntity>         attachedEntities,
-    final SSUri                  author,
-    final List<SSTextComment>    comments,
-    final SSEntityA              overallRating, //new
-    final List<String>           tags, //new
-    final List<SSEntityA>        discs,//new
-    final List<SSEntityA>        uEs,  //new
-    final String                 thumb,//new
-    final SSUri                  file, //new
-    final List<SSEntityA>        flags) throws Exception{
+    final SSTextComment          content) throws Exception{
     
-    super(
-      id,
-      null,
-      creationTime,
-      type,
-      author,
-      null,
-      null,
-      null,
-      attachedEntities, 
-      comments, 
-      overallRating, 
-      tags, 
-      discs, 
-      uEs, 
-      thumb, 
-      file, 
-      flags);
+    super(id, type);
     
-    this.pos          = pos;
-    this.content      = content;
+    this.pos     = pos;
+    this.content = content;
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
     ld.put(SSVarU.pos,           SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     ld.put(SSVarU.content,       SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
@@ -123,7 +79,6 @@ public class SSDiscEntry extends SSEntity{
   }
 
   /* json getters */
-  
   public String getContent(){
     return SSStrU.toStr(content);
   }

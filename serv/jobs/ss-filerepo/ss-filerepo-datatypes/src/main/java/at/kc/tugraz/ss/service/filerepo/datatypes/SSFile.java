@@ -18,32 +18,43 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
+package at.kc.tugraz.ss.service.filerepo.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
-public class SSEvernoteNoteDesc extends SSEntity{
+public class SSFile extends SSEntity{
   
-  public SSUri notebook  = null;
-
-  public static SSEvernoteNoteDesc get(
-    final SSEntity   desc,
-    final SSUri      notebook) throws Exception{
+  @ApiModelProperty(
+    required = false,
+    value = "file extension")
+  public String fileExt  = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "mime type")
+  public String mimeType = null;
+  
+  public static SSFile get(
+    final SSEntity        entity,
+    final String          fileExt,
+    final String          mimeType) throws Exception{
     
-    return new SSEvernoteNoteDesc(desc, notebook);
+    return new SSFile(entity, fileExt, mimeType);
   }
   
-  private SSEvernoteNoteDesc(
-    final SSEntity    desc,
-    final SSUri       notebook) throws Exception{
+  protected SSFile(
+    final SSEntity         entity,
+    final String           fileExt,
+    final String           mimeType) throws Exception{
     
-    super(desc);
+    super(entity);
     
-    this.notebook = notebook;
+    this.fileExt  = fileExt;
+    this.mimeType = mimeType;
   }
   
   @Override
@@ -51,13 +62,9 @@ public class SSEvernoteNoteDesc extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.notebook, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.fileExt,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
-  }
-  
-  /* json getters */
-  public String getNotebook(){
-    return SSStrU.removeTrailingSlash(notebook);
   }
 }

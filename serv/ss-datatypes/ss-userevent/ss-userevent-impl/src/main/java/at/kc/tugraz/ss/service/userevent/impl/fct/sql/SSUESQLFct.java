@@ -68,11 +68,10 @@ public class SSUESQLFct extends SSDBSQLFct{
       
       return SSUE.get(
         ue, 
-        bindingStrToUri        (resultSet, SSSQLVarU.userId), 
+        bindingStrToUri (resultSet, SSSQLVarU.userId), 
         eventTypeFromDB, 
-        bindingStrToUri        (resultSet, SSSQLVarU.entityId), 
-        bindingStr             (resultSet, SSSQLVarU.content), 
-        null);
+        bindingStrToUri (resultSet, SSSQLVarU.entityId), 
+        bindingStr      (resultSet, SSSQLVarU.content));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -98,6 +97,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       final List<String>         tableCons    = new ArrayList<>();
       final Map<String, String>  wheres       = new HashMap<>();
       final List<SSUE>           ues          = new ArrayList<>();
+      SSUE                       ueObj;
       
       SSUEE                      eventTypeFromDB;
       Long                       timestamp;
@@ -157,14 +157,17 @@ public class SSUESQLFct extends SSDBSQLFct{
           continue;
         }
         
-        ues.add(
-          SSUE.get(
-            bindingStrToUri       (resultSet, SSSQLVarU.userEventId),
-            bindingStrToUri       (resultSet, SSSQLVarU.userId),
-            eventTypeFromDB,
-            bindingStrToUri       (resultSet, SSSQLVarU.entityId),
-            bindingStr            (resultSet, SSSQLVarU.content),
-            timestamp));
+        ueObj = 
+         SSUE.get(
+           bindingStrToUri       (resultSet, SSSQLVarU.userEventId), 
+           bindingStrToUri       (resultSet, SSSQLVarU.userId), 
+           eventTypeFromDB, 
+           bindingStrToUri       (resultSet, SSSQLVarU.entityId), 
+           bindingStr            (resultSet, SSSQLVarU.content));
+        
+        ueObj.creationTime = timestamp;
+
+        ues.add(ueObj);
       }
       
       return ues;

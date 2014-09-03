@@ -33,7 +33,7 @@ public class SSFileRepoFileAccessProperty extends SSEntityA{
 
 	public               SSUri                  file                     = null;
   private static final int                    fileAccessPropertyMaxWritingMinutesCount = 5;
-	private              List<SSEntityA>        readers                  = new ArrayList<SSEntityA>();
+	private              List<SSEntityA>        readers                  = new ArrayList<>();
 	private              SSUri                  writer                   = null;
 	private              int                    writingMinutesLeft       = 0;
 	

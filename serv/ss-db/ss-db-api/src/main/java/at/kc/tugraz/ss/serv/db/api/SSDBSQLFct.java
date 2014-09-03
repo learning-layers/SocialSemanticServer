@@ -121,7 +121,7 @@ public class SSDBSQLFct extends SSDBFct{
     final String              value) throws Exception{
     
     try{
-      updates.put(key, value.toString());
+      updates.put(key, value);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -181,7 +181,7 @@ public class SSDBSQLFct extends SSDBFct{
     final String              value) throws Exception{
     
     try{
-      deletes.put(key, value.toString());
+      deletes.put(key, value);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

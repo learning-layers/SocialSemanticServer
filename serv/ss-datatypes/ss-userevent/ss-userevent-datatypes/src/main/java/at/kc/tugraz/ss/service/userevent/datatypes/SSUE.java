@@ -18,51 +18,78 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.userevent.datatypes;
+package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSUE extends SSEntityA {
+public class SSUE extends SSEntity {
 
-  public         SSUri            id         = null;
   public         SSUri            user       = null;
   public         SSUri            entity     = null;
-  public         SSUEE            type       = null;
+  public         SSUEE            ueType     = null;
   public         String           content    = null;
-  public         Long             timestamp  = -1L;
 
   public static SSUE get(
-    final SSUri           uri, 
+    final SSUri           id, 
     final SSUri           user,
-    final SSUEE        type,
-    final SSUri           resource,
-    final String          content,
-    final Long            timestamp) throws Exception{
+    final SSUEE           ueType,
+    final SSUri           entity,
+    final String          content) throws Exception{
     
-    return new SSUE(uri, user, type, resource, content, timestamp);
+    return new SSUE(id, user, ueType, entity, content);
+  }
+  
+  protected SSUE(
+    final SSUri           id, 
+    final SSUri           user,
+    final SSUEE           ueType,
+    final SSUri           entity,
+    final String          content) throws Exception{
+
+    super(id, SSEntityE.userEvent);
+    
+    this.user       = user;
+    this.ueType     = ueType;
+    this.entity     = entity;
+    this.content    = content;
   }
   
   @Override
   public Object jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
 
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSUEE.class.getName());
+    ld.put(SSVarU.ueType,     SSVarU.sss + SSStrU.colon + SSUEE.class.getName());
     ld.put(SSVarU.content,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.timestamp,  SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
+  }
+  
+  /* json getters  */
+  public String getUser() throws Exception{
+    return SSStrU.removeTrailingSlash(user);
+  }
+
+  public String getUeType(){
+    return SSStrU.toStr(ueType);
+  }
+
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public String getContent(){
+    return content;
   }
 
   /* sorts SSUserEventEnum array ascending according to time */
@@ -86,7 +113,7 @@ public class SSUE extends SSEntityA {
 
         if (counter + 1 < toSortUserEvents.size()) {
 
-          if (helper[counter].timestamp > helper[counter + 1].timestamp) {
+          if (helper[counter].creationTime > helper[counter + 1].creationTime) {
 
             storage = helper[counter];
 
@@ -118,47 +145,4 @@ public class SSUE extends SSEntityA {
     
     return true;
 	}
-  
-  private SSUE(
-    SSUri           uri, 
-    SSUri           user,
-    SSUEE        type,
-    SSUri           resource,
-    String          content,
-    Long            timestamp) throws Exception{
-
-    super(SSStrU.toStr(type));
-    
-    this.id        = uri;
-    this.user       = user;
-    this.type       = type;
-    this.entity   = resource;
-    this.content    = content;
-    this.timestamp  = timestamp;
-  }
-
-  /* getters to allow for json enconding */
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public String getType(){
-    return SSStrU.toStr(type);
-  }
-
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
-
-  public String getContent(){
-    return content;
-  }
-
-  public Long getTimestamp(){
-    return timestamp;
-  }
 }

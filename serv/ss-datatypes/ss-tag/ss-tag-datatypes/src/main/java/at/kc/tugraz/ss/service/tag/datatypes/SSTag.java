@@ -18,29 +18,54 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.tag.datatypes;
+package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import java.util.*;
 
-public class SSTag extends SSEntityA {
+public class SSTag extends SSEntity{
 
-  public  SSUri               id           = null;
+  public  SSTagLabel          tagLabel     = null;
   public  SSUri               entity       = null;
   public  SSUri               user         = null;
   public  SSSpaceE            space        = null;
-  public  SSTagLabel          label        = null;
 
+  public static SSTag get(
+    final SSUri       id,
+    final SSUri       entity,
+    final SSUri       user,
+    final SSSpaceE    space,
+    final SSTagLabel  tagLabel) throws Exception{
+    
+    return new SSTag(id, entity, user, space, tagLabel);
+  }
+  
+  protected SSTag(
+    final SSUri       id,
+    final SSUri       entity,
+    final SSUri       user,
+    final SSSpaceE    space,
+    final SSTagLabel  tagLabel) throws Exception{
+    
+    super(id, SSEntityE.tag, SSLabel.get(SSStrU.toStr(tagLabel)));
+    
+    this.entity      = entity;
+    this.user        = user;
+    this.space       = space;
+    this.tagLabel    = tagLabel;
+  }
+  
   @Override
   public Object jsonLDDesc() {
   
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
     
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
     ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
@@ -48,29 +73,7 @@ public class SSTag extends SSEntityA {
     
     return ld;
   } 
-    
-  public static SSTag get(
-    final SSUri       uri      ,
-    final SSUri       resource ,
-    final SSUri       user     ,
-    final SSSpaceE    space    ,
-    final SSTagLabel  label) throws Exception{
-    
-    return new SSTag(uri, resource, user, space, label);
-  }
   
-//  public static List<SSUri> getDistinctResources(
-//    final List<SSTag> tags) throws Exception{
-//    
-//    final List<SSEntityA> result = new ArrayList<>();
-//		
-//		for(SSTag tag : tags){
-//      SSUri.addDistinct(result, tag.entity);
-//		}
-//
-//    
-//  }
-//  
   public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSTag> tags) throws Exception{
     
     final Map<String, List<String>>     tagsPerEntity = new HashMap<>();
@@ -103,28 +106,8 @@ public class SSTag extends SSEntityA {
     return tagsPerEntity;
   }
   
-  private SSTag(
-    SSUri        uri,
-    SSUri        entity,
-    SSUri        user,
-    SSSpaceE     space,
-    SSTagLabel   label) throws Exception{
-    
-    super(label);
-    
-    this.id          = uri;
-    this.entity      = entity;
-    this.user        = user;
-    this.space       = space;
-    this.label       = label;
-  }
+  /* json getters */
   
-  /* getters to allow for json enconding */
-  
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -134,10 +117,25 @@ public class SSTag extends SSEntityA {
   }
 
   public String getSpace(){
-    return SSSpaceE.toStr(space);
+    return SSStrU.toStr(space);
   }
 
+  @Override
   public String getLabel(){
-    return SSStrU.toStr(label);
+    return SSStrU.toStr(tagLabel);
   }
 }
+
+
+//  public static List<SSUri> getDistinctResources(
+//    final List<SSTag> tags) throws Exception{
+//    
+//    final List<SSEntityA> result = new ArrayList<>();
+//		
+//		for(SSTag tag : tags){
+//      SSUri.addDistinct(result, tag.entity);
+//		}
+//
+//    
+//  }
+//  

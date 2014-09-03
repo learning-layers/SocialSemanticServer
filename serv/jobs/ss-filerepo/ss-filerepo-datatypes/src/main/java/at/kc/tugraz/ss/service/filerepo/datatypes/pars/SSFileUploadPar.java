@@ -27,23 +27,18 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "fileUpload request parameter")
+@ApiModel(value = "file upload request parameter")
 public class SSFileUploadPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
-    required = true,
-    value = "mime type of to be uploaded file")
+      value = "file mime type",
+      required = true)
   public String   mimeType  = null;
   
-  @XmlElement
   @ApiModelProperty(
-    required = true,
-    value = "name of to be uploaded file")
+      value = "name",
+      required = true)
   public SSLabel  label     = null;
   
   public SSFileUploadPar(){}

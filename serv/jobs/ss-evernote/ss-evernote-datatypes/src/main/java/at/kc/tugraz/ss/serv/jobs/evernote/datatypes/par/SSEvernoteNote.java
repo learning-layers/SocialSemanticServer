@@ -22,15 +22,25 @@ package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import java.util.HashMap;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
-public class SSEvernoteNote extends SSEntityA{
+public class SSEvernoteNote extends SSEntity{
   
-  public SSUri id       = null;
+  @ApiModelProperty(
+    required = false,
+    value = "notebook containing this note")
   public SSUri notebook = null;
+  
+  public static SSEvernoteNote get(
+    final SSEntity entity,
+    final SSUri    notebook) throws Exception{
+    
+    return new SSEvernoteNote(entity, notebook);
+  }
   
   public static SSEvernoteNote get(
     final SSUri id,
@@ -39,33 +49,35 @@ public class SSEvernoteNote extends SSEntityA{
     return new SSEvernoteNote(id, notebook);
   }
   
-  public SSEvernoteNote(
+  protected SSEvernoteNote(
+    final SSEntity entity,
+    final SSUri    notebook) throws Exception{
+
+    super(entity);
+    
+    this.notebook = notebook;
+  }
+  
+  protected SSEvernoteNote(
     final SSUri id,
     final SSUri notebook) throws Exception{
 
-    super(id);
+    super(id, SSEntityE.evernoteNote);
     
-    this.id       = id;
     this.notebook = notebook;
   }
 
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.id,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.notebook, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
   /* json getters */
-  
-  public String getId(){
-    return SSStrU.removeTrailingSlash(id);
-  }
-
   public String getNotebook(){
     return SSStrU.removeTrailingSlash(notebook);
   }

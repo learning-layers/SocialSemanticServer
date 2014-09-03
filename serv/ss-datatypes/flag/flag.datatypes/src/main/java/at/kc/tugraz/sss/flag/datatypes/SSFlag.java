@@ -22,18 +22,16 @@ package at.kc.tugraz.sss.flag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import java.util.HashMap;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import java.util.Map;
 
-public class SSFlag extends SSEntityA{
+public class SSFlag extends SSEntity{
   
-  public SSUri   id            = null;
   public SSUri   user          = null;
   public SSUri   entity        = null;
-  public SSFlagE type          = null;
-  public Long    creationTime  = null;
+  public SSFlagE flagType      = null;
   public Long    endTime       = null;
   public Integer value         = null;
   
@@ -41,54 +39,45 @@ public class SSFlag extends SSEntityA{
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final SSFlagE type,
-    final Long    creationTime,
+    final SSFlagE flagType,
     final Long    endTime,
     final Integer value) throws Exception{
     
-    return new SSFlag(id, user, entity, type, creationTime, endTime, value);
+    return new SSFlag(id, user, entity, flagType, endTime, value);
   }
   
-  private SSFlag(
+  protected SSFlag(
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final SSFlagE type,
-    final Long    creationTime,
+    final SSFlagE flagType,
     final Long    endTime,
     final Integer value) throws Exception{
     
-    super(id);
+    super(id, SSEntityE.flag);
     
-    this.id           = id;
     this.user         = user;
     this.entity       = entity;
-    this.type         = type;
-    this.creationTime = creationTime;
+    this.flagType     = flagType;
     this.endTime      = endTime;
-    this.value        = value;   
+    this.value        = value;
   }
 
   @Override
   public Object jsonLDDesc(){
   
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.id,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,         SSVarU.sss + SSStrU.colon + SSFlagE.class.getName());
-    ld.put(SSVarU.creationTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.flagType,     SSVarU.sss + SSStrU.colon + SSFlagE.class.getName());
     ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }
   
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
+  /* json getters */
   public String getUser() throws Exception{
     return SSStrU.removeTrailingSlash(user);
   }
@@ -97,19 +86,7 @@ public class SSFlag extends SSEntityA{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public String getType() throws Exception{
-    return SSStrU.toStr(type);
-  }
-  
-  public Long getCreationTime(){
-    return creationTime;
-  }
-
-  public Long getEndTime(){
-    return endTime;
-  }
-
-  public Integer getValue(){
-    return value;
+  public String getFlagType() throws Exception{
+    return SSStrU.toStr(flagType);
   }
 }

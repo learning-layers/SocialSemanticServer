@@ -18,40 +18,154 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes;
+package at.kc.tugraz.ss.datatypes.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSEntity extends SSEntityA{
-
+  
+  @ApiModelProperty(
+    required = false,
+    value = "uri")
   public SSUri               id               = null; //entity
+  
+  @ApiModelProperty(
+    required = false,
+    value = "name")
   public SSLabel             label            = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "creation / timestamp in milliseconds")
   public Long                creationTime     = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "sss entity data type")
   public SSEntityE           type             = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "creator")
   public SSUri               author           = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "textual description")
   public SSTextComment       description      = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "types of circles the entity is in")
   public List<SSCircleE>     circleTypes      = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "entities sub-entities")
   public List<Object>        entries          = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "attached entities")
   public List<SSEntity>      attachedEntities = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "comments given by users")
   public List<SSTextComment> comments         = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "overall star rating")
   public SSEntityA           overallRating    = null; //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "tags assigned")
   public List<String>        tags             = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "discussions about")
   public List<SSEntityA>     discs            = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "user events")
   public List<SSEntityA>     uEs              = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "thumbnail")
   public String              thumb            = null; //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "physical file")
   public SSUri               file             = null; //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "flags assigned")
   public List<SSEntityA>     flags            = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "users involved")
+  public List<SSUri>         users        = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "entities involved")
+  public List<SSUri>         entities     = new ArrayList<>();
+  
+  public static SSEntity get(
+    final SSUri     id,
+    final SSEntityE type) throws Exception{
+    
+    return new SSEntity(id, type);
+  }
+  
+  public static SSEntity get(
+    final SSUri     id,
+    final SSEntityE type,
+    final SSLabel   label) throws Exception{
+    
+    return new SSEntity(id, type, label);
+  }
+  
+  protected SSEntity(
+    final SSUri     id,
+    final SSEntityE type) throws Exception{
+    
+    super(id);
+    
+    this.id    = id;
+    this.type  = type;
+  }
+  
+  protected SSEntity(
+    final SSUri     id,
+    final SSEntityE type,
+    final SSLabel   label) throws Exception{
+    
+    super(id);
+    
+    this.id    = id;
+    this.type  = type;
+    this.label = label;
+  }
   
   protected SSEntity(
     final SSEntity entity) throws Exception{
@@ -75,111 +189,10 @@ public class SSEntity extends SSEntityA{
     this.entries          = entity.entries;
     this.attachedEntities = entity.attachedEntities;
     this.comments         = entity.comments;
+    this.users            = entity.users;
+    this.entities         = entity.entities;
   }
   
-  protected SSEntity(
-    final SSUri                  id,
-    final SSLabel                label,
-    final Long                   creationTime,
-    final SSEntityE              type,
-    final SSUri                  author,
-    final SSTextComment          description,
-    final List<SSCircleE>        circleTypes,
-    final List<? extends Object> entries,
-    final List<SSEntity>         attachedEntities,
-    final List<SSTextComment>    comments,
-    final SSEntityA              overallRating, //new
-    final List<String>           tags, //new
-    final List<SSEntityA>        discs,//new
-    final List<SSEntityA>        uEs,  //new
-    final String                 thumb,//new
-    final SSUri                  file, //new
-    final List<SSEntityA>        flags) throws Exception{ //new
-    
-    super(id);
-    
-    this.id            = id;
-    this.label         = label;
-    this.creationTime  = creationTime;
-    this.type          = type;
-    this.author        = author;
-    this.description   = description;
-    this.overallRating = overallRating;
-    this.thumb         = thumb;
-    this.file          = file;
-    
-    if(circleTypes != null){
-      this.circleTypes.addAll(circleTypes);
-    }
-    
-    if(entries != null){
-      this.entries.addAll(entries);
-    }
-    
-    if(attachedEntities != null){
-      this.attachedEntities.addAll(attachedEntities);
-    }
-    
-    if(comments != null){
-      this.comments.addAll(comments);
-    }
-    
-    if(tags != null){
-      this.tags.addAll(tags);
-    }
-    
-    if(discs != null){
-      this.discs.addAll(discs);
-    }
-    
-    if(uEs != null){
-      this.uEs.addAll(uEs);
-    }
-    
-    if(flags != null){
-      this.flags.addAll(flags);
-    }
-  }
-  
-  public static SSEntity get(
-    final SSUri                      id,
-    final SSLabel                    label, 
-    final Long                       creationTime,
-    final SSEntityE                  type,
-    final SSUri                      author,
-    final SSTextComment              description,
-    final List<SSCircleE>            circleTypes,
-    final List<? extends Object>     entries,
-    final List<SSEntity>             attachedEntities,
-    final List<SSTextComment>        comments,
-    final SSEntityA                  overallRating, //new
-    final List<String>               tags, //new
-    final List<SSEntityA>            discs,//new
-    final List<SSEntityA>            uEs,  //new
-    final String                     thumb,//new
-    final SSUri                      file, //new
-    final List<SSEntityA>            flags) throws Exception{
-    
-    return new SSEntity(
-      id, 
-      label, 
-      creationTime, 
-      type, 
-      author, 
-      description,
-      circleTypes,
-      entries,
-      attachedEntities,
-      comments,
-      overallRating, //new
-      tags, //new
-      discs,//new
-      uEs,  //new
-      thumb,//new
-      file, //new
-      flags);
-  }
-
   @Override
   public Object jsonLDDesc() {
    
@@ -192,6 +205,8 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> discsObj            = new HashMap<>();
     final Map<String, Object> uEsObj              = new HashMap<>();
     final Map<String, Object> flagsObj            = new HashMap<>();
+    final Map<String, Object> entitiesObj         = new HashMap<>();
+    final Map<String, Object> usersObj            = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -244,6 +259,15 @@ public class SSEntity extends SSEntityA{
 
     ld.put(SSVarU.uEs,      uEsObj);
     
+    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.users, usersObj);
+    
+    entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.entities, entitiesObj);
     return ld;
   }
 
@@ -316,4 +340,116 @@ public class SSEntity extends SSEntityA{
   public List<SSEntityA> getFlags() throws Exception{
     return flags;
   }
+  
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
 }
+
+
+//public static SSEntity get(
+//    final SSUri                      id,
+//    final SSLabel                    label, 
+//    final Long                       creationTime,
+//    final SSEntityE                  type,
+//    final SSUri                      author,
+//    final SSTextComment              description,
+//    final List<SSCircleE>            circleTypes,
+//    final List<? extends Object>     entries,
+//    final List<SSEntity>             attachedEntities,
+//    final List<SSTextComment>        comments,
+//    final SSEntityA                  overallRating, //new
+//    final List<String>               tags, //new
+//    final List<SSEntityA>            discs,//new
+//    final List<SSEntityA>            uEs,  //new
+//    final String                     thumb,//new
+//    final SSUri                      file, //new
+//    final List<SSEntityA>            flags) throws Exception{
+//    
+//    return new SSEntity(
+//      id, 
+//      label, 
+//      creationTime, 
+//      type, 
+//      author, 
+//      description,
+//      circleTypes,
+//      entries,
+//      attachedEntities,
+//      comments,
+//      overallRating, //new
+//      tags, //new
+//      discs,//new
+//      uEs,  //new
+//      thumb,//new
+//      file, //new
+//      flags);
+//  }
+
+//protected SSEntity(
+//    final SSUri                  id,
+//    final SSLabel                label,
+//    final Long                   creationTime,
+//    final SSEntityE              type,
+//    final SSUri                  author,
+//    final SSTextComment          description,
+//    final List<SSCircleE>        circleTypes,
+//    final List<? extends Object> entries,
+//    final List<SSEntity>         attachedEntities,
+//    final List<SSTextComment>    comments,
+//    final SSEntityA              overallRating, //new
+//    final List<String>           tags, //new
+//    final List<SSEntityA>        discs,//new
+//    final List<SSEntityA>        uEs,  //new
+//    final String                 thumb,//new
+//    final SSUri                  file, //new
+//    final List<SSEntityA>        flags) throws Exception{ //new
+//    
+//    super(id);
+//    
+//    this.id            = id;
+//    this.label         = label;
+//    this.creationTime  = creationTime;
+//    this.type          = type;
+//    this.author        = author;
+//    this.description   = description;
+//    this.overallRating = overallRating;
+//    this.thumb         = thumb;
+//    this.file          = file;
+//    
+//    if(circleTypes != null){
+//      this.circleTypes.addAll(circleTypes);
+//    }
+//    
+//    if(entries != null){
+//      this.entries.addAll(entries);
+//    }
+//    
+//    if(attachedEntities != null){
+//      this.attachedEntities.addAll(attachedEntities);
+//    }
+//    
+//    if(comments != null){
+//      this.comments.addAll(comments);
+//    }
+//    
+//    if(tags != null){
+//      this.tags.addAll(tags);
+//    }
+//    
+//    if(discs != null){
+//      this.discs.addAll(discs);
+//    }
+//    
+//    if(uEs != null){
+//      this.uEs.addAll(uEs);
+//    }
+//    
+//    if(flags != null){
+//      this.flags.addAll(flags);
+//    }
+//  }

@@ -36,12 +36,10 @@ Api Version: {{apiVersion}}
         <td>In</td>
         <td>Out</td>
     </tr>
-    {{#paras}}
     <tr>
-        <td>{{#paras}}{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}}{{/paras}} </td>
+        <td>{{#paras}}{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}-{{/linkType}}{{/paras}} </td>
         <td> {{#responseClass}} [{{className}}](#{{classLinkName}}){{^genericClasses}}{{/genericClasses}}{{#genericClasses}}< [{{className}}](#{{classLinkName}}) >{{/genericClasses}}{{/responseClass}} </td>
     </tr>
-    {{/paras}}
 </table>
 
 {{/parameters}}
@@ -88,8 +86,7 @@ Api Version: {{apiVersion}}
         <td>{{name}}</td>
         <td>{{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}}</td>
         <td>{{#required}}true{{/required}}{{^required}}{{/required}}</td>
-        <td>{{#description}}{{{description}}}{{/description}}{{^description}}-{{/description}}{{#allowableValue}} Allowable
-        values:{{.}}{{/allowableValue}}</td>
+        <td>{{#description}}{{{description}}}{{/description}}</td>
     </tr>
     {{/items}}
 </table>
@@ -102,3 +99,5 @@ Api Version: {{apiVersion}}
 {{.}}
 {{/allowableValues}}
 {{/enumTypes}}
+
+<!--{{#allowableValue}} Allowable values:{{.}}{{/allowableValue}} -->

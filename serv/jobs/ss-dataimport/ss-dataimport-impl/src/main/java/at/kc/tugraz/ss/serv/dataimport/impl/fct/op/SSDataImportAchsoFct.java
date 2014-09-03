@@ -48,7 +48,7 @@ public class SSDataImportAchsoFct{
       final Document                  document     = DocumentHelper.parseText(vidXML);
       final Element                   rootElement  = document.getRootElement();
       final Iterator                  vidIterator  = rootElement.elementIterator();
-      final List<SSi5CloudAchsoVideo> videos       = new ArrayList<SSi5CloudAchsoVideo>();
+      final List<SSi5CloudAchsoVideo> videos       = new ArrayList<>();
       Iterator                        vidContentIterator;
       Element                         vid;
       Element                         vidContent;
@@ -58,6 +58,7 @@ public class SSDataImportAchsoFct{
       Long                            created_at;
       List<String>                    annotations;
       List<String>                    keywords;
+      SSi5CloudAchsoVideo             videoObj;
       
       while(vidIterator.hasNext()){
         
@@ -86,14 +87,17 @@ public class SSDataImportAchsoFct{
         }
         
         try{
-          videos.add(
+          videoObj = 
             SSi5CloudAchsoVideo.get(
-              SSLabel.get  (title),
-              SSUri.get    (video_uri),
-              SSLabel.get  (creator),
-              created_at,
-              keywords,
-              annotations));
+              SSUri.get    (video_uri), 
+              SSLabel.get  (title), 
+              SSLabel.get  (creator), 
+              keywords, 
+              annotations);
+          
+          videoObj.creationTime = created_at;
+          
+          videos.add(videoObj);
           
         }catch(Exception error){
           SSLogU.warn("couldnt add vid: " + video_uri);
