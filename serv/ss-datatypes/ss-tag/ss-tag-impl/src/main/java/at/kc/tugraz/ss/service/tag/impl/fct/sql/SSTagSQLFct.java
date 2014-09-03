@@ -280,7 +280,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         //TODO dtheiler: use db for date restriction here
         if(
           startTime != null &&
-          startTime < bindingStrToLong(resultSet, SSSQLVarU.creationTime)){
+          bindingStrToLong(resultSet, SSSQLVarU.creationTime) > startTime){
           continue;
         }
         

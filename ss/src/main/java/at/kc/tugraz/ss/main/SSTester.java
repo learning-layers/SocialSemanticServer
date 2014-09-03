@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
 import at.kc.tugraz.ss.test.serv.flag.SSFlagTester;
 import at.kc.tugraz.ss.test.serv.learnep.SSLearnEpTester;
 import at.kc.tugraz.ss.test.serv.recomm.SSRecommTester;
+import at.kc.tugraz.ss.test.tag.SSTagTester;
 
 public class SSTester extends Thread{
   
@@ -44,6 +45,7 @@ public class SSTester extends Thread{
       new SSRecommTester().start();
       new SSFlagTester().start();
       new SSDataExportTester().start();
+      new SSTagTester().start();
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
 
