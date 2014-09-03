@@ -7,12 +7,116 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest, at.kc.tugraz.ss.serv.ss.auth.datatypes.pars</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
     </init-param>
     
     <!-- new jersey start -->
     <init-param>
-     <param-name>javax.ws.rs.Application</param-name>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
+    </init-param>
+    <!-- new jersey end -->
+        
+    <!-- SWAGGER start -->
+    <init-param>
+      <param-name>swagger.api.basepath</param-name>
+      <param-value>http://localhost:8084/ss-adapter-rest/swagger/</param-value>
+    </init-param>
+    
+    <!-- SWAGGER end -->
+    
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SSAdapterRESTFile</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+    </init-param>
+    
+    <!-- new jersey start -->
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
+    </init-param>
+    <!-- new jersey end -->
+        
+    <!-- SWAGGER start -->
+    <init-param>
+      <param-name>swagger.api.basepath</param-name>
+      <param-value>http://localhost:8084/ss-adapter-rest/swagger/</param-value>
+    </init-param>
+    
+    <!-- SWAGGER end -->
+    
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SSAdapterRESTFileUpload</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+    </init-param>
+    
+    <!-- new jersey start -->
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
+    </init-param>
+    <!-- new jersey end -->
+        
+    <!-- SWAGGER start -->
+    <init-param>
+      <param-name>swagger.api.basepath</param-name>
+      <param-value>http://localhost:8084/ss-adapter-rest/swagger/</param-value>
+    </init-param>
+    
+    <!-- SWAGGER end -->
+    
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SSAdapterRESTFileDownload</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+    </init-param>
+    
+    <!-- new jersey start -->
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
+    </init-param>
+    <!-- new jersey end -->
+        
+    <!-- SWAGGER start -->
+    <init-param>
+      <param-name>swagger.api.basepath</param-name>
+      <param-value>http://localhost:8084/ss-adapter-rest/swagger/</param-value>
+    </init-param>
+    
+    <!-- SWAGGER end -->
+    
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SSAdapterRESTFileReplace</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+    </init-param>
+    
+    <!-- new jersey start -->
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
       <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
     </init-param>
     <!-- new jersey end -->
@@ -30,8 +134,28 @@
   
   <servlet-mapping>
     <servlet-name>SSAdapterRest</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/SSAdapterRest/*</url-pattern>
   </servlet-mapping>
+  
+   <servlet-mapping>
+    <servlet-name>SSAdapterRESTFile</servlet-name>
+    <url-pattern>/SSAdapterRESTFile/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>SSAdapterRESTFileUpload</servlet-name>
+    <url-pattern>/SSAdapterRESTFileUpload/*</url-pattern>
+  </servlet-mapping>  
+    
+  <servlet-mapping>
+    <servlet-name>SSAdapterRESTFileDownload</servlet-name>
+    <url-pattern>/SSAdapterRESTFileDownload/*</url-pattern>
+  </servlet-mapping>   
+  
+  <servlet-mapping>
+    <servlet-name>SSAdapterRESTFileReplace</servlet-name>
+    <url-pattern>/SSAdapterRESTFileReplace/*</url-pattern>
+  </servlet-mapping> 
   
   <filter>
     <filter-name>CORS</filter-name>
@@ -72,6 +196,10 @@
   <filter-mapping>
     <filter-name>CORS</filter-name>
     <servlet-name>SSAdapterRest</servlet-name>
+    <servlet-name>SSAdapterRESTFile</servlet-name>
+    <servlet-name>SSAdapterRESTFileUpload</servlet-name>
+    <servlet-name>SSAdapterRESTFileReplace</servlet-name>
+    <servlet-name>SSAdapterRESTFileDownload</servlet-name>
   </filter-mapping>
   
   <filter-mapping>

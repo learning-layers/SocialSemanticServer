@@ -20,28 +20,18 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
-import at.kc.tugraz.ss.conf.conf.SSConf;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
-import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
@@ -70,8 +60,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSet
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
-import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -112,20 +100,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUserFileWritesPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
@@ -161,33 +136,15 @@ import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
 
-@Path("/SSAdapterRest")
-@Api( value = "/SSAdapterRest", description = "SSS REST API" )
+@Path("/")
+@Api( value = "SSAdapterRest", description = "SSS REST API" )
 public class SSAdapterRest{
-  
-  private SSSocketCon     sSCon   = null;
-  private int             read    = -1;
-  public static SSConf    conf    = null;
-  
-  public SSAdapterRest() throws Exception{
-  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -197,7 +154,7 @@ public class SSAdapterRest{
     value = "retrieve the authentication key and user's uri for credentials",
     response = SSAuthCheckCredRet.class)
   public String authCheckCred(final SSAuthCheckCredPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
   }
   
   @POST
@@ -208,7 +165,7 @@ public class SSAdapterRest{
     value = "get predefined categories",
     response = SSCategoriesPredefinedGetRet.class)
   public String categoriesPredefinedGet(final SSCategoriesPredefinedGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.categoriesPredefinedGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoriesPredefinedGet);
   }
   
   @POST
@@ -219,7 +176,7 @@ public class SSAdapterRest{
     value = "set flags",
     response = SSFlagsUserSetRet.class)
   public String flagsSet(final SSFlagsUserSetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.flagsSet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.flagsSet);
   }
   
   @POST
@@ -230,7 +187,7 @@ public class SSAdapterRest{
     value = "retrieve flags set",
     response = SSFlagsUserGetRet.class)
   public String flagsGet(final SSFlagsUserGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.flagsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.flagsGet);
   }
   
   @POST
@@ -241,7 +198,7 @@ public class SSAdapterRest{
     value = "retrieve more detailed information for given entities of a user",
     response = SSEntityDescsGetRet.class)
   public String entityDescsGet(final SSEntityDescsGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityDescsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityDescsGet);
   }
   
   @POST
@@ -252,7 +209,7 @@ public class SSAdapterRest{
     value = "import data from evernote for certain user",
     response = SSDataImportEvernoteRet.class)
   public String dataImportEvernote(final SSDataImportEvernotePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.dataImportEvernote);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.dataImportEvernote);
   }
   
   @POST
@@ -263,7 +220,7 @@ public class SSAdapterRest{
     value = "retrieve activities from within a certain time frame",
     response = SSActivitiesUserGetRet.class)
   public String activitiesGet(final SSActivitiesUserGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
   }
   
   @POST
@@ -275,7 +232,7 @@ public class SSAdapterRest{
     response = SSSearchRet.class)
   public String search(
     final SSSearchPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.search);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.search);
   }
   
   @POST
@@ -286,7 +243,7 @@ public class SSAdapterRest{
     value = "retrieve the version of the sss instance",
     response = SSSystemVersionGetRet.class)
   public String systemVersionGet(final SSSystemVersionGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.systemVersionGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.systemVersionGet);
   }
   
   @POST
@@ -297,7 +254,7 @@ public class SSAdapterRest{
     value = "set an entity public (make it accessible for everyone)",
     response = SSEntityUserPublicSetRet.class)
   public String entityPublicSet(final SSEntityUserPublicSetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityPublicSet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityPublicSet);
   }
   
   @POST
@@ -308,7 +265,7 @@ public class SSAdapterRest{
     value = "retrieve general attributes for given entity",
     response = SSEntityUserGetRet.class)
   public String entityGet(final SSEntityUserGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityGet);
   }
   
   @POST
@@ -319,7 +276,7 @@ public class SSAdapterRest{
     value = "retrieve a certain circle",
     response = SSEntityUserCircleGetRet.class)
   public String entityCircleGet(final SSEntityUserCircleGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
   }
   
   @POST
@@ -330,7 +287,7 @@ public class SSAdapterRest{
     value = "create a circle and add users and entities to",
     response = SSEntityUserCircleCreateRet.class)
   public String entityCircleCreate(final SSEntityUserCircleCreatePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityCircleCreate);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleCreate);
   }
   
   @POST
@@ -341,7 +298,7 @@ public class SSAdapterRest{
     value = "add given users to a user-generated circle",
     response = SSEntityUserUsersToCircleAddRet.class)
   public String entityUsersToCircleAdd(final SSEntityUserUsersToCircleAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityUsersToCircleAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUsersToCircleAdd);
   }
   
   @POST
@@ -352,7 +309,7 @@ public class SSAdapterRest{
     value = "copy an entity and hand it to a user",
     response = SSEntityUserCopyRet.class)
   public String entityCopy(final SSEntityUserCopyPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityCopy);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCopy);
   }
 
   @POST
@@ -363,7 +320,7 @@ public class SSAdapterRest{
     value = "add given entities to a user-generated circle",
     response = SSEntityUserEntitiesToCircleAddRet.class)
   public String entityEntitiesToCircleAdd(final SSEntityUserEntitiesToCircleAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityEntitiesToCircleAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityEntitiesToCircleAdd);
   }
   
   @POST
@@ -374,7 +331,7 @@ public class SSAdapterRest{
     value = "retrieve circles the user is in",
     response = SSEntityUserCirclesGetRet.class)
   public String entityUserCirclesGet(final SSEntityUserCirclesGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityUserCirclesGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUserCirclesGet);
   }
   
   @POST
@@ -385,7 +342,7 @@ public class SSAdapterRest{
     value = "retrieve users who can access given entity",
     response = SSEntityUserEntityUsersGetRet.class)
   public String entityEntityUsersGet(final SSEntityUserEntityUsersGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityEntityUsersGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityEntityUsersGet);
   }
   
   @POST
@@ -396,7 +353,7 @@ public class SSAdapterRest{
     value = "retrieve all the user's collections given entity is in",
     response = SSCollsUserEntityIsInGetRet.class)
   public String collsEntityIsInGet(final SSCollsUserEntityIsInGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collsEntityIsInGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collsEntityIsInGet);
   }
   
   @POST
@@ -407,7 +364,7 @@ public class SSAdapterRest{
     value = "retrieve a list of all public collections given user could subscribe to",
     response = SSCollsUserCouldSubscribeGetRet.class)
   public String collsCouldSubscribeGet(final SSCollsUserCouldSubscribeGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collsCouldSubscribeGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collsCouldSubscribeGet);
   }
   
   @POST
@@ -418,7 +375,7 @@ public class SSAdapterRest{
     value = "changes the label of the tag assigned to entities by given user",
     response = SSTagUserEditRet.class)
   public String tagEdit(final SSTagUserEditPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagEdit);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEdit);
   }
   
   @POST
@@ -429,7 +386,7 @@ public class SSAdapterRest{
     value = "retrieve the user's root collection",
     response = SSCollUserRootGetRet.class)
   public String collRootGet(final SSCollUserRootGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collRootGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collRootGet);
   }
   
   @POST
@@ -440,7 +397,7 @@ public class SSAdapterRest{
     value = "retrieve the parent collection for given user's collection",
     response = SSCollUserParentGetRet.class)
   public String collParentGet(final SSCollUserParentGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collParentGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collParentGet);
   }
   
   @POST
@@ -451,7 +408,7 @@ public class SSAdapterRest{
     value = "add a (new) collection or any other entity to given user's collection",
     response = SSCollUserEntryAddRet.class)
   public String collEntryAdd(final SSCollUserEntryAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collEntryAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collEntryAdd);
   }
   
   @POST
@@ -462,7 +419,7 @@ public class SSAdapterRest{
     value = "add existing collections or (new) entities to a collection",
     response = SSCollUserEntriesAddRet.class)
   public String collEntriesAdd(final SSCollUserEntriesAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collEntriesAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collEntriesAdd);
   }
   
   @POST
@@ -473,7 +430,7 @@ public class SSAdapterRest{
     value = "change the sequential order of entries in a user's collection",
     response = SSCollUserEntryChangePosRet.class)
   public String collEntryChangePos(final SSCollUserEntryChangePosPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collEntryChangePos);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collEntryChangePos);
   }
   
   @POST
@@ -484,7 +441,7 @@ public class SSAdapterRest{
     value = "delete an item from a user's collection",
     response = SSCollUserEntryDeleteRet.class)
   public String collEntryDelete(final SSCollUserEntryDeletePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collEntryDelete);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collEntryDelete);
   }
   
   @POST
@@ -495,7 +452,7 @@ public class SSAdapterRest{
     value = "delete one or more entries from a collection",
     response = SSCollUserEntriesDeleteRet.class)
   public String collEntriesDelete(final SSCollUserEntriesDeletePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collEntriesDelete);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collEntriesDelete);
   }
   
   @POST
@@ -506,7 +463,7 @@ public class SSAdapterRest{
     value = "share an entity directly with given users",
     response = SSEntityUserShareRet.class)
   public String entityShare(final SSEntityUserSharePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityShare);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityShare);
   }
   
   @POST
@@ -517,7 +474,7 @@ public class SSAdapterRest{
     value = "retrieve a user's collection with entries",
     response = SSCollUserWithEntriesRet.class)
   public String collWithEntries(final SSCollUserWithEntriesPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collWithEntries);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collWithEntries);
   }
   
   @POST
@@ -528,7 +485,7 @@ public class SSAdapterRest{
     value = "retrieve the user's collections with entries",
     response = SSCollsUserWithEntriesRet.class)
   public String collsWithEntries(final SSCollsUserWithEntriesPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collsWithEntries);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collsWithEntries);
   }
   
   @POST
@@ -539,7 +496,7 @@ public class SSAdapterRest{
     value = "retrieve the parent collection order for a user's collection",
     response = SSCollUserHierarchyGetRet.class)
   public String collHierarchyGet(final SSCollUserHierarchyGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collHierarchyGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collHierarchyGet);
   }
    
   @POST
@@ -550,7 +507,7 @@ public class SSAdapterRest{
     value = "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
     response = SSCollUserCumulatedTagsGetRet.class)
   public String collCumulatedTagsGet(final SSCollUserCumulatedTagsGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.collCumulatedTagsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.collCumulatedTagsGet);
   }
   
   @POST
@@ -561,7 +518,7 @@ public class SSAdapterRest{
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
     response = SSDiscUserEntryAddRet.class)
   public String discEntryAdd(final SSDiscUserEntryAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.discEntryAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.discEntryAdd);
   }
   
   @POST
@@ -572,7 +529,7 @@ public class SSAdapterRest{
     value = "retrieve discussions for a certain entity",
     response = SSDiscUserDiscURIsForTargetGetRet.class)
   public String discURIsForTargetGet(final SSDiscUserDiscURIsForTargetGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.discURIsForTargetGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.discURIsForTargetGet);
   }
   
   @POST
@@ -583,7 +540,7 @@ public class SSAdapterRest{
     value = "remove a discussion from given user",
     response = SSDiscUserRemoveRet.class)
   public String discRemove(final SSDiscUserRemovePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.discRemove);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.discRemove);
   }
   
   @POST
@@ -594,7 +551,7 @@ public class SSAdapterRest{
     value = "retrieve the discussion with its entries",
     response = SSDiscUserWithEntriesRet.class)
   public String discWithEntriesGet(final SSDiscUserWithEntriesGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.discWithEntriesGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.discWithEntriesGet);
   }
   
   @POST
@@ -605,7 +562,7 @@ public class SSAdapterRest{
     value = "retrieve all discussions given user is allowed to see",
     response = SSDiscsUserAllGetRet.class)
   public String discsAllGet(final SSDiscsUserAllGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.discsAllGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.discsAllGet);
   }
   
   @POST
@@ -616,7 +573,7 @@ public class SSAdapterRest{
     value = "remove certain attached attributes from an entity",
     response = SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.class)
   public String entityDirectlyAdjoinedEntitiesRemove(final SSEntityUserDirectlyAdjoinedEntitiesRemovePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityDirectlyAdjoinedEntitiesRemove);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityDirectlyAdjoinedEntitiesRemove);
   }
   
   @POST
@@ -627,7 +584,7 @@ public class SSAdapterRest{
     value = "retrieve more detailed information for given entity",
     response = SSEntityDescGetRet.class)
   public String entityDescGet(final SSEntityDescGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityDescGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityDescGet);
   }
   
   @POST
@@ -638,51 +595,7 @@ public class SSAdapterRest{
     value = "updates/adds given properties for an entity",
     response = SSEntityUserUpdateRet.class)
   public String entityUpdate(final SSEntityUserUpdatePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.entityUpdate);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileExtGet")
-  @ApiOperation(
-    value = "retrieve a file's extension",
-    response = SSFileExtGetRet.class)
-  public String fileExtGet(final SSFileExtGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.fileExtGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileCanWrite")
-  @ApiOperation(
-    value = "query whether given file can be downloaded with write access",
-    response = SSFileCanWriteRet.class)
-  public String fileCanWrite(final SSFileCanWritePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.fileCanWrite);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileSetReaderOrWriter")
-  @ApiOperation(
-    value = "set user being writer or reaader for given file",
-    response = SSFileSetReaderOrWriterRet.class)
-  public String fileSetReaderOrWriter(final SSFileSetReaderOrWriterPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.fileSetReaderOrWriter);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileUserFileWrites")
-  @ApiOperation(
-    value = "retrieve files user currently could replace when uploading respective file again as he is writer",
-    response = SSFileGetEditingFilesRet.class)
-  public String fileUserFileWrites(final SSFileUserFileWritesPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.fileUserFileWrites);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUpdate);
   }
   
   @POST
@@ -693,7 +606,7 @@ public class SSAdapterRest{
     value = "retrieve number of minutes left user is allowed to replace / re-upload a file",
     response = SSFileWritingMinutesLeftRet.class)
   public String fileWritingMinutesLeft(final SSFileWritingMinutesLeftPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.fileWritingMinutesLeft);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.fileWritingMinutesLeft);
   }
   
   @POST
@@ -704,7 +617,7 @@ public class SSAdapterRest{
     value = "retrieve automatically usage-based modeled details for given entity",
     response = SSModelUEResourceDetailsRet.class)
   public String modelUEResourceDetails(final SSModelUEEntityDetailsPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.modelUEResourceDetails);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.modelUEResourceDetails);
   }
   
   @POST
@@ -715,7 +628,7 @@ public class SSAdapterRest{
     value = "retrieve the overall rating (by all users) for given entity",
     response = SSRatingOverallGetRet.class)
   public String ratingOverallGet(final SSRatingOverallGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.ratingOverallGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.ratingOverallGet);
   }
   
   @POST
@@ -726,7 +639,7 @@ public class SSAdapterRest{
     value = "set the user's rating for given entity",
     response = SSRatingUserSetRet.class)
   public String ratingSet(final SSRatingUserSetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.ratingSet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.ratingSet);
   }
   
   @POST
@@ -737,7 +650,7 @@ public class SSAdapterRest{
     value = "retrieve tag recommendations based on user, entity, tag, time and category combinations",
     response = SSRecommTagsRet.class)
   public String recommTags(final SSRecommTagsPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.recommTags);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.recommTags);
   }
   
   @POST
@@ -748,7 +661,7 @@ public class SSAdapterRest{
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
     response = SSTagUserEntitiesForTagsGetRet.class)
   public String tagEntitiesForTagsGet(final SSTagUserEntitiesForTagsGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagEntitiesForTagsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEntitiesForTagsGet);
   }
   
   @POST
@@ -759,7 +672,7 @@ public class SSAdapterRest{
     value = "retrieve tag assignments",
     response = SSTagsUserGetRet.class)
   public String tagsGet(final SSTagsUserGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsGet);
   }
   
   @POST
@@ -770,7 +683,7 @@ public class SSAdapterRest{
     value = "add a tag within for an entity within given space",
     response = SSTagAddRet.class)
   public String tagAdd(final SSTagAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagAdd);
   }
   
   @POST
@@ -781,7 +694,7 @@ public class SSAdapterRest{
     value = "retrieve tag frequencies",
     response = SSTagUserFrequsGetRet.class)
   public String tagFrequsGet(final SSTagUserFrequsGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagFrequsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagFrequsGet);
   }
   
   @POST
@@ -792,7 +705,7 @@ public class SSAdapterRest{
     value = "remove tag, user, entity, space combinations",
     response = SSTagsUserRemoveRet.class)
   public String tagsRemove(final SSTagsUserRemovePar input){
-    return handleStandardJSONRESTCall(input, SSMethU.tagsRemove);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsRemove);
   }
   
   @POST
@@ -803,7 +716,7 @@ public class SSAdapterRest{
     value = "retrieve all users",
     response = SSUserAllRet.class)
   public String userAll(final SSUserAllPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.userAll);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.userAll);
   }
   
   @POST
@@ -814,7 +727,7 @@ public class SSAdapterRest{
     value = "add a usage-based trace, i.e. user event, for entity, user combination",
     response = SSUEAddRet.class)
   public String uEAdd(final SSUEAddPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.uEAdd);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.uEAdd);
   }
   
   @POST
@@ -825,7 +738,7 @@ public class SSAdapterRest{
     value = "retrieve user events for user, entity, time combination",
     response = SSUEsGetRet.class)
   public String uEsGet(final SSUEsGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.uEsGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.uEsGet);
   }
   
   @POST
@@ -836,7 +749,7 @@ public class SSAdapterRest{
     value = "retrieve given user event",
     response = SSUEGetRet.class)
   public String uEGet(final SSUEGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.uEGet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.uEGet);
   }
   
   @POST
@@ -847,181 +760,7 @@ public class SSAdapterRest{
     value = "retrieve the number of certain user events",
     response = SSUECountGetRet.class)
   public String uECountGet(final SSUECountGetPar input){
-    return handleStandardJSONRESTCall(input, SSMethU.uECountGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @Path(SSStrU.slash + "fileDownload")
-  @ApiOperation(
-    value = "download a file",
-    response = byte.class)
-  public Response fileDownload(final SSFileDownloadPar input){
-    
-    StreamingOutput  stream = null;
-    
-    try{
-      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(input));
-      
-      sSCon.writeRequFullToSS   ();
-      sSCon.readMsgFullFromSS   ();
-      sSCon.writeRequFullToSS   ();
-
-      stream = new StreamingOutput(){
-
-        @Override
-        public void write(OutputStream out) throws IOException{
-          
-          byte[] bytes;
-
-          while((bytes = sSCon.readFileChunkFromSS()).length > 0) {
-
-            out.write               (bytes);
-            out.flush               ();
-          }
-          
-          out.close();
-        }
-      };
-    }catch(Exception error){
-      
-      try{
-        return Response.serverError().build();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-//      sSCon.closeCon();
-    }
-    
-    return Response.ok(stream).build();
-  }
-  
-  @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path(SSStrU.slash + "fileReplace")
-  @ApiOperation(
-    value = "replace a file with a newer version",
-    response = SSFileReplaceRet.class)
-  public Response fileReplace(
-    @FormDataParam(SSVarU.op)         final String op,
-    @FormDataParam(SSVarU.user)       final String user,
-    @FormDataParam(SSVarU.file)       final String file, 
-    @FormDataParam(SSVarU.key)        final String key,
-    
-    @ApiParam(
-      value = "file handle",
-      required = true)
-    @FormDataParam(SSVarU.fileHandle) 
-    final InputStream fileHandle){
-
-    Response result = null;
-    
-    try{
-      final SSFileReplacePar par    = new SSFileReplacePar();
-      byte[]                 bytes  = new byte[SSSocketU.socketTranmissionSize];
-      String                 returnMsg;
-    
-      par.op       = SSMethU.fileReplace;
-      par.user     = SSUri.get(user);
-      par.key      = key;
-      par.file     = SSUri.get(file);
-      
-      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(par));
-      
-      sSCon.writeRequFullToSS ();
-      sSCon.readMsgFullFromSS();
-      
-      while ((read = fileHandle.read(bytes)) != -1){
-        sSCon.writeFileChunkToSS  (bytes, read);
-      }
-      
-      sSCon.writeFileChunkToSS(new byte[0], -1);
-      
-      returnMsg = sSCon.readMsgFullFromSS();
-      
-      return Response.status(200).entity(returnMsg).build();
-      
-    }catch(Exception error){
-      
-      try{
-        return Response.serverError().build();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-      sSCon.closeCon();
-    }
-    
-    return result;
-  }
-  
-  @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path(SSStrU.slash + "fileUpload")
-  @ApiOperation(
-    value = "upload a file", 
-    response = SSFileUploadRet.class)
-  public Response fileUpload(
-    @FormDataParam(SSVarU.op)         final String      op,
-    @FormDataParam(SSVarU.user)       final String      user,
-    @FormDataParam(SSVarU.mimeType)   final String      mimeType,
-    @FormDataParam(SSVarU.label)      final String      label,
-    @FormDataParam(SSVarU.key)        final String      key,
-    
-    @ApiParam(
-      value = "file handle",
-      required = true)
-    @FormDataParam(SSVarU.fileHandle) 
-    final InputStream fileHandle){
-
-    Response result = null;
-    
-    try{
-      final SSFileUploadPar par;
-      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
-      String                resultMsg;
-
-      par          = new SSFileUploadPar();
-      par.op       = SSMethU.fileUpload;
-      par.user     = SSUri.get(user);
-      par.key      = key;
-      par.mimeType = mimeType;
-      par.label    = SSLabel.get(label);
-      
-      sSCon = new SSSocketCon(conf.host, conf.port, SSJSONU.jsonStr(par));
-      
-      sSCon.writeRequFullToSS  ();
-      sSCon.readMsgFullFromSS  ();
-
-      while ((read = fileHandle.read(bytes)) != -1) {
-        sSCon.writeFileChunkToSS   (bytes, read);
-//        sSCon.readMsgFullFromSS    ();
-      }
-
-      sSCon.writeFileChunkToSS(new byte[0], -1);
-
-      resultMsg = sSCon.readMsgFullFromSS();
-      
-      sSCon.closeCon();
-      
-      return Response.status(200).entity(resultMsg).build();
-      
-    }catch(Exception error){
-      
-      try{
-        return Response.serverError().build();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-      sSCon.closeCon();
-    }
-    
-    return result;
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.uECountGet);
   }
   
 //  @GET
@@ -1048,7 +787,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpsGet")
   public String learnEpsGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsGet);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsGet);
   }
   
   @POST
@@ -1056,7 +795,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionsGet")
   public String learnEpVersionsGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionsGet);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionsGet);
   }
   
   @POST
@@ -1064,7 +803,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionGet")
   public String learnEpVersionGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGet);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGet);
   }
   
   @POST
@@ -1072,7 +811,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCurrentGet")
   public String learnEpVersionCurrentGet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentGet);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentGet);
   }
   
   @POST
@@ -1080,7 +819,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCurrentSet")
   public String learnEpVersionCurrentSet(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentSet);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentSet);
   }
     
   @POST
@@ -1088,7 +827,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCreate")
   public String learnEpVersionCreate(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCreate);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCreate);
   }
   
   @POST
@@ -1096,7 +835,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionAddCircle")
   public String learnEpVersionAddCircle(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddCircle);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddCircle);
   }
   
   @POST
@@ -1104,7 +843,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionAddEntity")
   public String learnEpVersionAddEntity(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddEntity);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddEntity);
   }
   
   @POST
@@ -1112,7 +851,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpCreate")
   public String learnEpCreate(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpCreate);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpCreate);
   }
   
   @POST
@@ -1120,7 +859,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionUpdateCircle")
   public String learnEpVersionUpdateCircle(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateCircle);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateCircle);
   }
   
   @POST
@@ -1128,7 +867,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionUpdateEntity")
   public String learnEpVersionUpdateEntity(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateEntity);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateEntity);
   }
   
   @POST
@@ -1136,7 +875,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionSetTimelineState")
   public String learnEpVersionSetTimelineState(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionSetTimelineState);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionSetTimelineState);
   }
   
   @POST
@@ -1144,7 +883,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionGetTimelineState")
   public String learnEpVersionGetTimelineState(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGetTimelineState);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGetTimelineState);
   }
   
   @POST
@@ -1152,7 +891,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionRemoveCircle")
   public String learnEpVersionRemoveCircle(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveCircle);
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveCircle);
   }
   
   @POST
@@ -1160,109 +899,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionRemoveEntity")
   public String learnEpVersionRemoveEntity(String jsonRequ){
-    return handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveEntity);
-  }
-  
-  private String handleStandardJSONRESTCall(final SSServPar input, final SSMethU op){
-    
-    try{
-      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-      return null;
-    }
-  }
-  
-  private String handleStandardJSONRESTCall(
-    final String  jsonRequ,
-    final SSMethU op){
-    
-    String      readMsgFullFromSS;
-    
-    try{
-      
-      try{
-        sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt connect to " + conf.host.toString() + " " + conf.port.toString());
-        throw error;
-      }
-      
-      try{
-        sSCon.writeRequFullToSS ();
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt write to " + conf.host.toString() + " " + conf.port.toString());
-        throw error;
-      }
-          
-      try{
-        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt read from " + conf.host.toString() + " " + conf.port.toString());
-        throw error;
-      }
-      
-      return checkAndHandleSSSNodeSwitch(readMsgFullFromSS, jsonRequ);
-    
-    }catch(Exception error){
-      
-      final List<SSErrForClient> errors = new ArrayList<>();
-      
-      try{
-        
-        errors.add(SSErrForClient.get(error));
-        
-        return sSCon.prepErrorToClient (errors, op);
-        
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-      
-      if(sSCon != null){
-        sSCon.closeCon();
-      }
-    }
-    
-    return null;
-  }
-  
-  private String checkAndHandleSSSNodeSwitch(
-    final String msgFullFromSS, 
-    final String clientJSONRequ) throws Exception{
-    
-    SSSocketCon sssNodeSocketCon = null;
-    
-    try{
-      
-      final SSClientPar clientPar = new SSClientPar (msgFullFromSS);
-      
-      if(!clientPar.useDifferentServiceNode){
-        return msgFullFromSS;
-      }
-      
-      sssNodeSocketCon =
-        new SSSocketCon(
-          clientPar.sssNodeHost,
-          clientPar.sssNodePort,
-          clientJSONRequ);
-      
-      sssNodeSocketCon.writeRequFullToSS();
-      
-      return sssNodeSocketCon.readMsgFullFromSS ();
-      
-    }catch(Exception error){
-      SSServErrReg.regErr     (error);
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.deployingServiceOnNodeFailed));
-      return null;
-    }finally{
-      if(sssNodeSocketCon != null){
-        sssNodeSocketCon.closeCon();
-      }
-    }
+    return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveEntity);
   }
 }
 
