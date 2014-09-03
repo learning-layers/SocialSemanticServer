@@ -4,9 +4,9 @@
 
 <xmp theme="united" style="display:none;">
 #Social Semantic Server REST API
+https://github.com/learning-layers/SocialSemanticServer/
 
-
-Terms of Service: []()
+Terms of Service: [https://github.com/learning-layers/](https://github.com/learning-layers/)
 
 Contact: [dtheiler#tugraz$at](mailto:dtheiler#tugraz$at)
 
@@ -41,386 +41,6 @@ search for entities
 
 
 - - -
-#### **POST** `/SSAdapterRest/categoriesPredefinedGet`
-
-get predefined categories
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
-        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/dataImportEvernote`
-
-import data from evernote for certain user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
-        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityCircleCreate`
-
-create a circle and add users and entities to
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
-        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityUsersToCircleAdd`
-
-add given users to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
-        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityEntitiesToCircleAdd`
-
-add given entities to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
-        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityUserCirclesGet`
-
-retrieve circles the user is in
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
-        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityEntityUsersGet`
-
-retrieve users who can access given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserEntityUsersGetPar">SSEntityUserEntityUsersGetPar</a> </td>
-        <td>  [SSEntityUserEntityUsersGetRet](#SSEntityUserEntityUsersGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/collsEntityIsInGet`
-
-retrieve all the user&#39;s collections given entity is in
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollsUserEntityIsInGetPar">SSCollsUserEntityIsInGetPar</a> </td>
-        <td>  [SSCollsUserEntityIsInGetRet](#SSCollsUserEntityIsInGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/collsCouldSubscribeGet`
-
-retrieve a list of all public collections given user could subscribe to
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollsUserCouldSubscribeGetPar">SSCollsUserCouldSubscribeGetPar</a> </td>
-        <td>  [SSCollsUserCouldSubscribeGetRet](#SSCollsUserCouldSubscribeGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/collEntryChangePos`
-
-change the sequential order of entries in a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserEntryChangePosPar">SSCollUserEntryChangePosPar</a> </td>
-        <td>  [SSCollUserEntryChangePosRet](#SSCollUserEntryChangePosRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/collEntriesDelete`
-
-delete one or more entries from a collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserEntriesDeletePar">SSCollUserEntriesDeletePar</a> </td>
-        <td>  [SSCollUserEntriesDeleteRet](#SSCollUserEntriesDeleteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/collCumulatedTagsGet`
-
-retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserCumulatedTagsGetPar">SSCollUserCumulatedTagsGetPar</a> </td>
-        <td>  [SSCollUserCumulatedTagsGetRet](#SSCollUserCumulatedTagsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/discURIsForTargetGet`
-
-retrieve discussions for a certain entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDiscUserDiscURIsForTargetGetPar">SSDiscUserDiscURIsForTargetGetPar</a> </td>
-        <td>  [SSDiscUserDiscURIsForTargetGetRet](#SSDiscUserDiscURIsForTargetGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/discWithEntriesGet`
-
-retrieve the discussion with its entries
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDiscUserWithEntriesGetPar">SSDiscUserWithEntriesGetPar</a> </td>
-        <td>  [SSDiscUserWithEntriesRet](#SSDiscUserWithEntriesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/fileSetReaderOrWriter`
-
-set user being writer or reaader for given file
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileSetReaderOrWriterPar">SSFileSetReaderOrWriterPar</a> </td>
-        <td>  [SSFileSetReaderOrWriterRet](#SSFileSetReaderOrWriterRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/fileUserFileWrites`
-
-retrieve files user currently could replace when uploading respective file again as he is writer
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileUserFileWritesPar">SSFileUserFileWritesPar</a> </td>
-        <td>  [SSFileGetEditingFilesRet](#SSFileGetEditingFilesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/fileWritingMinutesLeft`
-
-retrieve number of minutes left user is allowed to replace / re-upload a file
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileWritingMinutesLeftPar">SSFileWritingMinutesLeftPar</a> </td>
-        <td>  [SSFileWritingMinutesLeftRet](#SSFileWritingMinutesLeftRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/modelUEResourceDetails`
-
-retrieve automatically usage-based modeled details for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSModelUEEntityDetailsPar">SSModelUEEntityDetailsPar</a> </td>
-        <td>  [SSModelUEResourceDetailsRet](#SSModelUEResourceDetailsRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/tagEntitiesForTagsGet`
-
-retrieve entities for tags (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
-        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/SSAdapterRest/entityDirectlyAdjoinedEntitiesRemove`
 
 remove certain attached attributes from an entity
@@ -435,66 +55,6 @@ remove certain attached attributes from an entity
     <tr>
         <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
         <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/entityDescsGet`
-
-retrieve more detailed information for given entities of a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
-        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/activitiesGet`
-
-retrieve activities from within a certain time frame
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/flagsGet`
-
-retrieve flags set
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
     </tr>
 </table>
 
@@ -521,26 +81,6 @@ set an entity public (make it accessible for everyone)
 
 
 - - -
-#### **POST** `/SSAdapterRest/entityGet`
-
-retrieve general attributes for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserGetPar">SSEntityUserGetPar</a> </td>
-        <td>  [SSEntityUserGetRet](#SSEntityUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/SSAdapterRest/systemVersionGet`
 
 retrieve the version of the sss instance
@@ -555,6 +95,106 @@ retrieve the version of the sss instance
     <tr>
         <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
         <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/flagsGet`
+
+retrieve flags set
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/flagsSet`
+
+set flags
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
+        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/activitiesGet`
+
+retrieve activities from within a certain time frame
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityDescsGet`
+
+retrieve more detailed information for given entities of a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
+        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityGet`
+
+retrieve general attributes for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserGetPar">SSEntityUserGetPar</a> </td>
+        <td>  [SSEntityUserGetRet](#SSEntityUserGetRet) </td>
     </tr>
 </table>
 
@@ -941,26 +581,6 @@ query whether given file can be downloaded with write access
 
 
 - - -
-#### **POST** `/SSAdapterRest/ratingSet`
-
-set the user&#39;s rating for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
-        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/SSAdapterRest/ratingOverallGet`
 
 retrieve the overall rating (by all users) for given entity
@@ -975,6 +595,26 @@ retrieve the overall rating (by all users) for given entity
     <tr>
         <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
         <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/ratingSet`
+
+set the user&#39;s rating for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
+        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
     </tr>
 </table>
 
@@ -1081,46 +721,6 @@ remove tag, user, entity, space combinations
 
 
 - - -
-#### **POST** `/SSAdapterRest/userAll`
-
-retrieve all users
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSUserAllPar">SSUserAllPar</a> </td>
-        <td>  [SSUserAllRet](#SSUserAllRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/SSAdapterRest/flagsSet`
-
-set flags
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
-        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/SSAdapterRest/authCheckCred`
 
 retrieve the authentication key and user&#39;s uri for credentials
@@ -1135,6 +735,26 @@ retrieve the authentication key and user&#39;s uri for credentials
     <tr>
         <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
         <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/userAll`
+
+retrieve all users
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSUserAllPar">SSUserAllPar</a> </td>
+        <td>  [SSUserAllRet](#SSUserAllRet) </td>
     </tr>
 </table>
 
@@ -1275,6 +895,386 @@ upload a file
     <tr>
         <td>-----<a href="#java.io.InputStream">java.io.InputStream</a> </td>
         <td>  [SSFileUploadRet](#SSFileUploadRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/collEntriesDelete`
+
+delete one or more entries from a collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserEntriesDeletePar">SSCollUserEntriesDeletePar</a> </td>
+        <td>  [SSCollUserEntriesDeleteRet](#SSCollUserEntriesDeleteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/collEntryChangePos`
+
+change the sequential order of entries in a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserEntryChangePosPar">SSCollUserEntryChangePosPar</a> </td>
+        <td>  [SSCollUserEntryChangePosRet](#SSCollUserEntryChangePosRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/collsCouldSubscribeGet`
+
+retrieve a list of all public collections given user could subscribe to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserCouldSubscribeGetPar">SSCollsUserCouldSubscribeGetPar</a> </td>
+        <td>  [SSCollsUserCouldSubscribeGetRet](#SSCollsUserCouldSubscribeGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/collsEntityIsInGet`
+
+retrieve all the user&#39;s collections given entity is in
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserEntityIsInGetPar">SSCollsUserEntityIsInGetPar</a> </td>
+        <td>  [SSCollsUserEntityIsInGetRet](#SSCollsUserEntityIsInGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityEntityUsersGet`
+
+retrieve users who can access given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserEntityUsersGetPar">SSEntityUserEntityUsersGetPar</a> </td>
+        <td>  [SSEntityUserEntityUsersGetRet](#SSEntityUserEntityUsersGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityUserCirclesGet`
+
+retrieve circles the user is in
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
+        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityEntitiesToCircleAdd`
+
+add given entities to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
+        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityUsersToCircleAdd`
+
+add given users to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
+        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/entityCircleCreate`
+
+create a circle and add users and entities to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
+        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/dataImportEvernote`
+
+import data from evernote for certain user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
+        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/categoriesPredefinedGet`
+
+get predefined categories
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
+        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/collCumulatedTagsGet`
+
+retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserCumulatedTagsGetPar">SSCollUserCumulatedTagsGetPar</a> </td>
+        <td>  [SSCollUserCumulatedTagsGetRet](#SSCollUserCumulatedTagsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/discURIsForTargetGet`
+
+retrieve discussions for a certain entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDiscUserDiscURIsForTargetGetPar">SSDiscUserDiscURIsForTargetGetPar</a> </td>
+        <td>  [SSDiscUserDiscURIsForTargetGetRet](#SSDiscUserDiscURIsForTargetGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/discWithEntriesGet`
+
+retrieve the discussion with its entries
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDiscUserWithEntriesGetPar">SSDiscUserWithEntriesGetPar</a> </td>
+        <td>  [SSDiscUserWithEntriesRet](#SSDiscUserWithEntriesRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/fileSetReaderOrWriter`
+
+set user being writer or reaader for given file
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileSetReaderOrWriterPar">SSFileSetReaderOrWriterPar</a> </td>
+        <td>  [SSFileSetReaderOrWriterRet](#SSFileSetReaderOrWriterRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/fileUserFileWrites`
+
+retrieve files user currently could replace when uploading respective file again as he is writer
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileUserFileWritesPar">SSFileUserFileWritesPar</a> </td>
+        <td>  [SSFileGetEditingFilesRet](#SSFileGetEditingFilesRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/fileWritingMinutesLeft`
+
+retrieve number of minutes left user is allowed to replace / re-upload a file
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileWritingMinutesLeftPar">SSFileWritingMinutesLeftPar</a> </td>
+        <td>  [SSFileWritingMinutesLeftRet](#SSFileWritingMinutesLeftRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/modelUEResourceDetails`
+
+retrieve automatically usage-based modeled details for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSModelUEEntityDetailsPar">SSModelUEEntityDetailsPar</a> </td>
+        <td>  [SSModelUEResourceDetailsRet](#SSModelUEResourceDetailsRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/SSAdapterRest/tagEntitiesForTagsGet`
+
+retrieve entities for tags (currently startTime is not used to retrieve entities)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
+        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
     </tr>
 </table>
 
@@ -1666,16 +1666,16 @@ upload a file
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -3148,16 +3148,16 @@ upload a file
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -5218,13 +5218,13 @@ upload a file
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -5998,14 +5998,14 @@ upload a file
         <th>description</th>
     </tr>
     <tr>
-        <td>likelihood</td>
-        <td>double</td>
+        <td>label</td>
+        <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
+        <td>likelihood</td>
+        <td>double</td>
         <td></td>
         <td></td>
     </tr>
@@ -6880,16 +6880,16 @@ upload a file
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>

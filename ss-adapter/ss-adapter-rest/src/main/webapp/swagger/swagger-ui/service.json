@@ -7,6 +7,8 @@
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
+    "description" : "https://github.com/learning-layers/SocialSemanticServer/",
+    "termsOfServiceUrl" : "https://github.com/learning-layers/",
     "contact" : "dtheiler#tugraz$at",
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"

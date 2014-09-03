@@ -46,7 +46,7 @@
               <basePath>http://localhost:8084/ss-adapter-rest/rest</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
-<!--                <description>Hellow world!</description>-->
+                <description>https://github.com/learning-layers/SocialSemanticServer/</description>
                 <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
                 <contact>${project.contact}</contact>
                 <license>${project.license}</license>
