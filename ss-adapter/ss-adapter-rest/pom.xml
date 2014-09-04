@@ -43,7 +43,7 @@
             <apiSource>
               <locations>at.kc.tugraz.ss.adapter.rest</locations>
               <apiVersion>${ssVersion}</apiVersion>
-              <basePath>http://localhost:8084/ss-adapter-rest/rest</basePath>
+              <basePath>http://localhost:8084/ss-adapter-rest/</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>

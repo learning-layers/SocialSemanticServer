@@ -17,6 +17,7 @@ The source-code can be directly checked-out through this repository. It contains
 ## Documentation
 * Please find the documentation of the SSS REST APIs in:
  * `ss-package` from respective release from within this repository in folder `documentation`
+ * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/generated/document.html`
  * `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/swagger/generated/document.html`
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
@@ -109,12 +110,12 @@ The source-code can be directly checked-out through this repository. It contains
 * access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/ss-adapter-rest/{API}/{yourOp}/` 
  * `your-sss-host` and `your-port` represents the host and port running the REST APIs
  * `API` stands for the name of the REST API to be targeted:
-  * `SSAdapterRest` for all rest operations except for file handling
-  * `SSAdapterRESTFile` for rest operations dealing with files not using any multipart form parameters as input
-  * `SSAdapterRESTFileDownload` for rest operations dealing with file downloading
-  * `SSAdapterRESTFileUpload` for rest operations dealing with file uploading
-  * `SSAdapterRESTFileReplace` for rest operations dealing with file replacing
- * `yourOp` represents the operation out of the ones provided by SSS (see client-side project and / or server-side REST API documentation accessible via `http://{your-sss-host}:{your-port}/ss-adapter-rest/swagger/document.html`)
+  * `SSAdapterRest` for all REST operations except for file handling
+  * `SSAdapterRESTFile` for REST operations dealing with files not using any multipart form parameters as input
+  * `SSAdapterRESTFileDownload` for REST operations dealing with file downloading
+  * `SSAdapterRESTFileUpload` for REST operations dealing with file uploading
+  * `SSAdapterRESTFileReplace` for REST operations dealing with file replacing
+ * `yourOp` represents the operation out of the ones provided by SSS (see documentation section and / or client-side SSS JS project)
 * generally JSON strings are expected as input (mime type `application/json`)
 * return values are JSON strings (except for, e.g. file downloading), e.g. `{"op":"collWithEntries", "error":false, "errorMsg":null, "opValue":{"author":"http://dt.ll/user/hugo/",...}}")`
 * additionally, all properties/variables returned by any API call will contain a JSON-LD description
