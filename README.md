@@ -19,6 +19,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `ss-package` from respective release from within this repository in folder `documentation`
  * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/generated/document.html`
  * `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/swagger/generated/document.html`
+ 
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
 * download `ss-package` from respective release from within this repository
