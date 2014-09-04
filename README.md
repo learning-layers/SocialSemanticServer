@@ -15,8 +15,9 @@ Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#
 The source-code can be directly checked-out through this repository. It contains a Maven project to edit and build it.
 
 ## Documentation
-Please find the documentation of the SSS REST APIs in `ss-package` from respective release from within this repository in folder `documentation`
-
+* Please find the documentation of the SSS REST APIs in:
+ * `ss-package` from respective release from within this repository in folder `documentation`
+ * `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/swagger/generated/document.html`
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
 * download `ss-package` from respective release from within this repository
