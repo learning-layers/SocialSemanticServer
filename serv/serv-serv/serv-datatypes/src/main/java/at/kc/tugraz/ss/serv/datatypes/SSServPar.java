@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -28,11 +27,11 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 @XmlRootElement
 public class SSServPar{
@@ -58,8 +57,8 @@ public class SSServPar{
   @JsonIgnore (value = true)
   public        Map<String, Object>  pars          = null;
   
-  @JsonIgnore (value = true)
-  public        Map<String, String>  clientPars    = null;
+//  @JsonIgnore (value = true)
+//  public        Map<String, String>  clientPars    = null;
   
   @JsonIgnore (value = true)
   public        Boolean              shouldCommit  = true;
@@ -73,50 +72,19 @@ public class SSServPar{
   @JsonIgnore (value = true)
   public        Boolean              tryAgain      = true;
   
+  @JsonIgnore (value = true)
+  public        JsonNode             clientJSONObj = null;
+  
   public SSServPar(final String jsonRequ) throws Exception{
     
-    JsonParser jp = null;
-    String     jKey;
-    String     jValue;
-      
-    clientPars = new HashMap<>();
-    
     try{
-      jp = SSJSONU.jsonParser(jsonRequ);
       
-      jp.nextToken();
-      
-      while(jp.nextToken() != SSJSONU.jsonEnd) {
-        
-        jKey = jp.getCurrentName();
-        
-        jp.nextToken();
-        
-        jValue = jp.getText();
-        
-        if(SSStrU.equals(jKey, SSVarU.op)){
-          op = SSMethU.get(jValue);
-          continue;
-        }
-        
-        if(SSStrU.equals(jKey, SSVarU.user)){
-          user = SSUri.get(jValue);
-          clientPars.put(jKey, jValue);
-          continue;
-        }
-        
-        if(SSStrU.equals(jKey, SSVarU.key)){
-          key         = jValue;
-          clientPars.put(jKey, jValue);
-          continue;
-        }
-        
-        if(SSStrU.isEmpty(jValue)){
-          clientPars.put(jKey, null);
-        }else{
-          clientPars.put(jKey, jValue);
-        }
-      }
+      final ObjectMapper mapper       = new ObjectMapper();
+      final JsonNode     jsonRootNode = mapper.readTree(jsonRequ);
+
+      op   = SSMethU.get      (jsonRootNode.get(SSVarU.op).asText());
+      user = SSUri.get        (jsonRootNode.get(SSVarU.user).asText());
+      key  = jsonRootNode.get (SSVarU.key).asText();
       
       if(
         SSObjU.isNull  (this.op, this.user)||
@@ -124,14 +92,64 @@ public class SSServPar{
         throw new Exception("op, user or key is empty");
       }
       
+      this.clientJSONObj = jsonRootNode;
+      
+//      JsonParser jp = null;
+//      String     jKey;
+//      String     jValue;
+//      clientPars = new HashMap<>();
+//      
+//      jp = SSJSONU.jsonParser(jsonRequ);
+//      
+//      jp.nextToken();
+//      
+//      while(jp.nextToken() != SSJSONU.jsonEnd) {
+//        
+//        jKey = jp.getCurrentName();
+//        
+//        jp.nextToken();
+//        
+//        jValue = jp.getText();
+//        
+//        if(SSStrU.equals(jKey, SSVarU.op)){
+//          op = SSMethU.get(jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.equals(jKey, SSVarU.user)){
+//          user = SSUri.get(jValue);
+//          clientPars.put(jKey, jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.equals(jKey, SSVarU.key)){
+//          key         = jValue;
+//          clientPars.put(jKey, jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.isEmpty(jValue)){
+//          clientPars.put(jKey, null);
+//        }else{
+//          clientPars.put(jKey, jValue);
+//        }
+//      }
+//      
+//      if(
+//        SSObjU.isNull  (this.op, this.user)||
+//        SSStrU.isEmpty (this.key)){
+//        throw new Exception("op, user or key is empty");
+//      }
+      
     }catch(Exception error){
       throw error;
-    }finally{
-      
-      if(jp != null){
-        jp.close();
-      }
     }
+//    finally{
+//      
+//      if(jp != null){
+//        jp.close();
+//      }
+//    }
   }
   
   public SSServPar(
@@ -191,7 +209,7 @@ public class SSServPar{
     }
     
     this.pars         = par.pars;
-    this.clientPars   = par.clientPars;
+//    this.clientPars   = par.clientPars;
   }
   
   protected SSServPar(){}
@@ -210,10 +228,10 @@ public class SSServPar{
   }
 }
 //public class SSRequ {
-//	
-//  public  String	      op      = null;
-//	public  List<String>  pars    = new ArrayList<>();
-//	
+//
+//  public  String      op      = null;
+// public  List<String>  pars    = new ArrayList<>();
+//
 //  public SSRequ(String requJSON) throws Exception{
 //    
 //    JSONObject objJSON = new JSONObject      (requJSON);
@@ -234,7 +252,7 @@ public class SSServPar{
 //  }
 //  
 //  public SSRequ(List<String> opAndPars) throws Exception{
-//		
+//
 //    if(
 //      SSObjU.isNull(opAndPars) ||
 //      opAndPars.size() < 1){
@@ -246,10 +264,10 @@ public class SSServPar{
 //    
 //    this.pars.addAll(opAndPars);
 //    this.pars.remove (0);
-//	}
+// }
 //  
 //  public SSRequ(String op, String ... pars) throws Exception{
-//		
+//
 //    if(
 //      SSObjU.isNull (op)        ||
 //      SSObjU.isNull ((Object) pars)){
@@ -259,4 +277,4 @@ public class SSServPar{
 //    
 //    this.op = op;
 //    this.pars.addAll(Arrays.asList(pars));
-//	}
+// }

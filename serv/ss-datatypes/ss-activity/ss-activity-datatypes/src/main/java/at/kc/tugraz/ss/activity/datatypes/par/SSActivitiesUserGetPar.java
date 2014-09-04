@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (coffee) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -32,35 +32,64 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "activitiesUserGet request parameter")
 public class SSActivitiesUserGetPar extends SSServPar{
-
+  
   @XmlElement
-  @ApiModelProperty(required = false, value = "types of activities to be queried (optional)" )
+  public void setTypes(final String types) throws Exception{
+    this.types = SSActivityE.get(SSStrU.splitDistinctWithoutEmptyAndNull(types, SSStrU.comma));
+  }
+  
+  @XmlElement
+  public void setUsers(final String users) throws Exception{
+    this.users = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma));
+  }
+  
+  @XmlElement
+  public void setEntities(final String entities) throws Exception{
+    this.entities = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma));
+  }
+  
+  @XmlElement
+  public void setCircles(final String circles) throws Exception{
+    this.circles = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(circles, SSStrU.comma));
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "types of activities to be queried (optional)")
   public List<SSActivityE>      types            = new ArrayList<>();
   
-  @XmlElement
-  @ApiModelProperty( required = false, value = "users which have been involved in activities (optional)" )
+  @ApiModelProperty(
+    required = false,
+    value = "users which have been involved in activities (optional)")
   public List<SSUri>            users            = new ArrayList<>();
   
-  @XmlElement
-  @ApiModelProperty( required = false, value = "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)" )
+  @ApiModelProperty(
+    required = false,
+    value = "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)" )
   public List<SSUri>            entities         = new ArrayList<>();
   
-  @XmlElement
-  @ApiModelProperty( required = false, value = "groups for which activities shall be retrieved (optional)" )
+  @ApiModelProperty(
+    required = false,
+    value = "groups for which activities shall be retrieved (optional)" )
   public List<SSUri>            circles          = new ArrayList<>();
   
   @XmlElement
-  @ApiModelProperty(required = false, value = "time frame start (optional)" )
-  public Long                   startTime        = null; 
+  @ApiModelProperty(
+    required = false,
+    value = "time frame start (optional)" )
+  public Long                   startTime        = null;
   
   @XmlElement
-  @ApiModelProperty(required = false, value = "time frame end (optional)" )
+  @ApiModelProperty(
+    required = false,
+    value = "time frame end (optional)" )
   public Long                   endTime          = null;
-
+  
   public SSActivitiesUserGetPar(){}
   
   public SSActivitiesUserGetPar(final SSServPar par) throws Exception{
@@ -79,15 +108,50 @@ public class SSActivitiesUserGetPar extends SSServPar{
         endTime         = (Long)                pars.get(SSVarU.endTime);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        try{ types      = SSActivityE.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types),    SSStrU.comma));    }catch(Exception error){}
-        try{ users      = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users),    SSStrU.comma));    }catch(Exception error){}
-        try{ entities   = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));    }catch(Exception error){}
-        try{ circles    = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.circles), SSStrU.comma));     }catch(Exception error){}
-        try{ startTime  = Long.valueOf    (clientPars.get(SSVarU.startTime));                                                          }catch(Exception error){}
-        try{ endTime    = Long.valueOf    (clientPars.get(SSVarU.endTime));                                                            }catch(Exception error){}
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+            types.add(SSActivityE.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+            users.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
+            circles.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          startTime  = Long.valueOf    (par.clientJSONObj.get(SSVarU.startTime).asText());
+        }catch(Exception error){}
+        
+        try{
+          endTime    = Long.valueOf    (par.clientJSONObj.get(SSVarU.endTime).asText());
+        }catch(Exception error){}
       }
+      
+//       if(clientPars != null){
+//
+//         try{ types      = SSActivityE.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types),    SSStrU.comma));    }catch(Exception error){}
+//         try{ users      = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users),    SSStrU.comma));    }catch(Exception error){}
+//         try{ entities   = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));    }catch(Exception error){}
+//         try{ circles    = SSUri.get       (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.circles), SSStrU.comma));     }catch(Exception error){}
+//         try{ startTime  = Long.valueOf    (clientPars.get(SSVarU.startTime));                                                          }catch(Exception error){}
+//         try{ endTime    = Long.valueOf    (clientPars.get(SSVarU.endTime));                                                            }catch(Exception error){}
+//       }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -98,7 +162,7 @@ public class SSActivitiesUserGetPar extends SSServPar{
   public List<String> getCircles() throws Exception{
     return SSStrU.removeTrailingSlash(circles);
   }
-   
+  
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
   }

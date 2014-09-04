@@ -37,10 +37,6 @@ public class SSEntityUserCanPar extends SSServPar{
         accessRight     = (SSCircleRightE)  pars.get(SSVarU.accessRight);
       }
       
-      if(clientPars != null){
-        entity          = SSUri.get          (clientPars.get(SSVarU.entity));
-        accessRight     = SSCircleRightE.get (clientPars.get(SSVarU.accessRight));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
