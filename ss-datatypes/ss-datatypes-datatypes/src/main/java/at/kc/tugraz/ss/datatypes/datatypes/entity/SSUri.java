@@ -20,29 +20,36 @@
 */
 package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
+import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.net.URLEncoder;
 import java.util.*;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
+//import org.apache.commons.httpclient.URIException;
+//import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSUri extends SSEntityA{
   
   public static Boolean isURI(final String string) throws Exception{
     
+//    URIUtil.encodeQuery(string)
+    //    new URL(uriString); //import java.net.URL;
     try{
-      //    new URL(uriString); //import java.net.URL;
+      if(string == null){
+        return false;
+      }
       
-      if(
-        string == null ||
-        !java.net.URI.create(URIUtil.encodeQuery(string)).isAbsolute()){
+      try{
+        java.net.URI.create (string);
+        URLEncoder.encode   (string, SSEncodingU.utf8);
+      }catch(Exception error){
         return false;
       }
       
       return true;
-    }catch(URIException error){
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
