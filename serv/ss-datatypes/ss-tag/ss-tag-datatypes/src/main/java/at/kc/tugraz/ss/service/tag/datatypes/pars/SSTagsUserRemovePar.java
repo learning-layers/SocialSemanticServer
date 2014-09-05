@@ -84,15 +84,15 @@ public class SSTagsUserRemovePar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
+          entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          label  = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).asText());
+          label  = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).asText());
+          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
         }catch(Exception error){}
       }
       

@@ -72,8 +72,8 @@ public class SSTagUserEditPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        tag       = SSUri.get        (par.clientJSONObj.get(SSVarU.tag).asText());
-        label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).asText());
+        tag       = SSUri.get        (par.clientJSONObj.get(SSVarU.tag).getTextValue());
+        label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
       }
       
     }catch(Exception error){

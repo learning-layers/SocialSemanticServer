@@ -82,9 +82,9 @@ public class SSServPar{
       final ObjectMapper mapper       = new ObjectMapper();
       final JsonNode     jsonRootNode = mapper.readTree(jsonRequ);
 
-      op   = SSMethU.get      (jsonRootNode.get(SSVarU.op).asText());
-      user = SSUri.get        (jsonRootNode.get(SSVarU.user).asText());
-      key  = jsonRootNode.get (SSVarU.key).asText();
+      op   = SSMethU.get      (jsonRootNode.get(SSVarU.op).getTextValue());
+      user = SSUri.get        (jsonRootNode.get(SSVarU.user).getTextValue());
+      key  = jsonRootNode.get (SSVarU.key).getTextValue();
       
       if(
         SSObjU.isNull  (this.op, this.user)||

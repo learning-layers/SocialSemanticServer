@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlElement;
       }
       
       if(par.clientJSONObj != null){
-        authToken       = par.clientJSONObj.get(SSVarU.authToken).asText();
+        authToken       = par.clientJSONObj.get(SSVarU.authToken).getTextValue();
       }
       
     }catch(Exception error){

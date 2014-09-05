@@ -55,6 +55,7 @@ public class SSTag extends SSEntity{
     
     super(id, SSEntityE.tag, SSLabel.get(SSStrU.toStr(tagLabel)));
     
+    this.val         = SSStrU.toStr(tagLabel);
     this.entity      = entity;
     this.user        = user;
     this.space       = space;

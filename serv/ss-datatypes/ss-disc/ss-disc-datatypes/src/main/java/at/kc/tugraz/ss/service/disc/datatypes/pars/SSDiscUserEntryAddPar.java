@@ -145,42 +145,42 @@ public class SSDiscUserEntryAddPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          entity      = SSUri.get             (par.clientJSONObj.get(SSVarU.entity).asText());
+          entity      = SSUri.get             (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          disc        = SSUri.get             (par.clientJSONObj.get(SSVarU.disc).asText());
+          disc        = SSUri.get             (par.clientJSONObj.get(SSVarU.disc).getTextValue());
         }catch(Exception error){}
         
         try{
-          addNewDisc  = Boolean.valueOf       (par.clientJSONObj.get(SSVarU.addNewDisc).asText());
+          addNewDisc  = Boolean.valueOf       (par.clientJSONObj.get(SSVarU.addNewDisc).getTextValue());
         }catch(Exception error){}
         
         try{
-          entry     = SSTextComment.get(par.clientJSONObj.get(SSVarU.entry).asText());
+          entry     = SSTextComment.get(par.clientJSONObj.get(SSVarU.entry).getTextValue());
         }catch(Exception error){}
         
         try{
-          type     = SSEntityE.get(par.clientJSONObj.get(SSVarU.type).asText());
+          type     = SSEntityE.get(par.clientJSONObj.get(SSVarU.type).getTextValue());
         }catch(Exception error){}
         
         try{
-          label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).asText());
+          label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          description   = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).asText());
+          description   = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.asText()));
+            users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
       }

@@ -53,7 +53,7 @@ public class SSDiscUserRemovePar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        disc        = SSUri.get     (par.clientJSONObj.get(SSVarU.disc).asText());
+        disc        = SSUri.get     (par.clientJSONObj.get(SSVarU.disc).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

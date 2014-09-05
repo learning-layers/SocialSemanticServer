@@ -86,21 +86,21 @@ public class SSRecommTagsPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).asText());
+          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarU.entity).asText());
+          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
-            categories.add(objNode.asText());
+            categories.add(objNode.getTextValue());
           }
         }catch(Exception error){}
         
         try{
-          this.maxTags   = Integer.valueOf   (par.clientJSONObj.get(SSVarU.maxTags).asText());
+          this.maxTags   = par.clientJSONObj.get(SSVarU.maxTags).getIntValue();
         }catch(Exception error){}
       }
       

@@ -58,7 +58,7 @@ public class SSFileExtGetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        file   = SSUri.get(par.clientJSONObj.get(SSVarU.file).asText());
+        file   = SSUri.get(par.clientJSONObj.get(SSVarU.file).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

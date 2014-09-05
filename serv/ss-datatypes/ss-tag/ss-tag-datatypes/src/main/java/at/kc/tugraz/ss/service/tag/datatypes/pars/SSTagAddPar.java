@@ -80,12 +80,12 @@ public class SSTagAddPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity     = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
-        label      = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).asText());
-        space      = SSSpaceE.get     (par.clientJSONObj.get(SSVarU.space).asText());
+        entity     = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        label      = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        space      = SSSpaceE.get     (par.clientJSONObj.get(SSVarU.space).getTextValue());
         
         try{
-          creationTime = Long.valueOf(par.clientJSONObj.get(SSVarU.creationTime).asText());
+          creationTime = par.clientJSONObj.get(SSVarU.creationTime).getLongValue();
         }catch(Exception error){}
       }
       

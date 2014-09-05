@@ -64,8 +64,8 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        disc         = SSUri.get       (par.clientJSONObj.get(SSVarU.disc).asText());
-        maxEntries   = Integer.valueOf (par.clientJSONObj.get(SSVarU.maxEntries).asText());
+        disc         = SSUri.get       (par.clientJSONObj.get(SSVarU.disc).getTextValue());
+        maxEntries   = par.clientJSONObj.get(SSVarU.maxEntries).getIntValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

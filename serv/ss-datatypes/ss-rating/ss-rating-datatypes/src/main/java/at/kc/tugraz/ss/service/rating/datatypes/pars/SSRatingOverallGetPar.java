@@ -57,7 +57,7 @@ public class SSRatingOverallGetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).asText());
+        entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

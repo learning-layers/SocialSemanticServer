@@ -531,7 +531,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         return par.entry;
       }
 
-      SSServCaller.entityUserCanEdit(par.user, par.entry);
+      SSServCaller.entityUserCanRead(par.user, par.entry);
 
       if(sqlFct.containsCollEntry(par.coll, par.entry)){
         return par.entry;

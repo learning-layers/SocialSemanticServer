@@ -68,8 +68,8 @@ public class SSCollUserEntryDeletePar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        coll    = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).asText());
-        entry   = SSUri.get        (par.clientJSONObj.get(SSVarU.entry).asText());
+        coll    = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).getTextValue());
+        entry   = SSUri.get        (par.clientJSONObj.get(SSVarU.entry).getTextValue());
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -190,67 +190,67 @@ public class SSSearchPar extends SSServPar{
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.keywordsToSearchFor)) {
-            keywordsToSearchFor.add(objNode.asText());
+            keywordsToSearchFor.add(objNode.getTextValue());
           }
         }catch(Exception error){}
         
-        try{ includeTextualContent        = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTextualContent).asText());                                                                  }catch(Exception error){}
+        try{ includeTextualContent        = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTextualContent).getTextValue());                                                                  }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.wordsToSearchFor)) {
-            wordsToSearchFor.add(objNode.asText());
+            wordsToSearchFor.add(objNode.getTextValue());
           }
         }catch(Exception error){}
         
-        try{ includeTags                  = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTags).asText());                                                                            }catch(Exception error){}
+        try{ includeTags                  = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTags).getTextValue());                                                                            }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tagsToSearchFor)) {
-            tagsToSearchFor.add(objNode.asText());
+            tagsToSearchFor.add(objNode.getTextValue());
           }
         }catch(Exception error){}
         
-        try{ includeMIs                   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeMIs).asText());                                                                             }catch(Exception error){}
+        try{ includeMIs                   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeMIs).getTextValue());                                                                             }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.misToSearchFor)) {
-            misToSearchFor.add(objNode.asText());
+            misToSearchFor.add(objNode.getTextValue());
           }
         }catch(Exception error){}
          
-        try{ includeLabel                 = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeLabel).asText());                                                                           }catch(Exception error){}
+        try{ includeLabel                 = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeLabel).getTextValue());                                                                           }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labelsToSearchFor)) {
-            labelsToSearchFor.add(SSSearchLabel.get(objNode.asText()));
+            labelsToSearchFor.add(SSSearchLabel.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
-        try{ includeDescription           = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeDescription).asText());                                                                     }catch(Exception error){}
+        try{ includeDescription           = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeDescription).getTextValue());                                                                     }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.descriptionsToSearchFor)) {
-            descriptionsToSearchFor.add(SSSearchLabel.get(objNode.asText()));
+            descriptionsToSearchFor.add(SSSearchLabel.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.typesToSearchOnlyFor)) {
-            typesToSearchOnlyFor.add(SSEntityE.get(objNode.asText()));
+            typesToSearchOnlyFor.add(SSEntityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
-        try{ includeOnlySubEntities       = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeOnlySubEntities).asText());                                                                 }catch(Exception error){}
+        try{ includeOnlySubEntities       = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeOnlySubEntities).getTextValue());                                                                 }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entitiesToSearchWithin)) {
-            entitiesToSearchWithin.add(SSUri.get(objNode.asText()));
+            entitiesToSearchWithin.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
-        try{ extendToParents              = Boolean.valueOf(par.clientJSONObj.get(SSVarU.extendToParents).asText());                                                                        }catch(Exception error){}
-        try{ includeRecommendedResults    = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeRecommendedResults).asText());                                                              }catch(Exception error){}
-        try{ provideEntries               = Boolean.valueOf(par.clientJSONObj.get(SSVarU.provideEntries).asText());                                                                         }catch(Exception error){}
+        try{ extendToParents              = Boolean.valueOf(par.clientJSONObj.get(SSVarU.extendToParents).getTextValue());                                                                        }catch(Exception error){}
+        try{ includeRecommendedResults    = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeRecommendedResults).getTextValue());                                                              }catch(Exception error){}
+        try{ provideEntries               = Boolean.valueOf(par.clientJSONObj.get(SSVarU.provideEntries).getTextValue());                                                                         }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

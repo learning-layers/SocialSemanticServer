@@ -64,8 +64,8 @@ public class SSFileSetReaderOrWriterPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        file   = SSUri.get       (par.clientJSONObj.get(SSVarU.file).asText());
-        write  = Boolean.valueOf (par.clientJSONObj.get(SSVarU.write).asText());
+        file   = SSUri.get       (par.clientJSONObj.get(SSVarU.file).getTextValue());
+        write  = Boolean.valueOf (par.clientJSONObj.get(SSVarU.write).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

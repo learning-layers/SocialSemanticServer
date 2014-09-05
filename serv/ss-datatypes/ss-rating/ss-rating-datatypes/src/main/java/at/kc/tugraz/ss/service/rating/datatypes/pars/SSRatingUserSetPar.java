@@ -63,8 +63,8 @@ public class SSRatingUserSetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity    = SSUri.get       (par.clientJSONObj.get(SSVarU.entity).asText());
-        value     = Integer.valueOf (par.clientJSONObj.get(SSVarU.value).asText());
+        entity    = SSUri.get       (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        value     = par.clientJSONObj.get(SSVarU.value).getIntValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -81,22 +81,22 @@ public class SSFlagsUserGetPar extends SSServPar{
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for(final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
-            types.add(SSFlagE.get(objNode.asText()));
+            types.add(SSFlagE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.startTime).asText());
+          startTime  = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
         }catch(Exception error){}
         
         try{
-          endTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.endTime).asText());
+          endTime  = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

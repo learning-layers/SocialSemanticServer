@@ -62,8 +62,8 @@ public class SSFileUploadPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        mimeType =              par.clientJSONObj.get(SSVarU.mimeType).asText();
-        label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).asText());
+        mimeType =              par.clientJSONObj.get(SSVarU.mimeType).getTextValue();
+        label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

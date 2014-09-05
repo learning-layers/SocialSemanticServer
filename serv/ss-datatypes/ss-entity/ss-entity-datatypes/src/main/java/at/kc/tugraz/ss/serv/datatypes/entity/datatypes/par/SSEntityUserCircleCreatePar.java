@@ -98,22 +98,22 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
       if(par.clientJSONObj != null){
         isSystemCircle = false;
         type           = SSCircleE.group;
-        label          = SSLabel.get         (par.clientJSONObj.get(SSVarU.label).asText());
+        label          = SSLabel.get         (par.clientJSONObj.get(SSVarU.label).getTextValue());
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
          try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.asText()));
+            users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          description         = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).asText());
+          description         = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

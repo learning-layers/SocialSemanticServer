@@ -95,30 +95,30 @@ public class SSEntityDescGetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity          = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
+        entity          = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{
-          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).asText());
+          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).getTextValue());
         }catch(Exception error){}
         
         try{
-          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).asText());
+          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).getTextValue());
         }catch(Exception error){}
         
         try{
-          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).asText());
+          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).getTextValue());
         }catch(Exception error){}
         
         try{
-          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).asText());
+          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).getTextValue());
         }catch(Exception error){}
         
         try{
-          getThumb        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getThumb).asText());
+          getThumb        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getThumb).getTextValue());
         }catch(Exception error){}
         
         try{
-          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).asText());
+          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

@@ -68,10 +68,10 @@ public class SSCollUserEntryChangePosPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        coll       = SSUri.get     (par.clientJSONObj.get(SSVarU.coll).asText());
+        coll       = SSUri.get     (par.clientJSONObj.get(SSVarU.coll).getTextValue());
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.order)) {
-          order.add(objNode.asText());
+          order.add(objNode.getTextValue());
         }
       }
     }catch(Exception error){

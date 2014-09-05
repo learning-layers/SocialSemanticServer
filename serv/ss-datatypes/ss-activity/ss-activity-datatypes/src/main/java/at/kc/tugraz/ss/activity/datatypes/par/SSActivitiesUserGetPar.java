@@ -112,34 +112,34 @@ public class SSActivitiesUserGetPar extends SSServPar{
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
-            types.add(SSActivityE.get(objNode.asText()));
+            types.add(SSActivityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.asText()));
+            users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
-            circles.add(SSUri.get(objNode.asText()));
+            circles.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf    (par.clientJSONObj.get(SSVarU.startTime).asText());
+          startTime  = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
         }catch(Exception error){}
         
         try{
-          endTime    = Long.valueOf    (par.clientJSONObj.get(SSVarU.endTime).asText());
+          endTime    = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
         }catch(Exception error){}
       }
       

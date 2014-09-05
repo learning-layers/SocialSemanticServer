@@ -213,7 +213,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
     try{
       final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
     
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+//      SSServCaller.entityUserCanRead(par.user, par.entity);
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;

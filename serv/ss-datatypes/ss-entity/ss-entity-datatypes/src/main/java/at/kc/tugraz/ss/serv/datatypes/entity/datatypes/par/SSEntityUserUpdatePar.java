@@ -98,19 +98,19 @@ public class SSEntityUserUpdatePar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity       = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).asText());
+        entity       = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{
-          label        = SSLabel.get (par.clientJSONObj.get(SSVarU.label).asText());
+          label        = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          description  = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).asText());
+          description  = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
-            comments.add(SSTextComment.get(objNode.asText()));
+            comments.add(SSTextComment.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
       }

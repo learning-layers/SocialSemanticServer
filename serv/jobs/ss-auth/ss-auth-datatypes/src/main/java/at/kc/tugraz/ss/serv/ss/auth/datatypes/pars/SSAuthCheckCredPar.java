@@ -64,8 +64,8 @@ public class SSAuthCheckCredPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).asText());
-        password  = par.clientJSONObj.get(SSVarU.password).asText();
+        label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
+        password  = par.clientJSONObj.get(SSVarU.password).getTextValue();
       }
       
     }catch(Exception error){

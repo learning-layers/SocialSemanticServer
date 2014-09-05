@@ -57,7 +57,7 @@ public class SSUEGetPar extends SSServPar{
       }      
       
       if(par.clientJSONObj != null){
-        ue   = SSUri.get    (par.clientJSONObj.get(SSVarU.ue).asText());
+        ue   = SSUri.get    (par.clientJSONObj.get(SSVarU.ue).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

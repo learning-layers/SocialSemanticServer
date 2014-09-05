@@ -83,16 +83,16 @@ public class SSEntityUserSharePar extends SSServPar{
       if(par.clientJSONObj != null){
         
         saveActivity = true;
-        entity       = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
+        entity       = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.asText()));
+            users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          comment     = SSTextComment.get(par.clientJSONObj.get(SSVarU.comment).asText());
+          comment     = SSTextComment.get(par.clientJSONObj.get(SSVarU.comment).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

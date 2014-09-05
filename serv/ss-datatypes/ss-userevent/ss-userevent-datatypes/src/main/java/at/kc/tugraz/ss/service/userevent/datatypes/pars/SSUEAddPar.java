@@ -72,9 +72,9 @@ public class SSUEAddPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).asText());
-        type     = SSUEE.get     (par.clientJSONObj.get(SSVarU.type).asText());
-        content  =                par.clientJSONObj.get(SSVarU.content).asText();
+        entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        type     = SSUEE.get     (par.clientJSONObj.get(SSVarU.type).getTextValue());
+        content  =                par.clientJSONObj.get(SSVarU.content).getTextValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -57,7 +57,7 @@ public class SSCollUserCumulatedTagsGetPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        coll       = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).asText());
+        coll       = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).getTextValue());
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

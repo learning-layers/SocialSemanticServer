@@ -102,30 +102,30 @@ public class SSEntityDescsGetPar extends SSServPar{
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
-            types.add(SSEntityE.get(objNode.asText()));
+            types.add(SSEntityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).asText());
+          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).getTextValue());
         }catch(Exception error){}
         
         try{
-          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).asText());
+          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).getTextValue());
         }catch(Exception error){}
         
         try{
-          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).asText());
+          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).getTextValue());
         }catch(Exception error){}
         
         try{
-          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).asText());
+          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).getTextValue());
         }catch(Exception error){}
         
         try{
@@ -133,7 +133,7 @@ public class SSEntityDescsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).asText());
+          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

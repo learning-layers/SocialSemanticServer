@@ -87,15 +87,15 @@ public class SSCollUserEntryAddPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        coll  = SSUri.get       (par.clientJSONObj.get(SSVarU.coll).asText());
-        label = SSLabel.get     (par.clientJSONObj.get(SSVarU.label).asText());
+        coll  = SSUri.get       (par.clientJSONObj.get(SSVarU.coll).getTextValue());
+        label = SSLabel.get     (par.clientJSONObj.get(SSVarU.label).getTextValue());
         
         try{
-          addNewColl     = Boolean.valueOf (par.clientJSONObj.get(SSVarU.addNewColl).asText());
+          addNewColl     = Boolean.valueOf (par.clientJSONObj.get(SSVarU.addNewColl).getTextValue());
         }catch(Exception error){}
         
         try{
-          entry      = SSUri.get       (par.clientJSONObj.get(SSVarU.entry).asText());
+          entry      = SSUri.get       (par.clientJSONObj.get(SSVarU.entry).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

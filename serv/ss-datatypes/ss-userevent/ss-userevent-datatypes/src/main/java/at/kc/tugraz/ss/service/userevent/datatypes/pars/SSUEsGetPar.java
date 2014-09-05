@@ -92,23 +92,23 @@ public class SSUEsGetPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          forUser    = SSUri.get    (par.clientJSONObj.get(SSVarU.forUser).asText());
+          forUser    = SSUri.get    (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          entity   = SSUri.get    (par.clientJSONObj.get(SSVarU.entity).asText());
+          entity   = SSUri.get    (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          type  = SSUEE.get (par.clientJSONObj.get(SSVarU.type).asText());
+          type  = SSUEE.get (par.clientJSONObj.get(SSVarU.type).getTextValue());
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.startTime).asText());
+          startTime  = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
         }catch(Exception error){}
         
         try{
-          endTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.endTime).asText());
+          endTime  = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

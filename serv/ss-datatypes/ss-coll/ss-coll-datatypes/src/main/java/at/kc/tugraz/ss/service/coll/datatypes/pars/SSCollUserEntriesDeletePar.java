@@ -72,10 +72,10 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        coll    = SSUri.get  (par.clientJSONObj.get(SSVarU.coll).asText());
+        coll    = SSUri.get  (par.clientJSONObj.get(SSVarU.coll).getTextValue());
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entries)) {
-          entries.add(SSUri.get(objNode.asText()));
+          entries.add(SSUri.get(objNode.getTextValue()));
         }
       }   
     }catch(Exception error){

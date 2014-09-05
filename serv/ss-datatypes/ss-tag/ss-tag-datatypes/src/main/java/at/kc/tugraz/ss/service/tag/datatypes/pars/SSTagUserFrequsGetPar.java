@@ -90,7 +90,7 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser    = (SSUri)                       pars.get(SSVarU.forUser);
+        forUser    = (SSUri)                        pars.get(SSVarU.forUser);
         entities   = (List<SSUri>)                  pars.get(SSVarU.entities);
         labels     = SSTagLabel.get((List<String>)  pars.get(SSVarU.labels));
         space      = (SSSpaceE)                     pars.get(SSVarU.space);
@@ -100,27 +100,27 @@ public class SSTagUserFrequsGetPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          forUser   = SSUri.get (par.clientJSONObj.get(SSVarU.forUser).asText());
+          forUser   = SSUri.get (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         }catch(Exception error){}
           
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.asText()));
+            entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labels)) {
-            labels.add(SSTagLabel.get(objNode.asText()));
+            labels.add(SSTagLabel.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
          
         try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).asText());
+          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
         }catch(Exception error){}
         
         try{
-          startTime      = Long.valueOf(par.clientJSONObj.get(SSVarU.startTime).asText());
+          startTime      = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

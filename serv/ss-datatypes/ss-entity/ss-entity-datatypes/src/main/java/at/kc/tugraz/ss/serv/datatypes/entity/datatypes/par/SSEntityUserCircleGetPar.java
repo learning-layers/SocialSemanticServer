@@ -68,10 +68,10 @@ public class SSEntityUserCircleGetPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).asText());
+          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         }catch(Exception error){}
         
-        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).asText());
+        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
         withSystemCircles = false;
       }
       

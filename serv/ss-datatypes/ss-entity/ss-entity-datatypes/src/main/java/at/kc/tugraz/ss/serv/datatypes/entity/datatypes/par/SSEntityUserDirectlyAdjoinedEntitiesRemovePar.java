@@ -86,22 +86,22 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        entity     = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).asText());
+        entity     = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{
-          removeUserTags   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserTags).asText());
+          removeUserTags   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserTags).getTextValue());
         }catch(Exception error){}
         
         try{
-          removeUserRatings   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserRatings).asText());
+          removeUserRatings   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserRatings).getTextValue());
         }catch(Exception error){}
         
         try{
-          removeFromUserColls   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeFromUserColls).asText());
+          removeFromUserColls   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeFromUserColls).getTextValue());
         }catch(Exception error){}
         
         try{
-          removeUserLocations   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserLocations).asText());
+          removeUserLocations   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserLocations).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){
