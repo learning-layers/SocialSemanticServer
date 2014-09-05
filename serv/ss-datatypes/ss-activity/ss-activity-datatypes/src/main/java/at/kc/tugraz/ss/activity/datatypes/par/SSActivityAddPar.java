@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -78,6 +79,8 @@ public class SSActivityAddPar extends SSServPar{
   @JsonIgnore
   public Long                   creationTime     = null;
   
+  public SSActivityAddPar( ){}
+    
   public SSActivityAddPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -120,5 +123,23 @@ public class SSActivityAddPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+    /* json getters */
+  
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+    public List<String> getComments() throws Exception{
+    return SSStrU.removeTrailingSlash(comments);
+  }
+  
+  public String getType() throws Exception{
+    return SSStrU.toStr(type);
   }
 }

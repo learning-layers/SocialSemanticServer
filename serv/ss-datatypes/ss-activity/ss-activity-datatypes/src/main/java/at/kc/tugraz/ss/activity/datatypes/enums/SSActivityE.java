@@ -25,6 +25,9 @@ import java.util.List;
 
 public enum SSActivityE{
 
+  //cite
+  cite, 
+  
   //search
   search,
   
