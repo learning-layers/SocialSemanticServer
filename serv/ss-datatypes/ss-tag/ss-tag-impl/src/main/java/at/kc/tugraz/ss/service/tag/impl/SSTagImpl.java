@@ -60,7 +60,6 @@ import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import java.util.*;
-import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
@@ -289,7 +288,11 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       final SSUri       tagUri;
       
       if(existsEntity){
-        SSServCaller.entityUserCanRead(par.user, par.entity);
+        
+        switch(SSServCaller.entityGet(par.entity).type){
+          case entity: break;
+          default: SSServCaller.entityUserCanRead(par.user, par.entity);
+        }
       }
       
       existsTag = sqlFct.existsTagLabel    (par.label);

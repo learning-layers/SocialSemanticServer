@@ -379,7 +379,12 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
         
-        entity = SSServCaller.entityGet(result);
+        try{
+          entity = SSServCaller.entityGet(result);
+        }catch(Exception error){
+          SSServErrReg.reset();
+          continue;
+        }
         
         if(
           !par.typesToSearchOnlyFor.isEmpty() &&
@@ -387,11 +392,16 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           continue;
         }
 
-        try{
-          SSServCaller.entityUserCanRead(par.user, result);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          continue;
+        switch(SSServCaller.entityGet(result).type){
+          case entity: break;
+          default: {
+            try{
+              SSServCaller.entityUserCanRead(par.user, result);
+            }catch(Exception error){
+              SSServErrReg.reset();
+              continue;
+            }
+          }
         }
         
         results.add(entity);

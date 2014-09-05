@@ -216,7 +216,11 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
       final SSUri              ratingUri;
       
       if(existsEntity){
-        SSServCaller.entityUserCanRead(par.user, par.entity);
+        
+        switch(SSServCaller.entityGet(par.entity).type){
+          case entity: break;
+          default: SSServCaller.entityUserCanRead(par.user, par.entity);
+        }
       }
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
@@ -233,7 +237,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
           par.user,
           par.entity,
           SSEntityE.entity,
-          SSLabel.get(par.entity),
+          null,
           null,
           null,
           false);
@@ -242,7 +246,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
           par.user,
           par.entity,
           SSEntityE.entity,
-          SSLabel.get(par.entity),
+          null,
           null,
           null,
           false);
@@ -253,7 +257,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
           par.user,
           par.entity,
           SSEntityE.entity,
-          SSLabel.get(par.entity),
+          null,
           null,
           null,
           false);
