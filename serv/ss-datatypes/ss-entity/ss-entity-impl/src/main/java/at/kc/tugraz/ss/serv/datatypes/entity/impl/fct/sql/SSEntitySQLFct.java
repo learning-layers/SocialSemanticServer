@@ -225,7 +225,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       insert    (inserts,     SSSQLVarU.id, entity);
       
-      if(creationTime == null){
+      if(
+        creationTime == null ||
+        creationTime == 0){
         insert(inserts, SSSQLVarU.creationTime, SSDateU.dateAsLong());
       }else{
         insert(inserts, SSSQLVarU.creationTime, creationTime);

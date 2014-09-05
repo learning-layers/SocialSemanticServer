@@ -117,7 +117,9 @@ public class SSTagSQLFct extends SSDBSQLFct{
       insert    (inserts,    SSSQLVarU.tagId,        tagUri);
       insert    (inserts,    SSSQLVarU.tagSpace,     space);
       
-      if(creationTime == null){
+      if(
+        creationTime == null ||
+        creationTime == 0){
         insert    (inserts,    SSSQLVarU.creationTime, SSDateU.dateAsLong());
       }else{
         insert    (inserts,    SSSQLVarU.creationTime, creationTime);

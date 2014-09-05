@@ -209,46 +209,6 @@ remove certain attached attributes from an entity
 
 
 - - -
-#### **POST** `/flagsGet`
-
-retrieve flags set
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/activitiesGet`
-
-retrieve activities from within a certain time frame
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/flagsSet`
 
 set flags
@@ -263,26 +223,6 @@ set flags
     <tr>
         <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
         <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDescsGet`
-
-retrieve more detailed information for given entities of a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
-        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
     </tr>
 </table>
 
@@ -309,6 +249,66 @@ retrieve the authentication key and user&#39;s uri for credentials
 
 
 - - -
+#### **POST** `/activitiesGet`
+
+retrieve activities from within a certain time frame
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/flagsGet`
+
+retrieve flags set
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDescsGet`
+
+retrieve more detailed information for given entities of a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
+        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/activityAdd`
 
 add an activity
@@ -329,26 +329,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -363,6 +343,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -1436,16 +1436,16 @@ retrieve entities for tags (currently startTime is not used to retrieve entities
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -2774,16 +2774,16 @@ retrieve entities for tags (currently startTime is not used to retrieve entities
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -5324,13 +5324,13 @@ retrieve entities for tags (currently startTime is not used to retrieve entities
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
