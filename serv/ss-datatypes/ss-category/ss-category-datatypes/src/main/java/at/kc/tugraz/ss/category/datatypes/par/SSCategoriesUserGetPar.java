@@ -44,20 +44,20 @@ public class SSCategoriesUserGetPar extends SSServPar{
         space    = (SSSpaceE)                  pars.get(SSVarU.space);
       }
       
-      if(clientPars != null){
-        
-        try{
-          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
-        }catch(Exception error){}
-        
-        try{
-          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
-        }catch(Exception error){}
-        
-        try{
-          label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
-        }catch(Exception error){}
-      }
+//      if(clientPars != null){
+//        
+//        try{
+//          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
+//        }catch(Exception error){}
+//        
+//        try{
+//          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
+//        }catch(Exception error){}
+//        
+//        try{
+//          label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
+//        }catch(Exception error){}
+//      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

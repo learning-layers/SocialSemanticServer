@@ -23,6 +23,7 @@
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -42,11 +43,20 @@ public class SSTagUserEditPar extends SSServPar{
   public SSUri           tag     = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = true, 
+  public void setTag(final String tag) throws Exception{
+    this.tag = SSUri.get(tag);
+  }
+  
+  @ApiModelProperty(
+    required = true,
     value = "new label of the tag")
   public SSTagLabel      label   = null;
-      
+  
+  @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSTagLabel.get(label);
+  }
+  
   public SSTagUserEditPar(){}
   
   public SSTagUserEditPar(SSServPar par) throws Exception{
@@ -60,10 +70,10 @@ public class SSTagUserEditPar extends SSServPar{
         label    = SSTagLabel.get((String)pars.get(SSVarU.label));
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        tag       = SSUri.get        (clientPars.get(SSVarU.tag));
-        label     = SSTagLabel.get   (clientPars.get(SSVarU.label));
+        tag       = SSUri.get        (par.clientJSONObj.get(SSVarU.tag).asText());
+        label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).asText());
       }
       
     }catch(Exception error){

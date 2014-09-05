@@ -29,17 +29,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "entityUserCircleGet request parameter")
 public class SSEntityUserCircleGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "circle the circle to retrieve")
   public SSUri   circle                     = null;
   
   @XmlElement
-  @ApiModelProperty( 
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+  
+  @ApiModelProperty(
     required = false,
     value = "user for which the circle shall be retrieved")
   public SSUri   forUser                    = null;
+  
+  @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
   
   public Boolean withSystemCircles          = false;
   
@@ -57,13 +65,13 @@ public class SSEntityUserCircleGetPar extends SSServPar{
         withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         try{
-          forUser = SSUri.get(clientPars.get(SSVarU.forUser));
+          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).asText());
         }catch(Exception error){}
         
-        circle            = SSUri.get(clientPars.get(SSVarU.circle));
+        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).asText());
         withSystemCircles = false;
       }
       

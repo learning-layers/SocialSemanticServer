@@ -34,11 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "fileSetReaderOrWriter request parameter")
 public class SSFileSetReaderOrWriterPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "file to set whether user is writer or reader")
   public SSUri   file    = null;
+  
+  @XmlElement
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -59,9 +63,9 @@ public class SSFileSetReaderOrWriterPar extends SSServPar{
         write  = (Boolean) pars.get(SSVarU.write);
       }
       
-      if(clientPars != null){
-        file   = SSUri.get       (clientPars.get(SSVarU.file));
-        write  = Boolean.valueOf (clientPars.get(SSVarU.write));
+      if(par.clientJSONObj != null){
+        file   = SSUri.get       (par.clientJSONObj.get(SSVarU.file).asText());
+        write  = Boolean.valueOf (par.clientJSONObj.get(SSVarU.write).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

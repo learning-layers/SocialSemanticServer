@@ -44,11 +44,11 @@ public class SSCategoryAddPar extends SSServPar{
         space    = (SSSpaceE)         pars.get(SSVarU.space);
       }
       
-      if(clientPars != null){
-        entity   = SSUri.get             (clientPars.get(SSVarU.entity));
-        label    = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
-        space    = SSSpaceE.get          (clientPars.get(SSVarU.space));
-      }
+//      if(clientPars != null){
+//        entity   = SSUri.get             (clientPars.get(SSVarU.entity));
+//        label    = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
+//        space    = SSSpaceE.get          (clientPars.get(SSVarU.space));
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

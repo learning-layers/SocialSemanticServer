@@ -42,10 +42,6 @@ public class SSSearchMIsPar extends SSServPar{
         mIs        = (List<String>) pars.get(SSVarU.mIs);
       }
       
-      if(clientPars != null){
-        searchOp   = clientPars.get(SSVarU.searchOp);
-        mIs        = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.mIs), SSStrU.comma);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

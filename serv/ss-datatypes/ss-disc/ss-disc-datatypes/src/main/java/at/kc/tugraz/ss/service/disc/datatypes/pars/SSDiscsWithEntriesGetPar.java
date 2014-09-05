@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -38,9 +38,6 @@ public class SSDiscsWithEntriesGetPar extends SSServPar{
         this.maxEntries = (Integer) pars.get(SSVarU.maxEntries);
       }
       
-      if(clientPars != null){
-        this.maxEntries = Integer.valueOf((String)clientPars.get(SSVarU.maxEntries));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

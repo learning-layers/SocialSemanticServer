@@ -27,34 +27,51 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserCopy request parameter")
 public class SSEntityUserCopyPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "entity to copy")
   public SSUri         entity             = null;
   
   @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
   @ApiModelProperty(
     required = true,
     value = "users to copy the entity for")
   public List<SSUri>   users              = null;
   
   @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "if set contains sub entities to exclude from copying")
   public List<SSUri>   entitiesToExclude  = new ArrayList<>();
   
   @XmlElement
+  public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
+    this.entitiesToExclude = SSUri.get(entitiesToExclude);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "optional describing text")
   public SSTextComment comment            = null;
+  
+  @XmlElement
+  public void setComment(final String comment) throws Exception{
+    this.comment = SSTextComment.get(comment);
+  }
   
   public SSEntityUserCopyPar(){}
     
@@ -71,16 +88,19 @@ public class SSEntityUserCopyPar extends SSServPar{
         comment           = (SSTextComment) pars.get(SSVarU.comment);
       }
       
-      if(clientPars != null){
-        entity       = SSUri.get (clientPars.get(SSVarU.entity));
-        users        = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
+      if(par.clientJSONObj != null){
+        entity       = SSUri.get (par.clientJSONObj.get(SSVarU.entity).asText());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          users.add(SSUri.get(objNode.asText()));
+        }
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entitiesToExclude)) {
+          entitiesToExclude.add(SSUri.get(objNode.asText()));
+        }
         
         try{
-          entitiesToExclude = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entitiesToExclude), SSStrU.comma));
-        }catch(Exception error){}
-        
-        try{
-          comment = SSTextComment.get(clientPars.get(SSVarU.comment));
+          comment = SSTextComment.get(par.clientJSONObj.get(SSVarU.comment).asText());
         }catch(Exception error){}
       }
       

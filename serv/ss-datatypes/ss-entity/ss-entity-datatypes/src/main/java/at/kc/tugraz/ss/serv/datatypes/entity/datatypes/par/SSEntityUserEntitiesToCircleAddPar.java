@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
@@ -38,10 +39,19 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
   public SSUri       circle  = null;
   
   @XmlElement
+  public void seCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+  
   @ApiModelProperty(
     required = true,
     value = "entities to add")
   public List<SSUri> entities = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
   
   public SSEntityUserEntitiesToCircleAddPar(){}
   
@@ -56,9 +66,12 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
         entities       = (List<SSUri>)   pars.get(SSVarU.entities);
       }
       
-      if(clientPars != null){
-        circle         = SSUri.get (clientPars.get(SSVarU.circle));
-        entities       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+      if(par.clientJSONObj != null){
+        circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).asText());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          entities.add(SSUri.get(objNode.asText()));
+        }
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

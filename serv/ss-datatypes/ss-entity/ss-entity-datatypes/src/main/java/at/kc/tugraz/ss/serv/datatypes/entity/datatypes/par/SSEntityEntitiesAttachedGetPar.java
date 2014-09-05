@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSEntityEntitiesAttachedGetPar extends SSServPar{
   
-  public SSUri       entity    = null;
+  public SSUri entity    = null;
     
   public SSEntityEntitiesAttachedGetPar(final SSServPar par) throws Exception{
       
@@ -39,9 +39,6 @@ public class SSEntityEntitiesAttachedGetPar extends SSServPar{
         entity       = (SSUri)       pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity       = SSUri.get(clientPars.get(SSVarU.entity));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

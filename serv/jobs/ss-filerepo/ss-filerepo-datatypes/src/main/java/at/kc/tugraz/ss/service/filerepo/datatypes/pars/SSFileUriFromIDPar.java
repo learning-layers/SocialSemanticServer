@@ -38,9 +38,6 @@ public class SSFileUriFromIDPar extends SSServPar{
         id   = (String) pars.get(SSVarU.id);
       }
       
-      if(clientPars != null){
-        id   = clientPars.get(SSVarU.id);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

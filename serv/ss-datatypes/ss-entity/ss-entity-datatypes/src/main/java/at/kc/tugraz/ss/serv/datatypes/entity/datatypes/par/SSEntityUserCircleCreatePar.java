@@ -29,35 +29,52 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserCircleCreate request parameter")
 public class SSEntityUserCircleCreatePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "circle name")
   public SSLabel                label          = null;
   
   @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "entities to add")
   public List<SSUri>            entities       = new ArrayList<>();
   
   @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "users to add")
   public List<SSUri>            users          = new ArrayList<>();
   
   @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "textual annotation")
   public SSTextComment          description    = null;
 
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
   public Boolean                isSystemCircle = null;
   public SSCircleE              type           = null;
 
@@ -78,21 +95,25 @@ public class SSEntityUserCircleCreatePar extends SSServPar{
         isSystemCircle = (Boolean)         pars.get(SSVarU.isSystemCircle);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         isSystemCircle = false;
         type           = SSCircleE.group;
-        label          = SSLabel.get         (clientPars.get(SSVarU.label));
+        label          = SSLabel.get         (par.clientJSONObj.get(SSVarU.label).asText());
         
         try{
-          entities       = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+         try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+            users.add(SSUri.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
         try{
-          users         = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
-        }catch(Exception error){}
-        
-        try{
-          description         = SSTextComment.get(clientPars.get(SSVarU.description));
+          description         = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

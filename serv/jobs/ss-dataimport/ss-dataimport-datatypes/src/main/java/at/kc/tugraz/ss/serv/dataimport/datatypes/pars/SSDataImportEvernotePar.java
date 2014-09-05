@@ -48,8 +48,8 @@ import javax.xml.bind.annotation.XmlElement;
         authToken       = (String)          pars.get(SSVarU.authToken);
       }
       
-      if(clientPars != null){
-        authToken       = (String)          pars.get(SSVarU.authToken);
+      if(par.clientJSONObj != null){
+        authToken       = par.clientJSONObj.get(SSVarU.authToken).asText();
       }
       
     }catch(Exception error){

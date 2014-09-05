@@ -59,41 +59,6 @@ public class SSSearchCombinedPar extends SSServPar{
         includeMIs                  = (Boolean)           pars.get(SSVarU.includeMIs);
       }
       
-      if(clientPars != null){
-        keywords                 = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywords), SSStrU.comma);
-        
-        try{
-          entities               = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
-        }catch(Exception error){}
-        
-        try{
-          onlySubEntities        = Boolean.valueOf(clientPars.get(SSVarU.onlySubEntities));
-        }catch(Exception error){}
-        
-        try{
-          types        = SSEntityE.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types), SSStrU.comma));
-        }catch(Exception error){}
-        
-        try{
-          includeTags            = Boolean.valueOf(clientPars.get(SSVarU.includeTags));
-        }catch(Exception error){}
-        
-        try{
-          includeTextualContent  = Boolean.valueOf(clientPars.get(SSVarU.includeTextualContent));
-        }catch(Exception error){}
-        
-        try{
-          includeLabel           = Boolean.valueOf(clientPars.get(SSVarU.includeLabel));
-        }catch(Exception error){}
-        
-        try{
-          includeDescription     = Boolean.valueOf(clientPars.get(SSVarU.includeDescription));
-        }catch(Exception error){}
-        
-        try{
-          includeMIs             = Boolean.valueOf(clientPars.get(SSVarU.includeMIs));
-        }catch(Exception error){}
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -76,40 +76,6 @@ public class SSEntityDescGetPar extends SSServPar{
     value = "whether flags for this user and entity should be included")
   public Boolean  getFlags          = false;
   
-  public static SSEntityDescGetPar get(
-    final SSServPar      par,
-    final SSUri          entity,
-    final Boolean        getTags,
-    final Boolean        getOverallRating,
-    final Boolean        getDiscs,
-    final Boolean        getUEs,
-    final Boolean        getThumb,
-    final Boolean        getFlags) throws Exception{
-    
-    return new SSEntityDescGetPar(par, entity, getTags, getOverallRating, getDiscs, getUEs, getThumb, getFlags);
-  }
-  
-  private SSEntityDescGetPar(
-    final SSServPar      par,
-    final SSUri          entity,
-    final Boolean        getTags,
-    final Boolean        getOverallRating,
-    final Boolean        getDiscs,
-    final Boolean        getUEs,
-    final Boolean        getThumb,
-    final Boolean        getFlags) throws Exception{
-    
-    super(par);
-    
-    this.getTags = getTags;
-    this.getOverallRating = getOverallRating;
-    this.getDiscs = getDiscs;
-    this.getUEs = getUEs;
-    this.getThumb = getThumb;
-    this.getFlags = getFlags;
-    this.entity = entity;
-  }
-  
   public SSEntityDescGetPar(){}
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{
@@ -128,31 +94,31 @@ public class SSEntityDescGetPar extends SSServPar{
         getFlags         = (Boolean) pars.get(SSVarU.getFlags);
       }
       
-      if(clientPars != null){
-        entity          = SSUri.get        (clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity          = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
         
         try{
-          getTags            = Boolean.valueOf  (clientPars.get(SSVarU.getTags));
+          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).asText());
         }catch(Exception error){}
         
         try{
-          getOverallRating   = Boolean.valueOf  (clientPars.get(SSVarU.getOverallRating));
+          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).asText());
         }catch(Exception error){}
         
         try{
-          getDiscs        = Boolean.valueOf  (clientPars.get(SSVarU.getDiscs));
+          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).asText());
         }catch(Exception error){}
         
         try{
-          getUEs        = Boolean.valueOf  (clientPars.get(SSVarU.getUEs));
+          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).asText());
         }catch(Exception error){}
         
         try{
-          getThumb        = Boolean.valueOf  (clientPars.get(SSVarU.getThumb));
+          getThumb        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getThumb).asText());
         }catch(Exception error){}
         
         try{
-          getFlags        = Boolean.valueOf  (clientPars.get(SSVarU.getFlags));
+          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

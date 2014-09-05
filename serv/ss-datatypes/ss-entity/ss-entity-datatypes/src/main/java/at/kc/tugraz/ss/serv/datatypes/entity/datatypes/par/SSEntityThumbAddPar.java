@@ -41,10 +41,6 @@ public class SSEntityThumbAddPar extends SSServPar{
         thumb    = (SSUri) pars.get(SSVarU.thumb);
       }
       
-      if(clientPars != null){
-        entity   = SSUri.get(clientPars.get(SSVarU.entity));
-        thumb    = SSUri.get(clientPars.get(SSVarU.thumb));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

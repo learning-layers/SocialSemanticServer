@@ -34,11 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "discUserWithEntriesGet request parameter")
 public class SSDiscUserWithEntriesGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "discussion to retrieve")
   public SSUri  disc             = null;
+  
+  @XmlElement
+  public void setDisc(final String disc) throws Exception{
+    this.disc = SSUri.get(disc);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -59,9 +63,9 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
         maxEntries   = (Integer) pars.get(SSVarU.maxEntries);
       }
       
-      if(clientPars != null){
-        disc         = SSUri.get       (clientPars.get(SSVarU.disc));
-        maxEntries   = Integer.valueOf (clientPars.get(SSVarU.maxEntries));
+      if(par.clientJSONObj != null){
+        disc         = SSUri.get       (par.clientJSONObj.get(SSVarU.disc).asText());
+        maxEntries   = Integer.valueOf (par.clientJSONObj.get(SSVarU.maxEntries).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

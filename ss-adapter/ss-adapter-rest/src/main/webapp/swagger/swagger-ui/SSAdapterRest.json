@@ -328,37 +328,19 @@
       } ]
     } ]
   }, {
-    "path" : "/flagsSet",
+    "path" : "/flagsGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "set flags",
+      "summary" : "retrieve flags set",
       "notes" : "",
-      "type" : "SSFlagsUserSetRet",
-      "nickname" : "flagsSet",
+      "type" : "SSFlagsUserGetRet",
+      "nickname" : "flagsGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSFlagsUserSetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/authCheckCred",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the authentication key and user's uri for credentials",
-      "notes" : "",
-      "type" : "SSAuthCheckCredRet",
-      "nickname" : "authCheckCred",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSAuthCheckCredPar",
+        "type" : "SSFlagsUserGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -382,19 +364,19 @@
       } ]
     } ]
   }, {
-    "path" : "/flagsGet",
+    "path" : "/flagsSet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve flags set",
+      "summary" : "set flags",
       "notes" : "",
-      "type" : "SSFlagsUserGetRet",
-      "nickname" : "flagsGet",
+      "type" : "SSFlagsUserSetRet",
+      "nickname" : "flagsSet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSFlagsUserGetPar",
+        "type" : "SSFlagsUserSetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -418,19 +400,19 @@
       } ]
     } ]
   }, {
-    "path" : "/systemVersionGet",
+    "path" : "/authCheckCred",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve the version of the sss instance",
+      "summary" : "retrieve the authentication key and user's uri for credentials",
       "notes" : "",
-      "type" : "SSSystemVersionGetRet",
-      "nickname" : "systemVersionGet",
+      "type" : "SSAuthCheckCredRet",
+      "nickname" : "authCheckCred",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSSystemVersionGetPar",
+        "type" : "SSAuthCheckCredPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -449,6 +431,24 @@
         "name" : "body",
         "required" : false,
         "type" : "SSEntityUserPublicSetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/systemVersionGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the version of the sss instance",
+      "notes" : "",
+      "type" : "SSSystemVersionGetRet",
+      "nickname" : "systemVersionGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSSystemVersionGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -778,24 +778,6 @@
       } ]
     } ]
   }, {
-    "path" : "/ratingSet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "set the user's rating for given entity",
-      "notes" : "",
-      "type" : "SSRatingUserSetRet",
-      "nickname" : "ratingSet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSRatingUserSetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/ratingOverallGet",
     "operations" : [ {
       "method" : "POST",
@@ -809,6 +791,24 @@
         "name" : "body",
         "required" : false,
         "type" : "SSRatingOverallGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/ratingSet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "set the user's rating for given entity",
+      "notes" : "",
+      "type" : "SSRatingUserSetRet",
+      "nickname" : "ratingSet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSRatingUserSetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -1056,16 +1056,16 @@
             "type" : "string"
           }
         },
-        "entities" : {
+        "users" : {
           "type" : "array",
-          "description" : "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)",
+          "description" : "users which have been involved in activities (optional)",
           "items" : {
             "type" : "string"
           }
         },
-        "users" : {
+        "entities" : {
           "type" : "array",
-          "description" : "users which have been involved in activities (optional)",
+          "description" : "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)",
           "items" : {
             "type" : "string"
           }
@@ -1295,13 +1295,13 @@
       "description" : "",
       "required" : [ "circle", "key", "op", "user" ],
       "properties" : {
-        "forUser" : {
-          "type" : "string",
-          "description" : "user for which the circle shall be retrieved"
-        },
         "circle" : {
           "type" : "string",
           "description" : "circle the circle to retrieve"
+        },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user for which the circle shall be retrieved"
         },
         "withSystemCircles" : {
           "type" : "boolean"
@@ -1323,15 +1323,15 @@
     "SSTagUserEditPar" : {
       "id" : "SSTagUserEditPar",
       "description" : "",
-      "required" : [ "tag", "label", "key", "op", "user" ],
+      "required" : [ "label", "tag", "key", "op", "user" ],
       "properties" : {
-        "tag" : {
-          "type" : "string",
-          "description" : "tag to change the label for"
-        },
         "label" : {
           "type" : "string",
           "description" : "new label of the tag"
+        },
+        "tag" : {
+          "type" : "string",
+          "description" : "tag to change the label for"
         },
         "key" : {
           "type" : "string",
@@ -1493,16 +1493,16 @@
           "type" : "string",
           "description" : "entity's updated description (optional)"
         },
+        "label" : {
+          "type" : "string",
+          "description" : "entity's updated name (optional)"
+        },
         "comments" : {
           "type" : "array",
           "description" : "new textual annotations for the entity (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "entity's updated name (optional)"
         },
         "entity" : {
           "type" : "string",
@@ -1561,16 +1561,16 @@
           "type" : "string",
           "description" : "entity to start a discussion for (optional)"
         },
-        "entities" : {
+        "users" : {
           "type" : "array",
-          "description" : "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)",
+          "description" : "provides users to share this discussion with upon creation of a new discussion (optional, but works only for a new discussion)",
           "items" : {
             "type" : "string"
           }
         },
-        "users" : {
+        "entities" : {
           "type" : "array",
-          "description" : "provides users to share this discussion with upon creation of a new discussion (optional, but works only for a new discussion)",
+          "description" : "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)",
           "items" : {
             "type" : "string"
           }
@@ -1720,47 +1720,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -1770,6 +1749,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -1782,17 +1786,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -1810,6 +1803,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -1831,10 +1831,10 @@
     "SSFlag" : {
       "id" : "SSFlag",
       "properties" : {
-        "entity" : {
+        "user" : {
           "type" : "string"
         },
-        "user" : {
+        "entity" : {
           "type" : "string"
         },
         "flagType" : {
@@ -1861,47 +1861,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -1911,6 +1890,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -1923,17 +1927,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -1951,6 +1944,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -2109,47 +2109,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2159,6 +2138,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -2171,17 +2175,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -2199,6 +2192,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -2230,10 +2230,10 @@
           "type" : "string",
           "description" : "name"
         },
-        "entity" : {
+        "user" : {
           "type" : "string"
         },
-        "user" : {
+        "entity" : {
           "type" : "string"
         },
         "tagLabel" : {
@@ -2252,14 +2252,14 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -2272,18 +2272,11 @@
             "type" : "string"
           }
         },
-        "attachedEntities" : {
+        "users" : {
           "type" : "array",
-          "description" : "attached entities",
+          "description" : "users involved",
           "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
+            "type" : "string"
           }
         },
         "entities" : {
@@ -2293,11 +2286,22 @@
             "type" : "string"
           }
         },
-        "users" : {
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
           "type" : "array",
-          "description" : "users involved",
+          "description" : "discussions about",
           "items" : {
             "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -2310,17 +2314,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -2338,6 +2331,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -2446,47 +2446,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2496,6 +2475,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -2508,17 +2512,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -2536,6 +2529,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -2645,10 +2645,10 @@
         "content" : {
           "type" : "string"
         },
-        "entity" : {
+        "user" : {
           "type" : "string"
         },
-        "user" : {
+        "entity" : {
           "type" : "string"
         },
         "ueType" : {
@@ -2667,47 +2667,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2717,6 +2696,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -2729,17 +2733,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -2757,6 +2750,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -3107,47 +3107,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -3157,6 +3136,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -3169,17 +3173,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -3197,6 +3190,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -3318,47 +3318,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -3368,6 +3347,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -3380,17 +3384,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -3408,6 +3401,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -3603,21 +3603,6 @@
         "entity" : {
           "type" : "string"
         },
-        "relatedPersons" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "recentArtifact" : {
-          "type" : "string"
-        },
-        "contributedEntities" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "editors" : {
           "type" : "array",
           "items" : {
@@ -3634,6 +3619,21 @@
           }
         },
         "mIs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "relatedPersons" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "recentArtifact" : {
+          "type" : "string"
+        },
+        "contributedEntities" : {
           "type" : "array",
           "items" : {
             "type" : "string"
@@ -4058,47 +4058,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
         },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "attachedEntities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "attached entities",
-          "items" : {
-            "$ref" : "SSEntity"
-          }
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -4108,6 +4087,31 @@
           "description" : "users involved",
           "items" : {
             "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
@@ -4120,17 +4124,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "uEs" : {
           "type" : "array",
@@ -4148,6 +4141,13 @@
           "description" : "types of circles the entity is in",
           "items" : {
             "$ref" : "SSCircleE"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "description" : "attached entities",
+          "items" : {
+            "$ref" : "SSEntity"
           }
         }
       }
@@ -4657,16 +4657,16 @@
           "type" : "string",
           "description" : "circle name"
         },
-        "entities" : {
+        "users" : {
           "type" : "array",
-          "description" : "entities to add",
+          "description" : "users to add",
           "items" : {
             "type" : "string"
           }
         },
-        "users" : {
+        "entities" : {
           "type" : "array",
-          "description" : "users to add",
+          "description" : "entities to add",
           "items" : {
             "type" : "string"
           }

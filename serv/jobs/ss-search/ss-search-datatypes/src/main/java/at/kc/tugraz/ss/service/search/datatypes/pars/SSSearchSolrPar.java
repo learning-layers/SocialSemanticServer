@@ -43,10 +43,6 @@ public class SSSearchSolrPar extends SSServPar{
         keywords   = (List<String>) pars.get(SSVarU.keywords);
       }
       
-      if(clientPars != null){
-        searchOp   = (String) clientPars.get(SSVarU.searchOp);
-        keywords   = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywords), SSStrU.comma);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

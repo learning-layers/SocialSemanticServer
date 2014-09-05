@@ -34,12 +34,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collUserWithEntries request parameter")
 public class SSCollUserWithEntriesPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to retrieve")
   public SSUri coll = null;
-      
+     
+  @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
   public SSCollUserWithEntriesPar(){}
     
   public SSCollUserWithEntriesPar(SSServPar par) throws Exception{
@@ -52,8 +56,8 @@ public class SSCollUserWithEntriesPar extends SSServPar{
         coll       = (SSUri)   pars.get(SSVarU.coll);
       }
       
-      if(clientPars != null){
-        coll       = SSUri.get       (clientPars.get(SSVarU.coll));
+      if(par.clientJSONObj != null){
+        coll       = SSUri.get       (par.clientJSONObj.get(SSVarU.coll).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

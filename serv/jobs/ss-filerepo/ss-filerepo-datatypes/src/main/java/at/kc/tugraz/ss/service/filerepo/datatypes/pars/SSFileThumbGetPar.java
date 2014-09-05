@@ -38,9 +38,6 @@ public class SSFileThumbGetPar extends SSServPar{
         file   = (String) pars.get(SSVarU.file);
       }
       
-      if(clientPars != null){
-        file   = clientPars.get(SSVarU.file);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

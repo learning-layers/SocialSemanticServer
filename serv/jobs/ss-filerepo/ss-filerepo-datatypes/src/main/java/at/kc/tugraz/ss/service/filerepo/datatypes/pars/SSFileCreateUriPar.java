@@ -38,9 +38,6 @@ public class SSFileCreateUriPar extends SSServPar{
         fileExt   = (String) pars.get(SSVarU.fileExt);
       }
       
-      if(clientPars != null){
-        fileExt   = clientPars.get(SSVarU.fileExt);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

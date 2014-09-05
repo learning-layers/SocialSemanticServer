@@ -41,10 +41,6 @@ public class SSEntityFileAddPar extends SSServPar{
         file     = (SSUri) pars.get(SSVarU.file);
       }
       
-      if(clientPars != null){
-        entity   = SSUri.get(clientPars.get(SSVarU.entity));
-        file     = SSUri.get(clientPars.get(SSVarU.file));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

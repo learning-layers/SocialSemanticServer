@@ -35,11 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "ueAddPar request parameter")
 public class SSUEAddPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "entity with which some interaction shall be traced")
   public SSUri            entity     = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }  
   
   @XmlElement
   @ApiModelProperty(
@@ -67,10 +71,10 @@ public class SSUEAddPar extends SSServPar{
         content  = (String)   pars.get(SSVarU.content);
       }
       
-      if(clientPars != null){
-        entity   = SSUri.get     (clientPars.get(SSVarU.entity));
-        type     = SSUEE.get     (clientPars.get(SSVarU.type));
-        content  =                clientPars.get(SSVarU.content);
+      if(par.clientJSONObj != null){
+        entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).asText());
+        type     = SSUEE.get     (par.clientJSONObj.get(SSVarU.type).asText());
+        content  =                par.clientJSONObj.get(SSVarU.content).asText();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

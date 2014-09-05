@@ -32,29 +32,42 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "collUserEntriesAdd request parameter")
 public class SSCollUserEntriesAddPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to add sub-entities to")
   public SSUri             coll          = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = true, 
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
+  @ApiModelProperty(
+    required = true,
     value = "entities to add")
   public List<SSUri>       entries       = new ArrayList<>();
   
   @XmlElement
+  public void setEntries(final List<String> entries) throws Exception{
+    this.entries = SSUri.get(entries);
+  }
+  
   @ApiModelProperty( 
     required = true, 
     value = "collection item labels")
   public List<SSLabel>     labels        = new ArrayList<>();
-      
+
+  @XmlElement
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSLabel.get(labels);
+  }
+  
   public SSCollUserEntriesAddPar(){}
     
   public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
@@ -69,11 +82,17 @@ public class SSCollUserEntriesAddPar extends SSServPar{
         labels         = (List<SSLabel>)  pars.get(SSVarU.labels);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        coll        = SSUri.get(clientPars.get(SSVarU.coll));
-        entries     = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entries), SSStrU.comma));
-        labels      = SSLabel.get  (SSStrU.split                           (clientPars.get(SSVarU.labels),  SSStrU.comma));
+        coll        = SSUri.get    (par.clientJSONObj.get(SSVarU.coll).asText());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entries)) {
+          entries.add(SSUri.get(objNode.asText()));
+        }
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labels)) {
+          labels.add(SSLabel.get(objNode.asText()));
+        }
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

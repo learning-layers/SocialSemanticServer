@@ -54,37 +54,37 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
         yC                = (Float)    pars.get(SSVarU.yC);
       }
       
-      if(clientPars != null){
-        learnEpCircle     = SSUri.get        (clientPars.get(SSVarU.learnEpCircle));
-        
-        try{
-          label             = SSLabel.get      (clientPars.get(SSVarU.label));
-        }catch(Exception error){}
-        
-        try{
-          xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
-        }catch(Exception error){}
-        
-        try{
-          yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
-        }catch(Exception error){}
-        
-        try{
-          xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
-        }catch(Exception error){}
-        
-        try{
-          yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
-        }catch(Exception error){}
-        
-        try{
-          xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
-        }catch(Exception error){}
-        
-        try{
-          yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
-        }catch(Exception error){}
-      }
+//      if(clientPars != null){
+//        learnEpCircle     = SSUri.get        (clientPars.get(SSVarU.learnEpCircle));
+//        
+//        try{
+//          label             = SSLabel.get      (clientPars.get(SSVarU.label));
+//        }catch(Exception error){}
+//        
+//        try{
+//          xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
+//        }catch(Exception error){}
+//        
+//        try{
+//          yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
+//        }catch(Exception error){}
+//        
+//        try{
+//          xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
+//        }catch(Exception error){}
+//        
+//        try{
+//          yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
+//        }catch(Exception error){}
+//        
+//        try{
+//          xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
+//        }catch(Exception error){}
+//        
+//        try{
+//          yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
+//        }catch(Exception error){}
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

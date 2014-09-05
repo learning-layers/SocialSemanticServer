@@ -42,10 +42,6 @@ public class SSBroadcastUpdatePar extends SSServPar{
         type       = (SSBroadcastEnum)  pars.get(SSVarU.type);
       }
       
-      if(clientPars != null){
-        entity     = SSUri.get           (clientPars.get(SSVarU.entity));
-        type       = SSBroadcastEnum.get (clientPars.get(SSVarU.type));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

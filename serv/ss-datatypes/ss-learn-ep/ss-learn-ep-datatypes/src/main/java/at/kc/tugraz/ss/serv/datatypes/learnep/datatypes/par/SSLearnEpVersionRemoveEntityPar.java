@@ -39,9 +39,9 @@ public class SSLearnEpVersionRemoveEntityPar extends SSServPar{
         learnEpEntity   = (SSUri) pars.get(SSVarU.learnEpEntity);
       }
       
-      if(clientPars != null){
-        learnEpEntity   = SSUri.get(clientPars.get(SSVarU.learnEpEntity));
-      }
+//      if(clientPars != null){
+//        learnEpEntity   = SSUri.get(clientPars.get(SSVarU.learnEpEntity));
+//      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

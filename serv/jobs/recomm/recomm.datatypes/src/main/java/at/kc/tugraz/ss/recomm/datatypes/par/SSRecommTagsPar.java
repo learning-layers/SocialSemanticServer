@@ -31,22 +31,31 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "recommTags request parameter")
 public class SSRecommTagsPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "user to be considered to retrieve recommendations for")
   public SSUri         forUser    = null;
   
   @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+  
   @ApiModelProperty( 
     required = false, 
     value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -74,22 +83,24 @@ public class SSRecommTagsPar extends SSServPar{
         this.maxTags    =  (Integer)       pars.get(SSVarU.maxTags);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         try{
-          this.forUser   = SSUri.get         (clientPars.get(SSVarU.forUser));
+          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).asText());
         }catch(Exception error){}
         
         try{
-          this.entity = SSUri.get         (clientPars.get(SSVarU.entity));
+          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarU.entity).asText());
         }catch(Exception error){}
         
         try{
-          this.categories = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.categories), SSStrU.comma);
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
+            categories.add(objNode.asText());
+          }
         }catch(Exception error){}
         
         try{
-          this.maxTags   = Integer.valueOf   (clientPars.get(SSVarU.maxTags));
+          this.maxTags   = Integer.valueOf   (par.clientJSONObj.get(SSVarU.maxTags).asText());
         }catch(Exception error){}
       }
       

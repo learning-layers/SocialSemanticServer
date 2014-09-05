@@ -34,17 +34,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collUserEntryDelete request parameter")
 public class SSCollUserEntryDeletePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to delete an item from")
   public SSUri       coll     = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = true, 
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
+  @ApiModelProperty(
+    required = true,
     value = "entity to remove")
   public SSUri       entry    = null;
+  
+  @XmlElement
+  public void setEntry(final String entry) throws Exception{
+    this.entry = SSUri.get(entry);
+  }
       
   public SSCollUserEntryDeletePar(){}
     
@@ -59,9 +67,9 @@ public class SSCollUserEntryDeletePar extends SSServPar{
         entry  = (SSUri)       pars.get(SSVarU.entry);
       }
       
-      if(clientPars != null){
-        coll    = SSUri.get        (clientPars.get(SSVarU.coll));
-        entry   = SSUri.get        (clientPars.get(SSVarU.entry));
+      if(par.clientJSONObj != null){
+        coll    = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).asText());
+        entry   = SSUri.get        (par.clientJSONObj.get(SSVarU.entry).asText());
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

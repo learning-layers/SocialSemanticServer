@@ -46,11 +46,6 @@ public class SSSearchTagsPar extends SSServPar{
         maxResultsPerTag = (Integer)           pars.get(SSVarU.maxResultsPerTag);
       }
       
-      if(clientPars != null){
-        searchOp         = (String)                                clientPars.get(SSVarU.searchOp);
-        tags             = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tags), SSStrU.comma);
-        maxResultsPerTag = Integer.valueOf                        (clientPars.get(SSVarU.maxResultsPerTag));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

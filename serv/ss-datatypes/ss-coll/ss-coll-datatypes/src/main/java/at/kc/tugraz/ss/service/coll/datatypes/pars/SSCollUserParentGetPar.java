@@ -34,11 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collUserParentGet request parameter")
 public class SSCollUserParentGetPar extends SSServPar{
 
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to retrieve parent collection for")
   public SSUri coll = null;
+  
+  @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
   
   public SSCollUserParentGetPar(){}
     
@@ -52,8 +56,8 @@ public class SSCollUserParentGetPar extends SSServPar{
         coll       = (SSUri)       pars.get(SSVarU.coll);
       }
       
-      if(clientPars != null){
-        coll       = SSUri.get        (clientPars.get(SSVarU.coll));
+      if(par.clientJSONObj != null){
+        coll       = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -34,11 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collsUserEntityIsInGet request parameter")
 public class SSCollsUserEntityIsInGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "entity to be searched for in user's collections")
   public SSUri entity = null;
+   
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   public SSCollsUserEntityIsInGetPar(){}
   
@@ -52,8 +56,8 @@ public class SSCollsUserEntityIsInGetPar extends SSServPar{
         entity = (SSUri) pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity = SSUri.get(clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

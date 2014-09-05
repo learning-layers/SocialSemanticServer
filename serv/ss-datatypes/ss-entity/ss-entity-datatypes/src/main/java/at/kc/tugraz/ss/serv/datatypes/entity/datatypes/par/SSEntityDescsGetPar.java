@@ -32,18 +32,28 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityDescsGet request parameter")
 public class SSEntityDescsGetPar extends SSServPar{
   
-  @XmlElement
+  
   @ApiModelProperty( required = false, value = "entities to get details for (optional if types is set)")
   public List<SSUri>     entities          = new ArrayList<>();
   
   @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty(required = false, value = "types of entities (optional if entities is set)")
   public List<SSEntityE> types             = new ArrayList<>();
+  
+  @XmlElement
+  public void setTypes(final List<String> types){
+    this.types = SSEntityE.get(types);
+  }
   
   @XmlElement
   @ApiModelProperty( required = false, value = "whether tags for entities should be delivered (optional)")
@@ -68,7 +78,7 @@ public class SSEntityDescsGetPar extends SSServPar{
   @XmlElement
   @ApiModelProperty(  required = false, value = "whether flags for the user's entities should be included (optional)")
   public Boolean         getFlags          = false;
-  
+
   public SSEntityDescsGetPar(){}
   
   public SSEntityDescsGetPar(SSServPar par) throws Exception{
@@ -88,29 +98,34 @@ public class SSEntityDescsGetPar extends SSServPar{
         getFlags         = (Boolean)         pars.get(SSVarU.getFlags);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
+        
         try{
-          entities          = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
         try{
-          types          = SSEntityE.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+            types.add(SSEntityE.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
         try{
-          getTags            = Boolean.valueOf  (clientPars.get(SSVarU.getTags));
+          getTags            = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getTags).asText());
         }catch(Exception error){}
         
         try{
-          getOverallRating   = Boolean.valueOf  (clientPars.get(SSVarU.getOverallRating));
+          getOverallRating   = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getOverallRating).asText());
         }catch(Exception error){}
         
         try{
-          getDiscs        = Boolean.valueOf  (clientPars.get(SSVarU.getDiscs));
+          getDiscs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getDiscs).asText());
         }catch(Exception error){}
         
         try{
-          getUEs        = Boolean.valueOf  (clientPars.get(SSVarU.getUEs));
+          getUEs        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getUEs).asText());
         }catch(Exception error){}
         
         try{
@@ -118,7 +133,7 @@ public class SSEntityDescsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          getFlags        = Boolean.valueOf  (clientPars.get(SSVarU.getFlags));
+          getFlags        = Boolean.valueOf  (par.clientJSONObj.get(SSVarU.getFlags).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

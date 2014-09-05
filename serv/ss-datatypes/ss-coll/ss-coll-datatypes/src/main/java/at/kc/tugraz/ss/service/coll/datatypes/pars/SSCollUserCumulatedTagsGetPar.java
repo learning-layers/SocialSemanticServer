@@ -34,12 +34,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collUserCumulatedTagsGet request parameter")
 public class SSCollUserCumulatedTagsGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to retrieve all cumulated tags for")
   public SSUri coll = null;
       
+  @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
   public SSCollUserCumulatedTagsGetPar(){}
     
   public SSCollUserCumulatedTagsGetPar(SSServPar par) throws Exception{
@@ -52,8 +56,8 @@ public class SSCollUserCumulatedTagsGetPar extends SSServPar{
         coll       = (SSUri)       pars.get(SSVarU.coll);
       }
       
-      if(clientPars != null){
-        coll       = SSUri.get        ((String)clientPars.get(SSVarU.coll));
+      if(par.clientJSONObj != null){
+        coll       = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).asText());
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

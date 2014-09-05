@@ -40,6 +40,11 @@ public class SSFileCanWritePar extends SSServPar{
     value = "file to be downloaded with write access")
   public SSUri   file    = null;
   
+  @XmlElement
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
+  
   public SSFileCanWritePar(){}
   
   public SSFileCanWritePar(SSServPar par) throws Exception{
@@ -52,8 +57,8 @@ public class SSFileCanWritePar extends SSServPar{
         file   = (SSUri) pars.get(SSVarU.file);
       }
       
-      if(clientPars != null){
-        file   = SSUri.get(clientPars.get(SSVarU.file));
+      if(par.clientJSONObj != null){
+        file   = SSUri.get(par.clientJSONObj.get(SSVarU.file).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

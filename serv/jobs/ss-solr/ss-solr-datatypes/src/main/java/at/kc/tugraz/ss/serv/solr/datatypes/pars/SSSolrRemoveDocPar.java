@@ -37,9 +37,6 @@ public class SSSolrRemoveDocPar extends SSServPar{
         id = (String) pars.get(SSVarU.id);
       }
       
-      if(clientPars != null){
-        id = (String) clientPars.get(SSVarU.id);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

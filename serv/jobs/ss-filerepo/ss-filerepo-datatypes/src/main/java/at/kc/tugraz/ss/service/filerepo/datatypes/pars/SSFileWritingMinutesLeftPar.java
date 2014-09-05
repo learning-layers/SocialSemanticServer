@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -34,11 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "fileWritingMinutesLeft request parameter")
 public class SSFileWritingMinutesLeftPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "file to be re-uploaded")
   public SSUri   file    = null;
+  
+  @XmlElement
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
   
   public SSFileWritingMinutesLeftPar(){}
   
@@ -52,8 +57,8 @@ public class SSFileWritingMinutesLeftPar extends SSServPar{
         file   = (SSUri) pars.get(SSVarU.file);
       }
       
-      if(clientPars != null){
-        file   = SSUri.get(clientPars.get(SSVarU.file));
+      if(par.clientJSONObj != null){
+        file   = SSUri.get(par.clientJSONObj.get(SSVarU.file).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

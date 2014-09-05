@@ -43,10 +43,6 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
         tags         = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tags), SSStrU.comma);
       }
       
-      if(clientPars != null){
-        entity       = SSUri.get                              (clientPars.get(SSVarU.entity));
-        tags         = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tags), SSStrU.comma);
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -34,12 +34,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "authCheckCred request parameter")
 public class SSAuthCheckCredPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty( required = true, value = "name of the user, e.g. 'hugo'" )
+  @ApiModelProperty( 
+    required = true, 
+    value = "name of the user, e.g. 'hugo'" )
   public SSLabel label;
   
   @XmlElement
-  @ApiModelProperty( required = true, value = "the user’s password" )
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "the user’s password" )
   public String password;
 
   public SSAuthCheckCredPar(){}
@@ -55,9 +63,9 @@ public class SSAuthCheckCredPar extends SSServPar{
         password      = (String)  pars.get(SSVarU.password);
       }
       
-      if(clientPars != null){
-        label     = SSLabel.get(clientPars.get(SSVarU.label));
-        password  =             clientPars.get(SSVarU.password);
+      if(par.clientJSONObj != null){
+        label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).asText());
+        password  = par.clientJSONObj.get(SSVarU.password).asText();
       }
       
     }catch(Exception error){

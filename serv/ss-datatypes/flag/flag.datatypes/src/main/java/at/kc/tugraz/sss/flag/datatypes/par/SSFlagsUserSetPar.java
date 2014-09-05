@@ -32,22 +32,31 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "flagsUserSet request parameter")
 public class SSFlagsUserSetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true, 
     value = "")
   public List<SSUri>   entities       = new ArrayList<>();
   
   @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty( 
     required = true, 
     value = "" )
   public List<SSFlagE> types          = new ArrayList<>();
+  
+  @XmlElement
+  public void setTypes(final List<String> types) throws Exception{
+    this.types = SSFlagE.get(types);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -76,17 +85,22 @@ public class SSFlagsUserSetPar extends SSServPar{
         endTime   = (Long)                     pars.get(SSVarU.endTime);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        entities = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
-        types    = SSFlagE.get  (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types),    SSStrU.comma));
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          entities.add(SSUri.get(objNode.asText()));
+        }
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+          types.add(SSFlagE.get(objNode.asText()));
+        }
         
         try{
-          value = Integer.valueOf(clientPars.get(SSVarU.value));
+          value = Integer.valueOf(par.clientJSONObj.get(SSVarU.value).asText());
         }catch(Exception error){}
         
         try{
-          endTime = Long.valueOf(clientPars.get(SSVarU.endTime));
+          endTime = Long.valueOf(par.clientJSONObj.get(SSVarU.endTime).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

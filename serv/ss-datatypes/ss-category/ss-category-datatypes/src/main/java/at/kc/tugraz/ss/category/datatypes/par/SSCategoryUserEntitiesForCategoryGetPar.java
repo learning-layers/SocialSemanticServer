@@ -41,13 +41,13 @@ public class SSCategoryUserEntitiesForCategoryGetPar extends SSServPar{
         space  = (SSSpaceE)                    pars.get(SSVarU.space);
       }
       
-      if(clientPars != null){
-        label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
-        
-        try{
-          space        = SSSpaceE.get  (clientPars.get(SSVarU.space));
-        }catch(Exception error){}
-      }
+//      if(clientPars != null){
+//        label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
+//        
+//        try{
+//          space        = SSSpaceE.get  (clientPars.get(SSVarU.space));
+//        }catch(Exception error){}
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

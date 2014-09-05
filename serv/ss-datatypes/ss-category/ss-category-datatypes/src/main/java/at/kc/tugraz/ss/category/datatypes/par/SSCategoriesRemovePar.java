@@ -46,24 +46,24 @@ public class SSCategoriesRemovePar extends SSServPar{
         space    = (SSSpaceE)          pars.get(SSVarU.space);
       }
       
-      if(clientPars != null){
-        
-        try{
-          forUser   = SSUri.get        (clientPars.get(SSVarU.forUser));
-        }catch(Exception error){}
-         
-        try{
-          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
-        }catch(Exception error){}
-        
-        try{
-          label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
-         }catch(Exception error){} 
-        
-        try{
-          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
-        }catch(Exception error){}
-      }
+//      if(clientPars != null){
+//        
+//        try{
+//          forUser   = SSUri.get        (clientPars.get(SSVarU.forUser));
+//        }catch(Exception error){}
+//         
+//        try{
+//          entity   = SSUri.get        (clientPars.get(SSVarU.entity));
+//        }catch(Exception error){}
+//        
+//        try{
+//          label  = SSCategoryLabel.get   (clientPars.get(SSVarU.label));
+//         }catch(Exception error){} 
+//        
+//        try{
+//          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
+//        }catch(Exception error){}
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

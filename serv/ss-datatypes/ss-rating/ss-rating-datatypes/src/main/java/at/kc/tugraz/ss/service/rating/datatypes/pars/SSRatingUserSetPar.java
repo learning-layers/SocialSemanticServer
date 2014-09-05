@@ -33,18 +33,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @ApiModel(value = "ratingUserSet request parameter")
 public class SSRatingUserSetPar extends SSServPar{
+
+  @ApiModelProperty(
+    required = true,
+    value = "entity to set the user’s rating for")
+  public SSUri     entity       = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   @XmlElement
   @ApiModelProperty(
     required = true,
     value = "rating value (i.e. 1,2,3,4,5)")
   public Integer   value        = -1;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "entity to set the user’s rating for")
-  public SSUri     entity       = null;
   
   public SSRatingUserSetPar(){}
   
@@ -58,9 +62,9 @@ public class SSRatingUserSetPar extends SSServPar{
         value     = (Integer) pars.get(SSVarU.value);
       }
       
-      if(clientPars != null){
-        entity    = SSUri.get       (clientPars.get(SSVarU.entity));
-        value     = Integer.valueOf (clientPars.get(SSVarU.value));
+      if(par.clientJSONObj != null){
+        entity    = SSUri.get       (par.clientJSONObj.get(SSVarU.entity).asText());
+        value     = Integer.valueOf (par.clientJSONObj.get(SSVarU.value).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

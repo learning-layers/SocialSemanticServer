@@ -38,9 +38,6 @@ public class SSRatingsUserRemovePar extends SSServPar{
         entity = (SSUri)   pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity = SSUri.get       (clientPars.get(SSVarU.entity));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

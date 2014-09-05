@@ -17,6 +17,7 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -29,11 +30,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "discUserRemove request parameter")
 public class SSDiscUserRemovePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "the disc to remove")
   public SSUri disc         = null;
+  
+  @XmlElement
+  public void setDisc(final String disc) throws Exception{
+    this.disc = SSUri.get(disc);
+  }
   
   public SSDiscUserRemovePar(){}
   
@@ -47,8 +52,8 @@ public class SSDiscUserRemovePar extends SSServPar{
         disc        = (SSUri)       pars.get(SSVarU.disc);
       }
       
-      if(clientPars != null){
-        disc        = SSUri.get     (clientPars.get(SSVarU.disc));
+      if(par.clientJSONObj != null){
+        disc        = SSUri.get     (par.clientJSONObj.get(SSVarU.disc).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -50,16 +50,6 @@ public class SSTagsAddPar extends SSServPar{
         creationTime =  (Long)                      pars.get(SSVarU.creationTime);
       }
       
-      if(clientPars != null){
-        
-        entity   = SSUri.get        (clientPars.get(SSVarU.entity));
-        space    = SSSpaceE.get     (clientPars.get(SSVarU.space));
-        labels   = SSTagLabel.get   (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
-        
-        try{
-          creationTime = Long.valueOf(clientPars.get(SSVarU.creationTime));
-        }catch(Exception error){}
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

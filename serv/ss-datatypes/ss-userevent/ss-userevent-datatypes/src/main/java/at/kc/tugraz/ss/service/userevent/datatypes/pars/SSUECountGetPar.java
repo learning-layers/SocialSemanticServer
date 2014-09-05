@@ -35,17 +35,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "ueCountGetPar request parameter")
 public class SSUECountGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "user to count user events for")
   public SSUri            forUser    = null;
   
   @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "entity to count user events for")
   public SSUri            entity     = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -81,26 +89,26 @@ public class SSUECountGetPar extends SSServPar{
         endTime    = (Long)     pars.get(SSVarU.endTime);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         try{
-          forUser    = SSUri.get    (clientPars.get(SSVarU.forUser));
+          forUser    = SSUri.get    (par.clientJSONObj.get(SSVarU.forUser).asText());
         }catch(Exception error){}
         
         try{
-          entity   = SSUri.get    (clientPars.get(SSVarU.entity));
+          entity   = SSUri.get    (par.clientJSONObj.get(SSVarU.entity).asText());
         }catch(Exception error){}
         
         try{
-          type  = SSUEE.get (clientPars.get(SSVarU.type));
+          type  = SSUEE.get (par.clientJSONObj.get(SSVarU.type).asText());
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf (clientPars.get(SSVarU.startTime));
+          startTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.startTime).asText());
         }catch(Exception error){}
         
         try{
-          endTime  = Long.valueOf (clientPars.get(SSVarU.endTime));
+          endTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.endTime).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

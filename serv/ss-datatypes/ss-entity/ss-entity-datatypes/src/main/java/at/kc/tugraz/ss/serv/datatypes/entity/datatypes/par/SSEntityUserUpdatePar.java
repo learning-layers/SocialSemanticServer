@@ -33,16 +33,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserUpdate request parameter")
 public class SSEntityUserUpdatePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "entity to update")
   public SSUri               entity        = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -51,16 +56,31 @@ public class SSEntityUserUpdatePar extends SSServPar{
   public SSLabel             label         = null;
   
   @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+  
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "entity's updated description (optional)")
   public SSTextComment       description   = null;
   
   @XmlElement
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "new textual annotations for the entity (optional)")
   public List<SSTextComment> comments      = new ArrayList<>();
+  
+  @XmlElement
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
+  }
   
   public SSEntityUserUpdatePar(){}
   
@@ -77,19 +97,21 @@ public class SSEntityUserUpdatePar extends SSServPar{
         comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
       }
       
-      if(clientPars != null){
-        entity       = SSUri.get      (clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity       = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).asText());
         
         try{
-          label        = SSLabel.get (clientPars.get(SSVarU.label));
+          label        = SSLabel.get (par.clientJSONObj.get(SSVarU.label).asText());
         }catch(Exception error){}
         
         try{
-          description  = SSTextComment.get(clientPars.get(SSVarU.description));
+          description  = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).asText());
         }catch(Exception error){}
         
         try{
-          comments  = SSTextComment.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.comments), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
+            comments.add(SSTextComment.get(objNode.asText()));
+          }
         }catch(Exception error){}
       }
     }catch(Exception error){

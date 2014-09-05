@@ -33,28 +33,41 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "tagUserFrequsGet request parameter")
 public class SSTagUserFrequsGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "user to retrieve tags for (optional)")
   public SSUri              forUser    = null;
   
   @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+  
   @ApiModelProperty(
     required = false, 
     value = "entities to retrieve tags for (optional)")
   public List<SSUri>        entities   = new ArrayList<>();
   
   @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty(
     required = false, 
     value = "tag labels to consider for retrieving tags (optional)")
   public List<SSTagLabel>   labels     = new ArrayList<>();
+  
+  @XmlElement
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -84,26 +97,30 @@ public class SSTagUserFrequsGetPar extends SSServPar{
         startTime  = (Long)                         pars.get(SSVarU.startTime);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         try{
-          forUser   = SSUri.get (clientPars.get(SSVarU.forUser));
+          forUser   = SSUri.get (par.clientJSONObj.get(SSVarU.forUser).asText());
         }catch(Exception error){}
           
         try{
-          entities   = SSUri.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
-         try{
-          labels  = SSTagLabel.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labels), SSStrU.comma));
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labels)) {
+            labels.add(SSTagLabel.get(objNode.asText()));
+          }
         }catch(Exception error){}
          
         try{
-          space      = SSSpaceE.get  (clientPars.get(SSVarU.space));
+          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).asText());
         }catch(Exception error){}
         
         try{
-          startTime      = Long.valueOf(clientPars.get(SSVarU.startTime));
+          startTime      = Long.valueOf(par.clientJSONObj.get(SSVarU.startTime).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

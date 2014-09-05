@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement(name = "SSSearchPar")
 @ApiModel(value = "search request parameter")
@@ -86,11 +87,15 @@ public class SSSearchPar extends SSServPar{
     value = "whether labels of entities should be scanned" )
   public Boolean             includeLabel               = null;
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "certain labels to be search for" )
   public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
+  
+  @XmlElement
+  public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
+    this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -98,17 +103,25 @@ public class SSSearchPar extends SSServPar{
     value = "whether descriptions of entities should be scanned" )
   public Boolean             includeDescription         = null;
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "certain descriptions to be searched for" )
   public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
   
   @XmlElement
+  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
+    this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
+  }
+  
   @ApiModelProperty( 
     required = false,
     value = "list of entity types to be considered for search exclusively " )
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
+  
+  @XmlElement
+  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
+    this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -121,6 +134,11 @@ public class SSSearchPar extends SSServPar{
     required = false, 
     value = "entities for whom only sub entities get search for")
   public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
+    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -168,25 +186,71 @@ public class SSSearchPar extends SSServPar{
         provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        try{ keywordsToSearchFor          = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.keywordsToSearchFor), SSStrU.comma);                              }catch(Exception error){}
-        try{ includeTextualContent        = Boolean.valueOf(clientPars.get(SSVarU.includeTextualContent));                                                                  }catch(Exception error){}
-        try{ wordsToSearchFor             = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.wordsToSearchFor), SSStrU.comma);                                 }catch(Exception error){}
-        try{ includeTags                  = Boolean.valueOf(clientPars.get(SSVarU.includeTags));                                                                            }catch(Exception error){}
-        try{ tagsToSearchFor              = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.tagsToSearchFor), SSStrU.comma);                                  }catch(Exception error){}
-        try{ includeMIs                   = Boolean.valueOf(clientPars.get(SSVarU.includeMIs));                                                                             }catch(Exception error){}
-        try{ misToSearchFor               = SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.misToSearchFor), SSStrU.comma);                                   }catch(Exception error){}
-        try{ includeLabel                 = Boolean.valueOf(clientPars.get(SSVarU.includeLabel));                                                                           }catch(Exception error){}
-        try{ labelsToSearchFor            = SSSearchLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.labelsToSearchFor), SSStrU.comma));             }catch(Exception error){} 
-        try{ includeDescription           = Boolean.valueOf(clientPars.get(SSVarU.includeDescription));                                                                     }catch(Exception error){}
-        try{ descriptionsToSearchFor      = SSSearchLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.descriptionsToSearchFor), SSStrU.comma));       }catch(Exception error){}
-        try{ typesToSearchOnlyFor         = SSEntityE.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.typesToSearchOnlyFor), SSStrU.comma));              }catch(Exception error){}
-        try{ includeOnlySubEntities       = Boolean.valueOf(clientPars.get(SSVarU.includeOnlySubEntities));                                                                 }catch(Exception error){}
-        try{ entitiesToSearchWithin       = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entitiesToSearchWithin), SSStrU.comma));                }catch(Exception error){}
-        try{ extendToParents              = Boolean.valueOf(clientPars.get(SSVarU.extendToParents));                                                                        }catch(Exception error){}
-        try{ includeRecommendedResults    = Boolean.valueOf(clientPars.get(SSVarU.includeRecommendedResults));                                                              }catch(Exception error){}
-        try{ provideEntries               = Boolean.valueOf(clientPars.get(SSVarU.provideEntries));                                                                         }catch(Exception error){}
+        try{ 
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.keywordsToSearchFor)) {
+            keywordsToSearchFor.add(objNode.asText());
+          }
+        }catch(Exception error){}
+        
+        try{ includeTextualContent        = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTextualContent).asText());                                                                  }catch(Exception error){}
+        
+        try{ 
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.wordsToSearchFor)) {
+            wordsToSearchFor.add(objNode.asText());
+          }
+        }catch(Exception error){}
+        
+        try{ includeTags                  = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTags).asText());                                                                            }catch(Exception error){}
+        
+        try{ 
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tagsToSearchFor)) {
+            tagsToSearchFor.add(objNode.asText());
+          }
+        }catch(Exception error){}
+        
+        try{ includeMIs                   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeMIs).asText());                                                                             }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.misToSearchFor)) {
+            misToSearchFor.add(objNode.asText());
+          }
+        }catch(Exception error){}
+         
+        try{ includeLabel                 = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeLabel).asText());                                                                           }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labelsToSearchFor)) {
+            labelsToSearchFor.add(SSSearchLabel.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{ includeDescription           = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeDescription).asText());                                                                     }catch(Exception error){}
+        
+        try{ 
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.descriptionsToSearchFor)) {
+            descriptionsToSearchFor.add(SSSearchLabel.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{ 
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.typesToSearchOnlyFor)) {
+            typesToSearchOnlyFor.add(SSEntityE.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{ includeOnlySubEntities       = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeOnlySubEntities).asText());                                                                 }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entitiesToSearchWithin)) {
+            entitiesToSearchWithin.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{ extendToParents              = Boolean.valueOf(par.clientJSONObj.get(SSVarU.extendToParents).asText());                                                                        }catch(Exception error){}
+        try{ includeRecommendedResults    = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeRecommendedResults).asText());                                                              }catch(Exception error){}
+        try{ provideEntries               = Boolean.valueOf(par.clientJSONObj.get(SSVarU.provideEntries).asText());                                                                         }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

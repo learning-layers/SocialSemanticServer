@@ -41,10 +41,6 @@ public class SSFileRemoveReaderOrWriterPar extends SSServPar{
         write  = (Boolean) pars.get(SSVarU.write);
       }
       
-      if(clientPars != null){
-        file   = SSUri.get       (clientPars.get(SSVarU.file));
-        write  = Boolean.valueOf (clientPars.get(SSVarU.write));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

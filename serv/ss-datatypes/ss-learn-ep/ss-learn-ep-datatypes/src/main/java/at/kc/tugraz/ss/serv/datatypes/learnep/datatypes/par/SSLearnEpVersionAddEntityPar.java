@@ -45,12 +45,12 @@ public class SSLearnEpVersionAddEntityPar extends SSServPar{
         y               = (Float)    pars.get(SSVarU.y);
       }
       
-      if(clientPars != null){
-        learnEpVersion = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
-        entity         = SSUri.get        (clientPars.get(SSVarU.entity));
-        x              = Float.parseFloat(clientPars.get(SSVarU.x));
-        y              = Float.parseFloat(clientPars.get(SSVarU.y));
-      }
+//      if(clientPars != null){
+//        learnEpVersion = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
+//        entity         = SSUri.get        (clientPars.get(SSVarU.entity));
+//        x              = Float.parseFloat(clientPars.get(SSVarU.x));
+//        y              = Float.parseFloat(clientPars.get(SSVarU.y));
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

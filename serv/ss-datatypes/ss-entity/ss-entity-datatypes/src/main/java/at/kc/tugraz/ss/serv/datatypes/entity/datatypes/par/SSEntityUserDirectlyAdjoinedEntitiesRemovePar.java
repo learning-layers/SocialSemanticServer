@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -34,11 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "entityUserDirectlyAdjoinedEntitiesRemove request parameter")
 public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = true, 
+  @ApiModelProperty(
+    required = true,
     value = "entity to be removed")
   public SSUri   entity              = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -80,23 +85,23 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
         removeUserLocations  = (Boolean)   pars.get(SSVarU.removeUserLocations);
       }
       
-      if(clientPars != null){
-        entity     = SSUri.get      (clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity     = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).asText());
         
         try{
-          removeUserTags   = Boolean.valueOf(clientPars.get(SSVarU.removeUserTags));
+          removeUserTags   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserTags).asText());
         }catch(Exception error){}
         
         try{
-          removeUserRatings   = Boolean.valueOf(clientPars.get(SSVarU.removeUserRatings));
+          removeUserRatings   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserRatings).asText());
         }catch(Exception error){}
         
         try{
-          removeFromUserColls   = Boolean.valueOf(clientPars.get(SSVarU.removeFromUserColls));
+          removeFromUserColls   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeFromUserColls).asText());
         }catch(Exception error){}
         
         try{
-          removeUserLocations   = Boolean.valueOf(clientPars.get(SSVarU.removeUserLocations));
+          removeUserLocations   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserLocations).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

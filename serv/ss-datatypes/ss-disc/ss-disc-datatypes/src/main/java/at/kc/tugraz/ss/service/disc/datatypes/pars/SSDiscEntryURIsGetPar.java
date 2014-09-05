@@ -39,9 +39,6 @@ public class SSDiscEntryURIsGetPar extends SSServPar{
         disc         = (SSUri)   pars.get(SSVarU.disc);
       }
       
-      if(clientPars != null){
-        disc         = SSUri.get       (clientPars.get(SSVarU.disc));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

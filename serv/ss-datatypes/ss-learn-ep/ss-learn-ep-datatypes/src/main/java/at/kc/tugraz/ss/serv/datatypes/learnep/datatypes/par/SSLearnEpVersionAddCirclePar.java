@@ -54,16 +54,16 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
         yC                = (Float)    pars.get(SSVarU.yC);
       }
       
-      if(clientPars != null){
-        learnEpVersion    = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
-        label             = SSLabel.get      (clientPars.get(SSVarU.label));
-        xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
-        yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
-        xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
-        yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
-        xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
-        yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
-      }
+//      if(clientPars != null){
+//        learnEpVersion    = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
+//        label             = SSLabel.get      (clientPars.get(SSVarU.label));
+//        xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
+//        yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
+//        xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
+//        yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
+//        xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
+//        yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

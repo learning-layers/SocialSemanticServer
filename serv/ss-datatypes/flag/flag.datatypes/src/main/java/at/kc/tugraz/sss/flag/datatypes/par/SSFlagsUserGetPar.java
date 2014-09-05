@@ -32,18 +32,27 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "flagsUserGet request parameter")
 public class SSFlagsUserGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( value = "entities", required = false )
   public List<SSUri>   entities       = new ArrayList<>();
   
   @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty( value = "types", required = false )
   public List<SSFlagE> types          = new ArrayList<>();
+  
+  @XmlElement
+  public void setTypes(final List<String> types) throws Exception{
+    this.types = SSFlagE.get(types);
+  }
   
   @XmlElement
   @ApiModelProperty( value = "startTime", required = false )
@@ -68,22 +77,26 @@ public class SSFlagsUserGetPar extends SSServPar{
         endTime   = (Long)                     pars.get(SSVarU.endTime);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         try{
-          entities   = SSUri.get    (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
         try{
-          types  = SSFlagE.get (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.types), SSStrU.comma));
+          for(final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+            types.add(SSFlagE.get(objNode.asText()));
+          }
         }catch(Exception error){}
         
         try{
-          startTime  = Long.valueOf (clientPars.get(SSVarU.startTime));
+          startTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.startTime).asText());
         }catch(Exception error){}
         
         try{
-          endTime  = Long.valueOf (clientPars.get(SSVarU.endTime));
+          endTime  = Long.valueOf (par.clientJSONObj.get(SSVarU.endTime).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

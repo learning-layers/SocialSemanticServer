@@ -36,10 +36,6 @@ public class SSEntityUserEntityCirclesGetPar extends SSServPar{
         withSystemCircles   = (Boolean) pars.get(SSVarU.withSystemCircles);
       }
       
-      if(clientPars != null){
-        entity            = SSUri.get                    (clientPars.get(SSVarU.entity));
-        withSystemCircles = false;
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

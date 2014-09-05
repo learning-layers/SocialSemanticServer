@@ -34,11 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "ueGetPar request parameter")
 public class SSUEGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true, 
     value = "user event to retrieve")
   public SSUri ue       = null;
+
+  @XmlElement
+  public void setUe(final String ue) throws Exception{
+    this.ue = SSUri.get(ue);
+  }
   
   public SSUEGetPar(){}
   
@@ -52,8 +56,8 @@ public class SSUEGetPar extends SSServPar{
         ue   = (SSUri)    pars.get(SSVarU.ue);
       }      
       
-      if(clientPars != null){
-        ue   = SSUri.get    (clientPars.get(SSVarU.ue));
+      if(par.clientJSONObj != null){
+        ue   = SSUri.get    (par.clientJSONObj.get(SSVarU.ue).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

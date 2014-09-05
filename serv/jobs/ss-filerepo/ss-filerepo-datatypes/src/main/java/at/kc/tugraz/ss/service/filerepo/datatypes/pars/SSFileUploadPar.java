@@ -22,24 +22,31 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 
 @ApiModel(value = "file upload request parameter")
 public class SSFileUploadPar extends SSServPar{
   
   @ApiModelProperty(
-      value = "file mime type",
-      required = true)
-  public String   mimeType  = null;
+    value = "name",
+    required = true)
+  public SSLabel  label     = null;
+  
+  @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
   
   @ApiModelProperty(
-      value = "name",
-      required = true)
-  public SSLabel  label     = null;
+    value = "file mime type",
+    required = true)
+  public String   mimeType  = null;
   
   public SSFileUploadPar(){}
   
@@ -54,9 +61,9 @@ public class SSFileUploadPar extends SSServPar{
         label      = (SSLabel)    pars.get(SSVarU.label);
       }
       
-      if(clientPars != null){
-        mimeType =              clientPars.get (SSVarU.mimeType);
-        label    = SSLabel.get (clientPars.get (SSVarU.label));
+      if(par.clientJSONObj != null){
+        mimeType =              par.clientJSONObj.get(SSVarU.mimeType).asText();
+        label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

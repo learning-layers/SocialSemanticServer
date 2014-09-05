@@ -35,23 +35,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "collUserEntryAdd request parameter")
 public class SSCollUserEntryAddPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to add an entity to")
   public SSUri        coll        = null;
   
   @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
   @ApiModelProperty( 
     required = true, 
     value = "title of the collection entry ")
   public SSLabel      label       = null;
   
   @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+  
   @ApiModelProperty( 
     required = false, 
     value = "either null for the creation of new sub-collection, an existing collection or an entity")
   public SSUri        entry       = null;
+  
+  @XmlElement
+  public void setEntry(final String entry) throws Exception{
+    this.entry = SSUri.get(entry);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -74,16 +86,16 @@ public class SSCollUserEntryAddPar extends SSServPar{
         addNewColl     = (Boolean)     pars.get(SSVarU.addNewColl);
       }
       
-      if(clientPars != null){
-        coll  = SSUri.get       (clientPars.get(SSVarU.coll));
-        label = SSLabel.get     (clientPars.get(SSVarU.label));
+      if(par.clientJSONObj != null){
+        coll  = SSUri.get       (par.clientJSONObj.get(SSVarU.coll).asText());
+        label = SSLabel.get     (par.clientJSONObj.get(SSVarU.label).asText());
         
         try{
-          addNewColl     = Boolean.valueOf (clientPars.get(SSVarU.addNewColl));
+          addNewColl     = Boolean.valueOf (par.clientJSONObj.get(SSVarU.addNewColl).asText());
         }catch(Exception error){}
         
         try{
-          entry      = SSUri.get       (clientPars.get(SSVarU.entry));
+          entry      = SSUri.get       (par.clientJSONObj.get(SSVarU.entry).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

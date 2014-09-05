@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -44,10 +43,6 @@ public class SSEntityUserEntitiesAttachPar extends SSServPar{
         entities     = (List<SSUri>) pars.get(SSVarU.entities);
       }
       
-      if(clientPars != null){
-        entity       = SSUri.get(clientPars.get(SSVarU.entity));
-        entities     = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entities), SSStrU.comma));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -34,12 +34,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "discUserDiscURIsForTargetGet request parameter")
 public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "entity to retrieve discussions for")
   public SSUri entity  = null;
             
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
   public SSDiscUserDiscURIsForTargetGetPar(){}
     
   public SSDiscUserDiscURIsForTargetGetPar(SSServPar par) throws Exception{
@@ -52,8 +56,8 @@ public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
         entity        = (SSUri)              pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity        = SSUri.get             (clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity        = SSUri.get             (par.clientJSONObj.get(SSVarU.entity).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

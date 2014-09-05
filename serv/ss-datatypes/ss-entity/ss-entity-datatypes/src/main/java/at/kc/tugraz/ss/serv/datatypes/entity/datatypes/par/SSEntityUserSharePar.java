@@ -27,28 +27,41 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserShare request parameter")
 public class SSEntityUserSharePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "entity to be shared")
   public SSUri         entity          = null;
   
   @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
   @ApiModelProperty( 
     required = true, 
     value = "user to share the entity with")
   public List<SSUri>   users           = new ArrayList<>();
-  
+    
   @XmlElement
+  public void setUsers(final String users) throws Exception{
+    this.users = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma));
+  }
+  
   @ApiModelProperty( 
     required = false, 
     value = "textual comment for sharing")
   public SSTextComment comment         = null;
+
+  @XmlElement
+  public void getComment(final String comment) throws Exception{
+    this.comment = SSTextComment.get(comment);
+  }
 
   public SSEntityUserSharePar(){}
     
@@ -67,14 +80,19 @@ public class SSEntityUserSharePar extends SSServPar{
         }catch(Exception error){}
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
         saveActivity = true;
-        entity       = SSUri.get        (clientPars.get(SSVarU.entity));
-        users        = SSUri.get        (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.users), SSStrU.comma));
+        entity       = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
         
         try{
-          comment     = SSTextComment.get(clientPars.get(SSVarU.comment));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+            users.add(SSUri.get(objNode.asText()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          comment     = SSTextComment.get(par.clientJSONObj.get(SSVarU.comment).asText());
         }catch(Exception error){}
       }
     }catch(Exception error){

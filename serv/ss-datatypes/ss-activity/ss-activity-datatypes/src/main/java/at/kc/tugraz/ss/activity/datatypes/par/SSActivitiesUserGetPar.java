@@ -38,45 +38,45 @@ import org.codehaus.jackson.JsonNode;
 @ApiModel(value = "activitiesUserGet request parameter")
 public class SSActivitiesUserGetPar extends SSServPar{
   
-  @XmlElement
-  public void setTypes(final String types) throws Exception{
-    this.types = SSActivityE.get(SSStrU.splitDistinctWithoutEmptyAndNull(types, SSStrU.comma));
-  }
-  
-  @XmlElement
-  public void setUsers(final String users) throws Exception{
-    this.users = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma));
-  }
-  
-  @XmlElement
-  public void setEntities(final String entities) throws Exception{
-    this.entities = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma));
-  }
-  
-  @XmlElement
-  public void setCircles(final String circles) throws Exception{
-    this.circles = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(circles, SSStrU.comma));
-  }
-  
   @ApiModelProperty(
     required = false,
     value = "types of activities to be queried (optional)")
   public List<SSActivityE>      types            = new ArrayList<>();
   
+  @XmlElement
+  public void setTypes(final List<String> types) throws Exception{
+    this.types = SSActivityE.get(types);
+  }
+
   @ApiModelProperty(
     required = false,
     value = "users which have been involved in activities (optional)")
   public List<SSUri>            users            = new ArrayList<>();
+  
+  @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
+  }
   
   @ApiModelProperty(
     required = false,
     value = "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)" )
   public List<SSUri>            entities         = new ArrayList<>();
   
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "groups for which activities shall be retrieved (optional)" )
   public List<SSUri>            circles          = new ArrayList<>();
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
+  }
   
   @XmlElement
   @ApiModelProperty(

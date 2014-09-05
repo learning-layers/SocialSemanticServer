@@ -29,11 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "entityUserEntityUsersGet request parameter")
 public class SSEntityUserEntityUsersGetPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "entity to retrieve users for")  
   public SSUri        entity       = null;
+    
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
 
   public SSEntityUserEntityUsersGetPar(){}
   
@@ -47,8 +51,8 @@ public class SSEntityUserEntityUsersGetPar extends SSServPar{
         entity       = (SSUri)        pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity   = SSUri.get        (clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).asText());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

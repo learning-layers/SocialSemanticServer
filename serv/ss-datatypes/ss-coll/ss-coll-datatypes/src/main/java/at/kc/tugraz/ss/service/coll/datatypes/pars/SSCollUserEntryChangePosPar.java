@@ -23,6 +23,7 @@
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -31,16 +32,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "collUserEntryChangePos request parameter")
 public class SSCollUserEntryChangePosPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to change entry order")
   public  SSUri         coll         = null;
+  
+  @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -61,10 +67,13 @@ public class SSCollUserEntryChangePosPar extends SSServPar{
         order      = (List<String>) pars.get(SSVarU.order);
       }
       
-      if(clientPars != null){
-        coll       = SSUri.get     (clientPars.get(SSVarU.coll));
-        order      = SSStrU.split  (clientPars.get(SSVarU.order), SSStrU.comma);
-      }      
+      if(par.clientJSONObj != null){
+        coll       = SSUri.get     (par.clientJSONObj.get(SSVarU.coll).asText());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.order)) {
+          order.add(objNode.asText());
+        }
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

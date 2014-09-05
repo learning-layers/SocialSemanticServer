@@ -31,22 +31,31 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "collUserEntriesDelete request parameter")
 public class SSCollUserEntriesDeletePar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty( 
     required = true, 
     value = "collection to delete entries from")
   public SSUri       coll     = null;
   
   @XmlElement
+  public void setColl(final String coll) throws Exception{
+    this.coll = SSUri.get(coll);
+  }
+  
   @ApiModelProperty( 
     required = true, 
     value = "items to delete")
   public List<SSUri> entries  = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntries(final List<String> entries) throws Exception{
+    this.entries = SSUri.get(entries);
+  }
       
   public SSCollUserEntriesDeletePar(){}
   
@@ -61,10 +70,13 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
         entries  = (List<SSUri>) pars.get(SSVarU.entries);
       }
       
-      if(clientPars != null){
+      if(par.clientJSONObj != null){
         
-        coll    = SSUri.get  (clientPars.get(SSVarU.coll));
-        entries = SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(clientPars.get(SSVarU.entries), SSStrU.comma));
+        coll    = SSUri.get  (par.clientJSONObj.get(SSVarU.coll).asText());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entries)) {
+          entries.add(SSUri.get(objNode.asText()));
+        }
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

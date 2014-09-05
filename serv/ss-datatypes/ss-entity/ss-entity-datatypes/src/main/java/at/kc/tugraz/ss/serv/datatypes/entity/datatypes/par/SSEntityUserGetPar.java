@@ -40,8 +40,12 @@ public class SSEntityUserGetPar extends SSServPar{
     value = "")
   public SSUri    entity         = null;
   
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   public SSEntityUserGetPar(){}
-    
+  
   public SSEntityUserGetPar(SSServPar par) throws Exception{
     
     super(par);
@@ -52,8 +56,8 @@ public class SSEntityUserGetPar extends SSServPar{
         entity = (SSUri)   pars.get(SSVarU.entity);
       }
       
-      if(clientPars != null){
-        entity = SSUri.get(clientPars.get(SSVarU.entity));
+      if(par.clientJSONObj != null){
+        entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).asText());
       }
       
     }catch(Exception error){

@@ -34,9 +34,6 @@ public class SSEntityCircleUserAddPar extends SSServPar{
         circle       = (SSUri)        pars.get(SSVarU.circle);
       }
       
-      if(clientPars != null){
-        circle       = SSUri.get      (clientPars.get(SSVarU.circle));
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
