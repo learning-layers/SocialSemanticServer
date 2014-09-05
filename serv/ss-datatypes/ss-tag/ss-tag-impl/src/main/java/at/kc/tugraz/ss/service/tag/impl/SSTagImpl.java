@@ -242,7 +242,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       if(
         par.forUser != null &&
         !SSStrU.equals(par.user,  par.forUser)){
-        throw new Exception("user cannot get resources via tags for different users");
+        par.space = SSSpaceE.sharedSpace;
       }
       
       if(par.space == null){
