@@ -99,6 +99,7 @@ public enum SSMethU{
   entityUserCopy,
   entityUserEntitiesAttach,
   entityEntityToPrivCircleAdd,
+  entityEntityToPubCircleAdd,
   entityCopy, 
   entityUserEntityUsersGet,
   entityDirectlyAdjoinedEntitiesRemove,

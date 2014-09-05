@@ -65,6 +65,7 @@ public interface SSEntityServerI {
   public SSUri                           entityCircleURIPubGet                    (final SSServPar parA) throws Exception;
   public SSUri                           entityCircleCreate                       (final SSServPar parA) throws Exception;
   public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
+  public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;
   public SSUri                           entityEntitiesToCircleAdd                (final SSServPar parA) throws Exception;
   public SSUri                           entityUsersToCircleAdd                   (final SSServPar parA) throws Exception;
   public SSCircleE                       entityMostOpenCircleTypeGet              (final SSServPar parA) throws Exception;

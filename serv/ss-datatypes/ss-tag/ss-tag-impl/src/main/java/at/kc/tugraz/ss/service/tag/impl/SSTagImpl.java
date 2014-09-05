@@ -60,6 +60,7 @@ import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import java.util.*;
+import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
@@ -282,31 +283,86 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     
     try{
       
-      final SSTagAddPar par       = new SSTagAddPar(parA);
-      final Boolean     existsTag = sqlFct.existsTagLabel    (par.label);
-      final SSUri       tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
-
-//      SSServCaller.entityUserCanRead(par.user, par.entity);
-        
+      final SSTagAddPar par          = new SSTagAddPar(parA);
+      final Boolean     existsTag;
+      final Boolean     existsEntity = SSServCaller.entityExists(par.entity);
+      final SSUri       tagUri;
+      
+      if(existsEntity){
+        SSServCaller.entityUserCanRead(par.user, par.entity);
+      }
+      
+      existsTag = sqlFct.existsTagLabel    (par.label);
+      tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        par.entity,
-        SSEntityE.entity,
-        null,
-        null,
-        null,
-        false);
-      
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        tagUri,
-        SSEntityE.tag,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        null,
-        par.creationTime,
-        false);
+      if(existsEntity){
+        
+        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false);
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            tagUri,
+            SSEntityE.tag,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+          
+        }else{
+          
+          SSServCaller.entityEntityToPubCircleAdd(
+            par.user,
+            tagUri,
+            SSEntityE.tag,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+        }
+      }else{
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          par.entity,
+          SSEntityE.entity,
+          null,
+          null,
+          null,
+          false);
+        
+        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            tagUri,
+            SSEntityE.tag,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+          
+        }else{
+          SSServCaller.entityEntityToPubCircleAdd(
+            par.user,
+            tagUri,
+            SSEntityE.tag,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+        }
+      }
       
       sqlFct.addTagAssIfNotExists(
         tagUri,
@@ -319,7 +375,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       
       return tagUri;
       
-   }catch(Exception error){
+    }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
@@ -338,7 +394,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
       return null;
     }
   }
-
+  
   @Override
   public void tagEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     

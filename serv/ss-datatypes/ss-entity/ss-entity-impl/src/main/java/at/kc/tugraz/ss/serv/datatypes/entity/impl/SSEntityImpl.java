@@ -54,6 +54,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttac
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPrivCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPubCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFilesGetPar;
@@ -678,6 +679,50 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
         sqlFct.addOrGetPrivCircleURI    (par.user),
+        SSUri.asListWithoutNullAndEmpty (par.entity), 
+        false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          entityEntityToPrivCircleAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void entityEntityToPubCircleAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityEntityToPubCircleAddPar par = new SSEntityEntityToPubCircleAddPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.addEntityIfNotExists(
+        par.entity,
+        par.type,
+        par.label,
+        par.description,
+        par.user,
+        par.creationTime);
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        par.user,
+        sqlFct.addOrGetPubCircleURI(),
         SSUri.asListWithoutNullAndEmpty (par.entity), 
         false);
       

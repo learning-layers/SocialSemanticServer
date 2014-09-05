@@ -226,6 +226,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         par.creationTime, 
         false);
       
+      //TODO dhteiler: remove possibly same user par.user from par.users
+      
       sqlFct.addActivity(
         par.user,
         activityUri, 

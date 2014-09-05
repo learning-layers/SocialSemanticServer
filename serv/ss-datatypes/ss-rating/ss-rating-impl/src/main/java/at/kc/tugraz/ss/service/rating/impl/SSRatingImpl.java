@@ -211,35 +211,62 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   public Boolean ratingUserSet(SSServPar parA) throws Exception {
     
     try{
-      final SSRatingUserSetPar par       = new SSRatingUserSetPar(parA);
-    
-//      SSServCaller.entityUserCanRead(par.user, par.entity);
+      final SSRatingUserSetPar par          = new SSRatingUserSetPar(parA);
+      final Boolean            existsEntity = SSServCaller.entityExists(par.entity);
+      final SSUri              ratingUri;
+      
+      if(existsEntity){
+        SSServCaller.entityUserCanRead(par.user, par.entity);
+      }
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;
       }
       
-      final SSUri ratingUri = sqlFct.createRatingUri();
+      ratingUri = sqlFct.createRatingUri();
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        par.entity,
-        SSEntityE.entity,
-        SSLabel.get(par.entity),
-        null,
-        null,
-        false);
+      if(!existsEntity){
+        
+        SSServCaller.entityEntityToPrivCircleAdd(
+          par.user,
+          par.entity,
+          SSEntityE.entity,
+          SSLabel.get(par.entity),
+          null,
+          null,
+          false);
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          par.entity,
+          SSEntityE.entity,
+          SSLabel.get(par.entity),
+          null,
+          null,
+          false);
+        
+      }else{
+        
+        SSServCaller.entityEntityToPrivCircleAdd(
+          par.user,
+          par.entity,
+          SSEntityE.entity,
+          SSLabel.get(par.entity),
+          null,
+          null,
+          false);
+      }
       
       SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        ratingUri, 
-        SSEntityE.rating, 
-        null, 
-        null, 
-        null, 
-        false);
+          par.user, 
+          ratingUri, 
+          SSEntityE.rating, 
+          null, 
+          null, 
+          null, 
+          false);
       
       sqlFct.rateEntityByUser(
         ratingUri, 

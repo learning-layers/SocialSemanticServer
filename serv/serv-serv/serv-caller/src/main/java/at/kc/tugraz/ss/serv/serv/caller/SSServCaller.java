@@ -1076,6 +1076,28 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.entityEntityToPrivCircleAdd, opPars));
   }
   
+  public static void entityEntityToPubCircleAdd(
+    final SSUri         user, 
+    final SSUri         entity, 
+    final SSEntityE     type,
+    final SSLabel       label,
+    final SSTextComment description, 
+    final Long          creationTime, 
+    final Boolean       shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.entity,           entity);
+    opPars.put(SSVarU.type,             type);
+    opPars.put(SSVarU.label,            label);
+    opPars.put(SSVarU.description,      description);
+    opPars.put(SSVarU.creationTime,     creationTime);
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityEntityToPubCircleAdd, opPars));
+  }
+  
   public static List<SSUri> entityFilesGet(
     final SSUri user, 
     final SSUri entity) throws Exception{
@@ -1201,12 +1223,24 @@ public class SSServCaller {
   }
   
   public static Boolean entityExists(
+    final SSUri      entity) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarU.type,      null);
+    opPars.put(SSVarU.label,     null);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityExists, opPars));
+  }
+  
+  public static Boolean entityExists(
     final SSEntityE  type,
     final SSLabel    label) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity, null);
+    opPars.put(SSVarU.entity,    null);
     opPars.put(SSVarU.type,      type);
     opPars.put(SSVarU.label,     label);
     
