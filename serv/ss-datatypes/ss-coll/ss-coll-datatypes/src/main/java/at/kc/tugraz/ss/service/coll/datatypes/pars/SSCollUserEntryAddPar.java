@@ -91,7 +91,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
         label = SSLabel.get     (par.clientJSONObj.get(SSVarU.label).getTextValue());
         
         try{
-          addNewColl     = Boolean.valueOf (par.clientJSONObj.get(SSVarU.addNewColl).getTextValue());
+          addNewColl     = par.clientJSONObj.get(SSVarU.addNewColl).getBooleanValue();
         }catch(Exception error){}
         
         try{

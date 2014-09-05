@@ -125,6 +125,10 @@ public class SSTag extends SSEntity{
   public String getLabel(){
     return SSStrU.toStr(tagLabel);
   }
+  
+  public String getTagLabel(){
+    return SSStrU.toStr(tagLabel);
+  }
 }
 
 

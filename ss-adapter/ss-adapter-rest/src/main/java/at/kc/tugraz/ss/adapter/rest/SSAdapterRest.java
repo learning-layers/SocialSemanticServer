@@ -23,7 +23,9 @@ package at.kc.tugraz.ss.adapter.rest;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
@@ -221,6 +223,17 @@ public class SSAdapterRest{
     response = SSActivitiesUserGetRet.class)
   public String activitiesGet(final SSActivitiesUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "activityAdd")
+  @ApiOperation(
+    value = "add an activity",
+    response = SSActivityUserAddRet.class)
+  public String activityAdd(final SSActivityAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activityAdd);
   }
   
   @POST

@@ -147,12 +147,14 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         if(
           startTime != null &&
+          startTime != 0    &&
           timestamp <= startTime){
           continue;
         }
         
         if(
           endTime != null &&
+          endTime != 0    &&
           timestamp >= endTime){
           continue;
         }

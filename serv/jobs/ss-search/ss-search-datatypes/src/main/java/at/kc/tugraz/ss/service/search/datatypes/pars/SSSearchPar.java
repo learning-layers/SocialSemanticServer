@@ -194,7 +194,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeTextualContent        = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTextualContent).getTextValue());                                                                  }catch(Exception error){}
+        try{ includeTextualContent        = par.clientJSONObj.get(SSVarU.includeTextualContent).getBooleanValue();                                                       }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.wordsToSearchFor)) {
@@ -202,7 +202,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeTags                  = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeTags).getTextValue());                                                                            }catch(Exception error){}
+        try{ includeTags                  = par.clientJSONObj.get(SSVarU.includeTags).getBooleanValue();                                                                       }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tagsToSearchFor)) {
@@ -210,7 +210,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeMIs                   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeMIs).getTextValue());                                                                             }catch(Exception error){}
+        try{ includeMIs                   = par.clientJSONObj.get(SSVarU.includeMIs).getBooleanValue();                                                                       }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.misToSearchFor)) {
@@ -218,7 +218,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
          
-        try{ includeLabel                 = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeLabel).getTextValue());                                                                           }catch(Exception error){}
+        try{ includeLabel                 = par.clientJSONObj.get(SSVarU.includeLabel).getBooleanValue();                                                                       }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labelsToSearchFor)) {
@@ -226,7 +226,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeDescription           = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeDescription).getTextValue());                                                                     }catch(Exception error){}
+        try{ includeDescription           = par.clientJSONObj.get(SSVarU.includeDescription).getBooleanValue();                                                                  }catch(Exception error){}
         
         try{ 
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.descriptionsToSearchFor)) {
@@ -240,7 +240,7 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeOnlySubEntities       = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeOnlySubEntities).getTextValue());                                                                 }catch(Exception error){}
+        try{ includeOnlySubEntities       = par.clientJSONObj.get(SSVarU.includeOnlySubEntities).getBooleanValue();                                                                }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entitiesToSearchWithin)) {
@@ -248,9 +248,9 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ extendToParents              = Boolean.valueOf(par.clientJSONObj.get(SSVarU.extendToParents).getTextValue());                                                                        }catch(Exception error){}
-        try{ includeRecommendedResults    = Boolean.valueOf(par.clientJSONObj.get(SSVarU.includeRecommendedResults).getTextValue());                                                              }catch(Exception error){}
-        try{ provideEntries               = Boolean.valueOf(par.clientJSONObj.get(SSVarU.provideEntries).getTextValue());                                                                         }catch(Exception error){}
+        try{ extendToParents              = par.clientJSONObj.get(SSVarU.extendToParents).getBooleanValue();                                                                       }catch(Exception error){}
+        try{ includeRecommendedResults    = par.clientJSONObj.get(SSVarU.includeRecommendedResults).getBooleanValue();                                                             }catch(Exception error){}
+        try{ provideEntries               = par.clientJSONObj.get(SSVarU.provideEntries).getBooleanValue();                                                                        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

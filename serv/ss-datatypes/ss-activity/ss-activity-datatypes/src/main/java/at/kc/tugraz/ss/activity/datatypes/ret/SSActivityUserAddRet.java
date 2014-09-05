@@ -18,52 +18,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.ret;
+package at.kc.tugraz.ss.activity.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
+public class SSActivityUserAddRet extends SSServRetI{
+ 
+  public SSUri activity = null;
 
-  public final List<SSTagFrequ> tagFrequs = new ArrayList<>();
-
-  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSMethU op){
-    return new SSCollUserCumulatedTagsGetRet(tagFrequs, op);
+  public static SSActivityUserAddRet get(
+    final SSUri      activity, 
+    final SSMethU    op){
+    
+    return new SSActivityUserAddRet(activity, op);
   }
   
-  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSMethU op) {
+  private SSActivityUserAddRet(
+    final SSUri      activity, 
+    final SSMethU    op) {
 
     super(op);
     
-    if(tagFrequs != null){
-      this.tagFrequs.addAll(tagFrequs);
-    }
+    this.activity = activity;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld           = new HashMap<>();
-    Map<String, Object> tagFrequsObj = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
-    tagFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTagFrequ.class.getName());
-    tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.tagFrequs, tagFrequsObj);
+    ld.put(SSVarU.activity,  SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
   /* json getters */
-  public List<SSTagFrequ> getTagFrequs(){
-    return tagFrequs;
+  public String getActivity() {
+    return SSStrU.removeTrailingSlash(activity);
   }
 }

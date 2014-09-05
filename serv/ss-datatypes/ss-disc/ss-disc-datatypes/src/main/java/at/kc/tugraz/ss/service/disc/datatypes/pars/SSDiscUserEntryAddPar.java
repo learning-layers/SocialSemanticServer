@@ -153,7 +153,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          addNewDisc  = Boolean.valueOf       (par.clientJSONObj.get(SSVarU.addNewDisc).getTextValue());
+          addNewDisc  = par.clientJSONObj.get(SSVarU.addNewDisc).getBooleanValue();
         }catch(Exception error){}
         
         try{

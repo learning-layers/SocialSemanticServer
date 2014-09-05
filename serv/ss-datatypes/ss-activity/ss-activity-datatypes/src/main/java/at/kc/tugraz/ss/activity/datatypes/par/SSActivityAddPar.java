@@ -26,15 +26,56 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
+@XmlRootElement
+@ApiModel(value = "activityAdd request parameter")
 public class SSActivityAddPar extends SSServPar{
 
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "type of the activity to be stored")
   public SSActivityE            type             = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "involved users")
   public List<SSUri>            users            = new ArrayList<>();
+  
+  @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "involved entities")
   public List<SSUri>            entities         = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "possible comments attached to this activity")
   public List<SSTextComment>    comments         = new ArrayList<>();
+  
+  @XmlElement
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
+  }
+  
+  @JsonIgnore
   public Long                   creationTime     = null;
   
   public SSActivityAddPar(final SSServPar par) throws Exception{
@@ -50,6 +91,30 @@ public class SSActivityAddPar extends SSServPar{
         entities      = (List<SSUri>)         pars.get(SSVarU.entities);
         comments      = (List<SSTextComment>) pars.get(SSVarU.comments);
         creationTime  = (Long)                pars.get(SSVarU.creationTime);
+      }
+      
+      if(par.clientJSONObj != null){
+        
+        type          = SSActivityE.get(par.clientJSONObj.get(SSVarU.type).getTextValue());
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+            users.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
+            comments.add(SSTextComment.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
       }
       
     }catch(Exception error){

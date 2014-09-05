@@ -89,19 +89,19 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
         entity     = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{
-          removeUserTags   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserTags).getTextValue());
+          removeUserTags   = par.clientJSONObj.get(SSVarU.removeUserTags).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeUserRatings   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserRatings).getTextValue());
+          removeUserRatings   = par.clientJSONObj.get(SSVarU.removeUserRatings).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeFromUserColls   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeFromUserColls).getTextValue());
+          removeFromUserColls   = par.clientJSONObj.get(SSVarU.removeFromUserColls).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeUserLocations   = Boolean.valueOf(par.clientJSONObj.get(SSVarU.removeUserLocations).getTextValue());
+          removeUserLocations   = par.clientJSONObj.get(SSVarU.removeUserLocations).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){
