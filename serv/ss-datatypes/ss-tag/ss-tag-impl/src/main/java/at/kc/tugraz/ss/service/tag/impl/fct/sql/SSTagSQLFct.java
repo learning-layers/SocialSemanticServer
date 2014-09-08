@@ -283,7 +283,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         if(
           startTime != null &&
           startTime != 0    &&
-          bindingStrToLong(resultSet, SSSQLVarU.creationTime) > startTime){
+          bindingStrToLong(resultSet, SSSQLVarU.creationTime) < startTime){
           continue;
         }
         

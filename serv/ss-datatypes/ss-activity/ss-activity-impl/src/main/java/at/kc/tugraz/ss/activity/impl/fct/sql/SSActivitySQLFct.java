@@ -210,14 +210,14 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         if(
           startTime != null &&
           startTime != 0    &&
-          timestamp < startTime){
+          timestamp <= startTime){
           continue;
         }
         
         if(
           endTime != null &&
           endTime != 0    &&
-          timestamp > endTime){
+          timestamp >= endTime){
           continue;
         }
         
