@@ -1,5 +1,5 @@
 {
-  "apiVersion" : "4.1.0-alpha",
+  "apiVersion" : "rc_5.1.0-alpha",
   "swaggerVersion" : "1.2",
   "basePath" : "http://localhost:8084/ss-adapter-rest/",
   "resourcePath" : "/SSAdapterRESTFileUpload",
