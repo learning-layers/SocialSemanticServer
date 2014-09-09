@@ -28,25 +28,33 @@ import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.impl.*;
 import java.util.List;
+import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrServer;
 
 public class SSSolrServ extends SSServA{
   
-  public static final SSServA  inst = new SSSolrServ(SSSolrClientI.class, SSSolrServerI.class);
+  public    static final SSServA              inst       = new SSSolrServ(SSSolrClientI.class, SSSolrServerI.class);
+  protected static ConcurrentUpdateSolrServer solrServer = null;
   
   protected SSSolrServ(
     final Class servImplClientInteraceClass, 
-    final Class servImplServerInteraceClass){
+    final Class servImplServerInteraceClass) {
     
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSSolrImpl((SSFileRepoConf)servConf);
+    return new SSSolrImpl((SSFileRepoConf)servConf, solrServer);
   }
 
   @Override
   public void initServ() throws Exception{
+     
+    if(!servConf.use){
+      return;
+    }
+    
+    solrServer = new ConcurrentUpdateSolrServer(((SSFileRepoConf)servConf).getPath(), 1, 10);
   }
   
   @Override

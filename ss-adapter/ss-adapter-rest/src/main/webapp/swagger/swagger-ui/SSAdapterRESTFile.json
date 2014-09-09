@@ -1,5 +1,5 @@
 {
-  "apiVersion" : "rc_5.1.0-alpha",
+  "apiVersion" : "6.0.0-alpha",
   "swaggerVersion" : "1.2",
   "basePath" : "http://localhost:8084/ss-adapter-rest/",
   "resourcePath" : "/SSAdapterRESTFile",
@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"

@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSFileServCaller{
   
@@ -66,15 +66,16 @@ public class SSFileServCaller{
         par.mimeType,
         shouldCommit);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+        return;
       }
       
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
     }
   }
   
@@ -94,15 +95,16 @@ public class SSFileServCaller{
             par.file)),
         shouldCommit);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+        return;
       }
       
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.warn(error.getMessage());
+      
+      SSServErrReg.reset();
     }
   }
 }

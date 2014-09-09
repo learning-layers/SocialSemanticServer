@@ -49,8 +49,8 @@ public class SSEntityUserSharePar extends SSServPar{
   public List<SSUri>   users           = new ArrayList<>();
     
   @XmlElement
-  public void setUsers(final String users) throws Exception{
-    this.users = SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma));
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
   }
   
   @ApiModelProperty( 

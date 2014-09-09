@@ -46,11 +46,11 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
   private final ConcurrentUpdateSolrServer solrUpdater;
   private final String                     localWorkPath;
   
-  public SSSolrImpl(final SSConfA conf) throws Exception{
+  public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrServer solrCon) throws Exception{
     
     super(conf);
     
-    solrUpdater    = new ConcurrentUpdateSolrServer(((SSFileRepoConf) conf).getPath(), 1, 10);
+    solrUpdater    = solrCon;
     localWorkPath  = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
     
     SSLogU.info("connected to Solr server @ " + ((SSFileRepoConf) conf).getPath() + ".");
@@ -75,7 +75,7 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
       csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
 
       response = solrUpdater.request(csur);
-      
+
       SSLogU.info("document w/ id " + par.id + " added successfully. ");
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

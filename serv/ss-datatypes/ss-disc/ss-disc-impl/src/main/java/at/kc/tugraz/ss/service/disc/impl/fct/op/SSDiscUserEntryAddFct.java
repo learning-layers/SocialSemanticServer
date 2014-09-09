@@ -65,7 +65,7 @@ public class SSDiscUserEntryAddFct{
         userUri,
         tmpTargetUri,
         SSEntityE.entity,
-        SSLabel.get(tmpTargetUri),
+        null,
         description,
         null,
         false);

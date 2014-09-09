@@ -153,12 +153,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         entity, 
         par.accessRight);
       
-      SSEntityMiscFct.checkWhetherUserHasRightInAnyCircleOfEntity(
-        sqlFct, 
-        par.user, 
-        par.entity, 
-        par.accessRight);
-      
     }catch(SSErr error){
       SSServErrReg.regErrThrow (new SSErr(SSErrE.userNotAllowedToAccessEntity));
     }catch(Exception error){      
@@ -229,6 +223,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSServCaller.entityUserCanEdit                          (par.user, par.entity);
       SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
       SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
+      
+      if(par.users.isEmpty()){
+        return par.entity;
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -1306,17 +1304,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.description,
           par.isSystemCircle);
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        par.user, 
-        circleUri,    
-        par.entities, 
-        false);
+      if(!par.entities.isEmpty()){
       
-      SSServCaller.entityUsersToCircleAdd(
-        par.user, 
-        circleUri,   
-        par.users,  
-        false);
+        SSServCaller.entityEntitiesToCircleAdd(
+          par.user, 
+          circleUri,    
+          par.entities, 
+          false);
+      }
+      
+      if(!par.users.isEmpty()){
+        
+        SSServCaller.entityUsersToCircleAdd(
+          par.user, 
+          circleUri,   
+          par.users,  
+          false);
+      }
       
       sqlFct.addUserToCircleIfNotExists(
         circleUri, 

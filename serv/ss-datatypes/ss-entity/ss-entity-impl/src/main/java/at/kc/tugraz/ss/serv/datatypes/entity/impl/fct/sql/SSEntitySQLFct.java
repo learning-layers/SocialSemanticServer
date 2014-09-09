@@ -740,6 +740,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         circleObj.description = bindingStrToTextComment (resultSet, SSSQLVarU.description);
         
         circleObj.users.addAll(getUserURIsForCircle(circleObj.id));
+        
+        circles.add(circleObj);
       }
       
       return circles;

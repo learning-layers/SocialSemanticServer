@@ -438,23 +438,6 @@ public class SSEntityMiscFct{
     }
   }
 
-  public static void checkWhetherUserHasRightInAnyCircleOfEntity(
-    final SSEntitySQLFct sqlFct,
-    final SSUri          user,
-    final SSUri          entity,
-    final SSCircleRightE accessRight) throws Exception{
-    
-    try{
-      
-      if(!doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity, accessRight)){
-        throw new SSErr(SSErrE.userDoesntHaveRightInAnyCircleOfEntity);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static Boolean doesUserHaveRightInAnyCircleOfEntity(
     final SSEntitySQLFct sqlFct, 
     final SSUri          user, 

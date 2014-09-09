@@ -40,12 +40,20 @@ public class SSEntityUserCanFct{
       switch(entity.type){
         case entity: return; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
         case circle: {
-
+          
           try{
             SSEntityMiscFct.checkWhetherUserIsInCircle       (sqlFct, user,      entity.id);
             SSEntityMiscFct.checkWhetherCircleOfTypeHasRight (sqlFct, entity.id, accessRight);
           }catch(Exception error){
             throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+          }
+          
+          break;
+        }
+        
+        default:{
+          if(!SSEntityMiscFct.doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity.id, accessRight)){
+            throw new SSErr(SSErrE.userDoesntHaveRightInAnyCircleOfEntity);
           }
         }
       }
