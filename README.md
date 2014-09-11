@@ -52,7 +52,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `/solrPackage/contrib/`
  * `/solrPackage/dist/`
  * for certain bug-fixes for PDF extraction and indexing 
-  * upgrade in `/solrPackage/contrib/extraction/`
+  * upgrade in `solr home lib/contrib/extraction/`
     * `pdfbox-1.8.4.jar` to `pdfbox-1.8.6.jar`
     * `tika-core-1.5.jar` to tika-core-1.6.jar`
     * `tika-parsers-1.5.jar` to `tika-parsers-1.6.jar`
