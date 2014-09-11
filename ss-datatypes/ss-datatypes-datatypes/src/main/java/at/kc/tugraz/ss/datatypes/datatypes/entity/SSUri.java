@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.datatypes.datatypes.entity;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSLinkU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -44,6 +45,12 @@ public class SSUri extends SSEntityA{
       try{
         java.net.URI.create (string);
         URLEncoder.encode   (string, SSEncodingU.utf8);
+        
+        if(string.length() > 250){
+          SSLogU.warn("uri too long (> 250 chars) to be stored in sss");
+          return false;
+        }
+        
       }catch(Exception error){
         return false;
       }

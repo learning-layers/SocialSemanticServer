@@ -40,7 +40,6 @@ import sss.serv.err.datatypes.SSErrE;
 
 public abstract class SSServA{
 
-  public    static final String                                       policyFile                      = "<policy-file-request/>";
   public                 SSConfA                                      servConf                        = null;
   protected        final Class                                        servImplClientInteraceClass;  
   protected        final Class                                        servImplServerInteraceClass;  
