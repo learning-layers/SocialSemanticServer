@@ -53,10 +53,10 @@ The source-code can be directly checked-out through this repository. It contains
  * `/solrPackage/dist/`
  * for certain bug-fixes for PDF extraction and indexing 
   * upgrade in `/solrPackage/contrib/extraction/`
-   * `pdfbox-1.8.4.jar` to `pdfbox-1.8.6.jar`
-   * `tika-core-1.5.jar` to tika-core-1.6.jar`
-   * `tika-parsers-1.5.jar` to `tika-parsers-1.6.jar`
-   * `tika-xmp-1.5.jar` to `tika-xmp-1.6.jar`
+    * `pdfbox-1.8.4.jar` to `pdfbox-1.8.6.jar`
+    * `tika-core-1.5.jar` to tika-core-1.6.jar`
+    * `tika-parsers-1.5.jar` to `tika-parsers-1.6.jar`
+    * `tika-xmp-1.5.jar` to `tika-xmp-1.6.jar`
 * replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir (e.g.: `/solr/collection1/conf`) with: 
  * `SSS/ss/src/main/resources/conf/solr_schema.xml`
  * `SSS/ss/src/main/resources/conf/solr_solrconfig.xml`
