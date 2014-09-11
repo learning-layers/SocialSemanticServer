@@ -75,7 +75,7 @@ DROP TABLE IF EXISTS `activityentities`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activityentities` (
   `activityId` varchar(100) NOT NULL,
-  `entityId` varchar(100) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   PRIMARY KEY (`activityId`,`entityId`),
   CONSTRAINT `activityIdactivitytargetentities` FOREIGN KEY (`activityId`) REFERENCES `activity` (`activityId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -171,7 +171,7 @@ DROP TABLE IF EXISTS `categoryass`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categoryass` (
   `categoryId` varchar(100) NOT NULL,
-  `entityId` varchar(100) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `userId` varchar(100) NOT NULL,
   `categorySpace` varchar(100) NOT NULL,
   PRIMARY KEY (`categoryId`,`entityId`,`userId`,`categorySpace`),
@@ -224,11 +224,11 @@ DROP TABLE IF EXISTS `circleentities`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `circleentities` (
   `circleId` varchar(100) NOT NULL,
-  `entityId` varchar(100) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   PRIMARY KEY (`circleId`,`entityId`),
   KEY `entityIdFKcircleentities_idx` (`entityId`),
-  CONSTRAINT `circleIdFKcircleentities` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKcircleentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKcircleentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `circleIdFKcircleentities` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -300,7 +300,7 @@ DROP TABLE IF EXISTS `collentrypos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `collentrypos` (
   `collId` varchar(200) NOT NULL,
-  `entryId` varchar(200) NOT NULL,
+  `entryId` varchar(255) NOT NULL,
   `pos` varchar(200) NOT NULL,
   PRIMARY KEY (`collId`,`entryId`,`pos`),
   KEY `collIdFKcollentrypos_idx` (`collId`),
@@ -429,7 +429,7 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comment` (
   `commentId` varchar(200) NOT NULL,
-  `commentContent` varchar(500) NOT NULL,
+  `commentContent` varchar(1000) NOT NULL,
   PRIMARY KEY (`commentId`),
   CONSTRAINT `commentId` FOREIGN KEY (`commentId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -452,13 +452,13 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `commentId` varchar(200) NOT NULL,
   PRIMARY KEY (`entityId`,`commentId`),
   KEY `commentId_idx` (`commentId`),
   KEY `commentIdFKcomments_idx` (`commentId`),
-  CONSTRAINT `commentIdFKcomments` FOREIGN KEY (`commentId`) REFERENCES `comment` (`commentId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKcomments` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKcomments` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `commentIdFKcomments` FOREIGN KEY (`commentId`) REFERENCES `comment` (`commentId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -480,12 +480,12 @@ DROP TABLE IF EXISTS `disc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disc` (
   `discId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   PRIMARY KEY (`discId`,`entityId`),
   KEY `discIdFKdisc_idx` (`discId`),
   KEY `targetFKdisc_idx` (`entityId`),
-  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKdisc` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKdisc` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -583,8 +583,8 @@ DROP TABLE IF EXISTS `entities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entities` (
-  `entityId` varchar(200) NOT NULL,
-  `attachedEntityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  `attachedEntityId` varchar(255) NOT NULL,
   PRIMARY KEY (`entityId`,`attachedEntityId`),
   KEY `attachedEntityIdFKentities_idx` (`attachedEntityId`),
   CONSTRAINT `attachedEntityIdFKentities` FOREIGN KEY (`attachedEntityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -609,12 +609,12 @@ DROP TABLE IF EXISTS `entity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entity` (
-  `id` varchar(200) NOT NULL,
-  `label` varchar(200) NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `label` varchar(255) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
-  `description` varchar(500) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
   FULLTEXT KEY `labelIndexEntity` (`label`),
@@ -639,8 +639,8 @@ DROP TABLE IF EXISTS `evernotenote`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `evernotenote` (
-  `noteId` varchar(200) NOT NULL,
-  `notebookId` varchar(200) NOT NULL,
+  `noteId` varchar(255) NOT NULL,
+  `notebookId` varchar(255) NOT NULL,
   PRIMARY KEY (`noteId`),
   KEY `noteIdFKevernotenotes_idx` (`noteId`),
   KEY `notebookIdFKevernotenote` (`notebookId`),
@@ -666,8 +666,8 @@ DROP TABLE IF EXISTS `evernoteresource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `evernoteresource` (
-  `entityId` varchar(200) NOT NULL,
-  `noteId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  `noteId` varchar(255) NOT NULL,
   PRIMARY KEY (`entityId`),
   KEY `noteIdFKevernoteresource_idx` (`noteId`),
   CONSTRAINT `entityIdFKevernoteresource` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -716,8 +716,8 @@ DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `files` (
-  `entityId` varchar(200) NOT NULL,
-  `fileId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  `fileId` varchar(255) NOT NULL,
   PRIMARY KEY (`entityId`),
   KEY `fileIdFKfiles_idx` (`fileId`),
   CONSTRAINT `entityIdFKfiles` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -769,7 +769,7 @@ DROP TABLE IF EXISTS `flags`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flags` (
   `flagId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `userId` varchar(200) NOT NULL,
   PRIMARY KEY (`flagId`,`entityId`,`userId`),
   KEY `entityId_idx` (`entityId`),
@@ -850,7 +850,7 @@ DROP TABLE IF EXISTS `learnepentity`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `learnepentity` (
   `learnEpEntityId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `x` varchar(200) NOT NULL,
   `y` varchar(200) NOT NULL,
   PRIMARY KEY (`learnEpEntityId`,`entityId`),
@@ -1103,7 +1103,7 @@ DROP TABLE IF EXISTS `locations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `locations` (
   `locationId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `userId` varchar(200) NOT NULL,
   PRIMARY KEY (`locationId`,`entityId`,`userId`),
   KEY `userIdFKlocations_idx` (`userId`),
@@ -1129,7 +1129,7 @@ DROP TABLE IF EXISTS `ratingass`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ratingass` (
   `userId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `ratingValue` varchar(200) NOT NULL,
   `ratingId` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`,`entityId`,`ratingId`),
@@ -1178,7 +1178,7 @@ DROP TABLE IF EXISTS `tagass`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tagass` (
   `userId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `tagId` varchar(200) NOT NULL,
   `tagSpace` varchar(200) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
@@ -1207,7 +1207,7 @@ DROP TABLE IF EXISTS `thumbnails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `thumbnails` (
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `thumbId` varchar(200) NOT NULL,
   PRIMARY KEY (`entityId`,`thumbId`),
   KEY `thumbIdFKthumbnails_idx` (`thumbId`),
@@ -1235,9 +1235,9 @@ DROP TABLE IF EXISTS `ues`;
 CREATE TABLE `ues` (
   `userEventId` varchar(200) NOT NULL,
   `userId` varchar(200) NOT NULL,
-  `entityId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   `eventType` varchar(200) NOT NULL,
-  `content` varchar(200) NOT NULL,
+  `content` varchar(100) NOT NULL,
   PRIMARY KEY (`userEventId`),
   KEY `userIdFKues_idx` (`userId`),
   KEY `entityId_idx` (`entityId`),
@@ -1264,4 +1264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-28 14:43:17
+-- Dump completed on 2014-09-11  9:27:25
