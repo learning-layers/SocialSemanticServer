@@ -62,6 +62,10 @@ public class SSTagAddPar extends SSServPar{
     value = "access restriction for the tag (i.e. privateSpace, sharedSpace)")
   public SSSpaceE     space        = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "timestamp for the tag assignment to be created at in milliseconds")
   public Long         creationTime = null;
   
   public SSTagAddPar(){}
