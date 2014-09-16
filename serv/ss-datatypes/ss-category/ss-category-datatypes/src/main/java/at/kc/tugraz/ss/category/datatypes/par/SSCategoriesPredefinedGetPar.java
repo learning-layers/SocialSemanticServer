@@ -34,11 +34,5 @@ public class SSCategoriesPredefinedGetPar extends SSServPar{
   public SSCategoriesPredefinedGetPar(SSServPar par) throws Exception{
     
     super(par);
-    
-    try{
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

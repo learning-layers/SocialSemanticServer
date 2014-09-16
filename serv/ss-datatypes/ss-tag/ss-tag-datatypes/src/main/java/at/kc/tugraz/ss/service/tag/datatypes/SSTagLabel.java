@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.err.SSTagInvalidTagErr;
 import java.util.ArrayList;
 import java.util.List;

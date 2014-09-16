@@ -21,40 +21,55 @@
 package at.kc.tugraz.ss.category.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSCategoriesUserRemoveRet extends SSServRetI{
-
-  public boolean worked = false;
-
-  public static SSCategoriesUserRemoveRet get(boolean worked, SSMethU op){
-    return new SSCategoriesUserRemoveRet(worked, op);
+public class SSCategoryUserEntitiesForCategoriesGetRet extends SSServRetI{
+  
+  public List<SSUri> entities = new ArrayList<>();
+  
+  public static SSCategoryUserEntitiesForCategoriesGetRet get(
+    final List<SSUri> entities, 
+    final SSMethU     op){
+    
+    return new SSCategoryUserEntitiesForCategoriesGetRet(entities, op);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked, SSMethU op){
+  private SSCategoryUserEntitiesForCategoriesGetRet(
+    final List<SSUri> entities, 
+    final SSMethU     op){
     
     super(op);
     
-    this.worked = worked;
+    if(entities != null){
+      this.entities = entities;
+    }
   }
-
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> enititesObj      = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    enititesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    enititesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.entities, enititesObj);
     
     return ld;
   }
   
-  /* json getters */
+  /* json getters*/
   
-  public boolean isWorked() {
-    return worked;
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
 }

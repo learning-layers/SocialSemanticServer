@@ -25,6 +25,10 @@ import java.util.List;
 
 public enum SSActivityE{
 
+  //category
+  addCategory,
+  removeCategory,
+  
   //cite
   cite, 
   

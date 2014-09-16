@@ -40,12 +40,12 @@ public class SSTester extends Thread{
       new SSEntityTester().start();
       new SSI5CloudTester().start();
       new SSLearnEpTester().start();
-      new SSCategoryTester().start();
       new SSDiscTester().start();
       new SSRecommTester().start();
       new SSFlagTester().start();
       new SSDataExportTester().start();
       new SSTagTester().start();
+      new SSCategoryTester().start();
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
 

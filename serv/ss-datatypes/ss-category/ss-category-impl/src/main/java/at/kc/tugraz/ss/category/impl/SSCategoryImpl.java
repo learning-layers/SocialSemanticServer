@@ -24,28 +24,53 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddAtCreationTimePar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddAtCreationTimePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEditPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoriesGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserRemoveRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.category.impl.fct.activity.SSCategoryActivityFct;
+import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
+import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
+import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClientI, SSCategoryServerI, SSEntityHandlerImplI{
+public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClientI, SSCategoryServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
   
   private final SSCategorySQLFct   sqlFct;
   
@@ -54,6 +79,45 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     super(conf, dbGraph, dbSQL);
     
     sqlFct = new SSCategorySQLFct   (this);
+  }
+  
+  @Override
+  public void getUserRelations(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> userRelations) throws Exception{
+    
+    final List<String>             labels           = new ArrayList<>();
+    final List<SSUri>              entities         = new ArrayList<>();
+    final Map<String, List<SSUri>> usersPerCategory = new HashMap<>();
+    final Map<String, List<SSUri>> usersPerEntity   = new HashMap<>();
+    List<SSCategory>               categories;
+    
+    for(String user : allUsers){
+      
+      final SSUri userUri = SSUri.get(user);
+      
+      categories =
+        SSServCaller.categoriesUserGet(
+          userUri,
+          userUri,
+          entities,
+          labels,
+          null,
+          null);
+      
+      for(SSCategory category : categories){
+      
+        SSCategoryUserRelationGathererFct.addUserForCategory     (category, usersPerCategory);
+        SSCategoryUserRelationGathererFct.addUserForEntity       (category, usersPerEntity);
+      }
+    }
+    
+    SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerCategory);
+    SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+    
+    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
   }
   
   @Override
@@ -81,7 +145,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
-    
+
     return null;
   }
   
@@ -125,22 +189,27 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception{
     
-//    try{
+  }
+  
+  @Override
+  public SSEntity getDescForEntity(
+    final SSEntityDescGetPar par,
+    final SSEntity           desc) throws Exception{
+    
+//    if(par.getTags){
 //      
-//      if(!removeUserTags){
-//        return;
-//      }
-//      
-//      SSServCaller.categoriesUserRemove(
-//        userUri, 
-//        entityUri, 
-//        null, 
-//        null, 
-//        false);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
+//      desc.tags.addAll(
+//        SSStrU.toStr(
+//          SSServCaller.tagsUserGet(
+//            par.user, 
+//            par.user,
+//            SSUri.asListWithoutNullAndEmpty(par.entity), 
+//            new ArrayList<String>(), 
+//            null, 
+//            null)));
 //    }
+    
+    return desc;
   }
   
   @Override
@@ -220,47 +289,443 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean categoryAddAtCreationTime(final SSServPar parA) throws Exception {
+  public void categoryEntitiesForCategoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoryUserEntitiesForCategoriesGetRet.get(categoryUserEntitiesForCategoriesGet(parA), parA.op));
+  }
+
+  @Override
+  public List<SSUri> categoryUserEntitiesForCategoriesGet(final SSServPar parA) throws Exception{
+    
+    //TODO dtheiler: use start time for this call as well
+    try{
+      final SSCategoryUserEntitiesForCategoriesGetPar par = new SSCategoryUserEntitiesForCategoriesGetPar(parA);
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        par.space = SSSpaceE.sharedSpace;
+      }
+      
+      if(par.space == null){
+        return SSCategoryMiscFct.getEntitiesForCategoriesIfSpaceNotSet(sqlFct, par);
+      }
+      
+      if(SSSpaceE.isShared(par.space)){
+        return SSCategoryMiscFct.getEntitiesForCategoriesIfSpaceSet(sqlFct, par, par.forUser);
+      }
+      
+      if(SSSpaceE.isPrivate(par.space)){
+        return SSCategoryMiscFct.getEntitiesForCategoriesIfSpaceSet(sqlFct, par, par.user);
+      }
+      
+      throw new Exception("reached not reachable code");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void categoryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    final SSUri tagUri = categoryAdd(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoryAddRet.get(tagUri, parA.op));
+
+//    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
+  }
+  
+  @Override
+  public SSUri categoryAdd(final SSServPar parA) throws Exception {
     
     try{
       
-      final SSCategoryAddAtCreationTimePar par            = new SSCategoryAddAtCreationTimePar(parA);
-      final Boolean                        existsCategory = sqlFct.existsCategoryLabel    (par.label);
-      final SSUri                          categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label); 
-
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      final SSCategoryAddPar par               = new SSCategoryAddPar(parA);
+      final Boolean          existsEntity      = SSServCaller.entityExists(par.entity);
+      final Boolean          existsCategory;
+      final SSUri            categoryUri;
+      
+      if(existsEntity){
+        
+        switch(SSServCaller.entityGet(par.entity).type){
+          case entity: break;
+          default: SSServCaller.entityUserCanRead(par.user, par.entity);
+        }
+      }
+      
+      existsCategory = sqlFct.existsCategoryLabel    (par.label);
+      categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label);
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        par.entity,
-        SSEntityE.entity,
-        null,
-        null,
-        null,
-        false);
-      
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        categoryUri,
-        SSEntityE.category,
-        SSLabel.get(SSStrU.toStr(par.label)),
-        null,
-        par.creationTime,
-        false);
-              
-      if(!existsCategory){
+      if(existsEntity){
         
+        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false);
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            categoryUri,
+            SSEntityE.category,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+          
+        }else{
+          
+          SSServCaller.entityEntityToPubCircleAdd(
+            par.user,
+            categoryUri,
+            SSEntityE.category,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+        }
+      }else{
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          par.entity,
+          SSEntityE.entity,
+          null,
+          null,
+          null,
+          false);
+        
+        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
+          
+          SSServCaller.entityEntityToPrivCircleAdd(
+            par.user,
+            categoryUri,
+            SSEntityE.category,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+          
+        }else{
+          SSServCaller.entityEntityToPubCircleAdd(
+            par.user,
+            categoryUri,
+            SSEntityE.category,
+            SSLabel.get(SSStrU.toStr(par.label)),
+            null,
+            par.creationTime,
+            false);
+        }
+      }
+      
+      if(!existsCategory){
         sqlFct.addCategoryIfNotExists(
           categoryUri, 
-          par.isPredefined);
+          false);
       }
       
       sqlFct.addCategoryAssIfNotExists(
-        categoryUri, 
-        par.user, 
+        categoryUri,
+        par.user,
+        par.entity,
+        par.space,
+        par.creationTime);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return categoryUri;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoryAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void categoryEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoryUserEditRet.get(categoryUserEdit(parA), parA.op));
+  }
+  
+  @Override
+  public SSUri categoryUserEdit(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSCategoryUserEditPar par            = new SSCategoryUserEditPar (parA);
+      SSUri                       newCategoryUri = null;
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      final List<SSCategory> categories =
+        SSServCaller.categoriesUserGet(
+          par.user,
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSStrU.toStrWithoutEmptyAndNull(SSServCaller.entityGet(par.category).label),
+          null,
+          null);
+      
+      for(SSCategory category : categories){
+        
+        SSServCaller.tagsRemove(
+          par.user,
+          category.entity,
+          SSStrU.toStr(category.label),
+          category.space,
+          false);
+        
+        newCategoryUri =
+          SSServCaller.tagAdd(
+            par.user,
+            category.entity,
+            SSStrU.toStr(par.label),
+            category.space,
+            null,
+            false);
+      }
+      
+      if(newCategoryUri == null){
+        return par.category;
+      }else{
+        return newCategoryUri;
+      }
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoryUserEdit(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void categoriesRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(parA), parA.op));
+    
+    SSCategoryActivityFct.removeCategories(new SSCategoriesUserRemovePar(parA));
+  }
+  
+  @Override
+  public Boolean categoriesUserRemove(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSCategoriesUserRemovePar par = new SSCategoriesUserRemovePar (parA);
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      if(
+        par.space    == null &&
+        par.entity == null){
+
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
+        
+        dbSQL.commit(par.shouldCommit);
+        return true;
+      }
+      
+       if(
+         par.space    != null &&
+         par.entity == null){
+         
+         dbSQL.startTrans(par.shouldCommit);
+         
+         sqlFct.removeCategoryAsss(par.user, null, par.label, par.space);
+         
+         dbSQL.commit(par.shouldCommit);
+         return true;
+       }
+      
+      if(
+        par.space    == null &&
+        par.entity != null){
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sqlFct.removeCategoryAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
+        
+        dbSQL.commit(par.shouldCommit);
+        return true;
+      }
+      
+      if(
+        par.space    != null &&
+        par.entity != null){
+        
+        dbSQL.startTrans(par.shouldCommit);
+      
+        sqlFct.removeCategoryAsss(null, par.entity, par.label, par.space);
+
+        dbSQL.commit(par.shouldCommit);
+        return true;
+      }
+      
+      throw new Exception("reached not reachable code");
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoriesUserRemove(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+       
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(par), par.op));
+  }
+  
+  @Override
+  public List<SSCategoryFrequ> categoryUserFrequsGet(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSCategoryUserFrequsGetPar par = new SSCategoryUserFrequsGetPar (parA);
+      
+      return SSCategoryMiscFct.getCategoryFrequsFromCategories(
+        SSServCaller.categoriesUserGet(
+          par.user,
+          par.forUser,
+          par.entities,
+          SSStrU.toStrWithoutEmptyAndNull(par.labels),
+          par.space,
+          par.startTime),
+        par.space);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> categoriesAdd(final SSServPar parA) throws Exception {
+    
+    try{
+
+      final SSCategoriesAddPar par         = new SSCategoriesAddPar(parA);
+      final List<SSUri>        categories  = new ArrayList<>();
+      
+      for(SSCategoryLabel categoryLabel : par.labels) {
+        
+        categories.add(
+          SSServCaller.categoryAdd(
+            par.user,
+            par.entity,
+            SSStrU.toStr(categoryLabel),
+            par.space,
+            par.creationTime,
+            par.shouldCommit));
+      }
+      
+      SSStrU.distinctWithoutNull2(categories);
+      
+      return categories;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return categoriesAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean categoriesRemove(final SSServPar parA) throws Exception{
+  
+    try{
+      
+      final SSCategoriesRemovePar par = new SSCategoriesRemovePar (parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.removeCategoryAsss (
+        par.forUser, 
         par.entity, 
+        par.label, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);
@@ -273,7 +738,7 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
         SSServErrReg.reset();
         
         if(dbSQL.rollBack(parA)){
-          return categoryAddAtCreationTime(parA);
+          return categoriesRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -285,392 +750,48 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
       return null;
     }
   }
-  
-//  @Override
-//  public void categoryAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
-//    
-//    SSServCaller.checkKey(par);
-//    
-//    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryAdd(par), par.op));
-//    
-////    saveUECategoryAdd(par);
-//  }
-
-//  @Override
-//  public void categoriesRemove(SSSocketCon sSCon, SSServPar par) throws Exception {
-//    
-//    SSServCaller.checkKey(par);
-//    
-//    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(par), par.op));
-//    
-////    saveUECategoryDelete(par);
-//  }
-
-//  @Override
-//  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
-//       
-//    SSServCaller.checkKey(par);
-//    
-//    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(par), par.op));
-//  }
-  
-  /* SSCategoryServerI */
-//  @Override
-//  public Boolean categoryAdd(final SSServPar parA) throws Exception {
-//    
-//    try{
-//      
-//      final SSCategoryAddPar par            = new SSCategoryAddPar(parA);
-//      final Boolean          existsCategory = sqlFct.existsCategoryLabel    (par.label);
-//      final SSUri            categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label);
-//
-//      dbSQL.startTrans(par.shouldCommit);
-//      
-//      SSServCaller.entityAdd(
-//        par.user,
-//        categoryUri,       
-//        SSLabel.get(SSStrU.toStr(par.label)), 
-//        SSEntityE.category,
-//        null,
-//        false);
-//      
-//      SSServCaller.entityAdd(
-//        par.user,
-//        par.entity,
-//        SSLabel.get(SSStrU.toStr(par.entity)),
-//        SSEntityE.entity,
-//        null,
-//        false);
-//      
-//      sqlFct.addCategoryAssIfNotExists(
-//        categoryUri,
-//        par.user,
-//        par.entity,
-//        par.space);
-//      
-//      dbSQL.commit(par.shouldCommit);
-//      
-//      return true;
-//      
-//    }catch(SSSQLDeadLockErr deadLockErr){
-//      
-//      if(dbSQL.rollBack(parA)){
-//        return categoryAdd(parA);
-//      }else{
-//        SSServErrReg.regErrThrow(deadLockErr);
-//        return null;
-//      }
-//      
-//    }catch(Exception error){
-//      dbSQL.rollBack(parA);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public Boolean categoriesAdd(final SSServPar parA) throws Exception {
-//    
-//    try{
-//
-//      final SSCategoriesAddPar par = new SSCategoriesAddPar(parA);
-//      
-//      for(SSCategoryLabel categoryLabel : par.labels) {
-//        
-//        SSServCaller.categoryAdd(
-//          par.user, 
-//          par.entity, 
-//          categoryLabel, 
-//          par.space, 
-//          par.shouldCommit);
-//      }
-//      
-//      return true;
-//    }catch(SSSQLDeadLockErr deadLockErr){
-//      
-//      if(dbSQL.rollBack(parA)){
-//        return categoriesAdd(parA);
-//      }else{
-//        SSServErrReg.regErrThrow(deadLockErr);
-//        return null;
-//      }
-//      
-//    }catch(Exception error){
-//      dbSQL.rollBack(parA);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
   
   @Override
-  public Boolean categoriesAddAtCreationTime(final SSServPar parA) throws Exception {
+  public void categoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSCategoriesUserGetRet.get(categoriesUserGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSCategory> categoriesUserGet(final SSServPar parA) throws Exception {
     
     try{
-
-      final SSCategoriesAddAtCreationTimePar par = new SSCategoriesAddAtCreationTimePar(parA);
       
-      dbSQL.startTrans(par.shouldCommit);
+      final SSCategoriesUserGetPar par       = new SSCategoriesUserGetPar (parA);
       
-      for(SSCategoryLabel categoryLabel : par.labels) {
-       
-        SSServCaller.categoryAddAtCreationTime(
-          par.user, 
-          par.entity, 
-          SSStrU.toStr(categoryLabel), 
-          par.space, 
-          par.creationTime, 
-          par.isPredefined,
-          false);
+      if(par.user == null){
+        throw new Exception("user null");
       }
       
-      dbSQL.commit(par.shouldCommit);
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        par.space = SSSpaceE.sharedSpace;
+      }
       
-      return true;
+      if(par.space == null){
+        return SSCategoryMiscFct.getCategoriesIfSpaceNotSet(sqlFct, par);
+      }
+      
+      if(SSSpaceE.isPrivate(par.space)){
+        return SSCategoryMiscFct.getCategoriesIfSpaceSet(sqlFct, par, par.user);
+      }
+      
+      if(SSSpaceE.isShared(par.space)){
+        return SSCategoryMiscFct.getCategoriesIfSpaceSet(sqlFct, par, par.forUser);
+      }
+      
+      throw new Exception("reached not reachable code");
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return categoriesAddAtCreationTime(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-  
-//  @Override
-//  public Boolean categoriesRemove(final SSServPar parA) throws Exception{
-//  
-//    try{
-//      
-//      final SSCategoriesRemovePar par = new SSCategoriesRemovePar (parA);
-//      
-//      dbSQL.startTrans(par.shouldCommit);
-//      
-//      sqlFct.removeCategoryAsss (
-//        par.forUser, 
-//        par.entity, 
-//        par.label, 
-//        par.space);
-//      
-//      dbSQL.commit(par.shouldCommit);
-//      
-//      return true;
-//    }catch(SSSQLDeadLockErr deadLockErr){
-//      
-//      if(dbSQL.rollBack(parA)){
-//        return categoriesRemove(parA);
-//      }else{
-//        SSServErrReg.regErrThrow(deadLockErr);
-//        return null;
-//      }
-//      
-//    }catch(Exception error){
-//      dbSQL.rollBack(parA);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public Boolean categoriesUserRemove(final SSServPar parA) throws Exception {
-//    
-//    try{
-//      
-//      final SSCategoriesUserRemovePar par = new SSCategoriesUserRemovePar (parA);
-//      
-//      if(par.user == null){
-//        throw new Exception("user null");
-//      }
-//      
-//      if(
-//        par.space    == null &&
-//        par.entity == null){
-//
-//        dbSQL.startTrans(par.shouldCommit);
-//        
-//        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.privateSpace);
-//        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
-//        
-//        dbSQL.commit(par.shouldCommit);
-//        return true;
-//      }
-//      
-//       if(
-//         par.space    != null &&
-//         par.entity == null){
-//         
-//         dbSQL.startTrans(par.shouldCommit);
-//         
-//         sqlFct.removeCategoryAsss(par.user, null, par.label, par.space);
-//         
-//         dbSQL.commit(par.shouldCommit);
-//         return true;
-//       }
-//      
-//      if(
-//        par.space    == null &&
-//        par.entity != null){
-//        
-//        dbSQL.startTrans(par.shouldCommit);
-//        
-//        sqlFct.removeCategoryAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
-//        sqlFct.removeCategoryAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
-//        
-//        dbSQL.commit(par.shouldCommit);
-//        return true;
-//      }
-//      
-//      if(
-//        par.space    != null &&
-//        par.entity != null){
-//        
-//        dbSQL.startTrans(par.shouldCommit);
-//      
-//        sqlFct.removeCategoryAsss(null, par.entity, par.label, par.space);
-//
-//        dbSQL.commit(par.shouldCommit);
-//        return true;
-//      }
-//      
-//      throw new Exception("reached not reachable code");
-//      
-//    }catch(SSSQLDeadLockErr deadLockErr){
-//      
-//      if(dbSQL.rollBack(parA)){
-//        return categoriesUserRemove(parA);
-//      }else{
-//        SSServErrReg.regErrThrow(deadLockErr);
-//        return null;
-//      }
-//      
-//    }catch(Exception error){
-//      dbSQL.rollBack(parA);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public List<SSUri> categoryUserEntitiesForCategoryGet(final SSServPar parA) throws Exception{
-//    
-//    final SSCategoryUserEntitiesForCategoryGetPar  par        = new SSCategoryUserEntitiesForCategoryGetPar(parA);
-//    
-//    try{
-//      
-//      if(par.user == null){
-//        throw new Exception("user null");
-//      }
-//      
-//      if(par.space == null){
-//        
-//        final List<SSUri> entityUris = new ArrayList<>();
-//        
-//        entityUris.addAll(
-//          sqlFct.getEntitiesForCategoryLabel(
-//          par.user,
-//          par.label,
-//          SSSpaceE.privateSpace));
-//        
-//        entityUris.addAll(
-//          sqlFct.getEntitiesForCategoryLabel(
-//          null,
-//          par.label,
-//          SSSpaceE.sharedSpace));
-//        
-//        SSStrU.distinctWithoutEmptyAndNull2(entityUris);
-//        
-//        return entityUris;
-//      }
-//      
-//      if(SSSpaceE.isShared(par.space)){
-//        
-//        return sqlFct.getEntitiesForCategoryLabel(
-//          null,
-//          par.label,
-//          par.space);
-//      }
-//        
-//      if(SSSpaceE.isPrivate(par.space)){
-//        
-//        return sqlFct.getEntitiesForCategoryLabel(
-//          par.user,
-//          par.label,
-//          par.space);
-//      }
-//      
-//      throw new Exception("reached not reachable code");
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public List<SSCategory> categoriesUserGet(final SSServPar parA) throws Exception {
-//    
-//    final SSCategoriesUserGetPar par  = new SSCategoriesUserGetPar (parA);
-//    
-//    try{
-//      
-//      if(par.user == null){
-//        throw new Exception("user null");
-//      }
-//      
-//      if(par.space == null){
-//        
-//        final List<SSCategory>      categories = new ArrayList<>();
-//        
-//        categories.addAll (sqlFct.getCategoryAsss(par.user, par.entity, par.label, SSSpaceE.privateSpace));
-//        categories.addAll (sqlFct.getCategoryAsss(null,     par.entity, par.label, SSSpaceE.sharedSpace));
-//        
-//        return categories;
-//      }
-//      
-//      if(SSSpaceE.isPrivate(par.space)){
-//        return sqlFct.getCategoryAsss(par.user, par.entity, par.label, par.space);
-//      }
-//      
-//      if(SSSpaceE.isShared(par.space)){
-//        return sqlFct.getCategoryAsss(null, par.entity, par.label, par.space);
-//      }
-//      
-//      throw new Exception("reached not reachable code");
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public List<SSCategoryFrequ> categoryUserFrequsGet(final SSServPar parA) throws Exception {
-//    
-//    final SSCategoryUserFrequsGetPar  par = new SSCategoryUserFrequsGetPar (parA);
-//    final List<SSCategory>            categories;
-//    
-//    try{
-//      
-//      categories = 
-//        SSServCaller.categoriesUserGet(
-//          par.user,
-//          par.entity, 
-//          SSStrU.toStr(par.label), 
-//          par.space);
-//      
-//      return SSCategoryMiscFct.getCategoryFrequsFromCategorys (categories, par.space);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
 }

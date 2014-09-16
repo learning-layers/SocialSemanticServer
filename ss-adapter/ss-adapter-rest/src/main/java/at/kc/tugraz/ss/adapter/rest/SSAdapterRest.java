@@ -29,7 +29,19 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEditPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoriesGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserRemoveRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
@@ -383,17 +395,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagEdit")
-  @ApiOperation(
-    value = "changes the label of the tag assigned to entities by given user",
-    response = SSTagUserEditRet.class)
-  public String tagEdit(final SSTagUserEditPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEdit);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collRootGet")
   @ApiOperation(
     value = "retrieve the user's root collection",
@@ -669,61 +670,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagEntitiesForTagsGet")
-  @ApiOperation(
-    value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
-    response = SSTagUserEntitiesForTagsGetRet.class)
-  public String tagEntitiesForTagsGet(final SSTagUserEntitiesForTagsGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEntitiesForTagsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagsGet")
-  @ApiOperation(
-    value = "retrieve tag assignments",
-    response = SSTagsUserGetRet.class)
-  public String tagsGet(final SSTagsUserGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagAdd")
-  @ApiOperation(
-    value = "add a tag within for an entity within given space",
-    response = SSTagAddRet.class)
-  public String tagAdd(final SSTagAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagFrequsGet")
-  @ApiOperation(
-    value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
-  public String tagFrequsGet(final SSTagUserFrequsGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagFrequsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagsRemove")
-  @ApiOperation(
-    value = "remove tag, user, entity, space combinations",
-    response = SSTagsUserRemoveRet.class)
-  public String tagsRemove(final SSTagsUserRemovePar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsRemove);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "userAll")
   @ApiOperation(
     value = "retrieve all users",
@@ -913,6 +859,142 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "learnEpVersionRemoveEntity")
   public String learnEpVersionRemoveEntity(String jsonRequ){
     return SSRestMain.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveEntity);
+  }
+  
+  /* tag */
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagEdit")
+  @ApiOperation(
+    value = "changes the label of the tag assigned to entities by given user",
+    response = SSTagUserEditRet.class)
+  public String tagEdit(final SSTagUserEditPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEdit);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagEntitiesForTagsGet")
+  @ApiOperation(
+    value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
+    response = SSTagUserEntitiesForTagsGetRet.class)
+  public String tagEntitiesForTagsGet(final SSTagUserEntitiesForTagsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagEntitiesForTagsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagsGet")
+  @ApiOperation(
+    value = "retrieve tag assignments",
+    response = SSTagsUserGetRet.class)
+  public String tagsGet(final SSTagsUserGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagAdd")
+  @ApiOperation(
+    value = "add a tag within for an entity within given space",
+    response = SSTagAddRet.class)
+  public String tagAdd(final SSTagAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagFrequsGet")
+  @ApiOperation(
+    value = "retrieve tag frequencies",
+    response = SSTagUserFrequsGetRet.class)
+  public String tagFrequsGet(final SSTagUserFrequsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagFrequsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagsRemove")
+  @ApiOperation(
+    value = "remove tag, user, entity, space combinations",
+    response = SSTagsUserRemoveRet.class)
+  public String tagsRemove(final SSTagsUserRemovePar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.tagsRemove);
+  }
+  
+  /* category */ 
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoryEdit")
+  @ApiOperation(
+    value = "changes the label of the category assigned to entities by given user",
+    response = SSCategoryUserEditRet.class)
+  public String categoryEdit(final SSCategoryUserEditPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoryEdit);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoryEntitiesForCategoriesGet")
+  @ApiOperation(
+    value = "retrieve entities for categories (currently startTime is not used to retrieve entities)",
+    response = SSCategoryUserEntitiesForCategoriesGetRet.class)
+  public String categoryEntitiesForCategoriesGet(final SSCategoryUserEntitiesForCategoriesGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoryEntitiesForCategoriesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoriesGet")
+  @ApiOperation(
+    value = "retrieve category assignments",
+    response = SSCategoriesUserGetRet.class)
+  public String categoriesGet(final SSCategoriesUserGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoriesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoryAdd")
+  @ApiOperation(
+    value = "add a category within for an entity within given space",
+    response = SSCategoryAddRet.class)
+  public String categoryAdd(final SSCategoryAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoryAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoryFrequsGet")
+  @ApiOperation(
+    value = "retrieve category frequencies",
+    response = SSCategoryUserFrequsGetRet.class)
+  public String categoryFrequsGet(final SSCategoryUserFrequsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoryFrequsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "categoriesRemove")
+  @ApiOperation(
+    value = "remove category, user, entity, space combinations",
+    response = SSCategoriesUserRemoveRet.class)
+  public String categoriesRemove(final SSCategoriesUserRemovePar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoriesRemove);
   }
 }
 

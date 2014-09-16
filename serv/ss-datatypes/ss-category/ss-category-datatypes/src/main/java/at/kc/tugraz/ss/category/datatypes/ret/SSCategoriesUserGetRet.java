@@ -21,40 +21,55 @@
 package at.kc.tugraz.ss.category.datatypes.ret;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSCategoriesUserRemoveRet extends SSServRetI{
-
-  public boolean worked = false;
-
-  public static SSCategoriesUserRemoveRet get(boolean worked, SSMethU op){
-    return new SSCategoriesUserRemoveRet(worked, op);
+public class SSCategoriesUserGetRet extends SSServRetI{
+  
+  public List<SSCategory> categories = new ArrayList<>();
+  
+  public static SSCategoriesUserGetRet get(
+    final List<SSCategory> categories, 
+    final SSMethU          op){
+    
+    return new SSCategoriesUserGetRet(categories, op);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked, SSMethU op){
+  private SSCategoriesUserGetRet(
+    final List<SSCategory> categories, 
+    final SSMethU          op){
     
     super(op);
     
-    this.worked = worked;
+    if(categories != null){
+      this.categories = categories;
+    }
   }
-
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> categoriesObj     = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    categoriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCategory.class.getName());
+    categoriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.categories, categoriesObj);
     
     return ld;
   }
   
   /* json getters */
   
-  public boolean isWorked() {
-    return worked;
+  public List<SSCategory> getCategories() {
+    return categories;
   }
 }

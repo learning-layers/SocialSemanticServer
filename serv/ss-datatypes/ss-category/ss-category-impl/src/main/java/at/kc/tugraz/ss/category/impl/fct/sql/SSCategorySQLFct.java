@@ -20,10 +20,11 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.sql;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategory;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -43,7 +44,42 @@ public class SSCategorySQLFct extends SSDBSQLFct{
   public SSCategorySQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
-
+  
+  public void addCategoryAssIfNotExists(
+    final SSUri       categoryUri, 
+    final SSUri       userUri,
+    final SSUri       entityUri,
+    final SSSpaceE    space,
+    final Long        creationTime) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert    (inserts,    SSSQLVarU.userId,        userUri);
+      insert    (inserts,    SSSQLVarU.entityId,      entityUri);
+      insert    (inserts,    SSSQLVarU.categoryId,    categoryUri);
+      insert    (inserts,    SSSQLVarU.categorySpace, space);
+      
+      if(
+        creationTime == null ||
+        creationTime == 0){
+        insert    (inserts,    SSSQLVarU.creationTime, SSDateU.dateAsLong());
+      }else{
+        insert    (inserts,    SSSQLVarU.creationTime, creationTime);
+      }
+      
+      uniqueKey (uniqueKeys, SSSQLVarU.userId,        userUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.entityId,      entityUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.categoryId,    categoryUri);
+      uniqueKey (uniqueKeys, SSSQLVarU.categorySpace, space);
+      
+      dbSQL.insertIfNotExists(categoryAssTable, inserts, uniqueKeys);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void addCategoryIfNotExists(
     final SSUri           categoryUri, 
     final Boolean         isPredefined) throws Exception{
@@ -288,7 +324,8 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     final SSUri            userUri, 
     final SSUri            entity, 
     final SSCategoryLabel  categoryLabel, 
-    final SSSpaceE         tagSpace) throws Exception{
+    final SSSpaceE         categorySpace,
+    final Long             startTime) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -299,7 +336,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        tables         = new ArrayList<>();
       final List<String>        columns        = new ArrayList<>();
       final List<String>        tableCons      = new ArrayList<>();
-      final SSUri               categoryUri    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
+      final SSUri               categoryURI    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
 
       table    (tables,    categoryAssTable);
       table    (tables,    entityTable);
@@ -308,6 +345,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       column   (columns,   SSSQLVarU.userId);
       column   (columns,   SSSQLVarU.categorySpace);
       column   (columns,   SSSQLVarU.label);
+      column   (columns,   categoryAssTable, SSSQLVarU.creationTime);
       tableCon (tableCons, categoryAssTable, SSSQLVarU.categoryId, entityTable, SSSQLVarU.id);
       
       if(userUri != null){
@@ -319,16 +357,24 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       }
       
       if(categoryLabel != null){
-        where(wheres, SSSQLVarU.categoryId, categoryUri);
+        where(wheres, SSSQLVarU.categoryId, categoryURI);
       }
       
-      if(tagSpace != null){
-        where(wheres, SSSQLVarU.tagSpace, tagSpace);
+      if(categorySpace != null){
+        where(wheres, SSSQLVarU.categorySpace, categorySpace);
       }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       while(resultSet.next()){
+        
+        //TODO dtheiler: use db for date restriction here
+        if(
+          startTime != null &&
+          startTime != 0    &&
+          bindingStrToLong(resultSet, SSSQLVarU.creationTime) < startTime){
+          continue;
+        }
         
         categoryAsss.add(
           SSCategory.get(

@@ -24,7 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequ;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,39 +36,40 @@ public class SSCategoryUserFrequsGetRet extends SSServRetI{
   public List<SSCategoryFrequ> categoryFrequs = new ArrayList<>();
   
   public static SSCategoryUserFrequsGetRet get(
-    final List<SSCategoryFrequ> categoryFrequs,
+    final List<SSCategoryFrequ> categoryFrequs, 
     final SSMethU               op){
     
     return new SSCategoryUserFrequsGetRet(categoryFrequs, op);
   }
   
   private SSCategoryUserFrequsGetRet(
-    final List<SSCategoryFrequ> categoryFrequs,
+    final List<SSCategoryFrequ> categoryFrequs, 
     final SSMethU               op){
     
     super(op);
     
     if(categoryFrequs != null){
-      this.categoryFrequs.addAll(categoryFrequs);
+      this.categoryFrequs = categoryFrequs;
     }
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld                      = new HashMap<>();
-    final Map<String, Object> categoriesFrequsObj     = new HashMap<>();
+    Map<String, Object> ld                    = new HashMap<>();
+    Map<String, Object> categoryFrequsObj     = new HashMap<>();
     
-    categoriesFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
-    categoriesFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    categoryFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
+    categoryFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.categoryFrequs, categoriesFrequsObj);
+    ld.put(SSVarU.categoryFrequs, categoryFrequsObj);
     
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public List<SSCategoryFrequ> getTagFrequs() {
+  /* json getters  */
+  
+  public List<SSCategoryFrequ> getCategoryFrequs() {
     return categoryFrequs;
   }
 }

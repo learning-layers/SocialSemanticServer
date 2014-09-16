@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
@@ -74,30 +74,30 @@ public class SSCategory extends SSEntity{
     return ld;
   } 
   
-  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSCategory> categorys) throws Exception{
+  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSCategory> categories) throws Exception{
     
     final Map<String, List<String>>     categorysPerEntity = new HashMap<>();
     List<String>                        categoryLabels;
     String                              entity;
     
-    for(SSCategory userTag : categorys){
+    for(SSCategory userCategory : categories){
       
-      entity = SSStrU.toStr(userTag.entity);
+      entity = SSStrU.toStr(userCategory.entity);
       
       if(categorysPerEntity.containsKey(entity)){
         
         categoryLabels = categorysPerEntity.get(entity);
         
-        if(SSStrU.contains(categoryLabels, userTag.label)){
+        if(SSStrU.contains(categoryLabels, userCategory.label)){
           continue;
         }
         
-        categoryLabels.add(userTag.label.toString());
+        categoryLabels.add(userCategory.label.toString());
       }else{
         
         categoryLabels = new ArrayList<>();
         
-        categoryLabels.add(SSStrU.toStr(userTag.label));
+        categoryLabels.add(SSStrU.toStr(userCategory.label));
         
         categorysPerEntity.put(entity, categoryLabels);
       }
@@ -122,6 +122,10 @@ public class SSCategory extends SSEntity{
   
   @Override
   public String getLabel(){
+    return SSStrU.toStr(categoryLabel);
+  }
+  
+  public String getCategoryLabel(){
     return SSStrU.toStr(categoryLabel);
   }
 }

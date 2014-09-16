@@ -23,38 +23,44 @@ package at.kc.tugraz.ss.category.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCategoriesUserRemoveRet extends SSServRetI{
+public class SSCategoryUserEditRet extends SSServRetI{
 
-  public boolean worked = false;
+  public SSUri category = null;
 
-  public static SSCategoriesUserRemoveRet get(boolean worked, SSMethU op){
-    return new SSCategoriesUserRemoveRet(worked, op);
+  public static SSCategoryUserEditRet get(
+    final SSUri   category, 
+    final SSMethU op){
+    
+    return new SSCategoryUserEditRet(category, op);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked, SSMethU op){
+  private SSCategoryUserEditRet(
+    final SSUri   category, 
+    final SSMethU op){
     
     super(op);
     
-    this.worked = worked;
+    this.category = category;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.category, SSVarU.xsd + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
   /* json getters */
   
-  public boolean isWorked() {
-    return worked;
+  public String getCategory() {
+    return SSStrU.removeTrailingSlash(category);
   }
 }

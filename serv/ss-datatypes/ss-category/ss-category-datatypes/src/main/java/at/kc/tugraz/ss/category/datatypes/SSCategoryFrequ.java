@@ -18,8 +18,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes;
 
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
@@ -32,7 +33,7 @@ public class SSCategoryFrequ extends SSEntityA{
   public SSCategoryLabel    label  = null;
   public SSSpaceE           space  = null;
 	public Integer            frequ  = -1;
-
+   
   public static SSCategoryFrequ get(
     final SSCategoryLabel    label,
     final SSSpaceE           space,
@@ -66,6 +67,7 @@ public class SSCategoryFrequ extends SSEntityA{
   }  
   
   /* json getters */
+  
   public String getLabel() {
 		return SSStrU.toStr(label);
 	}

@@ -21,46 +21,6 @@ Api Version: 6.0.1-alpha
 ## APIs
 ### /SSAdapterRESTFile
 
-#### **POST** `/fileCanWrite`
-
-query whether given file can be downloaded with write access
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileCanWritePar">SSFileCanWritePar</a> </td>
-        <td>  [SSFileCanWriteRet](#SSFileCanWriteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/fileExtGet`
-
-retrieve a file&#39;s extension
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileExtGetPar">SSFileExtGetPar</a> </td>
-        <td>  [SSFileExtGetRet](#SSFileExtGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/fileUserFileWrites`
 
 retrieve files user currently could replace when uploading respective file again as he is writer
@@ -95,6 +55,46 @@ set user being writer or reaader for given file
     <tr>
         <td><a href="#SSFileSetReaderOrWriterPar">SSFileSetReaderOrWriterPar</a> </td>
         <td>  [SSFileSetReaderOrWriterRet](#SSFileSetReaderOrWriterRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/fileCanWrite`
+
+query whether given file can be downloaded with write access
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileCanWritePar">SSFileCanWritePar</a> </td>
+        <td>  [SSFileCanWriteRet](#SSFileCanWriteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/fileExtGet`
+
+retrieve a file&#39;s extension
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileExtGetPar">SSFileExtGetPar</a> </td>
+        <td>  [SSFileExtGetRet](#SSFileExtGetRet) </td>
     </tr>
 </table>
 
@@ -183,6 +183,406 @@ search for entities
     <tr>
         <td><a href="#SSSearchPar">SSSearchPar</a> </td>
         <td>  [SSSearchRet](#SSSearchRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityEntityUsersGet`
+
+retrieve users who can access given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserEntityUsersGetPar">SSEntityUserEntityUsersGetPar</a> </td>
+        <td>  [SSEntityUserEntityUsersGetRet](#SSEntityUserEntityUsersGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityUserCirclesGet`
+
+retrieve circles the user is in
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
+        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityEntitiesToCircleAdd`
+
+add given entities to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
+        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityUsersToCircleAdd`
+
+add given users to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
+        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityCircleCreate`
+
+create a circle and add users and entities to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
+        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/dataImportEvernote`
+
+import data from evernote for certain user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
+        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesPredefinedGet`
+
+get predefined categories
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
+        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collsEntityIsInGet`
+
+retrieve all the user&#39;s collections given entity is in
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserEntityIsInGetPar">SSCollsUserEntityIsInGetPar</a> </td>
+        <td>  [SSCollsUserEntityIsInGetRet](#SSCollsUserEntityIsInGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collsCouldSubscribeGet`
+
+retrieve a list of all public collections given user could subscribe to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserCouldSubscribeGetPar">SSCollsUserCouldSubscribeGetPar</a> </td>
+        <td>  [SSCollsUserCouldSubscribeGetRet](#SSCollsUserCouldSubscribeGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collEntryChangePos`
+
+change the sequential order of entries in a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserEntryChangePosPar">SSCollUserEntryChangePosPar</a> </td>
+        <td>  [SSCollUserEntryChangePosRet](#SSCollUserEntryChangePosRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collEntriesDelete`
+
+delete one or more entries from a collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserEntriesDeletePar">SSCollUserEntriesDeletePar</a> </td>
+        <td>  [SSCollUserEntriesDeleteRet](#SSCollUserEntriesDeleteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collCumulatedTagsGet`
+
+retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserCumulatedTagsGetPar">SSCollUserCumulatedTagsGetPar</a> </td>
+        <td>  [SSCollUserCumulatedTagsGetRet](#SSCollUserCumulatedTagsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/discURIsForTargetGet`
+
+retrieve discussions for a certain entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDiscUserDiscURIsForTargetGetPar">SSDiscUserDiscURIsForTargetGetPar</a> </td>
+        <td>  [SSDiscUserDiscURIsForTargetGetRet](#SSDiscUserDiscURIsForTargetGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/discWithEntriesGet`
+
+retrieve the discussion with its entries
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDiscUserWithEntriesGetPar">SSDiscUserWithEntriesGetPar</a> </td>
+        <td>  [SSDiscUserWithEntriesRet](#SSDiscUserWithEntriesRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/fileWritingMinutesLeft`
+
+retrieve number of minutes left user is allowed to replace / re-upload a file
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFileWritingMinutesLeftPar">SSFileWritingMinutesLeftPar</a> </td>
+        <td>  [SSFileWritingMinutesLeftRet](#SSFileWritingMinutesLeftRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/modelUEResourceDetails`
+
+retrieve automatically usage-based modeled details for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSModelUEEntityDetailsPar">SSModelUEEntityDetailsPar</a> </td>
+        <td>  [SSModelUEResourceDetailsRet](#SSModelUEResourceDetailsRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagEntitiesForTagsGet`
+
+retrieve entities for tags (currently startTime is not used to retrieve entities)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
+        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryEntitiesForCategoriesGet`
+
+retrieve entities for categories (currently startTime is not used to retrieve entities)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a> </td>
+        <td>  [SSCategoryUserEntitiesForCategoriesGetRet](#SSCategoryUserEntitiesForCategoriesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryFrequsGet`
+
+retrieve category frequencies
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserFrequsGetPar">SSCategoryUserFrequsGetPar</a> </td>
+        <td>  [SSCategoryUserFrequsGetRet](#SSCategoryUserFrequsGetRet) </td>
     </tr>
 </table>
 
@@ -409,26 +809,6 @@ copy an entity and hand it to a user
 
 
 - - -
-#### **POST** `/tagEdit`
-
-changes the label of the tag assigned to entities by given user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
-        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collRootGet`
 
 retrieve the user&#39;s root collection
@@ -569,26 +949,6 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collsWithEntries`
 
 retrieve the user&#39;s collections with entries
@@ -603,6 +963,26 @@ retrieve the user&#39;s collections with entries
     <tr>
         <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
         <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -769,86 +1149,6 @@ retrieve tag recommendations based on user, entity, tag, time and category combi
 
 
 - - -
-#### **POST** `/tagsGet`
-
-retrieve tag assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
-        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagAdd`
-
-add a tag within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
-        <td>  [SSTagAddRet](#SSTagAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagFrequsGet`
-
-retrieve tag frequencies
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
-        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagsRemove`
-
-remove tag, user, entity, space combinations
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
-        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/userAll`
 
 retrieve all users
@@ -949,9 +1249,9 @@ retrieve the number of certain user events
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+#### **POST** `/tagEdit`
 
-remove certain attached attributes from an entity
+changes the label of the tag assigned to entities by given user
 
 
 
@@ -961,17 +1261,17 @@ remove certain attached attributes from an entity
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
+        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/entityUserCirclesGet`
+#### **POST** `/tagsGet`
 
-retrieve circles the user is in
+retrieve tag assignments
 
 
 
@@ -981,17 +1281,17 @@ retrieve circles the user is in
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
-        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
+        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
+        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/entityEntityUsersGet`
+#### **POST** `/tagAdd`
 
-retrieve users who can access given entity
+add a tag within for an entity within given space
 
 
 
@@ -1001,17 +1301,17 @@ retrieve users who can access given entity
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserEntityUsersGetPar">SSEntityUserEntityUsersGetPar</a> </td>
-        <td>  [SSEntityUserEntityUsersGetRet](#SSEntityUserEntityUsersGetRet) </td>
+        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
+        <td>  [SSTagAddRet](#SSTagAddRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/collsEntityIsInGet`
+#### **POST** `/tagFrequsGet`
 
-retrieve all the user&#39;s collections given entity is in
+retrieve tag frequencies
 
 
 
@@ -1021,17 +1321,17 @@ retrieve all the user&#39;s collections given entity is in
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCollsUserEntityIsInGetPar">SSCollsUserEntityIsInGetPar</a> </td>
-        <td>  [SSCollsUserEntityIsInGetRet](#SSCollsUserEntityIsInGetRet) </td>
+        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
+        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/collsCouldSubscribeGet`
+#### **POST** `/tagsRemove`
 
-retrieve a list of all public collections given user could subscribe to
+remove tag, user, entity, space combinations
 
 
 
@@ -1041,17 +1341,17 @@ retrieve a list of all public collections given user could subscribe to
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCollsUserCouldSubscribeGetPar">SSCollsUserCouldSubscribeGetPar</a> </td>
-        <td>  [SSCollsUserCouldSubscribeGetRet](#SSCollsUserCouldSubscribeGetRet) </td>
+        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
+        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/collEntryChangePos`
+#### **POST** `/categoryEdit`
 
-change the sequential order of entries in a user&#39;s collection
+changes the label of the category assigned to entities by given user
 
 
 
@@ -1061,17 +1361,17 @@ change the sequential order of entries in a user&#39;s collection
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCollUserEntryChangePosPar">SSCollUserEntryChangePosPar</a> </td>
-        <td>  [SSCollUserEntryChangePosRet](#SSCollUserEntryChangePosRet) </td>
+        <td><a href="#SSCategoryUserEditPar">SSCategoryUserEditPar</a> </td>
+        <td>  [SSCategoryUserEditRet](#SSCategoryUserEditRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/collEntriesDelete`
+#### **POST** `/categoriesGet`
 
-delete one or more entries from a collection
+retrieve category assignments
 
 
 
@@ -1081,17 +1381,17 @@ delete one or more entries from a collection
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCollUserEntriesDeletePar">SSCollUserEntriesDeletePar</a> </td>
-        <td>  [SSCollUserEntriesDeleteRet](#SSCollUserEntriesDeleteRet) </td>
+        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
+        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/collCumulatedTagsGet`
+#### **POST** `/categoryAdd`
 
-retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities
+add a category within for an entity within given space
 
 
 
@@ -1101,37 +1401,17 @@ retrieve the cumulated tags (and their frequencies) for all the sub collections 
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCollUserCumulatedTagsGetPar">SSCollUserCumulatedTagsGetPar</a> </td>
-        <td>  [SSCollUserCumulatedTagsGetRet](#SSCollUserCumulatedTagsGetRet) </td>
+        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
+        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/discURIsForTargetGet`
+#### **POST** `/categoriesRemove`
 
-retrieve discussions for a certain entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDiscUserDiscURIsForTargetGetPar">SSDiscUserDiscURIsForTargetGetPar</a> </td>
-        <td>  [SSDiscUserDiscURIsForTargetGetRet](#SSDiscUserDiscURIsForTargetGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/discWithEntriesGet`
-
-retrieve the discussion with its entries
+remove category, user, entity, space combinations
 
 
 
@@ -1141,168 +1421,8 @@ retrieve the discussion with its entries
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSDiscUserWithEntriesGetPar">SSDiscUserWithEntriesGetPar</a> </td>
-        <td>  [SSDiscUserWithEntriesRet](#SSDiscUserWithEntriesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/fileWritingMinutesLeft`
-
-retrieve number of minutes left user is allowed to replace / re-upload a file
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFileWritingMinutesLeftPar">SSFileWritingMinutesLeftPar</a> </td>
-        <td>  [SSFileWritingMinutesLeftRet](#SSFileWritingMinutesLeftRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/modelUEResourceDetails`
-
-retrieve automatically usage-based modeled details for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSModelUEEntityDetailsPar">SSModelUEEntityDetailsPar</a> </td>
-        <td>  [SSModelUEResourceDetailsRet](#SSModelUEResourceDetailsRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagEntitiesForTagsGet`
-
-retrieve entities for tags (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
-        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityEntitiesToCircleAdd`
-
-add given entities to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
-        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityUsersToCircleAdd`
-
-add given users to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
-        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityCircleCreate`
-
-create a circle and add users and entities to
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
-        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/dataImportEvernote`
-
-import data from evernote for certain user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
-        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesPredefinedGet`
-
-get predefined categories
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
-        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
+        <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
+        <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
     </tr>
 </table>
 
@@ -1436,16 +1556,16 @@ get predefined categories
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -1726,6 +1846,648 @@ get predefined categories
     <tr>
         <td>categories</td>
         <td>Array[string]</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoriesUserGetPar">SSCategoriesUserGetPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entities to retrieve category assignments for (optional)</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>category labels to consider for retrieving category assignments (optional)</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td>access restriction for to be retrieved category assignments (i.e. privateSpace, sharedSpace) (optional)</td>
+    </tr>
+    <tr>
+        <td>forUser</td>
+        <td>string</td>
+        <td></td>
+        <td>user to retrieve category assignments for (optional)</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>startTime</td>
+        <td>long</td>
+        <td></td>
+        <td>timestamp to retrieve category assignments from a certain point in time (optional)</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoriesUserGetRet">SSCategoriesUserGetRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>categories</td>
+        <td><a href="#SSCategory">Array[SSCategory]</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>entity to consider removing category assignments from</td>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td>access restriction (i.e. privateSpace, sharedSpace) for category-assignments to be removed</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>label of the category to consider when removing category-assignments</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoriesUserRemoveRet">SSCategoriesUserRemoveRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>worked</td>
+        <td>boolean</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategory">SSCategory</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>overallRating</td>
+        <td><a href="#SSEntityA">SSEntityA</a></td>
+        <td></td>
+        <td>overall star rating</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>users involved</td>
+    </tr>
+    <tr>
+        <td>categoryLabel</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td><a href="#SSEntityE">SSEntityE</a></td>
+        <td></td>
+        <td>sss entity data type</td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entities involved</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
+    </tr>
+    <tr>
+        <td>thumb</td>
+        <td>string</td>
+        <td></td>
+        <td>thumbnail</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>string</td>
+        <td></td>
+        <td>textual description</td>
+    </tr>
+    <tr>
+        <td>uEs</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>user events</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
+    </tr>
+    <tr>
+        <td>author</td>
+        <td>string</td>
+        <td></td>
+        <td>creator</td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>creationTime</td>
+        <td>long</td>
+        <td></td>
+        <td>creation / timestamp in milliseconds</td>
+    </tr>
+    <tr>
+        <td>tags</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>tags assigned</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryAddPar">SSCategoryAddPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td>true</td>
+        <td>entity to add category to</td>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td>true</td>
+        <td>access restriction for the category (i.e. privateSpace, sharedSpace)</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td>true</td>
+        <td>label of the category to add</td>
+    </tr>
+    <tr>
+        <td>creationTime</td>
+        <td>long</td>
+        <td></td>
+        <td>timestamp for the category assignment to be created at in milliseconds</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryAddRet">SSCategoryAddRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryFrequ">SSCategoryFrequ</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>frequ</td>
+        <td>int</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserEditPar">SSCategoryUserEditPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>string</td>
+        <td>true</td>
+        <td>category to change the label for</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td>true</td>
+        <td>new label for the category</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserEditRet">SSCategoryUserEditRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>category labels to consider for retrieving entities via category (optional)</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td>access restriction for category to be considered (i.e. privateSpace, sharedSpace) (optional)</td>
+    </tr>
+    <tr>
+        <td>forUser</td>
+        <td>string</td>
+        <td></td>
+        <td>user to retrieve entities via category for (optional)</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>startTime</td>
+        <td>long</td>
+        <td></td>
+        <td>timestamp to retrieve category (optional)</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserEntitiesForCategoriesGetRet">SSCategoryUserEntitiesForCategoriesGetRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserFrequsGetPar">SSCategoryUserFrequsGetPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entities to retrieve category for (optional)</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>category labels to consider for retrieving categories (optional)</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>space</td>
+        <td>string</td>
+        <td></td>
+        <td>access restriction for to be retrieved categories (i.e. privateSpace, sharedSpace) (optional)</td>
+    </tr>
+    <tr>
+        <td>forUser</td>
+        <td>string</td>
+        <td></td>
+        <td>user to retrieve category for (optional)</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>startTime</td>
+        <td>long</td>
+        <td></td>
+        <td>timestamp to retrieve categories from a certain point in time(optional)</td>
+    </tr>
+</table>
+
+
+## <a name="SSCategoryUserFrequsGetRet">SSCategoryUserFrequsGetRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>categoryFrequs</td>
+        <td><a href="#SSCategoryFrequ">Array[SSCategoryFrequ]</a></td>
         <td></td>
         <td></td>
     </tr>
@@ -2774,16 +3536,16 @@ get predefined categories
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -6035,7 +6797,7 @@ get predefined categories
         <td>creationTime</td>
         <td>long</td>
         <td></td>
-        <td></td>
+        <td>timestamp for the tag assignment to be created at in milliseconds</td>
     </tr>
 </table>
 

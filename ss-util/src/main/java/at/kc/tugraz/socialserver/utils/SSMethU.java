@@ -168,19 +168,21 @@ public enum SSMethU{
   tagEdit,
   tagUserEdit,
   
-  //
-//  categoriesAdd                                             ,
-  categoriesAddAtCreationTime                               ,
-//  categoriesUserRemove                                      , 
-//  categoriesUserGet                                         ,
-//  categoryUserEntitiesForCategoryGet                       ,
-//  categoryUserFrequsGet                                    ,
-//  categoryAdd                                              ,
-  categoryAddAtCreationTime                                ,
+//  category
   categoriesPredefinedGet,
   categoriesPredefinedAdd,
-//  categoryFrequsGet,
-//  categoriesRemove,
+  categoriesAdd                                            ,
+  categoriesRemove                                          ,
+  categoriesUserRemove                                      ,
+  categoriesUserGet                                         ,
+  categoryUserFrequsGet                                    ,
+  categoriesGet,
+  categoryAdd                                              ,
+  categoryFrequsGet,
+  categoryUserEntitiesForCategoriesGet,
+  categoryEntitiesForCategoriesGet,
+  categoryEdit,
+  categoryUserEdit,
   
   //solr
   solrAddDoc                                          ,

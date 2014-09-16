@@ -18,28 +18,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.category.datatypes.par;
+package at.kc.tugraz.ss.category.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.category.datatypes.err.SSCategoryLabelErr;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class SSCategoryLabel extends SSEntityA{
 
   public static SSCategoryLabel get(
     final String string) throws Exception{
     
-    return new SSCategoryLabel(SSStrU.replaceAll(string, SSStrU.blank, SSStrU.underline));
+    return new SSCategoryLabel(string);
   }
   
   public static List<SSCategoryLabel> get(
     final List<String> strings) throws Exception{
 
     final List<SSCategoryLabel> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
     
     for(String string : strings){
       result.add(get(string));
@@ -48,57 +49,65 @@ public class SSCategoryLabel extends SSEntityA{
     return result;
   }
   
-  public static Boolean isCategoryLabel(
-    final String categoryLabel) throws Exception{
+  public static List<SSCategoryLabel> asListWithoutNullAndEmpty(final SSCategoryLabel... categoryLabels){
+   
+    final List<SSCategoryLabel> result = new ArrayList<>();
     
-    try{
-      if(SSStrU.isEmpty(categoryLabel)){
-        return false;
-      }
-
-      final String tmpCategoryLabel = categoryLabel.replaceAll("[/\\*\\?<>]", SSStrU.empty);
-
-      if(
-        SSStrU.isEmpty(tmpCategoryLabel) ||
-        !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpCategoryLabel)){
-        return false;
-      }
-
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+    if(categoryLabels == null){
+      return result;
     }
+    
+    for(SSCategoryLabel categoryLabel : categoryLabels){
+      
+      if(SSStrU.isEmpty(categoryLabel)){
+        continue;
+      }
+      
+      result.add(categoryLabel);
+    }
+    
+    return result;
   }
   
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+  public static List<SSCategoryLabel> asListWithoutNullAndEmpty(final List<SSCategoryLabel> categoryLabels){
+   
+    final List<SSCategoryLabel> result = new ArrayList<>();
+    
+    if(categoryLabels == null){
+      return result;
+    }
+    
+    for(SSCategoryLabel categoryLabel : categoryLabels){
+      
+      if(SSStrU.isEmpty(categoryLabel)){
+        continue;
+      }
+      
+      result.add(categoryLabel);
+    }
+    
+    return result;
   }
   
   protected SSCategoryLabel(final String label) throws Exception{
+    super(getCategoryLabel(label));
+  }
+  
+  private static String getCategoryLabel(final String label) throws Exception{
     
-    super(label);
-    
-    if(!isCategoryLabel(label)){
-      throw new SSCategoryLabelErr("invalid category " + label);
+    try{
+      
+      String tmpLabel = SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
+      
+      return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      
+    }catch(Exception error){
+      throw new Exception("category: " + label + "is not valid");
     }
   }
+  
+   @Override
+  public Object jsonLDDesc() {
+    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+  }
 }
-
-//public static Collection<String> toString(
-//    SSTagString[] tagStrings){
-//    
-//    List<String> result = new ArrayList<>();
-//    
-//    for (SSTagString tagString : tagStrings){
-//      result.add(tagString.toString());
-//    }
-//    
-//    return result;
-//  }
-
-
-//  public static SSTagLabel[] toTagStringArray(Collection<SSTagLabel> toConvert) {
-//    return (SSTagLabel[]) toConvert.toArray(new SSTagLabel[toConvert.size()]);
-//  } 

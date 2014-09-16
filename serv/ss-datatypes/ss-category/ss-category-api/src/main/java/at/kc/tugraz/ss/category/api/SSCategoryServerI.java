@@ -20,20 +20,23 @@
 */
 package at.kc.tugraz.ss.category.api;
 
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
 
 public interface SSCategoryServerI{
   
-  public Boolean                         categoriesPredefinedAdd            (final SSServPar parA) throws Exception;
-  public List<String>                    categoriesPredefinedGet            (final SSServPar parA) throws Exception;
-  public Boolean                         categoriesAddAtCreationTime        (final SSServPar parA) throws Exception;
-  public Boolean                         categoryAddAtCreationTime          (final SSServPar parA) throws Exception;
-  //  public Boolean                         categoriesAdd                      (final SSServPar parA) throws Exception;
-//  public Boolean                         categoryAdd                        (final SSServPar parA) throws Exception;
-//  public Boolean                         categoriesRemove                   (final SSServPar parA) throws Exception;
-//  public Boolean                         categoriesUserRemove               (final SSServPar parA) throws Exception;
-//  public List<SSCategory>                categoriesUserGet                  (final SSServPar parA) throws Exception;
-//  public List<SSCategoryFrequ>           categoryUserFrequsGet              (final SSServPar parA) throws Exception;
-//  public List<SSUri>                     categoryUserEntitiesForCategoryGet (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesPredefinedAdd              (final SSServPar parA) throws Exception;
+  public List<String>                    categoriesPredefinedGet              (final SSServPar parA) throws Exception;
+  
+  public SSUri                           categoryUserEdit                     (final SSServPar parA) throws Exception;
+  public List<SSUri>                     categoryUserEntitiesForCategoriesGet (final SSServPar parA) throws Exception;
+  public List<SSUri>                     categoriesAdd                        (final SSServPar parA) throws Exception;
+  public SSUri                           categoryAdd                          (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesRemove                     (final SSServPar parA) throws Exception;
+  public Boolean                         categoriesUserRemove                 (final SSServPar parA) throws Exception;
+  public List<SSCategory>                categoriesUserGet                    (final SSServPar parA) throws Exception;
+  public List<SSCategoryFrequ>           categoryUserFrequsGet                (final SSServPar parA) throws Exception;
 }

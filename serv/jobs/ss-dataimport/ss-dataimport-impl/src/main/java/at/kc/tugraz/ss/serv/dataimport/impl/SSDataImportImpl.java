@@ -24,7 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -192,7 +192,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
-      return;
     }
   }
   
@@ -239,20 +238,21 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         
         for(String annotation : video.annotations){
           
-          if(!SSCategoryLabel.isCategoryLabel(annotation)){
-            continue;
+          try{
+            SSCategoryLabel.get(annotation);
+          }catch(Exception error){
+            continue;            
           }
           
           categoryLabels.add(annotation);
         }
         
-        SSServCaller.categoriesAddAtCreationTime(
+        SSServCaller.categoriesAdd(
           authorUri, 
           video.id,
           categoryLabels,
           SSSpaceE.sharedSpace, 
           video.creationTime,
-          false,
           true);
       }
       
