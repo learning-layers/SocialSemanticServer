@@ -46,6 +46,12 @@ public class SSAuthCheckCredPar extends SSServPar{
   
   @XmlElement
   @ApiModelProperty( 
+    required = false, 
+    value = "token for oidc authentication" )
+  public String bearer;
+  
+  @XmlElement
+  @ApiModelProperty( 
     required = true, 
     value = "the user’s password" )
   public String password;
@@ -66,6 +72,10 @@ public class SSAuthCheckCredPar extends SSServPar{
       if(par.clientJSONObj != null){
         label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
         password  = par.clientJSONObj.get(SSVarU.password).getTextValue();
+        
+        try{
+          bearer    = par.clientJSONObj.get(SSVarU.bearer).getTextValue();
+        }catch(Exception error){}
       }
       
     }catch(Exception error){

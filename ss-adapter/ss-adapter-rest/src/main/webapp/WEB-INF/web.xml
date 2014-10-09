@@ -25,6 +25,11 @@
     
     <!-- SWAGGER end -->
     
+    <init-param>
+      <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.SSAuthFilter</param-value>
+    </init-param>
+    
     <load-on-startup>1</load-on-startup>
   </servlet>
   

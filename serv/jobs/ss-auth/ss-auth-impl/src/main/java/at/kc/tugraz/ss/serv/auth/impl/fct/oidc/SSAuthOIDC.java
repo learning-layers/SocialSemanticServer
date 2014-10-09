@@ -54,8 +54,7 @@ public class SSAuthOIDC{
       hrs = hrq.send();
       
     } catch (IOException|URISyntaxException error) {
-      SSServErrReg.regErrThrow(new Exception("Unexpected authentication error: " + error.getMessage()));
-      return null;
+      throw new Exception("Unexpected authentication error: " + error.getMessage());
     }
     
     // process response from OpenID Connect user info endpoint
@@ -63,14 +62,20 @@ public class SSAuthOIDC{
     try {
       userInfoResponse = UserInfoResponse.parse(hrs);
     } catch (ParseException error) {
-      SSServErrReg.regErrThrow(new Exception("Couldn't parse UserInfo response: " + error.getMessage()));
-      return null;
+      throw new Exception("Couldn't parse UserInfo response: " + error.getMessage());
     }
     
     // failed request for OpenID Connect user info will result in no agent being returned.
     if (userInfoResponse instanceof UserInfoErrorResponse) {
-      SSServErrReg.regErrThrow(new Exception("Open ID Connect UserInfo request failed! Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription()));
-      return null;
+      
+      if(
+        ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
+        ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
+        
+         throw new Exception("Open ID Connect UserInfo request failed! Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
+      }else{
+        throw new Exception("Open ID Connect UserInfo request failed!");
+      }
     }
     
     // In case of successful request, map OpenID Connect user info to intern
