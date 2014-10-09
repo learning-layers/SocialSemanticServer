@@ -27,7 +27,8 @@ public enum SSAuthEnum {
   
   wikiAuth, 
   noAuth,
-  csvFileAuth;
+  csvFileAuth,
+  oidc;
 
   public static String toStr(final SSAuthEnum value) {
     return SSStrU.toStr(value);

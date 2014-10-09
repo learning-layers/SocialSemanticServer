@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
+import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -44,11 +45,24 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import com.nimbusds.oauth2.sdk.ParseException;
+import com.nimbusds.oauth2.sdk.http.HTTPRequest;
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
+import com.nimbusds.openid.connect.sdk.UserInfoErrorResponse;
+import com.nimbusds.openid.connect.sdk.UserInfoResponse;
+import com.nimbusds.openid.connect.sdk.UserInfoSuccessResponse;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -168,24 +182,25 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     
     try{
       final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
-      final SSUri              userUri;
 
       switch(((SSAuthConf)conf).authType){
 
         case noAuth:{
 
-          userUri =
+          return SSAuthCheckCredRet.get(
+            noAuthKey,
             SSServCaller.authRegisterUser(
               SSVoc.systemUserUri,
               par.label,
               par.password,
-              true);
-
-          return SSAuthCheckCredRet.get(noAuthKey, userUri, SSMethU.authCheckCred);
+              true),
+            SSMethU.authCheckCred);
         }
 
         case csvFileAuth:{
 
+          final SSUri userUri;
+          
           try{
             userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
           }catch(Exception error){
@@ -208,6 +223,48 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               par.label,
               par.password),
             userUri, 
+            SSMethU.authCheckCred);
+        }
+        
+        case oidc:{
+          final SSLabel userLabel = SSLabel.get(SSAuthOIDC.getOIDCUserLabel(par.key));
+          SSUri         userUri   = null;
+          
+          try{
+            userUri = SSServCaller.entityGet(SSEntityE.user, userLabel).id;
+          }catch(Exception error){
+
+            if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
+              
+              userUri = 
+                SSServCaller.authRegisterUser(
+                  SSVoc.systemUserUri,
+                  userLabel,
+                  "1234",
+                  true);
+              
+              SSServErrReg.reset();
+              
+              return SSAuthCheckCredRet.get(
+                SSAuthMiscFct.checkAndGetKey(
+                  sqlFct,
+                  userUri,
+                  userLabel,
+                  "1234"),
+                userUri,
+                SSMethU.authCheckCred);
+            }
+            
+            throw error;
+          }
+          
+          return SSAuthCheckCredRet.get(
+            SSAuthMiscFct.checkAndGetKey(
+              sqlFct,
+              userUri,
+              userLabel,
+              "1234"),
+            userUri,
             SSMethU.authCheckCred);
         }
 
