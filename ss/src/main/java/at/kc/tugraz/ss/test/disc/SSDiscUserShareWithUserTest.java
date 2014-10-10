@@ -44,11 +44,14 @@ public class SSDiscUserShareWithUserTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
 
-    final SSUri userToShareWith = SSServCaller.authRegisterUser(
-      SSVoc.systemUserUri,
-      SSLabel.get("dieterTest"),
-      "1234",
-      true);
+    final SSUri userToShareWith =
+      SSServCaller.authRegisterUser(
+        SSVoc.systemUserUri,
+        SSLabel.get("dieterTest"),
+        "dieterTest" + SSVoc.systemEmailPostFix,
+        "1234",
+        false,
+        true);
     
     final SSDiscUserEntryAddRet result = 
       SSServCaller.discUserEntryAdd(

@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 

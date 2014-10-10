@@ -75,6 +75,7 @@ public class SSAuthCheckCredPar extends SSServPar{
         
         try{
           bearer    = par.clientJSONObj.get(SSVarU.bearer).getTextValue();
+          key       = bearer;
         }catch(Exception error){}
       }
       

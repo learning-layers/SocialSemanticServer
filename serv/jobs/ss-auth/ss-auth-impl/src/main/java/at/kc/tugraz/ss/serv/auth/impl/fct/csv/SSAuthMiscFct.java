@@ -23,18 +23,21 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.security.MessageDigest;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSAuthMiscFct{
   
-  public static String genKey(final String toDigest) throws Exception{
+  public static String genKey(
+    final String email, 
+    final String password) throws Exception{
 
+    final String toDigest = email + password;
+    
     try{
       if(SSStrU.isEmpty(toDigest)){
         throw new Exception("to digest string not valid");
@@ -62,15 +65,19 @@ public class SSAuthMiscFct{
   public static String checkAndGetKey(
     final SSAuthSQLFct sqlFct,
     final SSUri        userUri,
-    final SSLabel      userLabel,
+    final String       email,
     final String       pass) throws Exception{
     
     try{
       
+      if(!sqlFct.hasKey(userUri)){
+        throw new SSErr(SSErrE.userIsNotRegistered);
+      }
+       
       final String key = sqlFct.getKey(userUri);
       
-      if(!key.equals(genKey(SSStrU.toStr(userLabel) + pass))){
-        throw new Exception("user key wrong");
+      if(!key.equals(genKey(email, pass))){
+        throw new SSErr(SSErrE.userKeyWrong);
       }
       
       return key;
@@ -78,58 +85,6 @@ public class SSAuthMiscFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-
-  public static SSUri addSystemUser() throws Exception{
-    
-    try{
-      
-      if(!SSServCaller.entityExists(SSEntityE.user, SSLabel.get(SSVoc.systemUserLabel))){
-        
-        SSServCaller.entityEntityToPrivCircleAdd(
-          SSVoc.systemUserUri,
-          SSVoc.systemUserUri,
-          SSEntityE.user,
-          SSVoc.systemUserLabel,
-          null,
-          null,
-          false);
-        
-        SSServCaller.entityEntitiesToCircleAdd(
-          SSVoc.systemUserUri,
-          SSServCaller.entityCircleURIPubGet(false),
-          SSUri.asListWithoutNullAndEmpty(SSVoc.systemUserUri),
-          false);
-      }
-      
-      return SSVoc.systemUserUri;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  public static SSUri addStandardUser(
-    final SSLabel label) throws Exception{
-    
-    final SSUri userUri = SSServCaller.vocURICreate();
-    
-    SSServCaller.entityEntityToPrivCircleAdd(
-      SSVoc.systemUserUri,  
-      userUri, 
-      SSEntityE.user,
-      label, 
-      null, 
-      null, 
-      false);
-    
-    SSServCaller.entityEntitiesToCircleAdd(
-      SSVoc.systemUserUri,
-      SSServCaller.entityCircleURIPubGet(false),
-      SSUri.asListWithoutNullAndEmpty(userUri),
-      false);
-    
-    return userUri;
   }
 }
 

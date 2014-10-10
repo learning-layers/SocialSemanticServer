@@ -22,14 +22,14 @@
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSUserAddPar extends SSServPar{
   
-  public SSUri      forUser  = null;
-  public SSLabel    label    = null;
+  public SSLabel    label        = null;
+  public String     email        = null;
+  public Boolean    isSystemUser = null;
   
   public SSUserAddPar(SSServPar par) throws Exception{
    
@@ -38,8 +38,9 @@ public class SSUserAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.forUser = (SSUri)   pars.get(SSVarU.forUser);
-        this.label   = (SSLabel) pars.get(SSVarU.label);
+        this.email         = (String)  pars.get(SSVarU.email);
+        this.label         = (SSLabel) pars.get(SSVarU.label);
+        this.isSystemUser  = (Boolean) pars.get(SSVarU.isSystemUser);
       }
       
     }catch(Exception error){

@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String isSystemUser                                   = "isSystemUser";
+  public static final String email                                          = "email";
   public static final String bearer                                         = "bearer";
   public static final String category                                       = "category";
   public static final String learnEpCircles                                 = "learnEpCircles";

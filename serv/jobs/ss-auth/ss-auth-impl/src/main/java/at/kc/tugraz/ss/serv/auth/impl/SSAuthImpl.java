@@ -25,7 +25,6 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
@@ -40,7 +39,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthLoadKeysPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
@@ -54,9 +52,9 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
-  private static final List<String>          keys      = new ArrayList<>();
-  private static final String                noAuthKey = "FischersFritzFischtFrischeFische";
-  private        final SSAuthSQLFct          sqlFct;
+  private final SSAuthSQLFct    sqlFct;
+  private final String          noAuthKey       = "1234";
+  private final List<String>    csvFileAuthKeys = new ArrayList<>();
   
   public SSAuthImpl(final SSAuthConf conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception {
     
@@ -64,7 +62,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     
     this.sqlFct = new SSAuthSQLFct(dbSQL);
     
-    keys.add(noAuthKey);
 //    wikiauth  = new SSAuthWiki();
   }
   
@@ -103,7 +100,9 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         SSServCaller.authRegisterUser(
           SSVoc.systemUserUri,
           SSLabel.get(passwordForUser.getKey()),
+          passwordForUser.getKey() + SSVoc.systemEmailPostFix,
           passwordForUser.getValue(),
+          false,
           false);
       }
       
@@ -124,24 +123,25 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(SSStrU.equals(par.label, SSVoc.systemUserLabel)){
-        userUri = SSAuthMiscFct.addSystemUser();
-      }else{
-      
-        if(SSServCaller.entityExists(SSEntityE.user, par.label)){
-          userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
-        }else{
-          userUri = SSAuthMiscFct.addStandardUser(par.label);
-        }
-      }
-      
-      if(!sqlFct.hasKey(userUri)){
+      if(!SSServCaller.userExists(SSVoc.systemUserUri, par.email)){
         
-        keys.add(
-          sqlFct.addKey(
-            userUri,
-            SSAuthMiscFct.genKey(SSStrU.toStr(par.label) + par.password)));
+        userUri =
+          SSServCaller.userAdd(
+            SSVoc.systemUserUri,
+            par.label,
+            par.email,
+            par.isSystemUser,
+            false);
+      }else{
+        
+        userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, par.email);
+        
+        sqlFct.removeKey(userUri);
       }
+      
+      sqlFct.addKey(
+        userUri,
+        SSAuthMiscFct.genKey(par.email, par.password));
       
       try{
         SSServCaller.collUserRootAdd (userUri, false);
@@ -173,13 +173,38 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case noAuth:{
 
+          final SSUri userUri;
+          
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix)){
+            
+            userUri =
+              SSServCaller.userAdd(
+                SSVoc.systemUserUri,
+                par.label,
+                SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix,
+                false,
+                true);
+            
+            try{
+              SSServCaller.collUserRootAdd (userUri, true);
+            }catch(SSErr error){
+              
+              switch(error.code){
+                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+                default: SSServErrReg.regErrThrow(error);
+              }
+            }
+          }else{
+            
+            userUri = 
+              SSServCaller.userURIGet(
+                SSVoc.systemUserUri, 
+                SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix);
+          }
+          
           return SSAuthCheckCredRet.get(
             noAuthKey,
-            SSServCaller.authRegisterUser(
-              SSVoc.systemUserUri,
-              par.label,
-              par.password,
-              true),
+            userUri,
             SSMethU.authCheckCred);
         }
 
@@ -187,76 +212,61 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
           final SSUri userUri;
           
-          try{
-            userUri = SSServCaller.entityGet(SSEntityE.user, par.label).id;
-          }catch(Exception error){
-
-            if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
-              throw new SSErr(SSErrE.userIsNotRegistered);
-            }
-
-            throw error;
-          }
-
-          if(!sqlFct.hasKey(userUri)){
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, par.label + SSVoc.systemEmailPostFix)){
             throw new SSErr(SSErrE.userIsNotRegistered);
           }
+          
+          userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, par.label + SSVoc.systemEmailPostFix);
 
           return SSAuthCheckCredRet.get(
             SSAuthMiscFct.checkAndGetKey(
               sqlFct,
               userUri,
-              par.label,
+              par.label + SSVoc.systemEmailPostFix,
               par.password),
             userUri, 
             SSMethU.authCheckCred);
         }
         
         case oidc:{
-          final SSLabel userLabel = SSLabel.get(SSAuthOIDC.getOIDCUserLabel(par.bearer));
-          SSUri         userUri   = null;
+          final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
+          SSUri        userUri;
           
-          try{
-            userUri = SSServCaller.entityGet(SSEntityE.user, userLabel).id;
-          }catch(Exception error){
-
-            if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
-              
-              userUri = 
-                SSServCaller.authRegisterUser(
-                  SSVoc.systemUserUri,
-                  userLabel,
-                  "1234",
-                  true);
-              
-              SSServErrReg.reset();
-              
-              return SSAuthCheckCredRet.get(
-                SSAuthMiscFct.checkAndGetKey(
-                  sqlFct,
-                  userUri,
-                  userLabel,
-                  "1234"),
-                userUri,
-                SSMethU.authCheckCred);
-            }
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
             
-            throw error;
+            userUri =
+              SSServCaller.userAdd(
+                SSVoc.systemUserUri,
+                SSLabel.get(email),
+                email,
+                false,
+                true);
+            
+            try{
+              SSServCaller.collUserRootAdd (userUri, true);
+            }catch(SSErr error){
+              
+              switch(error.code){
+                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+                default: SSServErrReg.regErrThrow(error);
+              }
+            }
+          }else{
+            
+            userUri = 
+              SSServCaller.userURIGet(
+                SSVoc.systemUserUri, 
+                email);
           }
           
           return SSAuthCheckCredRet.get(
-            SSAuthMiscFct.checkAndGetKey(
-              sqlFct,
-              userUri,
-              userLabel,
-              "1234"),
+            par.key,
             userUri,
             SSMethU.authCheckCred);
         }
 
         default: 
           throw new UnsupportedOperationException();
-        
         
 //      case wikiAuth:{
 //        // TODO get SSAuthWikiConf
@@ -283,42 +293,31 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authLoadKeys(final SSServPar parA) throws Exception {
-    
-    try{
-      final SSAuthLoadKeysPar par = new SSAuthLoadKeysPar(parA);
-      
-      keys.clear();
-      keys.addAll(sqlFct.getKeys());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
   public void authCheckKey(final SSServPar parA) throws Exception {
     
     try{
       
       switch(((SSAuthConf)conf).authType){
         
-        case noAuth:{
+        case noAuth: break;
+        
+        case csvFileAuth:{
           
-          if(!keys.contains(parA.key)){
-            throw new Exception("login key wrong");
+          if(csvFileAuthKeys != null){
+            csvFileAuthKeys.addAll(sqlFct.getKeys());
+          }
+          
+          if(
+            noAuthKey.equals(parA.key) ||
+            !csvFileAuthKeys.contains(parA.key)){
+            throw new SSErr(SSErrE.userKeyWrong);
           }
           
           break;
         }
-          
-        case csvFileAuth:{
-          
-          if(
-            parA.key.equals(noAuthKey) ||
-            !keys.contains(parA.key)){
-            throw new Exception("login key wrong");
-          }
+        
+        case oidc:{
+          SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key);
         }
       }
     }catch(Exception error){

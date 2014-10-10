@@ -1662,12 +1662,12 @@ public class SSServCaller {
   
   public static SSUri userURIGet(
     final SSUri   user,
-    final SSLabel label) throws Exception{
+    final String  email) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,  user);
-    opPars.put(SSVarU.label, label);
+    opPars.put(SSVarU.email, email);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userURIGet, opPars));
   }
@@ -1687,13 +1687,33 @@ public class SSServCaller {
   }
   
   public static Boolean userExists(
-    final SSUri user) throws Exception{
+    final SSUri   user,
+    final String  email) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.email,        email);
     
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.userExists, opPars));
+  }
+  
+  public static SSUri userAdd(
+    final SSUri   user,
+    final SSLabel label,
+    final String  email,
+    final Boolean isSystemUser,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.email,        email);
+    opPars.put(SSVarU.isSystemUser, isSystemUser);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userAdd, opPars));
   }
   
   /* modeling user event */
@@ -2330,21 +2350,21 @@ public class SSServCaller {
   
   /* auth */
   
-  public static void authLoadKeys() throws Exception{
-    SSServA.callServViaServer(new SSServPar(SSMethU.authLoadKeys, new HashMap<>()));
-  }
-  
   public static SSUri authRegisterUser(
     final SSUri   user,
-    final SSLabel label, 
+    final SSLabel label,
+    final String  email, 
     final String  password,
+    final Boolean isSystemUser,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.label,             label);
+    opPars.put(SSVarU.email,             email);
     opPars.put(SSVarU.password,          password);
+    opPars.put(SSVarU.isSystemUser,      isSystemUser);
     opPars.put(SSVarU.shouldCommit,      shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.authRegisterUser, opPars));
@@ -2367,6 +2387,18 @@ public class SSServCaller {
     opPars.put(SSVarU.key, par.key);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
+  }
+  
+  public static void authCheckCred(
+    final SSUri  user,
+    final String key) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarU.key, key);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.authCheckCred, opPars));
   }
   
   /* i5Cloud */

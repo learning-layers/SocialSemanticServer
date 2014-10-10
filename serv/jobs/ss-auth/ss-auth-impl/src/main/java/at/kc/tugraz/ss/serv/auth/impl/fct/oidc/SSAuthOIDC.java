@@ -37,7 +37,7 @@ import net.minidev.json.JSONValue;
 
 public class SSAuthOIDC{
   
-  public static String getOIDCUserLabel(final String authToken) throws Exception{
+  public static String getOIDCUserEmail(final String authToken) throws Exception{
         
     // send request to OpenID Connect user info endpoint to retrieve complete user information
     // in exchange for access token.
@@ -97,7 +97,7 @@ public class SSAuthOIDC{
 //      email              = (String) ujson.get("email");
 //      loginName          = (String) ujson.get("preferred_username");
       
-      return (String) ujson.get("preferred_username");
+      return (String) ujson.get("mail");
       
     } catch (Exception error) {
       SSServErrReg.regErrThrow(error);

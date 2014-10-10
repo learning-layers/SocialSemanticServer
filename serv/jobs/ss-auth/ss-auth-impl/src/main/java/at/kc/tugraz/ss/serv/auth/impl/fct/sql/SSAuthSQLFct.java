@@ -127,5 +127,19 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public void removeKey(final SSUri user) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(deletes, SSSQLVarU.userId, user);
+      
+      dbSQL.deleteIgnore(authTable, deletes);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
   

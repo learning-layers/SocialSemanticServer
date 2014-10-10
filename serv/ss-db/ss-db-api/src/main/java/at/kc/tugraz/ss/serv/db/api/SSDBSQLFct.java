@@ -50,6 +50,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";
   protected static final String   entityTable                         = "entity";
+  protected static final String   userTable                           = "user";
   protected static final String   entitiesTable                       = "entities";
   protected static final String   flagTable                           = "flag";
   protected static final String   flagsTable                          = "flags";
@@ -242,6 +243,19 @@ public class SSDBSQLFct extends SSDBFct{
     
     try{
       wheres.put(table + SSStrU.dot + key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void where(
+    final Map<String, String> wheres,
+    final String              table, 
+    final String              key,
+    final String              value) throws Exception{
+    
+    try{
+      wheres.put(table + SSStrU.dot + key, value);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

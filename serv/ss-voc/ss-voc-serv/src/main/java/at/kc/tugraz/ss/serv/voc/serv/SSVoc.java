@@ -35,10 +35,12 @@ import java.util.List;
 
 public class SSVoc extends SSServA{
   
-  public static final SSServA inst            = new SSVoc(null, SSVocI.class);
-  public static final String  sssUri          = "http://social.semantic.server.eu";
-  public static SSLabel       systemUserLabel = null;
-  public static SSUri         systemUserUri   = null;
+  public static final SSServA inst               = new SSVoc(null, SSVocI.class);
+  public static final String  sssUri             = "http://social.semantic.server.eu";
+  public static SSLabel       systemUserLabel    = null;
+  public static SSUri         systemUserUri      = null;
+  public static String        systemUserEmail    = null;
+  public static String        systemEmailPostFix = "@sss.kc.tugraz.at";
   
   protected SSVoc(
     final Class servImplClientInteraceClass, 
@@ -59,6 +61,7 @@ public class SSVoc extends SSServA{
     
     systemUserLabel = SSLabel.get ("sytem");
     systemUserUri   = SSUri.get   (SSStrU.toStr(SSServCaller.vocURIPrefixGet()) + SSStrU.valueUser + SSStrU.slash + systemUserLabel);
+    systemUserEmail = systemUserLabel.toString() + systemEmailPostFix;
     
     return this;
   }

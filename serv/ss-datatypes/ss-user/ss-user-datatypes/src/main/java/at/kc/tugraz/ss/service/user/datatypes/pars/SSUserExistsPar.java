@@ -13,17 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@ApiModel(value = "userExists request parameter")
 public class SSUserExistsPar extends SSServPar{
   
-  public SSUserExistsPar(SSServPar par) throws Exception{
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "email address of the user" )
+  public String email;
+  
+  public SSUserExistsPar(){}
+    
+  public SSUserExistsPar(final SSServPar par) throws Exception{
+    
     super(par);
+    
+    try{
+      
+      if(pars != null){
+        email         = (String)  pars.get(SSVarU.email);
+      }
+      
+      if(par.clientJSONObj != null){
+        email     = par.clientJSONObj.get(SSVarU.email).getTextValue();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

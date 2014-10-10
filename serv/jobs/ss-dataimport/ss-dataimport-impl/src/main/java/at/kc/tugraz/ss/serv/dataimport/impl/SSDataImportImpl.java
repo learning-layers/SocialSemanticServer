@@ -49,6 +49,7 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -214,6 +215,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           SSServCaller.authRegisterUser(
             par.user,
             video.authorLabel,
+            video.authorLabel + SSVoc.systemEmailPostFix,
             "1234",
             true);
         
@@ -325,6 +327,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           SSServCaller.authRegisterUser(
             par.user, 
             SSLabel.get(userLabel), 
+            userLabel + SSVoc.systemEmailPostFix,
             "1234", 
             false);
         

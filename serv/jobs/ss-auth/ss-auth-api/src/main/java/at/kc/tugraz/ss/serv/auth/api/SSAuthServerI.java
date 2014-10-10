@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 
 public interface SSAuthServerI {
 
-  public void                authLoadKeys            (final SSServPar parA) throws Exception;
   public SSAuthCheckCredRet  authCheckCred           (final SSServPar parA) throws Exception;
   public void                authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
   public void                authCheckKey            (final SSServPar parA) throws Exception;

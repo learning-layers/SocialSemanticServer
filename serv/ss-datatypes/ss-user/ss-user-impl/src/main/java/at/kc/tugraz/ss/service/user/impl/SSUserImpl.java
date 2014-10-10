@@ -25,20 +25,24 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import java.util.*;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI{
   
@@ -142,10 +146,12 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   @Override
   public Boolean userExists(final SSServPar parA) throws Exception{
     
-    final SSUserExistsPar par = new SSUserExistsPar (parA);
-    
     try{
-      return sqlFct.existsUser(par.user);
+      
+      final SSUserExistsPar par = new SSUserExistsPar (parA);
+      
+      return sqlFct.existsUser(par.email);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -158,7 +164,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     try{
       final SSUserURIGetPar par = new SSUserURIGetPar (parA);
       
-      return sqlFct.getUserURIForLabel(par.label);
+      return sqlFct.getUserURIForEmail(par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -183,6 +189,68 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       return users;
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public SSUri userAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSUserAddPar  par      = new SSUserAddPar(parA);
+      final SSUri         userUri;
+      final SSLabel       tmpLabel;
+      final String        tmpEmail;
+      
+      if(par.isSystemUser){
+        userUri  = SSVoc.systemUserUri;
+        tmpLabel = SSVoc.systemUserLabel;
+        tmpEmail = SSVoc.systemUserEmail;
+      }else{
+        userUri  = SSServCaller.vocURICreate();
+        tmpLabel = par.label;
+        tmpEmail = par.email;        
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityEntityToPrivCircleAdd(
+        SSVoc.systemUserUri,
+        userUri,
+        SSEntityE.user,
+        tmpLabel,
+        null,
+        null,
+        false);
+      
+      SSServCaller.entityEntitiesToCircleAdd(
+        SSVoc.systemUserUri,
+        SSServCaller.entityCircleURIPubGet(false),
+        SSUri.asListWithoutNullAndEmpty(userUri),
+        false);
+      
+      sqlFct.addUser(userUri, tmpEmail);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return userUri;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return userAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

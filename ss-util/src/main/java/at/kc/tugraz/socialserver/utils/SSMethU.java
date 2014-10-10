@@ -145,6 +145,7 @@ public enum SSMethU{
   userAll                                             ,
   userExists                                          ,
   usersGet,                            
+  userAdd,
   
   //user event
   uEsGet                                              ,
@@ -272,7 +273,6 @@ public enum SSMethU{
   
   //auth
   authUsersFromCSVFileAdd                             ,
-  authLoadKeys,
   authRegisterUser,
   authCheckCred                                       ,
   authCheckKey                                        ,

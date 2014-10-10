@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.evernote.edam.error.EDAMErrorCode;
@@ -75,7 +76,13 @@ public class SSDataImportEvernoteHelper {
     
     this.evernoteInfo    = getNoteStore(par);
     this.userName        = evernoteHelper.getUserName        (evernoteInfo);
-    this.userUri         = SSServCaller.authRegisterUser     (par.user, userName, "1234", false);
+    this.userUri         = 
+      SSServCaller.authRegisterUser(
+        par.user, 
+        userName,
+        userName + SSVoc.systemEmailPostFix, 
+        "1234", 
+        false);
     
     evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);
     

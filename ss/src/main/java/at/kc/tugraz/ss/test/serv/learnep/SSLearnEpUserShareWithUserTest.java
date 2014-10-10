@@ -77,11 +77,14 @@ public class SSLearnEpUserShareWithUserTest extends SSServOpTestCaseA{
         1F,
         true);
     
-    final SSUri userToShareWith = SSServCaller.authRegisterUser(
-      SSVoc.systemUserUri,
-      SSLabel.get("dieterTest"),
-      "1234", 
-      true);
+    final SSUri userToShareWith = 
+      SSServCaller.authRegisterUser(
+        SSVoc.systemUserUri,
+        SSLabel.get("dieterTest"),
+        "dieterTest" + SSVoc.systemEmailPostFix,
+        "1234",
+        false,
+        true);
     
     SSServCaller.entityUserShare(
       SSVoc.systemUserUri, 

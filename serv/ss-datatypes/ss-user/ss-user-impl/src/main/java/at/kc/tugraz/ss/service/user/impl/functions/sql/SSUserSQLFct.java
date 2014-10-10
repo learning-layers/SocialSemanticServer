@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
@@ -45,19 +44,32 @@ public class SSUserSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<SSUser>        users  = new ArrayList<SSUser>();
-      final Map<String, String> wheres  = new HashMap<>();
+      final List<SSUser>        users            = new ArrayList<>();
+      final List<String>        columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
       
       where(wheres, SSSQLVarU.type, SSEntityE.user);
       
-      resultSet = dbSQL.select(entityTable, wheres);
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.email);
+
+      table(tables, entityTable);
+      table(tables, userTable);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       while(resultSet.next()){
         
         users.add(
           SSUser.get(
             bindingStrToUri   (resultSet, SSSQLVarU.id),
-            bindingStrToLabel (resultSet, SSSQLVarU.label)));
+            bindingStrToLabel (resultSet, SSSQLVarU.label),
+            bindingStr        (resultSet, SSSQLVarU.email)));
       }
       
       return users;
@@ -69,20 +81,30 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
   
-  public Boolean existsUser(final SSUri userUri) throws Exception{
+  public Boolean existsUser(final String email) throws Exception{
     
     ResultSet resultSet  = null;
     
     try{
+      final List<String>        columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
       
-      final Map<String, String> wheres = new HashMap<>();
+      column(columns, SSSQLVarU.id);
+
+      table(tables, entityTable);
+      table(tables, userTable);
       
-      where(wheres, SSSQLVarU.id,   userUri);
-      where(wheres, SSSQLVarU.type, SSEntityE.user);
+      where(wheres, entityTable, SSSQLVarU.type,  SSEntityE.user);
+      where(wheres, userTable,   SSSQLVarU.email, email);
       
-      resultSet = dbSQL.select(entityTable, wheres);
+      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       return resultSet.first();
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -91,18 +113,27 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSUri getUserURIForLabel(final SSLabel label) throws Exception{
+  public SSUri getUserURIForEmail(final String email) throws Exception{
     
     ResultSet resultSet  = null;
     
     try{
       
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
       
-      where(wheres, SSSQLVarU.label,  label);
-      where(wheres, SSSQLVarU.type,   SSEntityE.user);
+      column(columns, SSSQLVarU.id);
+
+      table(tables, entityTable);
+      table(tables, userTable);
       
-      resultSet = dbSQL.select(entityTable, wheres);
+      where(wheres, userTable,   SSSQLVarU.email, email);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       checkFirstResult(resultSet);
       
@@ -116,28 +147,58 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
    
-  public SSUser getUser(final SSUri userUri) throws Exception{
+  public SSUser getUser(final SSUri user) throws Exception{
     
     ResultSet resultSet  = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+       final List<String>       columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
       
-      where(wheres, SSSQLVarU.id, userUri);
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.email);
+      column(columns, SSSQLVarU.label);
+
+      table(tables, entityTable);
+      table(tables, userTable);
       
-      resultSet = dbSQL.select(entityTable, wheres);
+      where(wheres, entityTable, SSSQLVarU.id, user);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       checkFirstResult(resultSet);
       
       return SSUser.get(
-        userUri, 
-        bindingStrToLabel(resultSet, SSSQLVarU.label));
+        user, 
+        bindingStrToLabel(resultSet, SSSQLVarU.label),
+        bindingStr(resultSet, SSSQLVarU.email));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void addUser(
+    final SSUri  user,
+    final String email) throws Exception{
+    
+    try{
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.userId, user);
+      insert(inserts, SSSQLVarU.email,  email);
+      
+      dbSQL.insert(userTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

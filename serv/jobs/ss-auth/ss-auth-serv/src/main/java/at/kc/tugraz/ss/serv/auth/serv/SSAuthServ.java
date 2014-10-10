@@ -61,11 +61,11 @@ public class SSAuthServ extends SSServA{
     SSServCaller.authRegisterUser(
       SSVoc.systemUserUri,
       SSVoc.systemUserLabel,
+      SSVoc.systemUserLabel + SSVoc.systemEmailPostFix,
       ((SSAuthConf)servConf).systemUserPassword,
+      true,
       true);
     
-    SSServCaller.authLoadKeys();
-      
     return this;
   }
   
@@ -81,8 +81,6 @@ public class SSAuthServ extends SSServA{
       switch(((SSAuthConf)servConf).authType){
         case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(true); break;
       }
-      
-      SSServCaller.authLoadKeys();
     }
   }
   

@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -28,25 +30,32 @@ import java.util.Map;
 
 public class SSUser extends SSEntity{
 
+  public String email = null;
+  
   public static SSUser get(
     final SSUri    id,
-    final SSLabel  label) throws Exception{
+    final SSLabel  label,
+    final String   email) throws Exception{
     
-    return new SSUser(id, label);
+    return new SSUser(id, label, email);
   }
   
   protected SSUser(
     final SSUri   id,
-    final SSLabel label) throws Exception{
+    final SSLabel label,
+    final String  email) throws Exception{
     
     super(id, SSEntityE.user, label);
     
+    this.email = email;
   }
   
   @Override
   public Object jsonLDDesc(){
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    ld.put(SSVarU.email, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

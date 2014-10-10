@@ -60,6 +60,7 @@ public class SSSQLVarU{
   public static final String activityType                                   = "activityType";
   public static final String textComment                                    = "textComment";
   public static final String type                                           = "type";
+  public static final String email                                          = "email";
   public static final String ratingValue                                    = "ratingValue";
   public static final String ratingId                                       = "ratingId";
   public static final String author                                         = "author";

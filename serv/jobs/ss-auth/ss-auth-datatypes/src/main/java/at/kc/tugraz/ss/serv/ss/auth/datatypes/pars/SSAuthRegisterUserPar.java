@@ -28,7 +28,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSAuthRegisterUserPar extends SSServPar{
   
   public SSLabel  label             = null;
+  public String   email             = null;
   public String   password          = null;
+  public Boolean  isSystemUser      = null;
   
   public SSAuthRegisterUserPar(final SSServPar par) throws Exception{
     
@@ -38,7 +40,9 @@ public class SSAuthRegisterUserPar extends SSServPar{
       
       if(pars != null){
         password           = (String)  pars.get(SSVarU.password);
+        email              = (String)  pars.get(SSVarU.email);
         label              = (SSLabel) pars.get(SSVarU.label);
+        isSystemUser       = (Boolean) pars.get(SSVarU.isSystemUser);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

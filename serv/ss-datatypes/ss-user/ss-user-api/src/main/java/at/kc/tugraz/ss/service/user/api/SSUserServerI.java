@@ -31,4 +31,5 @@ public interface SSUserServerI {
   public SSUri          userURIGet           (final SSServPar parA)     throws Exception;
   public List<SSUser>   userAll              (final SSServPar parA)     throws Exception;
   public List<SSUser>   usersGet             (final SSServPar parA)     throws Exception;
+  public SSUri          userAdd              (final SSServPar parA)     throws Exception;
 }

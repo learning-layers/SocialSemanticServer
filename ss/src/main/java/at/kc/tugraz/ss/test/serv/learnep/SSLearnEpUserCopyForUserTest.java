@@ -86,11 +86,14 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
         new Date().getTime(),
         true);
     
-    final SSUri userToCopyFor = SSServCaller.authRegisterUser(
-      SSVoc.systemUserUri,
-      SSLabel.get("dieterTest"),
-      "1234", 
-      true);
+    final SSUri userToCopyFor = 
+      SSServCaller.authRegisterUser(
+        SSVoc.systemUserUri,
+        SSLabel.get("dieterTest"),
+        "dieterTest" + SSVoc.systemEmailPostFix,
+        "1234",
+        false,
+        true);
     
     SSServCaller.entityUserCopy(
       SSVoc.systemUserUri, 
