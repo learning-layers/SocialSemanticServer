@@ -82,6 +82,7 @@ public class SSDataImportEvernoteHelper {
         userName,
         userName + SSVoc.systemEmailPostFix, 
         "1234", 
+        false,
         false);
     
     evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);

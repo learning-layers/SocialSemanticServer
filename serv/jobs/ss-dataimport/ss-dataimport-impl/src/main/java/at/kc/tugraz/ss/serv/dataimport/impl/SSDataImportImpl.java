@@ -217,6 +217,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.authorLabel,
             video.authorLabel + SSVoc.systemEmailPostFix,
             "1234",
+            false,
             true);
         
         SSServCaller.entityEntityToPrivCircleAdd(
@@ -328,7 +329,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             par.user, 
             SSLabel.get(userLabel), 
             userLabel + SSVoc.systemEmailPostFix,
-            "1234", 
+            "1234",
+            false,
             false);
         
         tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
