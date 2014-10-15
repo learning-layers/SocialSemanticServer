@@ -39,9 +39,9 @@ public class SSLearnEpVersionCreatePar extends SSServPar{
         learnEp   = (SSUri) pars.get(SSVarU.learnEp);
       }
       
-//      if(clientPars != null){
-//        learnEp   = SSUri.get(clientPars.get(SSVarU.learnEp));
-//      }
+      if(par.clientJSONObj != null){
+        learnEp   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEp).getTextValue());
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

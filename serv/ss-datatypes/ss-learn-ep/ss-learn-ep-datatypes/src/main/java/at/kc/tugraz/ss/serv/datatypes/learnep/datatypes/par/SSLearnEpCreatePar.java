@@ -42,13 +42,13 @@ public class SSLearnEpCreatePar extends SSServPar{
         description   = (SSTextComment)  pars.get(SSVarU.description);
       }
       
-//      if(clientPars != null){
-//        label         = SSLabel.get       (clientPars.get(SSVarU.label));
-//        
-//        try{
-//          description   = SSTextComment.get (clientPars.get(SSVarU.description));
-//        }catch(Exception error){}
-//      }
+      if(par.clientJSONObj != null){
+        label         = SSLabel.get       (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        
+        try{
+          description   = SSTextComment.get (par.clientJSONObj.get(SSVarU.description).getTextValue());
+        }catch(Exception error){}
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

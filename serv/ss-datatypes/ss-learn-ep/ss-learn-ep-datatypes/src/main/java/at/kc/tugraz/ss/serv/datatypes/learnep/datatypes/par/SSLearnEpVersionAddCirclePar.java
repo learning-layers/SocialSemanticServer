@@ -54,16 +54,16 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
         yC                = (Float)    pars.get(SSVarU.yC);
       }
       
-//      if(clientPars != null){
-//        learnEpVersion    = SSUri.get        (clientPars.get(SSVarU.learnEpVersion));
-//        label             = SSLabel.get      (clientPars.get(SSVarU.label));
-//        xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
-//        yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
-//        xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
-//        yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
-//        xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
-//        yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
-//      }
+      if(par.clientJSONObj != null){
+        learnEpVersion    = SSUri.get        (par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
+        label             = SSLabel.get      (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        xLabel            = par.clientJSONObj.get(SSVarU.xLabel).getNumberValue().floatValue();
+        yLabel            = par.clientJSONObj.get(SSVarU.yLabel).getNumberValue().floatValue();
+        xR                = par.clientJSONObj.get(SSVarU.xR).getNumberValue().floatValue();
+        yR                = par.clientJSONObj.get(SSVarU.yR).getNumberValue().floatValue();
+        xC                = par.clientJSONObj.get(SSVarU.xC).getNumberValue().floatValue();
+        yC                = par.clientJSONObj.get(SSVarU.yC).getNumberValue().floatValue();
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

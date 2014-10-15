@@ -39,9 +39,9 @@ public class SSLearnEpVersionGetTimelineStatePar extends SSServPar{
         learnEpVersion   = (SSUri) pars.get(SSVarU.learnEpVersion);
       }
       
-//      if(clientPars != null){
-//        learnEpVersion   = SSUri.get(clientPars.get(SSVarU.learnEpVersion));
-//      }
+      if(par.clientJSONObj != null){
+        learnEpVersion   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

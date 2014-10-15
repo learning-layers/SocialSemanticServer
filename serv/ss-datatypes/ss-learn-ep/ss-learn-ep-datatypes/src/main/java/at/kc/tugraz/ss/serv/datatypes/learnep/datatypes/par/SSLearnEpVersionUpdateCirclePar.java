@@ -54,37 +54,37 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
         yC                = (Float)    pars.get(SSVarU.yC);
       }
       
-//      if(clientPars != null){
-//        learnEpCircle     = SSUri.get        (clientPars.get(SSVarU.learnEpCircle));
-//        
-//        try{
-//          label             = SSLabel.get      (clientPars.get(SSVarU.label));
-//        }catch(Exception error){}
-//        
-//        try{
-//          xLabel            = Float.parseFloat (clientPars.get(SSVarU.xLabel));
-//        }catch(Exception error){}
-//        
-//        try{
-//          yLabel            = Float.parseFloat (clientPars.get(SSVarU.yLabel));
-//        }catch(Exception error){}
-//        
-//        try{
-//          xR                = Float.parseFloat (clientPars.get(SSVarU.xR));
-//        }catch(Exception error){}
-//        
-//        try{
-//          yR                = Float.parseFloat (clientPars.get(SSVarU.yR));
-//        }catch(Exception error){}
-//        
-//        try{
-//          xC                = Float.parseFloat (clientPars.get(SSVarU.xC));
-//        }catch(Exception error){}
-//        
-//        try{
-//          yC                = Float.parseFloat (clientPars.get(SSVarU.yC));
-//        }catch(Exception error){}
-//      }
+      if(par.clientJSONObj != null){
+        learnEpCircle     = SSUri.get        (par.clientJSONObj.get(SSVarU.learnEpCircle).getTextValue());
+        
+        try{
+          label             = SSLabel.get      (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        }catch(Exception error){}
+        
+        try{
+          xLabel            = par.clientJSONObj.get(SSVarU.xLabel).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
+        try{
+          yLabel            = par.clientJSONObj.get(SSVarU.yLabel).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
+        try{
+          xR                = par.clientJSONObj.get(SSVarU.xR).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
+        try{
+          yR                = par.clientJSONObj.get(SSVarU.yR).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
+        try{
+          xC                = par.clientJSONObj.get(SSVarU.xC).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
+        try{
+          yC                = par.clientJSONObj.get(SSVarU.yC).getNumberValue().floatValue();
+        }catch(Exception error){}
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

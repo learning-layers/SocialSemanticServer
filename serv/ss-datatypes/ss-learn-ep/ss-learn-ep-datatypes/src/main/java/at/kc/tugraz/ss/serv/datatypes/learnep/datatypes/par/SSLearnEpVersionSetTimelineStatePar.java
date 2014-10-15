@@ -43,11 +43,11 @@ public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
         endTime            = (Long)    pars.get(SSVarU.endTime);
       }
       
-//      if(clientPars != null){
-//        learnEpVersion    = SSUri.get       (clientPars.get(SSVarU.learnEpVersion));
-//        startTime         = Long.parseLong  (clientPars.get(SSVarU.startTime));
-//        endTime           = Long.parseLong  (clientPars.get(SSVarU.endTime));
-//      } 
+      if(par.clientJSONObj != null){
+        learnEpVersion    = SSUri.get       (par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
+        startTime         = Long.parseLong  (par.clientJSONObj.get(SSVarU.startTime).getTextValue());
+        endTime           = Long.parseLong  (par.clientJSONObj.get(SSVarU.endTime).getTextValue());
+      } 
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

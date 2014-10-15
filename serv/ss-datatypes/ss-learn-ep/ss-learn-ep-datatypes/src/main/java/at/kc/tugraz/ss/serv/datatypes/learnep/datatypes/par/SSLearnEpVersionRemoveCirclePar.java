@@ -39,9 +39,9 @@ public class SSLearnEpVersionRemoveCirclePar extends SSServPar{
         learnEpCircle   = (SSUri) pars.get(SSVarU.learnEpCircle);
       }
       
-//      if(clientPars != null){
-//        learnEpCircle   = SSUri.get(clientPars.get(SSVarU.learnEpCircle));
-//      }
+      if(par.clientJSONObj != null){
+        learnEpCircle   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpCircle).getTextValue());
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
