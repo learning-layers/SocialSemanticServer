@@ -152,6 +152,13 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20140107</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-cloud-serv</artifactId>
       <version>${project.version}</version>

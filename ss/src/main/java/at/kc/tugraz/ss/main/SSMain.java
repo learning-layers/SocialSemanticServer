@@ -25,14 +25,13 @@ import at.kc.tugraz.ss.adapter.socket.impl.SSServerSocket;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 
 public class SSMain{
-  
+
   public SSMain() {}
   
   public static void main(String[] args) throws Exception {
     
 //    System.getProperties().list(System.out);
     new SSMain().start(args);
-    
   }
   
   public void start(String[] args) throws Exception {

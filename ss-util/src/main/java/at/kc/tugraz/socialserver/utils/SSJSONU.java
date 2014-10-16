@@ -40,6 +40,7 @@ public class SSJSONU{
   public static List<String> jsonArrayList(String jsonStr) throws Exception {
     
     ObjectMapper mapper = new ObjectMapper();
+    
     JavaType     type   = mapper.getTypeFactory().constructCollectionType(List.class, String.class);
     
     return mapper.readValue(jsonStr, type);
@@ -50,8 +51,6 @@ public class SSJSONU{
   }
   
   public static JsonParser jsonParser(String jsonStr) throws Exception{
-    
-    
     return new JsonFactory().createJsonParser(jsonStr);
   }
 }
