@@ -42,9 +42,75 @@ public class SSMediaWikiWithLDAP{
     final HttpClient httpclient = HttpClients.createDefault();
     final String     token      = loginFirstTime  (httpclient);
     final String     sessionID  = loginSecondTime (httpclient, token);
-    final String     content    = queryContent    (httpclient, sessionID, "MyFirstVorgang");
+    String           content    = queryContent    (httpclient, sessionID, "MyFirstVorgang");
+    
+    changeContent(httpclient, sessionID, "MyFirstVorgang");
+    
+    content    = queryContent    (httpclient, sessionID, "MyFirstVorgang");
     
     logout(httpclient);
+  }
+  
+  private static String changeContent(
+    final HttpClient httpclient,
+    final String     cookie,
+    final String     title) throws Exception{
+    
+    final HttpGet httpget = 
+      new HttpGet("http://kcs-wmforum/knowiki/api.php?action=sfautoedit"
+        + "&form=Projekt-Vorgangsebene" 
+        + "&target=" + title
+        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf" 
+        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
+        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj" 
+        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5" 
+        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET" 
+        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details" 
+        + "&Projekt-Vorgangsebene[Area]="                               + "KE" 
+        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2" 
+        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2" 
+        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler" 
+        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler" 
+        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler" 
+        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
+        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35" 
+        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
+        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald" 
+        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300" 
+        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100" 
+        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90" 
+        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500" 
+        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30" 
+      );
+    
+    httpget.addHeader("Cookie", cookie);
+    
+    final HttpResponse response   = httpclient.execute(httpget);
+    final HttpEntity   entity     = response.getEntity();
+    final JSONObject   json, query, pages, firstPage;
+    final JSONArray    revisions, pageids;
+    final String       content, pageID;
+    
+    InputStream        in         = null;
+
+    if(entity == null){
+      throw new Exception("changeContent error 1");
+    }
+    
+    try{
+       in        = entity.getContent();
+       System.out.println(SSFileU.readStreamText(in));
+       
+       return "";
+    }catch(Exception error){
+      throw new Exception("queryContent error 2");
+    }finally{
+      if(in != null){
+        in.close();
+      }
+    }
+    
+//    
   }
   
   private static List<BasicNameValuePair> getFirstLoginParams(){
