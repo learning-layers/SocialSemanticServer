@@ -386,7 +386,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.user,
         circleUri,
         SSEntityE.learnEpCircle,
-        null,
+        par.label,
         null,
         null,
         false);
