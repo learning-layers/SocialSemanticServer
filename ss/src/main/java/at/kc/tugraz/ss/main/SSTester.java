@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.main;
 import at.kc.tugraz.ss.test.category.SSCategoryTester;
 import at.kc.tugraz.ss.test.disc.SSDiscTester;
 import at.kc.tugraz.ss.test.i5cloud.SSI5CloudTester;
+import at.kc.tugraz.ss.test.search.SSSearchTester;
 import at.kc.tugraz.ss.test.serv.dataexport.SSDataExportTester;
 import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
@@ -46,6 +47,7 @@ public class SSTester extends Thread{
       new SSDataExportTester().start();
       new SSTagTester().start();
       new SSCategoryTester().start();
+      new SSSearchTester().start();
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
 

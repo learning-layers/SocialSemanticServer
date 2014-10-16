@@ -847,6 +847,52 @@ public class SSServCaller {
     return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.collsUserCouldSubscribeGet, opPars));
   }
 
+  /* search */
+  
+  public static List<SSEntity> search(
+    final SSUri                user, 
+    final List<String>         keywordsToSearchFor,
+    final Boolean              includeTextualContent,
+    final List<String>         wordsToSearchFor,
+    final Boolean              includeTags,
+    final List<String>         tagsToSearchFor,
+    final Boolean              includeMIs,
+    final List<String>         misToSearchFor,
+    final Boolean              includeLabel,
+    final List<String>         labelsToSearchFor,
+    final Boolean              includeDescription,
+    final List<String>         descriptionsToSearchFor,
+    final List<SSEntityE>      typesToSearchOnlyFor,
+    final Boolean              includeOnlySubEntities,
+    final List<SSUri>          entitiesToSearchWithin,
+    final Boolean              extendToParents, 
+    final Boolean              includeRecommendedResults,
+    final Boolean              provideEntries) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                      user);
+    opPars.put(SSVarU.keywordsToSearchFor,       keywordsToSearchFor);
+    opPars.put(SSVarU.includeTextualContent,     includeTextualContent);
+    opPars.put(SSVarU.wordsToSearchFor,          wordsToSearchFor);
+    opPars.put(SSVarU.includeTags,               includeTags);
+    opPars.put(SSVarU.tagsToSearchFor,           tagsToSearchFor);
+    opPars.put(SSVarU.includeMIs,                includeMIs);
+    opPars.put(SSVarU.misToSearchFor,            misToSearchFor);
+    opPars.put(SSVarU.includeLabel,              includeLabel);
+    opPars.put(SSVarU.labelsToSearchFor,         labelsToSearchFor);
+    opPars.put(SSVarU.includeDescription,        includeDescription);
+    opPars.put(SSVarU.descriptionsToSearchFor,   descriptionsToSearchFor);
+    opPars.put(SSVarU.typesToSearchOnlyFor,      typesToSearchOnlyFor);
+    opPars.put(SSVarU.includeOnlySubEntities,    includeOnlySubEntities);
+    opPars.put(SSVarU.entitiesToSearchWithin,    entitiesToSearchWithin);
+    opPars.put(SSVarU.extendToParents,           extendToParents);
+    opPars.put(SSVarU.includeRecommendedResults, includeRecommendedResults);
+    opPars.put(SSVarU.provideEntries,            provideEntries);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.search, opPars));
+  }
+  
   /* solr */
 
   public static List<String> solrSearch(

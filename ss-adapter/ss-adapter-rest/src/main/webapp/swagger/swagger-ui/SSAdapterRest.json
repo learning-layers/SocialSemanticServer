@@ -22,379 +22,37 @@
       } ]
     } ]
   }, {
-    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
+    "path" : "/flagsGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "remove certain attached attributes from an entity",
+      "summary" : "retrieve flags set",
       "notes" : "",
-      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
-      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
+      "type" : "SSFlagsUserGetRet",
+      "nickname" : "flagsGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
+        "type" : "SSFlagsUserGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]
   }, {
-    "path" : "/entityEntityUsersGet",
+    "path" : "/activitiesGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve users who can access given entity",
+      "summary" : "retrieve activities from within a certain time frame",
       "notes" : "",
-      "type" : "SSEntityUserEntityUsersGetRet",
-      "nickname" : "entityEntityUsersGet",
+      "type" : "SSActivitiesUserGetRet",
+      "nickname" : "activitiesGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSEntityUserEntityUsersGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/entityUserCirclesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve circles the user is in",
-      "notes" : "",
-      "type" : "SSEntityUserCirclesGetRet",
-      "nickname" : "entityUserCirclesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserCirclesGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/entityEntitiesToCircleAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add given entities to a user-generated circle",
-      "notes" : "",
-      "type" : "SSEntityUserEntitiesToCircleAddRet",
-      "nickname" : "entityEntitiesToCircleAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserEntitiesToCircleAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/entityUsersToCircleAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add given users to a user-generated circle",
-      "notes" : "",
-      "type" : "SSEntityUserUsersToCircleAddRet",
-      "nickname" : "entityUsersToCircleAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserUsersToCircleAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/entityCircleCreate",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "create a circle and add users and entities to",
-      "notes" : "",
-      "type" : "SSEntityUserCircleCreateRet",
-      "nickname" : "entityCircleCreate",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserCircleCreatePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/dataImportEvernote",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "import data from evernote for certain user",
-      "notes" : "",
-      "type" : "SSDataImportEvernoteRet",
-      "nickname" : "dataImportEvernote",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDataImportEvernotePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoriesPredefinedGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "get predefined categories",
-      "notes" : "",
-      "type" : "SSCategoriesPredefinedGetRet",
-      "nickname" : "categoriesPredefinedGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoriesPredefinedGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/collsEntityIsInGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve all the user's collections given entity is in",
-      "notes" : "",
-      "type" : "SSCollsUserEntityIsInGetRet",
-      "nickname" : "collsEntityIsInGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCollsUserEntityIsInGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/collsCouldSubscribeGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve a list of all public collections given user could subscribe to",
-      "notes" : "",
-      "type" : "SSCollsUserCouldSubscribeGetRet",
-      "nickname" : "collsCouldSubscribeGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCollsUserCouldSubscribeGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/collEntryChangePos",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "change the sequential order of entries in a user's collection",
-      "notes" : "",
-      "type" : "SSCollUserEntryChangePosRet",
-      "nickname" : "collEntryChangePos",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCollUserEntryChangePosPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/collEntriesDelete",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "delete one or more entries from a collection",
-      "notes" : "",
-      "type" : "SSCollUserEntriesDeleteRet",
-      "nickname" : "collEntriesDelete",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCollUserEntriesDeletePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/collCumulatedTagsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
-      "notes" : "",
-      "type" : "SSCollUserCumulatedTagsGetRet",
-      "nickname" : "collCumulatedTagsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCollUserCumulatedTagsGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discURIsForTargetGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve discussions for a certain entity",
-      "notes" : "",
-      "type" : "SSDiscUserDiscURIsForTargetGetRet",
-      "nickname" : "discURIsForTargetGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserDiscURIsForTargetGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discWithEntriesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the discussion with its entries",
-      "notes" : "",
-      "type" : "SSDiscUserWithEntriesRet",
-      "nickname" : "discWithEntriesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserWithEntriesGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileWritingMinutesLeft",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve number of minutes left user is allowed to replace / re-upload a file",
-      "notes" : "",
-      "type" : "SSFileWritingMinutesLeftRet",
-      "nickname" : "fileWritingMinutesLeft",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileWritingMinutesLeftPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/modelUEResourceDetails",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve automatically usage-based modeled details for given entity",
-      "notes" : "",
-      "type" : "SSModelUEResourceDetailsRet",
-      "nickname" : "modelUEResourceDetails",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSModelUEEntityDetailsPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/tagEntitiesForTagsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve entities for tags (currently startTime is not used to retrieve entities)",
-      "notes" : "",
-      "type" : "SSTagUserEntitiesForTagsGetRet",
-      "nickname" : "tagEntitiesForTagsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSTagUserEntitiesForTagsGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoryEntitiesForCategoriesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve entities for categories (currently startTime is not used to retrieve entities)",
-      "notes" : "",
-      "type" : "SSCategoryUserEntitiesForCategoriesGetRet",
-      "nickname" : "categoryEntitiesForCategoriesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoryUserEntitiesForCategoriesGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoryFrequsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve category frequencies",
-      "notes" : "",
-      "type" : "SSCategoryUserFrequsGetRet",
-      "nickname" : "categoryFrequsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoryUserFrequsGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/authCheckCred",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the authentication key and user's uri for credentials",
-      "notes" : "",
-      "type" : "SSAuthCheckCredRet",
-      "nickname" : "authCheckCred",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSAuthCheckCredPar",
+        "type" : "SSActivitiesUserGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -418,24 +76,6 @@
       } ]
     } ]
   }, {
-    "path" : "/flagsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve flags set",
-      "notes" : "",
-      "type" : "SSFlagsUserGetRet",
-      "nickname" : "flagsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFlagsUserGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/entityDescsGet",
     "operations" : [ {
       "method" : "POST",
@@ -454,19 +94,19 @@
       } ]
     } ]
   }, {
-    "path" : "/activitiesGet",
+    "path" : "/authCheckCred",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve activities from within a certain time frame",
+      "summary" : "retrieve the authentication key and user's uri for credentials",
       "notes" : "",
-      "type" : "SSActivitiesUserGetRet",
-      "nickname" : "activitiesGet",
+      "type" : "SSAuthCheckCredRet",
+      "nickname" : "authCheckCred",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSActivitiesUserGetPar",
+        "type" : "SSAuthCheckCredPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -1137,6 +777,366 @@
         "allowMultiple" : false
       } ]
     } ]
+  }, {
+    "path" : "/entityEntityUsersGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve users who can access given entity",
+      "notes" : "",
+      "type" : "SSEntityUserEntityUsersGetRet",
+      "nickname" : "entityEntityUsersGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserEntityUsersGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityUserCirclesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve circles the user is in",
+      "notes" : "",
+      "type" : "SSEntityUserCirclesGetRet",
+      "nickname" : "entityUserCirclesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserCirclesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityEntitiesToCircleAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add given entities to a user-generated circle",
+      "notes" : "",
+      "type" : "SSEntityUserEntitiesToCircleAddRet",
+      "nickname" : "entityEntitiesToCircleAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserEntitiesToCircleAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityUsersToCircleAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add given users to a user-generated circle",
+      "notes" : "",
+      "type" : "SSEntityUserUsersToCircleAddRet",
+      "nickname" : "entityUsersToCircleAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserUsersToCircleAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityCircleCreate",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "create a circle and add users and entities to",
+      "notes" : "",
+      "type" : "SSEntityUserCircleCreateRet",
+      "nickname" : "entityCircleCreate",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserCircleCreatePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/dataImportEvernote",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "import data from evernote for certain user",
+      "notes" : "",
+      "type" : "SSDataImportEvernoteRet",
+      "nickname" : "dataImportEvernote",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDataImportEvernotePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoriesPredefinedGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "get predefined categories",
+      "notes" : "",
+      "type" : "SSCategoriesPredefinedGetRet",
+      "nickname" : "categoriesPredefinedGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoriesPredefinedGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/collsEntityIsInGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve all the user's collections given entity is in",
+      "notes" : "",
+      "type" : "SSCollsUserEntityIsInGetRet",
+      "nickname" : "collsEntityIsInGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCollsUserEntityIsInGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/collsCouldSubscribeGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a list of all public collections given user could subscribe to",
+      "notes" : "",
+      "type" : "SSCollsUserCouldSubscribeGetRet",
+      "nickname" : "collsCouldSubscribeGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCollsUserCouldSubscribeGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/collEntryChangePos",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "change the sequential order of entries in a user's collection",
+      "notes" : "",
+      "type" : "SSCollUserEntryChangePosRet",
+      "nickname" : "collEntryChangePos",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCollUserEntryChangePosPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/collEntriesDelete",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "delete one or more entries from a collection",
+      "notes" : "",
+      "type" : "SSCollUserEntriesDeleteRet",
+      "nickname" : "collEntriesDelete",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCollUserEntriesDeletePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/collCumulatedTagsGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
+      "notes" : "",
+      "type" : "SSCollUserCumulatedTagsGetRet",
+      "nickname" : "collCumulatedTagsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCollUserCumulatedTagsGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/discURIsForTargetGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve discussions for a certain entity",
+      "notes" : "",
+      "type" : "SSDiscUserDiscURIsForTargetGetRet",
+      "nickname" : "discURIsForTargetGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDiscUserDiscURIsForTargetGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/discWithEntriesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the discussion with its entries",
+      "notes" : "",
+      "type" : "SSDiscUserWithEntriesRet",
+      "nickname" : "discWithEntriesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDiscUserWithEntriesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileWritingMinutesLeft",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve number of minutes left user is allowed to replace / re-upload a file",
+      "notes" : "",
+      "type" : "SSFileWritingMinutesLeftRet",
+      "nickname" : "fileWritingMinutesLeft",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileWritingMinutesLeftPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/modelUEResourceDetails",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve automatically usage-based modeled details for given entity",
+      "notes" : "",
+      "type" : "SSModelUEResourceDetailsRet",
+      "nickname" : "modelUEResourceDetails",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSModelUEEntityDetailsPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/tagEntitiesForTagsGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve entities for tags (currently startTime is not used to retrieve entities)",
+      "notes" : "",
+      "type" : "SSTagUserEntitiesForTagsGetRet",
+      "nickname" : "tagEntitiesForTagsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSTagUserEntitiesForTagsGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryEntitiesForCategoriesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve entities for categories (currently startTime is not used to retrieve entities)",
+      "notes" : "",
+      "type" : "SSCategoryUserEntitiesForCategoriesGetRet",
+      "nickname" : "categoryEntitiesForCategoriesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryUserEntitiesForCategoriesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryFrequsGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve category frequencies",
+      "notes" : "",
+      "type" : "SSCategoryUserFrequsGetRet",
+      "nickname" : "categoryFrequsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryUserFrequsGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "remove certain attached attributes from an entity",
+      "notes" : "",
+      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
+      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
   } ],
   "models" : {
     "SSCategoryUserEntitiesForCategoriesGetPar" : {
@@ -1219,13 +1219,13 @@
           "type" : "string",
           "description" : "name"
         },
-        "categoryLabel" : {
+        "entity" : {
           "type" : "string"
         },
         "user" : {
           "type" : "string"
         },
-        "entity" : {
+        "categoryLabel" : {
           "type" : "string"
         },
         "id" : {
@@ -1261,23 +1261,23 @@
             "type" : "string"
           }
         },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "tags" : {
           "type" : "array",
           "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
           "items" : {
             "type" : "string"
           }
@@ -1286,11 +1286,11 @@
           "$ref" : "SSEntityA",
           "description" : "overall star rating"
         },
-        "flags" : {
+        "users" : {
           "type" : "array",
-          "description" : "flags assigned",
+          "description" : "users involved",
           "items" : {
-            "$ref" : "SSEntityA"
+            "type" : "string"
           }
         },
         "discs" : {
@@ -1343,16 +1343,16 @@
             "type" : "string"
           }
         },
-        "users" : {
+        "circles" : {
           "type" : "array",
-          "description" : "users which have been involved in activities (optional)",
+          "description" : "groups for which activities shall be retrieved (optional)",
           "items" : {
             "type" : "string"
           }
         },
-        "circles" : {
+        "users" : {
           "type" : "array",
-          "description" : "groups for which activities shall be retrieved (optional)",
+          "description" : "users which have been involved in activities (optional)",
           "items" : {
             "type" : "string"
           }
@@ -1600,11 +1600,15 @@
     "SSEntityUserSharePar" : {
       "id" : "SSEntityUserSharePar",
       "description" : "",
-      "required" : [ "users", "entity", "key", "op", "user" ],
+      "required" : [ "entity", "users", "key", "op", "user" ],
       "properties" : {
         "comment" : {
           "type" : "string",
           "description" : "textual comment for sharing"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to be shared"
         },
         "users" : {
           "type" : "array",
@@ -1612,10 +1616,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to be shared"
         },
         "key" : {
           "type" : "string",
@@ -1681,15 +1681,15 @@
     "SSTagUserEditPar" : {
       "id" : "SSTagUserEditPar",
       "description" : "",
-      "required" : [ "tag", "label", "key", "op", "user" ],
+      "required" : [ "label", "tag", "key", "op", "user" ],
       "properties" : {
-        "tag" : {
-          "type" : "string",
-          "description" : "tag to change the label for"
-        },
         "label" : {
           "type" : "string",
           "description" : "new label of the tag"
+        },
+        "tag" : {
+          "type" : "string",
+          "description" : "tag to change the label for"
         },
         "key" : {
           "type" : "string",
@@ -1851,16 +1851,16 @@
           "type" : "string",
           "description" : "entity's updated description (optional)"
         },
+        "label" : {
+          "type" : "string",
+          "description" : "entity's updated name (optional)"
+        },
         "comments" : {
           "type" : "array",
           "description" : "new textual annotations for the entity (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "entity's updated name (optional)"
         },
         "entity" : {
           "type" : "string",
@@ -1915,6 +1915,10 @@
           "type" : "string",
           "description" : "discussion name (optional in case of an existing discussion)"
         },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to start a discussion for (optional)"
+        },
         "entities" : {
           "type" : "array",
           "description" : "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)",
@@ -1932,10 +1936,6 @@
         "disc" : {
           "type" : "string",
           "description" : "discussion to add an entry for (optional in case of a new discussion)"
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to start a discussion for (optional)"
         },
         "addNewDisc" : {
           "type" : "boolean",
@@ -2095,27 +2095,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2127,15 +2113,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -2193,13 +2193,13 @@
     "SSFlag" : {
       "id" : "SSFlag",
       "properties" : {
-        "flagType" : {
+        "entity" : {
           "type" : "string"
         },
         "user" : {
           "type" : "string"
         },
-        "entity" : {
+        "flagType" : {
           "type" : "string"
         },
         "endTime" : {
@@ -2236,27 +2236,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2268,15 +2254,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -2484,27 +2484,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2516,15 +2502,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -2638,13 +2638,13 @@
           "type" : "string",
           "description" : "name"
         },
-        "tagLabel" : {
+        "entity" : {
           "type" : "string"
         },
         "user" : {
           "type" : "string"
         },
-        "entity" : {
+        "tagLabel" : {
           "type" : "string"
         },
         "id" : {
@@ -2680,23 +2680,23 @@
             "type" : "string"
           }
         },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "tags" : {
           "type" : "array",
           "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
           "items" : {
             "type" : "string"
           }
@@ -2705,11 +2705,11 @@
           "$ref" : "SSEntityA",
           "description" : "overall star rating"
         },
-        "flags" : {
+        "users" : {
           "type" : "array",
-          "description" : "flags assigned",
+          "description" : "users involved",
           "items" : {
-            "$ref" : "SSEntityA"
+            "type" : "string"
           }
         },
         "discs" : {
@@ -2867,27 +2867,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -2899,15 +2885,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -3097,13 +3097,13 @@
         "content" : {
           "type" : "string"
         },
-        "ueType" : {
+        "entity" : {
           "type" : "string"
         },
         "user" : {
           "type" : "string"
         },
-        "entity" : {
+        "ueType" : {
           "type" : "string"
         },
         "id" : {
@@ -3132,27 +3132,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -3164,15 +3150,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -3344,13 +3344,13 @@
           "type" : "string",
           "description" : "user event type to retrieve"
         },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to count user events for"
-        },
         "entity" : {
           "type" : "string",
           "description" : "entity to count user events for"
+        },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to count user events for"
         },
         "startTime" : {
           "type" : "integer",
@@ -3484,13 +3484,13 @@
           "type" : "string",
           "description" : "user event type to retrieve"
         },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve user events for"
-        },
         "entity" : {
           "type" : "string",
           "description" : "entity to retrieve user events for"
+        },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve user events for"
         },
         "startTime" : {
           "type" : "integer",
@@ -3634,27 +3634,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -3666,15 +3652,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -3848,27 +3848,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -3880,15 +3866,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -4047,13 +4047,13 @@
       "description" : "",
       "required" : [ "key", "op", "user" ],
       "properties" : {
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to be considered to retrieve recommendations for"
-        },
         "entity" : {
           "type" : "string",
           "description" : "resource to be considered to retrieve recommendations for"
+        },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to be considered to retrieve recommendations for"
         },
         "categories" : {
           "type" : "array",
@@ -4159,6 +4159,9 @@
       "id" : "SSModelUEResourceDetailsRet",
       "required" : [ "op" ],
       "properties" : {
+        "entity" : {
+          "type" : "string"
+        },
         "editors" : {
           "type" : "array",
           "items" : {
@@ -4194,9 +4197,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "entity" : {
-          "type" : "string"
         },
         "op" : {
           "$ref" : "SSMethU",
@@ -4691,27 +4691,13 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "entities" : {
+        "comments" : {
           "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
@@ -4723,15 +4709,29 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "discs" : {
@@ -5006,11 +5006,15 @@
     "SSEntityUserCopyPar" : {
       "id" : "SSEntityUserCopyPar",
       "description" : "",
-      "required" : [ "users", "entity", "key", "op", "user" ],
+      "required" : [ "entity", "users", "key", "op", "user" ],
       "properties" : {
         "comment" : {
           "type" : "string",
           "description" : "optional describing text"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to copy"
         },
         "users" : {
           "type" : "array",
@@ -5025,10 +5029,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to copy"
         },
         "key" : {
           "type" : "string",

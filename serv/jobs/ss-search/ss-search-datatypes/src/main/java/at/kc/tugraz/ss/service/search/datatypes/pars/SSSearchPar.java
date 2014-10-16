@@ -175,9 +175,9 @@ public class SSSearchPar extends SSServPar{
         includeMIs                 = (Boolean)                pars.get(SSVarU.includeMIs);
         misToSearchFor             = (List<String>)           pars.get(SSVarU.misToSearchFor);
         includeLabel               = (Boolean)                pars.get(SSVarU.includeLabel);
-        labelsToSearchFor          = (List<SSSearchLabel>)    pars.get(SSVarU.labelsToSearchFor);
+        labelsToSearchFor          = SSSearchLabel.get((List<String>)pars.get(SSVarU.labelsToSearchFor));
         includeDescription         = (Boolean)                pars.get(SSVarU.includeDescription);
-        descriptionsToSearchFor    = (List<SSSearchLabel>)    pars.get(SSVarU.descriptionsToSearchFor);
+        descriptionsToSearchFor    = SSSearchLabel.get((List<String>)pars.get(SSVarU.descriptionsToSearchFor));
         typesToSearchOnlyFor       = (List<SSEntityE>)        pars.get(SSVarU.typesToSearchOnlyFor);
         includeOnlySubEntities     = (Boolean)                pars.get(SSVarU.includeOnlySubEntities);
         entitiesToSearchWithin     = (List<SSUri>)            pars.get(SSVarU.entitiesToSearchWithin);
