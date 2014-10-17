@@ -55,9 +55,10 @@ public class SSDiscServ extends SSServA implements SSDiscI{
     
     super.regServ(conf);
     
-    regServForManagingEntities       (supportedEntityTypes);
-    regServForDescribingEntities     ();
-    regServForGatheringUserRelations ();
+    regServForManagingEntities        (supportedEntityTypes);
+    regServForDescribingEntities      ();
+    regServForGatheringUserRelations  ();
+    regServForGatheringUsersResources ();
     
     return this;
   }

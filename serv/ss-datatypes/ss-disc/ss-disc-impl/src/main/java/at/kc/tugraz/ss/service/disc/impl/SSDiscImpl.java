@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserDiscURIsForTargetGetPar;
@@ -59,7 +60,15 @@ import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDiscServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
+public class SSDiscImpl 
+extends SSServImplWithDBA 
+implements 
+  SSDiscClientI, 
+  SSDiscServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI, 
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
 
   private final SSDiscSQLFct sqlFct;
 
@@ -105,6 +114,33 @@ public class SSDiscImpl extends SSServImplWithDBA implements SSDiscClientI, SSDi
     
     for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
       SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    for(String user : allUsers){
+      
+      for(SSDisc disc : SSServCaller.discsUserAllGet(SSUri.get(user))){
+        
+        if(usersResources.containsKey(user)){
+          usersResources.get(user).add(disc.id);
+        }else{
+          
+          final List<SSUri> resourceList = new ArrayList<>();
+          
+          resourceList.add(disc.id);
+          
+          usersResources.put(user, resourceList);
+        }
+      }
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
     }
   }
   

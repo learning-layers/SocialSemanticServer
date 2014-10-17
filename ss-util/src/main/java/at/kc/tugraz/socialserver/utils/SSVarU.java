@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String resources                                      = "resources";
+  public static final String resource                                       = "resource";
   public static final String isSystemUser                                   = "isSystemUser";
   public static final String email                                          = "email";
   public static final String bearer                                         = "bearer";
@@ -40,6 +42,7 @@ public class SSVarU{
   public static final String labelsToSearchFor                              = "labelsToSearchFor";
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
+  public static final String typesToRecommOnly                              = "typesToRecommOnly";
   public static final String entitiesToSearchWithin                         = "entitiesToSearchWithin";
   public static final String extendToParents                                = "extendToParents";
   public static final String includeRecommendedResults                      = "includeRecommendedResults";
@@ -110,6 +113,7 @@ public class SSVarU{
   public static final String wasLastLine                                    = "wasLastLine";
   public static final String isFirstLine                                    = "isFirstLine";
   public static final String categories                                     = "categories";
+  public static final String maxResources                                   = "maxResources";
   public static final String fileName                                       = "fileName";
   public static final String tagsPerEntities                                = "tagsPerEntities";
   public static final String categoriesPerEntities                          = "categoriesPerEntities";

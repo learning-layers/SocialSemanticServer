@@ -42,7 +42,9 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
@@ -665,6 +667,17 @@ public class SSAdapterRest{
     response = SSRecommTagsRet.class)
   public String recommTags(final SSRecommTagsPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.recommTags);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "recommResources")
+  @ApiOperation(
+    value = "retrieve resource recommendations based on user, entity, tag, time and category combinations",
+    response = SSRecommResourcesRet.class)
+  public String recommResources(final SSRecommResourcesPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.recommResources);
   }
   
   @POST

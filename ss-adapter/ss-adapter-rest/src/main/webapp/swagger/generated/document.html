@@ -549,26 +549,6 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
-#### **POST** `/collsWithEntries`
-
-retrieve the user&#39;s collections with entries
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
-        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collHierarchyGet`
 
 retrieve the parent collection order for a user&#39;s collection
@@ -583,6 +563,26 @@ retrieve the parent collection order for a user&#39;s collection
     <tr>
         <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
         <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collsWithEntries`
+
+retrieve the user&#39;s collections with entries
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
+        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
     </tr>
 </table>
 
@@ -743,6 +743,26 @@ retrieve tag recommendations based on user, entity, tag, time and category combi
     <tr>
         <td><a href="#SSRecommTagsPar">SSRecommTagsPar</a> </td>
         <td>  [SSRecommTagsRet](#SSRecommTagsRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/recommResources`
+
+retrieve resource recommendations based on user, entity, tag, time and category combinations
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRecommResourcesPar">SSRecommResourcesPar</a> </td>
+        <td>  [SSRecommResourcesRet](#SSRecommResourcesRet) </td>
     </tr>
 </table>
 
@@ -1023,6 +1043,26 @@ remove category, user, entity, space combinations
     <tr>
         <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
         <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
     </tr>
 </table>
 
@@ -1409,26 +1449,6 @@ retrieve category frequencies
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 
 ## Data Types
 
@@ -1640,16 +1660,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -2618,16 +2638,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -3620,16 +3640,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4100,16 +4120,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4244,16 +4264,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -6092,13 +6112,13 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -6316,6 +6336,90 @@ remove certain attached attributes from an entity
 </table>
 
 
+## <a name="SSRecommResourcesPar">SSRecommResourcesPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>resource to be considered to retrieve recommendations for</td>
+    </tr>
+    <tr>
+        <td>typesToRecommOnly</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entity types to be recommended</td>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>categories</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>additional information to be taken into account</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>forUser</td>
+        <td>string</td>
+        <td></td>
+        <td>user to be considered to retrieve recommendations for</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>maxResources</td>
+        <td>int</td>
+        <td></td>
+        <td>number of resources to be returned</td>
+    </tr>
+</table>
+
+
+## <a name="SSRecommResourcesRet">SSRecommResourcesRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>resources</td>
+        <td><a href="#SSResourceLikelihood">Array[SSResourceLikelihood]</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
 ## <a name="SSRecommTagsPar">SSRecommTagsPar</a>
 
 <table border="1">
@@ -6388,6 +6492,30 @@ remove certain attached attributes from an entity
     <tr>
         <td>tags</td>
         <td><a href="#SSTagLikelihood">Array[SSTagLikelihood]</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
+## <a name="SSResourceLikelihood">SSResourceLikelihood</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>resource</td>
+        <td><a href="#SSEntity">SSEntity</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>likelihood</td>
+        <td>double</td>
         <td></td>
         <td></td>
     </tr>
@@ -7802,16 +7930,16 @@ remove certain attached attributes from an entity
         <td>creator</td>
     </tr>
     <tr>
-        <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
-        <td></td>
-        <td>attached entities</td>
-    </tr>
-    <tr>
         <td>email</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
     </tr>
     <tr>
         <td>entries</td>
@@ -7838,16 +7966,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 

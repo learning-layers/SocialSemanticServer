@@ -144,6 +144,7 @@ ratingConf:
 recommConf:
   executeOpAtStartUp: #true, false
   fileNameForTagRec: hugo1.txt
+  fileNameForResourceRec: hugo2.txt
   initAtStartUp: #true, false
   op: 
   updateInterval: #in minutes

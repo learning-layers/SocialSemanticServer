@@ -221,7 +221,12 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
     while(entitiesTagsIterator.hasNext()){
       
       entityAndTags       = entitiesTagsIterator.next();
-      entityAndCategories = entitiesCategoriesIterator.next();
+      
+      try{
+        entityAndCategories = entitiesCategoriesIterator.next();
+      }catch(Exception error){
+        entityAndCategories = null;
+      }
 
       lineParts.clear();
       
@@ -229,7 +234,12 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       lineParts.add(entityAndTags.getKey());
       lineParts.add(Long.toString   (par.timestamp));
       lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
-      lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
+      
+      if(entityAndCategories != null){
+        lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
+      }else{
+        lineParts.add(SSStrU.empty);
+      }
 
       fileWriterUserEntityTagCategoryTimestamps.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
     }

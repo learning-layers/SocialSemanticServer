@@ -75,10 +75,10 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/tagrec_v1.0.jar</file>
+              <file>./ss-3rdpartylibs/libs/tagrec_v1.2.jar</file>
               <groupId>tagrec</groupId>
               <artifactId>tagrec</artifactId>
-              <version>1.0</version>
+              <version>1.2</version>
               <packaging>jar</packaging>
             </configuration>
           </execution>

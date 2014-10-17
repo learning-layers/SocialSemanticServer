@@ -26,16 +26,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSDataExportUserRelationsPar extends SSServPar{
   
   public SSDataExportUserRelationsPar(final SSServPar par) throws Exception{
-    
     super(par);
-    
-    try{
-      
-      if(pars != null){
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

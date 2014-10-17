@@ -312,7 +312,9 @@ public enum SSMethU{
   
   //recomm
   recommTags,
+  recommResources,
   recommTagsUpdate,
+  recommResourcesUpdate,
   
   //i5cloud
   i5CloudAuth,

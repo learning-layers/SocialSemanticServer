@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommResourcesUpdateTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommTagsUpdateTask;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
@@ -56,10 +57,16 @@ public class SSRecommServ extends SSServA{
     
     if(!((SSRecommConf)servConf).initAtStartUp){
       SSServCaller.recommTagsUpdate();
+      SSServCaller.recommResourcesUpdate();
     }
 
     SSDateU.scheduleAtFixedRate(
       new SSRecommTagsUpdateTask(),
+      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
+      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
+    
+    SSDateU.scheduleAtFixedRate(
+      new SSRecommResourcesUpdateTask(),
       SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
       ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
   }
@@ -74,6 +81,7 @@ public class SSRecommServ extends SSServA{
     }
     
     SSServCaller.recommTagsUpdate();
+    SSServCaller.recommResourcesUpdate();
   }
   
   @Override

@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
 import at.kc.tugraz.ss.test.serv.entity.SSEntityTester;
 import at.kc.tugraz.ss.test.serv.flag.SSFlagTester;
 import at.kc.tugraz.ss.test.serv.learnep.SSLearnEpTester;
-import at.kc.tugraz.ss.test.serv.recomm.SSRecommTester;
+import at.kc.tugraz.ss.test.recomm.SSRecommTester;
 import at.kc.tugraz.ss.test.tag.SSTagTester;
 
 public class SSTester extends Thread{

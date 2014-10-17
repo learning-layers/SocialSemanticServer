@@ -27,6 +27,7 @@ public class SSRecommConf extends SSServConfA{
 
   public    Boolean         initAtStartUp                  = null;
   public    String          fileNameForTagRec              = null;
+  public    String          fileNameForResourceRec         = null;
   protected Integer         updateInterval                 = SSDateU.dayInMinutes;
   public    Boolean         usePrivateTagsToo              = null;
   
@@ -34,10 +35,11 @@ public class SSRecommConf extends SSServConfA{
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
-    copy.initAtStartUp     = orig.initAtStartUp;
-    copy.fileNameForTagRec = orig.fileNameForTagRec;
-    copy.updateInterval    = orig.getUpdateInterval();
-    copy.usePrivateTagsToo = orig.usePrivateTagsToo;
+    copy.initAtStartUp          = orig.initAtStartUp;
+    copy.fileNameForTagRec      = orig.fileNameForTagRec;
+    copy.fileNameForResourceRec = orig.fileNameForResourceRec;
+    copy.updateInterval         = orig.getUpdateInterval();
+    copy.usePrivateTagsToo      = orig.usePrivateTagsToo;
     
     return copy;
   }

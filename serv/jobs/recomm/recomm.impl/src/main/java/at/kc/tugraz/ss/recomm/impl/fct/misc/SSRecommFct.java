@@ -23,8 +23,12 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.api.SSServA;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSRecommFct{
 
@@ -214,6 +219,76 @@ public class SSRecommFct{
       true);
     
     return true;
+  }
+  
+  public static void exportUsersResourcesForAllUsers(
+    final String  fileName) throws Exception {
+    
+    final Map<String, List<SSUri>>      usersResources    = new HashMap<>();
+    final Map<String, List<String>>     tagsPerEntities   = new HashMap<>();
+    Boolean                             somethingExported = false;
+    final List<SSUser>                  allUserObjs;
+    final List<String>                  allUsers;
+    
+    try{
+      allUserObjs = SSServCaller.userAll();
+      allUsers    = SSStrU.toStr(allUserObjs);
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+        default: SSServErrReg.regErrThrow(error); return;
+      }
+    }
+    
+    for(SSServA serv : SSServA.getServsGatheringUsersResources()){
+      ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(allUsers, usersResources);
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesForUser : usersResources.entrySet()){
+      
+      tagsPerEntities.clear();
+      
+      for(SSUri resource : resourcesForUser.getValue()){
+        tagsPerEntities.put(SSStrU.toStr(resource), new ArrayList<>());
+      }
+      
+      SSServCaller.dataExportUserEntityTagCategoryTimestamps(
+        SSUri.get(resourcesForUser.getKey()),
+        tagsPerEntities,
+        new HashMap<>(),
+        0L,
+        fileName,
+        false);
+      
+      somethingExported = true;
+    }
+    
+    if(!somethingExported){
+      
+      FileOutputStream stream = null;
+      
+      try{
+        stream = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + fileName);
+      }catch(Exception error){
+        SSLogU.warn("file couldnt be created: " + SSFileU.dirWorkingDataCsv() + fileName);
+      }finally{
+        
+        if(stream != null){
+          stream.close();
+        }
+      }
+      
+      return;
+    }
+    
+    SSServCaller.dataExportUserEntityTagCategoryTimestamps(
+      null,
+      new HashMap<>(),
+      new HashMap<>(),
+      null,
+      fileName,
+      true);
   }
   
   private static Map<String, List<String>> getTagsOfUserPerEntities(

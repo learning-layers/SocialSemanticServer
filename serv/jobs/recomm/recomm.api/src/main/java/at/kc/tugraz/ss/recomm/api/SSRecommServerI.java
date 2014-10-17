@@ -20,11 +20,14 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.Map;
 
 public interface SSRecommServerI{
 
-  public Map<String, Double> recommTags             (final SSServPar parA) throws Exception;
-  public void                recommTagsUpdate       (final SSServPar parA) throws Exception;
+  public Map<String, Double>   recommTags             (final SSServPar parA) throws Exception;
+  public Map<SSEntity, Double> recommResources        (final SSServPar parA) throws Exception;
+  public void                  recommTagsUpdate       (final SSServPar parA) throws Exception;
+  public void                  recommResourcesUpdate  (final SSServPar parA) throws Exception;
 }

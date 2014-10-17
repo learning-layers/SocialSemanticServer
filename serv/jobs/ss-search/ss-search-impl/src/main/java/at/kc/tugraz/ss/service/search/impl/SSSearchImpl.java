@@ -392,11 +392,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           continue;
         }
 
-        switch(SSServCaller.entityGet(result).type){
+        switch(entity.type){
           case entity: break;
           default: {
             try{
-              SSServCaller.entityUserCanRead(par.user, result);
+              SSServCaller.entityUserCanRead(par.user, entity.id);
             }catch(Exception error){
               SSServErrReg.reset();
               continue;

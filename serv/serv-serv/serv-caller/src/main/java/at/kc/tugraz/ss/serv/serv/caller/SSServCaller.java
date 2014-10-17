@@ -2172,11 +2172,11 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.tagsAdd, opPars));
   }
   
-  /* recommendation */
+  /* recomm */
   
-   public static Map<String, Double> recommTags(
-    final SSUri         user, 
-    final SSUri         forUser, 
+  public static Map<String, Double> recommTags(
+    final SSUri         user,
+    final SSUri         forUser,
     final SSUri         entity,
     final List<String>  categories,
     final Integer       maxTags) throws Exception{
@@ -2194,6 +2194,30 @@ public class SSServCaller {
   
   public static void recommTagsUpdate() throws Exception {
     SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsUpdate, new HashMap<>()));
+  }
+  
+  public static Map<SSEntity, Double> recommResources(
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri           entity,
+    final List<String>    categories,
+    final Integer         maxResources,
+    final List<SSEntityE> typesToRecommOnly) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,              user);
+    opPars.put(SSVarU.forUser,           forUser);
+    opPars.put(SSVarU.entity,            entity);
+    opPars.put(SSVarU.categories,        categories);
+    opPars.put(SSVarU.maxResources,      maxResources);
+    opPars.put(SSVarU.typesToRecommOnly, typesToRecommOnly);
+    
+    return (Map<SSEntity, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommResources, opPars));
+  }
+  
+  public static void recommResourcesUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommResourcesUpdate, new HashMap<>()));
   }
   
   /* file */

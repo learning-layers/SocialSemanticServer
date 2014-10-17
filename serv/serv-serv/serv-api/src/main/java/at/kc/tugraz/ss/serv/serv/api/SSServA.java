@@ -51,6 +51,7 @@ public abstract class SSServA{
   private   static final Map<SSEntityE, SSServA>                      servsForManagingEntities        = new EnumMap<>(SSEntityE.class);
   private   static final List<SSServA>                                servsForDescribingEntities      = new ArrayList<>();
   private   static final List<SSServA>                                servsForGatheringUserRelations  = new ArrayList<>();
+  private   static final List<SSServA>                                servsForGatheringUsersResources = new ArrayList<>();
   protected static final Map<SSMethU, Integer>                        maxRequsForClientOpsPerUser     = new HashMap<>();
   private   static final Map<SSMethU, Map<String, List<SSServImplA>>> actualRequsForClientOpsForUser  = new HashMap<>();
   
@@ -321,6 +322,27 @@ public abstract class SSServA{
     }
   }
   
+  protected void regServForGatheringUsersResources() throws Exception{
+    
+    try{
+     
+      if(!servConf.use){
+        return;
+      }
+
+      synchronized(servsForGatheringUsersResources){
+        
+        if(servsForGatheringUsersResources.contains(this)){
+          throw new Exception("service for gathering users resources already registered");
+        }
+        
+        servsForGatheringUsersResources.add(this);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public SSServA regServ(
     final SSConfA conf) throws Exception{
     
@@ -520,6 +542,10 @@ public abstract class SSServA{
   
   public static List<SSServA> getServsGatheringUserRelations(){
     return new ArrayList<>(servsForGatheringUserRelations);
+  }
+  
+  public static List<SSServA> getServsGatheringUsersResources(){
+    return new ArrayList<>(servsForGatheringUsersResources);
   }
   
   private List<SSMethU> publishClientOps() throws Exception{
