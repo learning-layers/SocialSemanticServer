@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -257,7 +258,7 @@ public class SSRecommFct{
         SSUri.get(resourcesForUser.getKey()),
         tagsPerEntities,
         new HashMap<>(),
-        0L,
+        new Date().getTime(),
         fileName,
         false);
       

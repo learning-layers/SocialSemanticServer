@@ -11,11 +11,11 @@
     "path" : "/SSAdapterRESTFileReplace.{format}",
     "description" : "SSS File Replace REST API"
   }, {
-    "path" : "/SSAdapterRest.{format}",
-    "description" : "SSS REST API"
-  }, {
     "path" : "/SSAdapterRESTFile.{format}",
     "description" : "SSS File REST API"
+  }, {
+    "path" : "/SSAdapterRest.{format}",
+    "description" : "SSS REST API"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

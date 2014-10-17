@@ -189,6 +189,206 @@ search for entities
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagEdit`
+
+changes the label of the tag assigned to entities by given user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
+        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagsGet`
+
+retrieve tag assignments
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
+        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagAdd`
+
+add a tag within for an entity within given space
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
+        <td>  [SSTagAddRet](#SSTagAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagFrequsGet`
+
+retrieve tag frequencies
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
+        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagsRemove`
+
+remove tag, user, entity, space combinations
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
+        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryEdit`
+
+changes the label of the category assigned to entities by given user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserEditPar">SSCategoryUserEditPar</a> </td>
+        <td>  [SSCategoryUserEditRet](#SSCategoryUserEditRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesGet`
+
+retrieve category assignments
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
+        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryAdd`
+
+add a category within for an entity within given space
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
+        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesRemove`
+
+remove category, user, entity, space combinations
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
+        <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/flagsGet`
 
 retrieve flags set
@@ -689,26 +889,6 @@ updates/adds given properties for an entity
 
 
 - - -
-#### **POST** `/ratingOverallGet`
-
-retrieve the overall rating (by all users) for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
-        <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/ratingSet`
 
 set the user&#39;s rating for given entity
@@ -723,6 +903,26 @@ set the user&#39;s rating for given entity
     <tr>
         <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
         <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/ratingOverallGet`
+
+retrieve the overall rating (by all users) for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
+        <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
     </tr>
 </table>
 
@@ -863,206 +1063,6 @@ retrieve the number of certain user events
     <tr>
         <td><a href="#SSUECountGetPar">SSUECountGetPar</a> </td>
         <td>  [SSUECountGetRet](#SSUECountGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagEdit`
-
-changes the label of the tag assigned to entities by given user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
-        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagsGet`
-
-retrieve tag assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
-        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagAdd`
-
-add a tag within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
-        <td>  [SSTagAddRet](#SSTagAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagFrequsGet`
-
-retrieve tag frequencies
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
-        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagsRemove`
-
-remove tag, user, entity, space combinations
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
-        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryEdit`
-
-changes the label of the category assigned to entities by given user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryUserEditPar">SSCategoryUserEditPar</a> </td>
-        <td>  [SSCategoryUserEditRet](#SSCategoryUserEditRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesGet`
-
-retrieve category assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
-        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryAdd`
-
-add a category within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
-        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesRemove`
-
-remove category, user, entity, space combinations
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
-        <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
     </tr>
 </table>
 
@@ -1660,16 +1660,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2176,16 +2176,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2638,16 +2638,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -3640,16 +3640,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4120,16 +4120,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4264,16 +4264,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -6346,16 +6346,16 @@ retrieve category frequencies
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td>resource to be considered to retrieve recommendations for</td>
-    </tr>
-    <tr>
         <td>typesToRecommOnly</td>
         <td>Array[string]</td>
         <td></td>
         <td>entity types to be recommended</td>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>resource to be considered to retrieve recommendations for</td>
     </tr>
     <tr>
         <td>key</td>
@@ -6868,16 +6868,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7534,16 +7534,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7966,16 +7966,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
