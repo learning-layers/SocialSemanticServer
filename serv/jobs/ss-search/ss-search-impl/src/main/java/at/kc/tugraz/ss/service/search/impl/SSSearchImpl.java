@@ -406,8 +406,31 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         results.add(entity);
         
-        entity.circleTypes = SSServCaller.entityUserEntityCircleTypesGet(par.user, result);
-        entity.entries.addAll(SSStrU.removeTrailingSlash(getEntries(par, entity)));
+        entity.circleTypes = 
+          SSServCaller.entityUserEntityCircleTypesGet(
+            par.user, 
+            result);
+        
+        entity.entries.addAll(
+          SSStrU.removeTrailingSlash(
+            getEntries(
+              par, 
+              entity)));
+        
+        entity.tags.addAll(
+          SSStrU.toStr(
+          SSServCaller.tagsUserGet(
+            par.user, 
+            null, 
+            SSUri.asListWithoutNullAndEmpty(entity.id), 
+            new ArrayList<>(), 
+            null, 
+            null)));
+        
+        entity.overallRating = 
+          SSServCaller.ratingOverallGet(
+            par.user, 
+            entity.id);
       }
       
 //      par.includeRecommendedResults;
