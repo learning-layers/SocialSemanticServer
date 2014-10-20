@@ -210,7 +210,7 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
         SSStrU.toStr(
           SSServCaller.tagsUserGet(
             par.user, 
-            par.user,
+            null,
             SSUri.asListWithoutNullAndEmpty(par.entity), 
             new ArrayList<String>(), 
             null, 
