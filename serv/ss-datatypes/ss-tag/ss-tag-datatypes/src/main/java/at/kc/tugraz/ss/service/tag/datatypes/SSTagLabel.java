@@ -129,7 +129,7 @@ public class SSTagLabel extends SSEntityA{
       
       String tmpLabel = SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
       
-      return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      return tmpLabel.replaceAll("[^p{L}0-9_-]+", SSStrU.empty); //return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
       
     }catch(Exception error){
       throw new SSTagInvalidTagErr("tag: " + label + "is not valid");
