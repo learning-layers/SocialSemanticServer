@@ -404,33 +404,47 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
         }
         
-        results.add(entity);
-        
-        entity.circleTypes = 
-          SSServCaller.entityUserEntityCircleTypesGet(
-            par.user, 
-            result);
+        entity = 
+          SSServCaller.entityDescGet(
+            par.user,
+            entity.id,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false);
         
         entity.entries.addAll(
           SSStrU.removeTrailingSlash(
             getEntries(
-              par, 
+              par,
               entity)));
         
-        entity.tags.addAll(
-          SSStrU.toStr(
-          SSServCaller.tagsUserGet(
-            par.user, 
-            null, 
-            SSUri.asListWithoutNullAndEmpty(entity.id), 
-            new ArrayList<>(), 
-            null, 
-            null)));
+        entity.circleTypes =
+          SSServCaller.entityUserEntityCircleTypesGet(
+            par.user,
+            result);
         
-        entity.overallRating = 
-          SSServCaller.ratingOverallGet(
-            par.user, 
-            entity.id);
+        results.add(entity);
+        
+        
+
+        //        entity.tags.addAll(
+//          SSStrU.toStr(
+//          SSServCaller.tagsUserGet(
+//            par.user,
+//            null,
+//            SSUri.asListWithoutNullAndEmpty(entity.id),
+//            new ArrayList<>(),
+//            null, 
+//            null)));
+        
+//        entity.overallRating = 
+//          SSServCaller.ratingOverallGet(
+//            par.user, 
+//            entity.id);
+//        
       }
       
 //      par.includeRecommendedResults;
