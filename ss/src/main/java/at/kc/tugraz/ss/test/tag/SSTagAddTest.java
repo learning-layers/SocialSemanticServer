@@ -20,23 +20,40 @@
 */
 package at.kc.tugraz.ss.test.tag;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
+import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-public class SSTagTester extends Thread{
+public class SSTagAddTest extends SSServOpTestCaseA{
+  
+  public SSTagAddTest(final SSTagConf tagConf) {
+    super(tagConf, SSMethU.tagAdd);
+  }
   
   @Override
-  public void run(){
+  protected void test() throws Exception {
     
-    final SSTagConf tagConf = (SSTagConf) SSTagServ.inst.servConf;
+    System.out.println (op + " test start");
+
+    SSServCaller.tagAdd(
+      SSVoc.systemUserUri, 
+      SSUri.get("http://google.com"), 
+      "super super1", 
+      SSSpaceE.sharedSpace, 
+      null, 
+      true);
+  }
+  
+  @Override
+  protected void testFromClient() throws Exception{
     
-    if(!tagConf.executeOpAtStartUp){
-      return;
-    }
-    
-    switch(tagConf.op){
-      case tagsUserGet:                new Thread(new SSTagsUserGetTest(tagConf)).start(); break;
-      case tagAdd:                     new Thread(new SSTagAddTest     (tagConf)).start(); break;
-    }
+  }
+  
+  @Override
+  protected void setUp() throws Exception {
   }
 }

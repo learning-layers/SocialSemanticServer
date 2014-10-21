@@ -127,9 +127,12 @@ public class SSTagLabel extends SSEntityA{
     
     try{
       
-      String tmpLabel = SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
+//previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
       
-      return tmpLabel.replaceAll("[^\\p{L}0-9_-]+", SSStrU.empty); //return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+//previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      
+      //accept unicode letters, blank, numbers, underline, hyphen
+      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
     }catch(Exception error){
       throw new SSTagInvalidTagErr("tag: " + label + "is not valid");

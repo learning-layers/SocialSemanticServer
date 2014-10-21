@@ -97,16 +97,19 @@ public class SSCategoryLabel extends SSEntityA{
     
     try{
       
-      String tmpLabel = SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
+//previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
       
-      return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+//previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      
+      //accept unicode letters, blank, numbers, underline, hyphen
+      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
     }catch(Exception error){
       throw new Exception("category: " + label + "is not valid");
     }
   }
   
-   @Override
+  @Override
   public Object jsonLDDesc() {
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
