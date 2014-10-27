@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -298,10 +298,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       learnEpVersionObj =
         SSLearnEpVersion.get(
           learnEpVersionUri,
-          bindingStrToUri (resultSet, SSSQLVarU.learnEpId),
-          getLearnEpVersionEntities (learnEpVersionUri),
+          bindingStrToUri               (resultSet, SSSQLVarU.learnEpId),
+          getLearnEpVersionEntities     (learnEpVersionUri),
           getLearnEpVersionCircles      (learnEpVersionUri),
           null);
+      
       learnEpVersionObj.creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
       
       if(withTimelineState){
@@ -428,7 +429,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         learnEpEntities.add(
           SSLearnEpEntity.get(
             bindingStrToUri    (resultSet, SSSQLVarU.learnEpEntityId),
-            bindingStrToUri    (resultSet, SSSQLVarU.entityId),
+            SSEntity.get(bindingStrToUri    (resultSet, SSSQLVarU.entityId), SSEntityE.entity),
             bindingStrToFloat  (resultSet, SSSQLVarU.x),
             bindingStrToFloat  (resultSet, SSSQLVarU.y)));
       }

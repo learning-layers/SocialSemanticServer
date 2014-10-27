@@ -25,7 +25,6 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSLearnEpTimelineState extends SSEntity {

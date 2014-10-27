@@ -189,29 +189,9 @@ search for entities
 
 
 - - -
-#### **POST** `/flagsGet`
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
 
-retrieve flags set
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/activitiesGet`
-
-retrieve activities from within a certain time frame
+remove certain attached attributes from an entity
 
 
 
@@ -221,8 +201,8 @@ retrieve activities from within a certain time frame
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
     </tr>
 </table>
 
@@ -249,26 +229,6 @@ set flags
 
 
 - - -
-#### **POST** `/entityDescsGet`
-
-retrieve more detailed information for given entities of a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
-        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/authCheckCred`
 
 retrieve the authentication key and user&#39;s uri for credentials
@@ -283,6 +243,66 @@ retrieve the authentication key and user&#39;s uri for credentials
     <tr>
         <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
         <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/activitiesGet`
+
+retrieve activities from within a certain time frame
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/flagsGet`
+
+retrieve flags set
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDescsGet`
+
+retrieve more detailed information for given entities of a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
+        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
     </tr>
 </table>
 
@@ -309,26 +329,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -343,6 +343,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -1049,26 +1069,6 @@ remove category, user, entity, space combinations
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityEntityUsersGet`
 
 retrieve users who can access given entity
@@ -1576,16 +1576,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -1660,16 +1660,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -2560,16 +2560,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -3562,16 +3562,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -3640,16 +3640,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4042,16 +4042,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -6100,25 +6100,25 @@ retrieve category frequencies
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>recentTopic</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
-        <td>Array[string]</td>
+        <td>entity</td>
+        <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>editors</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -7882,16 +7882,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -7930,16 +7930,16 @@ retrieve category frequencies
         <td>creator</td>
     </tr>
     <tr>
-        <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
-        <td></td>
-        <td>attached entities</td>
-    </tr>
-    <tr>
         <td>email</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
     </tr>
     <tr>
         <td>entries</td>
@@ -7966,16 +7966,16 @@ retrieve category frequencies
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 

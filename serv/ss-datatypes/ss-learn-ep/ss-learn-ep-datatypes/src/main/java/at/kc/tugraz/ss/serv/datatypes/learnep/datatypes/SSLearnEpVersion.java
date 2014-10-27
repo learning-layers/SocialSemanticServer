@@ -37,8 +37,14 @@ public class SSLearnEpVersion extends SSEntity{
   public List<SSLearnEpEntity>  learnEpEntities      = new ArrayList<>();
   public List<SSLearnEpCircle>  learnEpCircles       = new ArrayList<>();
   public SSLearnEpTimelineState learnEpTimelineState = null;
-  
 
+  public static SSLearnEpVersion get(
+    final SSLearnEpVersion learnEpVersion,
+    final SSEntity         entity) throws Exception{
+    
+    return new SSLearnEpVersion(learnEpVersion, entity);
+  }
+  
   public static SSLearnEpVersion get(
     final SSUri                  id, 
     final SSUri                  learnEp,
@@ -47,6 +53,24 @@ public class SSLearnEpVersion extends SSEntity{
     final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
     
     return new SSLearnEpVersion(id, learnEp, learnEpEntities, learnEpCircles, learnEpTimelineState);
+  }
+  
+  protected SSLearnEpVersion(
+    final SSLearnEpVersion learnEpVersion,
+    final SSEntity         entity) throws Exception{
+    
+    super(entity);
+    
+    this.learnEp               = learnEpVersion.learnEp;
+    this.learnEpTimelineState  = learnEpVersion.learnEpTimelineState;
+    
+    if(learnEpEntities != null){
+      this.learnEpEntities.addAll(learnEpVersion.learnEpEntities);
+    }
+    
+    if(learnEpCircles != null){
+      this.learnEpCircles.addAll(learnEpVersion.learnEpCircles);
+    }
   }
   
   protected SSLearnEpVersion(
@@ -62,11 +86,11 @@ public class SSLearnEpVersion extends SSEntity{
     this.learnEpTimelineState  = learnEpTimelineState;
     
     if(learnEpEntities != null){
-      this.learnEpEntities = learnEpEntities;
+      this.learnEpEntities.addAll(learnEpEntities);
     }
     
     if(learnEpCircles != null){
-      this.learnEpCircles = learnEpCircles;
+      this.learnEpCircles.addAll(learnEpCircles);
     }
   }
   

@@ -92,7 +92,7 @@ public class SSLearnEpMiscFct{
           SSServCaller.learnEpVersionAddEntity(
             forUser, 
             copyVersionUri, 
-            entity.entity, 
+            entity.entity.id, 
             entity.x, 
             entity.y, 
             false);
@@ -191,7 +191,7 @@ public class SSLearnEpMiscFct{
         for(SSLearnEpEntity entity : learnEpVersion.learnEpEntities){
           learnEpContentUris.add(entity.id);
           
-          learnEpContentUris.add(entity.entity);
+          learnEpContentUris.add(entity.entity.id);
         }
         
         if(learnEpVersion.learnEpTimelineState != null){

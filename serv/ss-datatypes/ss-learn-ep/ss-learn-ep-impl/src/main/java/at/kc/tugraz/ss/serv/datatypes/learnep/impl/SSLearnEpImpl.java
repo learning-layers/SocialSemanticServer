@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
@@ -246,17 +247,65 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   public List<SSLearnEpVersion> learnEpVersionsGet(SSServPar parI) throws Exception{
 
     try{
-      final SSLearnEpVersionsGetPar par = new SSLearnEpVersionsGetPar(parI);
-      final List<SSLearnEpVersion> result = new ArrayList<>();
-
+      final SSLearnEpVersionsGetPar par    = new SSLearnEpVersionsGetPar(parI);
+      final List<SSLearnEpVersion>  result = new ArrayList<>();
+      SSLearnEpVersion              learnEpVersion;
+      
       SSServCaller.entityUserCanRead(par.user, par.learnEp);
       
       for(SSUri learnEpVersionUri : sqlFct.getLearnEpVersionURIs(par.learnEp)){
-
-        result.add(
+        
+//        learnEpVersion =
+//          SSLearnEpVersion.get(
+//            sqlFct.getLearnEpVersion(
+//              learnEpVersionUri,
+//              false),
+//            SSServCaller.entityDescGet(
+//              par.user,
+//              learnEpVersionUri,
+//              true,
+//              true,
+//              false,
+//              false,
+//              false,
+//              false));
+        
+        //        for(SSLearnEpCircle learnEpEntity : learnEpVersion.learnEpCircles){
+//          
+//          learnEpEntity =
+//            SSLearnEpEntity.get(
+//              learnEpEntity,
+//              SSServCaller.entityDescGet(
+//                par.user,
+//                learnEpEntity.id,
+//                true,
+//                true,
+//                false,
+//                false,
+//                false,
+//                false));
+//        }
+        
+        learnEpVersion =
           sqlFct.getLearnEpVersion(
             learnEpVersionUri,
-            false));
+            false);
+        
+        for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+          
+          learnEpEntity.entity = 
+            SSServCaller.entityDescGet(
+                par.user,
+                learnEpEntity.entity.id,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false);
+        }
+
+        result.add(learnEpVersion);
       }
 
       return result;
@@ -283,7 +332,26 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCaller.entityUserCanRead(par.user, par.learnEpVersion);
       
-      return sqlFct.getLearnEpVersion(par.learnEpVersion, false);
+      final SSLearnEpVersion learnEpVersion =
+        sqlFct.getLearnEpVersion(
+          par.learnEpVersion,
+          false);
+      
+      for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+        
+        learnEpEntity.entity =
+          SSServCaller.entityDescGet(
+            par.user,
+            learnEpEntity.entity.id,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false);
+      }
+        
+      return learnEpVersion;
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -889,15 +957,32 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Override
   public SSLearnEpVersion learnEpVersionCurrentGet(SSServPar parI) throws Exception{
-
+    
     try{
-
+      
       final SSLearnEpVersionCurrentGetPar par = new SSLearnEpVersionCurrentGetPar(parI);
-
-      return sqlFct.getLearnEpVersion(
-        sqlFct.getLearnEpCurrentVersionURI(par.user),
-        false);
-
+      
+      final SSLearnEpVersion learnEpVersion =
+        sqlFct.getLearnEpVersion(
+          sqlFct.getLearnEpCurrentVersionURI(par.user),
+          false);
+      
+      for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+        
+        learnEpEntity.entity =
+          SSServCaller.entityDescGet(
+            par.user,
+            learnEpEntity.entity.id,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false);
+      }
+      
+      return learnEpVersion;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
