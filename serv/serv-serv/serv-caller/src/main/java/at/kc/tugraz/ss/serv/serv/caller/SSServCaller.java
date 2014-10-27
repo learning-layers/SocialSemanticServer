@@ -50,6 +50,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
@@ -849,7 +850,11 @@ public class SSServCaller {
 
   /* search */
   
-  public static List<SSEntity> search(
+  public static void searchResultPagesCacheClean() throws Exception{
+    SSServA.callServViaServer(new SSServPar(SSMethU.searchResultPagesCacheClean, new HashMap<>()));
+  }
+  
+  public static SSSearchRet search(
     final SSUri                user, 
     final List<String>         keywordsToSearchFor,
     final Boolean              includeTextualContent,
@@ -867,7 +872,9 @@ public class SSServCaller {
     final List<SSUri>          entitiesToSearchWithin,
     final Boolean              extendToParents, 
     final Boolean              includeRecommendedResults,
-    final Boolean              provideEntries) throws Exception{
+    final Boolean              provideEntries,
+    final String               pagesID,
+    final Integer              pageNumber) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -889,8 +896,10 @@ public class SSServCaller {
     opPars.put(SSVarU.extendToParents,           extendToParents);
     opPars.put(SSVarU.includeRecommendedResults, includeRecommendedResults);
     opPars.put(SSVarU.provideEntries,            provideEntries);
+    opPars.put(SSVarU.pagesID,                   pagesID);
+    opPars.put(SSVarU.pageNumber,                pageNumber);
     
-    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.search, opPars));
+    return (SSSearchRet) SSServA.callServViaServer(new SSServPar(SSMethU.search, opPars));
   }
   
   /* solr */

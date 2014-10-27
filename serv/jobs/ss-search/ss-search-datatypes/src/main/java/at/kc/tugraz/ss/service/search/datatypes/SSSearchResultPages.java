@@ -18,27 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.search.api;
+package at.kc.tugraz.ss.service.search.datatypes;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface SSSearchServerI {
-
-  public void           searchResultPagesCacheClean  (final SSServPar parA) throws Exception;
-  public SSSearchRet    search                       (final SSServPar parA) throws Exception;
+public class SSSearchResultPages{
+  public List<List<SSEntity>> pages        = new ArrayList<>();
+  public Long                 creationTime = null;
+  public String               pagesID      = null;
   
-  @Deprecated
-  public List<SSEntity> searchTags             (final SSServPar parA) throws Exception;
+  public static SSSearchResultPages get(
+    final List<List<SSEntity>> pages,
+    final Long                 creationTime, 
+    final String               pagesID){
+    
+    return new SSSearchResultPages(pages, creationTime, pagesID);
+  }
   
-  @Deprecated
-  public List<SSEntity> searchTagsWithinEntity (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSEntity> searchMIs              (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSEntity> searchSolr             (final SSServPar parA) throws Exception;
+  protected SSSearchResultPages(
+    final List<List<SSEntity>> pages,
+    final Long                 creationTime, 
+    final String               pagesID){
+    
+    this.pages        = pages;
+    this.creationTime = creationTime;
+    this.pagesID      = pagesID;
+  }
 }

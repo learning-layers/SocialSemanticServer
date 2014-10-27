@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.socialserver.utils.SSIDU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -43,8 +46,12 @@ import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.activity.SSSearchActivityFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
+  
+  protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf);
@@ -352,23 +359,56 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   }
     
   @Override
+  public void searchResultPagesCacheClean(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final Long                             now            = SSDateU.dateAsLong();
+      final Long                             fiveMinutesAgo = now - SSDateU.minuteInMilliSeconds * 5;
+      Map.Entry<String, SSSearchResultPages> entry;
+      
+      for(Iterator<Map.Entry<String, SSSearchResultPages>> it = searchResultPagesCache.entrySet().iterator(); it.hasNext();){
+        
+        entry = it.next();
+        
+        if(fiveMinutesAgo > entry.getValue().creationTime){
+          it.remove();
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
   public void search(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSSearchRet.get(search(parA), parA.op));
+    sSCon.writeRetFullToClient(search(parA));
     
     SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
-  
+
   @Override
-  public List<SSEntity> search(final SSServPar parA) throws Exception{
+  public SSSearchRet search(final SSServPar parA) throws Exception{
     
     try{
+      
       final SSSearchPar             par           = new SSSearchPar(parA);
       final List<SSEntity>          results       = new ArrayList<>();
       final List<SSUri>             uris          = new ArrayList<>();
       SSEntity                      entity;
+      final List<List<SSEntity>>    pages;
+      final List<SSEntity>          page;
+      
+      if(
+        par.pagesID    != null &&
+        par.pageNumber != null){
+        
+        return handleSearchPageRequest(parA.op, par);
+      }
       
       uris.addAll (getTagResults(par));
       uris.addAll (getMIResults(par));
@@ -376,6 +416,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       uris.addAll (getLabelAndDescriptionResults(par));
       
       SSStrU.distinctWithoutNull2(uris);
+      
+      final String pagesID = SSIDU.uniqueID();
+      
+      pages = new ArrayList<>();
+      page  = new ArrayList<>();
       
       for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
         
@@ -404,52 +449,113 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
         }
         
-        entity = 
-          SSServCaller.entityDescGet(
-            par.user,
-            entity.id,
-            true,
-            true,
-            false,
-            false,
-            false,
-            false);
+        if(page.size() == 10){
+          pages.add(new ArrayList<>(page));
+          page.clear();
+        }
         
-        entity.entries.addAll(
-          SSStrU.removeTrailingSlash(
-            getEntries(
-              par,
-              entity)));
-        
-        entity.circleTypes =
-          SSServCaller.entityUserEntityCircleTypesGet(
-            par.user,
-            result);
-        
-        results.add(entity);
-        
-        
-
-        //        entity.tags.addAll(
-//          SSStrU.toStr(
-//          SSServCaller.tagsUserGet(
-//            par.user,
-//            null,
-//            SSUri.asListWithoutNullAndEmpty(entity.id),
-//            new ArrayList<>(),
-//            null, 
-//            null)));
-        
-//        entity.overallRating = 
-//          SSServCaller.ratingOverallGet(
-//            par.user, 
-//            entity.id);
-//        
+        page.add(entity);
       }
+      
+      if(!page.isEmpty()){
+        pages.add(page);
+      }
+      
+      if(!pages.isEmpty()){
+        
+        searchResultPagesCache.put(
+          pagesID, 
+          SSSearchResultPages.get(
+            pages, 
+            SSDateU.dateAsLong(), 
+            pagesID));
+        
+        for(SSEntity result : pages.get(0)){
+          results.add(fillSearchResult(par, result.id));
+        }
+      }
+
+      return SSSearchRet.get(
+        results, 
+        pagesID,
+        1,
+        pages.size(), 
+        parA.op);
       
 //      par.includeRecommendedResults;
       
-      return results;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private SSEntity fillSearchResult(
+    final SSSearchPar par,
+    final SSUri       result) throws Exception{
+    
+    try{
+      final SSEntity entity =
+        SSServCaller.entityDescGet(
+          par.user,
+          result,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false);
+      
+      entity.entries.addAll(
+        SSStrU.removeTrailingSlash(
+          getEntries(
+            par,
+            entity)));
+      
+      entity.circleTypes =
+        SSServCaller.entityUserEntityCircleTypesGet(
+          par.user,
+          entity.id);
+      
+      return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private SSSearchRet handleSearchPageRequest(
+    final SSMethU     op,
+    final SSSearchPar par) throws Exception{
+    
+    try{
+      final List<SSEntity>          results = new ArrayList<>();
+      final SSSearchResultPages     pages;
+      final List<SSEntity>          page;
+      
+      pages = searchResultPagesCache.get(par.pagesID);
+      
+      if(pages == null){
+        throw new SSErr(SSErrE.searchResultOutDated);
+      }
+      
+      try{
+        page = pages.pages.get(par.pageNumber - 1);
+      }catch(Exception error){
+        throw new SSErr(SSErrE.searchResultPageUnavailable);
+      }
+      
+      for(SSEntity result : page){
+        results.add(fillSearchResult(par, result.id));
+      }
+      
+      return SSSearchRet.get(
+        results,
+        par.pagesID,
+        par.pageNumber,
+        pages.pages.size(),
+        op);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -145,6 +145,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSModelUEServ.inst.schedule   ();
       SSFilerepoServ.inst.schedule  ();
       SSRecommServ.inst.schedule    ();
+      SSSearchServ.inst.schedule    ();
       
       finished = true;
     }catch(Exception error1){

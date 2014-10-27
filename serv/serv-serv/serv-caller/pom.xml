@@ -33,15 +33,15 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-activity-datatypes</artifactId>
+      <artifactId>ss-search-datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
-<!--    <dependency>
+    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-modeling-ue-datatypes</artifactId>
+      <artifactId>ss-activity-datatypes</artifactId>
       <version>${project.version}</version>
-    </dependency> -->
+    </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>

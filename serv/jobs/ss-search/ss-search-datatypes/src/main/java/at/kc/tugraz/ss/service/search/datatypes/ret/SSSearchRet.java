@@ -33,17 +33,26 @@ import java.util.Map;
 
 public class SSSearchRet extends SSServRetI{
   
-  public List<SSEntity> entities = new ArrayList<>();
+  public String         pagesID     = null;
+  public Integer        pageNumber  = null;
+  public Integer        pageNumbers = null;
+  public List<SSEntity> entities    = new ArrayList<>();
   
   public static SSSearchRet get(
     final List<SSEntity> entities,
+    final String         pagesID,
+    final Integer        pageNumber,
+    final Integer        pageNumbers,
     final SSMethU        op){
     
-    return new SSSearchRet(entities, op);
+    return new SSSearchRet(entities, pagesID, pageNumber, pageNumbers, op);
   }
   
   private SSSearchRet(
     final List<SSEntity> entities,
+    final String         pagesID,
+    final Integer        pageNumber,
+    final Integer        pageNumbers,
     final SSMethU        op){
     
     super(op);
@@ -51,6 +60,10 @@ public class SSSearchRet extends SSServRetI{
     if(entities != null){
       this.entities.addAll(entities);
     }
+    
+    this.pagesID     = pagesID;
+    this.pageNumber  = pageNumber;
+    this.pageNumbers = pageNumbers;
   }
   
   @Override
@@ -64,12 +77,10 @@ public class SSSearchRet extends SSServRetI{
     
     ld.put(SSVarU.entities, entitiesObj);
     
+    ld.put(SSVarU.pagesID,     SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.pageNumber,  SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarU.pageNumbers, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    
     return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSEntity> getEntities() {
-    return entities;
   }
 }

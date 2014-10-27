@@ -197,6 +197,7 @@ public enum SSMethU{
   searchMIs                                           ,
   searchTagsWithinEntity                              ,
   search,
+  searchResultPagesCacheClean,
   
   //rating
   ratingUserSet                                       ,

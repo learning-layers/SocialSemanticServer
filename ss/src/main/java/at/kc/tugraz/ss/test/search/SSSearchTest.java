@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class SSSearchTest extends SSServOpTestCaseA{
     
     keywordsToSearchFor.add("test");
     
-    final List<SSEntity> result =
+    SSSearchRet result =
       SSServCaller.search(
         SSVoc.systemUserUri,
         keywordsToSearchFor,
@@ -74,7 +75,35 @@ public class SSSearchTest extends SSServOpTestCaseA{
         new ArrayList<>(),
         false,
         false,
-        false);
+        false,
+        null,
+        null);
+    
+    if(result.pageNumbers > 1){
+      
+      result =
+        SSServCaller.search(
+          SSVoc.systemUserUri,
+          keywordsToSearchFor,
+          false,
+          new ArrayList<>(),
+          true,
+          new ArrayList<>(),
+          false,
+          new ArrayList<>(),
+          true,
+          new ArrayList<>(),
+          false,
+          new ArrayList<>(),
+          typesToSearchOnlyFor,
+          false,
+          new ArrayList<>(),
+          false,
+          false,
+          false,
+          result.pagesID,
+          result.pageNumber + 1);
+    }
     
     System.out.println (op + " test end");
   }

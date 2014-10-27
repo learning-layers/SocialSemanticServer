@@ -47,6 +47,9 @@ public class SSVarU{
   public static final String extendToParents                                = "extendToParents";
   public static final String includeRecommendedResults                      = "includeRecommendedResults";
   public static final String provideEntries                                 = "provideEntries";
+  public static final String pagesID                                        = "pagesID";
+  public static final String pageNumbers                                    = "pageNumbers";
+  public static final String pageNumber                                     = "pageNumber";
   public static final String keywordsToSearchFor                            = "keywordsToSearchFor";
   public static final String flags                                          = "flags";
   public static final String notebook                                       = "notebook";

@@ -158,6 +158,18 @@ public class SSSearchPar extends SSServPar{
     value = "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well" )
   public Boolean             provideEntries             = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "pagesID")
+  public String              pagesID             = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "pageNumber")
+  public Integer             pageNumber             = null;
+  
   public SSSearchPar(){}
   
   public SSSearchPar(final SSServPar par) throws Exception{
@@ -184,6 +196,8 @@ public class SSSearchPar extends SSServPar{
         extendToParents            = (Boolean)                pars.get(SSVarU.extendToParents);
         includeRecommendedResults  = (Boolean)                pars.get(SSVarU.includeRecommendedResults);
         provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
+        pagesID                    = (String)                 pars.get(SSVarU.pagesID);
+        pageNumber                 = (Integer)                pars.get(SSVarU.pageNumber);
       }
       
       if(par.clientJSONObj != null){
@@ -251,6 +265,8 @@ public class SSSearchPar extends SSServPar{
         try{ extendToParents              = par.clientJSONObj.get(SSVarU.extendToParents).getBooleanValue();                                                                       }catch(Exception error){}
         try{ includeRecommendedResults    = par.clientJSONObj.get(SSVarU.includeRecommendedResults).getBooleanValue();                                                             }catch(Exception error){}
         try{ provideEntries               = par.clientJSONObj.get(SSVarU.provideEntries).getBooleanValue();                                                                        }catch(Exception error){}
+        try{ pagesID                      = par.clientJSONObj.get(SSVarU.pagesID).getTextValue();                                                                                  }catch(Exception error){}
+        try{ pageNumber                   = par.clientJSONObj.get(SSVarU.pageNumber).getIntValue();                                                                                }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
