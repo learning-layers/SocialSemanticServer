@@ -58,7 +58,7 @@ public class SSCategoryServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities(SSEntityE.category);
+    regServForManagingEntities();
     
     return this;
   }

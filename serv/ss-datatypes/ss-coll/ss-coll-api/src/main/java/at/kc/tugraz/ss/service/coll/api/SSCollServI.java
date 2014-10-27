@@ -20,14 +20,11 @@
 */
 package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServI;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface SSCollServI extends SSServI{
   
-  public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
-    add(SSEntityE.coll);
-  }};
+//  public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
+//    add(SSEntityE.coll);
+//  }};
 }

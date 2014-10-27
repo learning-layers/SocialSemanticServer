@@ -56,7 +56,7 @@ public class SSUserServ extends SSServA implements SSUserServI{
     
     super.regServ(conf);
     
-    regServForManagingEntities(SSEntityE.user);
+    regServForManagingEntities();
     
     return this;
   }

@@ -55,7 +55,7 @@ public class SSRatingServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities       (SSEntityE.rating);
+    regServForManagingEntities       ();
     regServForDescribingEntities     ();
     regServForGatheringUserRelations ();
     

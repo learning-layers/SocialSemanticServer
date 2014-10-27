@@ -58,7 +58,7 @@ public class SSCollServ extends SSServA implements SSCollServI{
     
     super.regServ(conf);
 
-    regServForManagingEntities       (supportedEntityTypes);
+    regServForManagingEntities       ();
     regServForGatheringUserRelations ();
     
     return this;

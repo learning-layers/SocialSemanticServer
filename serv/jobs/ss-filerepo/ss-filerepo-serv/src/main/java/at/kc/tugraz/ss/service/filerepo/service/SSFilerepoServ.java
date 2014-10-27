@@ -69,7 +69,7 @@ public class SSFilerepoServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities   (SSEntityE.file);
+    regServForManagingEntities   ();
     regServForDescribingEntities ();
     
     return this;

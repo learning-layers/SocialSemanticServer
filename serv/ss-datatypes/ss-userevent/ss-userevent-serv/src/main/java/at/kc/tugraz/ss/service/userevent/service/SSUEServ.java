@@ -55,7 +55,7 @@ public class SSUEServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities   (SSEntityE.userEvent);
+    regServForManagingEntities   ();
     regServForDescribingEntities ();
     
     return this;

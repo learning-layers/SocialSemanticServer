@@ -55,7 +55,7 @@ public class SSActivityServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities(SSEntityE.activity);
+    regServForManagingEntities();
     
     return this;
   }

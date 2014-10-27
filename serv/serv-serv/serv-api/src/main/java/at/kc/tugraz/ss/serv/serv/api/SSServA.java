@@ -25,7 +25,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -48,7 +47,7 @@ public abstract class SSServA{
   private   static final Map<SSMethU, SSServA>                        servsForClientOps               = new EnumMap<>(SSMethU.class);
   private   static final Map<SSMethU, SSServA>                        servsForServerOps               = new EnumMap<>(SSMethU.class);
   private   static final List<SSServA>                                servsForUpdatingEntities        = new ArrayList<>();
-  private   static final Map<SSEntityE, SSServA>                      servsForManagingEntities        = new EnumMap<>(SSEntityE.class);
+  private   static final List<SSServA>                                servsForManagingEntities        = new ArrayList<>();
   private   static final List<SSServA>                                servsForDescribingEntities      = new ArrayList<>();
   private   static final List<SSServA>                                servsForGatheringUserRelations  = new ArrayList<>();
   private   static final List<SSServA>                                servsForGatheringUsersResources = new ArrayList<>();
@@ -231,49 +230,21 @@ public abstract class SSServA{
     }
   }
   
-  protected void regServForManagingEntities(final List<SSEntityE> entityTypes) throws Exception{
+  protected void regServForManagingEntities() throws Exception{
     
     try{
-     
+      
       if(!servConf.use){
         return;
       }
       
       synchronized(servsForManagingEntities){
-
-        for(SSEntityE entityType : entityTypes){
-         
-          if(servsForManagingEntities.containsKey(entityType)){
-            throw new Exception("entityType for service already registered");
-          }
-
-          servsForManagingEntities.put(entityType, this);
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  protected void regServForManagingEntities(final SSEntityE entityType) throws Exception{
-    
-    try{
-     
-      if(!servConf.use){
-        return;
-      }
-
-      if(entityType == null){
-        throw new Exception("entityType is null");
-      }
-      
-      synchronized(servsForManagingEntities){
         
-        if(servsForManagingEntities.containsKey(entityType)){
-          throw new Exception("entityType for service already registered");
+        if(servsForManagingEntities.contains(this)){
+          throw new Exception("service already registered");
         }
         
-        servsForManagingEntities.put(entityType, this);
+        servsForManagingEntities.add(this);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -533,7 +504,7 @@ public abstract class SSServA{
   }
     
   public static List<SSServA> getServsManagingEntities(){
-    return new ArrayList<>(servsForManagingEntities.values());
+    return new ArrayList<>(servsForManagingEntities);
   }
   
   public static List<SSServA> getServsDescribingEntities(){

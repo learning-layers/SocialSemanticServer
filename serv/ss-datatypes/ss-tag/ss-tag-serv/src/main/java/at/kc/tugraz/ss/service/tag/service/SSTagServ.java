@@ -58,7 +58,7 @@ public class SSTagServ extends SSServA implements SSTagServI{
     
     super.regServ(conf);
     
-    regServForManagingEntities       (SSEntityE.tag);
+    regServForManagingEntities       ();
     regServForDescribingEntities     ();
     regServForGatheringUserRelations ();
     

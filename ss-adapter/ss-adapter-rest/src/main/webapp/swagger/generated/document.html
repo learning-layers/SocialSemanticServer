@@ -189,29 +189,9 @@ search for entities
 
 
 - - -
-#### **POST** `/flagsSet`
+#### **POST** `/flagsGet`
 
-set flags
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
-        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/authCheckCred`
-
-retrieve the authentication key and user&#39;s uri for credentials
+retrieve flags set
 
 
 
@@ -221,8 +201,8 @@ retrieve the authentication key and user&#39;s uri for credentials
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
-        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
     </tr>
 </table>
 
@@ -249,9 +229,9 @@ retrieve activities from within a certain time frame
 
 
 - - -
-#### **POST** `/flagsGet`
+#### **POST** `/flagsSet`
 
-retrieve flags set
+set flags
 
 
 
@@ -261,8 +241,8 @@ retrieve flags set
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
+        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
+        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
     </tr>
 </table>
 
@@ -289,6 +269,26 @@ retrieve more detailed information for given entities of a user
 
 
 - - -
+#### **POST** `/authCheckCred`
+
+retrieve the authentication key and user&#39;s uri for credentials
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
+        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/activityAdd`
 
 add an activity
@@ -309,26 +309,6 @@ add an activity
 
 
 - - -
-#### **POST** `/entityPublicSet`
-
-set an entity public (make it accessible for everyone)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
-        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/systemVersionGet`
 
 retrieve the version of the sss instance
@@ -343,6 +323,26 @@ retrieve the version of the sss instance
     <tr>
         <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
         <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityPublicSet`
+
+set an entity public (make it accessible for everyone)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
+        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
     </tr>
 </table>
 
@@ -1576,16 +1576,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -2086,16 +2086,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -2560,16 +2560,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -3562,16 +3562,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -4042,16 +4042,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -4168,6 +4168,12 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
         <td>circleType</td>
         <td>string</td>
         <td></td>
@@ -4178,12 +4184,6 @@ retrieve category frequencies
         <td>string</td>
         <td></td>
         <td>physical file</td>
-    </tr>
-    <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -6772,16 +6772,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -7438,16 +7438,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -7882,16 +7882,16 @@ retrieve category frequencies
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>

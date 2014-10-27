@@ -57,11 +57,7 @@ public class SSLearnEpServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities(SSEntityE.learnEp);
-    regServForManagingEntities(SSEntityE.learnEpTimelineState);
-    regServForManagingEntities(SSEntityE.learnEpVersion);
-    regServForManagingEntities(SSEntityE.learnEpCircle);
-    regServForManagingEntities(SSEntityE.learnEpEntity);
+    regServForManagingEntities();
     
     return this;
   }
