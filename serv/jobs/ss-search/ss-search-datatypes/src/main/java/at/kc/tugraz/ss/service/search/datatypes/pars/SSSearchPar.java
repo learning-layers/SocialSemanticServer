@@ -161,13 +161,13 @@ public class SSSearchPar extends SSServPar{
   @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "pagesID")
+    value = "unique identifier for the pages of a previous search result")
   public String              pagesID             = null;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "pageNumber")
+    value = "number of the page to be requested from a previous search result")
   public Integer             pageNumber             = null;
   
   public SSSearchPar(){}
