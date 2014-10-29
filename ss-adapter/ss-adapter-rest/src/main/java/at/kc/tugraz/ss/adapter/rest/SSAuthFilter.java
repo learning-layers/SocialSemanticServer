@@ -15,9 +15,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 import org.apache.commons.io.IOUtils;
 
+//@TODO dtheiler: instead of this filter use @HeaderParam for extracting the headers later
 @Provider
 public class SSAuthFilter implements ContainerRequestFilter{
-  
+
   @Override
   public void filter(ContainerRequestContext request) throws IOException {
 

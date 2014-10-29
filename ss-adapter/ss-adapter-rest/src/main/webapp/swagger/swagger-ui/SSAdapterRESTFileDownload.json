@@ -22,6 +22,37 @@
         "allowMultiple" : false
       } ]
     } ]
+  }, {
+    "path" : "/fileDownloadGET",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "download a file via GET request with query params",
+      "notes" : "",
+      "type" : "string",
+      "format" : "byte",
+      "nickname" : "fileDownloadGET",
+      "produces" : [ "application/octet-stream" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "user",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "key",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "file",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ]
+    } ]
   } ],
   "models" : {
     "SSFileDownloadPar" : {

@@ -20,7 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -30,9 +32,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -46,7 +50,7 @@ public class SSAdapterRESTFileDownload{
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   @Path(SSStrU.slash + "fileDownload")
   @ApiOperation(
-    value = "download a file",
+    value = "download a file via POST request",
     response = byte.class)
   public Response fileDownload(final SSFileDownloadPar input){
     
@@ -88,5 +92,69 @@ public class SSAdapterRESTFileDownload{
     }
     
     return Response.ok(stream).build();
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  @Path(SSStrU.slash + "fileDownloadGET")
+  @ApiOperation(
+    value = "download a file via GET request with query params",
+    response = byte.class)
+  public Response fileDownloadGET(
+    @QueryParam("user")
+    final String user,
+    @QueryParam("key")
+    final String key,
+    @QueryParam("file")
+    final String file) throws Exception{
+    
+    final String     input  = "{\"op\":\"fileDownload\",\"user\":\"" + user + "\",\"key\":\"" + key + "\",\"file\":\"" + file + "\"}";
+    StreamingOutput  stream = null;
+    SSSocketCon      sSCon;
+    
+    try{
+      sSCon = new SSSocketCon(SSRestMain.conf.host, SSRestMain.conf.port, input);
+      
+      sSCon.writeRequFullToSS   ();
+      sSCon.readMsgFullFromSS   ();
+      sSCon.writeRequFullToSS   ();
+      
+      stream = new StreamingOutput(){
+        
+        @Override
+        public void write(OutputStream out) throws IOException{
+          
+          byte[] bytes;
+          
+          while((bytes = sSCon.readFileChunkFromSS()).length > 0) {
+            
+            out.write               (bytes);
+            out.flush               ();
+          }
+          
+          out.close();
+        }
+      };
+    }catch(Exception error){
+      
+      try{
+        return Response.serverError().build();
+      }catch(Exception error1){
+        SSServErrReg.regErr(error1, "writing error to client didnt work");
+      }
+    }finally{
+//      sSCon.closeCon();
+    }
+
+    String fileName  = SSStrU.removeTrailingSlash(file);
+    
+    fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      
+    return Response.
+      ok(stream).
+      header("Content-Disposition", "attachment; filename=\"" + fileName + "\"").
+      header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
+      build();
   }
 }
