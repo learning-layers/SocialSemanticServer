@@ -127,6 +127,8 @@ lomExtractorConf:
   use: false
   useEPrints: true
   useEdunet: false
+messageConf:
+  use: true
 modelConf:
   daysToRetrieveEvents: 60
   executeOpAtStartUp: false

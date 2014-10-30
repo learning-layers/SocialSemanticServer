@@ -416,3 +416,8 @@ org.eclipse.wst.common.component
 org.eclipse.wst.validation.prefs
 org.eclipse.wst.jsdt.ui.superType.container
 org.eclipse.wst.jsdt.ui.superType.name
+/serv/jobs/message1/message.datatypes/target/
+/serv/jobs/message1/message.conf/target/
+/serv/jobs/message1/message.impl/target/
+/serv/jobs/message1/message.serv/target/
+/serv/jobs/message1/message.api/target

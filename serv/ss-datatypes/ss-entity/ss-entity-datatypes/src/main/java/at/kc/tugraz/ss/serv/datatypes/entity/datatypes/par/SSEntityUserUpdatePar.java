@@ -82,6 +82,12 @@ public class SSEntityUserUpdatePar extends SSServPar{
     this.comments = SSTextComment.get(comments);
   }
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the user has read the entity")
+   public Boolean read = null;
+  
   public SSEntityUserUpdatePar(){}
   
   public SSEntityUserUpdatePar(SSServPar par) throws Exception{
@@ -95,6 +101,7 @@ public class SSEntityUserUpdatePar extends SSServPar{
         label          = (SSLabel)             pars.get(SSVarU.label);
         description    = (SSTextComment)       pars.get(SSVarU.description);
         comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
+        read           = (Boolean)             pars.get(SSVarU.read);
       }
       
       if(par.clientJSONObj != null){
@@ -112,6 +119,10 @@ public class SSEntityUserUpdatePar extends SSServPar{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
             comments.add(SSTextComment.get(objNode.getTextValue()));
           }
+        }catch(Exception error){}
+        
+        try{
+          read        = par.clientJSONObj.get(SSVarU.read).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

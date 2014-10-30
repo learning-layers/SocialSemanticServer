@@ -24,6 +24,9 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String includeRead                                    = "includeRead";
+  public static final String messages                                       = "messages";
+  public static final String message                                        = "message";
   public static final String resources                                      = "resources";
   public static final String resource                                       = "resource";
   public static final String isSystemUser                                   = "isSystemUser";
@@ -224,6 +227,7 @@ public class SSVarU{
   public static final String disc                                           = "disc";
   public static final String maxEntries                                     = "maxEntries";
   public static final String content                                        = "content";
+  public static final String read                                           = "read";
   public static final String circle                                         = "circle";
   public static final String coll                                           = "coll";
   public static final String entry                                          = "entry";

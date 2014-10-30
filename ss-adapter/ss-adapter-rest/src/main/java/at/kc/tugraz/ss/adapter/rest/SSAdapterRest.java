@@ -42,6 +42,10 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
+import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
+import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
@@ -1008,6 +1012,28 @@ public class SSAdapterRest{
     response = SSCategoriesUserRemoveRet.class)
   public String categoriesRemove(final SSCategoriesUserRemovePar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.categoriesRemove);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "messageSend")
+  @ApiOperation(
+    value = "send a message to a user",
+    response = SSMessageSendRet.class)
+  public String messageSend(final SSMessageSendPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.messageSend);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "messagesGet")
+  @ApiOperation(
+    value = "retrieve messages for the user",
+    response = SSMessagesGetRet.class)
+  public String messagesGet(final SSMessagesGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
   }
 }
 

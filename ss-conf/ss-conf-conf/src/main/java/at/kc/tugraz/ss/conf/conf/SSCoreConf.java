@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.recomm.conf.SSMessageConf;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
@@ -90,6 +91,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSCategoryConf      categoryConf       = null;
   private SSFlagConf          flagConf           = null;
   private SSCommentConf       commentConf        = null;
+  private SSMessageConf       messageConf        = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -211,6 +213,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setCommentConf(SSCommentConf commentConf) {
     this.commentConf = commentConf;
+  }
+  
+  public SSMessageConf getMessageConf() {
+    return messageConf;
+  }
+
+  public void setMessageConf(SSMessageConf messageConf) {
+    this.messageConf = messageConf;
   }
   
   public SSFileRepoConf getFilerepoConf() {

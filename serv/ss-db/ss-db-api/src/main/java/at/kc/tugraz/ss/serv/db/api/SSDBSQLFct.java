@@ -50,6 +50,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   collHierarchyTable                  = "collhierarchy";
   protected static final String   collUserTable                       = "colluser";
   protected static final String   entityTable                         = "entity";
+  protected static final String   entityReadsTable                    = "entityreads";
   protected static final String   userTable                           = "user";
   protected static final String   entitiesTable                       = "entities";
   protected static final String   flagTable                           = "flag";
@@ -85,6 +86,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   evernoteUserTable                   = "evernoteuser";
   protected static final String   commentsTable                       = "comments";
   protected static final String   commentTable                        = "comment";
+  protected static final String   messageTable                        = "message";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

@@ -21,6 +21,7 @@
     <module>ss-dataimport</module>
     <module>ss-solr</module>
     <module>ss-lomextractor</module>
+    <module>message1</module>
     <module>recomm</module>
     <module>ss-dataexport</module>
     <module>ss-file-sys-local</module>

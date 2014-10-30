@@ -157,7 +157,12 @@
       <version>20140107</version>
     </dependency>
 
-
+    <dependency>
+      <groupId>sss.serv.message</groupId>
+      <artifactId>message.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-cloud-serv</artifactId>

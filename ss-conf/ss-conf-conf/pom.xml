@@ -18,6 +18,12 @@
   
   <dependencies>
     
+     <dependency>
+      <groupId>sss.serv.message</groupId>
+      <artifactId>message.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.serv.comment</groupId>
       <artifactId>comment.conf</artifactId>

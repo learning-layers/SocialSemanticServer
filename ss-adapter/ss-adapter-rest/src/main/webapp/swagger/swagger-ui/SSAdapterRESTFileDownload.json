@@ -7,7 +7,7 @@
     "path" : "/fileDownload",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "download a file",
+      "summary" : "download a file via POST request",
       "notes" : "",
       "type" : "string",
       "format" : "byte",
@@ -58,7 +58,7 @@
     "SSFileDownloadPar" : {
       "id" : "SSFileDownloadPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -68,13 +68,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     }

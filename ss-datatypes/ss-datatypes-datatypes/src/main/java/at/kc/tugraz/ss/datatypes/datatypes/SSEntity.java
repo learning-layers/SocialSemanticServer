@@ -130,6 +130,11 @@ public class SSEntity extends SSEntityA{
     value = "entities involved")
   public List<SSUri>         entities     = new ArrayList<>();
   
+  @ApiModelProperty(
+    required = false,
+    value = "whether user has read the entry")
+  public  Boolean       read;
+  
   public static SSEntity get(
     final SSUri     id,
     final SSEntityE type) throws Exception{
@@ -191,6 +196,7 @@ public class SSEntity extends SSEntityA{
     this.comments         = entity.comments;
     this.users            = entity.users;
     this.entities         = entity.entities;
+    this.read             = entity.read;
   }
   
   @Override
@@ -218,6 +224,7 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarU.overallRating,  SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
     ld.put(SSVarU.thumb,          SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.file,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.read,           SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
    
     circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -268,6 +275,7 @@ public class SSEntity extends SSEntityA{
     entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.entities, entitiesObj);
+    
     return ld;
   }
 

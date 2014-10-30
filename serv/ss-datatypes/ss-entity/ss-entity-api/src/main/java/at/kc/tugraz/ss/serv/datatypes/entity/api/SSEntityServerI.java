@@ -73,4 +73,5 @@ public interface SSEntityServerI {
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
   public SSUri                           entityUpdate                             (final SSServPar parA) throws Exception;
+  public Boolean                         entityReadGet                            (final SSServPar parA) throws Exception;
 }

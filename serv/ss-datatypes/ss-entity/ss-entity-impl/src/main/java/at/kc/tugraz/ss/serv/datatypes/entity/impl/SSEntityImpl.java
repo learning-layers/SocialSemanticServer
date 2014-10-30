@@ -77,6 +77,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -157,6 +158,19 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSServErrReg.regErrThrow (new SSErr(SSErrE.userNotAllowedToAccessEntity));
     }catch(Exception error){      
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override 
+  public Boolean entityReadGet(final SSServPar parA) throws Exception{
+  
+    try{
+      final SSEntityReadGetPar par = new SSEntityReadGetPar(parA);
+      
+      return sqlFct.getEntityRead(par.user, par.entity);
+    }catch(Exception error){      
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -300,6 +314,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.description, 
         par.user, 
         null);
+      
+      if(par.read){
+        sqlFct.entityRead(par.user, par.entity);
+      }
       
       dbSQL.commit(par.shouldCommit);
       

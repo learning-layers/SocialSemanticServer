@@ -449,8 +449,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, discUri);
       
-      tableCon(tableCons, discEntriesTable, SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
-      tableCon(tableCons, discEntryTable,   SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
+      tableCon(tableCons, discEntriesTable,     SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
+      tableCon(tableCons, discEntryTable,       SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       

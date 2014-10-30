@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class SSDiscsUserAllGetRet extends SSServRetI{
 
-  public List<SSDisc> discs = new ArrayList<SSDisc>();
+  public List<SSDisc> discs = new ArrayList<>();
 
   public static SSDiscsUserAllGetRet get(List<SSDisc> discs, SSMethU op){
     return new SSDiscsUserAllGetRet(discs, op);
@@ -50,8 +50,8 @@ public class SSDiscsUserAllGetRet extends SSServRetI{
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> discsObj   = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> discsObj   = new HashMap<>();
     
     discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSDisc.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -59,9 +59,5 @@ public class SSDiscsUserAllGetRet extends SSServRetI{
     ld.put(SSVarU.discs, discsObj);
     
     return ld;
-  }
-  
-  public List<SSDisc> getDiscs() {
-    return discs;
-  }
+  }  
 }

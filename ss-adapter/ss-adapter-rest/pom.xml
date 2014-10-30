@@ -82,6 +82,12 @@
   <dependencies>
    
     <dependency>
+      <groupId>sss.serv.message</groupId>
+      <artifactId>message.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-dataimport-datatypes</artifactId>
       <version>${project.version}</version>

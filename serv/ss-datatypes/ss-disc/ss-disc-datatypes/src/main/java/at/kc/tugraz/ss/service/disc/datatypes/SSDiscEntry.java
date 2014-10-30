@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSDiscEntry extends SSEntity{

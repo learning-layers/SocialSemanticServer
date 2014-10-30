@@ -1241,6 +1241,52 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public Boolean getEntityRead(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String>       wheres    = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.userId,   user);
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(entityReadsTable, wheres);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void entityRead(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,     entity);
+      insert(inserts, SSSQLVarU.userId,       user);
+
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
+
+      dbSQL.insertIfNotExists(entityReadsTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
 
 

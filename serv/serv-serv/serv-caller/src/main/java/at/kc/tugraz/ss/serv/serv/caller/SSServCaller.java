@@ -1083,6 +1083,18 @@ public class SSServCaller {
   
   /* entity */
   
+  public static Boolean entityReadGet(
+    final SSUri user,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,   user);
+    opPars.put(SSVarU.entity, entity);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.entityReadGet, opPars));
+  }
+  
   public static List<SSEntity> entityEntitiesAttachedGet(
     final SSUri user,
     final SSUri entity) throws Exception{
