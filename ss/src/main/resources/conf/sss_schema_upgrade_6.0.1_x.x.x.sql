@@ -26,7 +26,7 @@ ADD INDEX `forEntityIdFKmessage_idx` (`forEntityId` ASC);
 ALTER TABLE `sss`.`message` 
 ADD CONSTRAINT `messageIdFKmessage`
   FOREIGN KEY (`messageId`)
-  REFERENCES `sss`.`entity` (`entityId`)
+  REFERENCES `sss`.`entity` (`id`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION,
 ADD CONSTRAINT `userIdFKmessage`
