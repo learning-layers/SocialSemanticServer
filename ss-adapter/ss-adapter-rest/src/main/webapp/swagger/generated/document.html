@@ -209,166 +209,6 @@ search for entities
 
 
 - - -
-#### **POST** `/messagesGet`
-
-retrieve messages for the user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSMessagesGetPar">SSMessagesGetPar</a> </td>
-        <td>  [SSMessagesGetRet](#SSMessagesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/messageSend`
-
-send a message to a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSMessageSendPar">SSMessageSendPar</a> </td>
-        <td>  [SSMessageSendRet](#SSMessageSendRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesRemove`
-
-remove category, user, entity, space combinations
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
-        <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryAdd`
-
-add a category within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
-        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesGet`
-
-retrieve category assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
-        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagEntitiesForTagsGet`
-
-retrieve entities for tags (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
-        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryEntitiesForCategoriesGet`
-
-retrieve entities for categories (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a> </td>
-        <td>  [SSCategoryUserEntitiesForCategoriesGetRet](#SSCategoryUserEntitiesForCategoriesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityEntityUsersGet`
 
 retrieve users who can access given entity
@@ -689,6 +529,46 @@ retrieve automatically usage-based modeled details for given entity
 
 
 - - -
+#### **POST** `/tagEntitiesForTagsGet`
+
+retrieve entities for tags (currently startTime is not used to retrieve entities)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
+        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryEntitiesForCategoriesGet`
+
+retrieve entities for categories (currently startTime is not used to retrieve entities)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a> </td>
+        <td>  [SSCategoryUserEntitiesForCategoriesGetRet](#SSCategoryUserEntitiesForCategoriesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/categoryFrequsGet`
 
 retrieve category frequencies
@@ -703,46 +583,6 @@ retrieve category frequencies
     <tr>
         <td><a href="#SSCategoryUserFrequsGetPar">SSCategoryUserFrequsGetPar</a> </td>
         <td>  [SSCategoryUserFrequsGetRet](#SSCategoryUserFrequsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/flagsGet`
-
-retrieve flags set
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/activitiesGet`
-
-retrieve activities from within a certain time frame
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
     </tr>
 </table>
 
@@ -769,26 +609,6 @@ set flags
 
 
 - - -
-#### **POST** `/entityDescsGet`
-
-retrieve more detailed information for given entities of a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
-        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/authCheckCred`
 
 retrieve the authentication key and user&#39;s uri for credentials
@@ -803,6 +623,66 @@ retrieve the authentication key and user&#39;s uri for credentials
     <tr>
         <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
         <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/activitiesGet`
+
+retrieve activities from within a certain time frame
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/flagsGet`
+
+retrieve flags set
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDescsGet`
+
+retrieve more detailed information for given entities of a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityDescsGetPar">SSEntityDescsGetPar</a> </td>
+        <td>  [SSEntityDescsGetRet](#SSEntityDescsGetRet) </td>
     </tr>
 </table>
 
@@ -1089,26 +969,6 @@ retrieve the user&#39;s collections with entries
 
 
 - - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/discEntryAdd`
 
 add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion
@@ -1123,6 +983,26 @@ add a textual comment/answer/opinion to a discussion [for given entity] or creat
     <tr>
         <td><a href="#SSDiscUserEntryAddPar">SSDiscUserEntryAddPar</a> </td>
         <td>  [SSDiscUserEntryAddRet](#SSDiscUserEntryAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -1509,6 +1389,126 @@ changes the label of the category assigned to entities by given user
 
 
 - - -
+#### **POST** `/categoriesGet`
+
+retrieve category assignments
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
+        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryAdd`
+
+add a category within for an entity within given space
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
+        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesRemove`
+
+remove category, user, entity, space combinations
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
+        <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/messageSend`
+
+send a message to a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSMessageSendPar">SSMessageSendPar</a> </td>
+        <td>  [SSMessageSendRet](#SSMessageSendRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/messagesGet`
+
+retrieve messages for the user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSMessagesGetPar">SSMessagesGetPar</a> </td>
+        <td>  [SSMessagesGetRet](#SSMessagesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 
 ## Data Types
 
@@ -1726,16 +1726,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -2248,16 +2248,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -2716,16 +2716,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -3724,16 +3724,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4210,16 +4210,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4360,16 +4360,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -6298,16 +6298,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -6496,13 +6496,13 @@ changes the label of the category assigned to entities by given user
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -7288,16 +7288,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -7960,16 +7960,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -8362,16 +8362,16 @@ changes the label of the category assigned to entities by given user
         <td>creator</td>
     </tr>
     <tr>
-        <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
-        <td></td>
-        <td>attached entities</td>
-    </tr>
-    <tr>
         <td>email</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
     </tr>
     <tr>
         <td>entries</td>
@@ -8398,16 +8398,16 @@ changes the label of the category assigned to entities by given user
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 

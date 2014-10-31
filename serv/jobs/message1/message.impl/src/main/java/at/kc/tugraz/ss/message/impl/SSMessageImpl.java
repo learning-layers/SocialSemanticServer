@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
+import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.kc.tugraz.ss.recomm.api.SSMessageClientI;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSMessagesGetPar;
@@ -128,14 +129,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
         null,
         false);
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.messageSend,
-        SSUri.asListWithoutNullAndEmpty(par.user, par.forUser),
-        SSUri.asListWithoutNullAndEmpty(messageUri),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      SSMessageActivityFct.messageSend(par, messageUri);
       
       dbSQL.commit(par.shouldCommit);
       
