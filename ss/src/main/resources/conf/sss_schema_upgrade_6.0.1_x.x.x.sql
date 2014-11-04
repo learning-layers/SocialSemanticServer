@@ -58,3 +58,77 @@ ADD CONSTRAINT `userIdFKentityreads`
   REFERENCES `sss`.`user` (`userId`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION;
+
+CREATE TABLE `sss`.`images` (
+  `imageId` VARCHAR(255) NOT NULL,
+  `entityId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`imageId`, `entityId`),
+  INDEX `entityIdFKimages_idx` (`entityId` ASC),
+  CONSTRAINT `entityIdFKimages`
+    FOREIGN KEY (`entityId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `imageIdFKimages`
+    FOREIGN KEY (`imageId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`screenshots` (
+  `entityId` VARCHAR(255) NOT NULL,
+  `screenShotId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`entityId`, `screenShotId`),
+  INDEX `screenShotIdFKscreenhots_idx` (`screenShotId` ASC),
+  CONSTRAINT `entityIdFKscreenshots`
+    FOREIGN KEY (`entityId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `screenShotIdFKscreenhots`
+    FOREIGN KEY (`screenShotId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`videos` (
+  `videoId` VARCHAR(200) NOT NULL,
+  `entityId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`videoId`, `entityId`),
+  INDEX `entityIdFKvideos_idx` (`entityId` ASC),
+  CONSTRAINT `videoIdFKvideos`
+    FOREIGN KEY (`videoId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKvideos`
+    FOREIGN KEY (`entityId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`downloads` (
+  `entityId` VARCHAR(255) NOT NULL,
+  `downloadId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`entityId`, `downloadId`),
+  CONSTRAINT `entityIdFKdownloads`
+    FOREIGN KEY (`entityId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`app` (
+  `appId` VARCHAR(200) NOT NULL,
+  `descriptionShort` VARCHAR(5000) NOT NULL,
+  `descriptionFunctional` VARCHAR(5000) NOT NULL,
+  `descriptionTechnical` VARCHAR(5000) NOT NULL,
+  `descriptionInstall` VARCHAR(5000) NOT NULL,
+  `downloadIOS` VARCHAR(255) NOT NULL,
+  `downloadAndroid` VARCHAR(255) NOT NULL,
+  `fork` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`appId`),
+  CONSTRAINT `appIdFKapp`
+    FOREIGN KEY (`appId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);

@@ -22,6 +22,17 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String videoId                                        = "videoId";
+  public static final String downloadId                                     = "downloadId";
+  public static final String screenShotId                                   = "screenShotId";
+  public static final String fork                                           = "fork";
+  public static final String downloadAndroid                                = "downloadAndroid";
+  public static final String downloadIOS                                    = "downloadIOS";
+  public static final String descriptionInstall                             = "descriptionInstall";
+  public static final String descriptionTechnical                           = "descriptionTechnical";
+  public static final String descriptionFunctional                          = "descriptionFunctional";
+  public static final String descriptionShort                               = "descriptionShort";
+  public static final String appId                                          = "appId";
   public static final String message                                        = "message";
   public static final String isSystemCircle                                 = "isSystemCircle";
   public static final String flagId                                         = "flagId";
@@ -73,6 +84,7 @@ public class SSSQLVarU{
   public static final String messageId                                      = "messageId";
   public static final String forEntityId                                    = "forEntityId";
   public static final String entityId                                       = "entityId";
+  public static final String imageId                                        = "imageId";
   public static final String commentId                                      = "commentId";
   public static final String commentContent                                 = "commentContent";
   public static final String messageContent                                 = "messageContent";

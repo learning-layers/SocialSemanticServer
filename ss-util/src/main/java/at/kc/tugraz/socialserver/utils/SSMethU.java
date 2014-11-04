@@ -22,6 +22,10 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //app
+  appsGet,
+  appAdd,
+  
   //message
   messageSend,
   messagesGet,
@@ -111,6 +115,9 @@ public enum SSMethU{
   entityEntitiesAttachedGet,  
   entityUserCommentsGet,
   entityReadGet,
+  entityScreenShotsGet,
+  entityDownloadURIsGet,
+  entityVideosGet,
   
   //learn ep
   learnEpsGet                                         ,

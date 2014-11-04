@@ -589,6 +589,26 @@ retrieve category frequencies
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/flagsSet`
 
 set flags
@@ -709,26 +729,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -743,6 +743,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -949,6 +969,26 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/collsWithEntries`
 
 retrieve the user&#39;s collections with entries
@@ -983,26 +1023,6 @@ add a textual comment/answer/opinion to a discussion [for given entity] or creat
     <tr>
         <td><a href="#SSDiscUserEntryAddPar">SSDiscUserEntryAddPar</a> </td>
         <td>  [SSDiscUserEntryAddRet](#SSDiscUserEntryAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -1089,26 +1109,6 @@ updates/adds given properties for an entity
 
 
 - - -
-#### **POST** `/ratingSet`
-
-set the user&#39;s rating for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
-        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/ratingOverallGet`
 
 retrieve the overall rating (by all users) for given entity
@@ -1123,6 +1123,26 @@ retrieve the overall rating (by all users) for given entity
     <tr>
         <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
         <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/ratingSet`
+
+set the user&#39;s rating for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
+        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
     </tr>
 </table>
 
@@ -1489,9 +1509,9 @@ retrieve messages for the user
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+#### **POST** `/appAdd`
 
-remove certain attached attributes from an entity
+add an app
 
 
 
@@ -1501,8 +1521,28 @@ remove certain attached attributes from an entity
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+        <td><a href="#SSAppAddPar">SSAppAddPar</a> </td>
+        <td>  [SSAppAddRet](#SSAppAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/appsGet`
+
+retrieve apps
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppsGetPar">SSAppsGetPar</a> </td>
+        <td>  [SSAppsGetRet](#SSAppsGetRet) </td>
     </tr>
 </table>
 
@@ -1630,6 +1670,12 @@ remove certain attached attributes from an entity
         <td>sss entity data type</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>entities</td>
         <td>Array[string]</td>
         <td></td>
@@ -1646,6 +1692,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -1697,7 +1749,7 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -1726,16 +1778,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -1806,6 +1858,372 @@ remove certain attached attributes from an entity
     <tr>
         <td>activity</td>
         <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSApp">SSApp</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>overallRating</td>
+        <td><a href="#SSEntityA">SSEntityA</a></td>
+        <td></td>
+        <td>overall star rating</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>users involved</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td><a href="#SSEntityE">SSEntityE</a></td>
+        <td></td>
+        <td>sss entity data type</td>
+    </tr>
+    <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entities involved</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
+        <td>thumb</td>
+        <td>string</td>
+        <td></td>
+        <td>thumbnail</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>string</td>
+        <td></td>
+        <td>textual description</td>
+    </tr>
+    <tr>
+        <td>uEs</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>user events</td>
+    </tr>
+    <tr>
+        <td>downloads</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>downloadIOS</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
+    </tr>
+    <tr>
+        <td>descriptionTechnical</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>descriptionInstall</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>read</td>
+        <td>boolean</td>
+        <td></td>
+        <td>whether user has read the entry</td>
+    </tr>
+    <tr>
+        <td>author</td>
+        <td>string</td>
+        <td></td>
+        <td>creator</td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
+    </tr>
+    <tr>
+        <td>creationTime</td>
+        <td>long</td>
+        <td></td>
+        <td>creation / timestamp in milliseconds</td>
+    </tr>
+    <tr>
+        <td>fork</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>descriptionFunctional</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tags</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>tags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+</table>
+
+
+## <a name="SSAppAddPar">SSAppAddPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td>download link IOS</td>
+    </tr>
+    <tr>
+        <td>videos</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>downloads</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>download links</td>
+    </tr>
+    <tr>
+        <td>downloadIOS</td>
+        <td>string</td>
+        <td></td>
+        <td>download link IOS</td>
+    </tr>
+    <tr>
+        <td>descriptionTechnical</td>
+        <td>string</td>
+        <td></td>
+        <td>technical description</td>
+    </tr>
+    <tr>
+        <td>descriptionInstall</td>
+        <td>string</td>
+        <td></td>
+        <td>install description</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td>true</td>
+        <td>name</td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td>short description</td>
+    </tr>
+    <tr>
+        <td>fork</td>
+        <td>string</td>
+        <td></td>
+        <td>github fork link</td>
+    </tr>
+    <tr>
+        <td>descriptionFunctional</td>
+        <td>string</td>
+        <td></td>
+        <td>functional description</td>
+    </tr>
+</table>
+
+
+## <a name="SSAppAddRet">SSAppAddRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>app</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSAppsGetPar">SSAppsGetPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSAppsGetRet">SSAppsGetRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>apps</td>
+        <td><a href="#SSApp">Array[SSApp]</a></td>
         <td></td>
         <td></td>
     </tr>
@@ -2122,16 +2540,16 @@ remove certain attached attributes from an entity
         <td>overall star rating</td>
     </tr>
     <tr>
-        <td>users</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>users involved</td>
-    </tr>
-    <tr>
         <td>categoryLabel</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>users involved</td>
     </tr>
     <tr>
         <td>entity</td>
@@ -2152,10 +2570,10 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>file</td>
@@ -2164,22 +2582,34 @@ remove certain attached attributes from an entity
         <td>physical file</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
         <td>thumb</td>
         <td>string</td>
         <td></td>
         <td>thumbnail</td>
     </tr>
     <tr>
-        <td>user</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>description</td>
         <td>string</td>
         <td></td>
         <td>textual description</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>uEs</td>
@@ -2219,21 +2649,21 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
-    </tr>
-    <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
     </tr>
     <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -2248,16 +2678,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2626,6 +3056,12 @@ remove certain attached attributes from an entity
         <td>sss entity data type</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>entities</td>
         <td>Array[string]</td>
         <td></td>
@@ -2642,6 +3078,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -2687,7 +3129,7 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -2716,16 +3158,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -3634,6 +4076,12 @@ remove certain attached attributes from an entity
         <td>sss entity data type</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>entities</td>
         <td>Array[string]</td>
         <td></td>
@@ -3650,6 +4098,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -3695,7 +4149,7 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -3724,16 +4178,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4120,6 +4574,12 @@ remove certain attached attributes from an entity
         <td>sss entity data type</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>entities</td>
         <td>Array[string]</td>
         <td></td>
@@ -4136,6 +4596,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -4181,7 +4647,7 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -4210,16 +4676,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4258,10 +4724,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>circleType</td>
@@ -4270,10 +4742,16 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
+        <td>discs</td>
+        <td>Array[string]</td>
         <td></td>
-        <td>physical file</td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -4312,34 +4790,34 @@ remove certain attached attributes from an entity
         <td>types of circles the entity is in</td>
     </tr>
     <tr>
-        <td>read</td>
-        <td>boolean</td>
-        <td></td>
-        <td>whether user has read the entry</td>
-    </tr>
-    <tr>
         <td>author</td>
         <td>string</td>
         <td></td>
         <td>creator</td>
     </tr>
     <tr>
-        <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td>read</td>
+        <td>boolean</td>
         <td></td>
-        <td>attached entities</td>
+        <td>whether user has read the entry</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
+        <td>attachedEntities</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>entities sub-entities</td>
+        <td>attached entities</td>
     </tr>
     <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -5890,6 +6368,12 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
@@ -5900,6 +6384,12 @@ remove certain attached attributes from an entity
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -5950,20 +6440,20 @@ remove certain attached attributes from an entity
         <td>types of circles the entity is in</td>
     </tr>
     <tr>
-        <td>author</td>
-        <td>string</td>
-        <td></td>
-        <td>creator</td>
-    </tr>
-    <tr>
         <td>read</td>
         <td>boolean</td>
         <td></td>
         <td>whether user has read the entry</td>
     </tr>
     <tr>
+        <td>author</td>
+        <td>string</td>
+        <td></td>
+        <td>creator</td>
+    </tr>
+    <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -6196,10 +6686,10 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>file</td>
@@ -6208,22 +6698,34 @@ remove certain attached attributes from an entity
         <td>physical file</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
         <td>thumb</td>
         <td>string</td>
         <td></td>
         <td>thumbnail</td>
     </tr>
     <tr>
-        <td>user</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>description</td>
         <td>string</td>
         <td></td>
         <td>textual description</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>uEs</td>
@@ -6238,16 +6740,16 @@ remove certain attached attributes from an entity
         <td>comments given by users</td>
     </tr>
     <tr>
-        <td>circleTypes</td>
-        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
-        <td></td>
-        <td>types of circles the entity is in</td>
-    </tr>
-    <tr>
         <td>content</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
     </tr>
     <tr>
         <td>forUser</td>
@@ -6256,34 +6758,34 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>read</td>
-        <td>boolean</td>
-        <td></td>
-        <td>whether user has read the entry</td>
-    </tr>
-    <tr>
         <td>author</td>
         <td>string</td>
         <td></td>
         <td>creator</td>
     </tr>
     <tr>
-        <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td>read</td>
+        <td>boolean</td>
         <td></td>
-        <td>attached entities</td>
+        <td>whether user has read the entry</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
+        <td>attachedEntities</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>entities sub-entities</td>
+        <td>attached entities</td>
     </tr>
     <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -6730,16 +7232,16 @@ remove certain attached attributes from an entity
         <th>description</th>
     </tr>
     <tr>
-        <td>typesToRecommOnly</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>entity types to be recommended</td>
-    </tr>
-    <tr>
         <td>entity</td>
         <td>string</td>
         <td></td>
         <td>resource to be considered to retrieve recommendations for</td>
+    </tr>
+    <tr>
+        <td>typesToRecommOnly</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entity types to be recommended</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7186,10 +7688,10 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>file</td>
@@ -7198,22 +7700,34 @@ remove certain attached attributes from an entity
         <td>physical file</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
         <td>thumb</td>
         <td>string</td>
         <td></td>
         <td>thumbnail</td>
     </tr>
     <tr>
-        <td>user</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>description</td>
         <td>string</td>
         <td></td>
         <td>textual description</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>uEs</td>
@@ -7253,21 +7767,21 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
-    </tr>
-    <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
     </tr>
     <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>tagLabel</td>
@@ -7288,16 +7802,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7858,10 +8372,10 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>file</td>
@@ -7870,22 +8384,34 @@ remove certain attached attributes from an entity
         <td>physical file</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
         <td>thumb</td>
         <td>string</td>
         <td></td>
         <td>thumbnail</td>
     </tr>
     <tr>
-        <td>user</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>description</td>
         <td>string</td>
         <td></td>
         <td>textual description</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>uEs</td>
@@ -7900,10 +8426,10 @@ remove certain attached attributes from an entity
         <td>comments given by users</td>
     </tr>
     <tr>
-        <td>circleTypes</td>
-        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td>ueType</td>
+        <td>string</td>
         <td></td>
-        <td>types of circles the entity is in</td>
+        <td></td>
     </tr>
     <tr>
         <td>content</td>
@@ -7912,10 +8438,10 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>ueType</td>
-        <td>string</td>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
         <td></td>
-        <td></td>
+        <td>types of circles the entity is in</td>
     </tr>
     <tr>
         <td>read</td>
@@ -7931,21 +8457,21 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
-    </tr>
-    <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -7960,16 +8486,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -8302,6 +8828,12 @@ remove certain attached attributes from an entity
         <td>sss entity data type</td>
     </tr>
     <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
         <td>entities</td>
         <td>Array[string]</td>
         <td></td>
@@ -8318,6 +8850,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -8369,7 +8907,7 @@ remove certain attached attributes from an entity
     </tr>
     <tr>
         <td>attachedEntities</td>
-        <td><a href="#SSEntity">Array[SSEntity]</a></td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
     </tr>
@@ -8398,16 +8936,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 

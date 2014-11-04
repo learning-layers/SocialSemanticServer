@@ -150,6 +150,10 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
+import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
+import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
@@ -1034,6 +1038,28 @@ public class SSAdapterRest{
     response = SSMessagesGetRet.class)
   public String messagesGet(final SSMessagesGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appAdd")
+  @ApiOperation(
+    value = "add an app",
+    response = SSAppAddRet.class)
+  public String appAdd(final SSAppAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appsGet")
+  @ApiOperation(
+    value = "retrieve apps",
+    response = SSAppsGetRet.class)
+  public String appsGet(final SSAppsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appsGet);
   }
 }
 

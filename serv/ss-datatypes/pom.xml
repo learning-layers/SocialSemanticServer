@@ -25,5 +25,6 @@
     <module>ss-category</module>
 	<module>flag</module>
 	<module>comment</module>
+	<module>app</module>
   </modules>
 </project>

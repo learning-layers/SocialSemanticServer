@@ -42,6 +42,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyA
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
+import at.kc.tugraz.ss.datatypes.datatypes.SSVideo;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -50,6 +52,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCanPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleURIPrivGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
@@ -78,6 +81,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -89,6 +93,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityVideosGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -359,6 +364,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.description,
         par.user,
         null);
+      
+      for(SSUri video : par.videos){
+        
+        sqlFct.addVideo        (par.entity, video);
+      }
+      
+      for(SSUri screenShot : par.screenShots){
+        sqlFct.addScreenShot   (par.entity, screenShot);
+      }
+      
+      for(SSUri download : par.downloads){
+        sqlFct.addDownload     (par.entity, download);
+      }
+      
+      for(SSUri image : par.images){
+        sqlFct.addImage        (par.entity, image);
+      }
       
       SSEntityMiscFct.updateEntityByEntityHandlers(par);
       
@@ -1686,6 +1708,48 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
       
       return sqlFct.getFiles(par.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSVideo> entityVideosGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityVideosGetPar par = new SSEntityVideosGetPar(parA);
+      
+      return SSVideo.get(sqlFct.getVideos(par.entity));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSImage> entityScreenShotsGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityScreenShotsGetPar par = new SSEntityScreenShotsGetPar(parA);
+      
+      return SSImage.get(sqlFct.getScreenShots(par.entity));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public List<SSUri> entityDownloadURIsGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityDownloadURIsGetPar par = new SSEntityDownloadURIsGetPar(parA);
+      
+      return sqlFct.getDownloads(par.entity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

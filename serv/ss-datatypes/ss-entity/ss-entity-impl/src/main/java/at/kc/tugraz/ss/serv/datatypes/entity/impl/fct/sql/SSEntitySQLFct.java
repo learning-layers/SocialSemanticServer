@@ -38,7 +38,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -775,6 +774,72 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public List<SSUri> getScreenShots(final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(screenShotsTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.screenShotId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getDownloads(final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(downloadsTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.downloadId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+    
+  public List<SSUri> getVideos(SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      resultSet = dbSQL.select(videosTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.videoId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public List<SSUri> getFiles(final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -1282,6 +1347,94 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
 
       dbSQL.insertIfNotExists(entityReadsTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void addVideo(
+    final SSUri   entity, 
+    final SSUri   video) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,    entity);
+      insert(inserts, SSSQLVarU.videoId,     video);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.videoId,  video);
+      
+      dbSQL.insertIfNotExists(videosTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addDownload(
+    final SSUri   entity, 
+    final SSUri   download) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,      entity);
+      insert(inserts, SSSQLVarU.downloadId,     download);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.downloadId,  download);
+      
+      dbSQL.insertIfNotExists(downloadsTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addImage(
+    final SSUri   entity, 
+    final SSUri   image) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,      entity);
+      insert(inserts, SSSQLVarU.imageId,       image);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
+      
+      dbSQL.insertIfNotExists(imagesTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addScreenShot(
+    final SSUri   entity, 
+    final SSUri   screenShot) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.entityId,           entity);
+      insert(inserts, SSSQLVarU.screenShotId,       screenShot);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId,         entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.screenShotId,     screenShot);
+      
+      dbSQL.insertIfNotExists(screenShotsTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -26,6 +26,8 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
+import at.kc.tugraz.ss.datatypes.datatypes.SSVideo;
 import java.util.List;
 
 public interface SSEntityServerI {
@@ -74,4 +76,7 @@ public interface SSEntityServerI {
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
   public SSUri                           entityUpdate                             (final SSServPar parA) throws Exception;
   public Boolean                         entityReadGet                            (final SSServPar parA) throws Exception;
+  public List<SSVideo>                   entityVideosGet                          (final SSServPar parA) throws Exception;
+  public List<SSImage>                   entityScreenShotsGet                     (final SSServPar parA) throws Exception;
+  public List<SSUri>                     entityDownloadURIsGet                    (final SSServPar parA) throws Exception;
 }

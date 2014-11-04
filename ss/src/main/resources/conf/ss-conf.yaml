@@ -3,6 +3,8 @@ activityConf:
   executeOpAtStartUp: false
   op: null
   use: true
+appConf:
+  use: true
 authConf:
   authType: noAuth #noAuth, csvFileAuth
   executeOpAtStartUp: false
