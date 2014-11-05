@@ -21,13 +21,15 @@
 package at.kc.tugraz.ss.activity.api;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import java.util.List;
 
 public interface SSActivityServerI{
-  public SSUri            activityAdd            (final SSServPar parA) throws Exception;
-  public SSUri            activityContentAdd     (final SSServPar parA) throws Exception;
-  public void             activityContentsAdd    (final SSServPar parA) throws Exception;
-  public List<SSActivity> activitiesUserGet      (final SSServPar parA) throws Exception;
+  public SSUri             activityAdd            (final SSServPar parA) throws Exception;
+  public SSUri             activityContentAdd     (final SSServPar parA) throws Exception;
+  public void              activityContentsAdd    (final SSServPar parA) throws Exception;
+  public List<SSActivity>  activitiesUserGet      (final SSServPar parA) throws Exception;
+  public List<SSActivityE> activityTypesGet       (final SSServPar parA) throws Exception;
 }

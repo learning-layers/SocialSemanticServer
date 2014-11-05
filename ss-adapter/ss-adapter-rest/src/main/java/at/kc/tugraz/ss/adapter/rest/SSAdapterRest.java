@@ -24,7 +24,9 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
@@ -245,6 +247,17 @@ public class SSAdapterRest{
     response = SSActivitiesUserGetRet.class)
   public String activitiesGet(final SSActivitiesUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "activityTypesGet")
+  @ApiOperation(
+    value = "retrieve available activity types",
+    response = SSActivityTypesGetRet.class)
+  public String activityTypesGet(final SSActivityTypesGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activityTypesGet);
   }
   
   @POST

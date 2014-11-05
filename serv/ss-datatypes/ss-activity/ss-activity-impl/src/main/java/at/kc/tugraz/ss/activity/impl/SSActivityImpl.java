@@ -26,11 +26,13 @@ import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -46,6 +48,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -128,8 +131,30 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     final Boolean     removeUserRatings,
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception{
-
   }
+
+  @Override
+  public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSActivityE> activityTypesGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
+      
+      return Arrays.asList(SSActivityE.values());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   
   @Override
   public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
@@ -141,7 +166,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   
   @Override
   public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
-   
+    
     try{
       final SSActivitiesUserGetPar par         = new SSActivitiesUserGetPar(parA);
       final List<SSUri>            entities    = new ArrayList<>();
