@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
-import at.kc.tugraz.sss.app.datatypes.SSApp;
 import java.util.ArrayList;
 import java.util.List;
 

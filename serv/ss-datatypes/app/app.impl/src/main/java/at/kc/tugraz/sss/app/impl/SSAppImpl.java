@@ -125,11 +125,11 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
           false);
       }
       
-      for(SSUri image : par.images){
+      for(SSUri screenShot : par.screenShots){
       
         SSServCaller.entityEntityToPubCircleAdd(
           par.user, 
-          image, 
+          screenShot, 
           SSEntityE.image, 
           null, 
           null, 
@@ -156,7 +156,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         null,
         SSTextComment.asListWithoutNullAndEmpty(),
         par.downloads,
-        par.images,
+        par.screenShots,
         SSUri.asListWithoutNullAndEmpty(),
         par.videos);
       

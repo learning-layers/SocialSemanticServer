@@ -111,7 +111,7 @@ public class SSAppAddPar extends SSServPar{
   
   @ApiModelProperty(
     required = false,
-    value = "download link IOS")
+    value = "download link Android")
   public SSUri               downloadAndroid        = null;
   
   @XmlElement
@@ -131,12 +131,12 @@ public class SSAppAddPar extends SSServPar{
   
   @ApiModelProperty(
     required = false,
-    value = "screenshots")
-  public List<SSUri>               images        = new ArrayList<>();
+    value = "screenShots")
+  public List<SSUri>               screenShots        = new ArrayList<>();
   
   @XmlElement
-  public void setImages(final List<String> images) throws Exception{
-    this.images = SSUri.get(images);
+  public void setScreenShots(final List<String> screenShots) throws Exception{
+    this.screenShots = SSUri.get(screenShots);
   }
   
     @ApiModelProperty(
@@ -168,7 +168,7 @@ public class SSAppAddPar extends SSServPar{
         downloadAndroid        = (SSUri)           pars.get(SSVarU.downloadAndroid);
         fork                   = (SSUri)           pars.get(SSVarU.fork);
         downloads              = (List<SSUri>)     pars.get(SSVarU.downloads);
-        images                 = (List<SSUri>)     pars.get(SSVarU.images);
+        screenShots            = (List<SSUri>)     pars.get(SSVarU.screenShots);
         videos                 = (List<SSUri>)     pars.get(SSVarU.videos);
 
       }
@@ -212,8 +212,8 @@ public class SSAppAddPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.images)) {
-            images.add(SSUri.get(objNode.getTextValue()));
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.screenShots)) {
+            screenShots.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
@@ -265,8 +265,8 @@ public class SSAppAddPar extends SSServPar{
     return SSStrU.toStr(fork);
   }
 
-  public List<String> getImages()throws Exception{
-    return SSStrU.toStr(images);
+  public List<String> getScreenShots()throws Exception{
+    return SSStrU.toStr(screenShots);
   }
 
   public List<String> getVideos()throws Exception{
