@@ -41,8 +41,6 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
     
     final List<SSUri> userUris   = new ArrayList<>();
     
-    userUris.add   (SSUri.get("http://test.dt/user/dk/"));
-    
     final SSUri circleUri = 
       SSServCaller.entityCircleCreate(
         SSVoc.systemUserUri, 
@@ -52,6 +50,8 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
         SSTextComment.get("circle description"),
         false,
         true);
+    
+    System.out.println(circleUri);
     
     SSLogU.info("end " + op + "Test");
   }

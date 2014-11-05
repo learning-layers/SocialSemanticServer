@@ -20,9 +20,7 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
@@ -126,6 +124,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
         par.user,
         messageUri,
         SSUri.asListWithoutNullAndEmpty(par.forUser),
+        SSUri.asListWithoutNullAndEmpty(),
         null,
         false);
       

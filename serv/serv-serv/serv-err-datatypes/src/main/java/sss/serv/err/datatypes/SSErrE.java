@@ -28,10 +28,12 @@ public enum SSErrE{
   sqlNoResultFound,
   userIsNotRegistered,
   userAccessedOtherUsersPrivateGroup,
+  providedCircleDoesntExist,
   providedUserIsNotRegistered,
   userDoesntHaveRightInAnyCircleOfEntity,
   circleDoesntHaveQueriedRight,
   userIsNotInCircle,
+  userNotAllowedToAccessCircle,
   userKeyWrong,
   entityCouldntBeQueried,
   entityDoesntExist,                      //entity doesnt exist

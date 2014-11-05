@@ -437,7 +437,7 @@ public class SSEntityMiscFct{
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   public static Boolean doesUserHaveRightInAnyCircleOfEntity(
     final SSEntitySQLFct sqlFct, 
     final SSUri          user, 

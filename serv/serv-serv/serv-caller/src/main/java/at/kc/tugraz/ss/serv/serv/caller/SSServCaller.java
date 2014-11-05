@@ -1127,6 +1127,22 @@ public class SSServCaller {
   
   /* entity */
   
+  public static void entityUserEntitiesToCircleAdd(
+    final SSUri       user,
+    final SSUri       circle,
+    final List<SSUri> entities,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.circle,       circle);
+    opPars.put(SSVarU.entities,     entities);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntitiesToCircleAdd, opPars));
+  }
+  
   public static void entityUpdate(
     final SSUri               user,
     final SSUri               entity,
@@ -1136,19 +1152,21 @@ public class SSServCaller {
     final List<SSUri>         downloads,
     final List<SSUri>         screenShots,
     final List<SSUri>         images,
-    final List<SSUri>         videos) throws Exception{
+    final List<SSUri>         videos,
+    final Boolean             shouldCommit) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.label,       label);
-    opPars.put(SSVarU.description, description);
-    opPars.put(SSVarU.comments,    comments);
-    opPars.put(SSVarU.downloads,   downloads);
-    opPars.put(SSVarU.screenShots, screenShots);
-    opPars.put(SSVarU.images,      images);
-    opPars.put(SSVarU.videos,      videos);
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.description,  description);
+    opPars.put(SSVarU.comments,     comments);
+    opPars.put(SSVarU.downloads,    downloads);
+    opPars.put(SSVarU.screenShots,  screenShots);
+    opPars.put(SSVarU.images,       images);
+    opPars.put(SSVarU.videos,       videos);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityUpdate, opPars));
   }
@@ -1353,6 +1371,7 @@ public class SSServCaller {
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   users,
+    final List<SSUri>   circles,
     final SSTextComment comment,
     final Boolean       shouldCommit) throws Exception{
     
@@ -1361,6 +1380,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.entity,        entity);
     opPars.put(SSVarU.users,         users);
+    opPars.put(SSVarU.circles,       circles);
     opPars.put(SSVarU.comment,       comment);
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     

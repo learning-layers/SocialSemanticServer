@@ -69,6 +69,41 @@ public class SSEntityActivityFct{
     }
   }
   
+  public static void shareEntityWithCircles(
+    final SSEntityUserSharePar par) throws Exception{
+    
+    if(!par.saveActivity){
+      return;
+    }
+    
+    try{
+      
+      final List<SSUri> entitites = new ArrayList<>();
+      
+      entitites.add    (par.entity);
+      entitites.addAll (par.circles);
+      
+      SSServCaller.activityAdd(
+        par.user,
+        SSActivityE.shareEntityWithCircles,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(entitites ),
+        SSTextComment.asListWithoutNullAndEmpty(par.comment),
+        null,
+        false);
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public static void copyEntityForUsers(
     final SSEntityUserCopyPar par) throws Exception{
     

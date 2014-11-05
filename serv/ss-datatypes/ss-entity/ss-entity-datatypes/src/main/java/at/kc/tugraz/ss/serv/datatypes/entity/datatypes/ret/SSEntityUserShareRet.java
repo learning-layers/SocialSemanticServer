@@ -25,22 +25,22 @@ import java.util.Map;
 
 public class SSEntityUserShareRet extends SSServRetI{
   
-  public SSUri circle = null;
+  public SSUri entity = null;
 
   public static SSEntityUserShareRet get(
-    final SSUri   circleUri, 
+    final SSUri   entity, 
     final SSMethU op){
     
-    return new SSEntityUserShareRet(circleUri, op);
+    return new SSEntityUserShareRet(entity, op);
   }
   
   private SSEntityUserShareRet(
-    final SSUri   circleUri,
+    final SSUri   entity,
     final SSMethU op){
     
     super(op);
     
-    this.circle = circleUri;
+    this.entity = entity;
   }
 
   @Override
@@ -48,12 +48,12 @@ public class SSEntityUserShareRet extends SSServRetI{
     
     final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.circle, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public String getCircle() throws Exception {
-    return SSStrU.removeTrailingSlash(circle);
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

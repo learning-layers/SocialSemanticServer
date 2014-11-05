@@ -79,6 +79,7 @@ public enum SSActivityE{
   updateEntity,
   copyEntityForUsers,
   shareEntityWithUsers,
+  shareEntityWithCircles,
 
   //discussions
   discussEntity,

@@ -56,6 +56,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsG
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPrivCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPubCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
@@ -238,39 +239,61 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
-        
-      SSServCaller.entityUserCanEdit                          (par.user, par.entity);
-      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
-      SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
       
-      if(par.users.isEmpty()){
+      if(
+        par.users.isEmpty() &&
+        par.circles.isEmpty()){
         return par.entity;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri circleUri =
-        SSServCaller.entityCircleCreate(
+      SSServCaller.entityUserCanEdit                            (par.user, par.entity);
+
+      if(!par.users.isEmpty()){
+        
+        SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
+        SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        final SSUri circleUri =
+          SSServCaller.entityCircleCreate(
+            par.user,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            par.users,
+            null,
+            null,
+            true,
+            false);
+        
+        SSEntityMiscFct.shareByEntityHandlers(
           par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
           par.users,
-          null,
-          null,
-          true,
-          false);
+          par.entity,
+          circleUri,
+          par.saveActivity);
+        
+        SSEntityActivityFct.shareEntityWithUsers(par);
+      }
       
-      SSEntityMiscFct.shareByEntityHandlers(
-        par.user,
-        par.users,
-        par.entity,
-        circleUri,
-        par.saveActivity);
-      
-      SSEntityActivityFct.shareEntityWithUsers(par);
-      
+      if(!par.circles.isEmpty()){
+
+        dbSQL.startTrans(par.shouldCommit);
+        
+        for(SSUri circle : par.circles){
+          
+          SSServCaller.entityUserEntitiesToCircleAdd(
+            par.user, 
+            circle, 
+            SSUri.asListWithoutNullAndEmpty(par.entity), 
+            false);
+        }
+        
+        SSEntityActivityFct.shareEntityWithCircles(par);
+      }
+     
       dbSQL.commit(par.shouldCommit);
       
-      return circleUri;
+      return par.entity;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){

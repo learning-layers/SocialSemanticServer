@@ -158,7 +158,10 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         par.downloads,
         par.screenShots,
         SSUri.asListWithoutNullAndEmpty(),
-        par.videos);
+        par.videos, 
+        false);
+      
+      dbSQL.commit(par.shouldCommit);
       
       return appUri;
       
