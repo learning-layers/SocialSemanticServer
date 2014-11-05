@@ -25,6 +25,9 @@ import java.util.List;
 
 public enum SSActivityE{
 
+  //friend
+  friendAdd,
+  
   //message
   messageSend,
   

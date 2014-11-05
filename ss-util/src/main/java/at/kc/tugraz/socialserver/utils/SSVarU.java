@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String friends                                        = "friends";
+  public static final String friend                                         = "friend";
   public static final String videos                                         = "videos";
   public static final String images                                         = "images";
   public static final String apps                                           = "apps";

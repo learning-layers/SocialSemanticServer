@@ -152,11 +152,11 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20140107</version>
+      <groupId>sss.serv.friend</groupId>
+      <artifactId>friend.serv</artifactId>
+      <version>${project.version}</version>
     </dependency>
-
+    
     <dependency>
       <groupId>sss.serv.app</groupId>
       <artifactId>app.conf</artifactId>
@@ -455,6 +455,12 @@
       <groupId>com.evernote</groupId>
       <artifactId>evernote-api</artifactId>
       <version>1.25.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20140107</version>
     </dependency>
     
     <dependency>

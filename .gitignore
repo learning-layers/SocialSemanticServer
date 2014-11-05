@@ -426,3 +426,8 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/ss-datatypes/app/app.datatypes/target
 /serv/ss-datatypes/app/app.impl/target
 /serv/ss-datatypes/app/app.api/target
+/serv/jobs/friend/friend.datatypes/target/
+/serv/jobs/friend/friend.api/target/
+/serv/jobs/friend/friend.serv/target/
+/serv/jobs/friend/friend.impl/target/
+/serv/jobs/friend/friend.conf/target/
