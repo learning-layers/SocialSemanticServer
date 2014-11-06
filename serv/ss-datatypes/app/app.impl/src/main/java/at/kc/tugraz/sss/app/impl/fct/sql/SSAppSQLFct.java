@@ -74,39 +74,6 @@ public class SSAppSQLFct extends SSDBSQLFct{
   }
 
   public void createApp(
-    final SSUri   app,
-    final SSAppE  type,
-    final Long    endTime,
-    final Integer value) throws Exception{
-    
-    try{
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert    (inserts,    SSSQLVarU.appId,     app);
-      insert    (inserts,    SSSQLVarU.type,      type);
-      
-      if(endTime == null){
-        insert    (inserts,    SSSQLVarU.endTime,   SSStrU.empty);
-      }else{
-        insert    (inserts,    SSSQLVarU.endTime,   endTime);
-      }
-      
-      if(value == null){
-        insert    (inserts,    SSSQLVarU.value,     SSStrU.empty);
-      }else{
-       insert    (inserts,     SSSQLVarU.value,     value); 
-      }
-      
-      uniqueKey (uniqueKeys, SSSQLVarU.appId,    app);
-      
-      dbSQL.insertIfNotExists(appTable, inserts, uniqueKeys);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public void createApp(
     final SSUri         app, 
     final SSTextComment descriptionShort, 
     final SSTextComment descriptionFunctional, 

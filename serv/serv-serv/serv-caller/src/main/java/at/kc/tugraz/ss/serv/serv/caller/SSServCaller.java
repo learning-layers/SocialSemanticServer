@@ -80,7 +80,35 @@ public class SSServCaller {
     
     return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.friendsUserGet, opPars));
   }
+  
+   /* appStackLayout */
     
+  public static SSUri appStackLayoutCreate(
+    final SSUri         user,
+    final SSUri         app,
+    final SSLabel       label,
+    final SSTextComment description) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                    user);
+    opPars.put(SSVarU.app,                     app);
+    opPars.put(SSVarU.label,                   label);
+    opPars.put(SSVarU.description,             description);
+
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.appStackLayoutCreate, opPars));
+  }
+  
+  public static List<? extends SSEntity> appStackLayoutsGet(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.appStackLayoutsGet, opPars));
+  }
+  
   /* app */
   
   public static SSUri appAdd(

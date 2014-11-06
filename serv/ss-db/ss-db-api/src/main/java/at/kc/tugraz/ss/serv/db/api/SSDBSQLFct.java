@@ -93,6 +93,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   videosTable                         = "videos";
   protected static final String   imagesTable                         = "imagesTable";
   protected static final String   friendsTable                        = "friends";
+  protected static final String   appStackLayoutTable                 = "appStackLayout";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
