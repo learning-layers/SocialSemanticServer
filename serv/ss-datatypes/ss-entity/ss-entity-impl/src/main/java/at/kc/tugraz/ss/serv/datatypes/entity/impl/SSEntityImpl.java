@@ -465,7 +465,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             par.getUEs,
             par.getThumb,
             par.getFlags,
-            false,
             false));
       }
       
@@ -487,7 +486,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
               par.getUEs,
               par.getThumb,
               par.getFlags,
-              false,
               false));
         }
       }

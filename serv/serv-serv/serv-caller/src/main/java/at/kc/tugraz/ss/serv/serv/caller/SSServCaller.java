@@ -1534,8 +1534,7 @@ public class SSServCaller {
     final Boolean getUEs,
     final Boolean getThumb,
     final Boolean getFlags,
-    final Boolean getCircles,
-    final Boolean getFriends) throws Exception{
+    final Boolean getCircles) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1548,7 +1547,6 @@ public class SSServCaller {
     opPars.put(SSVarU.getThumb,         getThumb);
     opPars.put(SSVarU.getFlags,         getFlags);
     opPars.put(SSVarU.getCircles,       getCircles);
-    opPars.put(SSVarU.getFriends,       getFriends);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
   }

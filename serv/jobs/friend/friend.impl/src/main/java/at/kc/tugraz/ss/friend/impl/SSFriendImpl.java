@@ -78,7 +78,6 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
               false,
               false,
               false,
-              false,
               false)));
       }
 

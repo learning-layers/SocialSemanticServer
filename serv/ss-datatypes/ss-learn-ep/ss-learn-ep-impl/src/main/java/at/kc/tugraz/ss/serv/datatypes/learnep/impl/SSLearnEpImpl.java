@@ -303,7 +303,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
                 false,
                 false,
                 false,
-                false,
                 false);
         }
 
@@ -347,7 +346,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             learnEpEntity.entity.id,
             true,
             true,
-            false,
             false,
             false,
             false,
@@ -979,7 +977,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             learnEpEntity.entity.id,
             true,
             true,
-            false,
             false,
             false,
             false,

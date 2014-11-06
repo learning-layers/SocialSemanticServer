@@ -142,11 +142,6 @@ public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
     required = false,
-    value = "friends")
-  public List<SSEntity>       friends      = new ArrayList<>();
-  
-  @ApiModelProperty(
-    required = false,
     value = "circles")
   public List<SSEntity>       circles      = new ArrayList<>();
   
@@ -219,7 +214,6 @@ public class SSEntity extends SSEntityA{
     this.read             = entity.read;
     this.videos           = entity.videos;
     this.images           = entity.images;
-    this.friends          = entity.friends;
     this.circles          = entity.circles;
   }
   
@@ -236,7 +230,6 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> uEsObj              = new HashMap<>();
     final Map<String, Object> flagsObj            = new HashMap<>();
     final Map<String, Object> entitiesObj         = new HashMap<>();
-    final Map<String, Object> friendsObj          = new HashMap<>();
     final Map<String, Object> circlesObj          = new HashMap<>();
     final Map<String, Object> usersObj            = new HashMap<>();
     final Map<String, Object> imagesObj           = new HashMap<>();
@@ -309,11 +302,6 @@ public class SSEntity extends SSEntityA{
     
     ld.put(SSVarU.entities, entitiesObj);
     
-    friendsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.friends, friendsObj);
-    
     circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
@@ -371,10 +359,6 @@ public class SSEntity extends SSEntityA{
   
   public List<? extends SSEntity> getImages() throws Exception{
     return images;
-  }
-  
-  public List<? extends SSEntity> getFriends() throws Exception{
-    return friends;
   }
   
   public List<? extends SSEntity> getCircles() throws Exception{

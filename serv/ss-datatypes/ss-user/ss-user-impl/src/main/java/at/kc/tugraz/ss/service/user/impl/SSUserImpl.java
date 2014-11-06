@@ -73,6 +73,10 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
           SSUser.get(
             sqlFct.getUser(desc.id), 
             desc);
+      
+        user.friends.addAll(
+            SSServCaller.friendsUserGet(
+              desc.id));
         
         if(par.getCircles){
           
@@ -82,14 +86,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
               desc.id,
               false));
         }
-        
-        if(par.getFriends){
           
-          user.friends.addAll(
-            SSServCaller.friendsUserGet(
-              desc.id));
-        }
-        
         return user;
       }
       
