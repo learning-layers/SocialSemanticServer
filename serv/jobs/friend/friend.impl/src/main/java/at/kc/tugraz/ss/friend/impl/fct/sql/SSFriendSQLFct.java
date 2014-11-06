@@ -54,6 +54,17 @@ public class SSFriendSQLFct extends SSDBSQLFct{
       
       dbSQL.insertIfNotExists(friendsTable, inserts, uniqueKeys);
       
+      inserts.clear();
+      uniqueKeys.clear();
+      
+      insert(inserts, SSSQLVarU.userId,      friend);
+      insert(inserts, SSSQLVarU.friendId,    user);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.userId,   friend);
+      uniqueKey(uniqueKeys, SSSQLVarU.friendId, user);
+      
+      dbSQL.insertIfNotExists(friendsTable, inserts, uniqueKeys);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
