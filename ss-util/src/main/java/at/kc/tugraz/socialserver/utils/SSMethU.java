@@ -22,6 +22,12 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //friend
+  friendsGet,
+  friendsUserGet,
+  friendAdd,
+  friendUserAdd,
+  
   //app
   appsGet,
   appAdd,

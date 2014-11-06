@@ -28,6 +28,20 @@ import java.util.Map;
 public class SSFriend extends SSEntity{
   
   public static SSFriend get(
+    final SSFriend  friend,
+    final SSEntity  entity) throws Exception{
+    
+    return new SSFriend(friend, entity);
+  }
+  
+  protected SSFriend(
+    final SSFriend friend,
+    final SSEntity entity) throws Exception{
+    
+    super(entity);
+  }
+  
+  public static SSFriend get(
     final SSUri         id) throws Exception{
     
     return new SSFriend(id);

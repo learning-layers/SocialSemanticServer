@@ -749,26 +749,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -783,6 +763,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -989,6 +989,26 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/collsWithEntries`
 
 retrieve the user&#39;s collections with entries
@@ -1023,26 +1043,6 @@ add a textual comment/answer/opinion to a discussion [for given entity] or creat
     <tr>
         <td><a href="#SSDiscUserEntryAddPar">SSDiscUserEntryAddPar</a> </td>
         <td>  [SSDiscUserEntryAddRet](#SSDiscUserEntryAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -1129,26 +1129,6 @@ updates/adds given properties for an entity
 
 
 - - -
-#### **POST** `/ratingSet`
-
-set the user&#39;s rating for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
-        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/ratingOverallGet`
 
 retrieve the overall rating (by all users) for given entity
@@ -1163,6 +1143,26 @@ retrieve the overall rating (by all users) for given entity
     <tr>
         <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
         <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/ratingSet`
+
+set the user&#39;s rating for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
+        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
     </tr>
 </table>
 
@@ -1569,6 +1569,46 @@ retrieve apps
 
 
 - - -
+#### **POST** `/friendAdd`
+
+add a friend
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFriendUserAddPar">SSFriendUserAddPar</a> </td>
+        <td>  [SSFriendUserAddRet](#SSFriendUserAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/friendsGet`
+
+add a friend
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFriendsUserGetPar">SSFriendsUserGetPar</a> </td>
+        <td>  [SSFriendsUserGetRet](#SSFriendsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 
 ## Data Types
 
@@ -1702,16 +1742,16 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -1798,16 +1838,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -1972,12 +2012,6 @@ retrieve apps
         <td>sss entity data type</td>
     </tr>
     <tr>
-        <td>videos</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>videos</td>
-    </tr>
-    <tr>
         <td>downloadAndroid</td>
         <td>string</td>
         <td></td>
@@ -1990,16 +2024,22 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>discussions about</td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -2098,13 +2138,19 @@ retrieve apps
         <td>creation / timestamp in milliseconds</td>
     </tr>
     <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
         <td>fork</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
+        <td>descriptionFunctional</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -2114,12 +2160,6 @@ retrieve apps
         <td>Array[string]</td>
         <td></td>
         <td>tags assigned</td>
-    </tr>
-    <tr>
-        <td>descriptionFunctional</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
     </tr>
     <tr>
         <td>id</td>
@@ -2152,16 +2192,16 @@ retrieve apps
         <td>screenShots</td>
     </tr>
     <tr>
-        <td>downloadAndroid</td>
-        <td>string</td>
-        <td></td>
-        <td>download link Android</td>
-    </tr>
-    <tr>
         <td>videos</td>
         <td>Array[string]</td>
         <td></td>
         <td>videos</td>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td>download link Android</td>
     </tr>
     <tr>
         <td>key</td>
@@ -2212,16 +2252,16 @@ retrieve apps
         <td>name</td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
-        <td>string</td>
-        <td></td>
-        <td>short description</td>
-    </tr>
-    <tr>
         <td>fork</td>
         <td>string</td>
         <td></td>
         <td>github fork link</td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td>short description</td>
     </tr>
     <tr>
         <td>descriptionFunctional</td>
@@ -2752,16 +2792,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -3142,16 +3182,16 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -3232,16 +3272,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4162,16 +4202,16 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -4252,16 +4292,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4660,16 +4700,16 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -4750,16 +4790,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -4912,16 +4952,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -5932,16 +5972,16 @@ retrieve apps
         <th>description</th>
     </tr>
     <tr>
-        <td>circle</td>
-        <td>string</td>
-        <td>true</td>
-        <td>circle to add users to</td>
-    </tr>
-    <tr>
         <td>users</td>
         <td>Array[string]</td>
         <td>true</td>
         <td>users to add</td>
+    </tr>
+    <tr>
+        <td>circle</td>
+        <td>string</td>
+        <td>true</td>
+        <td>circle to add users to</td>
     </tr>
     <tr>
         <td>key</td>
@@ -6732,6 +6772,264 @@ retrieve apps
 </table>
 
 
+## <a name="SSFriend">SSFriend</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>overallRating</td>
+        <td><a href="#SSEntityA">SSEntityA</a></td>
+        <td></td>
+        <td>overall star rating</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>users involved</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td><a href="#SSEntityE">SSEntityE</a></td>
+        <td></td>
+        <td>sss entity data type</td>
+    </tr>
+    <tr>
+        <td>videos</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>videos</td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entities involved</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>images</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>screenshots</td>
+    </tr>
+    <tr>
+        <td>thumb</td>
+        <td>string</td>
+        <td></td>
+        <td>thumbnail</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>string</td>
+        <td></td>
+        <td>textual description</td>
+    </tr>
+    <tr>
+        <td>uEs</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>user events</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
+    </tr>
+    <tr>
+        <td>read</td>
+        <td>boolean</td>
+        <td></td>
+        <td>whether user has read the entry</td>
+    </tr>
+    <tr>
+        <td>author</td>
+        <td>string</td>
+        <td></td>
+        <td>creator</td>
+    </tr>
+    <tr>
+        <td>attachedEntities</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>attached entities</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
+    </tr>
+    <tr>
+        <td>creationTime</td>
+        <td>long</td>
+        <td></td>
+        <td>creation / timestamp in milliseconds</td>
+    </tr>
+    <tr>
+        <td>tags</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>tags assigned</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
+    </tr>
+</table>
+
+
+## <a name="SSFriendUserAddPar">SSFriendUserAddPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>friend</td>
+        <td>string</td>
+        <td>true</td>
+        <td>friend to add</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSFriendUserAddRet">SSFriendUserAddRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>friend</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSFriendsUserGetPar">SSFriendsUserGetPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSFriendsUserGetRet">SSFriendsUserGetRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>friends</td>
+        <td><a href="#SSFriend">Array[SSFriend]</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
 ## <a name="SSMessage">SSMessage</a>
 
 <table border="1">
@@ -6880,16 +7178,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7078,13 +7376,13 @@ retrieve apps
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -7312,16 +7610,16 @@ retrieve apps
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td>resource to be considered to retrieve recommendations for</td>
-    </tr>
-    <tr>
         <td>typesToRecommOnly</td>
         <td>Array[string]</td>
         <td></td>
         <td>entity types to be recommended</td>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>resource to be considered to retrieve recommendations for</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7882,16 +8180,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -8566,16 +8864,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -8920,16 +9218,16 @@ retrieve apps
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -9016,16 +9314,16 @@ retrieve apps
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 

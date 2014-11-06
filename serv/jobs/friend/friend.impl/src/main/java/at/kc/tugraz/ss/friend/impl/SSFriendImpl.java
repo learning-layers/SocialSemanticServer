@@ -62,9 +62,25 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
     
     try{
       final SSFriendsUserGetPar  par         = new SSFriendsUserGetPar(parA);
-      final List<SSFriend>       friends    = new ArrayList<>();
+      final List<SSFriend>       friends     = new ArrayList<>();
       
-	  return friends;
+      for (SSFriend friend : sqlFct.getFriends(par.user)){
+      
+        friends.add(
+          SSFriend.get(
+            friend,
+            SSServCaller.entityDescGet(
+              par.user,
+              friend.id,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false)));
+      }
+
+      return friends;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -84,15 +100,14 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
     
     try{
       final SSFriendUserAddPar  par        = new SSFriendUserAddPar(parA);
-      //final SSUri               messageUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
             
-      
+      sqlFct.addFriend(par.user, par.friend);
       
       dbSQL.commit(par.shouldCommit);
       
-      return SSServCaller.vocURICreate();
+      return par.friend;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

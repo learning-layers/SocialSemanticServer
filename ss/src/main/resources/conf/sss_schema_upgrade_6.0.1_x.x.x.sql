@@ -132,3 +132,19 @@ CREATE TABLE `sss`.`app` (
     REFERENCES `sss`.`entity` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`friends` (
+  `userId` VARCHAR(200) NOT NULL,
+  `friendId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`userId`, `friendId`),
+  INDEX `friendIdFKfriends_idx` (`friendId` ASC),
+  CONSTRAINT `userIdFKfriends`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sss`.`user` (`userId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `friendIdFKfriends`
+    FOREIGN KEY (`friendId`)
+    REFERENCES `sss`.`user` (`userId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.friend.impl.fct.sql;
 
+import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
@@ -27,7 +28,9 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSFriendSQLFct extends SSDBSQLFct{
 
@@ -35,26 +38,26 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
 
-//  public void sendMessage(
-//    final SSUri         message,
-//    final SSUri         user,
-//    final SSUri         forUser, 
-//    final SSTextComment messageContent) throws Exception{
-//    
-//    try{
-//      final Map<String, String> inserts =  new HashMap<>();
-//      
-//      insert(inserts, SSSQLVarU.messageId,      message);
-//      insert(inserts, SSSQLVarU.userId,         user);
-//      insert(inserts, SSSQLVarU.forEntityId,    forUser);
-//      insert(inserts, SSSQLVarU.messageContent, messageContent);
-//      
-//      dbSQL.insert(messageTable, inserts);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
+  public void addFriend(
+    final SSUri         user,
+    final SSUri         friend) throws Exception{
+    
+    try{
+      final Map<String, String> inserts     = new HashMap<>();
+      final Map<String, String> uniqueKeys  = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.userId,      user);
+      insert(inserts, SSSQLVarU.friendId,    friend);
+      
+      uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
+      uniqueKey(uniqueKeys, SSSQLVarU.friendId, friend);
+      
+      dbSQL.insertIfNotExists(friendsTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 
   public List<SSFriend> getFriends(
     final SSUri   user) throws Exception{
@@ -63,35 +66,19 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<SSFriend>      friends  = new ArrayList<>();
-//      final List<String>        tables    = new ArrayList<>();
-//      final Map<String, String> wheres    = new HashMap<>();
-//      final List<String>        columns   = new ArrayList<>();
-//      final List<String>        tableCons = new ArrayList<>();
-//      
-//      table     (tables,    messageTable);
-//      table     (tables,    entityTable);     
-//      column    (columns,   messageTable,       SSSQLVarU.userId);
-//      column    (columns,   messageTable,       SSSQLVarU.messageId);
-//      column    (columns,   messageTable,       SSSQLVarU.messageContent);
-//      column    (columns,   entityTable,        SSSQLVarU.creationTime);
-//      
-//      where     (wheres,    SSSQLVarU.forEntityId, user);
-//      
-//      tableCon  (tableCons, messageTable, SSSQLVarU.messageId, entityTable, SSSQLVarU.id);
-//      
-//      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-//      
-//      while(resultSet.next()){
-//        
-//        messages.add(
-//          SSMessage.get(
-//            bindingStrToUri(resultSet, SSSQLVarU.messageId), 
-//            bindingStrToUri(resultSet, SSSQLVarU.userId), 
-//            user, 
-//            bindingStrToTextComment(resultSet, SSSQLVarU.messageContent),
-//            bindingStrToLong       (resultSet, SSSQLVarU.creationTime)));
-//      }
+      final List<SSFriend>      friends   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      
+      where     (wheres,    SSSQLVarU.userId, user);
+      
+      resultSet = dbSQL.select(friendsTable, wheres);
+      
+      while(resultSet.next()){
+        
+        friends.add(
+          SSFriend.get(
+            bindingStrToUri(resultSet, SSSQLVarU.friendId)));
+      }
       
       return friends;
       

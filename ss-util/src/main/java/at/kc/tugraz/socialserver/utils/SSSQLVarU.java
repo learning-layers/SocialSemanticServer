@@ -105,4 +105,5 @@ public class SSSQLVarU{
   public static final String location                                       = "location";
   public static final String label                                          = "label";
   public static final String pos                                            = "pos";
+  public static final String friendId                                       = "friendId";
 }

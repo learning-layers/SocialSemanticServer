@@ -45,15 +45,15 @@ public class SSFriendUserAddPar extends SSServPar{
   }
   
   public SSFriendUserAddPar(){}
-    
+  
   public SSFriendUserAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
-	
+      
       if(pars != null){
-	    friend                = (SSUri)           pars.get(SSVarU.friend);
+        friend                = (SSUri)           pars.get(SSVarU.friend);
       }
       
       if(par.clientJSONObj != null){

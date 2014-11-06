@@ -44,6 +44,10 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
@@ -1073,6 +1077,28 @@ public class SSAdapterRest{
     response = SSAppsGetRet.class)
   public String appsGet(final SSAppsGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendAdd")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendUserAddRet.class)
+  public String friendAdd(final SSFriendUserAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendsGet")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendsUserGetRet.class)
+  public String friendsGet(final SSFriendsUserGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
   }
 }
 
