@@ -27,6 +27,10 @@ public enum SSMethU{
   friendsUserGet,
   friendAdd,
   friendUserAdd,
+
+  //appStackLayout
+  appStackLayoutsGet,
+  appStackLayoutCreate,
   
   //app
   appsGet,

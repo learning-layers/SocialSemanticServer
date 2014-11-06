@@ -19,6 +19,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>sss.serv.appstacklayout</groupId>
+      <artifactId>appstacklayout.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.friend</groupId>
       <artifactId>friend.conf</artifactId>
       <version>${project.version}</version>

@@ -81,6 +81,12 @@
   
   <dependencies>
    
+    <dependency>
+      <groupId>sss.serv.appstacklayout</groupId>
+      <artifactId>appstacklayout.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
      <dependency>
       <groupId>sss.serv.app</groupId>
       <artifactId>app.datatypes</artifactId>

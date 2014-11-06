@@ -160,6 +160,10 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
@@ -1077,6 +1081,28 @@ public class SSAdapterRest{
     response = SSAppsGetRet.class)
   public String appsGet(final SSAppsGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutCreate")
+  @ApiOperation(
+    value = "add an appStackLayout",
+    response = SSAppStackLayoutCreateRet.class)
+  public String appStackLayoutCreate(final SSAppStackLayoutCreatePar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutCreate);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutsGet")
+  @ApiOperation(
+    value = "retrieve appStackLayouts",
+    response = SSAppStackLayoutsGetRet.class)
+  public String appStackLayoutsGet(final SSAppStackLayoutsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutsGet);
   }
   
   @POST

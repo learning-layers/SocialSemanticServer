@@ -5,6 +5,8 @@ activityConf:
   use: true
 appConf:
   use: true
+appStackLayoutConf:
+  use: true  
 authConf:
   authType: noAuth #noAuth, csvFileAuth
   executeOpAtStartUp: false

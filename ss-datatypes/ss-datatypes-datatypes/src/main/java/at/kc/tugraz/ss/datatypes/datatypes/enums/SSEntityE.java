@@ -57,7 +57,9 @@ public enum SSEntityE implements SSJSONLDPropI{
   video,
   message,
   app,
-  image;
+  image,
+  appStackLayout,
+  appTile;
 
 //  entityDesc,
 //  collDesc,
