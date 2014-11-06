@@ -26,11 +26,28 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SSUser extends SSEntity{
 
-  public String email = null;
+  public String      email   = null;
+  
+  public static SSUser get(
+    final SSUser         user,
+    final SSEntity       entity) throws Exception{
+    
+    return new SSUser(user, entity);
+  }
+  
+  protected SSUser(
+    final SSUser         user,
+    final SSEntity       entity) throws Exception{
+    
+    super(entity);
+    
+    this.email      = user.email;
+  }
   
   public static SSUser get(
     final SSUri    id,
@@ -53,9 +70,10 @@ public class SSUser extends SSEntity{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> ld         = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> friendsObj = new HashMap<>();
     
-    ld.put(SSVarU.email, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.email,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

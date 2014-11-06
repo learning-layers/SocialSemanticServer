@@ -68,7 +68,19 @@ import java.util.List;
 import java.util.Map;
 
 public class SSServCaller {
+
+  /* friends */
   
+  public static List<? extends SSEntity> friendsUserGet(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                    user);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.friendsUserGet, opPars));
+  }
+    
   /* app */
   
   public static SSUri appAdd(
@@ -1521,7 +1533,9 @@ public class SSServCaller {
     final Boolean getDiscs,
     final Boolean getUEs,
     final Boolean getThumb,
-    final Boolean getFlags) throws Exception{
+    final Boolean getFlags,
+    final Boolean getCircles,
+    final Boolean getFriends) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1533,6 +1547,8 @@ public class SSServCaller {
     opPars.put(SSVarU.getUEs,           getUEs);
     opPars.put(SSVarU.getThumb,         getThumb);
     opPars.put(SSVarU.getFlags,         getFlags);
+    opPars.put(SSVarU.getCircles,       getCircles);
+    opPars.put(SSVarU.getFriends,       getFriends);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
   }

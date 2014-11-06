@@ -56,7 +56,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsG
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPrivCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityToPubCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
@@ -465,7 +464,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             par.getDiscs,
             par.getUEs,
             par.getThumb,
-            par.getFlags));
+            par.getFlags,
+            false,
+            false));
       }
       
       if(par.entities.isEmpty()){
@@ -475,6 +476,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         for(SSUri entityUri : sqlFct.getEntities(par.user, par.types)){
+          
           entities.add(
             SSServCaller.entityDescGet(
               par.user,
@@ -484,7 +486,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
               par.getDiscs,
               par.getUEs,
               par.getThumb,
-              par.getFlags));
+              par.getFlags,
+              false,
+              false));
         }
       }
       

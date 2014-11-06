@@ -215,6 +215,8 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
               false,
               false,
               false,
+              false,
+              false,
               false));
         
         entity.downloads.addAll(

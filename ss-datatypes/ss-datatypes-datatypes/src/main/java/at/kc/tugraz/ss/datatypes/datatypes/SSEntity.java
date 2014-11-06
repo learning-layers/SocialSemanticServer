@@ -142,6 +142,16 @@ public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
     required = false,
+    value = "friends")
+  public List<SSEntity>       friends      = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "circles")
+  public List<SSEntity>       circles      = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
     value = "whether user has read the entry")
   public  Boolean       read;
   
@@ -209,6 +219,8 @@ public class SSEntity extends SSEntityA{
     this.read             = entity.read;
     this.videos           = entity.videos;
     this.images           = entity.images;
+    this.friends          = entity.friends;
+    this.circles          = entity.circles;
   }
   
   @Override
@@ -224,6 +236,8 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> uEsObj              = new HashMap<>();
     final Map<String, Object> flagsObj            = new HashMap<>();
     final Map<String, Object> entitiesObj         = new HashMap<>();
+    final Map<String, Object> friendsObj          = new HashMap<>();
+    final Map<String, Object> circlesObj          = new HashMap<>();
     final Map<String, Object> usersObj            = new HashMap<>();
     final Map<String, Object> imagesObj           = new HashMap<>();
     final Map<String, Object> videosObj           = new HashMap<>();
@@ -295,6 +309,21 @@ public class SSEntity extends SSEntityA{
     
     ld.put(SSVarU.entities, entitiesObj);
     
+    friendsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.friends, friendsObj);
+    
+    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circles, circlesObj);
+    
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circleTypes, circleTypesObj);
+    
     return ld;
   }
 
@@ -342,6 +371,14 @@ public class SSEntity extends SSEntityA{
   
   public List<? extends SSEntity> getImages() throws Exception{
     return images;
+  }
+  
+  public List<? extends SSEntity> getFriends() throws Exception{
+    return friends;
+  }
+  
+  public List<? extends SSEntity> getCircles() throws Exception{
+    return circles;
   }
   
   public List<String> getComments() throws Exception{
