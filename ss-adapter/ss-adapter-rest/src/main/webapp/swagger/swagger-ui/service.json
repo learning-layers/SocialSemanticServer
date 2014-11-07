@@ -8,14 +8,14 @@
     "path" : "/SSAdapterRESTFileReplace.{format}",
     "description" : "SSS File Replace REST API"
   }, {
-    "path" : "/SSAdapterRESTFileDownload.{format}",
-    "description" : "SSS File Download REST API"
+    "path" : "/SSAdapterRest.{format}",
+    "description" : "SSS REST API"
   }, {
     "path" : "/SSAdapterRESTFile.{format}",
     "description" : "SSS File REST API"
   }, {
-    "path" : "/SSAdapterRest.{format}",
-    "description" : "SSS REST API"
+    "path" : "/SSAdapterRESTFileDownload.{format}",
+    "description" : "SSS File Download REST API"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

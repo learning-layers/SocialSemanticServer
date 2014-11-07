@@ -209,6 +209,26 @@ search for entities
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/entityUserCirclesGet`
 
 retrieve circles the user is in
@@ -529,9 +549,9 @@ retrieve automatically usage-based modeled details for given entity
 
 
 - - -
-#### **POST** `/authCheckCred`
+#### **POST** `/tagEntitiesForTagsGet`
 
-retrieve the authentication key and user&#39;s uri for credentials
+retrieve entities for tags (currently startTime is not used to retrieve entities)
 
 
 
@@ -541,17 +561,17 @@ retrieve the authentication key and user&#39;s uri for credentials
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
-        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
+        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/flagsSet`
+#### **POST** `/categoryEntitiesForCategoriesGet`
 
-set flags
+retrieve entities for categories (currently startTime is not used to retrieve entities)
 
 
 
@@ -561,8 +581,88 @@ set flags
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
-        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
+        <td><a href="#SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a> </td>
+        <td>  [SSCategoryUserEntitiesForCategoriesGetRet](#SSCategoryUserEntitiesForCategoriesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryFrequsGet`
+
+retrieve category frequencies
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserFrequsGetPar">SSCategoryUserFrequsGetPar</a> </td>
+        <td>  [SSCategoryUserFrequsGetRet](#SSCategoryUserFrequsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/appStackLayoutCreate`
+
+create an arrangement of tiles within an app
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppStackLayoutCreatePar">SSAppStackLayoutCreatePar</a> </td>
+        <td>  [SSAppStackLayoutCreateRet](#SSAppStackLayoutCreateRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/appStackLayoutTileAdd`
+
+add a tile to stack
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppStackLayoutTileAddPar">SSAppStackLayoutTileAddPar</a> </td>
+        <td>  [SSAppStackLayoutTileAddRet](#SSAppStackLayoutTileAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/appStackLayoutsGet`
+
+retrieve appStackLayouts
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppStackLayoutsGetPar">SSAppStackLayoutsGetPar</a> </td>
+        <td>  [SSAppStackLayoutsGetRet](#SSAppStackLayoutsGetRet) </td>
     </tr>
 </table>
 
@@ -589,6 +689,46 @@ retrieve flags set
 
 
 - - -
+#### **POST** `/activitiesGet`
+
+retrieve activities from within a certain time frame
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/flagsSet`
+
+set flags
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSFlagsUserSetPar">SSFlagsUserSetPar</a> </td>
+        <td>  [SSFlagsUserSetRet](#SSFlagsUserSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/entityDescsGet`
 
 retrieve more detailed information for given entities of a user
@@ -609,9 +749,9 @@ retrieve more detailed information for given entities of a user
 
 
 - - -
-#### **POST** `/activitiesGet`
+#### **POST** `/authCheckCred`
 
-retrieve activities from within a certain time frame
+retrieve the authentication key and user&#39;s uri for credentials
 
 
 
@@ -621,8 +761,8 @@ retrieve activities from within a certain time frame
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
+        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
     </tr>
 </table>
 
@@ -669,26 +809,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -703,6 +823,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -909,26 +1049,6 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
-#### **POST** `/collsWithEntries`
-
-retrieve the user&#39;s collections with entries
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
-        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collHierarchyGet`
 
 retrieve the parent collection order for a user&#39;s collection
@@ -943,6 +1063,26 @@ retrieve the parent collection order for a user&#39;s collection
     <tr>
         <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
         <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collsWithEntries`
+
+retrieve the user&#39;s collections with entries
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
+        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
     </tr>
 </table>
 
@@ -1529,146 +1669,6 @@ add a friend
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagEntitiesForTagsGet`
-
-retrieve entities for tags (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEntitiesForTagsGetPar">SSTagUserEntitiesForTagsGetPar</a> </td>
-        <td>  [SSTagUserEntitiesForTagsGetRet](#SSTagUserEntitiesForTagsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryEntitiesForCategoriesGet`
-
-retrieve entities for categories (currently startTime is not used to retrieve entities)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryUserEntitiesForCategoriesGetPar">SSCategoryUserEntitiesForCategoriesGetPar</a> </td>
-        <td>  [SSCategoryUserEntitiesForCategoriesGetRet](#SSCategoryUserEntitiesForCategoriesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryFrequsGet`
-
-retrieve category frequencies
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryUserFrequsGetPar">SSCategoryUserFrequsGetPar</a> </td>
-        <td>  [SSCategoryUserFrequsGetRet](#SSCategoryUserFrequsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/appStackLayoutCreate`
-
-create an arrangement of tiles within an app
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAppStackLayoutCreatePar">SSAppStackLayoutCreatePar</a> </td>
-        <td>  [SSAppStackLayoutCreateRet](#SSAppStackLayoutCreateRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/appStackLayoutTileAdd`
-
-add a tile to stack
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAppStackLayoutTileAddPar">SSAppStackLayoutTileAddPar</a> </td>
-        <td>  [SSAppStackLayoutTileAddRet](#SSAppStackLayoutTileAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/appStackLayoutsGet`
-
-retrieve appStackLayouts
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAppStackLayoutsGetPar">SSAppStackLayoutsGetPar</a> </td>
-        <td>  [SSAppStackLayoutsGetRet](#SSAppStackLayoutsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 
 ## Data Types
 
@@ -1844,16 +1844,16 @@ retrieve appStackLayouts
         <td>type of the activity</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2144,16 +2144,16 @@ retrieve appStackLayouts
         <td></td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2210,13 +2210,13 @@ retrieve appStackLayouts
         <td>creation / timestamp in milliseconds</td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
+        <td>fork</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>fork</td>
+        <td>descriptionShort</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -2264,16 +2264,16 @@ retrieve appStackLayouts
         <td>screenShots</td>
     </tr>
     <tr>
-        <td>videos</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>videos</td>
-    </tr>
-    <tr>
         <td>downloadAndroid</td>
         <td>string</td>
         <td></td>
         <td>download link Android</td>
+    </tr>
+    <tr>
+        <td>videos</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>videos</td>
     </tr>
     <tr>
         <td>key</td>
@@ -2324,16 +2324,16 @@ retrieve appStackLayouts
         <td>name</td>
     </tr>
     <tr>
-        <td>fork</td>
-        <td>string</td>
-        <td></td>
-        <td>github fork link</td>
-    </tr>
-    <tr>
         <td>descriptionShort</td>
         <td>string</td>
         <td></td>
         <td>short description</td>
+    </tr>
+    <tr>
+        <td>fork</td>
+        <td>string</td>
+        <td></td>
+        <td>github fork link</td>
     </tr>
     <tr>
         <td>descriptionFunctional</td>
@@ -2450,16 +2450,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>app</td>
@@ -2804,16 +2804,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>app</td>
@@ -3776,16 +3776,16 @@ retrieve appStackLayouts
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -3812,16 +3812,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -4838,16 +4838,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5306,16 +5306,16 @@ retrieve appStackLayouts
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -5342,16 +5342,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -6596,16 +6596,16 @@ retrieve appStackLayouts
         <th>description</th>
     </tr>
     <tr>
-        <td>circle</td>
-        <td>string</td>
-        <td>true</td>
-        <td>circle to add users to</td>
-    </tr>
-    <tr>
         <td>users</td>
         <td>Array[string]</td>
         <td>true</td>
         <td>users to add</td>
+    </tr>
+    <tr>
+        <td>circle</td>
+        <td>string</td>
+        <td>true</td>
+        <td>circle to add users to</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7442,16 +7442,16 @@ retrieve appStackLayouts
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>images</td>
@@ -7478,16 +7478,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -7760,16 +7760,16 @@ retrieve appStackLayouts
         <td>circles</td>
     </tr>
     <tr>
-        <td>circleTypes</td>
-        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
-        <td></td>
-        <td>types of circles the entity is in</td>
-    </tr>
-    <tr>
         <td>content</td>
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
     </tr>
     <tr>
         <td>forUser</td>
@@ -8018,13 +8018,13 @@ retrieve appStackLayouts
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -9458,12 +9458,6 @@ retrieve appStackLayouts
         <td>circles</td>
     </tr>
     <tr>
-        <td>circleTypes</td>
-        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
-        <td></td>
-        <td>types of circles the entity is in</td>
-    </tr>
-    <tr>
         <td>ueType</td>
         <td>string</td>
         <td></td>
@@ -9474,6 +9468,12 @@ retrieve appStackLayouts
         <td>string</td>
         <td></td>
         <td></td>
+    </tr>
+    <tr>
+        <td>circleTypes</td>
+        <td><a href="#SSCircleE">Array[SSCircleE]</a></td>
+        <td></td>
+        <td>types of circles the entity is in</td>
     </tr>
     <tr>
         <td>read</td>
@@ -9908,16 +9908,16 @@ retrieve appStackLayouts
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>friends</td>
