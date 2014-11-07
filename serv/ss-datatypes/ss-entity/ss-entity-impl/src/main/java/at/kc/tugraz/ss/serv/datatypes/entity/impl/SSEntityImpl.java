@@ -105,13 +105,14 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntit
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI{
+public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI, SSUsersResourcesGathererI{
   
   private final SSEntitySQLFct         sqlFct;
   
@@ -120,6 +121,37 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     super(conf, dbGraph, dbSQL);
     
     sqlFct    = new SSEntitySQLFct   (this);
+  }
+  
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    final List<SSEntityE> types = new ArrayList<>();
+    types.add(SSEntityE.file);
+    types.add(SSEntityE.entity);
+    
+    for(String user : allUsers){
+      
+      for(SSUri entity : sqlFct.getEntities(SSUri.get(user), types)){
+        
+        if(usersResources.containsKey(user)){
+          usersResources.get(user).add(entity);
+        }else{
+          
+          final List<SSUri> resourceList = new ArrayList<>();
+          
+          resourceList.add(entity);
+          
+          usersResources.put(user, resourceList);
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+    }
   }
   
   @Override

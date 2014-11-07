@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -34,10 +35,12 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
@@ -53,7 +56,7 @@ import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUsersResourcesGathererI{
   
 //  private final SSUEGraphFct graphFct;
   private final SSUESQLFct   sqlFct;
@@ -68,7 +71,48 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     this.fct      = new SSUEMiscFct ();
   }
   
-  /* SSEntityHandlerImplI */
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    final List<SSUE> ues = new ArrayList<>();
+    SSUri userUri;
+    
+    for(String user : allUsers){
+      
+      userUri = SSUri.get(user);
+      
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNotebookUpdate, null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNotebookFollow, null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteUpdate,     null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteDelete,     null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteShare,      null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteReminderDone,   null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteReminderCreate, null, null));
+      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteResourceAdd,    null, null));
+      
+      for(SSUE ue : ues){
+        
+        if(usersResources.containsKey(user)){
+          usersResources.get(user).add(ue.entity);
+        }else{
+          
+          final List<SSUri> resourceList = new ArrayList<>();
+          
+          resourceList.add(ue.entity);
+          
+          usersResources.put(user, resourceList);
+        }
+      }
+      
+      ues.clear();
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+    }
+  }
   
   @Override
   public Boolean copyUserEntity(
