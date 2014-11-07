@@ -28,24 +28,24 @@ import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSAppStackLayoutCreateRet extends SSServRetI{
+public class SSAppStackLayoutTileAddRet extends SSServRetI{
   
-  public SSUri stack = null;
+  public SSUri tile = null;
   
-  public static SSAppStackLayoutCreateRet get(
-    final SSUri    stack,
+  public static SSAppStackLayoutTileAddRet get(
+    final SSUri    tile,
     final SSMethU  op){
     
-    return new SSAppStackLayoutCreateRet(stack, op);
+    return new SSAppStackLayoutTileAddRet(tile, op);
   }
   
-  private SSAppStackLayoutCreateRet(
-    final SSUri    stack,
+  private SSAppStackLayoutTileAddRet(
+    final SSUri    tile,
     final SSMethU  op) {
     
     super(op);
     
-    this.stack = stack;
+    this.tile = tile;
   }
   
   @Override
@@ -53,14 +53,14 @@ public class SSAppStackLayoutCreateRet extends SSServRetI{
     
     final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.stack, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.tile, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
   /* json getters */
   
-  public String getStack() {
-    return SSStrU.removeTrailingSlash(stack);
+  public String getTile() {
+    return SSStrU.removeTrailingSlash(tile);
   }
 }

@@ -24,9 +24,10 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String tile                                           = "tile";
   public static final String appLink                                        = "appLink";
-  public static final String appStackLayouts                                = "appStackLayouts";
-  public static final String appStackLayout                                 = "appStackLayout";
+  public static final String stacks                                         = "stacks";
+  public static final String stack                                          = "stack";
   public static final String friends                                        = "friends";
   public static final String friend                                         = "friend";
   public static final String videos                                         = "videos";

@@ -33,23 +33,23 @@ import java.util.Map;
 
 public class SSAppStackLayoutsGetRet extends SSServRetI{
   
-  public List<SSAppStackLayout> appStackLayouts = new ArrayList<>();
+  public List<SSAppStackLayout> stacks = new ArrayList<>();
   
   public static SSAppStackLayoutsGetRet get(
-    final List<SSAppStackLayout>    appStackLayouts,
+    final List<SSAppStackLayout>    stacks,
     final SSMethU                   op){
     
-    return new SSAppStackLayoutsGetRet(appStackLayouts, op);
+    return new SSAppStackLayoutsGetRet(stacks, op);
   }
   
   private SSAppStackLayoutsGetRet(
-    final List<SSAppStackLayout>    appStackLayouts,
+    final List<SSAppStackLayout>    stacks,
     final SSMethU                   op) {
     
     super(op);
     
-    if(appStackLayouts != null){
-      this.appStackLayouts.addAll(appStackLayouts);
+    if(stacks != null){
+      this.stacks.addAll(stacks);
     }
   }
   
@@ -57,12 +57,12 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
   public Map<String, Object> jsonLDDesc(){
     
     final Map<String, Object> ld                    = new HashMap<>();
-    final Map<String, Object> appStackLayoutsObj    = new HashMap<>();
+    final Map<String, Object> stacksObj    = new HashMap<>();
     
-    appStackLayoutsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSAppStackLayout.class.getName());
-    appStackLayoutsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    stacksObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSAppStackLayout.class.getName());
+    stacksObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.appStackLayouts, appStackLayoutsObj);
+    ld.put(SSVarU.stacks, stacksObj);
     
     return ld;
   }

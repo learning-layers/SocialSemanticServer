@@ -29,4 +29,5 @@ public interface SSAppStackLayoutServerI{
   
   public List<SSAppStackLayout>  appStackLayoutsGet     (final SSServPar parA) throws Exception;
   public SSUri                   appStackLayoutCreate   (final SSServPar parA) throws Exception;
+  public SSUri                   appStackLayoutTileAdd  (final SSServPar parA) throws Exception;
 }
