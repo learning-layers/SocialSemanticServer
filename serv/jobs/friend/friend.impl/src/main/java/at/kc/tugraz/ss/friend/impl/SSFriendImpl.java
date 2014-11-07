@@ -69,16 +69,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
         friends.add(
           SSFriend.get(
             friend,
-            SSServCaller.entityDescGet(
-              par.user,
-              friend.id,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false)));
+            SSServCaller.entityGet(friend.id)));
       }
 
       return friends;
