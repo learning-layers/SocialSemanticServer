@@ -61,8 +61,8 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
   public SSLabel               label        = null;
   
   @XmlElement
-  public void setAppLink(final String appLink) throws Exception{
-    this.appLink = SSUri.get(appLink);
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
   public SSAppStackLayoutTileAddPar(){}
@@ -76,6 +76,7 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
       if(pars != null){
         stack               = (SSUri)         pars.get(SSVarU.stack);
         appLink             = (SSUri)         pars.get(SSVarU.appLink);
+        label               = (SSLabel)       pars.get(SSVarU.label);
       }
       
       if(par.clientJSONObj != null){
@@ -84,6 +85,10 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
         
         try{
           appLink =  SSUri.get(par.clientJSONObj.get(SSVarU.appLink).getTextValue());
+        }catch(Exception error){}
+        
+        try{
+          label =  SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){
@@ -99,5 +104,9 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
     
   public String getAppLink(){
     return SSStrU.removeTrailingSlash(appLink);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
 }

@@ -166,11 +166,11 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         tileUri, 
         SSEntityE.appTile, 
         par.label, 
-        par.description, 
+        null, 
         null, 
         false);
        
-      sqlFct.addTile();
+//      sqlFct.addTile();
     
       dbSQL.commit(par.shouldCommit);
       
