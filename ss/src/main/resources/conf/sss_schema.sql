@@ -145,6 +145,84 @@ LOCK TABLES `app` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `appstacklayout`
+--
+
+DROP TABLE IF EXISTS `appstacklayout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `appstacklayout` (
+  `stackId` varchar(200) NOT NULL,
+  `app` varchar(255) NOT NULL,
+  PRIMARY KEY (`stackId`),
+  KEY `appFKappstacklayout_idx` (`app`),
+  CONSTRAINT `stackIdFKappstacklayout` FOREIGN KEY (`stackId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `appFKappstacklayout` FOREIGN KEY (`app`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appstacklayout`
+--
+
+LOCK TABLES `appstacklayout` WRITE;
+/*!40000 ALTER TABLE `appstacklayout` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appstacklayout` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `appstacklayouttile`
+--
+
+DROP TABLE IF EXISTS `appstacklayouttile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `appstacklayouttile` (
+  `tileId` varchar(200) NOT NULL,
+  `app` varchar(255) NOT NULL,
+  PRIMARY KEY (`tileId`),
+  KEY `appFKappstacklayouttile_idx` (`app`),
+  CONSTRAINT `tileIdFKappstacklayouttile` FOREIGN KEY (`tileId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `appFKappstacklayouttile` FOREIGN KEY (`app`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appstacklayouttile`
+--
+
+LOCK TABLES `appstacklayouttile` WRITE;
+/*!40000 ALTER TABLE `appstacklayouttile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appstacklayouttile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `appstacklayouttiles`
+--
+
+DROP TABLE IF EXISTS `appstacklayouttiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `appstacklayouttiles` (
+  `stackId` varchar(200) NOT NULL,
+  `tileId` varchar(200) NOT NULL,
+  PRIMARY KEY (`stackId`,`tileId`),
+  KEY `tileIdFKappstacklayouttiles_idx` (`tileId`),
+  CONSTRAINT `stackIdFKappstacklayouttiles` FOREIGN KEY (`stackId`) REFERENCES `appstacklayout` (`stackId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `tileIdFKappstacklayouttiles` FOREIGN KEY (`tileId`) REFERENCES `appstacklayouttile` (`tileId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appstacklayouttiles`
+--
+
+LOCK TABLES `appstacklayouttiles` WRITE;
+/*!40000 ALTER TABLE `appstacklayouttiles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appstacklayouttiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `auth`
 --
 
@@ -1503,4 +1581,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-07 12:45:25
+-- Dump completed on 2014-11-07 15:23:24

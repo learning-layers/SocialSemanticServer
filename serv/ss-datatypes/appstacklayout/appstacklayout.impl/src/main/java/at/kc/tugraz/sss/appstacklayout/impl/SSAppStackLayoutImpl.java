@@ -170,7 +170,19 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         null, 
         false);
        
-//      sqlFct.addTile();
+       if(par.app != null){
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          par.app,
+          SSEntityE.entity,
+          null,
+          null,
+          null,
+          false);
+      }
+       
+      sqlFct.addTile(tileUri, par.stack, par.app);
     
       dbSQL.commit(par.shouldCommit);
       

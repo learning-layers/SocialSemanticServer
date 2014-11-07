@@ -161,8 +161,10 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
@@ -1088,10 +1090,21 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "appStackLayoutCreate")
   @ApiOperation(
-    value = "add an appStackLayout",
+    value = "create an arrangement of tiles within an app",
     response = SSAppStackLayoutCreateRet.class)
   public String appStackLayoutCreate(final SSAppStackLayoutCreatePar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutCreate);
+  }
+  
+   @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutTileAdd")
+  @ApiOperation(
+    value = "add a tile to stack",
+    response = SSAppStackLayoutTileAddRet.class)
+  public String appStackLayoutTileAdd(final SSAppStackLayoutTileAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutTileAdd);
   }
   
   @POST

@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SSAppStackLayoutTileAddPar extends SSServPar{
   
   @ApiModelProperty(
-    required = false,
-    value = "stack")
+    required = true,
+    value = "stack to add this tile")
   public SSUri               stack        = null;
   
   @XmlElement
@@ -48,11 +48,11 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
   @ApiModelProperty(
     required = false,
     value = "link to the app the tile conains")
-  public SSUri               appLink        = null;
+  public SSUri               app        = null;
   
   @XmlElement
-  public void setAppLink(final String appLink) throws Exception{
-    this.appLink = SSUri.get(appLink);
+  public void setApp(final String app) throws Exception{
+    this.app = SSUri.get(app);
   }
   
   @ApiModelProperty(
@@ -75,7 +75,7 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
       
       if(pars != null){
         stack               = (SSUri)         pars.get(SSVarU.stack);
-        appLink             = (SSUri)         pars.get(SSVarU.appLink);
+        app                 = (SSUri)         pars.get(SSVarU.app);
         label               = (SSLabel)       pars.get(SSVarU.label);
       }
       
@@ -84,7 +84,7 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
         stack               = SSUri.get(par.clientJSONObj.get(SSVarU.stack).getTextValue());
         
         try{
-          appLink =  SSUri.get(par.clientJSONObj.get(SSVarU.appLink).getTextValue());
+          app =  SSUri.get(par.clientJSONObj.get(SSVarU.app).getTextValue());
         }catch(Exception error){}
         
         try{
@@ -102,8 +102,8 @@ public class SSAppStackLayoutTileAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(stack);
   }
     
-  public String getAppLink(){
-    return SSStrU.removeTrailingSlash(appLink);
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
   }
   
   public String getLabel(){

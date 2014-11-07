@@ -22,8 +22,9 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String stackId                                        = "stackId";
+  public static final String tileId                                         = "tileId";
   public static final String app                                            = "app";
-  public static final String appStackLayoutId                               = "appStackLayoutId";
   public static final String videoId                                        = "videoId";
   public static final String downloadId                                     = "downloadId";
   public static final String screenShotId                                   = "screenShotId";

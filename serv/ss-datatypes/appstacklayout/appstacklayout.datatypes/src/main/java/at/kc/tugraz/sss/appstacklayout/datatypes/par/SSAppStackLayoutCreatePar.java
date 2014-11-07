@@ -101,6 +101,10 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
   }
   
   /* json getters */
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
+  }
+  
   public String getLabel(){
     return SSStrU.toStr(label);
   }

@@ -22,7 +22,6 @@ package at.kc.tugraz.sss.appstacklayout.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -53,7 +52,7 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
         
         appStackLayouts.add(
           SSAppStackLayout.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.appStackLayoutId), 
+            bindingStrToUri         (resultSet, SSSQLVarU.stackId), 
             bindingStrToUri         (resultSet, SSSQLVarU.app),
             new ArrayList<>()));
       }
@@ -68,12 +67,11 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
   }
 
   public void createAppStackLayout(
-    final SSUri         appStackLayout,
+    final SSUri         stack,
     final SSUri         app) throws Exception{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
       
       if(app == null){
         insert    (inserts,    SSSQLVarU.app,     SSStrU.empty);
@@ -81,9 +79,39 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
         insert    (inserts,    SSSQLVarU.app,     app);
       }
       
-      insert    (inserts,    SSSQLVarU.appStackLayoutId,     appStackLayout);
+      insert    (inserts,    SSSQLVarU.stackId,     stack);
       
-      dbSQL.insertIfNotExists(appStackLayoutTable, inserts, uniqueKeys);
+      dbSQL.insert(appStackLayoutTable, inserts);
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+  }
+
+  public void addTile(
+    final SSUri tile,
+    final SSUri stack, 
+    final SSUri app) throws Exception{
+   
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      
+      if(app == null){
+        insert    (inserts,    SSSQLVarU.app,     SSStrU.empty);
+      }else{
+        insert    (inserts,    SSSQLVarU.app,     app);
+      }
+      
+      insert    (inserts,    SSSQLVarU.tileId,      tile);
+      
+      dbSQL.insert(appStackLayoutTileTable, inserts);
+      
+      inserts.clear();
+      
+      insert    (inserts,    SSSQLVarU.stackId,     stack);
+      insert    (inserts,    SSSQLVarU.tileId,      tile);
+      
+      dbSQL.insert(appStackLayoutTilesTable, inserts);
+      
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }

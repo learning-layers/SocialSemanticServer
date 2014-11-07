@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSAppTile extends SSEntity{
   
-  public SSUri           appLink      = null;
+  public SSUri           app      = null;
   
   public static SSAppTile get(
     final SSAppTile     appTile,
@@ -44,25 +44,25 @@ public class SSAppTile extends SSEntity{
     
     super(entity);
     
-    this.appLink               = appTile.appLink;
+    this.app               = appTile.app;
   }
   
   public static SSAppTile get(
     final SSUri           id,
-    final SSUri           appLink) throws Exception{
+    final SSUri           app) throws Exception{
     
     return new SSAppTile(
       id,
-      appLink);
+      app);
   }
   
   protected SSAppTile(
     final SSUri           id,
-    final SSUri           appLink) throws Exception{
+    final SSUri           app) throws Exception{
     
     super(id, SSEntityE.appTile);
     
-    this.appLink               = appLink;
+    this.app               = app;
 
   }
 
@@ -71,13 +71,14 @@ public class SSAppTile extends SSEntity{
   
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.appLink,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarU.app,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
   /* json getters */
-  public String getAppLink(){
-    return SSStrU.removeTrailingSlash(appLink);
+  
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
   }
 }

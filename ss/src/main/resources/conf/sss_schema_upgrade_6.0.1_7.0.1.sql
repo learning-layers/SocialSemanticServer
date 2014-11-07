@@ -148,3 +148,51 @@ CREATE TABLE `sss`.`friends` (
     REFERENCES `sss`.`user` (`userId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`appstacklayout` (
+  `stackId` VARCHAR(200) NOT NULL,
+  `app` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`stackId`),
+  INDEX `appFKappstacklayout_idx` (`app` ASC),
+  CONSTRAINT `stackIdFKappstacklayout`
+    FOREIGN KEY (`stackId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `appFKappstacklayout`
+    FOREIGN KEY (`app`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+	
+CREATE TABLE `sss`.`appstacklayouttile` (
+  `tileId` VARCHAR(200) NOT NULL,
+  `app` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`tileId`),
+  INDEX `appFKappstacklayouttile_idx` (`app` ASC),
+  CONSTRAINT `tileIdFKappstacklayouttile`
+    FOREIGN KEY (`tileId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `appFKappstacklayouttile`
+    FOREIGN KEY (`app`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`appstacklayouttiles` (
+  `stackId` VARCHAR(200) NOT NULL,
+  `tileId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`stackId`, `tileId`),
+  INDEX `tileIdFKappstacklayouttiles_idx` (`tileId` ASC),
+  CONSTRAINT `stackIdFKappstacklayouttiles`
+    FOREIGN KEY (`stackId`)
+    REFERENCES `sss`.`appstacklayout` (`stackId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `tileIdFKappstacklayouttiles`
+    FOREIGN KEY (`tileId`)
+    REFERENCES `sss`.`appstacklayouttile` (`tileId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);	
