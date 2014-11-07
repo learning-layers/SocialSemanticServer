@@ -132,7 +132,7 @@ CREATE TABLE `sss`.`app` (
     REFERENCES `sss`.`entity` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
-
+	
 CREATE TABLE `sss`.`friends` (
   `userId` VARCHAR(200) NOT NULL,
   `friendId` VARCHAR(200) NOT NULL,

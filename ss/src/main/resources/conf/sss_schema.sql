@@ -4,7 +4,7 @@ USE `sss`;
 --
 -- Host: localhost    Database: sss
 -- ------------------------------------------------------
--- Server version	5.6.10
+-- Server version	5.6.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -115,6 +115,36 @@ LOCK TABLES `activityusers` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `app`
+--
+
+DROP TABLE IF EXISTS `app`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app` (
+  `appId` varchar(200) NOT NULL,
+  `descriptionShort` varchar(5000) NOT NULL,
+  `descriptionFunctional` varchar(5000) NOT NULL,
+  `descriptionTechnical` varchar(5000) NOT NULL,
+  `descriptionInstall` varchar(5000) NOT NULL,
+  `downloadIOS` varchar(255) NOT NULL,
+  `downloadAndroid` varchar(255) NOT NULL,
+  `fork` varchar(255) NOT NULL,
+  PRIMARY KEY (`appId`),
+  CONSTRAINT `appIdFKapp` FOREIGN KEY (`appId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app`
+--
+
+LOCK TABLES `app` WRITE;
+/*!40000 ALTER TABLE `app` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `auth`
 --
 
@@ -174,6 +204,7 @@ CREATE TABLE `categoryass` (
   `entityId` varchar(255) NOT NULL,
   `userId` varchar(100) NOT NULL,
   `categorySpace` varchar(100) NOT NULL,
+  `creationTime` varchar(200) NOT NULL,
   PRIMARY KEY (`categoryId`,`entityId`,`userId`,`categorySpace`),
   KEY `categorySpaceFKcategoryass_idx` (`categorySpace`),
   CONSTRAINT `categoryIdFKcategoryass` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -576,6 +607,30 @@ LOCK TABLES `discuser` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `downloads`
+--
+
+DROP TABLE IF EXISTS `downloads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `downloads` (
+  `entityId` varchar(255) NOT NULL,
+  `downloadId` varchar(255) NOT NULL,
+  PRIMARY KEY (`entityId`,`downloadId`),
+  CONSTRAINT `entityIdFKdownloads` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `downloads`
+--
+
+LOCK TABLES `downloads` WRITE;
+/*!40000 ALTER TABLE `downloads` DISABLE KEYS */;
+/*!40000 ALTER TABLE `downloads` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `entities`
 --
 
@@ -629,6 +684,32 @@ CREATE TABLE `entity` (
 LOCK TABLES `entity` WRITE;
 /*!40000 ALTER TABLE `entity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `entity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `entityreads`
+--
+
+DROP TABLE IF EXISTS `entityreads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entityreads` (
+  `entityId` varchar(255) NOT NULL,
+  `userId` varchar(200) NOT NULL,
+  PRIMARY KEY (`entityId`,`userId`),
+  KEY `userIdFKentityreads_idx` (`userId`),
+  CONSTRAINT `entityIdFKentityreads` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKentityreads` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entityreads`
+--
+
+LOCK TABLES `entityreads` WRITE;
+/*!40000 ALTER TABLE `entityreads` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entityreads` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -787,6 +868,58 @@ CREATE TABLE `flags` (
 LOCK TABLES `flags` WRITE;
 /*!40000 ALTER TABLE `flags` DISABLE KEYS */;
 /*!40000 ALTER TABLE `flags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `friends`
+--
+
+DROP TABLE IF EXISTS `friends`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `friends` (
+  `userId` varchar(200) NOT NULL,
+  `friendId` varchar(200) NOT NULL,
+  PRIMARY KEY (`userId`,`friendId`),
+  KEY `friendIdFKfriends_idx` (`friendId`),
+  CONSTRAINT `userIdFKfriends` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `friendIdFKfriends` FOREIGN KEY (`friendId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `friends`
+--
+
+LOCK TABLES `friends` WRITE;
+/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `images`
+--
+
+DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `images` (
+  `imageId` varchar(255) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  PRIMARY KEY (`imageId`,`entityId`),
+  KEY `entityIdFKimages_idx` (`entityId`),
+  CONSTRAINT `entityIdFKimages` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `imageIdFKimages` FOREIGN KEY (`imageId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `images`
+--
+
+LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1121,6 +1254,36 @@ LOCK TABLES `locations` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `message` (
+  `messageId` varchar(200) NOT NULL,
+  `userId` varchar(200) NOT NULL,
+  `forEntityId` varchar(200) NOT NULL,
+  `messageContent` varchar(200) NOT NULL,
+  PRIMARY KEY (`messageId`),
+  KEY `userIdFKmessage_idx` (`userId`),
+  KEY `forEntityIdFKmessage_idx` (`forEntityId`),
+  CONSTRAINT `messageIdFKmessage` FOREIGN KEY (`messageId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKmessage` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `forEntityIdFKmessage` FOREIGN KEY (`forEntityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `message`
+--
+
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ratingass`
 --
 
@@ -1144,6 +1307,32 @@ CREATE TABLE `ratingass` (
 LOCK TABLES `ratingass` WRITE;
 /*!40000 ALTER TABLE `ratingass` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ratingass` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `screenshots`
+--
+
+DROP TABLE IF EXISTS `screenshots`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `screenshots` (
+  `entityId` varchar(255) NOT NULL,
+  `screenShotId` varchar(200) NOT NULL,
+  PRIMARY KEY (`entityId`,`screenShotId`),
+  KEY `screenShotIdFKscreenhots_idx` (`screenShotId`),
+  CONSTRAINT `entityIdFKscreenshots` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `screenShotIdFKscreenhots` FOREIGN KEY (`screenShotId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `screenshots`
+--
+
+LOCK TABLES `screenshots` WRITE;
+/*!40000 ALTER TABLE `screenshots` DISABLE KEYS */;
+/*!40000 ALTER TABLE `screenshots` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1278,6 +1467,32 @@ LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `videos`
+--
+
+DROP TABLE IF EXISTS `videos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `videos` (
+  `videoId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  PRIMARY KEY (`videoId`,`entityId`),
+  KEY `entityIdFKvideos_idx` (`entityId`),
+  CONSTRAINT `videoIdFKvideos` FOREIGN KEY (`videoId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKvideos` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `videos`
+--
+
+LOCK TABLES `videos` WRITE;
+/*!40000 ALTER TABLE `videos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `videos` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1288,4 +1503,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-10 14:11:38
+-- Dump completed on 2014-11-07 12:45:25
