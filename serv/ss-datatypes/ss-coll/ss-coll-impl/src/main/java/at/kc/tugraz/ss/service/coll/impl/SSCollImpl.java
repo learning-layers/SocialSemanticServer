@@ -260,14 +260,14 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public Boolean addEntityToCircle(
+  public void addEntityToCircle(
     final SSUri        userUri,
     final SSUri        circleUri,
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
 
     if(!SSStrU.equals(entityType, SSEntityE.coll)){
-      return false;
+      return;
     }
 
     try{
@@ -278,10 +278,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         entityUri,
         false);
 
-      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
 

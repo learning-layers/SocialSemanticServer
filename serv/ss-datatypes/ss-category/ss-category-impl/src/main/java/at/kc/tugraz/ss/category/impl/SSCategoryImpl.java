@@ -170,13 +170,11 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
   }
   
   @Override
-  public Boolean addEntityToCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception{
-    
-    return false;
   }  
   
   @Override

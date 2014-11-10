@@ -137,7 +137,7 @@
     "SSFileSetReaderOrWriterPar" : {
       "id" : "SSFileSetReaderOrWriterPar",
       "description" : "",
-      "required" : [ "file", "write", "key", "user", "op" ],
+      "required" : [ "file", "write", "key", "op", "user" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -151,39 +151,39 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "user" : {
-          "type" : "string",
-          "description" : "the user's identifier"
-        },
         "op" : {
           "type" : "string",
           "description" : "operation to be executed"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "the user's identifier"
         }
       }
     },
     "SSFileUserFileWritesPar" : {
       "id" : "SSFileUserFileWritesPar",
       "description" : "",
-      "required" : [ "key", "user", "op" ],
+      "required" : [ "key", "op", "user" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "user" : {
-          "type" : "string",
-          "description" : "the user's identifier"
-        },
         "op" : {
           "type" : "string",
           "description" : "operation to be executed"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "the user's identifier"
         }
       }
     },
     "SSFileCanWritePar" : {
       "id" : "SSFileCanWritePar",
       "description" : "",
-      "required" : [ "file", "key", "user", "op" ],
+      "required" : [ "file", "key", "op", "user" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -193,13 +193,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "user" : {
-          "type" : "string",
-          "description" : "the user's identifier"
-        },
         "op" : {
           "type" : "string",
           "description" : "operation to be executed"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "the user's identifier"
         }
       }
     },
@@ -220,7 +220,7 @@
     "SSFileExtGetPar" : {
       "id" : "SSFileExtGetPar",
       "description" : "",
-      "required" : [ "file", "key", "user", "op" ],
+      "required" : [ "file", "key", "op", "user" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -230,13 +230,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "user" : {
-          "type" : "string",
-          "description" : "the user's identifier"
-        },
         "op" : {
           "type" : "string",
           "description" : "operation to be executed"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "the user's identifier"
         }
       }
     }

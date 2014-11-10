@@ -56,7 +56,7 @@ public interface SSEntityHandlerImplI{
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception;
     
-  public Boolean addEntityToCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 

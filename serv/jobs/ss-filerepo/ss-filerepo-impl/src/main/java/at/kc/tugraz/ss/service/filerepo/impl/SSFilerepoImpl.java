@@ -129,16 +129,12 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
   
   @Override
-  public Boolean addEntityToCircle(
+  public void addEntityToCircle(
     final SSUri        userUri,
     final SSUri        circleUri,
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
     
-    switch(entityType){
-      case file: return true;
-      default:   return false;
-    }
   }
   
   @Override

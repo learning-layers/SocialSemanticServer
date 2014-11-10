@@ -214,8 +214,6 @@ public class SSEntityMiscFct{
     
     try{
       
-      Boolean handledEntity;
-      
       for(SSUri entityUri : entityUris){
         
         final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
@@ -224,18 +222,8 @@ public class SSEntityMiscFct{
           continue;
         }
         
-        handledEntity = false;
-        
         for(SSServA serv : SSServA.getServsManagingEntities()){
-          
-          if(((SSEntityHandlerImplI) serv.serv()).addEntityToCircle(userUri, circleUri, entityUri, entityType)){
-            handledEntity = true;
-            break;
-          }
-        }
-        
-        if(!handledEntity){
-          throw new Exception("entity couldnt be added to circle by entity handlers");
+          ((SSEntityHandlerImplI) serv.serv()).addEntityToCircle(userUri, circleUri, entityUri, entityType);
         }
       }
     }catch(Exception error){

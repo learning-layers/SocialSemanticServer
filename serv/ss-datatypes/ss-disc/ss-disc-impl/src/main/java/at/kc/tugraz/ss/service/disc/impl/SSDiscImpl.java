@@ -237,15 +237,14 @@ implements
   }
   
   @Override
-  public Boolean addEntityToCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
     
-    return false;
   }
-    
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri       userUri, 
