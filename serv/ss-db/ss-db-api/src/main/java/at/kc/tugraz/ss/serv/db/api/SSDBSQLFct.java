@@ -87,6 +87,15 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   commentsTable                       = "comments";
   protected static final String   commentTable                        = "comment";
   protected static final String   messageTable                        = "message";
+  protected static final String   appTable                            = "app";
+  protected static final String   screenShotsTable                    = "screenshots";
+  protected static final String   downloadsTable                      = "downloads";
+  protected static final String   videosTable                         = "videos";
+  protected static final String   imagesTable                         = "images";
+  protected static final String   friendsTable                        = "friends";
+  protected static final String   appStackLayoutTable                 = "appstacklayout";
+  protected static final String   appStackLayoutTileTable             = "appstacklayouttile";
+  protected static final String   appStackLayoutTilesTable            = "appstacklayouttiles";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

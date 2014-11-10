@@ -25,6 +25,9 @@ import java.util.List;
 
 public enum SSActivityE{
 
+  //friend
+  friendAdd,
+  
   //message
   messageSend,
   
@@ -79,6 +82,7 @@ public enum SSActivityE{
   updateEntity,
   copyEntityForUsers,
   shareEntityWithUsers,
+  shareEntityWithCircles,
 
   //discussions
   discussEntity,

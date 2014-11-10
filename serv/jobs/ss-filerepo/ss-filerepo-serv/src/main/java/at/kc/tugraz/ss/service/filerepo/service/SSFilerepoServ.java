@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;

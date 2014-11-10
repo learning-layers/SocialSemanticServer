@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSActivityClientI{
 
-  public void activityAdd   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void activitiesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void activityAdd      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void activitiesGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void activityTypesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

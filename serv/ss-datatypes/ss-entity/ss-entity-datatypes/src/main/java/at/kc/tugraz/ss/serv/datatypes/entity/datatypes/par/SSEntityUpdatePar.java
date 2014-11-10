@@ -35,6 +35,10 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSLabel             label         = null;
   public SSTextComment       description   = null;
   public List<SSTextComment> comments      = new ArrayList<>();
+  public List<SSUri>         downloads     = new ArrayList<>();
+  public List<SSUri>         screenShots   = new ArrayList<>();
+  public List<SSUri>         images        = new ArrayList<>();
+  public List<SSUri>         videos        = new ArrayList<>();
 
   public SSEntityUpdatePar(SSServPar par) throws Exception{
       
@@ -47,6 +51,10 @@ public class SSEntityUpdatePar extends SSServPar{
         label          = (SSLabel)             pars.get(SSVarU.label);
         description    = (SSTextComment)       pars.get(SSVarU.description);
         comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
+        downloads      = (List<SSUri>) pars.get(SSVarU.downloads);
+        screenShots    = (List<SSUri>) pars.get(SSVarU.screenShots);
+        images         = (List<SSUri>) pars.get(SSVarU.images);
+        videos         = (List<SSUri>) pars.get(SSVarU.videos);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

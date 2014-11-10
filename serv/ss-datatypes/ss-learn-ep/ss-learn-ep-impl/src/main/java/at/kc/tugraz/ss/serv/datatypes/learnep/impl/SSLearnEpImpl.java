@@ -74,13 +74,15 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI, SSLearnEpServerI, SSEntityHandlerImplI{
+public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI, SSLearnEpServerI, SSEntityHandlerImplI, SSUsersResourcesGathererI{
 
 //  private final SSLearnEpGraphFct       graphFct;
   private final SSLearnEpSQLFct sqlFct;
@@ -93,6 +95,39 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     sqlFct = new SSLearnEpSQLFct(this);
   }
 
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    for(String user : allUsers){
+      
+      for(SSUri learnEp : sqlFct.getLearnEpURIs(SSUri.get(user))){
+        
+        for(SSUri versionUri : sqlFct.getLearnEpVersionURIs(learnEp)){
+          
+          for(SSLearnEpEntity entity : sqlFct.getLearnEpVersion(versionUri, false).learnEpEntities){
+            
+            if(usersResources.containsKey(user)){
+              usersResources.get(user).add(entity.entity.id);
+            }else{
+              
+              final List<SSUri> resourceList = new ArrayList<>();
+              
+              resourceList.add(entity.entity.id);
+              
+              usersResources.put(user, resourceList);
+            }
+          }
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+    }
+  }
+  
   @Override
   public List<SSUri> getParentEntities(
     final SSUri         user,
@@ -302,6 +337,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
                 false,
                 false,
                 false,
+                false,
                 false);
         }
 
@@ -345,6 +381,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             learnEpEntity.entity.id,
             true,
             true,
+            false,
             false,
             false,
             false,
@@ -975,6 +1012,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             learnEpEntity.entity.id,
             true,
             true,
+            false,
             false,
             false,
             false,

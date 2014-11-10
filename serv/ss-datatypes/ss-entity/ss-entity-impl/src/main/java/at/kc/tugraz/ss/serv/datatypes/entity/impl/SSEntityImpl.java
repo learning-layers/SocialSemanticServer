@@ -42,6 +42,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyA
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
+import at.kc.tugraz.ss.datatypes.datatypes.SSVideo;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -50,6 +52,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCanPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleURIPrivGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntityCirclesGetPar;
@@ -78,6 +81,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -89,6 +93,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityVideosGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -100,13 +105,14 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntit
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI{
+public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI, SSUsersResourcesGathererI{
   
   private final SSEntitySQLFct         sqlFct;
   
@@ -115,6 +121,37 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     super(conf, dbGraph, dbSQL);
     
     sqlFct    = new SSEntitySQLFct   (this);
+  }
+  
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    final List<SSEntityE> types = new ArrayList<>();
+    types.add(SSEntityE.file);
+    types.add(SSEntityE.entity);
+    
+    for(String user : allUsers){
+      
+      for(SSUri entity : sqlFct.getEntities(SSUri.get(user), types)){
+        
+        if(usersResources.containsKey(user)){
+          usersResources.get(user).add(entity);
+        }else{
+          
+          final List<SSUri> resourceList = new ArrayList<>();
+          
+          resourceList.add(entity);
+          
+          usersResources.put(user, resourceList);
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+    }
   }
   
   @Override
@@ -233,39 +270,61 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
-        
-      SSServCaller.entityUserCanEdit                          (par.user, par.entity);
-      SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
-      SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
       
-      if(par.users.isEmpty()){
+      if(
+        par.users.isEmpty() &&
+        par.circles.isEmpty()){
         return par.entity;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri circleUri =
-        SSServCaller.entityCircleCreate(
+      SSServCaller.entityUserCanEdit                            (par.user, par.entity);
+
+      if(!par.users.isEmpty()){
+        
+        SSEntityMiscFct.checkWhetherUserWantsToShareWithHimself (par.user, par.users);
+        SSEntityMiscFct.checkWhetherUsersAreUsers               (par.users);
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        final SSUri circleUri =
+          SSServCaller.entityCircleCreate(
+            par.user,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            par.users,
+            null,
+            null,
+            true,
+            false);
+        
+        SSEntityMiscFct.shareByEntityHandlers(
           par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
           par.users,
-          null,
-          null,
-          true,
-          false);
+          par.entity,
+          circleUri,
+          par.saveActivity);
+        
+        SSEntityActivityFct.shareEntityWithUsers(par);
+      }
       
-      SSEntityMiscFct.shareByEntityHandlers(
-        par.user,
-        par.users,
-        par.entity,
-        circleUri,
-        par.saveActivity);
-      
-      SSEntityActivityFct.shareEntityWithUsers(par);
-      
+      if(!par.circles.isEmpty()){
+
+        dbSQL.startTrans(par.shouldCommit);
+        
+        for(SSUri circle : par.circles){
+          
+          SSServCaller.entityUserEntitiesToCircleAdd(
+            par.user, 
+            circle, 
+            SSUri.asListWithoutNullAndEmpty(par.entity), 
+            false);
+        }
+        
+        SSEntityActivityFct.shareEntityWithCircles(par);
+      }
+     
       dbSQL.commit(par.shouldCommit);
       
-      return circleUri;
+      return par.entity;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -360,6 +419,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.user,
         null);
       
+      for(SSUri video : par.videos){
+        
+        sqlFct.addVideo        (par.entity, video);
+      }
+      
+      for(SSUri screenShot : par.screenShots){
+        sqlFct.addScreenShot   (par.entity, screenShot);
+      }
+      
+      for(SSUri download : par.downloads){
+        sqlFct.addDownload     (par.entity, download);
+      }
+      
+      for(SSUri image : par.images){
+        sqlFct.addImage        (par.entity, image);
+      }
+      
       SSEntityMiscFct.updateEntityByEntityHandlers(par);
       
       dbSQL.commit(par.shouldCommit);
@@ -420,7 +496,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             par.getDiscs,
             par.getUEs,
             par.getThumb,
-            par.getFlags));
+            par.getFlags,
+            false));
       }
       
       if(par.entities.isEmpty()){
@@ -430,6 +507,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         for(SSUri entityUri : sqlFct.getEntities(par.user, par.types)){
+          
           entities.add(
             SSServCaller.entityDescGet(
               par.user,
@@ -439,7 +517,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
               par.getDiscs,
               par.getUEs,
               par.getThumb,
-              par.getFlags));
+              par.getFlags,
+              false));
         }
       }
       
@@ -1686,6 +1765,48 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
       
       return sqlFct.getFiles(par.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSVideo> entityVideosGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityVideosGetPar par = new SSEntityVideosGetPar(parA);
+      
+      return SSVideo.get(sqlFct.getVideos(par.entity));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSImage> entityScreenShotsGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityScreenShotsGetPar par = new SSEntityScreenShotsGetPar(parA);
+      
+      return SSImage.get(sqlFct.getScreenShots(par.entity));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public List<SSUri> entityDownloadURIsGet(SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityDownloadURIsGetPar par = new SSEntityDownloadURIsGetPar(parA);
+      
+      return sqlFct.getDownloads(par.entity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

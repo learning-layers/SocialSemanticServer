@@ -55,7 +55,11 @@ public enum SSEntityE implements SSJSONLDPropI{
   flag,
   comment,
   video,
-  message;
+  message,
+  app,
+  image,
+  appStackLayout,
+  appTile;
 
 //  entityDesc,
 //  collDesc,
@@ -114,15 +118,6 @@ public enum SSEntityE implements SSJSONLDPropI{
     return SSStrU.equals(resourceType.toString(), SSEntityE.coll.toString());
   }
 
-  public static Boolean isUser(final SSEntityE resourceType){
-    
-    if(resourceType == null){
-      return false;
-    }
-    
-    return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
-  }
-
   public static Boolean isResourceOrFile(final SSEntityE resourceType){
     
     if(resourceType == null){
@@ -141,5 +136,14 @@ public enum SSEntityE implements SSJSONLDPropI{
     }
     
     return SSStrU.equals(SSEntityE.disc.toString(), resourceType.toString());
+  }
+  
+  public static Boolean isUser(final SSEntityE resourceType){
+    
+    if(resourceType == null){
+      return false;
+    }
+    
+    return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
   }
 }

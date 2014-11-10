@@ -68,7 +68,91 @@ import java.util.List;
 import java.util.Map;
 
 public class SSServCaller {
+
+  /* friends */
   
+  public static List<? extends SSEntity> friendsUserGet(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                    user);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.friendsUserGet, opPars));
+  }
+  
+   /* appStackLayout */
+    
+  public static SSUri appStackLayoutCreate(
+    final SSUri         user,
+    final SSUri         app,
+    final SSLabel       label,
+    final SSTextComment description) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                    user);
+    opPars.put(SSVarU.app,                     app);
+    opPars.put(SSVarU.label,                   label);
+    opPars.put(SSVarU.description,             description);
+
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.appStackLayoutCreate, opPars));
+  }
+  
+  public static List<? extends SSEntity> appStackLayoutsGet(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.appStackLayoutsGet, opPars));
+  }
+  
+  /* app */
+  
+  public static SSUri appAdd(
+    final SSUri         user,
+    final SSLabel       label,
+    final SSTextComment descriptionShort,
+    final SSTextComment descriptionFunctional,
+    final SSTextComment descriptionTechnical,
+    final SSTextComment descriptionInstall,
+    final SSUri         downloadIOS,
+    final SSUri         downloadAndroid,
+    final SSUri         fork,
+    final List<SSUri>   downloads,
+    final List<SSUri>   images,
+    final List<SSUri>   videos) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                    user);
+    opPars.put(SSVarU.label,                   label);
+    opPars.put(SSVarU.descriptionShort,        descriptionShort);
+    opPars.put(SSVarU.descriptionFunctional,   descriptionFunctional);
+    opPars.put(SSVarU.descriptionTechnical,    descriptionTechnical);
+    opPars.put(SSVarU.descriptionInstall,      descriptionInstall);
+    opPars.put(SSVarU.downloadIOS,             downloadIOS);
+    opPars.put(SSVarU.downloadAndroid,         downloadAndroid);
+    opPars.put(SSVarU.fork,                    fork);
+    opPars.put(SSVarU.downloads,               downloads);
+    opPars.put(SSVarU.images,                  images);
+    opPars.put(SSVarU.videos,                  videos);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.appAdd, opPars));
+  }
+  
+  public static List<? extends SSEntity> appsGet(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.appsGet, opPars));
+  }
+   
    /* comment */
   
   public static List<SSUri> commentEntitiesCommentedGet(
@@ -1083,6 +1167,50 @@ public class SSServCaller {
   
   /* entity */
   
+  public static void entityUserEntitiesToCircleAdd(
+    final SSUri       user,
+    final SSUri       circle,
+    final List<SSUri> entities,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.circle,       circle);
+    opPars.put(SSVarU.entities,     entities);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntitiesToCircleAdd, opPars));
+  }
+  
+  public static void entityUpdate(
+    final SSUri               user,
+    final SSUri               entity,
+    final SSLabel             label,
+    final SSTextComment       description,
+    final List<SSTextComment> comments,
+    final List<SSUri>         downloads,
+    final List<SSUri>         screenShots,
+    final List<SSUri>         images,
+    final List<SSUri>         videos,
+    final Boolean             shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.description,  description);
+    opPars.put(SSVarU.comments,     comments);
+    opPars.put(SSVarU.downloads,    downloads);
+    opPars.put(SSVarU.screenShots,  screenShots);
+    opPars.put(SSVarU.images,       images);
+    opPars.put(SSVarU.videos,       videos);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityUpdate, opPars));
+  }
+  
   public static Boolean entityReadGet(
     final SSUri user,
     final SSUri entity) throws Exception{
@@ -1179,6 +1307,42 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityFilesGet, opPars));
   }
   
+  public static List<? extends SSEntity> entityVideosGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+   
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entityVideosGet, opPars));
+  }
+  
+  public static List<SSUri> entityDownloadURIsGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+   
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityDownloadURIsGet, opPars));
+  }
+  
+  public static List<? extends SSEntity> entityScreenShotsGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+   
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entityScreenShotsGet, opPars));
+  }
+  
   public static void entityFileAdd(
     final SSUri   user,
     final SSUri   entity,
@@ -1247,6 +1411,7 @@ public class SSServCaller {
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   users,
+    final List<SSUri>   circles,
     final SSTextComment comment,
     final Boolean       shouldCommit) throws Exception{
     
@@ -1255,6 +1420,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.entity,        entity);
     opPars.put(SSVarU.users,         users);
+    opPars.put(SSVarU.circles,       circles);
     opPars.put(SSVarU.comment,       comment);
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     
@@ -1395,7 +1561,8 @@ public class SSServCaller {
     final Boolean getDiscs,
     final Boolean getUEs,
     final Boolean getThumb,
-    final Boolean getFlags) throws Exception{
+    final Boolean getFlags,
+    final Boolean getCircles) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1407,6 +1574,7 @@ public class SSServCaller {
     opPars.put(SSVarU.getUEs,           getUEs);
     opPars.put(SSVarU.getThumb,         getThumb);
     opPars.put(SSVarU.getFlags,         getFlags);
+    opPars.put(SSVarU.getCircles,       getCircles);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescGet, opPars));
   }

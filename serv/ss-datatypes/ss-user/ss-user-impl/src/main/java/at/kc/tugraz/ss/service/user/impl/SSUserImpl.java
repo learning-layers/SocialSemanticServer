@@ -22,13 +22,16 @@ package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -44,7 +47,7 @@ import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI{
+public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
@@ -55,6 +58,42 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
 //    graphFct = new SSUserGraphFct (this);
     sqlFct   = new SSUserSQLFct   (this);
+  }
+  
+  @Override
+  public SSEntity getDescForEntity(
+    final SSEntityDescGetPar par,
+    final SSEntity           desc) throws Exception{
+    
+    switch(desc.type){
+      
+      case user:{
+      
+        final SSUser user = 
+          SSUser.get(
+            sqlFct.getUser(desc.id), 
+            desc);
+      
+        user.friends.addAll(
+            SSServCaller.friendsUserGet(
+              desc.id));
+        
+        if(par.getCircles){
+          
+          user.circles.addAll(
+            SSServCaller.entityUserCirclesGet(
+              par.user,
+              desc.id,
+              false));
+        }
+          
+        return user;
+      }
+      
+      default:{
+        return desc;
+      }
+    }
   }
   
   @Override
@@ -127,22 +166,6 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     return false;
   }  
   
-  /* SSUserClientI  */
-
-  @Override
-  public void userAll(SSSocketCon sSCon, SSServPar par) throws Exception {
-    
-//      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
-//        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
-//      }else{
-        
-    SSServCaller.checkKey(par);
-    
-    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(par), par.op));
-//      }
-  }
-
-  /* SSUserServerI */
   @Override
   public Boolean userExists(final SSServPar parA) throws Exception{
     
@@ -169,6 +192,19 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+    @Override
+  public void userAll(SSSocketCon sSCon, SSServPar par) throws Exception {
+    
+//      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
+//        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
+//      }else{
+        
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(par), par.op));
+//      }
   }
   
   @Override

@@ -132,6 +132,21 @@ public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
     required = false,
+    value = "screenshots")
+  public List<SSEntity>       images       = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "videos")
+  public List<SSEntity>       videos       = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "circles")
+  public List<SSEntity>       circles      = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
     value = "whether user has read the entry")
   public  Boolean       read;
   
@@ -197,6 +212,9 @@ public class SSEntity extends SSEntityA{
     this.users            = entity.users;
     this.entities         = entity.entities;
     this.read             = entity.read;
+    this.videos           = entity.videos;
+    this.images           = entity.images;
+    this.circles          = entity.circles;
   }
   
   @Override
@@ -212,7 +230,10 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> uEsObj              = new HashMap<>();
     final Map<String, Object> flagsObj            = new HashMap<>();
     final Map<String, Object> entitiesObj         = new HashMap<>();
+    final Map<String, Object> circlesObj          = new HashMap<>();
     final Map<String, Object> usersObj            = new HashMap<>();
+    final Map<String, Object> imagesObj           = new HashMap<>();
+    final Map<String, Object> videosObj           = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -226,10 +247,15 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarU.file,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.read,           SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
    
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
-    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    imagesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    imagesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circleTypes, circleTypesObj);
+    ld.put(SSVarU.images, imagesObj);
+    
+    videosObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.videos, videosObj);
     
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + Object.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -276,6 +302,16 @@ public class SSEntity extends SSEntityA{
     
     ld.put(SSVarU.entities, entitiesObj);
     
+    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circles, circlesObj);
+    
+    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.circleTypes, circleTypesObj);
+    
     return ld;
   }
 
@@ -313,8 +349,20 @@ public class SSEntity extends SSEntityA{
     return entries;
   }
   
-  public List<SSEntity> getAttachedEntities() throws Exception{
+  public List<? extends SSEntity> getAttachedEntities() throws Exception{
     return attachedEntities;
+  }
+  
+  public List<? extends SSEntity> getVideos() throws Exception{
+    return videos;
+  }
+  
+  public List<? extends SSEntity> getImages() throws Exception{
+    return images;
+  }
+  
+  public List<? extends SSEntity> getCircles() throws Exception{
+    return circles;
   }
   
   public List<String> getComments() throws Exception{

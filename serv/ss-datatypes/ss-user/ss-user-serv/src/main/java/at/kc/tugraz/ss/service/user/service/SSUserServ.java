@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.user.service;
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
@@ -57,6 +56,7 @@ public class SSUserServ extends SSServA implements SSUserServI{
     super.regServ(conf);
     
     regServForManagingEntities();
+    regServForDescribingEntities();
     
     return this;
   }

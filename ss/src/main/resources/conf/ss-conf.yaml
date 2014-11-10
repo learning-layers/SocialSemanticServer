@@ -3,6 +3,10 @@ activityConf:
   executeOpAtStartUp: false
   op: null
   use: true
+appConf:
+  use: true
+appStackLayoutConf:
+  use: true  
 authConf:
   authType: noAuth #noAuth, csvFileAuth
   executeOpAtStartUp: false
@@ -93,6 +97,8 @@ filerepoConf:
   path: F:/workspace_git/SSS_8/master/SocialSemanticServer/ss/tmp/
   use: true
   user: null
+friendConf:
+  use: true  
 i5CloudConf:
   executeOpAtStartUp: false
   lasPass: 

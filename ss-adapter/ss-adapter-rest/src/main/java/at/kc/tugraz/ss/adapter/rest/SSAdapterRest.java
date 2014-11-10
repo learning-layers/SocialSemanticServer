@@ -24,7 +24,9 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
@@ -42,6 +44,10 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
@@ -150,6 +156,16 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
+import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
+import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
@@ -241,6 +257,17 @@ public class SSAdapterRest{
     response = SSActivitiesUserGetRet.class)
   public String activitiesGet(final SSActivitiesUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "activityTypesGet")
+  @ApiOperation(
+    value = "retrieve available activity types",
+    response = SSActivityTypesGetRet.class)
+  public String activityTypesGet(final SSActivityTypesGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activityTypesGet);
   }
   
   @POST
@@ -1034,6 +1061,83 @@ public class SSAdapterRest{
     response = SSMessagesGetRet.class)
   public String messagesGet(final SSMessagesGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appAdd")
+  @ApiOperation(
+    value = "add an app",
+    response = SSAppAddRet.class)
+  public String appAdd(final SSAppAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appsGet")
+  @ApiOperation(
+    value = "retrieve apps",
+    response = SSAppsGetRet.class)
+  public String appsGet(final SSAppsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutCreate")
+  @ApiOperation(
+    value = "create an arrangement of tiles within an app",
+    response = SSAppStackLayoutCreateRet.class)
+  public String appStackLayoutCreate(final SSAppStackLayoutCreatePar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutCreate);
+  }
+  
+   @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutTileAdd")
+  @ApiOperation(
+    value = "add a tile to stack",
+    response = SSAppStackLayoutTileAddRet.class)
+  public String appStackLayoutTileAdd(final SSAppStackLayoutTileAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutTileAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutsGet")
+  @ApiOperation(
+    value = "retrieve appStackLayouts",
+    response = SSAppStackLayoutsGetRet.class)
+  public String appStackLayoutsGet(final SSAppStackLayoutsGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendAdd")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendUserAddRet.class)
+  public String friendAdd(final SSFriendUserAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendsGet")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendsUserGetRet.class)
+  public String friendsGet(final SSFriendsUserGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
   }
 }
 

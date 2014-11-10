@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.recomm.conf.SSFriendConf;
 import at.kc.tugraz.ss.recomm.conf.SSMessageConf;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
@@ -51,6 +52,8 @@ import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
 import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
+import at.kc.tugraz.sss.app.conf.SSAppConf;
+import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 
@@ -59,39 +62,42 @@ public class SSCoreConf extends SSCoreConfA{
   private static       SSCoreConf        inst;
 //  private static final List<SSConfA>     confs = new ArrayList<SSConfA>();
   
-  private SSConf              ssConf             = null;
-  private SSJSONLDConf        jsonLDConf         = null;
-  private SSDBGraphConf       dbGraphConf        = null;
-  private SSDBSQLConf         dbSQLConf          = null;
-  private SSModelUEConf       modelConf          = null;
-  private SSLogConf           logConf            = null;
-  private SSFileRepoConf      filerepoConf       = null;
-  private SSFileRepoConf      solrConf           = null;
-  private SSVocConf           vocConf            = null;
-  private SSBroadcasterConf   broadcasterConf    = null;
-  private SSRecommConf        recommConf         = null;
-  private SSFileSysLocalConf  fileSysLocalConf   = null;
-  private SSEvernoteConf      evernoteConf       = null;
-  private SSI5CloudConf       i5CloudConf        = null;
-  private SSCloudConf         cloudConf          = null;
-  private SSAuthConf          authConf           = null;
-  private SSDataImportConf    dataImportConf     = null;
-  private SSDataExportConf    dataExportConf     = null;
-  private SSLOMExtractorConf  lomExtractorConf   = null;
-  private SSUserConf          userConf           = null;
-  private SSEntityConf        entityConf         = null;
-  private SSCollConf          collConf           = null;
-  private SSActivityConf      activityConf       = null;
-  private SSUEConf            ueConf             = null;
-  private SSRatingConf        ratingConf         = null;
-  private SSTagConf           tagConf            = null;
-  private SSSearchConf        searchConf         = null;
-  private SSDiscConf          discConf           = null;
-  private SSLearnEpConf       learnEpConf        = null;
-  private SSCategoryConf      categoryConf       = null;
-  private SSFlagConf          flagConf           = null;
-  private SSCommentConf       commentConf        = null;
-  private SSMessageConf       messageConf        = null;
+  private SSConf                ssConf             = null;
+  private SSJSONLDConf          jsonLDConf         = null;
+  private SSDBGraphConf         dbGraphConf        = null;
+  private SSDBSQLConf           dbSQLConf          = null;
+  private SSModelUEConf         modelConf          = null;
+  private SSLogConf             logConf            = null;
+  private SSFileRepoConf        filerepoConf       = null;
+  private SSFileRepoConf        solrConf           = null;
+  private SSVocConf             vocConf            = null;
+  private SSBroadcasterConf     broadcasterConf    = null;
+  private SSRecommConf          recommConf         = null;
+  private SSFileSysLocalConf    fileSysLocalConf   = null;
+  private SSEvernoteConf        evernoteConf       = null;
+  private SSI5CloudConf         i5CloudConf        = null;
+  private SSCloudConf           cloudConf          = null;
+  private SSAuthConf            authConf           = null;
+  private SSDataImportConf      dataImportConf     = null;
+  private SSDataExportConf      dataExportConf     = null;
+  private SSLOMExtractorConf    lomExtractorConf   = null;
+  private SSUserConf            userConf           = null;
+  private SSEntityConf          entityConf         = null;
+  private SSCollConf            collConf           = null;
+  private SSActivityConf        activityConf       = null;
+  private SSUEConf              ueConf             = null;
+  private SSRatingConf          ratingConf         = null;
+  private SSTagConf             tagConf            = null;
+  private SSSearchConf          searchConf         = null;
+  private SSDiscConf            discConf           = null;
+  private SSLearnEpConf         learnEpConf        = null;
+  private SSCategoryConf        categoryConf       = null;
+  private SSFlagConf            flagConf           = null;
+  private SSCommentConf         commentConf        = null;
+  private SSMessageConf         messageConf        = null;
+  private SSAppConf             appConf            = null;
+  private SSFriendConf          friendConf         = null;
+  private SSAppStackLayoutConf  appStackLayoutConf = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -215,6 +221,30 @@ public class SSCoreConf extends SSCoreConfA{
     this.commentConf = commentConf;
   }
   
+  public SSFriendConf getFriendConf() {
+    return friendConf;
+  }
+
+  public void setFriendConf(SSFriendConf friendConf) {
+    this.friendConf = friendConf;
+  }
+  
+  public SSAppStackLayoutConf getAppStackLayoutConf() {
+    return appStackLayoutConf;
+  }
+
+  public void setAppStackLayoutConf(SSAppStackLayoutConf appStackLayoutConf) {
+    this.appStackLayoutConf = appStackLayoutConf;
+  }
+  
+  public SSAppConf getAppConf() {
+    return appConf;
+  }
+
+  public void setAppConf(SSAppConf appConf) {
+    this.appConf = appConf;
+  }
+    
   public SSMessageConf getMessageConf() {
     return messageConf;
   }

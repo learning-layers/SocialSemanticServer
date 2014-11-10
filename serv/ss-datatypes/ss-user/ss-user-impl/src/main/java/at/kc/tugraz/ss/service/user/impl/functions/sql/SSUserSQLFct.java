@@ -152,7 +152,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-       final List<String>       columns          = new ArrayList<>();
+      final List<String>       columns          = new ArrayList<>();
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();

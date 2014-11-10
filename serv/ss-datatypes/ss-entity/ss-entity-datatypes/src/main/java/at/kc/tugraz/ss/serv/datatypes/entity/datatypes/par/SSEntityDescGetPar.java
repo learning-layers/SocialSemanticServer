@@ -76,6 +76,12 @@ public class SSEntityDescGetPar extends SSServPar{
     value = "whether flags for this user and entity should be included")
   public Boolean  getFlags          = false;
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the entity's circles should be included")
+  public Boolean  getCircles          = false;
+  
   public SSEntityDescGetPar(){}
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{
@@ -92,6 +98,7 @@ public class SSEntityDescGetPar extends SSServPar{
         getUEs           = (Boolean) pars.get(SSVarU.getUEs);
         getThumb         = (Boolean) pars.get(SSVarU.getThumb);
         getFlags         = (Boolean) pars.get(SSVarU.getFlags);
+        getCircles       = (Boolean) pars.get(SSVarU.getCircles);
       }
       
       if(par.clientJSONObj != null){
@@ -119,6 +126,10 @@ public class SSEntityDescGetPar extends SSServPar{
         
         try{
           getFlags        = par.clientJSONObj.get(SSVarU.getFlags).getBooleanValue();
+        }catch(Exception error){}
+        
+        try{
+          getCircles        = par.clientJSONObj.get(SSVarU.getCircles).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

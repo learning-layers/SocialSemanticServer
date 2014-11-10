@@ -26,11 +26,44 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSUser extends SSEntity{
 
-  public String email = null;
+  @ApiModelProperty(
+    required = false,
+    value = "friends")
+  public List<SSEntity>       friends      = new ArrayList<>();
+
+  @ApiModelProperty(
+    required = false,
+    value = "email")
+  public String      email   = null;
+  
+  public static SSUser get(
+    final SSUser         user,
+    final SSEntity       entity) throws Exception{
+    
+    return new SSUser(user, entity);
+  }
+  
+  protected SSUser(
+    final SSUser         user,
+    final SSEntity       entity) throws Exception{
+    
+    super(entity);
+    
+    this.email      = user.email;
+    
+    if(user.friends != null){
+      this.friends.addAll(user.friends);
+    }
+  }
   
   public static SSUser get(
     final SSUri    id,
@@ -53,10 +86,21 @@ public class SSUser extends SSEntity{
   @Override
   public Object jsonLDDesc(){
     
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> ld         = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> friendsObj = new HashMap<>();
     
-    ld.put(SSVarU.email, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarU.email,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    
+    friendsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.friends, friendsObj);
     
     return ld;
+  }
+  
+  /* json getteres */
+  public List<? extends SSEntity> getFriends() throws Exception{
+    return friends;
   }
 }

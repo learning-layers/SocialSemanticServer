@@ -24,6 +24,15 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String tile                                           = "tile";
+  public static final String stacks                                         = "stacks";
+  public static final String stack                                          = "stack";
+  public static final String friends                                        = "friends";
+  public static final String friend                                         = "friend";
+  public static final String videos                                         = "videos";
+  public static final String images                                         = "images";
+  public static final String apps                                           = "apps";
+  public static final String appType                                        = "appType";
   public static final String includeRead                                    = "includeRead";
   public static final String messages                                       = "messages";
   public static final String message                                        = "message";
@@ -89,6 +98,8 @@ public class SSVarU{
   public static final String getDiscs                                       = "getDiscs";
   public static final String getUEs                                         = "getUEs";
   public static final String getFlags                                       = "getFlags";
+  public static final String getFriends                                     = "getFriends";
+  public static final String getCircles                                     = "getCircles";
   public static final String getThumb                                       = "getThumb";
   public static final String getTags                                        = "getTags";
   public static final String addNewDisc                                     = "addNewDisc";
@@ -207,6 +218,15 @@ public class SSVarU{
   public static final String errorMethodsWhereThrown                        = "errorMethodsWhereThrown";
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String label                                          = "label";
+  public static final String descriptionShort                               = "descriptionShort";
+  public static final String descriptionFunctional                          = "descriptionFunctional";
+  public static final String descriptionTechnical                           = "descriptionTechnical";
+  public static final String descriptionInstall                             = "descriptionInstall";
+  public static final String downloadIOS                                    = "downloadIOS";
+  public static final String downloadAndroid                                = "downloadAndroid";
+  public static final String downloads                                      = "downloads";
+  public static final String screenShots                                    = "screenShots";
+  public static final String fork                                           = "fork";
   public static final String likelihood                                     = "likelihood";
   public static final String creationTime                                   = "creationTime";
   public static final String isPredefined                                   = "isPredefined";

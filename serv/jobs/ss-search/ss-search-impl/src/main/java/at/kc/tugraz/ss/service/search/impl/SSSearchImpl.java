@@ -504,6 +504,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           false,
           false,
           false,
+          false,
           false);
       
       entity.entries.addAll(

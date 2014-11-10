@@ -22,6 +22,21 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //friend
+  friendsGet,
+  friendsUserGet,
+  friendAdd,
+  friendUserAdd,
+
+  //appStackLayout
+  appStackLayoutsGet,
+  appStackLayoutCreate,
+  appStackLayoutTileAdd,
+  
+  //app
+  appsGet,
+  appAdd,
+  
   //message
   messageSend,
   messagesGet,
@@ -111,6 +126,9 @@ public enum SSMethU{
   entityEntitiesAttachedGet,  
   entityUserCommentsGet,
   entityReadGet,
+  entityScreenShotsGet,
+  entityDownloadURIsGet,
+  entityVideosGet,
   
   //learn ep
   learnEpsGet                                         ,
@@ -334,7 +352,8 @@ public enum SSMethU{
   activityContentAdd,
   activityContentsAdd,
   activitiesGet,
-  activitiesUserGet;
+  activitiesUserGet,
+  activityTypesGet;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

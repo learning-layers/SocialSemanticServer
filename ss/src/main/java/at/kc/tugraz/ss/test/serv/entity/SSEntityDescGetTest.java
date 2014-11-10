@@ -42,15 +42,17 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
     
     SSLogU.info("start " + op + " Test");
     
-    final SSEntity desc = SSServCaller.entityDescGet(
-      SSVoc.systemUserUri, 
-      SSVoc.systemUserUri,
-      true, 
-      true, 
-      true, 
-      true,
-      true,
-      true);
+    final SSEntity desc =
+      SSServCaller.entityDescGet(
+        SSVoc.systemUserUri,
+        SSVoc.systemUserUri,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false);
     
     SSLogU.info("end " + op + " Test");
   }
@@ -71,7 +73,8 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
       true, 
       true,
       true,
-      true);
+      true, 
+      false);
     
     createJSONClientRetStr(SSEntityDescGetRet.get(serverServResult, op));
       

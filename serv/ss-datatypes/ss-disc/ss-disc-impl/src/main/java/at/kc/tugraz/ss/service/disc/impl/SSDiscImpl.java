@@ -137,10 +137,10 @@ implements
           usersResources.put(user, resourceList);
         }
       }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
-      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
     }
   }
   
@@ -380,6 +380,7 @@ implements
           par.user,
           par.disc,
           par.users,
+          SSUri.asListWithoutNullAndEmpty(),
           null,
           false);
       }

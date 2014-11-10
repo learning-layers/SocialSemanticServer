@@ -46,6 +46,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCreateUriPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;

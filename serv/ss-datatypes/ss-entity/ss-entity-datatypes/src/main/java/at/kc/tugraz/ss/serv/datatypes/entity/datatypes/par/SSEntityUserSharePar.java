@@ -44,13 +44,23 @@ public class SSEntityUserSharePar extends SSServPar{
   }
   
   @ApiModelProperty( 
-    required = true, 
+    required = false, 
     value = "user to share the entity with")
   public List<SSUri>   users           = new ArrayList<>();
     
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users);
+  }
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "circles to share the entity with")
+  public List<SSUri>   circles           = new ArrayList<>();
+    
+  @XmlElement
+  public void setGroups(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
   }
   
   @ApiModelProperty( 
@@ -74,10 +84,8 @@ public class SSEntityUserSharePar extends SSServPar{
       if(pars != null){
         entity       = (SSUri)                   pars.get(SSVarU.entity);
         users        = (List<SSUri>)             pars.get(SSVarU.users);
-        
-        try{
-          comment    = SSTextComment.get((String)pars.get(SSVarU.comment));
-        }catch(Exception error){}
+        circles       = (List<SSUri>)             pars.get(SSVarU.circles);
+        comment      = (SSTextComment)           pars.get(SSVarU.comment);
       }
       
       if(par.clientJSONObj != null){
@@ -88,6 +96,12 @@ public class SSEntityUserSharePar extends SSServPar{
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
+            circles.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
@@ -107,6 +121,10 @@ public class SSEntityUserSharePar extends SSServPar{
   
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public List<String> getCircles() throws Exception{
+    return SSStrU.removeTrailingSlash(circles);
   }
   
   public String getComment(){

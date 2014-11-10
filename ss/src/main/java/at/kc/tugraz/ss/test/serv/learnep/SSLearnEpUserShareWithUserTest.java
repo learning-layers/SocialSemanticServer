@@ -90,6 +90,7 @@ public class SSLearnEpUserShareWithUserTest extends SSServOpTestCaseA{
       SSVoc.systemUserUri, 
       learnEp, 
       SSUri.asListWithoutNullAndEmpty(userToShareWith), 
+      SSUri.asListWithoutNullAndEmpty(),
       SSTextComment.get("maybe the first learn ep share"),
       true);
     
