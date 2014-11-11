@@ -209,6 +209,146 @@ search for entities
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityUserCirclesGet`
+
+retrieve circles the user is in
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
+        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityEntitiesToCircleAdd`
+
+add given entities to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
+        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityUsersToCircleAdd`
+
+add given users to a user-generated circle
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
+        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityCircleCreate`
+
+create a circle and add users and entities to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
+        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/dataImportEvernote`
+
+import data from evernote for certain user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
+        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesPredefinedGet`
+
+get predefined categories
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
+        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/entityEntityUsersGet`
 
 retrieve users who can access given entity
@@ -529,126 +669,6 @@ retrieve appStackLayouts
 
 
 - - -
-#### **POST** `/entityUserCirclesGet`
-
-retrieve circles the user is in
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
-        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityEntitiesToCircleAdd`
-
-add given entities to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserEntitiesToCircleAddPar">SSEntityUserEntitiesToCircleAddPar</a> </td>
-        <td>  [SSEntityUserEntitiesToCircleAddRet](#SSEntityUserEntitiesToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityUsersToCircleAdd`
-
-add given users to a user-generated circle
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
-        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityCircleCreate`
-
-create a circle and add users and entities to
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
-        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/dataImportEvernote`
-
-import data from evernote for certain user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
-        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesPredefinedGet`
-
-get predefined categories
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
-        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/flagsGet`
 
 retrieve flags set
@@ -789,26 +809,6 @@ add an activity
 
 
 - - -
-#### **POST** `/systemVersionGet`
-
-retrieve the version of the sss instance
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
-        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityPublicSet`
 
 set an entity public (make it accessible for everyone)
@@ -823,6 +823,26 @@ set an entity public (make it accessible for everyone)
     <tr>
         <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
         <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/systemVersionGet`
+
+retrieve the version of the sss instance
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
+        <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
     </tr>
 </table>
 
@@ -1649,26 +1669,6 @@ add a friend
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 
 ## Data Types
 
@@ -1802,16 +1802,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -1844,16 +1844,16 @@ remove certain attached attributes from an entity
         <td>type of the activity</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2768,16 +2768,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -2804,16 +2804,16 @@ remove certain attached attributes from an entity
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>app</td>
@@ -3776,16 +3776,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -3812,16 +3812,16 @@ remove certain attached attributes from an entity
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -4802,16 +4802,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -4838,16 +4838,16 @@ remove certain attached attributes from an entity
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5012,16 +5012,16 @@ remove certain attached attributes from an entity
         <td>the user's access tocken</td>
     </tr>
     <tr>
-        <td>entities</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)</td>
-    </tr>
-    <tr>
         <td>disc</td>
         <td>string</td>
         <td></td>
         <td>discussion to add an entry for (optional in case of a new discussion)</td>
+    </tr>
+    <tr>
+        <td>entities</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)</td>
     </tr>
     <tr>
         <td>user</td>
@@ -5306,16 +5306,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -5342,16 +5342,16 @@ remove certain attached attributes from an entity
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -6596,16 +6596,16 @@ remove certain attached attributes from an entity
         <th>description</th>
     </tr>
     <tr>
-        <td>users</td>
-        <td>Array[string]</td>
-        <td>true</td>
-        <td>users to add</td>
-    </tr>
-    <tr>
         <td>circle</td>
         <td>string</td>
         <td>true</td>
         <td>circle to add users to</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td>true</td>
+        <td>users to add</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7442,16 +7442,16 @@ remove certain attached attributes from an entity
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>images</td>
@@ -7478,16 +7478,16 @@ remove certain attached attributes from an entity
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -8018,13 +8018,13 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>

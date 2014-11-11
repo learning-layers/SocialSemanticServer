@@ -26,6 +26,6 @@
 	<module>flag</module>
 	<module>comment</module>
 	<module>app</module>
-	<module>appStackLayout</module>
+	<module>appstacklayout</module>
   </modules>
 </project>
