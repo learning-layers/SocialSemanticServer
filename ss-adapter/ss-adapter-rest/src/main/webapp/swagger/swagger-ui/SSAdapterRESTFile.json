@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"

@@ -103,6 +103,8 @@ i5CloudConf:
   executeOpAtStartUp: false
   lasPass: 
   lasUser: 
+  oidcConfURI: #http://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration, http://10.255.255.17/o/oauth2/.well-known/openid-configuration
+  oidcUserEndPointURI: #http://api.learning-layers.eu/o/oauth2/userinfo, http://10.255.255.17/o/oauth2/userinfo
   op: null
   pass: 
   uri: http://137.226.58.11:8081/i5Cloud/services/4/

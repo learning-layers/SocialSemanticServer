@@ -24,21 +24,25 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSI5CloudConf extends SSServConfA{
   
-  public String uri       = null;
-  public String userLabel = null;
-  public String pass      = null;
-  public String lasUser   = null;
-  public String lasPass   = null;
+  public String uri                 = null;
+  public String userLabel           = null;
+  public String pass                = null;
+  public String lasUser             = null;
+  public String lasPass             = null;
+  public String oidcConfURI         = null;
+  public String oidcUserEndPointURI = null;
   
   public static SSI5CloudConf copy(final SSI5CloudConf orig){
     
     final SSI5CloudConf copy = (SSI5CloudConf) SSServConfA.copy(orig, new SSI5CloudConf());
     
-    copy.uri               = orig.uri;
-    copy.userLabel         = orig.userLabel;
-    copy.pass              = orig.pass;
-    copy.lasUser           = orig.lasUser;
-    copy.lasPass           = orig.lasPass;
+    copy.uri                 = orig.uri;
+    copy.userLabel           = orig.userLabel;
+    copy.pass                = orig.pass;
+    copy.lasUser             = orig.lasUser;
+    copy.lasPass             = orig.lasPass;
+    copy.oidcConfURI         = orig.oidcConfURI;
+    copy.oidcUserEndPointURI = orig.oidcUserEndPointURI;
     
     return copy;
   }

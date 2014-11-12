@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.auth.impl.fct.oidc;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.http.HTTPRequest;
@@ -29,11 +31,9 @@ import com.nimbusds.openid.connect.sdk.UserInfoResponse;
 import com.nimbusds.openid.connect.sdk.UserInfoSuccessResponse;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 
 public class SSAuthOIDC{
   
@@ -46,8 +46,8 @@ public class SSAuthOIDC{
     final UserInfoResponse userInfoResponse;
       
     try{
-      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
-      hrq                     = new HTTPRequest(HTTPRequest.Method.GET, userinfoEndpointUri.toURL());
+//      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
+      hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getI5CloudConf().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
       hrq.setAuthorization("Bearer "+ authToken);
       
       //TODO: process all error cases that can happen (in particular invalid tokens)
@@ -97,7 +97,7 @@ public class SSAuthOIDC{
 //      email              = (String) ujson.get("email");
 //      loginName          = (String) ujson.get("preferred_username");
       
-      return (String) ujson.get("mail");
+      return (String) ujson.get(SSVarU.email);
       
     } catch (Exception error) {
       SSServErrReg.regErrThrow(error);
@@ -105,22 +105,22 @@ public class SSAuthOIDC{
     }
   }
   
-  private static JSONObject fetchOidcProviderConfig() throws Exception{
-
-		JSONObject result = new JSONObject();
-
-		//send Open ID Provider Config request
-		//(cf. http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig)
-    URL         pConfigDocUri  = new URL("http://api.learning-layers.eu/o/oauth2".trim() + "/.well-known/openid-configuration");
-		HTTPRequest pConfigRequest = new HTTPRequest(HTTPRequest.Method.GET, pConfigDocUri);
-
-		// parse JSON result
-		String     configStr = pConfigRequest.send().getContent();
-		JSONObject config    = (JSONObject) JSONValue.parseWithException(configStr);
-
-		// put JSON result in result table
-		result.put("config", config);
-
-		return result;
-	}
+//  private static JSONObject fetchOidcProviderConfig() throws Exception{
+//
+//		JSONObject result = new JSONObject();
+//
+//		//send Open ID Provider Config request
+//		//(cf. http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig)
+//    URL         pConfigDocUri  = new URL(SSCoreConf.instGet().getI5CloudConf().oidcConfURI); //"http://api.learning-layers.eu/o/oauth2".trim() + "/.well-known/openid-configuration"
+//		HTTPRequest pConfigRequest = new HTTPRequest(HTTPRequest.Method.GET, pConfigDocUri);
+//
+//		// parse JSON result
+//		String     configStr = pConfigRequest.send().getContent();
+//		JSONObject config    = (JSONObject) JSONValue.parseWithException(configStr);
+//
+//		// put JSON result in result table
+//		result.put("config", config);
+//
+//		return result;
+//	}
 }

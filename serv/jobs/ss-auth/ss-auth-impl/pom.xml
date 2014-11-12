@@ -19,12 +19,11 @@
   <dependencies>
   
     <dependency>
-      <groupId>com.nimbusds</groupId>
-      <artifactId>oauth2-oidc-sdk</artifactId>
-      <version>4.5</version>
-    </dependency>
-
-
+      <groupId>sss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-voc-serv</artifactId>
@@ -71,6 +70,12 @@
       <groupId>sss.serv</groupId>
       <artifactId>ss-auth-api</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>oauth2-oidc-sdk</artifactId>
+      <version>4.5</version>
     </dependency>
     
     <dependency>
