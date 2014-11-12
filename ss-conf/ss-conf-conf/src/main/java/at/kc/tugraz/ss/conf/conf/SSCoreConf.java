@@ -54,6 +54,7 @@ import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
 import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
+import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 
@@ -98,6 +99,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSAppConf             appConf            = null;
   private SSFriendConf          friendConf         = null;
   private SSAppStackLayoutConf  appStackLayoutConf = null;
+  private SSVideoConf           videoConf          = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -227,6 +229,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setFriendConf(SSFriendConf friendConf) {
     this.friendConf = friendConf;
+  }
+  
+  public SSVideoConf getVideoConf() {
+    return videoConf;
+  }
+
+  public void setVideoConf(SSVideoConf videoConf) {
+    this.videoConf = videoConf;
   }
   
   public SSAppStackLayoutConf getAppStackLayoutConf() {

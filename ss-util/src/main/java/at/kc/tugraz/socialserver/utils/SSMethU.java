@@ -22,6 +22,11 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //video
+  videosGet,
+  videoAdd,
+  videoAnnotationAdd,
+
   //friend
   friendsGet,
   friendsUserGet,
@@ -128,7 +133,6 @@ public enum SSMethU{
   entityReadGet,
   entityScreenShotsGet,
   entityDownloadURIsGet,
-  entityVideosGet,
   
   //learn ep
   learnEpsGet                                         ,

@@ -147,6 +147,11 @@ public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
     required = false,
+    value = "locations")
+  public List<SSEntity>       locations    = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
     value = "whether user has read the entry")
   public  Boolean       read;
   
@@ -215,6 +220,7 @@ public class SSEntity extends SSEntityA{
     this.videos           = entity.videos;
     this.images           = entity.images;
     this.circles          = entity.circles;
+    this.locations        = entity.locations;
   }
   
   @Override
@@ -234,6 +240,7 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> usersObj            = new HashMap<>();
     final Map<String, Object> imagesObj           = new HashMap<>();
     final Map<String, Object> videosObj           = new HashMap<>();
+    final Map<String, Object> locationsObj        = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -312,6 +319,11 @@ public class SSEntity extends SSEntityA{
     
     ld.put(SSVarU.circleTypes, circleTypesObj);
     
+    locationsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    locationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.locations, locationsObj);
+    
     return ld;
   }
 
@@ -363,6 +375,10 @@ public class SSEntity extends SSEntityA{
   
   public List<? extends SSEntity> getCircles() throws Exception{
     return circles;
+  }
+  
+  public List<? extends SSEntity> getLocations() throws Exception{
+    return locations;
   }
   
   public List<String> getComments() throws Exception{

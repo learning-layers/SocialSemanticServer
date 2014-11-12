@@ -24,6 +24,10 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String forEntity                                      = "forEntity";
+  public static final String annotation                                     = "annotation";
+  public static final String timePoint                                      = "timePoint";
+  public static final String video                                          = "video";
   public static final String tile                                           = "tile";
   public static final String stacks                                         = "stacks";
   public static final String stack                                          = "stack";
@@ -218,6 +222,8 @@ public class SSVarU{
   public static final String errorMethodsWhereThrown                        = "errorMethodsWhereThrown";
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String label                                          = "label";
+  public static final String uuid                                           = "uuid";
+  public static final String genre                                          = "genre";
   public static final String descriptionShort                               = "descriptionShort";
   public static final String descriptionFunctional                          = "descriptionFunctional";
   public static final String descriptionTechnical                           = "descriptionTechnical";

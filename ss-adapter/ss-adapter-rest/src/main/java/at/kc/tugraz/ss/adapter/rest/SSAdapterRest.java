@@ -170,6 +170,12 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideosGetPar;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAddRet;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationAddRet;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideosGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -1138,6 +1144,39 @@ public class SSAdapterRest{
     response = SSFriendsUserGetRet.class)
   public String friendsGet(final SSFriendsUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "videoAdd")
+  @ApiOperation(
+    value = "add a video",
+    response = SSVideoAddRet.class)
+  public String videoAdd(final SSVideoAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videoAdd);
+  }
+  
+   @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "videoAnnotationAdd")
+  @ApiOperation(
+    value = "add an annotation to a video",
+    response = SSVideoAnnotationAddRet.class)
+  public String videoAnnotationAdd(final SSVideoAnnotationAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videoAnnotationAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "videosGet")
+  @ApiOperation(
+    value = "retrieve videos",
+    response = SSVideosGetRet.class)
+  public String videosGet(final SSVideosGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videosGet);
   }
 }
 

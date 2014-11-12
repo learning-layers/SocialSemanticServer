@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.app.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -43,6 +44,7 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppServerI, SSEntityDescriberI{
@@ -137,17 +139,17 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
           false);
       }
       
-      for(SSUri video : par.videos){
-      
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user, 
-          video, 
-          SSEntityE.video, 
-          null, 
-          null, 
-          null, 
-          false);
-      }
+//        for(SSUri video : par.videos){
+//          
+////          SSServCaller.entityEntityToPubCircleAdd(
+////            par.user,
+////            video,
+////            SSEntityE.video,
+////            null,
+////            null,
+////            null,
+////            false);
+//            }
       
       SSServCaller.entityUpdate(
         par.user,
@@ -158,7 +160,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         par.downloads,
         par.screenShots,
         SSUri.asListWithoutNullAndEmpty(),
-        par.videos, 
+        par.videos,
         false);
       
       dbSQL.commit(par.shouldCommit);
@@ -228,10 +230,20 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
             par.user, 
             app.id));
         
-         entity.videos.addAll(
-          SSServCaller.entityVideosGet(
-            par.user, 
-            app.id));
+        try{
+          
+          entity.videos.addAll(
+            SSServCaller.videosGet(
+              par.user,
+              app.id));
+          
+        }catch(SSErr error){
+          
+          switch(error.code){
+            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+            default: SSServErrReg.regErrThrow(error);
+          }
+        }
          
          apps.add(entity);
       }

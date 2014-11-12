@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
-import at.kc.tugraz.ss.datatypes.datatypes.SSVideo;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -93,7 +92,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityVideosGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -418,11 +416,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.description,
         par.user,
         null);
-      
-      for(SSUri video : par.videos){
-        
-        sqlFct.addVideo        (par.entity, video);
-      }
       
       for(SSUri screenShot : par.screenShots){
         sqlFct.addScreenShot   (par.entity, screenShot);
@@ -1765,20 +1758,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
       
       return sqlFct.getFiles(par.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSVideo> entityVideosGet(SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityVideosGetPar par = new SSEntityVideosGetPar(parA);
-      
-      return SSVideo.get(sqlFct.getVideos(par.entity));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

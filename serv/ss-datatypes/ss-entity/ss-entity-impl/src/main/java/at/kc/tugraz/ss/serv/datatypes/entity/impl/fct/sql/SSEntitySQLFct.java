@@ -818,28 +818,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
     
-  public List<SSUri> getVideos(SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final Map<String, String> wheres            = new HashMap<>();
-      
-      where(wheres, SSSQLVarU.entityId, entity);
-      
-      resultSet = dbSQL.select(videosTable, wheres);
-      
-      return getURIsFromResult(resultSet, SSSQLVarU.videoId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public List<SSUri> getFiles(final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -1353,28 +1331,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public void addVideo(
-    final SSUri   entity, 
-    final SSUri   video) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarU.entityId,    entity);
-      insert(inserts, SSSQLVarU.videoId,     video);
-      
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.videoId,  video);
-      
-      dbSQL.insertIfNotExists(videosTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void addDownload(
     final SSUri   entity, 
     final SSUri   download) throws Exception{
@@ -1412,7 +1368,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
       uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
       
-      dbSQL.insertIfNotExists(imagesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(entityImagesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -55,6 +55,7 @@ public enum SSEntityE implements SSJSONLDPropI{
   flag,
   comment,
   video,
+  videoAnnotation,
   message,
   app,
   image,

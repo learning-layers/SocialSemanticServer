@@ -27,5 +27,6 @@
 	<module>comment</module>
 	<module>app</module>
 	<module>appstacklayout</module>
+	<module>video</module>
   </modules>
 </project>

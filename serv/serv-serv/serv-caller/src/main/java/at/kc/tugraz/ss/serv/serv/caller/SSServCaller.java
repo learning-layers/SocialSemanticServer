@@ -716,6 +716,14 @@ public class SSServCaller {
     return SSUri.get(vocPrefix, SSIDU.uniqueID());
   }
   
+  public static SSUri vocURICreate(final String id) throws Exception{
+    
+    final Map<String, Object> opPars    = new HashMap<>();
+    final SSUri               vocPrefix = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
+    
+    return SSUri.get(vocPrefix, id);
+  }
+  
   /* colls */
   
   public static SSUri collToCircleAdd(
@@ -1307,16 +1315,16 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityFilesGet, opPars));
   }
   
-  public static List<? extends SSEntity> entityVideosGet(
+  public static List<? extends SSEntity> videosGet(
     final SSUri user, 
-    final SSUri entity) throws Exception{
+    final SSUri forEntity) throws Exception{
    
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.forEntity,    forEntity);
     
-    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entityVideosGet, opPars));
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.videosGet, opPars));
   }
   
   public static List<SSUri> entityDownloadURIsGet(

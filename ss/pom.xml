@@ -152,6 +152,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>sss.serv.video</groupId>
+      <artifactId>video.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.appstacklayout</groupId>
       <artifactId>appstacklayout.serv</artifactId>
       <version>${project.version}</version>

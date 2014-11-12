@@ -60,6 +60,7 @@ import at.kc.tugraz.sss.app.serv.SSAppServ;
 import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
+import at.kc.tugraz.sss.video.serv.SSVideoServ;
 
 public class SSSInitializer extends SSServImplStartA{
   
@@ -116,6 +117,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSAppServ.inst.regServ             (SSCoreConf.instGet().getAppConf());
       SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriendConf());
       SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayoutConf());
+      SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideoConf());
 
       //initializing
       SSVoc.inst.initServ();
@@ -152,6 +154,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSAppServ.inst.initServ();
       SSFriendServ.inst.initServ();
       SSAppStackLayoutServ.inst.initServ();
+      SSVideoServ.inst.initServ();
       
       //scheduling
       SSModelUEServ.inst.schedule   ();

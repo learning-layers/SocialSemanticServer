@@ -192,6 +192,8 @@ userConf:
   executeOpAtStartUp: false
   op: null
   use: true
+videoConf:
+  use: true
 vocConf:
   app: bp
   executeOpAtStartUp: false

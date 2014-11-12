@@ -220,7 +220,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query += tableName + SSStrU.comma;
     }
     
-    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.blank;
+    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
     
     for(String tableConection : tableConnections){
       query += tableConection + " AND ";
