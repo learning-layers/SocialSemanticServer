@@ -142,26 +142,45 @@ public class SSDataImportEvernoteHelper {
     final SSUri    notebookUri,
     final Notebook notebook) throws Exception{
     
-    final List<SSUE> existingUEs =
+    final List<SSUE> existingCreationUEs =
       SSServCaller.uEsGet(
         userUri,
         userUri,
         notebookUri,
-        SSUEE.evernoteNotebookUpdate,
+        SSUEE.evernoteNotebookCreate,
+        null,
+        null);
+    
+    if(existingCreationUEs.isEmpty()){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        notebookUri,
+        SSUEE.evernoteNotebookCreate,
+        SSStrU.empty,
+        notebook.getServiceCreated(),
+        false);
+    }
+    
+    final List<SSUE> existingUpdatingUEs =
+      SSServCaller.uEsGet(
+        userUri,
+        userUri,
+        notebookUri,
+        SSUEE.evernoteNotebookCreate,
         notebook.getServiceUpdated(),
         notebook.getServiceUpdated());
     
-    if(!existingUEs.isEmpty()){
-      return;
+    if(existingUpdatingUEs.isEmpty()){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        notebookUri,
+        SSUEE.evernoteNotebookUpdate,
+        SSStrU.empty,
+        notebook.getServiceUpdated(),
+        false);
     }
-    
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      notebookUri,
-      SSUEE.evernoteNotebookUpdate,
-      SSStrU.empty,
-      notebook.getServiceUpdated(),
-      false);
   }
   
   public void handleLinkedNotebooks() throws Exception{
@@ -324,7 +343,27 @@ public class SSDataImportEvernoteHelper {
     
     Boolean tagExists;
     
-    final List<SSUE> existingUEs =
+    final List<SSUE> existingCreationUEs =
+      SSServCaller.uEsGet(
+        userUri,
+        userUri,
+        noteUri,
+        SSUEE.evernoteNoteCreate,
+        null,
+        null);
+    
+    if(existingCreationUEs.isEmpty()){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteNoteCreate,
+        SSStrU.empty,
+        note.getCreated(),
+        false);
+    }
+    
+    final List<SSUE> existingUpdateUEs =
       SSServCaller.uEsGet(
         userUri,
         userUri,
@@ -333,49 +372,47 @@ public class SSDataImportEvernoteHelper {
         note.getUpdated(),
         note.getUpdated());
     
-    if(!existingUEs.isEmpty()){
-      return;
+    if(existingUpdateUEs.isEmpty()){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        noteUri,
+        SSUEE.evernoteNoteUpdate,
+        SSStrU.empty,
+        note.getUpdated(),
+        false);
     }
-    
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      noteUri,
-      SSUEE.evernoteNoteUpdate,
-      SSStrU.empty,
-      note.getUpdated(),
-      false);
-    
+
     if(note.getDeleted() != 0L){
       
-      existingUEs.clear();
-      
-      existingUEs.addAll(
+      final List<SSUE> existingDeleteUEs = 
         SSServCaller.uEsGet(
           userUri,
           userUri,
           noteUri,
           SSUEE.evernoteNoteDelete,
+          null,
+          null);
+      
+      if(existingDeleteUEs.isEmpty()){
+        
+        SSServCaller.uEAddAtCreationTime(
+          userUri,
+          noteUri,
+          SSUEE.evernoteNoteDelete,
+          SSStrU.empty,
           note.getDeleted(),
-          note.getDeleted()));
-      
-      if(!existingUEs.isEmpty()){
-        return;
+          false);
       }
-      
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteNoteDelete,
-        SSStrU.empty,
-        note.getDeleted(),
-        false);
     }
+    
+    final List<SSUE> existingTagUEs = new ArrayList<>();
     
     for(String tag : noteTags){
       
-      existingUEs.clear();
+      existingTagUEs.clear();
       
-      existingUEs.addAll(
+      existingTagUEs.addAll(
         SSServCaller.uEsGet(
           userUri,
           userUri,
@@ -386,7 +423,7 @@ public class SSDataImportEvernoteHelper {
 
       tagExists = false;
       
-      for(SSUE ue : existingUEs){
+      for(SSUE ue : existingTagUEs){
         
         if(SSStrU.equals(ue.content, tag)){
           tagExists = true;
@@ -414,80 +451,71 @@ public class SSDataImportEvernoteHelper {
     
     if(noteAttr.getShareDate() != 0L){
   
-      existingUEs.clear();
-      
-      existingUEs.addAll(
+      final List<SSUE> existingShareUEs =
         SSServCaller.uEsGet(
           userUri,
           userUri,
           noteUri,
           SSUEE.evernoteNoteShare,
           noteAttr.getShareDate(),
-          noteAttr.getShareDate()));
+          noteAttr.getShareDate());
       
-      if(!existingUEs.isEmpty()){
-        return;
+      if(existingShareUEs.isEmpty()){
+        
+        SSServCaller.uEAddAtCreationTime(
+          userUri,
+          noteUri,
+          SSUEE.evernoteNoteShare,
+          SSStrU.empty,
+          noteAttr.getShareDate(),
+          false);
       }
-      
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteNoteShare,
-        SSStrU.empty,
-        noteAttr.getShareDate(),
-        false);
     }
     
     if(noteAttr.getReminderDoneTime() != 0L){
       
-      existingUEs.clear();
-      
-      existingUEs.addAll(
+      final List<SSUE> existingReminderUEs = 
         SSServCaller.uEsGet(
           userUri,
           userUri,
           noteUri,
           SSUEE.evernoteReminderDone,
           noteAttr.getReminderDoneTime(),
-          noteAttr.getReminderDoneTime()));
+          noteAttr.getReminderDoneTime());
       
-      if(!existingUEs.isEmpty()){
-        return;
+      if(existingReminderUEs.isEmpty()){
+       
+        SSServCaller.uEAddAtCreationTime(
+          userUri,
+          noteUri,
+          SSUEE.evernoteReminderDone,
+          SSStrU.empty,
+          noteAttr.getReminderDoneTime(),
+          false);
       }
-      
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteReminderDone,
-        SSStrU.empty,
-        noteAttr.getReminderDoneTime(),
-        false);
     }
     
     if(noteAttr.getReminderTime() != 0L){
       
-      existingUEs.clear();
-      
-      existingUEs.addAll(
+      final List<SSUE> existingReminder2UEs = 
         SSServCaller.uEsGet(
           userUri,
           userUri,
           noteUri,
           SSUEE.evernoteReminderCreate,
           noteAttr.getReminderTime(),
-          noteAttr.getReminderTime()));
+          noteAttr.getReminderTime());
       
-      if(!existingUEs.isEmpty()){
-        return;
+      if(existingReminder2UEs.isEmpty()){
+        
+        SSServCaller.uEAddAtCreationTime(
+          userUri,
+          noteUri,
+          SSUEE.evernoteReminderCreate,
+          SSStrU.empty,
+          noteAttr.getReminderTime(),
+          false);
       }
-      
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteReminderCreate,
-        SSStrU.empty,
-        noteAttr.getReminderTime(),
-        false);
     }
   }
   
@@ -547,7 +575,7 @@ public class SSDataImportEvernoteHelper {
     }
     
     for(Resource resource : note.getResources()){
-      
+
       resourceUri =
         evernoteHelper.uriHelper.getResourceUri(
           evernoteInfo,
@@ -590,19 +618,17 @@ public class SSDataImportEvernoteHelper {
         resourceAddTime,
         resourceAddTime);
     
-    if(!existingUEs.isEmpty()){
-      return;
+    if(existingUEs.isEmpty()){
+      
+      SSServCaller.uEAddAtCreationTime(
+        userUri,
+        resourceUri,
+        SSUEE.evernoteResourceAdd,
+        SSStrU.empty,
+        resourceAddTime,
+        false);
     }
-    
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      resourceUri,
-      SSUEE.evernoteResourceAdd,
-      SSStrU.empty,
-      resourceAddTime,
-      false);
   }
-  
 
   private void addResource(
     final SSUri   resourceUri,

@@ -50,8 +50,10 @@ public enum SSUEE implements SSJSONLDPropI{
   
   addPrivateTag,
   
+  evernoteNotebookCreate,
   evernoteNotebookUpdate,
   evernoteNotebookFollow,
+  evernoteNoteCreate,
   evernoteNoteUpdate,
   evernoteNoteDelete,
   evernoteNoteShare,

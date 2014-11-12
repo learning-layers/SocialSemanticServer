@@ -115,7 +115,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     try{
       
-      final SSDataImportEvernotePar par             = new SSDataImportEvernotePar(parA);
+      final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
      
       final Thread evernoteImportHandler = 
         new Thread(
