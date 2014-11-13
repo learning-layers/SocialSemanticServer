@@ -266,20 +266,20 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     final SSUri        entityUri,
     final SSEntityE    entityType) throws Exception{
 
-    if(!SSStrU.equals(entityType, SSEntityE.coll)){
-      return;
-    }
-
-    try{
-      
-      SSServCaller.collToCircleAdd(
-        userUri,
-        circleUri,
-        entityUri,
-        false);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+    switch(entityType){
+      case coll:{
+        try{
+          
+          SSServCaller.collToCircleAdd(
+            userUri,
+            circleUri,
+            entityUri,
+            false);
+          
+        }catch(Exception error){
+          SSServErrReg.regErrThrow(error);
+        }
+      }
     }
   }
 

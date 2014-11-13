@@ -24,9 +24,12 @@ public enum SSMethU{
 
   //video
   videosGet,
+  videosUserGet,
   videoAdd,
+  videoUserAdd,
   videoAnnotationAdd,
-
+  videoUserAnnotationAdd,
+  
   //friend
   friendsGet,
   friendsUserGet,

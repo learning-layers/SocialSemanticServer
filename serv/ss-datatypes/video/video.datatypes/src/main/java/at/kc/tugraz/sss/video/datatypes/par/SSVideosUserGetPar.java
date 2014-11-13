@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "videosGet request parameter")
-public class SSVideosGetPar extends SSServPar{
+public class SSVideosUserGetPar extends SSServPar{
   
   @XmlElement
   @ApiModelProperty(
@@ -40,9 +40,9 @@ public class SSVideosGetPar extends SSServPar{
     value = "entity to get videos for")
   public SSUri    forEntity            = null;
   
-  public SSVideosGetPar(){}
+  public SSVideosUserGetPar(){}
   
-  public SSVideosGetPar(SSServPar par) throws Exception{
+  public SSVideosUserGetPar(SSServPar par) throws Exception{
     super(par);
     
     try{

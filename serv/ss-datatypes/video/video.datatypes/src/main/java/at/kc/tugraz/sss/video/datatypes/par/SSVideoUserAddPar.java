@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "videoAdd request parameter")
-public class SSVideoAddPar extends SSServPar{
+public class SSVideoUserAddPar extends SSServPar{
   
   @XmlElement
   @ApiModelProperty(
@@ -102,9 +102,9 @@ public class SSVideoAddPar extends SSServPar{
     value = "accuracy")
   public Float               accuracy = null;
 
-  public SSVideoAddPar(){}
+  public SSVideoUserAddPar(){}
   
-  public SSVideoAddPar(SSServPar par) throws Exception{
+  public SSVideoUserAddPar(SSServPar par) throws Exception{
     
     super(par);
     

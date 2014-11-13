@@ -28,18 +28,18 @@ import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSVideoAnnotationAddRet extends SSServRetI{
+public class SSVideoUserAnnotationAddRet extends SSServRetI{
   
   public SSUri annotation = null;
   
-  public static SSVideoAnnotationAddRet get(
+  public static SSVideoUserAnnotationAddRet get(
     final SSUri    annotation,
     final SSMethU  op){
     
-    return new SSVideoAnnotationAddRet(annotation, op);
+    return new SSVideoUserAnnotationAddRet(annotation, op);
   }
   
-  private SSVideoAnnotationAddRet(
+  private SSVideoUserAnnotationAddRet(
     final SSUri    annotation,
     final SSMethU  op) {
     

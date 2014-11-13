@@ -55,6 +55,7 @@ public class SSVideoServ extends SSServA implements SSVideoServI{
     
     regServForDescribingEntities();
     regServForUpdatingEntities();
+    regServForManagingEntities();
     
     return this;
   }

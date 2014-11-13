@@ -27,7 +27,7 @@ import java.util.List;
 
 public interface SSVideoServerI{
   
-  public List<SSVideo>           videosGet           (final SSServPar parA) throws Exception;
-  public SSUri                   videoAdd            (final SSServPar parA) throws Exception;
-  public SSUri                   videoAnnotationAdd  (final SSServPar parA) throws Exception;
+  public List<SSVideo>           videosUserGet           (final SSServPar parA) throws Exception;
+  public SSUri                   videoUserAdd            (final SSServPar parA) throws Exception;
+  public SSUri                   videoUserAnnotationAdd  (final SSServPar parA) throws Exception;
 }

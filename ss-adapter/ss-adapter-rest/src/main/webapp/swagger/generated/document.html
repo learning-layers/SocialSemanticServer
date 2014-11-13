@@ -661,8 +661,28 @@ add an annotation to a video
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSVideoAnnotationAddPar">SSVideoAnnotationAddPar</a> </td>
-        <td>  [SSVideoAnnotationAddRet](#SSVideoAnnotationAddRet) </td>
+        <td><a href="#SSVideoUserAnnotationAddPar">SSVideoUserAnnotationAddPar</a> </td>
+        <td>  [SSVideoUserAnnotationAddRet](#SSVideoUserAnnotationAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
     </tr>
 </table>
 
@@ -1069,26 +1089,6 @@ retrieve the user&#39;s collections with entries
 
 
 - - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/discEntryAdd`
 
 add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion
@@ -1103,6 +1103,26 @@ add a textual comment/answer/opinion to a discussion [for given entity] or creat
     <tr>
         <td><a href="#SSDiscUserEntryAddPar">SSDiscUserEntryAddPar</a> </td>
         <td>  [SSDiscUserEntryAddRet](#SSDiscUserEntryAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -1189,26 +1209,6 @@ updates/adds given properties for an entity
 
 
 - - -
-#### **POST** `/ratingSet`
-
-set the user&#39;s rating for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
-        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/ratingOverallGet`
 
 retrieve the overall rating (by all users) for given entity
@@ -1223,6 +1223,26 @@ retrieve the overall rating (by all users) for given entity
     <tr>
         <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
         <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/ratingSet`
+
+set the user&#39;s rating for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
+        <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
     </tr>
 </table>
 
@@ -1681,8 +1701,8 @@ add a video
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSVideoAddPar">SSVideoAddPar</a> </td>
-        <td>  [SSVideoAddRet](#SSVideoAddRet) </td>
+        <td><a href="#SSVideoUserAddPar">SSVideoUserAddPar</a> </td>
+        <td>  [SSVideoUserAddRet](#SSVideoUserAddRet) </td>
     </tr>
 </table>
 
@@ -1701,28 +1721,8 @@ retrieve videos
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSVideosGetPar">SSVideosGetPar</a> </td>
-        <td>  [SSVideosGetRet](#SSVideosGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+        <td><a href="#SSVideosUserGetPar">SSVideosUserGetPar</a> </td>
+        <td>  [SSVideosUserGetRet](#SSVideosUserGetRet) </td>
     </tr>
 </table>
 
@@ -1952,6 +1952,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -1962,12 +1968,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2276,6 +2276,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2286,12 +2292,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2552,6 +2552,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2562,12 +2568,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2900,6 +2900,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2910,12 +2916,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -3890,6 +3890,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -3900,12 +3906,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4910,6 +4910,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -4920,12 +4926,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -5408,6 +5408,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -5418,12 +5424,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -5570,12 +5570,6 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -5586,6 +5580,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7160,16 +7160,16 @@ remove certain attached attributes from an entity
         <td></td>
     </tr>
     <tr>
-        <td>endTime</td>
-        <td>long</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>endTime</td>
+        <td>long</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>circles</td>
@@ -7226,16 +7226,16 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -7526,6 +7526,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -7536,12 +7542,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7802,12 +7802,6 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -7818,6 +7812,12 @@ remove certain attached attributes from an entity
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7994,13 +7994,13 @@ remove certain attached attributes from an entity
         <th>description</th>
     </tr>
     <tr>
-        <td>recentTopic</td>
+        <td>entity</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>entity</td>
+        <td>recentTopic</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -8240,16 +8240,16 @@ remove certain attached attributes from an entity
         <th>description</th>
     </tr>
     <tr>
-        <td>typesToRecommOnly</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>entity types to be recommended</td>
-    </tr>
-    <tr>
         <td>entity</td>
         <td>string</td>
         <td></td>
         <td>resource to be considered to retrieve recommendations for</td>
+    </tr>
+    <tr>
+        <td>typesToRecommOnly</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>entity types to be recommended</td>
     </tr>
     <tr>
         <td>key</td>
@@ -9944,6 +9944,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -9954,12 +9960,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10148,6 +10148,12 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>genre</td>
         <td>string</td>
         <td></td>
@@ -10164,120 +10170,6 @@ remove certain attached attributes from an entity
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-</table>
-
-
-## <a name="SSVideoAddPar">SSVideoAddPar</a>
-
-<table border="1">
-    <tr>
-        <th>name</th>
-        <th>type</th>
-        <th>required</th>
-        <th>description</th>
-    </tr>
-    <tr>
-        <td>forEntity</td>
-        <td>string</td>
-        <td></td>
-        <td>entity for which to attach this video</td>
-    </tr>
-    <tr>
-        <td>key</td>
-        <td>string</td>
-        <td>true</td>
-        <td>the user's access tocken</td>
-    </tr>
-    <tr>
-        <td>latitude</td>
-        <td>double</td>
-        <td></td>
-        <td>latitude</td>
-    </tr>
-    <tr>
-        <td>user</td>
-        <td>string</td>
-        <td>true</td>
-        <td>the user's identifier</td>
-    </tr>
-    <tr>
-        <td>description</td>
-        <td>string</td>
-        <td></td>
-        <td>description</td>
-    </tr>
-    <tr>
-        <td>longitude</td>
-        <td>double</td>
-        <td></td>
-        <td>longitude</td>
-    </tr>
-    <tr>
-        <td>op</td>
-        <td>string</td>
-        <td>true</td>
-        <td>operation to be executed</td>
-    </tr>
-    <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
-        <td>creationTime</td>
-        <td>long</td>
-        <td></td>
-        <td>creation time of the video</td>
-    </tr>
-    <tr>
-        <td>accuracy</td>
-        <td>float</td>
-        <td></td>
-        <td>accuracy</td>
-    </tr>
-    <tr>
-        <td>genre</td>
-        <td>string</td>
-        <td></td>
-        <td>video's genre</td>
-    </tr>
-    <tr>
-        <td>uuid</td>
-        <td>string</td>
-        <td></td>
-        <td>video's uuid (if provided used within id)</td>
-    </tr>
-</table>
-
-
-## <a name="SSVideoAddRet">SSVideoAddRet</a>
-
-<table border="1">
-    <tr>
-        <th>name</th>
-        <th>type</th>
-        <th>required</th>
-        <th>description</th>
-    </tr>
-    <tr>
-        <td>video</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>op</td>
-        <td><a href="#SSMethU">SSMethU</a></td>
-        <td>true</td>
-        <td>service operation executed</td>
     </tr>
 </table>
 
@@ -10424,12 +10316,6 @@ remove certain attached attributes from an entity
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -10441,10 +10327,124 @@ remove certain attached attributes from an entity
         <td></td>
         <td>uri</td>
     </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
 </table>
 
 
-## <a name="SSVideoAnnotationAddPar">SSVideoAnnotationAddPar</a>
+## <a name="SSVideoUserAddPar">SSVideoUserAddPar</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>forEntity</td>
+        <td>string</td>
+        <td></td>
+        <td>entity for which to attach this video</td>
+    </tr>
+    <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's access tocken</td>
+    </tr>
+    <tr>
+        <td>latitude</td>
+        <td>double</td>
+        <td></td>
+        <td>latitude</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>string</td>
+        <td>true</td>
+        <td>the user's identifier</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>string</td>
+        <td></td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>longitude</td>
+        <td>double</td>
+        <td></td>
+        <td>longitude</td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td>string</td>
+        <td>true</td>
+        <td>operation to be executed</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
+    </tr>
+    <tr>
+        <td>creationTime</td>
+        <td>long</td>
+        <td></td>
+        <td>creation time of the video</td>
+    </tr>
+    <tr>
+        <td>accuracy</td>
+        <td>float</td>
+        <td></td>
+        <td>accuracy</td>
+    </tr>
+    <tr>
+        <td>genre</td>
+        <td>string</td>
+        <td></td>
+        <td>video's genre</td>
+    </tr>
+    <tr>
+        <td>uuid</td>
+        <td>string</td>
+        <td></td>
+        <td>video's uuid (if provided used within id)</td>
+    </tr>
+</table>
+
+
+## <a name="SSVideoUserAddRet">SSVideoUserAddRet</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+    </tr>
+    <tr>
+        <td>video</td>
+        <td>string</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>op</td>
+        <td><a href="#SSMethU">SSMethU</a></td>
+        <td>true</td>
+        <td>service operation executed</td>
+    </tr>
+</table>
+
+
+## <a name="SSVideoUserAnnotationAddPar">SSVideoUserAnnotationAddPar</a>
 
 <table border="1">
     <tr>
@@ -10510,7 +10510,7 @@ remove certain attached attributes from an entity
 </table>
 
 
-## <a name="SSVideoAnnotationAddRet">SSVideoAnnotationAddRet</a>
+## <a name="SSVideoUserAnnotationAddRet">SSVideoUserAnnotationAddRet</a>
 
 <table border="1">
     <tr>
@@ -10534,7 +10534,7 @@ remove certain attached attributes from an entity
 </table>
 
 
-## <a name="SSVideosGetPar">SSVideosGetPar</a>
+## <a name="SSVideosUserGetPar">SSVideosUserGetPar</a>
 
 <table border="1">
     <tr>
@@ -10570,7 +10570,7 @@ remove certain attached attributes from an entity
 </table>
 
 
-## <a name="SSVideosGetRet">SSVideosGetRet</a>
+## <a name="SSVideosUserGetRet">SSVideosUserGetRet</a>
 
 <table border="1">
     <tr>

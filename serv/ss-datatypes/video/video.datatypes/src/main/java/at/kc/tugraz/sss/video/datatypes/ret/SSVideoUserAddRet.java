@@ -23,47 +23,44 @@ package at.kc.tugraz.sss.video.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.sss.video.datatypes.SSVideo;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSVideosGetRet extends SSServRetI{
+public class SSVideoUserAddRet extends SSServRetI{
   
-  public List<SSVideo> videos = new ArrayList<>();
+  public SSUri video = null;
   
-  public static SSVideosGetRet get(
-    final List<SSVideo>    videos,
-    final SSMethU          op){
+  public static SSVideoUserAddRet get(
+    final SSUri    video,
+    final SSMethU  op){
     
-    return new SSVideosGetRet(videos, op);
+    return new SSVideoUserAddRet(video, op);
   }
   
-  private SSVideosGetRet(
-    final List<SSVideo>    videos,
-    final SSMethU          op) {
+  private SSVideoUserAddRet(
+    final SSUri    video,
+    final SSMethU  op) {
     
     super(op);
     
-    if(videos != null){
-      this.videos.addAll(videos);
-    }
+    this.video = video;
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld           = new HashMap<>();
-    final Map<String, Object> videosObj    = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
     
-    videosObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSVideo.class.getName());
-    videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.videos, videosObj);
+    ld.put(SSVarU.video, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
+  }
+  
+  /* json getters */
+  
+  public String getVideo() {
+    return SSStrU.removeTrailingSlash(video);
   }
 }

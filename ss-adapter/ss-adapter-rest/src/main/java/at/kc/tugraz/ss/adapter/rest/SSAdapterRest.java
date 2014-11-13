@@ -170,12 +170,12 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
-import at.kc.tugraz.sss.video.datatypes.par.SSVideoAddPar;
-import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationAddPar;
-import at.kc.tugraz.sss.video.datatypes.par.SSVideosGetPar;
-import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAddRet;
-import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationAddRet;
-import at.kc.tugraz.sss.video.datatypes.ret.SSVideosGetRet;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -1152,8 +1152,8 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "videoAdd")
   @ApiOperation(
     value = "add a video",
-    response = SSVideoAddRet.class)
-  public String videoAdd(final SSVideoAddPar input){
+    response = SSVideoUserAddRet.class)
+  public String videoAdd(final SSVideoUserAddPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videoAdd);
   }
   
@@ -1163,8 +1163,8 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "videoAnnotationAdd")
   @ApiOperation(
     value = "add an annotation to a video",
-    response = SSVideoAnnotationAddRet.class)
-  public String videoAnnotationAdd(final SSVideoAnnotationAddPar input){
+    response = SSVideoUserAnnotationAddRet.class)
+  public String videoAnnotationAdd(final SSVideoUserAnnotationAddPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videoAnnotationAdd);
   }
   
@@ -1174,8 +1174,8 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "videosGet")
   @ApiOperation(
     value = "retrieve videos",
-    response = SSVideosGetRet.class)
-  public String videosGet(final SSVideosGetPar input){
+    response = SSVideosUserGetRet.class)
+  public String videosGet(final SSVideosUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.videosGet);
   }
 }

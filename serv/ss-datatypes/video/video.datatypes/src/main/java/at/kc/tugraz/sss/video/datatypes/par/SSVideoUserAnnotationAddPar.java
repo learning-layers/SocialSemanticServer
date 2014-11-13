@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "videoAnnotationAdd request parameter")
-public class SSVideoAnnotationAddPar extends SSServPar{
+public class SSVideoUserAnnotationAddPar extends SSServPar{
   
   @ApiModelProperty(
     required = true,
@@ -85,9 +85,9 @@ public class SSVideoAnnotationAddPar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSVideoAnnotationAddPar(){}
+  public SSVideoUserAnnotationAddPar(){}
   
-  public SSVideoAnnotationAddPar(SSServPar par) throws Exception{
+  public SSVideoUserAnnotationAddPar(SSServPar par) throws Exception{
     
     super(par);
     

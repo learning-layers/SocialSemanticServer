@@ -2837,6 +2837,23 @@ public class SSServCaller {
     
     return (List<SSActivity>) SSServA.callServViaServer(new SSServPar(SSMethU.activitiesUserGet, opPars));
   }
+  
+  /* video */
+   public static SSUri videoUserAdd(
+     final SSUri   user, 
+     final SSUri   video,
+     final SSUri   forEntity,
+     final Boolean shouldCommit) throws Exception{
+     
+     final Map<String, Object>  opPars           = new HashMap<>();
+     
+     opPars.put(SSVarU.shouldCommit,     shouldCommit);
+     opPars.put(SSVarU.user,             user);
+     opPars.put(SSVarU.video,            video);
+     opPars.put(SSVarU.forEntity,        forEntity);
+     
+     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));
+   }
 }
 
 

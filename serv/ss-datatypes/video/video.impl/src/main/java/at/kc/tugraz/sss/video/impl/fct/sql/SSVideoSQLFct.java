@@ -40,6 +40,22 @@ public class SSVideoSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
+  public void addVideoToUser(
+    final SSUri         user,
+    final SSUri         video) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.userId,   user);
+      insert(inserts, SSSQLVarU.videoId,  video);
+      
+      dbSQL.insert(userVideosTable, inserts);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void addVideo(
     final SSUri         video,
     final String        genre,
@@ -118,7 +134,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
   }
   
   public List<SSVideo> getVideos(
-    final Boolean withAnnotations,
+    final SSUri   user,     
     final SSUri   forEntity) throws Exception{
     
     ResultSet resultSet = null;
@@ -137,23 +153,23 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       column(columns, entityTable,         SSSQLVarU.creationTime);
       column(columns, entityTable,         SSSQLVarU.label);
       column(columns, entityTable,         SSSQLVarU.description);
-      
-      if(forEntity != null){
-        where(wheres, entityVideosTable, SSSQLVarU.entityId, forEntity);
-      }
-      
+
       table(tables, entityTable);
       table(tables, videoTable);
       
-      if(forEntity != null){
-        table(tables, entityVideosTable);
+      if(user != null){
+        where    (wheres,    userVideosTable, SSSQLVarU.userId, user);
+        table    (tables,    userVideosTable);
+        tableCon (tableCons, entityTable, SSSQLVarU.id, userVideosTable, SSSQLVarU.videoId);
       }
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable, SSSQLVarU.videoId);
-      
       if(forEntity != null){
-        tableCon(tableCons, entityTable, SSSQLVarU.id, entityVideosTable, SSSQLVarU.videoId);
+        where    (wheres,    entityVideosTable, SSSQLVarU.entityId, forEntity);
+        table    (tables,    entityVideosTable);
+        tableCon (tableCons, entityTable, SSSQLVarU.id, entityVideosTable, SSSQLVarU.videoId);
       }
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
       
       if(wheres.isEmpty()){
         resultSet = dbSQL.select(tables, columns, tableCons);
@@ -172,10 +188,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
         video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
         video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
         video.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
-        
-        if(withAnnotations){
-          video.annotations.addAll(getAnnotations(video.id));
-        }
         
         videos.add(video);
       }

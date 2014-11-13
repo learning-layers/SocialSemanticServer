@@ -113,3 +113,19 @@ ALTER TABLE `sss`.`location`
 ADD COLUMN `latitude` VARCHAR(200) NOT NULL AFTER `locationId`,
 ADD COLUMN `longitude` VARCHAR(200) NOT NULL AFTER `latitude`,
 ADD COLUMN `accuracy` VARCHAR(200) NOT NULL AFTER `longitude`;
+
+CREATE TABLE `sss`.`uservideos` (
+  `userId` VARCHAR(200) NOT NULL,
+  `videoId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`userId`, `videoId`),
+  INDEX `videoIdFKuservideos_idx` (`videoId` ASC),
+  CONSTRAINT `userIdFKuservideos`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sss`.`user` (`userId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `videoIdFKuservideos`
+    FOREIGN KEY (`videoId`)
+    REFERENCES `sss`.`video` (`videoId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
