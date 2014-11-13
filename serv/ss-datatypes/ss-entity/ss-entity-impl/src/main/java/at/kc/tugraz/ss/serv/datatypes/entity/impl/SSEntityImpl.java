@@ -43,6 +43,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
@@ -79,6 +80,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityLocationsAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityLocationsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
@@ -1706,6 +1709,69 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         if(dbSQL.rollBack(parA)){
           return entityUserEntitiesAttach(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSLocation> entityLocationsGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityLocationsGetPar par       = new SSEntityLocationsGetPar(parA);
+      
+      return sqlFct.getLocations(par.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
+  @Override
+  public SSUri entityLocationsAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityLocationsAddPar par         = new SSEntityLocationsAddPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSLocation location : par.locations){
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          location.id,
+          SSEntityE.location,
+          null,
+          null,
+          null,
+          false);
+        
+        sqlFct.addLocation(
+          location.id,
+          par.entity,
+          location);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return entityLocationsAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

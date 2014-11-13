@@ -84,6 +84,24 @@ public class SSVideoAddPar extends SSServPar{
     value = "creation time of the video")
   public Long               creationTime        = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "latitude")
+  public Double               latitude = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "longitude")
+  public Double               longitude = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "accuracy")
+  public Float               accuracy = null;
+
   public SSVideoAddPar(){}
   
   public SSVideoAddPar(SSServPar par) throws Exception{
@@ -100,6 +118,9 @@ public class SSVideoAddPar extends SSServPar{
         label             = (SSLabel)         pars.get(SSVarU.label);
         description       = (SSTextComment)   pars.get(SSVarU.description);
         creationTime      = (Long)            pars.get(SSVarU.creationTime);
+        latitude          = (Double)          pars.get(SSVarU.latitude);
+        longitude         = (Double)          pars.get(SSVarU.longitude);
+        accuracy          = (Float)           pars.get(SSVarU.accuracy);
       }
       
       if(par.clientJSONObj != null){
@@ -128,6 +149,18 @@ public class SSVideoAddPar extends SSServPar{
           creationTime =  par.clientJSONObj.get(SSVarU.creationTime).getLongValue();
         }catch(Exception error){}
       
+        try{
+          latitude =  par.clientJSONObj.get(SSVarU.latitude).getDoubleValue();
+        }catch(Exception error){}
+        
+        try{
+          longitude =  par.clientJSONObj.get(SSVarU.longitude).getDoubleValue();
+        }catch(Exception error){}
+        
+        try{
+          accuracy =  par.clientJSONObj.get(SSVarU.accuracy).getNumberValue().floatValue();
+        }catch(Exception error){}
+        
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

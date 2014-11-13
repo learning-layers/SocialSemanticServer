@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -1217,6 +1218,45 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.entityUpdate, opPars));
+  }
+  
+  public static void entityLocationsAdd(
+    final SSUri   user, 
+    final SSUri   entity,
+    final Double  latitude, 
+    final Double  longitude, 
+    final Float   accuracy, 
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    final List<SSLocation> locations = new ArrayList<>();
+    
+    locations.add(
+      SSLocation.get(
+        vocURICreate(), 
+        latitude,
+        longitude, 
+        accuracy));
+    
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.locations,    locations);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.entityLocationsAdd, opPars));
+  }
+  
+  public static List<SSLocation> entityLocationsGet(
+    final SSUri user,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (List<SSLocation>) SSServA.callServViaServer(new SSServPar(SSMethU.entityLocationsGet, opPars));
   }
   
   public static Boolean entityReadGet(

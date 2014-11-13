@@ -134,6 +134,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       column(columns, videoTable,          SSSQLVarU.videoId);
       column(columns, videoTable,          SSSQLVarU.genre);
+      column(columns, entityTable,         SSSQLVarU.creationTime);
       column(columns, entityTable,         SSSQLVarU.label);
       column(columns, entityTable,         SSSQLVarU.description);
       
@@ -168,8 +169,9 @@ public class SSVideoSQLFct extends SSDBSQLFct{
             bindingStr              (resultSet, SSSQLVarU.genre),
             new ArrayList<>());
           
-        video.label       = bindingStrToLabel       (resultSet, SSSQLVarU.label);
-        video.description = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+        video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
+        video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
+        video.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
         
         if(withAnnotations){
           video.annotations.addAll(getAnnotations(video.id));
@@ -200,6 +202,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final List<String>              tableCons   = new ArrayList<>();
       SSVideoAnnotation annotation;
       
+      column(columns, entityTable,          SSSQLVarU.creationTime);
       column(columns, entityTable,          SSSQLVarU.label);
       column(columns, entityTable,          SSSQLVarU.description);
       column(columns, videoAnnotationTable, SSSQLVarU.videoAnnotationId);
@@ -227,8 +230,9 @@ public class SSVideoSQLFct extends SSDBSQLFct{
             bindingStrToFloat (resultSet, SSSQLVarU.x),
             bindingStrToFloat (resultSet, SSSQLVarU.y));
       
-        annotation.label       = bindingStrToLabel       (resultSet, SSSQLVarU.label);
-        annotation.description = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+        annotation.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
+        annotation.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
+        annotation.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
           
         annotations.add(annotation);
       }

@@ -235,6 +235,9 @@ public class SSVarU{
   public static final String fork                                           = "fork";
   public static final String likelihood                                     = "likelihood";
   public static final String creationTime                                   = "creationTime";
+  public static final String latitude                                       = "latitude";
+  public static final String longitude                                      = "longitude";
+  public static final String accuracy                                       = "accuracy";
   public static final String isPredefined                                   = "isPredefined";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";

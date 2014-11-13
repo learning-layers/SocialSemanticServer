@@ -18,36 +18,34 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.datatypes.datatypes;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSLocation extends SSEntity{
-  
-  public Double latitude    = null;
-  public Double longitude   = null;
-  public Float  accuracy    = null;
-  
-  public static SSLocation get(
-    final SSUri  id, 
-    final Double latitude,
-    final Double longitude,
-    final Float  accuracy) throws Exception{
+public class SSEntityLocationsAddPar extends SSServPar{
+
+  public SSUri               entity        = null;
+  public List<SSLocation>    locations     = new ArrayList<>();
+
+  public SSEntityLocationsAddPar(SSServPar par) throws Exception{
+      
+    super(par);
     
-    return new SSLocation(id, latitude, longitude, accuracy);
-  }
-  
-  protected SSLocation(
-    final SSUri  id, 
-    final Double latitude,
-    final Double longitude,
-    final Float  accuracy) throws Exception{
-    
-    super(id, SSEntityE.location);
-    
-    this.latitude  = latitude;
-    this.longitude = longitude;
-    this.accuracy  = accuracy;
+    try{
+      
+      
+      if(pars != null){
+        entity         = (SSUri)               pars.get(SSVarU.entity);
+        locations      = (List<SSLocation>)    pars.get(SSVarU.locations);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

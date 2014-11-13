@@ -74,3 +74,42 @@ CREATE TABLE `sss`.`videoannotations` (
     REFERENCES `sss`.`videoannotation` (`videoAnnotationId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+ALTER TABLE `sss`.`location` 
+ADD CONSTRAINT `locationIdFKlocation`
+  FOREIGN KEY (`locationId`)
+  REFERENCES `sss`.`entity` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `sss`.`locations` 
+DROP FOREIGN KEY `locationIdFKlocations`;
+ALTER TABLE `sss`.`locations` 
+ADD CONSTRAINT `locationIdFKentitylocations`
+  FOREIGN KEY (`locationId`)
+  REFERENCES `sss`.`location` (`locationId`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `sss`.`locations` 
+DROP COLUMN `userId`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`locationId`, `entityId`),
+DROP INDEX `userIdFKlocations_idx` ;
+
+ALTER TABLE `sss`.`locations` 
+ADD INDEX `entityIdFKentitylocations_idx` (`entityId` ASC);
+ALTER TABLE `sss`.`locations` 
+ADD CONSTRAINT `entityIdFKentitylocations`
+  FOREIGN KEY (`entityId`)
+  REFERENCES `sss`.`entity` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `sss`.`locations` 
+RENAME TO  `sss`.`entitylocations` ;
+
+ALTER TABLE `sss`.`location` 
+ADD COLUMN `latitude` VARCHAR(200) NOT NULL AFTER `locationId`,
+ADD COLUMN `longitude` VARCHAR(200) NOT NULL AFTER `latitude`,
+ADD COLUMN `accuracy` VARCHAR(200) NOT NULL AFTER `longitude`;

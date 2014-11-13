@@ -52,6 +52,9 @@ public class SSSQLVarU{
   public static final String circleType                                     = "circleType";
   public static final String circleId                                       = "circleId";
   public static final String locationId                                     = "locationId";
+  public static final String latitude                                       = "latitude";
+  public static final String longitude                                      = "longitude";
+  public static final String accuracy                                       = "accuracy";
   public static final String startTime                                      = "startTime";
   public static final String endTime                                        = "endTime";
   public static final String value                                          = "value";

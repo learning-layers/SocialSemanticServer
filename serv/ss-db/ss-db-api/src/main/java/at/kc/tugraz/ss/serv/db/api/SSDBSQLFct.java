@@ -61,7 +61,7 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   activityEntitiesTable               = "activityentities";
   protected static final String   activityContentsTable               = "activitycontents";
   protected static final String   locationTable                       = "location";
-  protected static final String   locationsTable                      = "locations";
+  protected static final String   entityLocationsTable                = "entitylocations";
   protected static final String   tagAssTable                         = "tagass";
   protected static final String   categoryTable                       = "category";
   protected static final String   categoryAssTable                    = "categoryass";
@@ -450,6 +450,13 @@ public class SSDBSQLFct extends SSDBFct{
     final String    binding) throws Exception{
     
     return SSEntityE.valueOf(bindingStr(resultSet, binding));
+  }
+  
+  protected static Double bindingStrToDouble(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
+    return Double.parseDouble(bindingStr(resultSet, binding));
   }
   
   protected static Float bindingStrToFloat(

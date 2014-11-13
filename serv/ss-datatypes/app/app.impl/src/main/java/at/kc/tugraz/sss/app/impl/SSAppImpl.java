@@ -225,14 +225,14 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
             par.user, 
             app.id));
         
-        entity.images.addAll(
+        entity.attachedEntities.addAll(
           SSServCaller.entityScreenShotsGet(
             par.user, 
             app.id));
         
         try{
           
-          entity.videos.addAll(
+          entity.attachedEntities.addAll(
             SSServCaller.videosGet(
               par.user,
               app.id));

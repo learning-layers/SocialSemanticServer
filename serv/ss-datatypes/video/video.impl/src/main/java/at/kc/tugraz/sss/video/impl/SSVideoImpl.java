@@ -44,6 +44,7 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
+import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -143,6 +144,19 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
         par.genre,
         par.forEntity);
       
+      if(
+        par.latitude  != null &&
+        par.longitude != null){
+        
+        SSServCaller.entityLocationsAdd(
+          par.user, 
+          videoUri,
+          par.latitude,
+          par.longitude,
+          par.accuracy,
+          false);
+      }
+      
       dbSQL.commit(par.shouldCommit);
       
       return videoUri;
@@ -236,9 +250,20 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   public List<SSVideo> videosGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSVideosGetPar par             = new SSVideosGetPar(parA);
+      final SSVideosGetPar par    = new SSVideosGetPar(parA);
+      final List<SSVideo>  videos = new ArrayList<>();
       
-      return sqlFct.getVideos(true, par.forEntity);
+      for(SSVideo video : sqlFct.getVideos(true, par.forEntity)){
+        
+        video.locations.addAll(
+          SSServCaller.entityLocationsGet(
+            par.user,
+            video.id));
+        
+        videos.add(video);
+      }
+      
+      return videos;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

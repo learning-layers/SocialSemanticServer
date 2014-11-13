@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -1394,6 +1395,91 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void addLocation(
+    final SSUri      locationURI,
+    final SSUri      entity, 
+    final SSLocation location) throws Exception{
+    
+    try{
+
+      final Map<String, String> inserts    = new HashMap<>();
+      
+      insert(inserts, SSSQLVarU.locationId,        locationURI);
+      insert(inserts, SSSQLVarU.latitude,          location.latitude);
+      insert(inserts, SSSQLVarU.longitude,         location.longitude);
+      
+      if(location.accuracy == null){
+        insert(inserts, SSSQLVarU.accuracy,         SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarU.accuracy,         location.accuracy);
+      }
+      
+      dbSQL.insert(locationTable, inserts);
+      
+      inserts.clear();
+      
+      insert(inserts, SSSQLVarU.entityId,           entity);
+      insert(inserts, SSSQLVarU.locationId,         locationURI);
+      
+      dbSQL.insert(entityLocationsTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public List<SSLocation> getLocations(
+    final SSUri forEntity) throws Exception{
+   
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSLocation>     locations  = new ArrayList<>();
+      
+      if(forEntity != null){
+        
+        final List<String>         columns    = new ArrayList<>();              
+        final List<String>         tables     = new ArrayList<>();
+        final Map<String, String>  wheres     = new HashMap<>();
+        final List<String>         tableCons  = new ArrayList<>();
+      
+        column(columns, locationTable, SSSQLVarU.locationId);
+        column(columns, locationTable, SSSQLVarU.latitude);
+        column(columns, locationTable, SSSQLVarU.longitude);
+        column(columns, locationTable, SSSQLVarU.accuracy);
+        
+        table(tables, locationTable);
+        table(tables, entityLocationsTable);
+        
+        where(wheres, SSSQLVarU.entityId, forEntity);
+        
+        tableCon(tableCons, locationTable, SSSQLVarU.locationId, entityLocationsTable, SSSQLVarU.locationId);
+        
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      }else{
+        resultSet = dbSQL.select(locationTable);
+      }
+      
+      while(resultSet.next()){
+        
+        locations.add(
+          SSLocation.get(
+            bindingStrToUri   (resultSet, SSSQLVarU.locationId), 
+            bindingStrToDouble(resultSet, SSSQLVarU.latitude), 
+            bindingStrToDouble(resultSet, SSSQLVarU.longitude),
+            bindingStrToFloat (resultSet, SSSQLVarU.accuracy)));
+      }      
+      
+      return locations;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 }

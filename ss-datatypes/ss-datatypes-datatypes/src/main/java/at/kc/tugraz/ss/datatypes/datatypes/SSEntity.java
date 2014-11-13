@@ -132,16 +132,6 @@ public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
     required = false,
-    value = "screenshots")
-  public List<SSEntity>       images       = new ArrayList<>();
-  
-  @ApiModelProperty(
-    required = false,
-    value = "videos")
-  public List<SSEntity>       videos       = new ArrayList<>();
-  
-  @ApiModelProperty(
-    required = false,
     value = "circles")
   public List<SSEntity>       circles      = new ArrayList<>();
   
@@ -217,8 +207,6 @@ public class SSEntity extends SSEntityA{
     this.users            = entity.users;
     this.entities         = entity.entities;
     this.read             = entity.read;
-    this.videos           = entity.videos;
-    this.images           = entity.images;
     this.circles          = entity.circles;
     this.locations        = entity.locations;
   }
@@ -238,8 +226,6 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> entitiesObj         = new HashMap<>();
     final Map<String, Object> circlesObj          = new HashMap<>();
     final Map<String, Object> usersObj            = new HashMap<>();
-    final Map<String, Object> imagesObj           = new HashMap<>();
-    final Map<String, Object> videosObj           = new HashMap<>();
     final Map<String, Object> locationsObj        = new HashMap<>();
     
     ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
@@ -254,16 +240,6 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarU.file,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.read,           SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
    
-    imagesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-    imagesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.images, imagesObj);
-    
-    videosObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-    videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarU.videos, videosObj);
-    
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + Object.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
@@ -363,14 +339,6 @@ public class SSEntity extends SSEntityA{
   
   public List<? extends SSEntity> getAttachedEntities() throws Exception{
     return attachedEntities;
-  }
-  
-  public List<? extends SSEntity> getVideos() throws Exception{
-    return videos;
-  }
-  
-  public List<? extends SSEntity> getImages() throws Exception{
-    return images;
   }
   
   public List<? extends SSEntity> getCircles() throws Exception{

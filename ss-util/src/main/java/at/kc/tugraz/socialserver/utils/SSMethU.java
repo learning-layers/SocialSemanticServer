@@ -133,6 +133,8 @@ public enum SSMethU{
   entityReadGet,
   entityScreenShotsGet,
   entityDownloadURIsGet,
+  entityLocationsAdd,
+  entityLocationsGet,
   
   //learn ep
   learnEpsGet                                         ,
