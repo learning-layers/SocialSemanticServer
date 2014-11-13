@@ -791,6 +791,32 @@ LOCK TABLES `entityimages` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `entitylocations`
+--
+
+DROP TABLE IF EXISTS `entitylocations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entitylocations` (
+  `locationId` varchar(200) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  PRIMARY KEY (`locationId`,`entityId`),
+  KEY `entityIdFKentitylocations_idx` (`entityId`),
+  CONSTRAINT `entityIdFKentitylocations` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `locationIdFKentitylocations` FOREIGN KEY (`locationId`) REFERENCES `location` (`locationId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entitylocations`
+--
+
+LOCK TABLES `entitylocations` WRITE;
+/*!40000 ALTER TABLE `entitylocations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entitylocations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `entityreads`
 --
 
@@ -1318,7 +1344,11 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `location` (
   `locationId` varchar(200) NOT NULL,
-  PRIMARY KEY (`locationId`)
+  `latitude` varchar(200) NOT NULL,
+  `longitude` varchar(200) NOT NULL,
+  `accuracy` varchar(200) NOT NULL,
+  PRIMARY KEY (`locationId`),
+  CONSTRAINT `locationIdFKlocation` FOREIGN KEY (`locationId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1329,32 +1359,6 @@ CREATE TABLE `location` (
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `locations`
---
-
-DROP TABLE IF EXISTS `locations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `locations` (
-  `locationId` varchar(200) NOT NULL,
-  `entityId` varchar(255) NOT NULL,
-  `userId` varchar(200) NOT NULL,
-  PRIMARY KEY (`locationId`,`entityId`,`userId`),
-  KEY `userIdFKlocations_idx` (`userId`),
-  CONSTRAINT `locationIdFKlocations` FOREIGN KEY (`locationId`) REFERENCES `location` (`locationId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `locations`
---
-
-LOCK TABLES `locations` WRITE;
-/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1573,6 +1577,32 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `uservideos`
+--
+
+DROP TABLE IF EXISTS `uservideos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `uservideos` (
+  `userId` varchar(200) NOT NULL,
+  `videoId` varchar(255) NOT NULL,
+  PRIMARY KEY (`userId`,`videoId`),
+  KEY `videoIdFKuservideos_idx` (`videoId`),
+  CONSTRAINT `userIdFKuservideos` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `videoIdFKuservideos` FOREIGN KEY (`videoId`) REFERENCES `video` (`videoId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `uservideos`
+--
+
+LOCK TABLES `uservideos` WRITE;
+/*!40000 ALTER TABLE `uservideos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `uservideos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `video`
 --
 
@@ -1634,8 +1664,8 @@ CREATE TABLE `videoannotations` (
   `videoAnnotationId` varchar(200) NOT NULL,
   PRIMARY KEY (`videoId`,`videoAnnotationId`),
   KEY `videoAnnotationIdFKvideoannotations_idx` (`videoAnnotationId`),
-  CONSTRAINT `videoIdFKvideoannotations` FOREIGN KEY (`videoId`) REFERENCES `video` (`videoId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `videoAnnotationIdFKvideoannotations` FOREIGN KEY (`videoAnnotationId`) REFERENCES `videoannotation` (`videoAnnotationId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `videoAnnotationIdFKvideoannotations` FOREIGN KEY (`videoAnnotationId`) REFERENCES `videoannotation` (`videoAnnotationId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `videoIdFKvideoannotations` FOREIGN KEY (`videoId`) REFERENCES `video` (`videoId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1657,4 +1687,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-12 17:23:53
+-- Dump completed on 2014-11-13 15:12:11
