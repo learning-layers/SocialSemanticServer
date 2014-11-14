@@ -46,11 +46,15 @@ public class SSVideoSQLFct extends SSDBSQLFct{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarU.userId,   user);
       insert(inserts, SSSQLVarU.videoId,  video);
       
-      dbSQL.insert(userVideosTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarU.userId,  user);
+      uniqueKey(uniqueKeys, SSSQLVarU.videoId, video);
+      
+      dbSQL.insertIfNotExists(userVideosTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -63,6 +67,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       if(genre == null){
         insert    (inserts,    SSSQLVarU.genre,     SSStrU.empty);
@@ -72,16 +77,22 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       insert    (inserts,    SSSQLVarU.videoId,     video);
       
-      dbSQL.insert(videoTable, inserts);
+      uniqueKey (uniqueKeys, SSSQLVarU.videoId, video);
+        
+      dbSQL.insertIfNotExists(videoTable, inserts, uniqueKeys);
       
       if(forEntity != null){
         
+        uniqueKeys.clear();
         inserts.clear();
         
-        insert(inserts, SSSQLVarU.entityId, forEntity);
-        insert(inserts, SSSQLVarU.videoId,  video);
+        insert(inserts, SSSQLVarU.entityId,          forEntity);
+        insert(inserts, SSSQLVarU.attachedEntityId,  video);
         
-        dbSQL.insert(entityVideosTable, inserts);
+        uniqueKey(uniqueKeys, SSSQLVarU.entityId,          forEntity);
+        uniqueKey(uniqueKeys, SSSQLVarU.attachedEntityId,  video);
+        
+        dbSQL.insertIfNotExists(entitiesTable, inserts, uniqueKeys);
       }
       
      }catch(Exception error){
@@ -89,7 +100,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
      }
   }
   
-  public void addAnnotation(
+  public void createAnnotation(
     final SSUri video,
     final SSUri videoAnnotation,
     final Float x, 
@@ -134,7 +145,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
   }
   
   public List<SSVideo> getVideos(
-    final SSUri   user,     
+    final SSUri   forUser,     
     final SSUri   forEntity) throws Exception{
     
     ResultSet resultSet = null;
@@ -157,16 +168,16 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       table(tables, entityTable);
       table(tables, videoTable);
       
-      if(user != null){
-        where    (wheres,    userVideosTable, SSSQLVarU.userId, user);
+      if(forUser != null){
+        where    (wheres,    userVideosTable, SSSQLVarU.userId, forUser);
         table    (tables,    userVideosTable);
         tableCon (tableCons, entityTable, SSSQLVarU.id, userVideosTable, SSSQLVarU.videoId);
       }
       
       if(forEntity != null){
-        where    (wheres,    entityVideosTable, SSSQLVarU.entityId, forEntity);
-        table    (tables,    entityVideosTable);
-        tableCon (tableCons, entityTable, SSSQLVarU.id, entityVideosTable, SSSQLVarU.videoId);
+        where    (wheres,    entitiesTable, SSSQLVarU.entityId, forEntity);
+        table    (tables,    entitiesTable);
+        tableCon (tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
       }
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);

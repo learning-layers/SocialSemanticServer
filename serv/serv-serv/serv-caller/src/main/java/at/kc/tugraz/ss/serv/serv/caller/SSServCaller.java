@@ -1355,16 +1355,18 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.entityFilesGet, opPars));
   }
   
-  public static List<? extends SSEntity> videosGet(
+  public static List<? extends SSEntity> videosUserGet(
     final SSUri user, 
+    final SSUri forUser,
     final SSUri forEntity) throws Exception{
    
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.forUser,      forUser);
     opPars.put(SSVarU.forEntity,    forEntity);
     
-    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.videosGet, opPars));
+    return (List<? extends SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.videosUserGet, opPars));
   }
   
   public static List<SSUri> entityDownloadURIsGet(
@@ -2841,7 +2843,7 @@ public class SSServCaller {
   /* video */
    public static SSUri videoUserAdd(
      final SSUri   user, 
-     final SSUri   video,
+     final SSUri   link,
      final SSUri   forEntity,
      final Boolean shouldCommit) throws Exception{
      
@@ -2849,7 +2851,7 @@ public class SSServCaller {
      
      opPars.put(SSVarU.shouldCommit,     shouldCommit);
      opPars.put(SSVarU.user,             user);
-     opPars.put(SSVarU.video,            video);
+     opPars.put(SSVarU.link,             link);
      opPars.put(SSVarU.forEntity,        forEntity);
      
      return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));

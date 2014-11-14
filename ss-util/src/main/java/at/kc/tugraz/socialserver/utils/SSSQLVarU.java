@@ -30,7 +30,6 @@ public class SSSQLVarU{
   public static final String app                                            = "app";
   public static final String videoId                                        = "videoId";
   public static final String downloadId                                     = "downloadId";
-  public static final String screenShotId                                   = "screenShotId";
   public static final String fork                                           = "fork";
   public static final String downloadAndroid                                = "downloadAndroid";
   public static final String downloadIOS                                    = "downloadIOS";

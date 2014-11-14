@@ -235,14 +235,19 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
       final SSVideoUserAddPar par      = new SSVideoUserAddPar(parA);
       final SSUri             videoUri;
       
-      if(par.uuid != null){
-        videoUri = SSServCaller.vocURICreate(par.uuid); 
+      if(par.link != null){
+        videoUri = par.link;
       }else{
-        videoUri = SSServCaller.vocURICreate(); 
+        
+        if(par.uuid != null){
+          videoUri = SSServCaller.vocURICreate(par.uuid);
+        }else{
+          videoUri = SSServCaller.vocURICreate();
+        }
       }
       
       if(par.forEntity != null){
-        SSServCaller.entityUserCanEdit(par.user, par.forEntity);
+        SSServCaller.entityUserCanRead(par.user, par.forEntity);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -342,7 +347,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
         null, 
         false);
        
-      sqlFct.addAnnotation(
+      sqlFct.createAnnotation(
         par.video, 
         annotationUri, 
         par.x,
@@ -392,7 +397,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
         SSServCaller.entityUserCanRead(par.user, par.forEntity);
       }
       
-      for(SSVideo video : sqlFct.getVideos(par.user, par.forEntity)){
+      for(SSVideo video : sqlFct.getVideos(par.forUser, par.forEntity)){
         
         for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
         

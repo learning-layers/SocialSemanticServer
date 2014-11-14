@@ -70,6 +70,17 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   discUserTable                       = "discuser";
   protected static final String   discEntryTable                      = "discentry";
   protected static final String   discEntriesTable                    = "discentries";
+  protected static final String   evernoteNoteTable                   = "evernotenote";
+  protected static final String   evernoteResourceTable               = "evernoteresource";
+  protected static final String   evernoteUserTable                   = "evernoteuser";
+  protected static final String   commentsTable                       = "comments";
+  protected static final String   commentTable                        = "comment";
+  protected static final String   messageTable                        = "message";
+  protected static final String   appTable                            = "app";
+  protected static final String   downloadsTable                      = "downloads";
+  protected static final String   friendsTable                        = "friends";
+
+  //learn ep 
   protected static final String   learnEpUserTable                    = "learnepuser";
   protected static final String   learnEpVersionCirclesTable          = "learnepversioncircles";
   protected static final String   learnEpVersionEntitiesTable         = "learnepversionentities";
@@ -81,17 +92,11 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   learnEpCircleTable                  = "learnepcircle";
   protected static final String   learnEpTable                        = "learnep";
   protected static final String   learnEpEntityTable                  = "learnepentity";
-  protected static final String   evernoteNoteTable                   = "evernotenote";
-  protected static final String   evernoteResourceTable               = "evernoteresource";
-  protected static final String   evernoteUserTable                   = "evernoteuser";
-  protected static final String   commentsTable                       = "comments";
-  protected static final String   commentTable                        = "comment";
-  protected static final String   messageTable                        = "message";
-  protected static final String   appTable                            = "app";
-  protected static final String   screenShotsTable                    = "screenshots";
-  protected static final String   downloadsTable                      = "downloads";
-  protected static final String   entityImagesTable                   = "entityimages";
-  protected static final String   friendsTable                        = "friends";
+  
+  //image
+  protected static final String   imageTable                          = "image";
+  
+  //app stack
   protected static final String   appStackLayoutTable                 = "appstacklayout";
   protected static final String   appStackLayoutTileTable             = "appstacklayouttile";
   protected static final String   appStackLayoutTilesTable            = "appstacklayouttiles";
@@ -100,7 +105,6 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   videoTable                          = "video";
   protected static final String   videoAnnotationTable                = "videoannotation";
   protected static final String   videoAnnotationsTable               = "videoannotations";
-  protected static final String   entityVideosTable                   = "entityvideos";
   protected static final String   userVideosTable                     = "uservideos";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{

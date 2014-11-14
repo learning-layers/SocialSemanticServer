@@ -129,3 +129,39 @@ CREATE TABLE `sss`.`uservideos` (
     REFERENCES `sss`.`video` (`videoId`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+DROP TABLE `sss`.`entityvideos`;
+
+DROP TABLE `sss`.`entityimages`;
+
+ALTER TABLE `sss`.`screenshots` 
+DROP FOREIGN KEY `screenShotIdFKscreenhots`;
+ALTER TABLE `sss`.`screenshots` 
+DROP INDEX `screenShotIdFKscreenhots_idx` ;
+
+ALTER TABLE `sss`.`screenshots` 
+DROP FOREIGN KEY `entityIdFKscreenshots`;
+ALTER TABLE `sss`.`screenshots` 
+ADD CONSTRAINT `imageIdFKimage`
+  FOREIGN KEY (`entityId`)
+  REFERENCES `sss`.`entity` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `sss`.`screenshots` 
+CHANGE COLUMN `screenShotId` `type` VARCHAR(200) NOT NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`entityId`);
+
+ALTER TABLE `sss`.`screenshots` 
+DROP FOREIGN KEY `imageIdFKimage`;
+ALTER TABLE `sss`.`screenshots` 
+CHANGE COLUMN `entityId` `imageId` VARCHAR(255) NOT NULL ;
+ALTER TABLE `sss`.`screenshots` 
+ADD CONSTRAINT `imageIdFKimage`
+  FOREIGN KEY (`imageId`)
+  REFERENCES `sss`.`entity` (`id`)
+  ON DELETE CASCADE;
+
+ALTER TABLE `sss`.`screenshots` 
+RENAME TO  `sss`.`image` ;

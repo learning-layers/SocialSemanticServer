@@ -223,6 +223,7 @@ public class SSVarU{
   public static final String errorLinesWhereThrown                          = "errorLinesWhereThrown";
   public static final String label                                          = "label";
   public static final String uuid                                           = "uuid";
+  public static final String link                                           = "link";
   public static final String genre                                          = "genre";
   public static final String descriptionShort                               = "descriptionShort";
   public static final String descriptionFunctional                          = "descriptionFunctional";

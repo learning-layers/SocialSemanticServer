@@ -43,6 +43,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
+import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
@@ -421,7 +422,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         null);
       
       for(SSUri screenShot : par.screenShots){
-        sqlFct.addScreenShot   (par.entity, screenShot);
+        
+        sqlFct.addImage(
+          screenShot, 
+          SSImageE.screenShot);
+        
+        sqlFct.attachEntity(par.entity, screenShot);
       }
       
       for(SSUri download : par.downloads){
@@ -429,7 +435,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
       for(SSUri image : par.images){
-        sqlFct.addImage        (par.entity, image);
+        
+         sqlFct.addImage(
+          image, 
+          SSImageE.image);
+         
+        sqlFct.attachEntity(par.entity, image);
       }
       
       SSEntityMiscFct.updateEntityByEntityHandlers(par);
@@ -1837,7 +1848,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityScreenShotsGetPar par = new SSEntityScreenShotsGetPar(parA);
       
-      return SSImage.get(sqlFct.getScreenShots(par.entity));
+      return
+        SSImage.get(
+          sqlFct.getImages(
+            par.entity,
+            SSImageE.screenShot));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -1,4 +1,5 @@
 /**
+/**
 * Code contributed to the Learning Layers project
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
@@ -39,8 +40,18 @@ public class SSVideoUserAddPar extends SSServPar{
   @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "video's uuid (if provided used within id)")
+    value = "video's uuid (if provided used within id if link is not set)")
   public String                uuid        = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "video's link (if provided used as id)")
+  public SSUri                link        = null;
+  
+  @XmlElement
+  public void setLink(final String link) throws Exception{
+    this.link = SSUri.get(link);
+  }
   
   @ApiModelProperty(
     required = false,
@@ -113,6 +124,7 @@ public class SSVideoUserAddPar extends SSServPar{
       if(pars != null){
         
         uuid              = (String)          pars.get(SSVarU.uuid);
+        link              = (SSUri)           pars.get(SSVarU.link);
         forEntity         = (SSUri)           pars.get(SSVarU.forEntity);
         genre             = (String)          pars.get(SSVarU.genre);
         label             = (SSLabel)         pars.get(SSVarU.label);
@@ -127,6 +139,10 @@ public class SSVideoUserAddPar extends SSServPar{
         
         try{
           uuid =  par.clientJSONObj.get(SSVarU.app).getTextValue();
+        }catch(Exception error){}
+        
+        try{
+          link =  SSUri.get(par.clientJSONObj.get(SSVarU.link).getTextValue());
         }catch(Exception error){}
         
         try{
@@ -170,6 +186,10 @@ public class SSVideoUserAddPar extends SSServPar{
   /* json getters */
   public String getForEntity(){
     return SSStrU.removeTrailingSlash(forEntity);
+  }
+  
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
   }
   
   public String getLabel(){

@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.op.SSEntityMiscFct;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -394,11 +395,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
 
       final Map<String, String> inserts = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarU.entityId,         entity);
       insert(inserts, SSSQLVarU.attachedEntityId, entityToAttach);
       
-      dbSQL.insert(entitiesTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarU.entityId,          entity);
+      uniqueKey(uniqueKeys, SSSQLVarU.attachedEntityId,  entityToAttach);
+      
+      dbSQL.insertIfNotExists(entitiesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -775,19 +780,43 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getScreenShots(final SSUri entity) throws Exception{
+  public List<SSUri> getImages(
+    final SSUri    forEntity,
+    final SSImageE type) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
+      final List<String>        columns    = new ArrayList<>();
+      final List<String>        tables     = new ArrayList<>();
+      final Map<String, String> wheres     = new HashMap<>();
+      final List<String>        tableCons  = new ArrayList<>();
       
-      final Map<String, String> wheres            = new HashMap<>();
+      column (columns, imageTable, SSSQLVarU.imageId);
+      table  (tables, imageTable);
       
-      where(wheres, SSSQLVarU.entityId, entity);
+      if(forEntity != null){
+        where   (wheres,    entitiesTable, SSSQLVarU.entityId, forEntity);
+        table   (tables,    entitiesTable);
+        tableCon(tableCons, imageTable, SSSQLVarU.imageId, entitiesTable, SSSQLVarU.attachedEntityId);
+      }
       
-      resultSet = dbSQL.select(screenShotsTable, wheres);
+      if(type != null){
+        where(wheres, imageTable, SSSQLVarU.type, type);
+      }
       
-      return getURIsFromResult(resultSet, SSSQLVarU.screenShotId);
+      if(wheres.isEmpty()){
+        resultSet = dbSQL.select(imageTable);
+      }else{
+        
+        if(tableCons.isEmpty()){
+          resultSet = dbSQL.select(imageTable, columns, wheres);
+        }else{
+          resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+        }
+      }
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.imageId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1354,44 +1383,43 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addImage(
-    final SSUri   entity, 
-    final SSUri   image) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarU.entityId,      entity);
-      insert(inserts, SSSQLVarU.imageId,       image);
-      
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
-      
-      dbSQL.insertIfNotExists(entityImagesTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  public void addImage(
+//    final SSUri   entity, 
+//    final SSUri   image) throws Exception{
+//    
+//    try{
+//
+//      final Map<String, String> inserts    = new HashMap<>();
+//      final Map<String, String> uniqueKeys = new HashMap<>();
+//      
+//      insert(inserts, SSSQLVarU.entityId,      entity);
+//      insert(inserts, SSSQLVarU.imageId,       image);
+//
+//      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
+//      uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
+//      
+//      dbSQL.insertIfNotExists(entityImagesTable, inserts, uniqueKeys);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
-  public void addScreenShot(
-    final SSUri   entity, 
-    final SSUri   screenShot) throws Exception{
+  public void addImage(
+    final SSUri    image,
+    final SSImageE type) throws Exception{
     
     try{
 
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,           entity);
-      insert(inserts, SSSQLVarU.screenShotId,       screenShot);
+      insert(inserts, SSSQLVarU.imageId,    image);
+      insert(inserts, SSSQLVarU.type,       type);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId,         entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.screenShotId,     screenShot);
+      uniqueKey(uniqueKeys, SSSQLVarU.imageId, image);
       
-      dbSQL.insertIfNotExists(screenShotsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(imageTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

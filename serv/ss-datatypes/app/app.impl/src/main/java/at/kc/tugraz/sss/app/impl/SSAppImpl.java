@@ -139,18 +139,6 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
           false);
       }
       
-//        for(SSUri video : par.videos){
-//          
-////          SSServCaller.entityEntityToPubCircleAdd(
-////            par.user,
-////            video,
-////            SSEntityE.video,
-////            null,
-////            null,
-////            null,
-////            false);
-//            }
-      
       SSServCaller.entityUpdate(
         par.user,
         appUri,
@@ -233,8 +221,9 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         try{
           
           entity.attachedEntities.addAll(
-            SSServCaller.videosGet(
+            SSServCaller.videosUserGet(
               par.user,
+              null,
               app.id));
           
         }catch(SSErr error){
