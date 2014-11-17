@@ -5,17 +5,17 @@
     "path" : "/SSAdapterRest.{format}",
     "description" : "SSS REST API"
   }, {
-    "path" : "/SSAdapterRESTFile.{format}",
-    "description" : "SSS File REST API"
-  }, {
     "path" : "/SSAdapterRESTFileDownload.{format}",
     "description" : "SSS File Download REST API"
   }, {
-    "path" : "/SSAdapterRESTFileUpload.{format}",
-    "description" : "SSS File Upload REST API"
+    "path" : "/SSAdapterRESTFile.{format}",
+    "description" : "SSS File REST API"
   }, {
     "path" : "/SSAdapterRESTFileReplace.{format}",
     "description" : "SSS File Replace REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

@@ -57,6 +57,8 @@ public class SSEntityUserCanFct{
           }
         }
       }
+    }catch(SSErr error){
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -69,6 +69,12 @@ public class SSRecommResourcesPar extends SSServPar{
     required = false, 
     value = "number of resources to be returned")
   public Integer       maxResources    = 10;
+    
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether circle types (i.e. priv, group, pub) for recommended entities shall be set")
+  public Boolean       setCircleTypes    = null;
   
   @XmlElement
   @ApiModelProperty( 
@@ -84,11 +90,12 @@ public class SSRecommResourcesPar extends SSServPar{
     
     try{
       if(pars != null){
-        forUser                = (SSUri)           pars.get(SSVarU.forUser);
-        entity                 = (SSUri)           pars.get(SSVarU.entity);
-        categories             = (List<String>)    pars.get(SSVarU.categories);
-        maxResources           = (Integer)         pars.get(SSVarU.maxResources);
-        typesToRecommOnly      = (List<SSEntityE>) pars.get(SSVarU.typesToRecommOnly);
+        forUser                       = (SSUri)           pars.get(SSVarU.forUser);
+        entity                        = (SSUri)           pars.get(SSVarU.entity);
+        categories                    = (List<String>)    pars.get(SSVarU.categories);
+        maxResources                  = (Integer)         pars.get(SSVarU.maxResources);
+        typesToRecommOnly             = (List<SSEntityE>) pars.get(SSVarU.typesToRecommOnly);
+        setCircleTypes                = (Boolean)         pars.get(SSVarU.setCircleTypes);
       }
       
       if(par.clientJSONObj != null){
@@ -115,6 +122,10 @@ public class SSRecommResourcesPar extends SSServPar{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.typesToRecommOnly)) {
             typesToRecommOnly.add(SSEntityE.get(objNode.getTextValue()));
           }
+        }catch(Exception error){}
+        
+        try{
+          this.setCircleTypes  = par.clientJSONObj.get(SSVarU.setCircleTypes).getBooleanValue();
         }catch(Exception error){}
       }
       

@@ -1655,7 +1655,7 @@ public class SSServCaller {
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
   }
   
-  private static void entityUserCan(
+  private static SSEntity entityUserCan(
     final SSUri                    user,
     final SSUri                    entity, 
     final SSCircleRightE           accessRight) throws Exception{
@@ -1666,7 +1666,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,      entity);
     opPars.put(SSVarU.accessRight, accessRight);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCan, opPars));
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserCan, opPars));
   }
   
   public static void entityUserCanEdit(
@@ -1678,11 +1678,11 @@ public class SSServCaller {
     }
   }
   
-  public static void entityUserCanEdit(
+  public static SSEntity entityUserCanEdit(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    entityUserCan(user, entity, SSCircleRightE.edit);
+    return entityUserCan(user, entity, SSCircleRightE.edit);
   }
   
   public static void entityUserCanRead(
@@ -1694,18 +1694,18 @@ public class SSServCaller {
     }
   }
     
-  public static void entityUserCanRead(
+  public static SSEntity entityUserCanRead(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    entityUserCan(user, entity, SSCircleRightE.read);
+    return entityUserCan(user, entity, SSCircleRightE.read);
   }
   
-  public static void entityUserCanAll(
+  public static SSEntity entityUserCanAll(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    entityUserCan(user, entity, SSCircleRightE.all);
+    return entityUserCan(user, entity, SSCircleRightE.all);
   }
   
   public static SSEntityCircle entityUserCircleGet(
@@ -1871,6 +1871,18 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,         entity);
     
     return (List<SSCircleE>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCircleTypesGet, opPars));
+  }
+  
+  public static SSCircleE entityUserEntityMostOpenCircleTypeGet(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.entity,         entity);
+    
+    return (SSCircleE) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityMostOpenCircleTypeGet, opPars));
   }
 
   public static SSCircleE entityMostOpenCircleTypeGet(
@@ -2441,16 +2453,18 @@ public class SSServCaller {
     final SSUri           entity,
     final List<String>    categories,
     final Integer         maxResources,
-    final List<SSEntityE> typesToRecommOnly) throws Exception{
+    final List<SSEntityE> typesToRecommOnly, 
+    final Boolean         setCircleTypes) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.forUser,           forUser);
-    opPars.put(SSVarU.entity,            entity);
-    opPars.put(SSVarU.categories,        categories);
-    opPars.put(SSVarU.maxResources,      maxResources);
-    opPars.put(SSVarU.typesToRecommOnly, typesToRecommOnly);
+    opPars.put(SSVarU.user,                   user);
+    opPars.put(SSVarU.forUser,                forUser);
+    opPars.put(SSVarU.entity,                 entity);
+    opPars.put(SSVarU.categories,             categories);
+    opPars.put(SSVarU.maxResources,           maxResources);
+    opPars.put(SSVarU.typesToRecommOnly,      typesToRecommOnly);
+    opPars.put(SSVarU.setCircleTypes,         setCircleTypes);
     
     return (Map<SSEntity, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommResources, opPars));
   }

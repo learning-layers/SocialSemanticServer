@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommFct;
+import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -103,60 +104,45 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   public Map<SSEntity, Double> recommResources(final SSServPar parA) throws Exception{
     
     try{
-      final SSRecommResourcesPar   par       = new SSRecommResourcesPar(parA);
-      final Map<SSEntity, Double>  resources = new HashMap<>();
+      final SSRecommResourcesPar   par           = new SSRecommResourcesPar(parA);
+      final Map<SSEntity, Double>  entities      = new HashMap<>();
+      Integer                      entityCounter = 0;
       SSEntity                     entity;
       
-      if(par.user == null){
-        throw new Exception("user cannot be null");
-      }
+      SSRecommResourcesFct.checkPar(par);
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user, par.forUser)){
-        throw new Exception("user cannot retrieve resource recommendations for other users");
-      }
-      
-      final Map<String, Double> resourcesWithLikelihood =
+      final Map<String, Double> entitiesWithLikelihood =
         resourceRec.getEntitiesWithLikelihood(
           SSStrU.toStr(par.forUser),
           SSStrU.toStr(par.entity),
           par.categories,
-          par.maxResources);
+          100);
       
-      for(Map.Entry<String, Double> resourceWithLikelihood : resourcesWithLikelihood.entrySet()){
+      for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
         
-        try{
-          entity = SSServCaller.entityGet(SSUri.get(resourceWithLikelihood.getKey()));
-        }catch(Exception error){
-          SSServErrReg.reset();
-          continue;
-        }
+        entity = 
+          SSRecommResourcesFct.handleAccess(
+            par, 
+            SSUri.get(entityWithLikelihood.getKey()));
         
         if(
-          !par.typesToRecommOnly.isEmpty() &&
-          !SSStrU.contains(par.typesToRecommOnly, entity.type)){
+          entity == null ||
+          !SSRecommResourcesFct.handleType   (par, entity)){
           continue;
         }
         
-        switch(entity.type){
-          case entity: break;
-          default: {
-            try{
-              SSServCaller.entityUserCanRead(par.user, entity.id);
-            }catch(Exception error){
-              SSServErrReg.reset();
-              continue;
-            }
-          }
-        }
-        
-        resources.put(
+        SSRecommResourcesFct.addCircleTypes(par, entity);
+       
+        entities.put(
           entity,
-          resourceWithLikelihood.getValue());
+          entityWithLikelihood.getValue());
+        
+        if((++entityCounter) >= par.maxResources){
+          break;
+        }
       }
       
-      return resources;
+      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
