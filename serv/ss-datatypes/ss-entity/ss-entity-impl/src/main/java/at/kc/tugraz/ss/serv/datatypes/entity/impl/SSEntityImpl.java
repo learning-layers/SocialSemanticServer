@@ -91,6 +91,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
@@ -168,7 +169,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityUserCan(final SSServPar parA) throws Exception{
+  public SSEntity entityUserCan(final SSServPar parA) throws Exception{
    
     try{
 
@@ -181,22 +182,22 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
           SSServErrReg.reset();
-          return;
+          return null;
         }
         
         throw error;
       }
       
       SSEntityUserCanFct.checkWhetherUserCanForEntityType(
-        sqlFct, 
-        par.user, 
-        entity, 
+        sqlFct,
+        par.user,
+        entity,
         par.accessRight);
       
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow (new SSErr(SSErrE.userNotAllowedToAccessEntity));
-    }catch(Exception error){      
+      return entity;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1525,6 +1526,30 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       return sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSCircleE entityUserEntityMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntityUserEntityMostOpenCircleTypeGetPar par                = new SSEntityUserEntityMostOpenCircleTypeGetPar(parA);
+      SSCircleE                                        mostOpenCircleType = SSCircleE.priv;
+      
+      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity)){
+        
+        switch(circleType){
+          
+          case pub:  return SSCircleE.pub;
+          case priv: continue;
+          default:   mostOpenCircleType = SSCircleE.group;
+        }
+      }
+      
+      return mostOpenCircleType;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

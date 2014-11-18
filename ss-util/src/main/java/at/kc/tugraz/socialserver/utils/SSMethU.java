@@ -120,6 +120,7 @@ public enum SSMethU{
   entityInSharedCircleIs,
   entityMostOpenCircleTypeGet,
   entityUserEntityCircleTypesGet,
+  entityUserEntityMostOpenCircleTypeGet,
   entityUserPublicSet,
   entityUserGet,
   entityUserShare,

@@ -17,7 +17,13 @@
   </properties>
   
   <dependencies>
-  
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-err-datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-voc-serv</artifactId>
