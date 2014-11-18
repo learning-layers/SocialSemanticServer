@@ -104,12 +104,22 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   
   @ApiModelProperty( 
     required = false, 
-    value = "provides users to share this discussion with upon creation of a new discussion (optional, but works only for a new discussion)")
+    value = "users to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
   public List<SSUri>         users          = new ArrayList<>();
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users);
+  }
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "circles to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
+  public List<SSUri>         circles          = new ArrayList<>();
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
   }
   
   @ApiModelProperty( 
@@ -139,6 +149,7 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         label         = (SSLabel)            pars.get(SSVarU.label);
         description   = (SSTextComment)      pars.get(SSVarU.description);
         users         = (List<SSUri>)        pars.get(SSVarU.users);
+        circles       = (List<SSUri>)        pars.get(SSVarU.circles);
         entities      = (List<SSUri>)        pars.get(SSVarU.entities);
       }
       
@@ -175,6 +186,12 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
+            circles.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         

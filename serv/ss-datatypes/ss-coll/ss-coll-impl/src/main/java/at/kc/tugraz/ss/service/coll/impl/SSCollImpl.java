@@ -58,11 +58,9 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollToCircleAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSetPublicPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserShareWithUserPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
@@ -77,6 +75,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
+import sss.serv.err.datatypes.SSWarnE;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
 
@@ -229,29 +228,74 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   @Override
   public void shareUserEntity(
-    final SSUri          userUri, 
+    final SSUri          user, 
     final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          circleUri,
-    final SSEntityE      entityType,
+    final SSUri          entity, 
+    final SSUri          circle,
+    final SSEntityE      type,
     final Boolean        saveActivity) throws Exception{
     
     try{
       
-      switch(entityType){
-        case coll:
+      switch(type){
+        
+        case coll:{
+          
+          SSUri rootColl;
+          
+          if(sqlFct.isCollSpecial(entity)){
+            SSLogU.warn(SSWarnE.cannotShareSpecialCollection);
+            return; 
+          }
+          
+          for(SSUri userUriToShareWith : userUrisToShareWith){
+
+            rootColl = SSServCaller.collUserRootGet (userUriToShareWith).id;
+            
+            if(
+              sqlFct.containsCollEntry (rootColl, entity) ||
+              sqlFct.ownsUserColl      (userUriToShareWith, entity)){
+              SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
+              continue;
+            }
+            
+            if(SSCollMiscFct.ownsUserASubColl(sqlFct, userUriToShareWith, entity)){
+              SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
+              continue;
+            }
+            
+            SSCollMiscFct.shareCollWithUser(
+              sqlFct,
+              user,
+              userUriToShareWith,
+              rootColl,
+              entity,
+              circle);
+          }
+          
+          break;
+        }
+        
         case file:
-        case entity:
+        case entity:{
+          
+          SSUri sharedWithMeFilesCollUri;
           
           for(SSUri userUriToShareWith : userUrisToShareWith){
             
-            SSServCaller.collUserShareWithUser(
-              userUri,
-              userUriToShareWith,
-              entityUri,
-              circleUri,
-              false);
+            sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (userUriToShareWith);
+            
+            if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, entity)){
+              SSLogU.warn(SSWarnE.entityAlreadySharedWithUser);
+              continue;
+            }
+            
+            SSCollMiscFct.shareEntityWithUser(
+              sqlFct,
+              sharedWithMeFilesCollUri,
+              entity);
           }
+        }
       }
       
     }catch(Exception error){
@@ -260,21 +304,22 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public void addEntityToCircle(
-    final SSUri        userUri,
-    final SSUri        circleUri,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
+  public void shareUserEntityWithCircle(
+    final SSUri        user,
+    final SSUri        circle,
+    final SSUri        entity,
+    final SSEntityE    type) throws Exception{
 
-    switch(entityType){
+    switch(type){
+      
       case coll:{
         try{
           
-          SSServCaller.collToCircleAdd(
-            userUri,
-            circleUri,
-            entityUri,
-            false);
+          SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(
+            sqlFct,
+            user,
+            sqlFct.getCollWithEntries(entity, new ArrayList<>()),
+            circle);
           
         }catch(Exception error){
           SSServErrReg.regErrThrow(error);
@@ -981,82 +1026,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public SSUri collUserShareWithUser(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollUserShareWithUserPar par = new SSCollUserShareWithUserPar(parA);
-
-      SSServCaller.entityUserCanRead(par.user, par.entity);
-      
-      if(sqlFct.isColl(par.entity)){
-        
-        final SSUri rootCollUri = SSServCaller.collUserRootGet (par.forUser).id;
-        
-        if(sqlFct.isCollSpecial(par.entity)){
-          throw new Exception("cannot share special collection");
-        }
-        
-        if(
-          sqlFct.containsCollEntry (rootCollUri, par.entity) ||
-          sqlFct.ownsUserColl  (par.forUser, par.entity)){
-          throw new Exception("coll is already shared with user");
-        }
-        
-        if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.forUser, par.entity)){
-          throw new Exception("a sub coll is already shared with user");
-        }
-        
-        dbSQL.startTrans(par.shouldCommit);
-        
-        SSCollMiscFct.shareCollWithUser(
-          sqlFct, 
-          par.user, 
-          par.forUser,
-          rootCollUri,
-          par.entity, 
-          par.circle);
-        
-      }else{
-        
-        final SSUri sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (par.forUser);
-       
-        if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, par.entity)){
-          throw new Exception("entity is already shared with user");
-        }
-        
-        dbSQL.startTrans(par.shouldCommit);
-        
-        SSCollMiscFct.shareEntityWithUser(
-          sqlFct, 
-          sharedWithMeFilesCollUri, 
-          par.entity);
-      }
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entity;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserShareWithUser(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
   public SSUri collUserSetPublic(final SSServPar parA) throws Exception{
 
     final SSCollUserSetPublicPar par = new SSCollUserSetPublicPar(parA);
@@ -1090,47 +1059,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         if(dbSQL.rollBack(parA)){
           return collUserSetPublic(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSUri collToCircleAdd(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollToCircleAddPar par = new SSCollToCircleAddPar(parA);
-
-      SSServCaller.entityUserCanRead(par.user, par.coll);
-      
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(
-        sqlFct,
-        par.user,
-        sqlFct.getCollWithEntries(
-          par.coll, 
-          new ArrayList<>()),
-        par.circle);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.coll;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return collToCircleAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

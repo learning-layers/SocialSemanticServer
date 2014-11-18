@@ -726,41 +726,7 @@ public class SSServCaller {
   }
   
   /* colls */
-  
-  public static SSUri collToCircleAdd(
-    final SSUri   user, 
-    final SSUri   circle, 
-    final SSUri   coll,
-    final Boolean shouldCommit) throws Exception{
-     
-    final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.coll,          coll);
-    opPars.put(SSVarU.circle,        circle);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collToCircleAdd, opPars)); 
-  }
-    
-  public static SSUri collUserShareWithUser(
-    final SSUri    user, 
-    final SSUri    forUser, 
-    final SSUri    entity, 
-    final SSUri    circle, 
-    final Boolean  shouldCommit) throws Exception{
-  
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,               user);
-    opPars.put(SSVarU.forUser,            forUser);
-    opPars.put(SSVarU.entity,             entity);
-    opPars.put(SSVarU.circle,             circle);
-    opPars.put(SSVarU.shouldCommit,       shouldCommit);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.collUserShareWithUser, opPars)); 
-  }
-  
   public static SSColl collUserWithEntries(
     final SSUri user, 
     final SSUri coll) throws Exception{
@@ -1039,24 +1005,6 @@ public class SSServCaller {
     return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.discEntryURIsGet, opPars)); 
   }
   
-  public static SSUri discUserShareWithUser(
-    final SSUri    user, 
-    final SSUri    forUser, 
-    final SSUri    entity, 
-    final SSUri    circle, 
-    final Boolean  shouldCommit) throws Exception{
-  
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,               user);
-    opPars.put(SSVarU.forUser,            forUser);
-    opPars.put(SSVarU.entity,             entity);
-    opPars.put(SSVarU.circle,             circle);
-    opPars.put(SSVarU.shouldCommit,       shouldCommit);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.discUserShareWithUser, opPars)); 
-  }
-  
   public static SSDiscUserEntryAddRet discUserEntryAdd(
     final SSUri               user,
     final SSUri               disc,
@@ -1067,6 +1015,7 @@ public class SSServCaller {
     final SSLabel             label,
     final SSTextComment       description,
     final List<SSUri>         users,
+    final List<SSUri>         circles,
     final List<SSUri>         entities,
     final Boolean             shouldCommit) throws Exception{
     
@@ -1081,6 +1030,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.description,  description);
     opPars.put(SSVarU.users,        users);
+    opPars.put(SSVarU.circles,      circles);
     opPars.put(SSVarU.entities,     entities);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     

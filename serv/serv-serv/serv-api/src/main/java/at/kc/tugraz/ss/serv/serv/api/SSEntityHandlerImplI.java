@@ -48,18 +48,18 @@ public interface SSEntityHandlerImplI{
     final SSUri          circle,
     final SSEntityE      entityType,
     final Boolean        saveActivity) throws Exception;
+
+  public void shareUserEntityWithCircle(
+    final SSUri        userUri, 
+    final SSUri        circleUri, 
+    final SSUri        entityUri, 
+    final SSEntityE    entityType) throws Exception;
   
   public Boolean copyUserEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity, 
     final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception;
-    
-  public void addEntityToCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception;
 
   public List<SSUri> getSubEntities(

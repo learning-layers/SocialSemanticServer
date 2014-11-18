@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -218,10 +217,6 @@ public class SSCollMiscFct{
 
     try{
 
-      if(SSObjU.isNull(sqlFct, userUri, userUriToShareWith, rootCollUri, collUri, circleUri)){
-        throw new Exception("pars null");
-      }
-      
       sqlFct.addCollToColl(
         userUriToShareWith,
         rootCollUri,
@@ -254,10 +249,6 @@ public class SSCollMiscFct{
     final SSUri        entityUri) throws Exception{
     
     try{
-      
-      if(SSObjU.isNull(sqlFct, sharedWithMeFilesCollUri, entityUri)){
-        throw new Exception("pars null");
-      }
       
       sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityUri);
       

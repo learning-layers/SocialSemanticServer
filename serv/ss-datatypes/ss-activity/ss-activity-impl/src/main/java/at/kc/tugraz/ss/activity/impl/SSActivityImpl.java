@@ -113,7 +113,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
-  public void addEntityToCircle(
+  public void shareUserEntityWithCircle(
     final SSUri        userUri,
     final SSUri        circleUri,
     final SSUri        entityUri,

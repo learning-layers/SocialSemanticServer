@@ -76,7 +76,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -231,7 +230,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void addEntityToCircle(
+  public void shareUserEntityWithCircle(
     final SSUri userUri,
     final SSUri circleUri,
     final SSUri entityUri,

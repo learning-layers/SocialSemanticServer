@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSDiscUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
@@ -182,22 +181,25 @@ implements
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
     
-    if(
-      !SSStrU.equals(type, SSEntityE.discEntry) &&
-      !SSStrU.equals(type, SSEntityE.qaEntry)   &&
-      !SSStrU.equals(type, SSEntityE.chatEntry)){
-      return new ArrayList<>();
-    }
+    switch(type){
       
-    try{
-      final List<String> userDiscUris = sqlFct.getDiscURIsForUser          (user);
-      final List<String> discUris     = sqlFct.getDiscURIsContainingEntry  (entity);
-      
-      return SSUri.get(SSStrU.retainAll(discUris, userDiscUris));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+      case discEntry:
+      case qaEntry:
+      case chatEntry:{
+        
+        try{
+          final List<String> userDiscUris = sqlFct.getDiscURIsForUser          (user);
+          final List<String> discUris     = sqlFct.getDiscURIsContainingEntry  (entity);
+          
+          return SSUri.get(SSStrU.retainAll(discUris, userDiscUris));
+        }catch(Exception error){
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
     }
+    
+    return new ArrayList<>();
   }
 
   @Override
@@ -226,23 +228,35 @@ implements
        
         for(SSUri userToShareWith : usersToShareWith){
           
-          SSServCaller.discUserShareWithUser(
-            user,
-            userToShareWith,
-            entity,
-            circle,
-            false);
+          SSDiscMiscFct.shareDiscWithUser(
+            sqlFct, 
+            user, 
+            userToShareWith, 
+            entity, 
+            circle);
         }
     }
   }
   
   @Override
-  public void addEntityToCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final SSUri        entityUri, 
-    final SSEntityE    entityType) throws Exception{
+  public void shareUserEntityWithCircle(
+    final SSUri        user, 
+    final SSUri        circle, 
+    final SSUri        entity,
+    final SSEntityE    type) throws Exception{
     
+    switch(type){
+      case qa:
+      case disc:
+      case chat:{
+        
+        SSDiscMiscFct.shareDiscWithCircle(
+          sqlFct, 
+          user, 
+          entity, 
+          circle);
+      }
+    }
   }
   
   @Override
@@ -371,15 +385,13 @@ implements
         }
       }
       
-      if(
-        par.addNewDisc &&
-        !par.users.isEmpty()){
+      if(par.addNewDisc){
         
         SSServCaller.entityUserShare(
           par.user,
           par.disc,
           par.users,
-          SSUri.asListWithoutNullAndEmpty(),
+          par.circles,
           null,
           false);
       }
@@ -566,51 +578,6 @@ implements
     }
   }
 
-  @Override
-  public SSUri discUserShareWithUser(final SSServPar parA) throws Exception {
- 
-    try{
-      final SSDiscUserShareWithUserPar par = new SSDiscUserShareWithUserPar(parA);
-
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
-      
-      if(sqlFct.ownsUserDisc(par.forUser, par.entity)){
-        throw new Exception("disc is already shared with user");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSDiscMiscFct.shareDiscWithUser(
-        sqlFct,
-        par.user,
-        par.forUser,
-        par.entity,
-        par.circle);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entity;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return discUserShareWithUser(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public List<SSDisc> discsUserWithEntriesGet(final SSServPar parA) throws Exception{
 

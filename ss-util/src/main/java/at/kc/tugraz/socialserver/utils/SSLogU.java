@@ -72,8 +72,8 @@ public class SSLogU{
     log.debug(getMsg(logText));
   }
   
-  public static void warn(final String logText){
-    log.warn(getMsg(logText));
+  public static void warn(final Object logText){
+    log.warn(getMsg(logText.toString()));
   }
   
   public static void err(final Exception error, final String logText){

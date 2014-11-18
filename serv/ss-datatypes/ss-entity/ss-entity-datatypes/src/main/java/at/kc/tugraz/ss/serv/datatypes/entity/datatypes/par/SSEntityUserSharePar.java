@@ -84,7 +84,7 @@ public class SSEntityUserSharePar extends SSServPar{
       if(pars != null){
         entity       = (SSUri)                   pars.get(SSVarU.entity);
         users        = (List<SSUri>)             pars.get(SSVarU.users);
-        circles       = (List<SSUri>)             pars.get(SSVarU.circles);
+        circles      = (List<SSUri>)             pars.get(SSVarU.circles);
         comment      = (SSTextComment)           pars.get(SSVarU.comment);
       }
       

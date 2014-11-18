@@ -293,7 +293,6 @@ public enum SSMethU{
   discUserWithEntriesGet                              ,
   discsUserWithEntriesGet                             ,
   discUserEntryAdd                                    ,
-  discUserShareWithUser,
   discUserRemove                                      ,
   discRemove,
   discEntryAdd,
@@ -313,12 +312,10 @@ public enum SSMethU{
   
   
   //coll
-  collToCircleAdd                                     ,
   collUserRootGet                                     ,
   collUserParentGet                                   ,
   collUserEntryAdd                                    ,
   collUserWithEntries                                 ,
-  collUserShareWithUser                               ,
   collUserRootAdd                                     ,
   collUserEntryDelete                                 ,
   collUserEntryChangePos                              ,

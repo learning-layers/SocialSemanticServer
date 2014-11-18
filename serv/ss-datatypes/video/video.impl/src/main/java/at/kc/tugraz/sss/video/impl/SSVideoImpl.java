@@ -136,7 +136,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   }
 
   @Override
-  public void addEntityToCircle(
+  public void shareUserEntityWithCircle(
     final SSUri     user, 
     final SSUri     circle,
     final SSUri     entity, 

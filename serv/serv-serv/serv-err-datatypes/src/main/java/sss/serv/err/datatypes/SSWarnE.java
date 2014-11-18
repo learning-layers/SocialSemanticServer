@@ -18,31 +18,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.pars;
+package sss.serv.err.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-
-public class SSCollToCircleAddPar extends SSServPar{
-
-  public SSUri coll     = null;
-  public SSUri circle   = null;
-  
-  public SSCollToCircleAddPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-    
-      if(pars != null){
-        coll    = (SSUri)       pars.get(SSVarU.coll);
-        circle  = (SSUri)       pars.get(SSVarU.circle);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+public enum SSWarnE{
+  entityAlreadySharedWithUser,
+  subCollAlreadySharedWithUser,
+  collAlreadySharedWithUser,
+  discAlreadySharedWithUser,
+  cannotShareSpecialCollection;
 }

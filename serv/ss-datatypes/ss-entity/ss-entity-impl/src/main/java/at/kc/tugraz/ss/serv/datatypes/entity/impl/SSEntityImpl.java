@@ -673,7 +673,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
           par.isSystemCircle,
           false);
       
-      SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
+      SSEntityMiscFct.shareUserEntityWithCircleByEntityHandlers(
         par.user,
         par.entities,
         circleUri);
@@ -734,7 +734,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.entities, 
         false);
       
-      SSEntityMiscFct.addEntitiesToCircleByEntityHandlers(
+      SSEntityMiscFct.shareUserEntityWithCircleByEntityHandlers(
         par.user, 
         par.entities,
         par.circle);

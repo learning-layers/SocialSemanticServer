@@ -207,7 +207,7 @@ public class SSEntityMiscFct{
     }
   }
   
-  public static void addEntitiesToCircleByEntityHandlers(
+  public static void shareUserEntityWithCircleByEntityHandlers(
     final SSUri                              userUri,
     final List<SSUri>                        entityUris,
     final SSUri                              circleUri) throws Exception{
@@ -223,7 +223,7 @@ public class SSEntityMiscFct{
         }
         
         for(SSServA serv : SSServA.getServsManagingEntities()){
-          ((SSEntityHandlerImplI) serv.serv()).addEntityToCircle(userUri, circleUri, entityUri, entityType);
+          ((SSEntityHandlerImplI) serv.serv()).shareUserEntityWithCircle(userUri, circleUri, entityUri, entityType);
         }
       }
     }catch(Exception error){

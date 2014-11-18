@@ -35,7 +35,6 @@ public class SSDiscTester extends Thread{
     }
     
     switch(discConf.op){
-      case discUserShareWithUser:                new Thread(new SSDiscUserShareWithUserTest(discConf)).start(); break;
     }
   }
 }

@@ -164,7 +164,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   }
   
   @Override
-  public void addEntityToCircle(
+  public void shareUserEntityWithCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final SSUri        entityUri, 
