@@ -765,32 +765,6 @@ LOCK TABLES `entity` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `entityimages`
---
-
-DROP TABLE IF EXISTS `entityimages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `entityimages` (
-  `imageId` varchar(255) NOT NULL,
-  `entityId` varchar(255) NOT NULL,
-  PRIMARY KEY (`imageId`,`entityId`),
-  KEY `entityIdFKimages_idx` (`entityId`),
-  CONSTRAINT `entityIdFKentityimages` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `imageIdFKentityimages` FOREIGN KEY (`imageId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `entityimages`
---
-
-LOCK TABLES `entityimages` WRITE;
-/*!40000 ALTER TABLE `entityimages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `entityimages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `entitylocations`
 --
 
@@ -840,32 +814,6 @@ CREATE TABLE `entityreads` (
 LOCK TABLES `entityreads` WRITE;
 /*!40000 ALTER TABLE `entityreads` DISABLE KEYS */;
 /*!40000 ALTER TABLE `entityreads` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `entityvideos`
---
-
-DROP TABLE IF EXISTS `entityvideos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `entityvideos` (
-  `videoId` varchar(200) NOT NULL,
-  `entityId` varchar(255) NOT NULL,
-  KEY `entityIdFKvideos_idx` (`entityId`),
-  KEY `videoIdFKentityvideos_idx` (`videoId`),
-  CONSTRAINT `entityIdFKentityvideos` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `videoIdFKentityvideos` FOREIGN KEY (`videoId`) REFERENCES `video` (`videoId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `entityvideos`
---
-
-LOCK TABLES `entityvideos` WRITE;
-/*!40000 ALTER TABLE `entityvideos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `entityvideos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1050,6 +998,30 @@ CREATE TABLE `friends` (
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `image`
+--
+
+DROP TABLE IF EXISTS `image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `image` (
+  `imageId` varchar(255) NOT NULL,
+  `type` varchar(200) NOT NULL,
+  PRIMARY KEY (`imageId`),
+  CONSTRAINT `imageIdFKimage` FOREIGN KEY (`imageId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `image`
+--
+
+LOCK TABLES `image` WRITE;
+/*!40000 ALTER TABLE `image` DISABLE KEYS */;
+/*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1418,32 +1390,6 @@ LOCK TABLES `ratingass` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `screenshots`
---
-
-DROP TABLE IF EXISTS `screenshots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `screenshots` (
-  `entityId` varchar(255) NOT NULL,
-  `screenShotId` varchar(200) NOT NULL,
-  PRIMARY KEY (`entityId`,`screenShotId`),
-  KEY `screenShotIdFKscreenhots_idx` (`screenShotId`),
-  CONSTRAINT `entityIdFKscreenshots` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `screenShotIdFKscreenhots` FOREIGN KEY (`screenShotId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `screenshots`
---
-
-LOCK TABLES `screenshots` WRITE;
-/*!40000 ALTER TABLE `screenshots` DISABLE KEYS */;
-/*!40000 ALTER TABLE `screenshots` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `space`
 --
 
@@ -1687,4 +1633,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-13 15:12:11
+-- Dump completed on 2014-11-18  8:02:00
