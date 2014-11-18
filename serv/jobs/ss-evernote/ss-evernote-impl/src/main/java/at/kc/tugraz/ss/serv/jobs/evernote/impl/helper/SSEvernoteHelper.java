@@ -60,7 +60,11 @@ public class SSEvernoteHelper {
     return sharedNotebookGuids;
   }
 
-  public SSLabel getUserName(SSEvernoteInfo evernoteInfo) throws Exception{
+  public SSLabel getUserName(final SSEvernoteInfo evernoteInfo) throws Exception{
     return SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
+  }
+  
+  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws Exception{
+    return evernoteInfo.userStore.getUser().getEmail();
   }
 }

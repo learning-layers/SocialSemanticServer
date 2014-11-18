@@ -30,7 +30,8 @@ public class SSEvernoteConf extends SSServConfA{
   public String       appName             = "EvernoteDataSync";
   public String       appVersion          = "1.0";
   public String       evernoteEnvironment = "sandbox";
-  public List<String> authTokens          = new ArrayList<>(); //"S=s1:U=8b810:E=1499f470bf9:C=1424795dffc:P=1cd:A=en-devtoken:V=2:H=6eb18db6ec86ef2dcd064c99d4478523";
+  public List<String> authTokens          = new ArrayList<>();
+  public List<String> authEmails          = new ArrayList<>();
   
   public static SSEvernoteConf copy(final SSEvernoteConf orig){
     
@@ -45,6 +46,12 @@ public class SSEvernoteConf extends SSServConfA{
       copy.authTokens = null;
     }else{
       copy.authTokens.addAll(orig.authTokens);
+    }
+    
+    if(orig.authEmails == null){
+      copy.authEmails = null;
+    }else{
+      copy.authEmails = orig.authEmails;
     }
     
     return copy;

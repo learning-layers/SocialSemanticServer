@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteLabelHelper;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.evernote.edam.error.EDAMErrorCode;
@@ -56,7 +55,7 @@ public class SSDataImportEvernoteHelper {
   private final  SSEvernoteHelper        evernoteHelper;
   private final  String                  localWorkPath;
   private        SSEvernoteInfo          evernoteInfo             = null;
-  private        SSLabel                 userName                 = null;
+//  private        SSLabel                 userName                 = null;
   private        SSUri                   userUri                  = null;
   private        List<SharedNotebook>    sharedNotebooks          = null;
   private        List<String>            sharedNotebookGuids      = null;
@@ -68,25 +67,28 @@ public class SSDataImportEvernoteHelper {
     this.evernoteHelper  = new SSEvernoteHelper(dbSQL);
   }
   
-  public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
+  public SSLabel setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
     if(par.authToken == null){
       par.authToken = evernoteHelper.sqlFct.getAuthToken(par.user);
     }
     
     this.evernoteInfo    = getNoteStore(par);
-    this.userName        = evernoteHelper.getUserName        (evernoteInfo);
+    
+    final SSLabel userName = evernoteHelper.getUserName        (evernoteInfo);
+    
     this.userUri         = 
       SSServCaller.authRegisterUser(
         par.user, 
         userName,
-        userName + SSVoc.systemEmailPostFix, 
+        par.authEmail, //userName + SSVoc.systemEmailPostFix, 
         "1234", 
         false,
         false);
     
     evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);
     
+    return userName;
 //    this.userCircle      = SSServCaller.entityCircleURIPrivGet(userUri);
   }
   
@@ -96,7 +98,8 @@ public class SSDataImportEvernoteHelper {
   }
   
   public void handleNotebooks(
-    final SSDataImportEvernotePar par) throws Exception{
+    final SSDataImportEvernotePar par,
+    final SSLabel                 userName) throws Exception{
     
     SSUri                notebookUri;
     SSLabel              notebookLabel;

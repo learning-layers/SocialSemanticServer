@@ -112,6 +112,7 @@ public class SSVarU{
   public static final String addNewColl                                     = "addNewColl";
   public static final String uE                                             = "uE";
   public static final String authToken                                      = "authToken";
+  public static final String authEmail                                      = "authEmail";
   public static final String noteStore                                      = "noteStore";
   public static final String linkedNotebook                                 = "linkedNotebook";
   public static final String notebookGuid                                   = "notebookGuid";

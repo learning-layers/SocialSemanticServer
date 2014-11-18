@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-
 public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
   public SSDataImportEvernoteTest(SSEvernoteConf evernoteConf){
@@ -37,13 +36,15 @@ public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   @Override
   protected void test() throws Exception {
     
-    int counter = 0;
-    
-    for(String authToken : ((SSEvernoteConf)conf).authTokens){
-      
+    for(int counter = 0; counter < ((SSEvernoteConf)conf).authTokens.size(); counter++){
+
       SSLogU.info("start " + op + "Test number " + counter);
       
-      SSServCaller.dataImportEvernote(SSVoc.systemUserUri, authToken, true);
+      SSServCaller.dataImportEvernote(
+        SSVoc.systemUserUri, 
+        ((SSEvernoteConf)conf).authTokens.get(counter), 
+        ((SSEvernoteConf)conf).authEmails.get(counter),  
+        true);
       
       SSLogU.info("end " + op + "Test number " + counter++);
     }

@@ -209,29 +209,9 @@ search for entities
 
 
 - - -
-#### **POST** `/entityCircleCreate`
+#### **POST** `/entityUserCirclesGet`
 
-create a circle and add users and entities to
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
-        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityUsersToCircleAdd`
-
-add given users to a user-generated circle
+retrieve circles the user is in
 
 
 
@@ -241,8 +221,8 @@ add given users to a user-generated circle
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
-        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
+        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
+        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
     </tr>
 </table>
 
@@ -269,9 +249,9 @@ add given entities to a user-generated circle
 
 
 - - -
-#### **POST** `/entityUserCirclesGet`
+#### **POST** `/entityUsersToCircleAdd`
 
-retrieve circles the user is in
+add given users to a user-generated circle
 
 
 
@@ -281,8 +261,68 @@ retrieve circles the user is in
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserCirclesGetPar">SSEntityUserCirclesGetPar</a> </td>
-        <td>  [SSEntityUserCirclesGetRet](#SSEntityUserCirclesGetRet) </td>
+        <td><a href="#SSEntityUserUsersToCircleAddPar">SSEntityUserUsersToCircleAddPar</a> </td>
+        <td>  [SSEntityUserUsersToCircleAddRet](#SSEntityUserUsersToCircleAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityCircleCreate`
+
+create a circle and add users and entities to
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserCircleCreatePar">SSEntityUserCircleCreatePar</a> </td>
+        <td>  [SSEntityUserCircleCreateRet](#SSEntityUserCircleCreateRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/dataImportEvernote`
+
+import data from evernote for certain user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
+        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesPredefinedGet`
+
+get predefined categories
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
+        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
     </tr>
 </table>
 
@@ -629,9 +669,9 @@ add an annotation to a video
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+#### **POST** `/flagsGet`
 
-remove certain attached attributes from an entity
+retrieve flags set
 
 
 
@@ -641,37 +681,17 @@ remove certain attached attributes from an entity
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
+        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
     </tr>
 </table>
 
 
 
 - - -
-#### **POST** `/dataImportEvernote`
+#### **POST** `/activitiesGet`
 
-import data from evernote for certain user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
-        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesPredefinedGet`
-
-get predefined categories
+retrieve activities from within a certain time frame
 
 
 
@@ -681,28 +701,8 @@ get predefined categories
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
-        <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/authCheckCred`
-
-retrieve the authentication key and user&#39;s uri for credentials
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
-        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
+        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
+        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
     </tr>
 </table>
 
@@ -729,26 +729,6 @@ set flags
 
 
 - - -
-#### **POST** `/flagsGet`
-
-retrieve flags set
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSFlagsUserGetPar">SSFlagsUserGetPar</a> </td>
-        <td>  [SSFlagsUserGetRet](#SSFlagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityDescsGet`
 
 retrieve more detailed information for given entities of a user
@@ -769,9 +749,9 @@ retrieve more detailed information for given entities of a user
 
 
 - - -
-#### **POST** `/activitiesGet`
+#### **POST** `/authCheckCred`
 
-retrieve activities from within a certain time frame
+retrieve the authentication key and user&#39;s uri for credentials
 
 
 
@@ -781,8 +761,8 @@ retrieve activities from within a certain time frame
         <td>Out</td>
     </tr>
     <tr>
-        <td><a href="#SSActivitiesUserGetPar">SSActivitiesUserGetPar</a> </td>
-        <td>  [SSActivitiesUserGetRet](#SSActivitiesUserGetRet) </td>
+        <td><a href="#SSAuthCheckCredPar">SSAuthCheckCredPar</a> </td>
+        <td>  [SSAuthCheckCredRet](#SSAuthCheckCredRet) </td>
     </tr>
 </table>
 
@@ -829,26 +809,6 @@ add an activity
 
 
 - - -
-#### **POST** `/entityPublicSet`
-
-set an entity public (make it accessible for everyone)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
-        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/systemVersionGet`
 
 retrieve the version of the sss instance
@@ -863,6 +823,26 @@ retrieve the version of the sss instance
     <tr>
         <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
         <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityPublicSet`
+
+set an entity public (make it accessible for everyone)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
+        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
     </tr>
 </table>
 
@@ -1209,26 +1189,6 @@ updates/adds given properties for an entity
 
 
 - - -
-#### **POST** `/ratingOverallGet`
-
-retrieve the overall rating (by all users) for given entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
-        <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/ratingSet`
 
 set the user&#39;s rating for given entity
@@ -1243,6 +1203,26 @@ set the user&#39;s rating for given entity
     <tr>
         <td><a href="#SSRatingUserSetPar">SSRatingUserSetPar</a> </td>
         <td>  [SSRatingUserSetRet](#SSRatingUserSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/ratingOverallGet`
+
+retrieve the overall rating (by all users) for given entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSRatingOverallGetPar">SSRatingOverallGetPar</a> </td>
+        <td>  [SSRatingOverallGetRet](#SSRatingOverallGetRet) </td>
     </tr>
 </table>
 
@@ -1729,6 +1709,26 @@ retrieve videos
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 
 ## Data Types
 
@@ -1958,16 +1958,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -2186,16 +2186,16 @@ retrieve videos
         <td></td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2252,13 +2252,13 @@ retrieve videos
         <td>creation / timestamp in milliseconds</td>
     </tr>
     <tr>
-        <td>fork</td>
+        <td>descriptionShort</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
+        <td>fork</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -2282,16 +2282,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -2312,16 +2312,16 @@ retrieve videos
         <td>screenShots</td>
     </tr>
     <tr>
-        <td>downloadAndroid</td>
-        <td>string</td>
-        <td></td>
-        <td>download link Android</td>
-    </tr>
-    <tr>
         <td>videos</td>
         <td>Array[string]</td>
         <td></td>
         <td>videos</td>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td>download link Android</td>
     </tr>
     <tr>
         <td>key</td>
@@ -2372,16 +2372,16 @@ retrieve videos
         <td>name</td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
-        <td>string</td>
-        <td></td>
-        <td>short description</td>
-    </tr>
-    <tr>
         <td>fork</td>
         <td>string</td>
         <td></td>
         <td>github fork link</td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td>short description</td>
     </tr>
     <tr>
         <td>descriptionFunctional</td>
@@ -2558,16 +2558,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -2906,16 +2906,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -3416,16 +3416,16 @@ retrieve videos
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -3830,16 +3830,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -3896,16 +3896,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -4730,6 +4730,12 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
+        <td>authEmail</td>
+        <td>string</td>
+        <td></td>
+        <td>email address of the user for the authentication key (required for OIDC authentication)</td>
+    </tr>
+    <tr>
         <td>key</td>
         <td>string</td>
         <td>true</td>
@@ -4916,16 +4922,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -5354,16 +5360,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5420,16 +5426,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -5576,16 +5582,16 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>id</td>
@@ -6608,16 +6614,16 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
-        <td>users</td>
-        <td>Array[string]</td>
-        <td>true</td>
-        <td>users to add</td>
-    </tr>
-    <tr>
         <td>circle</td>
         <td>string</td>
         <td>true</td>
         <td>circle to add users to</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>Array[string]</td>
+        <td>true</td>
+        <td>users to add</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7232,10 +7238,10 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>locations</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>id</td>
@@ -7244,10 +7250,10 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
-        <td>flags assigned</td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -7472,16 +7478,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -7538,16 +7544,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -7808,16 +7814,16 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>id</td>
@@ -8012,13 +8018,13 @@ retrieve videos
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -8822,16 +8828,16 @@ retrieve videos
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -9506,16 +9512,16 @@ retrieve videos
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -9962,16 +9968,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -10172,16 +10178,16 @@ retrieve videos
         <td>uri</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>flags</td>
         <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
         <td>flags assigned</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
 </table>
 
@@ -10328,16 +10334,16 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>id</td>

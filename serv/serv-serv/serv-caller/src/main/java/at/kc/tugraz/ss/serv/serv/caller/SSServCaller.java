@@ -545,6 +545,7 @@ public class SSServCaller {
   public static void dataImportEvernote(
     final SSUri   user, 
     final String  authToken, 
+    final String  authEmail,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -552,6 +553,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.authToken,    authToken);
+    opPars.put(SSVarU.authEmail,    authEmail);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.dataImportEvernote, opPars));
   }

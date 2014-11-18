@@ -36,6 +36,10 @@ import javax.xml.bind.annotation.XmlElement;
    @ApiModelProperty( required = true , value = "evernote authentication key")
    public String authToken = null;
    
+   @XmlElement
+   @ApiModelProperty( required = false , value = "email address of the user for the authentication key (required for OIDC authentication)")
+   public String authEmail = null;
+   
    public SSDataImportEvernotePar(){}
    
    public SSDataImportEvernotePar(SSServPar par) throws Exception{
@@ -46,10 +50,12 @@ import javax.xml.bind.annotation.XmlElement;
       
       if(pars != null){
         authToken       = (String)          pars.get(SSVarU.authToken);
+        authEmail       = (String)          pars.get(SSVarU.authEmail);
       }
       
       if(par.clientJSONObj != null){
         authToken       = par.clientJSONObj.get(SSVarU.authToken).getTextValue();
+        authEmail       = par.clientJSONObj.get(SSVarU.authEmail).getTextValue();
       }
       
     }catch(Exception error){

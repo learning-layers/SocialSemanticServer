@@ -77,7 +77,8 @@ entityConf:
 evernoteConf:
   appName: SSS
   appVersion: '1.0'
-  authTokens: null
+  authEmails: 
+  authTokens: 
   companyName: TU Graz
   evernoteEnvironment: production
   executeOpAtStartUp: false
