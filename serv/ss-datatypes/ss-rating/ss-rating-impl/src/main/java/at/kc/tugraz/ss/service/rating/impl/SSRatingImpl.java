@@ -225,7 +225,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         return true;
       }
       
-      ratingUri = sqlFct.createRatingUri();
+      ratingUri = SSServCaller.vocURICreate("rating");
       
       dbSQL.startTrans(par.shouldCommit);
       

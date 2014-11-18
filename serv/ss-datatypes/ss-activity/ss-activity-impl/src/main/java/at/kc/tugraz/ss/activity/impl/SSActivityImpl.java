@@ -237,7 +237,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     try{
       final SSActivityAddPar par = new SSActivityAddPar(parA);
       
-      final SSUri activityUri = sqlFct.createActivityUri();
+      final SSUri activityUri = SSServCaller.vocURICreate("activity");
       
       dbSQL.startTrans(par.shouldCommit);
       

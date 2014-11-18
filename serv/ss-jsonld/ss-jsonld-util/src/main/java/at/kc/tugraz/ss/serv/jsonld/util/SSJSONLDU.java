@@ -36,17 +36,15 @@ public class SSJSONLDU {
   public static final String set       = "@set";
 
   private static String jsonLDUri; 
-  private static String app; 
-  private static String space; 
+  private static final String  app   = "ll";
+  private static final String  space = "sss";
   
   public static void init(
-    final String jsonLDServUri, 
-    final String application, 
-    final String appSpace){
+    final String jsonLDServUri){
     
     jsonLDUri = jsonLDServUri;
-    app       = application;
-    space     = appSpace;
+//    app       = application;
+//    space     = appSpace;
   }
   
   public static Map<String, Object> jsonLDContext() throws Exception{

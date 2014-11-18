@@ -91,12 +91,4 @@ public class SSFilerepoFct{
       return null;
     }
   }
-  
-  public SSUri createFileUri(String fileExtension) throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objFile().toString(), SSStrU.dot + fileExtension));
-  }
-  
-  public SSUri objFile() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.file.toString());
-  }
 }

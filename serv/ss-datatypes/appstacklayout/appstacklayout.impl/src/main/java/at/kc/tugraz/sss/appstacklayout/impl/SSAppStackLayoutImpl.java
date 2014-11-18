@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -91,7 +92,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     try{
       
       final SSAppStackLayoutCreatePar par               = new SSAppStackLayoutCreatePar(parA);
-      final SSUri                     appStackLayoutUri = SSServCaller.vocURICreate();
+      final SSUri                     appStackLayoutUri = SSServCaller.vocURICreate(SSStrU.apiAppStack);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -157,7 +158,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   
     try{
       final SSAppStackLayoutTileAddPar par    = new SSAppStackLayoutTileAddPar(parA);
-      final SSUri                      tileUri = SSServCaller.vocURICreate();
+      final SSUri                      tileUri = SSServCaller.vocURICreate(SSStrU.apiAppStackTile);
       
       dbSQL.startTrans(par.shouldCommit);
       

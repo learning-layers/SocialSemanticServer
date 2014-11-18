@@ -97,7 +97,7 @@ public class SSCommentImpl extends SSServImplWithDBA implements SSCommentClientI
       
       for(SSTextComment content : par.comments){
         
-        commentUri = SSServCaller.vocURICreate();
+        commentUri = SSServCaller.vocURICreate("comment");
         
         SSServCaller.entityEntityToPrivCircleAdd(
           par.user,

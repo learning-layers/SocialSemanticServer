@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -92,7 +93,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     try{
       
       final SSAppAddPar par    = new SSAppAddPar(parA);
-      final SSUri       appUri = SSServCaller.vocURICreate();
+      final SSUri       appUri = SSServCaller.vocURICreate(SSStrU.apiApp);
       
       dbSQL.startTrans(par.shouldCommit);
       

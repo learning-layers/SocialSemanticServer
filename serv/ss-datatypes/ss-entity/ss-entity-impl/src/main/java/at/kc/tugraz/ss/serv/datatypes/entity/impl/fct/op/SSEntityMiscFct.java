@@ -113,7 +113,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final SSUri circleUri = sqlFct.createCircleURI();
+      final SSUri circleUri = SSServCaller.vocURICreate("circle");
 
       sqlFct.addEntityIfNotExists(
         circleUri, 

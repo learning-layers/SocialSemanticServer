@@ -109,7 +109,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
        
         for(SSFlagE flag : par.types){
           
-          SSUri flagUri = SSServCaller.vocURICreate();
+          SSUri flagUri = SSServCaller.vocURICreate("flag");
           
           SSServCaller.entityEntityToPrivCircleAdd(
             par.user, 

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.serv.caller;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
@@ -704,27 +705,19 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.broadcastUpdate, opPars));
   }
 
-  public static SSUri vocURIPrefixGet() throws Exception{
+  private static SSUri vocURIPrefixGet() throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
   }
   
-  public static SSUri vocURICreate() throws Exception{
-    
-    final Map<String, Object> opPars    = new HashMap<>();
-    final SSUri               vocPrefix = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
-    
-    return SSUri.get(vocPrefix, SSIDU.uniqueID());
+  public static SSUri vocURICreate(final String uriPostfix) throws Exception{
+    return SSUri.get(vocURIPrefixGet() + uriPostfix + SSStrU.slash + SSIDU.uniqueID());
   }
   
-  public static SSUri vocURICreate(final String id) throws Exception{
-    
-    final Map<String, Object> opPars    = new HashMap<>();
-    final SSUri               vocPrefix = (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
-    
-    return SSUri.get(vocPrefix, id);
+  public static SSUri vocURICreate(final String uriPostfix, final String id) throws Exception{
+    return SSUri.get(vocURIPrefixGet() + uriPostfix + SSStrU.slash + id);
   }
   
   /* colls */
@@ -1186,7 +1179,7 @@ public class SSServCaller {
     
     locations.add(
       SSLocation.get(
-        vocURICreate(), 
+        vocURICreate(SSStrU.apiLocation), 
         latitude,
         longitude, 
         accuracy));

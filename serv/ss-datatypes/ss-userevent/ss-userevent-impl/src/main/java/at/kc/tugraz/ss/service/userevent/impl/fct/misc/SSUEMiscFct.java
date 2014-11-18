@@ -64,12 +64,4 @@ public class SSUEMiscFct {
 //    
 //    return uesAfterEndTimeExclusion;
 //  }
-
-  public static SSUri createUEUri() throws Exception {
-    return SSUri.get(SSIDU.uniqueID(objUE().toString()));
-  }
-  
-  private static SSUri objUE() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.userEvent.toString());
-  }
 }

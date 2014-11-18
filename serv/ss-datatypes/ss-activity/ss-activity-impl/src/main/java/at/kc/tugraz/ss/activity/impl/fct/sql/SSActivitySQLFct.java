@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.activity.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
@@ -29,11 +28,9 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +42,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
   public SSActivitySQLFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
   }
-  
-  public SSUri createActivityUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objActivity().toString()));
-  }
-  
-  private static SSUri objActivity() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.activity.toString());
-  }  
   
   public void addActivityContent(
     final SSUri               user,

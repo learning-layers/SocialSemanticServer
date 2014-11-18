@@ -196,8 +196,5 @@ userConf:
 videoConf:
   use: true
 vocConf:
-  app: bp
-  executeOpAtStartUp: false
-  op: null
-  space: eval
   use: true
+  uriPrefix:

@@ -58,7 +58,7 @@
     "SSFileDownloadPar" : {
       "id" : "SSFileDownloadPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",

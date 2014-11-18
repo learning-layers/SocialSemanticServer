@@ -242,7 +242,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         tmpLabel = SSVoc.systemUserLabel;
         tmpEmail = SSVoc.systemUserEmail;
       }else{
-        userUri  = SSServCaller.vocURICreate();
+        userUri  = SSServCaller.vocURICreate("user");
         tmpLabel = par.label;
         tmpEmail = par.email;        
       }

@@ -36,15 +36,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "videoAnnotationAdd request parameter")
 public class SSVideoUserAnnotationAddPar extends SSServPar{
   
+  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "video to add annotation for")
   public SSUri               video        = null;
   
-  @XmlElement
-  public void setVideo(final String video) throws Exception{
-    this.video = SSUri.get(video);
-  }
+  
+//  public void setVideo(final String video) throws Exception{
+//    this.video = SSUri.get(video);
+//  }
   
   @XmlElement
   @ApiModelProperty(
@@ -65,26 +66,28 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     value = "y coordinate the annotation is attached to the video")
   public Float               y        = null;
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "name")
   public SSLabel               label        = null;
   
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
   
+//  public void setLabel(final String label) throws Exception{
+//    this.label = SSLabel.get(label);
+//  }
+  
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "description")
   public SSTextComment               description        = null;
   
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
-  }
   
+//  public void setDescription(final String description) throws Exception{
+//    this.description = SSTextComment.get(description);
+//  }
+//  
   public SSVideoUserAnnotationAddPar(){}
   
   public SSVideoUserAnnotationAddPar(SSServPar par) throws Exception{

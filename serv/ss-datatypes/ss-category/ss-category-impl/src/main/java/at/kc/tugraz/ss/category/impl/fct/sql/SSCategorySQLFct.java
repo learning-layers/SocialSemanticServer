@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.category.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
@@ -177,7 +176,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     try{
       
       if(!exsitsCategory){
-        return createCategoryURI();
+        return SSServCaller.vocURICreate("category");
       }
       
       final Map<String, String>  wheres = new HashMap<>();
@@ -433,13 +432,5 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-  }
-  
-  private SSUri createCategoryURI() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objCategory().toString()));
-  }
-   
-  private SSUri objCategory() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.category.toString());
   }
 }

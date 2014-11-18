@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -39,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import sss.serv.err.datatypes.SSErr;
@@ -64,9 +66,7 @@ public class SSRestMain extends Application {
     /* util */
     SSMimeTypeU.init();
     SSJSONLDU.init(
-      SSAdapterRestConf.instGet().getJsonLDConf().uri,
-      SSAdapterRestConf.instGet().getVocConf().app,
-      SSAdapterRestConf.instGet().getVocConf().space);
+      SSAdapterRestConf.instGet().getJsonLDConf().uri);
     
     /* json-ld */
 //    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
@@ -85,6 +85,8 @@ public class SSRestMain extends Application {
     classes.add(SSAdapterRESTFileDownload.class);
     classes.add(SSAdapterRESTFileUpload.class);
     classes.add(SSAdapterRESTFileReplace.class);
+    classes.add(SSRESTVideo.class);
+    classes.add(SSRESTAuth.class);
 
     return classes;
   }
@@ -196,5 +198,13 @@ public class SSRestMain extends Application {
         sssNodeSocketCon.closeCon();
       }
     }
+  }
+  
+  protected static void setBearer(
+    final SSServPar   par, 
+    final HttpHeaders headers) throws Exception{
+    
+    String bearer = headers.getRequestHeader("authorization").get(0);
+    par.key       =  SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
   }
 }

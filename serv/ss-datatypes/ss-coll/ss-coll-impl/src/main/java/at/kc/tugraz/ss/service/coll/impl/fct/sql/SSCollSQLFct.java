@@ -20,16 +20,13 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
@@ -787,14 +784,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-  
-  public SSUri createCollURI() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objColl().toString()));
-  }
-  
-  private static SSUri objColl() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.coll.toString());
-  } 
 }
 
 //  public SSSpaceEnum getUserCollSpace(SSUri user, SSUri coll) throws Exception{

@@ -45,7 +45,7 @@ public class SSServPar{
   @XmlElement 
   @ApiModelProperty( 
     value = "the user's identifier", 
-    required = true)
+    required = false)
   public        SSUri                user          = null;
   
   @XmlElement 
@@ -83,13 +83,16 @@ public class SSServPar{
       final JsonNode     jsonRootNode = mapper.readTree(jsonRequ);
 
       op   = SSMethU.get      (jsonRootNode.get(SSVarU.op).getTextValue());
-      user = SSUri.get        (jsonRootNode.get(SSVarU.user).getTextValue());
       key  = jsonRootNode.get (SSVarU.key).getTextValue();
       
+      try{
+        user = SSUri.get        (jsonRootNode.get(SSVarU.user).getTextValue());
+      }catch(Exception error){}
+      
       if(
-        SSObjU.isNull  (this.op, this.user)||
+        SSObjU.isNull  (this.op)||
         SSStrU.isEmpty (this.key)){
-        throw new Exception("op, user or key is empty");
+        throw new Exception("op or key is empty");
       }
       
       this.clientJSONObj = jsonRootNode;

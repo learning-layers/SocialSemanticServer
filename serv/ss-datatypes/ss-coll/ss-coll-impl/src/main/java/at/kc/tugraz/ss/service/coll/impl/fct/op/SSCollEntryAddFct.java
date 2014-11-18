@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
@@ -42,7 +43,7 @@ public class SSCollEntryAddFct{
       default:   isParentCollSharedOrPublic = true;
     }
     
-    par.entry = sqlFct.createCollURI();
+    par.entry = SSServCaller.vocURICreate(SSStrU.apiCollection);
     
     SSServCaller.entityEntityToPrivCircleAdd(
       par.user, 

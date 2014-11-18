@@ -80,9 +80,7 @@ public class SSSInitializer extends SSServImplStartA{
 
       SSMimeTypeU.init   ();
       SSJSONLDU.init(
-        SSCoreConf.instGet().getJsonLDConf().uri,
-        SSCoreConf.instGet().getVocConf().app, 
-        SSCoreConf.instGet().getVocConf().space);
+        SSCoreConf.instGet().getJsonLDConf().uri);
       
       SSDBGraph.inst.regServ             (SSCoreConf.instGet().getDbGraphConf());
       SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQLConf());

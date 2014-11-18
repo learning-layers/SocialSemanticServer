@@ -25,6 +25,22 @@ import java.util.*;
 public class SSStrU{
 
   private SSStrU(){}
+
+  public static final String apiLocation              = "location";
+  public static final String apiCollection            = "collection";
+  public static final String apiVideo                 = "video";
+  public static final String apiVideoAnnotation       = "video/annotation";
+  public static final String apiUser                  = "user";
+  public static final String apiTag                   = "tag";
+  public static final String apiApp                   = "app";
+  public static final String apiAppStack              = "appstack";
+  public static final String apiAppStackTile          = "appstack/tile";
+  public static final String apiMessage               = "message";
+  public static final String apiLearnEpVersion        = "learnep/version";
+  public static final String apiLearnEpCircle         = "learnep/circle";
+  public static final String apiLearnEpEntity         = "learnep/entity";
+  public static final String apiLearnEp               = "learnep";
+  public static final String apiLearnEpTimelineState  = "learnep/timelinestate";
   
   //characters
   public  static final String equal                                           = "=";

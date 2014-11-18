@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.userevent.impl.fct.graph;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSUEGraphFct extends SSDBGraphFct{
   
@@ -33,7 +32,7 @@ public class SSUEGraphFct extends SSDBGraphFct{
     
     super(serv.dbGraph);
     
-    eventGraphUri = SSUri.get(SSServCaller.vocURIPrefixGet(), graphEvent);
+//    eventGraphUri = SSUri.get(SSServCaller.vocURIPrefixGet(), graphEvent);
   }
   
 //  public boolean addUserEvent(

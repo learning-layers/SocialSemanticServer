@@ -72,7 +72,6 @@ import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 import sss.serv.err.datatypes.SSWarnE;
@@ -965,7 +964,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       dbSQL.startTrans(par.shouldCommit);
 
-      final SSUri rootCollUri = sqlFct.createCollURI();
+      final SSUri rootCollUri = SSServCaller.vocURICreate(SSStrU.apiCollection);
 
       SSServCaller.entityEntityToPrivCircleAdd(
         par.user,

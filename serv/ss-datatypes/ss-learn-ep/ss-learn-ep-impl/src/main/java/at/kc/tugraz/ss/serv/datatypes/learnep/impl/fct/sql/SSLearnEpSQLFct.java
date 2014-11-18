@@ -764,46 +764,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         dbSQL.closeStmt(resultSet);
       }
   }
-  
-  public SSUri createLearnEpVersionUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objLearnEpVersion().toString()));
-  }
-  
-  public SSUri createLearnEpCircleUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objLearnEpCircle().toString()));
-  }
-  
-  public SSUri createLearnEpEntityUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objLearnEpEntity().toString()));
-  }
-  
-  public SSUri createLearnEpUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objLearnEp().toString()));
-  }
-  
-  public SSUri createLearnEpTimelineStateUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objLearnEpTimelineState().toString()));
-  }
-  
-  private SSUri objLearnEpVersion() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpVersion.toString());
-  }
-  
-  private SSUri objLearnEpCircle() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpCircle.toString());
-  }
-  
-  private SSUri objLearnEpEntity() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpEntity.toString());
-  }
-  
-  private SSUri objLearnEp() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEp.toString());
-  }
-  
-  private SSUri objLearnEpTimelineState() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.learnEpTimelineState.toString());
-  }
 }
 
 //  private SSLearnEpCircle getLearnEpCircle(SSUri circleUri) throws Exception {

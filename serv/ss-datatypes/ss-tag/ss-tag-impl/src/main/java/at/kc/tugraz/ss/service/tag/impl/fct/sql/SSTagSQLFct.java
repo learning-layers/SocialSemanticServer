@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.tag.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
@@ -80,7 +80,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     try{
       
       if(!exsitsTag){
-        return createTagURI();
+        return SSServCaller.vocURICreate(SSStrU.apiTag);
       }
       
       final Map<String, String>  wheres = new HashMap<>();
@@ -352,13 +352,5 @@ public class SSTagSQLFct extends SSDBSQLFct{
     }finally{
       dbSQL.closeStmt(resultSet);
     }
-  }
-  
-  private SSUri createTagURI() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objTag().toString()));
-  }
-   
-  private SSUri objTag() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.tag.toString());
   }
 }

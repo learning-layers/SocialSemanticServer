@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -240,9 +241,9 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
       }else{
         
         if(par.uuid != null){
-          videoUri = SSServCaller.vocURICreate(par.uuid);
+          videoUri = SSServCaller.vocURICreate(SSStrU.apiVideo, par.uuid);
         }else{
-          videoUri = SSServCaller.vocURICreate();
+          videoUri = SSServCaller.vocURICreate(SSStrU.apiVideo);
         }
       }
       
@@ -332,7 +333,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   
     try{
       final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
-      final SSUri                          annotationUri = SSServCaller.vocURICreate();
+      final SSUri                          annotationUri = SSServCaller.vocURICreate(SSStrU.apiVideoAnnotation);
 
       SSServCaller.entityUserCanEdit(par.user, par.video);
       

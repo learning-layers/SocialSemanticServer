@@ -295,7 +295,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     
     try{
       final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
-      final SSUri                    ueUri = SSUEMiscFct.createUEUri();
+      final SSUri                    ueUri = SSServCaller.vocURICreate("userevent");
     
       try{
         SSServCaller.entityUserCanRead(par.user, par.entity);
@@ -361,7 +361,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     try{
       
       final SSUEAddPar par   = new SSUEAddPar(parA);
-      final SSUri      ueUri = SSUEMiscFct.createUEUri();
+      final SSUri      ueUri = SSServCaller.vocURICreate("userevent");
       
       if(par.entity != null){
 

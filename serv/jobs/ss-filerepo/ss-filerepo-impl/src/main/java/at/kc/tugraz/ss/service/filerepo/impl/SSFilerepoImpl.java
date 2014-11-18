@@ -263,7 +263,10 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
 
     SSFileCreateUriPar par = new SSFileCreateUriPar(parA);
 
-    return fct.createFileUri(par.fileExt);
+    return 
+      SSUri.get(
+        SSStrU.removeTrailingSlash(
+          SSServCaller.vocURICreate("file")) + par.fileExt);
   }
 
   @Override
@@ -295,7 +298,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     synchronized(fileAccessProps){
 
       for(SSFileRepoFileAccessProperty fileAccessProperty : fileAccessProps.values()){
-
         fileAccessProperty.updateWritingMinutes();
       }
     }
@@ -379,7 +381,10 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
       return null;
     }
 
-    return SSUri.get(fct.objFile() + par.id);
+    return 
+      SSUri.get(
+        SSStrU.removeTrailingSlash(
+          SSServCaller.vocURICreate("file")) + par.id);
   }
 
   @Override

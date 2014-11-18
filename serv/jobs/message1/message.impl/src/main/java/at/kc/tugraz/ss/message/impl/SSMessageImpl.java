@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -101,7 +102,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     try{
       final SSMessageSendPar  par        = new SSMessageSendPar(parA);
-      final SSUri             messageUri = SSServCaller.vocURICreate();
+      final SSUri             messageUri = SSServCaller.vocURICreate(SSStrU.apiMessage);
       
       dbSQL.startTrans(par.shouldCommit);
       

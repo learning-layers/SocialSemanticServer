@@ -173,7 +173,7 @@ public class SSLOMExtractorOutHandler{
         continue;
       }
       
-      tags = new ArrayList<SSTag>();
+      tags = new ArrayList<>();
       
       for(String keyword : SSStrU.distinctWithoutEmptyAndNull(resource.keywords)){
         
@@ -194,7 +194,7 @@ public class SSLOMExtractorOutHandler{
       for(SSLOMUser user : resource.users){
        
         SSServCaller.dataExportUserEntityTagCategoryTimestamps(
-          SSUri.get(SSServCaller.vocURIPrefixGet() + user.fullName), 
+          SSUri.get(SSServCaller.vocURICreate("user") + user.fullName), 
           tagsPerEntities, 
           categoriesPerEntities, 
           0L, 
@@ -204,8 +204,8 @@ public class SSLOMExtractorOutHandler{
       
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
           null, 
-          new HashMap<String, List<String>>(), 
-          new HashMap<String, List<String>>(), 
+          new HashMap<>(), 
+          new HashMap<>(), 
           null, 
           conf.outputResourceRecommFileName,
           true);

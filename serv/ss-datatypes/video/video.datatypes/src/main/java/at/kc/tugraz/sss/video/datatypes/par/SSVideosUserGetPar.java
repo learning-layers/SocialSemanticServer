@@ -34,25 +34,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "videosGet request parameter")
 public class SSVideosUserGetPar extends SSServPar{
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "entity to get videos for")
   public SSUri    forEntity            = null;
   
-  @XmlElement
-  public void setForEntity(final String forEntity) throws Exception{
-    this.forEntity = SSUri.get(forEntity);
-  }
   
+//  public void setForEntity(final String forEntity) throws Exception{
+//    this.forEntity = SSUri.get(forEntity);
+//  }
+  
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "user to get videos for")
   public SSUri forUser = null;
   
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
+  
+//  public void setForUser(final String forUser) throws Exception{
+//    this.forUser = SSUri.get(forUser);
+//  }
   
   public SSVideosUserGetPar(){}
   

@@ -20,16 +20,12 @@
 */
 package at.kc.tugraz.ss.service.rating.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.sql.ResultSet;
@@ -248,13 +244,5 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     
     return SSRatingOverall.get(ratingValue, counter);
   }
-  
-  public SSUri createRatingUri() throws Exception{
-    return SSUri.get(SSIDU.uniqueID(objRating().toString()));
-  }
-  
-  private SSUri objRating() throws Exception{
-    return SSUri.get(SSServCaller.vocURIPrefixGet(), SSEntityE.rating.toString());
-  }  
 }
 

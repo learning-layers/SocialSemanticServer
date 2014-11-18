@@ -345,7 +345,7 @@ implements
       
       if(par.addNewDisc){
         
-        par.disc = SSServCaller.vocURICreate();
+        par.disc = SSServCaller.vocURICreate("discussion");
         
         SSDiscUserEntryAddFct.addDisc(
           sqlFct,
