@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
+import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServInitA;
@@ -47,14 +48,14 @@ public class SSDataImportServInitializer extends SSServInitA{
           
           case dataImportEvernote:{
             
-            for(int counter = 0; counter < ((SSEvernoteConf)conf).authTokens.size(); counter++){
+            for(int counter = 0; counter < ((SSEvernoteConf) SSEvernoteServ.inst.servConf).authTokens.size(); counter++){
               
               try{
                 
                 SSServCaller.dataImportEvernote(
                   SSVoc.systemUserUri,
-                  ((SSEvernoteConf)conf).authTokens.get(counter),
-                  ((SSEvernoteConf)conf).authEmails.get(counter),
+                  ((SSEvernoteConf) SSEvernoteServ.inst.servConf).authTokens.get(counter),
+                  ((SSEvernoteConf) SSEvernoteServ.inst.servConf).authEmails.get(counter),
                   true);
                 
               }catch(Exception error){
