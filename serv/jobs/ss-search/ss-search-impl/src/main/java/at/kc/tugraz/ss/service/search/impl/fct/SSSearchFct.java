@@ -23,9 +23,14 @@ package at.kc.tugraz.ss.service.search.impl.fct;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSSearchFct {
 
@@ -78,5 +83,110 @@ public class SSSearchFct {
     }
     
     return searchResults;
+  }
+  
+  public static Boolean handleType(
+    final SSSearchPar par, 
+    final SSEntity    entity){
+    
+    if(
+      !par.typesToSearchOnlyFor.isEmpty() &&
+      !SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
+      return false;
+    }
+    
+    return true;
+  }
+  
+  public static SSEntity handleAccess(
+    final SSSearchPar par, 
+    final SSUri                entityID) throws Exception{
+    
+    try{
+      
+      return SSServCaller.entityUserCanRead(
+        par.user,
+        entityID);
+      
+    }catch(Exception error){
+      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+        SSServErrReg.reset();
+        return null;
+      }
+      
+      throw error;
+    }
+  }
+
+  public static List<SSEntity> recommendEntities(
+    final SSSearchPar par) throws Exception{
+    
+    final List<SSEntity> result = new ArrayList<>();
+    
+    if(!par.includeRecommendedResults){
+      return result;
+    }
+    
+    result.addAll(
+      SSServCaller.recommResources(
+        par.user,
+        par.user,
+        null,
+        new ArrayList<>(),
+        10,
+        par.typesToSearchOnlyFor,
+        false).keySet());
+    
+    return result;
+  }
+
+  public static Integer addRecommendedResult(
+    final List<SSEntity> page,
+    final List<SSUri>    uris,
+    final SSSearchPar    par,
+    final List<SSEntity> recommendedEntities,
+    Integer              recommendedEntityCounter) throws Exception{
+    
+    if(
+      !par.includeRecommendedResults                         ||
+      recommendedEntities.isEmpty()                          ||
+      recommendedEntityCounter >= recommendedEntities.size() ||
+      page.size()              == 10 ||
+      page.size() %2           != 0){
+      
+      return recommendedEntityCounter;
+    }
+      
+    while(recommendedEntityCounter < recommendedEntities.size()){
+      
+      if(SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id)){
+        recommendedEntityCounter++;
+        continue;
+      }
+      
+      page.add(recommendedEntities.get(recommendedEntityCounter));
+      recommendedEntityCounter++;
+      break;
+    }
+    
+    return recommendedEntityCounter;
+  }
+
+  public static void fillPagesIfEmpty(
+    final SSSearchPar          par, 
+    final List<List<SSEntity>> pages, 
+    final List<SSEntity>       recommendedEntities){
+    
+    if(
+      !pages.isEmpty() ||
+      !par.includeRecommendedResults){
+      return;
+    }
+    
+    if(recommendedEntities.size() < 10){
+      pages.add(new ArrayList<>(recommendedEntities.subList(0, recommendedEntities.size() - 1)));
+    }else{
+      pages.add(new ArrayList<>(recommendedEntities.subList(0, 9)));
+    }
   }
 }

@@ -399,9 +399,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       final SSSearchPar             par           = new SSSearchPar(parA);
       final List<SSEntity>          results       = new ArrayList<>();
       final List<SSUri>             uris          = new ArrayList<>();
-      SSEntity                      entity;
       final List<List<SSEntity>>    pages;
       final List<SSEntity>          page;
+      final List<SSEntity>          recommendedEntities;
+      Integer                       recommendedEntityCounter = 0;
+      SSEntity                      entity;
       
       if(
         par.pagesID    != null &&
@@ -417,6 +419,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       SSStrU.distinctWithoutNull2(uris);
       
+      recommendedEntities = SSSearchFct.recommendEntities(par);
+      
       final String pagesID = SSIDU.uniqueID();
       
       pages = new ArrayList<>();
@@ -424,29 +428,12 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       
       for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
         
-        try{
-          entity = SSServCaller.entityGet(result);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          continue;
-        }
+        entity = SSSearchFct.handleAccess(par, result);
         
         if(
-          !par.typesToSearchOnlyFor.isEmpty() &&
-          !SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
+          entity == null ||
+          !SSSearchFct.handleType   (par, entity)){
           continue;
-        }
-
-        switch(entity.type){
-          case entity: break;
-          default: {
-            try{
-              SSServCaller.entityUserCanRead(par.user, entity.id);
-            }catch(Exception error){
-              SSServErrReg.reset();
-              continue;
-            }
-          }
         }
         
         if(page.size() == 10){
@@ -455,11 +442,24 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         }
         
         page.add(entity);
+        
+        recommendedEntityCounter =
+          SSSearchFct.addRecommendedResult(
+            page,
+            uris,
+            par,
+            recommendedEntities,
+            recommendedEntityCounter);
       }
       
       if(!page.isEmpty()){
         pages.add(page);
       }
+      
+      SSSearchFct.fillPagesIfEmpty(
+        par, 
+        pages, 
+        recommendedEntities);
       
       if(!pages.isEmpty()){
         
@@ -474,15 +474,13 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           results.add(fillSearchResult(par, result.id));
         }
       }
-
+      
       return SSSearchRet.get(
         results, 
         pagesID,
         1,
         pages.size(), 
         parA.op);
-      
-//      par.includeRecommendedResults;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
