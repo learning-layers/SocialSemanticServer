@@ -43,6 +43,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import sss.serv.err.datatypes.SSErr;
@@ -209,22 +211,36 @@ public class SSRestMain extends Application {
     return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
   }
   
-   protected static Response handleGETRequest(
-     final HttpHeaders      headers,
-     final SSServPar        par){
-   
-     try{
+  protected static Response handleGETRequest(
+    final HttpHeaders      headers,
+    final SSServPar        par){
+    
+    try{
       par.key = getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
-    final String response = handleStandardJSONRESTCall(par, par.op);
     
-    if(response.contains(SSVarU.error + SSStrU.colon + SSStrU.blank + SSStrU.doubleQuote + SSStrU.valueTrue)){
-        return Response.status(500).entity(response).build();
+    final String   response;
+
+    try{
+      response = handleStandardJSONRESTCall(par, par.op);
+    }catch(Exception error){
+      return Response.status(500).entity("{\"id\":\"sss_response\",\"message\":\"couldn't retrieve response from sss\"}").build();
+    }
+    
+    try{
+      final ObjectMapper mapper       = new ObjectMapper();
+      final JsonNode     jsonRootNode = mapper.readTree(response);
+      
+      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
+        return Response.status(500).entity("{\"id\":\"" + jsonRootNode.get(SSVarU.id).getTextValue() + "\",\"message\":\"" + jsonRootNode.get(SSVarU.message).getTextValue() + "\"}").build();
       }else{
-      return Response.status(200).entity(response).build();
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      }
+      
+    }catch(Exception error){
+      return Response.status(500).entity("{\"id\":\"sss_json\",\"message\":\"couldn't parse json from sss\"}").build();
     }
   }
    

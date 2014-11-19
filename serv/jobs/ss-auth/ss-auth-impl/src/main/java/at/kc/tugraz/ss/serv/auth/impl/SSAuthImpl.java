@@ -260,7 +260,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 SSVoc.systemUserUri, 
                 email);
           }
-          
+
           return SSAuthCheckCredRet.get(
             par.key,
             userUri,

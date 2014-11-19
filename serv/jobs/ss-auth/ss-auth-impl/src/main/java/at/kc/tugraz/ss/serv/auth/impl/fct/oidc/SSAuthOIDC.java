@@ -44,61 +44,59 @@ public class SSAuthOIDC{
     final HTTPRequest     hrq;
     final HTTPResponse    hrs;
     final UserInfoResponse userInfoResponse;
-      
+    
     try{
-//      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
-      hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getI5CloudConf().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
-      hrq.setAuthorization("Bearer "+ authToken);
-      
-      //TODO: process all error cases that can happen (in particular invalid tokens)
-      hrs = hrq.send();
-      
-    } catch (IOException|URISyntaxException error) {
-      throw new Exception("Unexpected authentication error: " + error.getMessage());
-    }
-    
-    // process response from OpenID Connect user info endpoint
-    
-    try {
-      userInfoResponse = UserInfoResponse.parse(hrs);
-    } catch (ParseException error) {
-      throw new Exception("Couldn't parse UserInfo response: " + error.getMessage());
-    }
-    
-    // failed request for OpenID Connect user info will result in no agent being returned.
-    if (userInfoResponse instanceof UserInfoErrorResponse) {
-      
-      if(
-        ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
-        ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
+      try{
+        //      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
+        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getI5CloudConf().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
+        hrq.setAuthorization("Bearer "+ authToken);
         
-         throw new Exception("Open ID Connect UserInfo request failed! Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
-      }else{
-        throw new Exception("Open ID Connect UserInfo request failed!");
+        //TODO: process all error cases that can happen (in particular invalid tokens)
+        hrs = hrq.send();
+        
+      } catch (IOException|URISyntaxException error) {
+        throw new Exception("Unexpected authentication error: " + error.getMessage());
       }
-    }
-    
-    // In case of successful request, map OpenID Connect user info to intern
-    UserInfo userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo();
-    
-    try {
+      
+      // process response from OpenID Connect user info endpoint
+      
+      try {
+        userInfoResponse = UserInfoResponse.parse(hrs);
+      } catch (ParseException error) {
+        throw new Exception("Couldn't parse UserInfo response: " + error.getMessage());
+      }
+      
+      // failed request for OpenID Connect user info will result in no agent being returned.
+      if (userInfoResponse instanceof UserInfoErrorResponse) {
+        
+        if(
+          ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
+          ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
+          
+          throw new Exception("Open ID Connect UserInfo request failed! Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
+        }else{
+          throw new Exception("Open ID Connect UserInfo request failed!");
+        }
+      }
+      
+      // In case of successful request, map OpenID Connect user info to intern
+      UserInfo userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo();
       
       JSONObject ujson = userInfo.toJSONObject();
       //response.println("User Info: " + userInfo.toJSONObject());
       
-//      String sub  = (String) ujson.get("sub");
-//      String mail = (String) ujson.get("mail");
-//      String name = (String) ujson.get("name");
+      //      String sub  = (String) ujson.get("sub");
+      //      String mail = (String) ujson.get("mail");
+      //      String name = (String) ujson.get("name");
       
-//      long oidcAgentId   = hash(sub);
-//      username           = oidcAgentId + "";
-//      password           = sub;
-//      toUnlockPrivateKey = ujson.get("sub").toString();
-//      email              = (String) ujson.get("email");
-//      loginName          = (String) ujson.get("preferred_username");
+      //      long oidcAgentId   = hash(sub);
+      //      username           = oidcAgentId + "";
+      //      password           = sub;
+      //      toUnlockPrivateKey = ujson.get("sub").toString();
+      //      email              = (String) ujson.get("email");
+      //      loginName          = (String) ujson.get("preferred_username");
       
       return (String) ujson.get(SSVarU.email);
-      
     } catch (Exception error) {
       SSServErrReg.regErrThrow(error);
       return null;

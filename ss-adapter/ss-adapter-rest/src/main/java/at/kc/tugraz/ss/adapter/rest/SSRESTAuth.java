@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import com.wordnik.swagger.annotations.Api;
@@ -35,14 +34,13 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("/auth")
 @Api( value = "auth", description = "SSS REST API for authentication" )
 public class SSRESTAuth{
  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path(SSStrU.slash)
   @ApiOperation(
     value = "retrieve the authentication key and user's uri for credentials",
     response = SSAuthCheckCredRet.class)

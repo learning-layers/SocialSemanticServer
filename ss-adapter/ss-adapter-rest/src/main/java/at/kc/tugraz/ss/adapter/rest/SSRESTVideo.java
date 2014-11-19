@@ -40,14 +40,13 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("/video")
 @Api( value = "video", description = "SSS REST API for videos" )
 public class SSRESTVideo{
  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash)
   @ApiOperation(
     value = "retrieve videos",
     response = SSVideosUserGetRet.class)

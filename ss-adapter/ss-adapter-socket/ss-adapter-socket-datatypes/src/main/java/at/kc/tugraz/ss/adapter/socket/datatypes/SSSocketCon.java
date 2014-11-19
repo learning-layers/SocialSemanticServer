@@ -94,7 +94,7 @@ public class SSSocketCon{
     ret.put(SSVarU.errorLinesWhereThrown,   SSErrForClient.linesWhereThrown   (errors));
     ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
     
-    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
+//    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
     ret.put(SSMethU.toStr(op), null);
     
     ret.put(SSVarU.id, null);
@@ -127,9 +127,9 @@ public class SSSocketCon{
     ret.put(SSVarU.error,             false);
     ret.put(SSMethU.toStr(result.op), result);
     
-    if(sendJSONLD){
-      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
-    }
+//    if(sendJSONLD){
+//      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
+//    }
     
     writeMsgFullToClient(SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest);
   }

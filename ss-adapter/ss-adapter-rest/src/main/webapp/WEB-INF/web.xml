@@ -191,12 +191,12 @@
   
   <servlet-mapping>
     <servlet-name>SSRESTAuth</servlet-name>
-    <url-pattern>/auth/*</url-pattern>
+    <url-pattern>/auths/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>SSRESTVideo</servlet-name>
-    <url-pattern>/video/*</url-pattern>
+    <url-pattern>/videos/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>

@@ -2,23 +2,23 @@
   "apiVersion" : "6.0.1-alpha",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/SSAdapterRESTFileUpload.{format}",
-    "description" : "SSS File Upload REST API"
-  }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}",
-    "description" : "SSS File Replace REST API"
-  }, {
-    "path" : "/auth.{format}",
-    "description" : "SSS REST API for authentication"
-  }, {
     "path" : "/SSAdapterRest.{format}",
     "description" : "SSS REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
   }, {
     "path" : "/video.{format}",
     "description" : "SSS REST API for videos"
   }, {
     "path" : "/SSAdapterRESTFile.{format}",
     "description" : "SSS File REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileReplace.{format}",
+    "description" : "SSS File Replace REST API"
+  }, {
+    "path" : "/auth.{format}",
+    "description" : "SSS REST API for authentication"
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}",
     "description" : "SSS File Download REST API"

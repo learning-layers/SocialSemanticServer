@@ -19,6 +19,13 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv-err-datatypes</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.conf</groupId>
       <artifactId>ss-conf-conf</artifactId>
       <version>${project.version}</version>

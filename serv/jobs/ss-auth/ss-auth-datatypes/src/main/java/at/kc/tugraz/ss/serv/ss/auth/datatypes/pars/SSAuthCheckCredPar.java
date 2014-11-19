@@ -61,7 +61,10 @@ public class SSAuthCheckCredPar extends SSServPar{
     
     super(op, key);
     
-    this.label    = SSLabel.get(label);
+    try{ 
+      this.label    = SSLabel.get(label); 
+    }catch(Exception error){}
+
     this.password = password;
   }
   
