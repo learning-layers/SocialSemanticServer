@@ -39,7 +39,7 @@ public class SSServPar{
   @XmlElement 
   @ApiModelProperty( 
     value = "operation to be executed", 
-    required = true)
+    required = false)
   public        SSMethU              op            = null;
   
   @XmlElement 
@@ -51,7 +51,7 @@ public class SSServPar{
   @XmlElement 
   @ApiModelProperty( 
     value = "the user's access tocken", 
-    required = true)
+    required = false)
   public String key                    = null;
   
   @JsonIgnore (value = true)
@@ -74,6 +74,14 @@ public class SSServPar{
   
   @JsonIgnore (value = true)
   public        JsonNode             clientJSONObj = null;
+  
+  protected SSServPar(
+    final SSMethU op,
+    final String  key){
+    
+    this.op  = op;
+    this.key = key;
+  }
   
   public SSServPar(final String jsonRequ) throws Exception{
     

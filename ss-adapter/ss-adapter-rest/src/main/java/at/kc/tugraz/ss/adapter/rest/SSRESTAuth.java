@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import com.wordnik.swagger.annotations.Api;
@@ -51,20 +50,18 @@ public class SSRESTAuth{
     @Context 
       HttpHeaders headers){
 
-    SSAuthCheckCredPar input = new SSAuthCheckCredPar();
-    
-    input.op       = SSMethU.authCheckCred;
-    input.password = "asdf";
-    
-    try{ input.label    = SSLabel.get("username");  }catch(Exception error){}
-    
     try{
-      SSRestMain.setBearer(input, headers);
-      input.bearer = input.key;
+      
+      return SSRestMain.handleGETRequest(
+        headers,
+        new SSAuthCheckCredPar(
+          SSMethU.authCheckCred,
+          null,
+          null,
+          null));
+      
     }catch(Exception error){
-      return Response.status(401).build();
+      return Response.status(422).build();
     }
-    
-    return Response.status(200).entity(SSRestMain.handleStandardJSONRESTCall(input, input.op)).build();
   }
 }

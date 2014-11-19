@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SSAuthCheckCredPar extends SSServPar{
   
   @ApiModelProperty( 
-    required = true, 
+    required = false, 
     value = "name of the user, e.g. 'hugo'" )
   public SSLabel label;
   
@@ -47,17 +48,23 @@ public class SSAuthCheckCredPar extends SSServPar{
   @XmlElement
   @ApiModelProperty( 
     required = false, 
-    value = "token for oidc authentication" )
-  public String bearer;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = true, 
     value = "the user’s password" )
   public String password;
 
   public SSAuthCheckCredPar(){}
     
+  public SSAuthCheckCredPar(
+    final SSMethU op, 
+    final String  key,
+    final String  label, 
+    final String  password) throws Exception{
+    
+    super(op, key);
+    
+    this.label    = SSLabel.get(label);
+    this.password = password;
+  }
+  
   public SSAuthCheckCredPar(SSServPar par) throws Exception{
     
     super(par);
@@ -70,13 +77,10 @@ public class SSAuthCheckCredPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
-        password  = par.clientJSONObj.get(SSVarU.password).getTextValue();
-        
-        try{
-          bearer    = par.clientJSONObj.get(SSVarU.bearer).getTextValue();
-          key       = bearer;
-        }catch(Exception error){}
+
+        try{ password  = par.clientJSONObj.get(SSVarU.password).getTextValue(); }catch(Exception error){}
+
+        try{ label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue()); }catch(Exception error){}
       }
       
     }catch(Exception error){

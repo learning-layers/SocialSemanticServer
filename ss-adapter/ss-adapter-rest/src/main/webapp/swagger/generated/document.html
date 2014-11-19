@@ -209,26 +209,6 @@ search for entities
 
 
 - - -
-#### **POST** `/dataImportEvernote`
-
-import data from evernote for certain user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
-        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/categoriesPredefinedGet`
 
 get predefined categories
@@ -243,6 +223,26 @@ get predefined categories
     <tr>
         <td><a href="#SSCategoriesPredefinedGetPar">SSCategoriesPredefinedGetPar</a> </td>
         <td>  [SSCategoriesPredefinedGetRet](#SSCategoriesPredefinedGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/dataImportEvernote`
+
+import data from evernote for certain user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSDataImportEvernotePar">SSDataImportEvernotePar</a> </td>
+        <td>  [SSDataImportEvernoteRet](#SSDataImportEvernoteRet) </td>
     </tr>
 </table>
 
@@ -403,26 +403,6 @@ change the sequential order of entries in a user&#39;s collection
     <tr>
         <td><a href="#SSCollUserEntryChangePosPar">SSCollUserEntryChangePosPar</a> </td>
         <td>  [SSCollUserEntryChangePosRet](#SSCollUserEntryChangePosRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
     </tr>
 </table>
 
@@ -669,6 +649,26 @@ retrieve appStackLayouts
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/authCheckCred`
 
 retrieve the authentication key and user&#39;s uri for credentials
@@ -769,26 +769,6 @@ retrieve activities from within a certain time frame
 
 
 - - -
-#### **POST** `/activityTypesGet`
-
-retrieve available activity types
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSActivityTypesGetPar">SSActivityTypesGetPar</a> </td>
-        <td>  [SSActivityTypesGetRet](#SSActivityTypesGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/activityAdd`
 
 add an activity
@@ -803,6 +783,26 @@ add an activity
     <tr>
         <td><a href="#SSActivityAddPar">SSActivityAddPar</a> </td>
         <td>  [SSActivityUserAddRet](#SSActivityUserAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/activityTypesGet`
+
+retrieve available activity types
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSActivityTypesGetPar">SSActivityTypesGetPar</a> </td>
+        <td>  [SSActivityTypesGetRet](#SSActivityTypesGetRet) </td>
     </tr>
 </table>
 
@@ -1049,26 +1049,6 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
-#### **POST** `/collHierarchyGet`
-
-retrieve the parent collection order for a user&#39;s collection
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
-        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collsWithEntries`
 
 retrieve the user&#39;s collections with entries
@@ -1083,6 +1063,26 @@ retrieve the user&#39;s collections with entries
     <tr>
         <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
         <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collHierarchyGet`
+
+retrieve the parent collection order for a user&#39;s collection
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
+        <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
     </tr>
 </table>
 
@@ -1721,22 +1721,10 @@ add a video
 
 
 - - -
-#### **GET** `/video/{forUser}/{forEntity}`
+#### **GET** `/`
 
 retrieve videos
 
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td>-- </td>
-        <td>  [SSVideosUserGetRet](#SSVideosUserGetRet) </td>
-    </tr>
-</table>
 
 
 
@@ -1762,7 +1750,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -1798,7 +1786,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -1964,12 +1952,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -1980,6 +1962,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2008,7 +1996,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2032,7 +2020,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -2050,7 +2038,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2062,7 +2050,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -2144,28 +2132,28 @@ retrieve videos
         <td>sss entity data type</td>
     </tr>
     <tr>
-        <td>entities</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>entities involved</td>
-    </tr>
-    <tr>
         <td>downloadAndroid</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
+        <td>entities</td>
+        <td>Array[string]</td>
         <td></td>
-        <td>physical file</td>
+        <td>entities involved</td>
     </tr>
     <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>thumb</td>
@@ -2198,16 +2186,16 @@ retrieve videos
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2288,12 +2276,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2304,6 +2286,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2338,7 +2326,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2374,7 +2362,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -2564,12 +2552,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2580,6 +2562,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2596,7 +2584,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2620,7 +2608,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -2668,7 +2656,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2692,7 +2680,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -2740,7 +2728,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2752,7 +2740,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -2912,12 +2900,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2928,6 +2910,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2944,7 +2932,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -2956,7 +2944,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -2998,7 +2986,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3008,27 +2996,21 @@ retrieve videos
         <td>the user's identifier</td>
     </tr>
     <tr>
-        <td>bearer</td>
-        <td>string</td>
-        <td></td>
-        <td>token for oidc authentication</td>
-    </tr>
-    <tr>
         <td>password</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user’s password</td>
     </tr>
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
         <td>label</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>name of the user, e.g. 'hugo'</td>
     </tr>
 </table>
@@ -3076,7 +3058,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3088,7 +3070,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -3130,7 +3112,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3166,7 +3148,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3220,7 +3202,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3238,7 +3220,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3460,7 +3442,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3478,7 +3460,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3562,7 +3544,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3580,7 +3562,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3628,7 +3610,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3658,7 +3640,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3706,7 +3688,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3742,7 +3724,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -3842,16 +3824,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -3902,12 +3884,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -3918,6 +3894,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -3934,7 +3916,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -3952,7 +3934,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -3994,7 +3976,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4018,7 +4000,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -4066,7 +4048,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4084,7 +4066,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -4138,7 +4120,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4162,7 +4144,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -4210,7 +4192,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4234,7 +4216,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4282,7 +4264,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4300,7 +4282,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4342,7 +4324,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4360,7 +4342,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4402,7 +4384,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4420,7 +4402,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4462,7 +4444,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4474,7 +4456,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4516,7 +4498,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4534,7 +4516,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4576,7 +4558,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4588,7 +4570,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4636,7 +4618,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4648,7 +4630,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4690,7 +4672,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4702,7 +4684,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4750,7 +4732,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4768,7 +4750,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -4928,12 +4910,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -4944,6 +4920,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -4966,7 +4948,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -4978,7 +4960,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -5050,7 +5032,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5086,7 +5068,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -5140,7 +5122,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5158,7 +5140,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -5206,7 +5188,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5224,7 +5206,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -5266,7 +5248,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5278,7 +5260,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -5372,16 +5354,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5432,12 +5414,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -5448,6 +5424,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -5594,6 +5576,12 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -5604,12 +5592,6 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -5650,7 +5632,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5680,7 +5662,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -5740,7 +5722,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5782,7 +5764,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -5842,7 +5824,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5872,7 +5854,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -5926,7 +5908,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -5950,7 +5932,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -5992,7 +5974,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6016,7 +5998,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6076,7 +6058,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6094,7 +6076,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6148,7 +6130,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6172,7 +6154,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -6226,7 +6208,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6244,7 +6226,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6292,7 +6274,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6304,7 +6286,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6352,7 +6334,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6364,7 +6346,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6412,7 +6394,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6424,7 +6406,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6484,7 +6466,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6502,7 +6484,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6550,7 +6532,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6574,7 +6556,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -6640,7 +6622,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6652,7 +6634,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6694,7 +6676,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6712,7 +6694,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6760,7 +6742,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6778,7 +6760,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6796,7 +6778,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6814,7 +6796,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -6916,7 +6898,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -6940,7 +6922,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7012,7 +6994,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7024,7 +7006,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7042,7 +7024,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7060,7 +7042,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7184,16 +7166,16 @@ retrieve videos
         <td></td>
     </tr>
     <tr>
-        <td>endTime</td>
-        <td>long</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>endTime</td>
+        <td>long</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>circles</td>
@@ -7226,16 +7208,16 @@ retrieve videos
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -7282,7 +7264,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7312,7 +7294,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -7360,7 +7342,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7396,7 +7378,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7490,16 +7472,16 @@ retrieve videos
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -7550,12 +7532,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -7566,6 +7542,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7582,7 +7564,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7600,7 +7582,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7642,7 +7624,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7654,7 +7636,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7826,6 +7808,12 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -7836,12 +7824,6 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7858,7 +7840,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7882,7 +7864,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -7924,7 +7906,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -7936,7 +7918,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -7990,7 +7972,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8002,7 +7984,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -8146,7 +8128,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8158,7 +8140,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -8206,7 +8188,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8224,7 +8206,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -8264,21 +8246,21 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td>resource to be considered to retrieve recommendations for</td>
-    </tr>
-    <tr>
         <td>typesToRecommOnly</td>
         <td>Array[string]</td>
         <td></td>
         <td>entity types to be recommended</td>
     </tr>
     <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>resource to be considered to retrieve recommendations for</td>
+    </tr>
+    <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8308,7 +8290,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -8368,7 +8350,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8392,7 +8374,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -8476,7 +8458,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8560,7 +8542,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -8644,7 +8626,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8656,7 +8638,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -8872,7 +8854,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -8890,7 +8872,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -8998,7 +8980,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9016,7 +8998,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9064,7 +9046,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9094,7 +9076,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9142,7 +9124,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9178,7 +9160,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9226,7 +9208,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9262,7 +9244,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9316,7 +9298,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9334,7 +9316,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9562,7 +9544,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9580,7 +9562,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -9634,7 +9616,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9658,7 +9640,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9706,7 +9688,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9724,7 +9706,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -9778,7 +9760,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -9802,7 +9784,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -9938,16 +9920,16 @@ retrieve videos
         <td>creator</td>
     </tr>
     <tr>
-        <td>email</td>
-        <td>string</td>
-        <td></td>
-        <td>email</td>
-    </tr>
-    <tr>
         <td>attachedEntities</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>attached entities</td>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>string</td>
+        <td></td>
+        <td>email</td>
     </tr>
     <tr>
         <td>entries</td>
@@ -9974,12 +9956,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -9990,6 +9966,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10006,7 +9988,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -10018,7 +10000,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
 </table>
@@ -10178,12 +10160,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>genre</td>
         <td>string</td>
         <td></td>
@@ -10200,6 +10176,12 @@ retrieve videos
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10346,6 +10328,12 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -10356,12 +10344,6 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10384,7 +10366,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -10420,7 +10402,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>
@@ -10492,7 +10474,7 @@ retrieve videos
     <tr>
         <td>key</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>the user's access tocken</td>
     </tr>
     <tr>
@@ -10534,7 +10516,7 @@ retrieve videos
     <tr>
         <td>op</td>
         <td>string</td>
-        <td>true</td>
+        <td></td>
         <td>operation to be executed</td>
     </tr>
     <tr>

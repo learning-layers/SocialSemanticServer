@@ -27,6 +27,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSSystemU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSConf;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import sss.serv.err.datatypes.SSErr;
@@ -49,7 +51,7 @@ import sss.serv.err.datatypes.SSErrE;
 public class SSRestMain extends Application {
   
   protected static SSConf conf;
-  
+
   public SSRestMain() throws Exception{
    
     ResourceConfig resourceConfig;
@@ -200,11 +202,50 @@ public class SSRestMain extends Application {
     }
   }
   
-  protected static void setBearer(
-    final SSServPar   par, 
+  protected static String getBearer(
     final HttpHeaders headers) throws Exception{
     
     String bearer = headers.getRequestHeader("authorization").get(0);
-    par.key       =  SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
+    return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
+  }
+  
+   protected static Response handleGETRequest(
+     final HttpHeaders      headers,
+     final SSServPar        par){
+   
+     try{
+      par.key = getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+    final String response = handleStandardJSONRESTCall(par, par.op);
+    
+    if(response.contains(SSVarU.error + SSStrU.colon + SSStrU.blank + SSStrU.doubleQuote + SSStrU.valueTrue)){
+        return Response.status(500).entity(response).build();
+      }else{
+      return Response.status(200).entity(response).build();
+    }
+  }
+   
+  protected static Response handlePOSTRequest(
+    final HttpHeaders headers,
+    final SSServPar par, 
+    final SSMethU   op){
+    
+    try{
+      par.op  = op;
+      par.key = SSRestMain.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    final String response = handleStandardJSONRESTCall(par, par.op);
+    
+     if(response.contains(SSVarU.error + SSStrU.colon + SSStrU.blank + SSStrU.doubleQuote + SSStrU.valueTrue)){
+        return Response.status(500).entity(response).build();
+      }else{
+      return Response.status(201).entity(response).build();
+    }
   }
 }

@@ -194,13 +194,9 @@ public class SSAdapterRest{
   public String authCheckCred(
     @Context
       HttpHeaders headers,
-    final SSAuthCheckCredPar input){
+    final SSAuthCheckCredPar input) throws Exception{
     
-    try{
-      SSRestMain.setBearer(input, headers);
-      
-      input.bearer = input.key;
-    }catch(Exception error){}
+    input.key = SSRestMain.getBearer(headers);
     
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
   }
