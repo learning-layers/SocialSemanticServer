@@ -23,9 +23,11 @@ package at.kc.tugraz.ss.serv.err.reg;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
 
 public class SSErrForClient {
 
+  public final String    id;
   public final String    className;
   public final String    message;
   public final Long      threadWhereThrown;
@@ -45,6 +47,12 @@ public class SSErrForClient {
       error.getClass() == null){
       SSServErrReg.regErrThrow(new Exception("client error cannot be set"));
       throw null;
+    }
+    
+    if(error instanceof SSErr){
+      this.id        = ((SSErr)error).code.toString();
+    }else{
+      this.id        = null;
     }
     
     this.exception = error;

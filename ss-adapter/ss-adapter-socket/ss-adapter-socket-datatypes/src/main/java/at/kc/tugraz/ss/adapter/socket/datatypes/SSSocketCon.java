@@ -82,11 +82,12 @@ public class SSSocketCon{
     final List<SSErrForClient> errors, 
     final SSMethU              op) throws Exception{
     
-    final Map<String, Object> ret    = new HashMap<>();
+    final Map<String, Object> ret           = new HashMap<>();
+    final List<String>        errorMessages = SSErrForClient.messages           (errors);
     
     ret.put(SSVarU.op,                      SSMethU.toStr(op));
     ret.put(SSVarU.error,                   true);
-    ret.put(SSVarU.errorMsg,                SSErrForClient.messages           (errors));
+    ret.put(SSVarU.errorMsg,                errorMessages);
     ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
     ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
     ret.put(SSVarU.errorMethodsWhereThrown, SSErrForClient.methodsWhereThrown (errors));
@@ -95,6 +96,21 @@ public class SSSocketCon{
     
     ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
     ret.put(SSMethU.toStr(op), null);
+    
+    ret.put(SSVarU.id, null);
+    
+    if(!errors.isEmpty()){
+      
+      ret.put(SSVarU.message, errorMessages.get(0));
+      
+      for(SSErrForClient error : errors){
+        
+        if(error.id != null){
+          ret.put(SSVarU.id, error.id);
+          break;
+        }
+      }
+    }
     
     return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
   }
