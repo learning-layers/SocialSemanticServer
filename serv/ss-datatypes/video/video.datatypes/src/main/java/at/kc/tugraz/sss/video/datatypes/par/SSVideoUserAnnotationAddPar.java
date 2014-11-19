@@ -36,16 +36,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "videoAnnotationAdd request parameter")
 public class SSVideoUserAnnotationAddPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "video to add annotation for")
   public SSUri               video        = null;
   
-  
-//  public void setVideo(final String video) throws Exception{
-//    this.video = SSUri.get(video);
-//  }
+  @XmlElement
+  public void setVideo(final String video) throws Exception{
+    this.video = SSUri.get(video);
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -59,35 +58,32 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     value = "x coordinate the annotation is attached to the video")
   public Float               x        = null;
   
-  
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "y coordinate the annotation is attached to the video")
   public Float               y        = null;
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "name")
   public SSLabel               label        = null;
   
-  
-//  public void setLabel(final String label) throws Exception{
-//    this.label = SSLabel.get(label);
-//  }
-  
   @XmlElement
+  public void setLabel(final String label) throws Exception{
+    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "description")
   public SSTextComment               description        = null;
   
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  }
   
-//  public void setDescription(final String description) throws Exception{
-//    this.description = SSTextComment.get(description);
-//  }
-//  
   public SSVideoUserAnnotationAddPar(){}
   
   public SSVideoUserAnnotationAddPar(SSServPar par) throws Exception{
@@ -139,7 +135,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public String getVideo(){
     return SSStrU.removeTrailingSlash(video);
   }
-    
+  
   public String getLabel(){
     return SSStrU.toStr(label);
   }

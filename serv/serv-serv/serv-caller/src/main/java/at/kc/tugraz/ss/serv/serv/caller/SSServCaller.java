@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
@@ -2648,16 +2649,16 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.authUsersFromCSVFileAdd, opPars));
   }
     
-  public static void checkKey(final SSServPar par) throws Exception{
+  public static SSUri checkKey(final SSServPar par) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.key, par.key);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.authCheckKey, opPars));
   }
   
-  public static void authCheckCred(
+  public static SSAuthCheckCredRet authCheckCred(
     final SSUri  user,
     final String key) throws Exception{
     
@@ -2666,7 +2667,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user, user);
     opPars.put(SSVarU.key, key);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.authCheckCred, opPars));
+    return (SSAuthCheckCredRet) SSServA.callServViaServer(new SSServPar(SSMethU.authCheckCred, opPars));
   }
   
   /* i5Cloud */
@@ -2802,8 +2803,9 @@ public class SSServCaller {
   /* video */
    public static SSUri videoUserAdd(
      final SSUri   user, 
-     final SSUri   link,
+     final SSUri   link, 
      final SSUri   forEntity,
+     
      final Boolean shouldCommit) throws Exception{
      
      final Map<String, Object>  opPars           = new HashMap<>();

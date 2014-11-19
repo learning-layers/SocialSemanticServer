@@ -21,7 +21,8 @@
 package sss.serv.err.datatypes;
 
 public enum SSErrE{
-
+  sssResponseFailed,
+  sssResponseParseFailed,
   searchResultPageUnavailable,
   searchResultOutDated,
   sqlDeadLock,

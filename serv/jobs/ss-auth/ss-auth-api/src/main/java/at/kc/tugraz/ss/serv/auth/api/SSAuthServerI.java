@@ -28,6 +28,6 @@ public interface SSAuthServerI {
 
   public SSAuthCheckCredRet  authCheckCred           (final SSServPar parA) throws Exception;
   public void                authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
-  public void                authCheckKey            (final SSServPar parA) throws Exception;
+  public SSUri               authCheckKey            (final SSServPar parA) throws Exception;
   public SSUri               authRegisterUser        (final SSServPar parA) throws Exception;
 }

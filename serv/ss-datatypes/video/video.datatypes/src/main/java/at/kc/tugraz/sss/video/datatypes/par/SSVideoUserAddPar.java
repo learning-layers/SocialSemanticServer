@@ -43,27 +43,25 @@ public class SSVideoUserAddPar extends SSServPar{
     value = "video's uuid (if provided used within id if link is not set)")
   public String                uuid        = null;
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "video's link (if provided used as id)")
   public SSUri                link        = null;
   
-  
-//  public void setLink(final String link) throws Exception{
-//    this.link = SSUri.get(link);
-//  }
-  
   @XmlElement
+  public void setLink(final String link) throws Exception{
+    try{ this.link = SSUri.get(link); }catch(Exception error){}
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "entity for which to attach this video")
   public SSUri                forEntity        = null;
   
-  
-//  public void setForEntity(final String forEntity) throws Exception{
-//    this.forEntity = SSUri.get(forEntity);
-//  }
+  @XmlElement
+  public void setForEntity(final String forEntity) throws Exception{
+    try{ this.forEntity = SSUri.get(forEntity); }catch(Exception error){}
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -71,26 +69,26 @@ public class SSVideoUserAddPar extends SSServPar{
     value = "video's genre")
   public String                genre        = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "name")
   public SSLabel               label        = null;
   
-//  public void setLabel(final String label) throws Exception{
-//    this.label = SSLabel.get(label);
-//  }
-  
   @XmlElement
+  public void setLabel(final String label) throws Exception{
+    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "description")
   public SSTextComment               description        = null;
   
-//  
-//  public void setDescription(final String description) throws Exception{
-//    this.description = SSTextComment.get(description);
-//  }
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -141,7 +139,7 @@ public class SSVideoUserAddPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         try{
-          uuid =  par.clientJSONObj.get(SSVarU.app).getTextValue();
+          uuid =  par.clientJSONObj.get(SSVarU.uuid).getTextValue();
         }catch(Exception error){}
         
         try{

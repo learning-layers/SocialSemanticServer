@@ -295,13 +295,13 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authCheckKey(final SSServPar parA) throws Exception {
+  public SSUri authCheckKey(final SSServPar parA) throws Exception {
     
     try{
       
       switch(((SSAuthConf)conf).authType){
         
-        case noAuth: break;
+        case noAuth: return null;
         
         case csvFileAuth:{
           
@@ -315,15 +315,18 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             throw new SSErr(SSErrE.userKeyWrong);
           }
           
-          break;
+          return null;
         }
         
         case oidc:{
-          SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key);
+          return SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key).user;
         }
+        
+        default: return null;
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

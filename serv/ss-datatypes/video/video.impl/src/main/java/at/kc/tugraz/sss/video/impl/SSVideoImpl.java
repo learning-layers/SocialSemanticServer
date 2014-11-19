@@ -223,7 +223,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   @Override
   public void videoAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    parA.user = SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoUserAdd(parA), parA.op));
   }

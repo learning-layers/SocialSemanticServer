@@ -37,9 +37,13 @@ import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -131,7 +135,7 @@ public class SSRestMain extends Application {
         SSLogU.info("couldnt write to " + conf.host + " " + conf.port.toString());
         throw error;
       }
-          
+      
       try{
         readMsgFullFromSS = sSCon.readMsgFullFromSS ();
       }catch(Exception error){
@@ -141,7 +145,7 @@ public class SSRestMain extends Application {
       }
       
       return checkAndHandleSSSNodeSwitch(readMsgFullFromSS, jsonRequ);
-    
+      
     }catch(Exception error){
       
       final List<SSErrForClient> errors = new ArrayList<>();
@@ -170,7 +174,7 @@ public class SSRestMain extends Application {
   }
   
   private static String checkAndHandleSSSNodeSwitch(
-    final String msgFullFromSS, 
+    final String msgFullFromSS,
     final String clientJSONRequ) throws Exception{
     
     SSSocketCon sssNodeSocketCon = null;
@@ -222,11 +226,11 @@ public class SSRestMain extends Application {
     }
     
     final String   response;
-
+    
     try{
       response = handleStandardJSONRESTCall(par, par.op);
     }catch(Exception error){
-      return Response.status(500).entity("{\"id\":\"sss_response\",\"message\":\"couldn't retrieve response from sss\"}").build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
     }
     
     try{
@@ -234,34 +238,109 @@ public class SSRestMain extends Application {
       final JsonNode     jsonRootNode = mapper.readTree(response);
       
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity("{\"id\":\"" + jsonRootNode.get(SSVarU.id).getTextValue() + "\",\"message\":\"" + jsonRootNode.get(SSVarU.message).getTextValue() + "\"}").build();
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
         return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       
     }catch(Exception error){
-      return Response.status(500).entity("{\"id\":\"sss_json\",\"message\":\"couldn't parse json from sss\"}").build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
     }
   }
-   
+  
   protected static Response handlePOSTRequest(
-    final HttpHeaders headers,
-    final SSServPar par, 
-    final SSMethU   op){
+    final HttpHeaders      headers,
+    final SSServPar        par,
+    final SSMethU          op){
+    
+    par.op = op;
     
     try{
-      par.op  = op;
-      par.key = SSRestMain.getBearer(headers);
+      par.key = getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
     
-    final String response = handleStandardJSONRESTCall(par, par.op);
+    final String   response;
     
-     if(response.contains(SSVarU.error + SSStrU.colon + SSStrU.blank + SSStrU.doubleQuote + SSStrU.valueTrue)){
-        return Response.status(500).entity(response).build();
+    try{
+      response = handleStandardJSONRESTCall(par, par.op);
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
+    }
+    
+    try{
+      final ObjectMapper mapper       = new ObjectMapper();
+      final JsonNode     jsonRootNode = mapper.readTree(response);
+      
+      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-      return Response.status(201).entity(response).build();
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      }
+      
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+    }
+  }
+  
+  private static String getJSONStrForError(
+    final SSErrE id, 
+    final String message){
+    
+    final Map<String, Object> jsonObj     = new HashMap<>();
+    
+    if(id == null){
+      jsonObj.put(SSVarU.id,                      null);
+    }else{
+      jsonObj.put(SSVarU.id,                      id.toString());
+    }
+    
+    if(message == null){
+      
+      if(id == null){
+        jsonObj.put(SSVarU.message,               null);
+      }else{
+        jsonObj.put(SSVarU.message,               id.toString());
+      }
+    }else{
+      jsonObj.put(SSVarU.message,               message);
+    }
+    
+    try{
+      return SSJSONU.jsonStr(jsonObj);
+    } catch(Exception error){
+      return null;
+    }
+  }
+  
+  private static String getJSONStrForError(
+    final String id, 
+    final String message) throws Exception{
+    
+   final Map<String, Object> jsonObj     = new HashMap<>();
+    
+    if(id == null){
+      jsonObj.put(SSVarU.id,                      null);
+    }else{
+      jsonObj.put(SSVarU.id,                      id);
+    }
+    
+    if(message == null){
+      
+      if(id == null){
+        jsonObj.put(SSVarU.message,               null);
+      }else{
+        jsonObj.put(SSVarU.message,               id);
+      }
+    }else{
+      jsonObj.put(SSVarU.message,               message);
+    }
+    
+    try{
+      return SSJSONU.jsonStr(jsonObj);
+    } catch(Exception error){
+      return null;
     }
   }
 }
