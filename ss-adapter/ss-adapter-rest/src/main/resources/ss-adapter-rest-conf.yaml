@@ -6,5 +6,4 @@ ssConf:
 jsonLDConf:
   uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/  
 vocConf:
-  app: bp
-  space: eval
+  uriPrefix: 

@@ -66,7 +66,10 @@ public class SSEntityUserUsersToCircleAddPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        circle        = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        
+        try{ 
+          circle        = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue()); 
+        }catch(Exception error){}
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
           users.add(SSUri.get(objNode.getTextValue()));

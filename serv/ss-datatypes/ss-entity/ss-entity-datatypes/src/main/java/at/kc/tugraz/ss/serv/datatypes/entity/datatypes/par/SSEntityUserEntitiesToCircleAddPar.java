@@ -32,14 +32,13 @@ import org.codehaus.jackson.JsonNode;
 @ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
 public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "circle to add entities to")
   public SSUri       circle  = null;
   
   @XmlElement
-  public void seCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);
   }
   
@@ -67,7 +66,10 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        
+        try{
+          circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        }catch(Exception error){}
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
           entities.add(SSUri.get(objNode.getTextValue()));

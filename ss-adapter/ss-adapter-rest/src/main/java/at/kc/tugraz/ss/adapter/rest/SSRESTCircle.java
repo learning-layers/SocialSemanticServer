@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
@@ -30,14 +30,13 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCre
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
-import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
-import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -89,27 +88,45 @@ public class SSRESTCircle {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "users")
+  @Path    ("/{circleID}/users")
   @ApiOperation(
     value = "add given users to a user-generated circle",
     response = SSEntityUserUsersToCircleAddRet.class)
   public Response entityUsersToCircleAdd(
-    @Context HttpHeaders                  headers,
+    @Context 
+      HttpHeaders headers,
+    @PathParam("circleID") 
+      String   circleID,
     final SSEntityUserUsersToCircleAddPar input){
     
+    try{
+      input.setCircle(SSAdapterRestConf.instGet().getVocConf().uriPrefix + circleID);
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+      
     return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityUsersToCircleAdd);
   }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entities")
+  @Path    ("/{circleID}/entities")
   @ApiOperation(
     value = "add given entities to a user-generated circle",
     response = SSEntityUserEntitiesToCircleAddRet.class)
   public Response entityEntitiesToCircleAdd(
-    @Context HttpHeaders                     headers,
+    @Context 
+      HttpHeaders headers,
+    @PathParam("circleID") 
+      String   circleID,
     final SSEntityUserEntitiesToCircleAddPar input){
+    
+    try{
+      input.setCircle(SSAdapterRestConf.instGet().getVocConf().uriPrefix + circleID);
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
     
     return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityEntitiesToCircleAdd);
   }
