@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -40,6 +41,19 @@ public class SSEntityUserCirclesGetPar extends SSServPar{
   }
   
   public Boolean withSystemCircles   = false;
+  
+  public SSEntityUserCirclesGetPar(
+    final SSMethU  op,
+    final String   key,
+    final String   forUser,
+    final Boolean  withSystemCircles) throws Exception{
+    
+    super(op, key);
+    
+    this.withSystemCircles = withSystemCircles;
+    
+    try{ this.forUser   = SSUri.get(forUser);   }catch(Exception error){}
+  }
   
   public SSEntityUserCirclesGetPar(){}
     

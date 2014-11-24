@@ -95,6 +95,7 @@ public class SSRestMain extends Application {
     classes.add(SSAdapterRESTFileReplace.class);
     classes.add(SSRESTVideo.class);
     classes.add(SSRESTAuth.class);
+    classes.add(SSRESTCircle.class);
 
     return classes;
   }

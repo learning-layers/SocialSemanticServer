@@ -184,6 +184,7 @@ import javax.ws.rs.core.MediaType;
 @Api( value = "SSAdapterRest", description = "SSS REST API" )
 public class SSAdapterRest{
   
+  /* start calls with RESTful counterpart */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -200,6 +201,58 @@ public class SSAdapterRest{
     
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
   }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUserCirclesGet")
+  @ApiOperation(
+    value = "retrieve circles the user is in",
+    response = SSEntityUserCirclesGetRet.class)
+  public String entityUserCirclesGet(final SSEntityUserCirclesGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUserCirclesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityCircleCreate")
+  @ApiOperation(
+    value = "create a circle and add users and entities to",
+    response = SSEntityUserCircleCreateRet.class)
+  public String entityCircleCreate(final SSEntityUserCircleCreatePar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleCreate);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityUsersToCircleAdd")
+  @ApiOperation(
+    value = "add given users to a user-generated circle",
+    response = SSEntityUserUsersToCircleAddRet.class)
+  public String entityUsersToCircleAdd(final SSEntityUserUsersToCircleAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUsersToCircleAdd);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
+  @ApiOperation(
+    value = "add given entities to a user-generated circle",
+    response = SSEntityUserEntitiesToCircleAddRet.class)
+  public String entityEntitiesToCircleAdd(final SSEntityUserEntitiesToCircleAddPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityEntitiesToCircleAdd);
+  }
+  
+  
+  
+  /* end calls with RESTful counterpart */
+  
+  
+  
+  
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -337,39 +390,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleGet")
-  @ApiOperation(
-    value = "retrieve a certain circle",
-    response = SSEntityUserCircleGetRet.class)
-  public String entityCircleGet(final SSEntityUserCircleGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleCreate")
-  @ApiOperation(
-    value = "create a circle and add users and entities to",
-    response = SSEntityUserCircleCreateRet.class)
-  public String entityCircleCreate(final SSEntityUserCircleCreatePar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleCreate);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUsersToCircleAdd")
-  @ApiOperation(
-    value = "add given users to a user-generated circle",
-    response = SSEntityUserUsersToCircleAddRet.class)
-  public String entityUsersToCircleAdd(final SSEntityUserUsersToCircleAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUsersToCircleAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityCopy")
   @ApiOperation(
     value = "copy an entity and hand it to a user",
@@ -378,28 +398,6 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCopy);
   }
 
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
-  @ApiOperation(
-    value = "add given entities to a user-generated circle",
-    response = SSEntityUserEntitiesToCircleAddRet.class)
-  public String entityEntitiesToCircleAdd(final SSEntityUserEntitiesToCircleAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityEntitiesToCircleAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserCirclesGet")
-  @ApiOperation(
-    value = "retrieve circles the user is in",
-    response = SSEntityUserCirclesGetRet.class)
-  public String entityUserCirclesGet(final SSEntityUserCirclesGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUserCirclesGet);
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -1146,6 +1144,17 @@ public class SSAdapterRest{
     response = SSFriendsUserGetRet.class)
   public String friendsGet(final SSFriendsUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
+  }
+  
+    @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityCircleGet")
+  @ApiOperation(
+    value = "retrieve a certain circle",
+    response = SSEntityUserCircleGetRet.class)
+  public String entityCircleGet(final SSEntityUserCircleGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
   }
 }
 

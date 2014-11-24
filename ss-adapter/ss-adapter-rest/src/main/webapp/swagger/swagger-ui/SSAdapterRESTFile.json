@@ -40,24 +40,6 @@
       } ]
     } ]
   }, {
-    "path" : "/fileExtGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve a file's extension",
-      "notes" : "",
-      "type" : "SSFileExtGetRet",
-      "nickname" : "fileExtGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileExtGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileCanWrite",
     "operations" : [ {
       "method" : "POST",
@@ -71,6 +53,24 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileCanWritePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileExtGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a file's extension",
+      "notes" : "",
+      "type" : "SSFileExtGetRet",
+      "nickname" : "fileExtGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileExtGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
