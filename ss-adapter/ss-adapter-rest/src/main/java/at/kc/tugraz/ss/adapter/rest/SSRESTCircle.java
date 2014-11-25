@@ -20,18 +20,22 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
+import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleCreateRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import java.net.URLDecoder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,7 +50,7 @@ import javax.ws.rs.core.Response;
 @Path("/circle")
 @Api( value = "circle", description = "SSS REST API for circles (groups)" )
 public class SSRESTCircle {
-  
+
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -65,6 +69,35 @@ public class SSRESTCircle {
           SSMethU.entityUserCirclesGet,
           null,
           null,
+          false));
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/{circleID}")
+  @ApiOperation(
+    value = "retrieve a certain circle",
+    response = SSEntityUserCircleGetRet.class)
+  public Response entityCircleGet(
+    @Context
+      HttpHeaders headers,
+    @PathParam("circleID") 
+      String   circleID){
+   
+    try{
+      
+      return SSRestMain.handleGETRequest(
+        headers,
+        new SSEntityUserCircleGetPar(
+          SSMethU.entityCircleGet,
+          null,
+          null,
+          URLDecoder.decode(circleID, SSEncodingU.utf8),
           false));
       
     }catch(Exception error){
@@ -100,7 +133,7 @@ public class SSRESTCircle {
     final SSEntityUserUsersToCircleAddPar input){
     
     try{
-      input.setCircle(SSAdapterRestConf.instGet().getVocConf().uriPrefix + circleID);
+      input.setCircle(URLDecoder.decode(circleID, SSEncodingU.utf8));
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -123,7 +156,7 @@ public class SSRESTCircle {
     final SSEntityUserEntitiesToCircleAddPar input){
     
     try{
-      input.setCircle(SSAdapterRestConf.instGet().getVocConf().uriPrefix + circleID);
+     input.setCircle(URLDecoder.decode(circleID, SSEncodingU.utf8));
     }catch(Exception error){
       return Response.status(422).build();
     }

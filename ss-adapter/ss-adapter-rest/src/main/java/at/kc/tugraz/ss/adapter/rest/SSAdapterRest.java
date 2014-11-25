@@ -207,6 +207,17 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityCircleGet")
+  @ApiOperation(
+    value = "retrieve a certain circle",
+    response = SSEntityUserCircleGetRet.class)
+  public String entityCircleGet(final SSEntityUserCircleGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "entityUserCirclesGet")
   @ApiOperation(
     value = "retrieve circles the user is in",
@@ -1146,17 +1157,6 @@ public class SSAdapterRest{
     response = SSFriendsUserGetRet.class)
   public String friendsGet(final SSFriendsUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
-  }
-  
-    @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleGet")
-  @ApiOperation(
-    value = "retrieve a certain circle",
-    response = SSEntityUserCircleGetRet.class)
-  public String entityCircleGet(final SSEntityUserCircleGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
   }
 }
 
