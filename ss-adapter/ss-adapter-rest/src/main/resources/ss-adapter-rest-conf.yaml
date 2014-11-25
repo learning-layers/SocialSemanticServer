@@ -4,6 +4,6 @@ ssConf:
   port: 8390
   localWorkPath:
 jsonLDConf:
-  uri: http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/  
+  uri: http://localhost:8084/ss-adapter-rest/SSAdapterRest/  
 vocConf:
-  uriPrefix: 
+  uriPrefix: http://localhost:8084/ss-adapter-rest/

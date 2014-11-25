@@ -193,11 +193,13 @@ public class SSAdapterRest{
     value = "retrieve the authentication key and user's uri for credentials",
     response = SSAuthCheckCredRet.class)
   public String authCheckCred(
-    @Context
-      HttpHeaders headers,
+    @Context HttpHeaders     headers,
     final SSAuthCheckCredPar input) throws Exception{
     
-    input.key = SSRestMain.getBearer(headers);
+    try{
+      input.key = SSRestMain.getBearer(headers);
+    }catch(Exception error){
+    }
     
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
   }
