@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
@@ -47,8 +47,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/circle")
-@Api( value = "circle", description = "SSS REST API for circles (groups)" )
+@Path("/circles")
+@Api( value = "circles", description = "SSS REST API for circles (groups)" )
 public class SSRESTCircle {
 
   @GET
@@ -58,8 +58,7 @@ public class SSRESTCircle {
     value = "retrieve circles",
     response = SSEntityUserCirclesGetRet.class)
   public Response entityUserCirclesGet(
-    @Context
-      HttpHeaders headers){
+    @Context HttpHeaders headers){
     
     try{
       
@@ -79,15 +78,15 @@ public class SSRESTCircle {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circleID}")
+  @Path    ("/{circle}")
   @ApiOperation(
     value = "retrieve a certain circle",
     response = SSEntityUserCircleGetRet.class)
   public Response entityCircleGet(
     @Context
       HttpHeaders headers,
-    @PathParam("circleID") 
-      String   circleID){
+    @PathParam(SSVarU.circle) 
+      String   circle){
    
     try{
       
@@ -97,7 +96,7 @@ public class SSRESTCircle {
           SSMethU.entityCircleGet,
           null,
           null,
-          URLDecoder.decode(circleID, SSEncodingU.utf8),
+          URLDecoder.decode(circle, SSEncodingU.utf8),
           false));
       
     }catch(Exception error){
@@ -121,19 +120,19 @@ public class SSRESTCircle {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circleID}/users")
+  @Path    ("/{circle}/users")
   @ApiOperation(
     value = "add given users to a user-generated circle",
     response = SSEntityUserUsersToCircleAddRet.class)
   public Response entityUsersToCircleAdd(
     @Context 
       HttpHeaders headers,
-    @PathParam("circleID") 
-      String   circleID,
+    @PathParam(SSVarU.circle) 
+      String   circle,
     final SSEntityUserUsersToCircleAddPar input){
     
     try{
-      input.setCircle(URLDecoder.decode(circleID, SSEncodingU.utf8));
+      input.setCircle(URLDecoder.decode(circle, SSEncodingU.utf8));
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -144,19 +143,19 @@ public class SSRESTCircle {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circleID}/entities")
+  @Path    ("/{circle}/entities")
   @ApiOperation(
     value = "add given entities to a user-generated circle",
     response = SSEntityUserEntitiesToCircleAddRet.class)
   public Response entityEntitiesToCircleAdd(
     @Context 
       HttpHeaders headers,
-    @PathParam("circleID") 
-      String   circleID,
+    @PathParam(SSVarU.circle) 
+      String   circle,
     final SSEntityUserEntitiesToCircleAddPar input){
     
     try{
-     input.setCircle(URLDecoder.decode(circleID, SSEncodingU.utf8));
+     input.setCircle(URLDecoder.decode(circle, SSEncodingU.utf8));
     }catch(Exception error){
       return Response.status(422).build();
     }

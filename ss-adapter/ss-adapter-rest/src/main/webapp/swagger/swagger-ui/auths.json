@@ -2,9 +2,9 @@
   "apiVersion" : "6.0.1-alpha",
   "swaggerVersion" : "1.2",
   "basePath" : "http://localhost:8084/ss-adapter-rest/",
-  "resourcePath" : "/auth",
+  "resourcePath" : "/auths",
   "apis" : [ {
-    "path" : "/auth",
+    "path" : "/auths",
     "operations" : [ {
       "method" : "GET",
       "summary" : "retrieve the authentication key and user's uri for credentials",

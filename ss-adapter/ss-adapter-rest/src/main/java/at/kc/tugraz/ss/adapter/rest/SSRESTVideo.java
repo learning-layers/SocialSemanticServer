@@ -20,8 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
+import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
@@ -30,18 +31,20 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import java.net.URLDecoder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/video")
-@Api( value = "video", description = "SSS REST API for videos" )
+@Path("/videos")
+@Api( value = "videos", description = "SSS REST API for videos" )
 public class SSRESTVideo{
  
   @GET
@@ -53,14 +56,6 @@ public class SSRESTVideo{
   public Response videosGet(
     @Context
       HttpHeaders headers){
-//    @ApiParam(
-//      required = false,
-//      value = "entity to get videos for")
-//    @PathParam ("forUser") String forUser,
-//    @ApiParam(
-//      required = false,
-//      value = "user to get videos for")
-//    @PathParam ("forEntity") String forEntity
     
     try{
       
@@ -93,14 +88,33 @@ public class SSRESTVideo{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "annotation")
+  @Path    ("/{video}/annotation")
   @ApiOperation(
     value = "add an annotation to a video",
     response = SSVideoUserAnnotationAddRet.class)
   public Response videoAnnotationAdd(
-    @Context HttpHeaders              headers,
+    @Context 
+      HttpHeaders headers,
+    @PathParam(SSVarU.video)
+      String video,
     final SSVideoUserAnnotationAddPar input){
+    
+     try{
+      input.setVideo(URLDecoder.decode(video, SSEncodingU.utf8));
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
     
     return SSRestMain.handlePOSTRequest(headers, input, SSMethU.videoAnnotationAdd);
   }
 }
+
+
+//    @ApiParam(
+//      required = false,
+//      value = "entity to get videos for")
+//    @PathParam ("forUser") String forUser,
+//    @ApiParam(
+//      required = false,
+//      value = "user to get videos for")
+//    @PathParam ("forEntity") String forEntity

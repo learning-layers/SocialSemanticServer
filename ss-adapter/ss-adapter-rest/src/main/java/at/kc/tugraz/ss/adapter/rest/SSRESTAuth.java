@@ -34,8 +34,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/auth")
-@Api( value = "auth", description = "SSS REST API for authentication" )
+@Path("/auths")
+@Api( value = "auths", description = "SSS REST API for authentication" )
 public class SSRESTAuth{
  
   @GET
