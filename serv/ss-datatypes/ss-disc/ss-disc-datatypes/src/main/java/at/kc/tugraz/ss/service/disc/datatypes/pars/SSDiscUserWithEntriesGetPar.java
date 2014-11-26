@@ -50,7 +50,6 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     value = "max entries to retrieve")
   public int    maxEntries       = 10;
   
-  
   @XmlElement
   @ApiModelProperty( 
     required = false, 

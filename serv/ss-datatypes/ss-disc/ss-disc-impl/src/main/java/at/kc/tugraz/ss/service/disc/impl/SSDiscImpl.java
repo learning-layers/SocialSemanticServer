@@ -445,12 +445,17 @@ implements
         
         disc.attachedEntities.addAll(
           SSServCaller.entityEntitiesAttachedGet(
-            par.user, 
+            par.user,
             discUri));
+        
+        disc.circleTypes.addAll(
+          SSServCaller.entityUserEntityCircleTypesGet(
+            par.user,
+            disc.id));
         
         discsWithoutEntries.add(disc);
       }
-
+      
       return discsWithoutEntries;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
