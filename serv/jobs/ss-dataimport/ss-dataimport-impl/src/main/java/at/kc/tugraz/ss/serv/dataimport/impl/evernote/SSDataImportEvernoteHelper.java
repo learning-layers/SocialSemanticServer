@@ -170,7 +170,7 @@ public class SSDataImportEvernoteHelper {
         userUri,
         userUri,
         notebookUri,
-        SSUEE.evernoteNotebookCreate,
+        SSUEE.evernoteNotebookUpdate,
         notebook.getServiceUpdated(),
         notebook.getServiceUpdated());
     
