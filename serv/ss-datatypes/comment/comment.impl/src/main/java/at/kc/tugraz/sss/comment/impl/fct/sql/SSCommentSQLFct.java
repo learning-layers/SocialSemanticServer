@@ -102,6 +102,7 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       
       if(forUser != null){
         
+        column  (columns,   SSSQLVarU.author);
         where   (wheres,    entityTable, SSSQLVarU.author, forUser);
         table   (tables,    entityTable);
         tableCon(tableCons, entityTable,  SSSQLVarU.id,        commentTable,  SSSQLVarU.commentId);

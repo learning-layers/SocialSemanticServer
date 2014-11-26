@@ -1057,13 +1057,15 @@ public class SSServCaller {
   public static SSDisc discUserWithEntriesGet(
     final SSUri   user, 
     final SSUri   disc, 
-    final Integer maxEntries) throws Exception{
+    final Integer maxEntries,
+    final Boolean includeComments) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.disc,       disc);
-    opPars.put(SSVarU.maxEntries, maxEntries);
+    opPars.put(SSVarU.user,            user);
+    opPars.put(SSVarU.disc,            disc);
+    opPars.put(SSVarU.maxEntries,      maxEntries);
+    opPars.put(SSVarU.includeComments, includeComments);
     
     return (SSDisc) SSServA.callServViaServer(new SSServPar(SSMethU.discUserWithEntriesGet, opPars));
   }

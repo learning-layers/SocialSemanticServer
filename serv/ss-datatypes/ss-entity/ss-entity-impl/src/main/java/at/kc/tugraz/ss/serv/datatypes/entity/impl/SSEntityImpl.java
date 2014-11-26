@@ -381,6 +381,20 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         sqlFct.entityRead(par.user, par.entity);
       }
       
+      if(!par.comments.isEmpty()){
+        SSServCaller.entityUpdate(
+          par.user, 
+          par.entity, 
+          null, 
+          null, 
+          par.comments, 
+          new ArrayList<>(), 
+          new ArrayList<>(), 
+          new ArrayList<>(), 
+          new ArrayList<>(), 
+          false);
+      }
+      
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;

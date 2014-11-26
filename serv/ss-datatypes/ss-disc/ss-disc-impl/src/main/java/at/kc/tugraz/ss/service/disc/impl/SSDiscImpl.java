@@ -491,11 +491,14 @@ implements
             par.user,
             discEntry.id));
         
-        discEntry.comments.addAll(
-          SSServCaller.commentsUserGet(
-            par.user,
-            null,
-            discEntry.id));
+        if(par.includeComments){
+         
+          discEntry.comments.addAll(
+            SSServCaller.commentsUserGet(
+              par.user,
+              null,
+              discEntry.id));
+        }
       }
       
       return disc;
@@ -591,7 +594,8 @@ implements
           SSServCaller.discUserWithEntriesGet(
             par.user,
             disc.id,
-            par.maxEntries));
+            par.maxEntries,
+            false));
       }
 
       return discsWithEntries;

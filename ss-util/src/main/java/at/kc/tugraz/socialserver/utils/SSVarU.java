@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String includeComments                                = "includeComments";
   public static final String forEntity                                      = "forEntity";
   public static final String annotation                                     = "annotation";
   public static final String timePoint                                      = "timePoint";

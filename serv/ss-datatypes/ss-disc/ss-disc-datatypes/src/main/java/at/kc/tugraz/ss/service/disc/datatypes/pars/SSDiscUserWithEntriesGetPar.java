@@ -49,6 +49,13 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     required = true, 
     value = "max entries to retrieve")
   public int    maxEntries       = 10;
+  
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether comments of threads and entries shall be retrieved")
+  public Boolean    includeComments       = null;
       
   public SSDiscUserWithEntriesGetPar(){}
     
@@ -59,13 +66,18 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        disc         = (SSUri)   pars.get(SSVarU.disc);
-        maxEntries   = (Integer) pars.get(SSVarU.maxEntries);
+        disc            = (SSUri)   pars.get(SSVarU.disc);
+        maxEntries      = (Integer) pars.get(SSVarU.maxEntries);
+        includeComments = (Boolean) pars.get(SSVarU.includeComments);
       }
       
       if(par.clientJSONObj != null){
         disc         = SSUri.get       (par.clientJSONObj.get(SSVarU.disc).getTextValue());
         maxEntries   = par.clientJSONObj.get(SSVarU.maxEntries).getIntValue();
+        
+        try{
+          includeComments = par.clientJSONObj.get(SSVarU.includeComments).getBooleanValue();
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
