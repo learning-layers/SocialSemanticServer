@@ -266,7 +266,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     return 
       SSUri.get(
         SSStrU.removeTrailingSlash(
-          SSServCaller.vocURICreate("file")) + par.fileExt);
+          SSServCaller.vocURICreate("file")) + SSStrU.dot + par.fileExt);
   }
 
   @Override

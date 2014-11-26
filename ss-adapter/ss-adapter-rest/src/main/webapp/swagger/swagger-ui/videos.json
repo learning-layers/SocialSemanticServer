@@ -4,6 +4,30 @@
   "basePath" : "http://localhost:8084/ss-adapter-rest/",
   "resourcePath" : "/videos",
   "apis" : [ {
+    "path" : "/videos/{video}/annotation",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add an annotation to a video",
+      "notes" : "",
+      "type" : "SSVideoUserAnnotationAddRet",
+      "nickname" : "videoAnnotationAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "video",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      }, {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSVideoUserAnnotationAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/videos",
     "operations" : [ {
       "method" : "POST",
@@ -30,30 +54,6 @@
       "consumes" : [ "application/json" ],
       "parameters" : [ ]
     } ]
-  }, {
-    "path" : "/videos/{video}/annotation",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add an annotation to a video",
-      "notes" : "",
-      "type" : "SSVideoUserAnnotationAddRet",
-      "nickname" : "videoAnnotationAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "video",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      }, {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSVideoUserAnnotationAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
   } ],
   "models" : {
     "SSVideoUserAnnotationAddPar" : {
@@ -65,13 +65,13 @@
           "type" : "string",
           "description" : "description"
         },
-        "video" : {
-          "type" : "string",
-          "description" : "video to add annotation for"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "video" : {
+          "type" : "string",
+          "description" : "video to add annotation for"
         },
         "timePoint" : {
           "type" : "integer",
@@ -124,6 +124,10 @@
           "type" : "string",
           "description" : "description"
         },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
         "forEntity" : {
           "type" : "string",
           "description" : "entity for which to attach this video"
@@ -131,10 +135,6 @@
         "link" : {
           "type" : "string",
           "description" : "video's link (if provided used as id)"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "uuid" : {
           "type" : "string",
@@ -234,25 +234,62 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "uEs" : {
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "comments" : {
           "type" : "array",
-          "description" : "user events",
+          "description" : "comments given by users",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
         },
         "author" : {
           "type" : "string",
@@ -265,49 +302,16 @@
             "$ref" : "SSCircleE"
           }
         },
-        "comments" : {
+        "tags" : {
           "type" : "array",
-          "description" : "comments given by users",
+          "description" : "tags assigned",
           "items" : {
             "type" : "string"
-          }
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
           "$ref" : "SSEntityA",
           "description" : "overall star rating"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "discs" : {
           "type" : "array",
@@ -316,20 +320,16 @@
             "type" : "string"
           }
         },
-        "tags" : {
+        "uEs" : {
           "type" : "array",
-          "description" : "tags assigned",
+          "description" : "user events",
           "items" : {
-            "type" : "string"
+            "$ref" : "SSEntityA"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
         },
         "read" : {
           "type" : "boolean",
@@ -365,25 +365,62 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "uEs" : {
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "comments" : {
           "type" : "array",
-          "description" : "user events",
+          "description" : "comments given by users",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
         },
         "author" : {
           "type" : "string",
@@ -396,49 +433,16 @@
             "$ref" : "SSCircleE"
           }
         },
-        "comments" : {
+        "tags" : {
           "type" : "array",
-          "description" : "comments given by users",
+          "description" : "tags assigned",
           "items" : {
             "type" : "string"
-          }
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
           }
         },
         "overallRating" : {
           "$ref" : "SSEntityA",
           "description" : "overall star rating"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
         },
         "discs" : {
           "type" : "array",
@@ -447,20 +451,16 @@
             "type" : "string"
           }
         },
-        "tags" : {
+        "uEs" : {
           "type" : "array",
-          "description" : "tags assigned",
+          "description" : "user events",
           "items" : {
-            "type" : "string"
+            "$ref" : "SSEntityA"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
         },
         "read" : {
           "type" : "boolean",
