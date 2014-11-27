@@ -59,7 +59,7 @@ public class SSVoc extends SSServA{
     
     super.regServ(conf);
     
-    systemUserLabel = SSLabel.get ("sytem");
+    systemUserLabel = SSLabel.get ("system");
     systemUserUri   = /*SSUri.get   (SSStrU.toStr(SServCaller.vocURIPrefixGet*/SSServCaller.vocURICreate(SSStrU.apiUser, "system"); //SSStrU.valueUser + SSStrU.slash + systemUserLabel);
     systemUserEmail = systemUserLabel.toString() + systemEmailPostFix;
     
