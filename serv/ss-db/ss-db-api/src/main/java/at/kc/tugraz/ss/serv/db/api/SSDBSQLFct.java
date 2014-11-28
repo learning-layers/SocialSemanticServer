@@ -32,6 +32,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedMap;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -302,6 +303,19 @@ public class SSDBSQLFct extends SSDBFct{
     
     try{
       wheres.put(table + SSStrU.dot + key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void where(
+    final MultivaluedMap<String, String> wheres,
+    final String                         table,
+    final String                         key,
+    final Object                         value) throws Exception{
+    
+    try{
+      wheres.add(table + SSStrU.dot + key, value.toString());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

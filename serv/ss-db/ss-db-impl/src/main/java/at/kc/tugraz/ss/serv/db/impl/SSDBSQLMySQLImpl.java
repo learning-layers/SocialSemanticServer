@@ -39,6 +39,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedMap;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 import sss.serv.err.datatypes.SSErr;
@@ -141,15 +142,16 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
-    final List<String>              tables,
-    final List<String>              columns,
-    final List<Map<String, String>> wheres,
-    final List<String>              tableCons) throws Exception{
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> wheres,
+    final List<String>                         tableCons) throws Exception{
     
-    String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    Iterator<Map.Entry<String, String>> iterator;
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
+    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    int                                       counter = 1;
+    PreparedStatement                         stmt;
+    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+    Map.Entry<String, List<String>>           entrySet;
     
     for(String columnName : columns){
       query += columnName + SSStrU.comma;
@@ -163,14 +165,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
       
-    for(Map<String, String> where : wheres){
-      
-      iterator = where.entrySet().iterator();
+    for(MultivaluedMap<String, String> where : wheres){
       
       query += "(";
+      
+      iteratorMultiValue = where.entrySet().iterator();
+
+      while(iteratorMultiValue.hasNext()){
         
-      while(iterator.hasNext()){
-        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+        entrySet = iteratorMultiValue.next();
+
+        for(String value : entrySet.getValue()){
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+        }
       }
       
       query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
@@ -189,12 +196,17 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     query          = SSStrU.removeTrailingString(query, " AND ");
     stmt           = connector.prepareStatement(query);
     
-    for(Map<String, String> where : wheres){
+    for(MultivaluedMap<String, String> where : wheres){
       
-      iterator = where.entrySet().iterator();
+      iteratorMultiValue = where.entrySet().iterator();
       
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+        
+        for(String value : entrySet.getValue()){
+          stmt.setObject(counter++, value);
+        }
       }
     }
 

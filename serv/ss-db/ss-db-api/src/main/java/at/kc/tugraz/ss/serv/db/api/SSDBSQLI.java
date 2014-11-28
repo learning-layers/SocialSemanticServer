@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedMap;
 
 public interface SSDBSQLI{
 
@@ -66,10 +67,10 @@ public interface SSDBSQLI{
     final List<String>        tableCons) throws Exception;
 
   public ResultSet select(
-    final List<String>              tables,
-    final List<String>              columns,
-    final List<Map<String, String>> wheres,
-    final List<String>              tableCons) throws Exception;
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> wheres,
+    final List<String>                         tableCons) throws Exception;
 
     public ResultSet select(
     final List<String>        tables, 

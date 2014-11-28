@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSActivitySQLFct extends SSDBSQLFct{
 
@@ -126,13 +128,13 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSActivity>          activities     = new ArrayList<>();
-      final List<Map<String, String>> wheres         = new ArrayList<>();
-      final List<String>              tables         = new ArrayList<>();
-      final List<String>              columns        = new ArrayList<>();
-      final List<String>              tableCons      = new ArrayList<>();
-      Long                            timestamp;
-      SSActivity                      activityObj;
+      final List<SSActivity>                     activities     = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      Long                                       timestamp;
+      SSActivity                                 activityObj;
 
       table    (tables,    activityTable);
       table    (tables,    entityTable);
@@ -152,7 +154,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         table    (tables,    activityUsersTable);
         tableCon (tableCons, activityUsersTable,    SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
         
-        final Map<String, String> whereUsers = new HashMap<>();
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri user : users){
           where(whereUsers, activityUsersTable, SSSQLVarU.userId, user);
@@ -168,7 +170,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         table    (tables,    activityEntitiesTable);
         tableCon (tableCons, activityEntitiesTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
       
-        final Map<String, String> whereEntities = new HashMap<>();
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
           where(whereEntities, activityEntitiesTable, SSSQLVarU.entityId, entity);
@@ -181,7 +183,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         types != null &&
         !types.isEmpty()){
         
-        final Map<String, String> whereTypes = new HashMap<>();
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSActivityE type : types){
           where(whereTypes, activityTable, SSSQLVarU.activityType, type);
