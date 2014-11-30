@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.cloud.serv.SSCloudServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
+import at.kc.tugraz.ss.like.serv.SSLikeServ;
 import at.kc.tugraz.ss.message.serv.SSMessageServ;
 import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -116,6 +117,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriendConf());
       SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayoutConf());
       SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideoConf());
+      SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLikeConf());
 
       //initializing
       SSVoc.inst.initServ();
@@ -153,6 +155,7 @@ public class SSSInitializer extends SSServImplStartA{
       SSFriendServ.inst.initServ();
       SSAppStackLayoutServ.inst.initServ();
       SSVideoServ.inst.initServ();
+      SSLikeServ.inst.initServ();
       
       //scheduling
       SSModelUEServ.inst.schedule   ();

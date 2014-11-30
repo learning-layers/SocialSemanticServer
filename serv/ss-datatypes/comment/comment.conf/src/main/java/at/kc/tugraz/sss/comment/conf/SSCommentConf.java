@@ -23,5 +23,11 @@ package at.kc.tugraz.sss.comment.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSCommentConf extends SSServConfA{
-  
+ 
+  public static SSCommentConf copy(final SSCommentConf orig){
+    
+    final SSCommentConf copy = (SSCommentConf) SSServConfA.copy(orig, new SSCommentConf());
+    
+    return copy;
+  }
 }

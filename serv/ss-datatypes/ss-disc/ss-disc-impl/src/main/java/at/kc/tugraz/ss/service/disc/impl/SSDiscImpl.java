@@ -496,6 +496,12 @@ implements
             par.user,
             discEntry.id));
         
+        discEntry.likes = 
+          SSServCaller.likesUserGet(
+            par.user, 
+            null, 
+            discEntry.id);
+        
         if(par.includeComments){
          
           discEntry.comments.addAll(

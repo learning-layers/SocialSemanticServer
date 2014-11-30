@@ -111,6 +111,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.serv.like</groupId>
+      <artifactId>like.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-userevent-datatypes</artifactId>
       <version>${project.version}</version>

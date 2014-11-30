@@ -120,6 +120,10 @@ learnEpConf:
   executeOpAtStartUp: false
   op: null
   use: true
+likeConf:
+  executeOpAtStartUp: false
+  use: true
+  op: null
 logConf:
   executeOpAtStartUp: false
   logLevel: debug

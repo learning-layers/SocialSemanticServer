@@ -24,4 +24,10 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSAppConf extends SSServConfA{
   
+  public static SSAppConf copy(final SSAppConf orig){
+    
+    final SSAppConf copy = (SSAppConf) SSServConfA.copy(orig, new SSAppConf());
+    
+    return copy;
+  }
 }

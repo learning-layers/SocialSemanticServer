@@ -441,3 +441,8 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/ss-datatypes/video/video.api/target/
 /serv/ss-datatypes/video/video.serv/target/
 /serv/ss-datatypes/video/video.datatypes/target
+/serv/jobs/like/like.conf/target/
+/serv/jobs/like/like.api/target/
+/serv/jobs/like/like.impl/target/
+/serv/jobs/like/like.serv/target/
+/serv/jobs/like/like.datatypes/target

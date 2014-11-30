@@ -19,6 +19,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>sss.serv.like</groupId>
+      <artifactId>like.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.video</groupId>
       <artifactId>video.conf</artifactId>
       <version>${project.version}</version>

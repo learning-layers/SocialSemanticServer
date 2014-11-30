@@ -152,6 +152,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>sss.serv.like</groupId>
+      <artifactId>like.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.video</groupId>
       <artifactId>video.serv</artifactId>
       <version>${project.version}</version>

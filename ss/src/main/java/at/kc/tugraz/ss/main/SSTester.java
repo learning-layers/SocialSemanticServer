@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.test.app.SSAppTester;
 import at.kc.tugraz.ss.test.category.SSCategoryTester;
 import at.kc.tugraz.ss.test.disc.SSDiscTester;
 import at.kc.tugraz.ss.test.i5cloud.SSI5CloudTester;
+import at.kc.tugraz.ss.test.like.SSLikeTester;
 import at.kc.tugraz.ss.test.search.SSSearchTester;
 import at.kc.tugraz.ss.test.serv.dataexport.SSDataExportTester;
 import at.kc.tugraz.ss.test.serv.dataimport.SSDataImportTester;
@@ -52,6 +53,7 @@ public class SSTester extends Thread{
       new SSSearchTester().start();
       new SSAppTester().start();
       new SSActivityTester().start();
+      new SSLikeTester().start();
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
 

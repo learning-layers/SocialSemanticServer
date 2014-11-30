@@ -24,4 +24,10 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSVideoConf extends SSServConfA{
   
+  public static SSVideoConf copy(final SSVideoConf orig){
+    
+    final SSVideoConf copy = (SSVideoConf) SSServConfA.copy(orig, new SSVideoConf());
+    
+    return copy;
+  }
 }

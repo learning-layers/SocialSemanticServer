@@ -29,5 +29,6 @@
     <module>ss-i5cloud</module>
     <module>ss-cloud</module>
 	<module>friend</module>
+	<module>like</module>
   </modules>
 </project>

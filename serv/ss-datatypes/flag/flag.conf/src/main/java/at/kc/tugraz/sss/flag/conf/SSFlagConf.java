@@ -24,4 +24,10 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSFlagConf extends SSServConfA{
   
+  public static SSFlagConf copy(final SSFlagConf orig){
+    
+    final SSFlagConf copy = (SSFlagConf) SSServConfA.copy(orig, new SSFlagConf());
+    
+    return copy;
+  }
 }

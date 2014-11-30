@@ -22,6 +22,12 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //like
+  likesUserGet,
+  likesGet,
+  likeUserSet,
+  likeSet,
+  
   //video
   videosGet,
   videosUserGet,

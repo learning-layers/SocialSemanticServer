@@ -24,6 +24,9 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String like                                           = "like";
+  public static final String likes                                          = "likes";
+  public static final String dislikes                                       = "dislikes";
   public static final String includeComments                                = "includeComments";
   public static final String forEntity                                      = "forEntity";
   public static final String annotation                                     = "annotation";

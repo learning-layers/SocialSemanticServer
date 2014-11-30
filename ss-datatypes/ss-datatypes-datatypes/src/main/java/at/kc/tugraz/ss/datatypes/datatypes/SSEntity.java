@@ -145,6 +145,11 @@ public class SSEntity extends SSEntityA{
     value = "whether user has read the entry")
   public  Boolean       read;
   
+  @ApiModelProperty(
+    required = false,
+    value = "likes for the entity")
+  public  SSEntityA       likes;
+  
   public static SSEntity get(
     final SSUri     id,
     final SSEntityE type) throws Exception{
@@ -209,6 +214,7 @@ public class SSEntity extends SSEntityA{
     this.read             = entity.read;
     this.circles          = entity.circles;
     this.locations        = entity.locations;
+    this.likes            = entity.likes;
   }
   
   @Override
@@ -239,6 +245,7 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarU.thumb,          SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     ld.put(SSVarU.file,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.read,           SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.likes,          SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
    
     entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + Object.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
@@ -361,6 +368,10 @@ public class SSEntity extends SSEntityA{
     return overallRating;
   }
 
+  public SSEntityA getLikes(){
+    return likes;
+  }
+  
   public List<String> getDiscs() throws Exception{
     return SSStrU.removeTrailingSlash(discs);
   }

@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
+import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -72,6 +73,36 @@ import java.util.Map;
 
 public class SSServCaller {
 
+  /* like */
+  
+  public static SSLikes likesUserGet(
+    final SSUri user,
+    final SSUri forUser,
+    final SSUri entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,       user);
+    opPars.put(SSVarU.entity,     entity);
+    opPars.put(SSVarU.forUser,    forUser);
+    
+    return (SSLikes) SSServA.callServViaServer(new SSServPar(SSMethU.likesUserGet, opPars));
+  }
+  
+  public static SSUri likeUserSet(
+    final SSUri   user,
+    final SSUri   entity,
+    final Integer value) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarU.value,     value);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.likeUserSet, opPars));
+  }
+    
   /* friends */
   
   public static List<? extends SSEntity> friendsUserGet(

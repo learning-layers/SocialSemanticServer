@@ -30,8 +30,9 @@ import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.like.conf.SSLikeConf;
+import at.kc.tugraz.ss.message.conf.SSMessageConf;
 import at.kc.tugraz.ss.recomm.conf.SSFriendConf;
-import at.kc.tugraz.ss.recomm.conf.SSMessageConf;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
@@ -100,6 +101,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSFriendConf          friendConf         = null;
   private SSAppStackLayoutConf  appStackLayoutConf = null;
   private SSVideoConf           videoConf          = null;
+  private SSLikeConf            likeConf           = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -199,6 +201,14 @@ public class SSCoreConf extends SSCoreConfA{
       copy.discConf           = SSDiscConf.copy(inst.discConf);
       copy.learnEpConf        = SSLearnEpConf.copy(inst.learnEpConf);
       copy.categoryConf       = SSCategoryConf.copy(inst.categoryConf);
+      copy.flagConf           = SSFlagConf.copy(inst.flagConf);
+      copy.commentConf        = SSCommentConf.copy(inst.commentConf);
+      copy.messageConf        = SSMessageConf.copy(inst.messageConf);
+      copy.appConf            = SSAppConf.copy(inst.appConf);
+      copy.friendConf         = SSFriendConf.copy(inst.friendConf);
+      copy.appStackLayoutConf = SSAppStackLayoutConf.copy(inst.appStackLayoutConf);
+      copy.videoConf          = SSVideoConf.copy(inst.videoConf);
+      copy.likeConf           = SSLikeConf.copy(inst.likeConf);
       
       return copy;
     }catch(Exception error){
@@ -229,6 +239,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setFriendConf(SSFriendConf friendConf) {
     this.friendConf = friendConf;
+  }
+  
+  public SSLikeConf getLikeConf() {
+    return likeConf;
+  }
+
+  public void setLikeConf(SSLikeConf likeConf) {
+    this.likeConf = likeConf;
   }
   
   public SSVideoConf getVideoConf() {

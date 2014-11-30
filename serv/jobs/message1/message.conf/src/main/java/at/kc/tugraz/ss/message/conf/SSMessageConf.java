@@ -18,9 +18,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.conf;
+package at.kc.tugraz.ss.message.conf;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSMessageConf extends SSServConfA{

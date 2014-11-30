@@ -24,4 +24,10 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSAppStackLayoutConf extends SSServConfA{
   
+  public static SSAppStackLayoutConf copy(final SSAppStackLayoutConf orig){
+    
+    final SSAppStackLayoutConf copy = (SSAppStackLayoutConf) SSServConfA.copy(orig, new SSAppStackLayoutConf());
+    
+    return copy;
+  }
 }

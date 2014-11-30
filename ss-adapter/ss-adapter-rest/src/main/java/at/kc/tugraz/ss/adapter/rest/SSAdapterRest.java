@@ -48,6 +48,8 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
+import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
+import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
@@ -1157,6 +1159,17 @@ public class SSAdapterRest{
     response = SSFriendsUserGetRet.class)
   public String friendsGet(final SSFriendsUserGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "likeSet")
+  @ApiOperation(
+    value = "like or dislike an entity",
+    response = SSLikeUserSetRet.class)
+  public String likeSet(final SSLikeUserSetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.likeSet);
   }
 }
 

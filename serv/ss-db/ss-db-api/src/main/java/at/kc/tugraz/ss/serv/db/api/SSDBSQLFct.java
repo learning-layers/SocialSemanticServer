@@ -108,6 +108,9 @@ public class SSDBSQLFct extends SSDBFct{
   protected static final String   videoAnnotationsTable               = "videoannotations";
   protected static final String   userVideosTable                     = "uservideos";
   
+  //likes
+  protected static final String   likesTable                          = "likes";
+  
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
     
