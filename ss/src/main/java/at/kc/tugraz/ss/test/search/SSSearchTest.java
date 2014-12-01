@@ -77,6 +77,8 @@ public class SSSearchTest extends SSServOpTestCaseA{
         false,
         false,
         null,
+        null, 
+        null, 
         null);
     
     if(result.pageNumbers > 1){
@@ -102,7 +104,9 @@ public class SSSearchTest extends SSServOpTestCaseA{
           false,
           false,
           result.pagesID,
-          result.pageNumber + 1);
+          result.pageNumber + 1, 
+          null, 
+          null);
     }
     
     System.out.println (op + " test end");

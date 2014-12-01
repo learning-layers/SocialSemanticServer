@@ -190,12 +190,15 @@ public class SSUserSQLFct extends SSDBSQLFct{
     final String email) throws Exception{
     
     try{
-      final Map<String, String> inserts = new HashMap<>();
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarU.userId, user);
       insert(inserts, SSSQLVarU.email,  email);
       
-      dbSQL.insert(userTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarU.userId, user);
+      
+      dbSQL.insertIfNotExists(userTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

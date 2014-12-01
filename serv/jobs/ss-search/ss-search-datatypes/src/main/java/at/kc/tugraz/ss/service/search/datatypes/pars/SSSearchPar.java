@@ -170,6 +170,18 @@ public class SSSearchPar extends SSServPar{
     value = "number of the page to be requested from a previous search result")
   public Integer             pageNumber             = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "minimum overall star rating the entity must have to be returned")
+  public Integer              minRating             = null;
+  
+    @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "maximum overall star rating the entity must have to be returned")
+  public Integer              maxRating             = null;
+  
   public SSSearchPar(){}
   
   public SSSearchPar(final SSServPar par) throws Exception{
@@ -198,6 +210,8 @@ public class SSSearchPar extends SSServPar{
         provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
         pagesID                    = (String)                 pars.get(SSVarU.pagesID);
         pageNumber                 = (Integer)                pars.get(SSVarU.pageNumber);
+        minRating                  = (Integer)                pars.get(SSVarU.minRating);
+        maxRating                  = (Integer)                pars.get(SSVarU.maxRating);
       }
       
       if(par.clientJSONObj != null){
@@ -267,6 +281,8 @@ public class SSSearchPar extends SSServPar{
         try{ provideEntries               = par.clientJSONObj.get(SSVarU.provideEntries).getBooleanValue();                                                                        }catch(Exception error){}
         try{ pagesID                      = par.clientJSONObj.get(SSVarU.pagesID).getTextValue();                                                                                  }catch(Exception error){}
         try{ pageNumber                   = par.clientJSONObj.get(SSVarU.pageNumber).getIntValue();                                                                                }catch(Exception error){}
+        try{ minRating                    = par.clientJSONObj.get(SSVarU.minRating).getIntValue();                                                                                 }catch(Exception error){}
+        try{ maxRating                    = par.clientJSONObj.get(SSVarU.maxRating).getIntValue();                                                                                 }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

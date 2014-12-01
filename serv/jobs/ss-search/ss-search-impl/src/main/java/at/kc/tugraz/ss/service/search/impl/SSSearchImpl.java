@@ -432,7 +432,8 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         if(
           entity == null ||
-          !SSSearchFct.handleType   (par, entity)){
+          !SSSearchFct.handleType     (par, entity) ||
+          !SSSearchFct.handleRating   (par, entity)){
           continue;
         }
         

@@ -960,7 +960,9 @@ public class SSServCaller {
     final Boolean              includeRecommendedResults,
     final Boolean              provideEntries,
     final String               pagesID,
-    final Integer              pageNumber) throws Exception{
+    final Integer              pageNumber,
+    final Integer              minRating,
+    final Integer              maxRating) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -984,6 +986,8 @@ public class SSServCaller {
     opPars.put(SSVarU.provideEntries,            provideEntries);
     opPars.put(SSVarU.pagesID,                   pagesID);
     opPars.put(SSVarU.pageNumber,                pageNumber);
+    opPars.put(SSVarU.minRating,                 minRating);
+    opPars.put(SSVarU.maxRating,                 maxRating);
     
     return (SSSearchRet) SSServA.callServViaServer(new SSServPar(SSMethU.search, opPars));
   }

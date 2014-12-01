@@ -20,16 +20,20 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSSearchFct {
@@ -159,7 +163,10 @@ public class SSSearchFct {
       
     while(recommendedEntityCounter < recommendedEntities.size()){
       
-      if(SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id)){
+      if(
+        SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id) || 
+        !handleRating  (par,  recommendedEntities.get(recommendedEntityCounter))){
+        
         recommendedEntityCounter++;
         continue;
       }
@@ -179,7 +186,8 @@ public class SSSearchFct {
     
     if(
       !pages.isEmpty() ||
-      !par.includeRecommendedResults){
+      !par.includeRecommendedResults ||
+      recommendedEntities.isEmpty()){
       return;
     }
     
@@ -188,5 +196,46 @@ public class SSSearchFct {
     }else{
       pages.add(new ArrayList<>(recommendedEntities.subList(0, 9)));
     }
+  }
+
+  public static boolean handleRating(
+    final SSSearchPar par,
+    final SSEntity    entity) throws Exception{
+    
+    if(
+      par.minRating == null && 
+      par.maxRating == null){
+      return false;
+    }
+    
+    try{
+      
+      final SSRatingOverall rating = SSServCaller.ratingOverallGet(par.user, entity.id);
+       
+      if(
+        par.minRating != null &&
+        par.minRating > rating.score){
+        return false;
+      }
+      
+      if(
+        par.maxRating != null &&
+        par.maxRating < rating.score){
+        return false;
+      }
+      
+      return true;
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    return true;
   }
 }

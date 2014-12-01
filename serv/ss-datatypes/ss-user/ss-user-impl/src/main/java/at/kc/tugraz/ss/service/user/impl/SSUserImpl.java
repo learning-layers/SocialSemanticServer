@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -242,7 +243,8 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         tmpLabel = SSVoc.systemUserLabel;
         tmpEmail = SSVoc.systemUserEmail;
       }else{
-        userUri  = SSServCaller.vocURICreate("user");
+        
+        userUri  = SSServCaller.vocURICreate(SSStrU.apiUser);
         tmpLabel = par.label;
         tmpEmail = par.email;        
       }

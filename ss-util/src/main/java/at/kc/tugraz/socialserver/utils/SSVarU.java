@@ -70,6 +70,8 @@ public class SSVarU{
   public static final String provideEntries                                 = "provideEntries";
   public static final String pagesID                                        = "pagesID";
   public static final String pageNumbers                                    = "pageNumbers";
+  public static final String minRating                                      = "minRating";
+  public static final String maxRating                                      = "maxRating";
   public static final String pageNumber                                     = "pageNumber";
   public static final String keywordsToSearchFor                            = "keywordsToSearchFor";
   public static final String flags                                          = "flags";
