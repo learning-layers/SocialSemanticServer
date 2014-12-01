@@ -209,6 +209,86 @@ search for entities
 
 
 - - -
+#### **POST** `/appStackLayoutsGet`
+
+retrieve appStackLayouts
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppStackLayoutsGetPar">SSAppStackLayoutsGetPar</a> </td>
+        <td>  [SSAppStackLayoutsGetRet](#SSAppStackLayoutsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/appStackLayoutTileAdd`
+
+add a tile to stack
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSAppStackLayoutTileAddPar">SSAppStackLayoutTileAddPar</a> </td>
+        <td>  [SSAppStackLayoutTileAddRet](#SSAppStackLayoutTileAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/uECountGet`
+
+retrieve the number of certain user events
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSUECountGetPar">SSUECountGetPar</a> </td>
+        <td>  [SSUECountGetRet](#SSUECountGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 #### **POST** `/entityCircleGet`
 
 retrieve a certain circle
@@ -369,26 +449,6 @@ add an activity
 
 
 - - -
-#### **POST** `/entityPublicSet`
-
-set an entity public (make it accessible for everyone)
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
-        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/systemVersionGet`
 
 retrieve the version of the sss instance
@@ -403,6 +463,26 @@ retrieve the version of the sss instance
     <tr>
         <td><a href="#SSSystemVersionGetPar">SSSystemVersionGetPar</a> </td>
         <td>  [SSSystemVersionGetRet](#SSSystemVersionGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/entityPublicSet`
+
+set an entity public (make it accessible for everyone)
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserPublicSetPar">SSEntityUserPublicSetPar</a> </td>
+        <td>  [SSEntityUserPublicSetRet](#SSEntityUserPublicSetRet) </td>
     </tr>
 </table>
 
@@ -889,186 +969,6 @@ retrieve given user event
 
 
 - - -
-#### **POST** `/uECountGet`
-
-retrieve the number of certain user events
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSUECountGetPar">SSUECountGetPar</a> </td>
-        <td>  [SSUECountGetRet](#SSUECountGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagEdit`
-
-changes the label of the tag assigned to entities by given user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
-        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagsGet`
-
-retrieve tag assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
-        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagAdd`
-
-add a tag within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
-        <td>  [SSTagAddRet](#SSTagAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagFrequsGet`
-
-retrieve tag frequencies
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
-        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/tagsRemove`
-
-remove tag, user, entity, space combinations
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
-        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryEdit`
-
-changes the label of the category assigned to entities by given user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryUserEditPar">SSCategoryUserEditPar</a> </td>
-        <td>  [SSCategoryUserEditRet](#SSCategoryUserEditRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoriesGet`
-
-retrieve category assignments
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
-        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/categoryAdd`
-
-add a category within for an entity within given space
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
-        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/categoriesRemove`
 
 remove category, user, entity, space combinations
@@ -1083,26 +983,6 @@ remove category, user, entity, space combinations
     <tr>
         <td><a href="#SSCategoriesUserRemovePar">SSCategoriesUserRemovePar</a> </td>
         <td>  [SSCategoriesUserRemoveRet](#SSCategoriesUserRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/messageSend`
-
-send a message to a user
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSMessageSendPar">SSMessageSendPar</a> </td>
-        <td>  [SSMessageSendRet](#SSMessageSendRet) </td>
     </tr>
 </table>
 
@@ -1143,6 +1023,26 @@ add an app
     <tr>
         <td><a href="#SSAppAddPar">SSAppAddPar</a> </td>
         <td>  [SSAppAddRet](#SSAppAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/messageSend`
+
+send a message to a user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSMessageSendPar">SSMessageSendPar</a> </td>
+        <td>  [SSMessageSendRet](#SSMessageSendRet) </td>
     </tr>
 </table>
 
@@ -1223,6 +1123,166 @@ like or dislike an entity
     <tr>
         <td><a href="#SSLikeUserSetPar">SSLikeUserSetPar</a> </td>
         <td>  [SSLikeUserSetRet](#SSLikeUserSetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryAdd`
+
+add a category within for an entity within given space
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryAddPar">SSCategoryAddPar</a> </td>
+        <td>  [SSCategoryAddRet](#SSCategoryAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoriesGet`
+
+retrieve category assignments
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoriesUserGetPar">SSCategoriesUserGetPar</a> </td>
+        <td>  [SSCategoriesUserGetRet](#SSCategoriesUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/categoryEdit`
+
+changes the label of the category assigned to entities by given user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCategoryUserEditPar">SSCategoryUserEditPar</a> </td>
+        <td>  [SSCategoryUserEditRet](#SSCategoryUserEditRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagsRemove`
+
+remove tag, user, entity, space combinations
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagsUserRemovePar">SSTagsUserRemovePar</a> </td>
+        <td>  [SSTagsUserRemoveRet](#SSTagsUserRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagFrequsGet`
+
+retrieve tag frequencies
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserFrequsGetPar">SSTagUserFrequsGetPar</a> </td>
+        <td>  [SSTagUserFrequsGetRet](#SSTagUserFrequsGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagAdd`
+
+add a tag within for an entity within given space
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagAddPar">SSTagAddPar</a> </td>
+        <td>  [SSTagAddRet](#SSTagAddRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagsGet`
+
+retrieve tag assignments
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagsUserGetPar">SSTagsUserGetPar</a> </td>
+        <td>  [SSTagsUserGetRet](#SSTagsUserGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/tagEdit`
+
+changes the label of the tag assigned to entities by given user
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSTagUserEditPar">SSTagUserEditPar</a> </td>
+        <td>  [SSTagUserEditRet](#SSTagUserEditRet) </td>
     </tr>
 </table>
 
@@ -1629,66 +1689,6 @@ create an arrangement of tiles within an app
 
 
 - - -
-#### **POST** `/appStackLayoutTileAdd`
-
-add a tile to stack
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAppStackLayoutTileAddPar">SSAppStackLayoutTileAddPar</a> </td>
-        <td>  [SSAppStackLayoutTileAddRet](#SSAppStackLayoutTileAddRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/appStackLayoutsGet`
-
-retrieve appStackLayouts
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSAppStackLayoutsGetPar">SSAppStackLayoutsGetPar</a> </td>
-        <td>  [SSAppStackLayoutsGetRet](#SSAppStackLayoutsGetRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 ### /auths
 
 #### **GET** `/auths`
@@ -2002,16 +2002,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -2044,16 +2044,16 @@ add an annotation to a video
         <td>type of the activity</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2080,16 +2080,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -2104,10 +2104,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -2116,10 +2116,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -2284,28 +2284,28 @@ add an annotation to a video
         <td>sss entity data type</td>
     </tr>
     <tr>
-        <td>entities</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>entities involved</td>
-    </tr>
-    <tr>
         <td>downloadAndroid</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>discs</td>
+        <td>entities</td>
         <td>Array[string]</td>
         <td></td>
-        <td>discussions about</td>
+        <td>entities involved</td>
     </tr>
     <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -2344,16 +2344,16 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -2410,13 +2410,13 @@ add an annotation to a video
         <td>creation / timestamp in milliseconds</td>
     </tr>
     <tr>
-        <td>fork</td>
+        <td>descriptionShort</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
+        <td>fork</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -2434,6 +2434,12 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
+    </tr>
+    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
@@ -2444,12 +2450,6 @@ add an annotation to a video
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
-    </tr>
-    <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2470,16 +2470,16 @@ add an annotation to a video
         <td>screenShots</td>
     </tr>
     <tr>
-        <td>downloadAndroid</td>
-        <td>string</td>
-        <td></td>
-        <td>download link Android</td>
-    </tr>
-    <tr>
         <td>videos</td>
         <td>Array[string]</td>
         <td></td>
         <td>videos</td>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td>download link Android</td>
     </tr>
     <tr>
         <td>key</td>
@@ -2530,16 +2530,16 @@ add an annotation to a video
         <td>name</td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
-        <td>string</td>
-        <td></td>
-        <td>short description</td>
-    </tr>
-    <tr>
         <td>fork</td>
         <td>string</td>
         <td></td>
         <td>github fork link</td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td>short description</td>
     </tr>
     <tr>
         <td>descriptionFunctional</td>
@@ -2614,16 +2614,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -2650,16 +2650,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>app</td>
@@ -2692,16 +2692,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -2716,10 +2716,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -2728,10 +2728,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -2968,16 +2968,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -3004,16 +3004,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>app</td>
@@ -3046,16 +3046,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -3070,10 +3070,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -3082,10 +3082,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -3520,16 +3520,16 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -3580,16 +3580,16 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -3970,16 +3970,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -4006,16 +4006,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -4042,16 +4042,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -4066,10 +4066,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -4078,10 +4078,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -5002,16 +5002,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -5038,16 +5038,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5074,16 +5074,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -5098,10 +5098,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -5110,10 +5110,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -5518,16 +5518,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -5554,16 +5554,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5590,16 +5590,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -5614,10 +5614,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -5626,10 +5626,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -5668,6 +5668,12 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
+    </tr>
+    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
@@ -5678,12 +5684,6 @@ add an annotation to a video
         <td>string</td>
         <td></td>
         <td></td>
-    </tr>
-    <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -5716,16 +5716,16 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -5752,16 +5752,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -5782,10 +5782,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -5794,10 +5794,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -7378,12 +7378,6 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>endTime</td>
         <td>long</td>
         <td></td>
@@ -7394,6 +7388,12 @@ add an annotation to a video
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -7444,16 +7444,16 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -7654,16 +7654,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>discs</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>discussions about</td>
-    </tr>
-    <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -7690,16 +7690,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>circles</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>circles</td>
-    </tr>
-    <tr>
         <td>comments</td>
         <td>Array[string]</td>
         <td></td>
         <td>comments given by users</td>
+    </tr>
+    <tr>
+        <td>circles</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>circles</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -7726,16 +7726,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>entries</td>
-        <td><a href="#List[?]">List[?]</a></td>
-        <td></td>
-        <td>entities sub-entities</td>
-    </tr>
-    <tr>
         <td>label</td>
         <td>string</td>
         <td></td>
         <td>name</td>
+    </tr>
+    <tr>
+        <td>entries</td>
+        <td><a href="#List[?]">List[?]</a></td>
+        <td></td>
+        <td>entities sub-entities</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -7750,10 +7750,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -7762,10 +7762,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
 </table>
 
@@ -7984,16 +7984,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -8026,16 +8026,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>content</td>
@@ -8074,16 +8074,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -8098,10 +8098,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -8110,10 +8110,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -8302,13 +8302,13 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
+        <td>relatedPersons</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>relatedPersons</td>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -9058,16 +9058,16 @@ add an annotation to a video
         <td></td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>circleTypes</td>
@@ -9124,16 +9124,16 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -9700,16 +9700,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -9742,16 +9742,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>ueType</td>
@@ -9790,16 +9790,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -9814,16 +9814,16 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>locations</td>
-        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
-        <td></td>
-        <td>locations</td>
-    </tr>
-    <tr>
         <td>id</td>
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>locations</td>
+        <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
+        <td></td>
+        <td>locations</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -10168,16 +10168,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -10204,16 +10204,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>friends</td>
@@ -10252,16 +10252,16 @@ add an annotation to a video
         <td>email</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -10276,10 +10276,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -10288,10 +10288,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10384,16 +10384,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -10420,16 +10420,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>annotations</td>
@@ -10462,16 +10462,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -10486,10 +10486,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -10498,10 +10498,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>genre</td>
@@ -10546,16 +10546,16 @@ add an annotation to a video
         <td>entities involved</td>
     </tr>
     <tr>
-        <td>file</td>
-        <td>string</td>
-        <td></td>
-        <td>physical file</td>
-    </tr>
-    <tr>
         <td>discs</td>
         <td>Array[string]</td>
         <td></td>
         <td>discussions about</td>
+    </tr>
+    <tr>
+        <td>file</td>
+        <td>string</td>
+        <td></td>
+        <td>physical file</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -10594,16 +10594,16 @@ add an annotation to a video
         <td>user events</td>
     </tr>
     <tr>
-        <td>comments</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>comments given by users</td>
-    </tr>
-    <tr>
         <td>circles</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>circles</td>
+    </tr>
+    <tr>
+        <td>comments</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>comments given by users</td>
     </tr>
     <tr>
         <td>x</td>
@@ -10636,16 +10636,16 @@ add an annotation to a video
         <td>attached entities</td>
     </tr>
     <tr>
-        <td>label</td>
-        <td>string</td>
-        <td></td>
-        <td>name</td>
-    </tr>
-    <tr>
         <td>entries</td>
         <td><a href="#List[?]">List[?]</a></td>
         <td></td>
         <td>entities sub-entities</td>
+    </tr>
+    <tr>
+        <td>label</td>
+        <td>string</td>
+        <td></td>
+        <td>name</td>
     </tr>
     <tr>
         <td>creationTime</td>
@@ -10660,10 +10660,10 @@ add an annotation to a video
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td>id</td>
+        <td>string</td>
         <td></td>
-        <td>flags assigned</td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>locations</td>
@@ -10672,10 +10672,10 @@ add an annotation to a video
         <td>locations</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
         <td></td>
-        <td>uri</td>
+        <td>flags assigned</td>
     </tr>
 </table>
 

@@ -2,29 +2,29 @@
   "apiVersion" : "6.0.1-alpha",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/videos.{format}",
-    "description" : "SSS REST API for videos"
+    "path" : "/SSAdapterRest.{format}",
+    "description" : "SSS REST API"
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}",
     "description" : "SSS File Download REST API"
   }, {
-    "path" : "/SSAdapterRESTFileUpload.{format}",
-    "description" : "SSS File Upload REST API"
+    "path" : "/circles.{format}",
+    "description" : "SSS REST API for circles (groups)"
   }, {
     "path" : "/auths.{format}",
     "description" : "SSS REST API for authentication"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
+  }, {
+    "path" : "/videos.{format}",
+    "description" : "SSS REST API for videos"
   }, {
     "path" : "/SSAdapterRESTFile.{format}",
     "description" : "SSS File REST API"
   }, {
     "path" : "/SSAdapterRESTFileReplace.{format}",
     "description" : "SSS File Replace REST API"
-  }, {
-    "path" : "/circles.{format}",
-    "description" : "SSS REST API for circles (groups)"
-  }, {
-    "path" : "/SSAdapterRest.{format}",
-    "description" : "SSS REST API"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
