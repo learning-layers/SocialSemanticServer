@@ -57,4 +57,9 @@ public class SSLikeUserSetRet extends SSServRetI{
     
     return ld;
   }
+  
+  /* json getters */
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
 }

@@ -24,6 +24,5 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSLikeClientI{
-  
-  public void likeUserSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

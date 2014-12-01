@@ -51,7 +51,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   }
   
   @Override
-  public void likeUserSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCaller.checkKey(parA);
     
