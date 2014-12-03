@@ -26,12 +26,15 @@ public class SSStrU{
 
   private SSStrU(){}
 
-  public static final String apiVideo                 = "videos/video";
-  public static final String apiVideoAnnotation       = "videos/video/annotation";
+  public static final String apiCircle                = "circles/circles";
+  
+  public static final String apiVideo                 = "videos/videos";
+  public static final String apiVideoAnnotation       = "videos/videos/annotation";
+  
+  public static final String apiUser                  = "users/users";
   
   public static final String apiLocation              = "location";
   public static final String apiCollection            = "collection";
-  public static final String apiUser                  = "user";
   public static final String apiTag                   = "tag";
   public static final String apiApp                   = "app";
   public static final String apiAppStack              = "appstack";

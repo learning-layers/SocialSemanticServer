@@ -497,7 +497,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         }
       }
 
-      final SSUri               circleUri  = SSServCaller.vocURICreate("circle");
+      final SSUri               circleUri  = SSServCaller.vocURICreate(SSStrU.apiCircle);
       
       addEntityIfNotExists(
         circleUri, 
@@ -538,7 +538,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }
 
       final Map<String, String> inserts    = new HashMap<>();
-      final SSUri               circleUri  = SSServCaller.vocURICreate("circle");
+      final SSUri               circleUri  = SSServCaller.vocURICreate(SSStrU.apiCircle);
       
       addEntityIfNotExists(
         circleUri, 
