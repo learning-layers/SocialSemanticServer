@@ -4,7 +4,7 @@ USE `sss`;
 --
 -- Host: localhost    Database: sss
 -- ------------------------------------------------------
--- Server version	5.6.17-log
+-- Server version	5.6.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -747,7 +747,7 @@ CREATE TABLE `entity` (
   `creationTime` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
-  `description` varchar(1000) NOT NULL,
+  `description` varchar(10000) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
   FULLTEXT KEY `labelIndexEntity` (`label`),
@@ -1660,4 +1660,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-30 14:47:10
+-- Dump completed on 2014-12-03 17:53:53

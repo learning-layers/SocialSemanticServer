@@ -21,11 +21,9 @@
 package at.kc.tugraz.ss.service.search.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
