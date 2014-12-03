@@ -48,6 +48,7 @@ public class SSRecommResourcesTest extends SSServOpTestCaseA{
         new ArrayList<>(),
         10,
         new ArrayList<>(), 
+        true,
         true);
     
     System.out.println (resources);

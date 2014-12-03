@@ -82,6 +82,12 @@ public class SSRecommResourcesPar extends SSServPar{
     value = "entity types to be recommended")
   public List<SSEntityE> typesToRecommOnly = new ArrayList<>();
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether own entities should be included in the result")
+  public Boolean includeOwn = false;
+    
   public SSRecommResourcesPar(){}
     
   public SSRecommResourcesPar(final SSServPar par) throws Exception{
@@ -96,6 +102,7 @@ public class SSRecommResourcesPar extends SSServPar{
         maxResources                  = (Integer)         pars.get(SSVarU.maxResources);
         typesToRecommOnly             = (List<SSEntityE>) pars.get(SSVarU.typesToRecommOnly);
         setCircleTypes                = (Boolean)         pars.get(SSVarU.setCircleTypes);
+        includeOwn                    = (Boolean)         pars.get(SSVarU.includeOwn);
       }
       
       if(par.clientJSONObj != null){
@@ -126,6 +133,10 @@ public class SSRecommResourcesPar extends SSServPar{
         
         try{
           this.setCircleTypes  = par.clientJSONObj.get(SSVarU.setCircleTypes).getBooleanValue();
+        }catch(Exception error){}
+        
+        try{
+          this.includeOwn  = par.clientJSONObj.get(SSVarU.includeOwn).getBooleanValue();
         }catch(Exception error){}
       }
       

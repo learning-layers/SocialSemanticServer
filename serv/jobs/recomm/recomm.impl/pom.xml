@@ -81,7 +81,7 @@
     <dependency>
       <groupId>tagrec</groupId>
       <artifactId>tagrec</artifactId>
-      <version>1.2.2</version>
+      <version>1.3</version>
     </dependency>
     
 <!--        <dependency>

@@ -139,7 +139,8 @@ public class SSSearchFct {
         new ArrayList<>(),
         10,
         par.typesToSearchOnlyFor,
-        false).keySet());
+        false,
+        true).keySet());
     
     return result;
   }

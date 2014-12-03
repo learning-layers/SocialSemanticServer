@@ -42,15 +42,14 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import engine.CFResourceRecommenderEngine;
-import engine.EngineInterface;
 import engine.TagRecommenderEngine;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
-  private static final TagRecommenderEngine tagRec       = new TagRecommenderEngine();
-  private static final EngineInterface      resourceRec  = new CFResourceRecommenderEngine();
+  private static final TagRecommenderEngine          tagRec       = new TagRecommenderEngine();
+  private static final CFResourceRecommenderEngine   resourceRec  = new CFResourceRecommenderEngine();
   
   public SSRecommImpl(final SSConfA conf) throws Exception{
     super(conf);
@@ -116,7 +115,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
           SSStrU.toStr(par.forUser),
           SSStrU.toStr(par.entity),
           par.categories,
-          100);
+          100,
+          !par.includeOwn); //filterOwn
       
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
         

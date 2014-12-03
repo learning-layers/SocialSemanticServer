@@ -2437,7 +2437,8 @@ public class SSServCaller {
     final List<String>    categories,
     final Integer         maxResources,
     final List<SSEntityE> typesToRecommOnly, 
-    final Boolean         setCircleTypes) throws Exception{
+    final Boolean         setCircleTypes,
+    final Boolean         includeOwn) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -2448,6 +2449,7 @@ public class SSServCaller {
     opPars.put(SSVarU.maxResources,           maxResources);
     opPars.put(SSVarU.typesToRecommOnly,      typesToRecommOnly);
     opPars.put(SSVarU.setCircleTypes,         setCircleTypes);
+    opPars.put(SSVarU.includeOwn,             includeOwn);
     
     return (Map<SSEntity, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommResources, opPars));
   }
