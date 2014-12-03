@@ -177,7 +177,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
           final SSUri userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix)){
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, SSStrU.toStr(par.label) + "@know-center.at" /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */)){
             
             userUri =
               SSServCaller.userAdd(
@@ -201,7 +201,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             userUri = 
               SSServCaller.userURIGet(
                 SSVoc.systemUserUri, 
-                SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix);
+                SSStrU.toStr(par.label) + "@know-center.at" /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */);
           }
           
           return SSAuthCheckCredRet.get(

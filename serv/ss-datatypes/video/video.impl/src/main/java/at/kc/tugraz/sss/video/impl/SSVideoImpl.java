@@ -223,7 +223,11 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   @Override
   public void videoAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    parA.user = SSServCaller.checkKey(parA);
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
     
     sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoUserAdd(parA), parA.op));
   }
@@ -323,7 +327,11 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   @Override
   public void videoAnnotationAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
     
     sSCon.writeRetFullToClient(SSVideoUserAnnotationAddRet.get(videoUserAnnotationAdd(parA), parA.op));
   }
@@ -382,7 +390,11 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   @Override
   public void videosGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
     
     sSCon.writeRetFullToClient(SSVideosUserGetRet.get(videosUserGet(parA), parA.op));
   }
