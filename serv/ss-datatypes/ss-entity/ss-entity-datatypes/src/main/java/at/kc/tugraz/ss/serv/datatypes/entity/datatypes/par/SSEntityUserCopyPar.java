@@ -46,7 +46,7 @@ public class SSEntityUserCopyPar extends SSServPar{
   @ApiModelProperty(
     required = true,
     value = "users to copy the entity for")
-  public List<SSUri>   users              = null;
+  public List<SSUri>   users              = new ArrayList<>();
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{

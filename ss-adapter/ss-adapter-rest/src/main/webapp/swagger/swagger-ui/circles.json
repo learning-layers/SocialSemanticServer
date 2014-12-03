@@ -140,25 +140,37 @@
           "type" : "string",
           "description" : "physical file"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "tags" : {
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "comments" : {
           "type" : "array",
-          "description" : "tags assigned",
+          "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "entities" : {
           "type" : "array",
@@ -167,6 +179,14 @@
             "type" : "string"
           }
         },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
         "discs" : {
           "type" : "array",
           "description" : "discussions about",
@@ -174,9 +194,19 @@
             "type" : "string"
           }
         },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
         },
         "thumb" : {
           "type" : "string",
@@ -189,42 +219,12 @@
             "type" : "string"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
         "uEs" : {
           "type" : "array",
           "description" : "user events",
           "items" : {
             "$ref" : "SSEntityA"
           }
-        },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "author" : {
           "type" : "string",
@@ -348,6 +348,10 @@
           "type" : "string",
           "description" : "textual annotation"
         },
+        "label" : {
+          "type" : "string",
+          "description" : "circle name"
+        },
         "entities" : {
           "type" : "array",
           "description" : "entities to add",
@@ -361,10 +365,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "circle name"
         },
         "isSystemCircle" : {
           "type" : "boolean"

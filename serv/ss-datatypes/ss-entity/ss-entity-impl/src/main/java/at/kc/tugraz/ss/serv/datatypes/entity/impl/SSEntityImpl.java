@@ -311,6 +311,8 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(!par.circles.isEmpty()){
 
+        final SSEntityE   entityType      = SSServCaller.entityGet(par.entity).type;
+        
         dbSQL.startTrans(par.shouldCommit);
         
         for(SSUri circle : par.circles){
@@ -320,6 +322,19 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             circle, 
             SSUri.asListWithoutNullAndEmpty(par.entity), 
             false);
+          
+          //TODO dtheiler: remove this hack for review
+          switch(entityType){
+            case qa:
+              SSEntityMiscFct.shareByEntityHandlers(
+                par.user,
+                sqlFct.getUserURIsForCircle(circle),
+                par.entity,
+                circle,
+                false);
+              break;
+            default:break;
+          }
         }
         
         SSEntityActivityFct.shareEntityWithCircles(par);
