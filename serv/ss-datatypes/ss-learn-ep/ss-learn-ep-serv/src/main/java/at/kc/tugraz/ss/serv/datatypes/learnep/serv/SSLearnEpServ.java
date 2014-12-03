@@ -57,6 +57,7 @@ public class SSLearnEpServ extends SSServA{
     super.regServ(conf);
     
     regServForManagingEntities();
+    regServForGatheringUsersResources ();
     
     return this;
   }
