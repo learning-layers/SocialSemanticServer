@@ -649,26 +649,6 @@ retrieve appStackLayouts
 
 
 - - -
-#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
-
-remove certain attached attributes from an entity
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
-        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/entityCircleGet`
 
 retrieve a certain circle
@@ -1049,26 +1029,6 @@ retrieve a user&#39;s collection with entries
 
 
 - - -
-#### **POST** `/collsWithEntries`
-
-retrieve the user&#39;s collections with entries
-
-
-
-<table border="1">
-    <tr>
-        <td>In</td>
-        <td>Out</td>
-    </tr>
-    <tr>
-        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
-        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
-    </tr>
-</table>
-
-
-
-- - -
 #### **POST** `/collHierarchyGet`
 
 retrieve the parent collection order for a user&#39;s collection
@@ -1083,6 +1043,26 @@ retrieve the parent collection order for a user&#39;s collection
     <tr>
         <td><a href="#SSCollUserHierarchyGetPar">SSCollUserHierarchyGetPar</a> </td>
         <td>  [SSCollUserHierarchyGetRet](#SSCollUserHierarchyGetRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
+#### **POST** `/collsWithEntries`
+
+retrieve the user&#39;s collections with entries
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSCollsUserWithEntriesPar">SSCollsUserWithEntriesPar</a> </td>
+        <td>  [SSCollsUserWithEntriesRet](#SSCollsUserWithEntriesRet) </td>
     </tr>
 </table>
 
@@ -1689,6 +1669,26 @@ like or dislike an entity
 
 
 - - -
+#### **POST** `/entityDirectlyAdjoinedEntitiesRemove`
+
+remove certain attached attributes from an entity
+
+
+
+<table border="1">
+    <tr>
+        <td>In</td>
+        <td>Out</td>
+    </tr>
+    <tr>
+        <td><a href="#SSEntityUserDirectlyAdjoinedEntitiesRemovePar">SSEntityUserDirectlyAdjoinedEntitiesRemovePar</a> </td>
+        <td>  [SSEntityUserDirectlyAdjoinedEntitiesRemoveRet](#SSEntityUserDirectlyAdjoinedEntitiesRemoveRet) </td>
+    </tr>
+</table>
+
+
+
+- - -
 ### /auths
 
 #### **GET** `/auths`
@@ -2284,28 +2284,28 @@ retrieve videos
         <td>sss entity data type</td>
     </tr>
     <tr>
-        <td>entities</td>
-        <td>Array[string]</td>
-        <td></td>
-        <td>entities involved</td>
-    </tr>
-    <tr>
         <td>downloadAndroid</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>discs</td>
+        <td>entities</td>
         <td>Array[string]</td>
         <td></td>
-        <td>discussions about</td>
+        <td>entities involved</td>
     </tr>
     <tr>
         <td>file</td>
         <td>string</td>
         <td></td>
         <td>physical file</td>
+    </tr>
+    <tr>
+        <td>discs</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td>discussions about</td>
     </tr>
     <tr>
         <td>likes</td>
@@ -2410,13 +2410,13 @@ retrieve videos
         <td>creation / timestamp in milliseconds</td>
     </tr>
     <tr>
-        <td>fork</td>
+        <td>descriptionShort</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
+        <td>fork</td>
         <td>string</td>
         <td></td>
         <td></td>
@@ -2470,16 +2470,16 @@ retrieve videos
         <td>screenShots</td>
     </tr>
     <tr>
-        <td>downloadAndroid</td>
-        <td>string</td>
-        <td></td>
-        <td>download link Android</td>
-    </tr>
-    <tr>
         <td>videos</td>
         <td>Array[string]</td>
         <td></td>
         <td>videos</td>
+    </tr>
+    <tr>
+        <td>downloadAndroid</td>
+        <td>string</td>
+        <td></td>
+        <td>download link Android</td>
     </tr>
     <tr>
         <td>key</td>
@@ -2530,16 +2530,16 @@ retrieve videos
         <td>name</td>
     </tr>
     <tr>
-        <td>descriptionShort</td>
-        <td>string</td>
-        <td></td>
-        <td>short description</td>
-    </tr>
-    <tr>
         <td>fork</td>
         <td>string</td>
         <td></td>
         <td>github fork link</td>
+    </tr>
+    <tr>
+        <td>descriptionShort</td>
+        <td>string</td>
+        <td></td>
+        <td>short description</td>
     </tr>
     <tr>
         <td>descriptionFunctional</td>
@@ -2716,12 +2716,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -2732,6 +2726,12 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -6814,16 +6814,16 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
-        <td>circle</td>
-        <td>string</td>
-        <td>true</td>
-        <td>circle to add users to</td>
-    </tr>
-    <tr>
         <td>users</td>
         <td>Array[string]</td>
         <td>true</td>
         <td>users to add</td>
+    </tr>
+    <tr>
+        <td>circle</td>
+        <td>string</td>
+        <td>true</td>
+        <td>circle to add users to</td>
     </tr>
     <tr>
         <td>key</td>
@@ -7444,16 +7444,16 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>id</td>
-        <td>string</td>
-        <td></td>
-        <td>uri</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
         <td>locations</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>string</td>
+        <td></td>
+        <td>uri</td>
     </tr>
     <tr>
         <td>flags</td>
@@ -8290,25 +8290,25 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td>recentTopic</td>
         <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>editors</td>
-        <td>Array[string]</td>
+        <td>entity</td>
+        <td>string</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>relatedPersons</td>
+        <td>Array[string]</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>editors</td>
         <td>Array[string]</td>
         <td></td>
         <td></td>
@@ -8536,16 +8536,16 @@ retrieve videos
         <th>description</th>
     </tr>
     <tr>
-        <td>entity</td>
-        <td>string</td>
-        <td></td>
-        <td>resource to be considered to retrieve recommendations for</td>
-    </tr>
-    <tr>
         <td>typesToRecommOnly</td>
         <td>Array[string]</td>
         <td></td>
         <td>entity types to be recommended</td>
+    </tr>
+    <tr>
+        <td>entity</td>
+        <td>string</td>
+        <td></td>
+        <td>resource to be considered to retrieve recommendations for</td>
     </tr>
     <tr>
         <td>key</td>
@@ -10276,12 +10276,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -10292,6 +10286,12 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
 </table>
 
@@ -10486,12 +10486,6 @@ retrieve videos
         <td>tags assigned</td>
     </tr>
     <tr>
-        <td>flags</td>
-        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
-        <td></td>
-        <td>flags assigned</td>
-    </tr>
-    <tr>
         <td>locations</td>
         <td><a href="#List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]">List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]</a></td>
         <td></td>
@@ -10502,6 +10496,12 @@ retrieve videos
         <td>string</td>
         <td></td>
         <td>uri</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td><a href="#SSEntityA">Array[SSEntityA]</a></td>
+        <td></td>
+        <td>flags assigned</td>
     </tr>
     <tr>
         <td>genre</td>

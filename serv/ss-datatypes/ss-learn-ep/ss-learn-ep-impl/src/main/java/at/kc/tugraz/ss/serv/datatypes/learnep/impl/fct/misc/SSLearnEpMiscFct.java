@@ -169,7 +169,7 @@ public class SSLearnEpMiscFct{
       SSServCaller.entityEntitiesToCircleAdd(
         user,
         circle,
-        getLearnEpContentURIs(sqlFct, learnEp),
+        getLearnEpContentURIs(user, sqlFct, learnEp),
         false);
 
     }catch(Exception error){
@@ -178,6 +178,7 @@ public class SSLearnEpMiscFct{
   }
   
   public static List<SSUri> getLearnEpContentURIs(
+    final SSUri           user,
     final SSLearnEpSQLFct sqlFct,
     final SSUri           learnEp) throws Exception{
 
@@ -202,6 +203,14 @@ public class SSLearnEpMiscFct{
           learnEpContentUris.add(entity.id);
           
           learnEpContentUris.add(entity.entity.id);
+          
+          for(SSUri file : SSServCaller.entityFilesGet(user, entity.entity.id)){
+            learnEpContentUris.add(file);
+          }
+          
+          for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity.entity.id)){
+            learnEpContentUris.add(thumb);
+          }
         }
         
         if(learnEpVersion.learnEpTimelineState != null){
