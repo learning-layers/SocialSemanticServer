@@ -183,7 +183,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               SSServCaller.userAdd(
                 SSVoc.systemUserUri,
                 par.label,
-                SSStrU.toStr(par.label) + SSVoc.systemEmailPostFix,
+                SSStrU.toStr(par.label)  + "@know-center.at", /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */
                 false,
                 true);
             
