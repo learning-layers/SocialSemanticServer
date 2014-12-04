@@ -1,7 +1,7 @@
 {
-  "apiVersion" : "6.0.1-alpha",
+  "apiVersion" : "7.0.3-alpha",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8084/ss-adapter-rest/",
+  "basePath" : "https://api.learning-layers.eu/sss/achso/",
   "resourcePath" : "/SSAdapterRESTFileUpload",
   "apis" : [ {
     "path" : "/fileUpload",

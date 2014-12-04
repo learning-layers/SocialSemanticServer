@@ -43,7 +43,7 @@
             <apiSource>
               <locations>at.kc.tugraz.ss.adapter.rest</locations>
               <apiVersion>${ssVersion}</apiVersion>
-              <basePath>http://localhost:8084/ss-adapter-rest/</basePath>
+              <basePath>https://api.learning-layers.eu/sss/achso/</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
@@ -59,7 +59,7 @@
               <outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>
               <outputPath>${basedir}/src/main/webapp/swagger/generated/document.html</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/swagger/swagger-ui</swaggerDirectory>
-              <swaggerUIDocBasePath>http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/doc</swaggerUIDocBasePath>
+              <swaggerUIDocBasePath>https://api.learning-layers.eu/sss/achso/swagger/swagger-ui</swaggerUIDocBasePath>
               <useOutputFlatStructure>false</useOutputFlatStructure>
             </apiSource>
           </apiSources>

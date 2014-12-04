@@ -1,5 +1,5 @@
 {
-  "apiVersion" : "6.0.1-alpha",
+  "apiVersion" : "7.0.3-alpha",
   "swaggerVersion" : "1.2",
   "apis" : [ {
     "path" : "/SSAdapterRESTFile.{format}",
@@ -37,5 +37,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://localhost:8084/ss-adapter-rest/rest/SSAdapterRest/doc"
+  "basePath" : "https://api.learning-layers.eu/sss/achso/swagger/swagger-ui"
 }
