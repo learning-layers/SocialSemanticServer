@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.impl;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -164,7 +164,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       tagRec.loadFile(
         SSStrU.removeTrailingString(
           recommConf.fileNameForTagRec,
-          SSStrU.dot + SSFileExtU.txt));
+          SSStrU.dot + SSFileExtE.txt.toString()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -185,7 +185,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       resourceRec.loadFile(
         SSStrU.removeTrailingString(
           recommConf.fileNameForResourceRec,
-          SSStrU.dot + SSFileExtU.txt));
+          SSStrU.dot + SSFileExtE.txt.toString()));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

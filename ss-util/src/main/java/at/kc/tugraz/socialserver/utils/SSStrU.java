@@ -26,25 +26,25 @@ public class SSStrU{
 
   private SSStrU(){}
 
-  public static final String apiCircle                = "circles/circles";
-  
-  public static final String apiVideo                 = "videos/videos";
-  public static final String apiVideoAnnotation       = "videos/videos/annotation";
-  
-  public static final String apiUser                  = "users/users";
-  
-  public static final String apiLocation              = "location";
-  public static final String apiCollection            = "collection";
-  public static final String apiTag                   = "tag";
-  public static final String apiApp                   = "app";
-  public static final String apiAppStack              = "appstack";
-  public static final String apiAppStackTile          = "appstack/tile";
-  public static final String apiMessage               = "message";
-  public static final String apiLearnEpVersion        = "learnep/version";
-  public static final String apiLearnEpCircle         = "learnep/circle";
-  public static final String apiLearnEpEntity         = "learnep/entity";
-  public static final String apiLearnEp               = "learnep";
-  public static final String apiLearnEpTimelineState  = "learnep/timelinestate";
+//  public static final String apiCircle                = "circles/circles";
+//  
+//  public static final String apiVideo                 = "videos/videos";
+//  public static final String apiVideoAnnotation       = "videos/videos/annotation";
+//  
+//  public static final String apiUser                  = "users/users";
+//  
+//  public static final String apiLocation              = "location";
+//  public static final String apiCollection            = "collection";
+//  public static final String apiTag                   = "tag";
+//  public static final String apiApp                   = "app";
+//  public static final String apiAppStack              = "appstack";
+//  public static final String apiAppStackTile          = "appstack/tile";
+//  public static final String apiMessage               = "message";
+//  public static final String apiLearnEpVersion        = "learnep/version";
+//  public static final String apiLearnEpCircle         = "learnep/circle";
+//  public static final String apiLearnEpEntity         = "learnep/entity";
+//  public static final String apiLearnEp               = "learnep";
+//  public static final String apiLearnEpTimelineState  = "learnep/timelinestate";
   
   //characters
   public  static final String equal                                           = "=";

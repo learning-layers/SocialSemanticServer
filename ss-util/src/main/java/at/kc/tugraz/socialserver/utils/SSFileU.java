@@ -451,7 +451,7 @@ public class SSFileU{
       //int start = 1,  end = decode_pdf.getPageCount();
       buffImage = pdfToImgDecoder.getPageAsImage(1);
       
-      ImageIO.write(buffImage, SSFileExtU.png, new File(pngFilePath));
+      ImageIO.write(buffImage, SSFileExtE.png.toString(), new File(pngFilePath));
       
       pngImage  = ImageIO.read(new File(pngFilePath));
       buffImage = (BufferedImage) pngImage;
@@ -478,7 +478,7 @@ public class SSFileU{
     graphics2D.drawImage(buffImage, 0, 0, 350, 350, null);
     graphics2D.dispose();
     
-    ImageIO.write(scaledThumb, SSFileExtU.png, new File(pngFilePath));
+    ImageIO.write(scaledThumb, SSFileExtE.png.toString(), new File(pngFilePath));
   }
   
   public static void writeStr(

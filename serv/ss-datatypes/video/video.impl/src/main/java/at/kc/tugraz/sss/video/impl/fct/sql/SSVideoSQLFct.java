@@ -144,6 +144,62 @@ public class SSVideoSQLFct extends SSDBSQLFct{
      }
   }
   
+  public SSVideo getVideo(
+    final SSUri user, 
+    final SSUri videoUri) throws Exception{
+    
+    ResultSet resultSet = null;
+      
+    try{
+      final List<String>          columns     = new ArrayList<>();
+      final List<String>          tables      = new ArrayList<>();
+      final Map<String, String>   wheres      = new HashMap<>();
+      final List<String>          tableCons   = new ArrayList<>();
+      
+      final SSVideo video;
+      
+      column(columns, videoTable,          SSSQLVarU.videoId);
+      column(columns, videoTable,          SSSQLVarU.genre);
+      column(columns, entityTable,         SSSQLVarU.creationTime);
+      column(columns, entityTable,         SSSQLVarU.label);
+      column(columns, entityTable,         SSSQLVarU.description);
+
+      where(wheres, videoTable, SSSQLVarU.videoId, videoUri);
+      
+      table(tables, entityTable);
+      table(tables, videoTable);
+      
+      if(user != null){
+        where    (wheres,    userVideosTable, SSSQLVarU.userId, user);
+        table    (tables,    userVideosTable);
+        tableCon (tableCons, entityTable, SSSQLVarU.id, userVideosTable, SSSQLVarU.videoId);
+      }
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      
+      checkFirstResult(resultSet);
+      
+      video =
+        SSVideo.get(
+          bindingStrToUri         (resultSet, SSSQLVarU.videoId),
+          bindingStr              (resultSet, SSSQLVarU.genre),
+          new ArrayList<>());
+      
+      video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
+      video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
+      video.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+      
+      return video;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public List<SSVideo> getVideos(
     final SSUri   forUser,     
     final SSUri   forEntity) throws Exception{
@@ -268,4 +324,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  
 }

@@ -58,6 +58,19 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case flag:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
@@ -109,7 +122,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
        
         for(SSFlagE flag : par.types){
           
-          SSUri flagUri = SSServCaller.vocURICreate("flag");
+          SSUri flagUri = SSServCaller.vocURICreate();
           
           SSServCaller.entityEntityToPrivCircleAdd(
             par.user, 

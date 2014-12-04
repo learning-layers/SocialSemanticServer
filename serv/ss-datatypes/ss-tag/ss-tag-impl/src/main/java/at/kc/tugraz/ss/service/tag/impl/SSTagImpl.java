@@ -62,7 +62,14 @@ import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelati
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
+public class SSTagImpl 
+extends SSServImplWithDBA 
+implements 
+  SSTagClientI, 
+  SSTagServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI, 
+  SSUserRelationGathererI{
   
   private final SSTagSQLFct sqlFct;
   
@@ -195,6 +202,19 @@ public class SSTagImpl extends SSServImplWithDBA implements SSTagClientI, SSTagS
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case tag:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
   }
   
   @Override

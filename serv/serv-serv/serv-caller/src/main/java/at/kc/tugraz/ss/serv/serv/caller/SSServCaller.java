@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.serv.caller;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -744,12 +745,16 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
   }
   
-  public static SSUri vocURICreate(final String uriPostfix) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + uriPostfix + SSStrU.slash + SSIDU.uniqueID());
+  public static SSUri vocURICreate() throws Exception{
+    return SSUri.get(vocURIPrefixGet() + "entities/entities/" + SSIDU.uniqueID());
   }
   
-  public static SSUri vocURICreate(final String uriPostfix, final String id) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + uriPostfix + SSStrU.slash + id);
+  public static SSUri vocURICreateFromId(final String id) throws Exception{
+    return SSUri.get(vocURIPrefixGet() + "entities/entities/" /*+ SSStrU.slash */ + id);
+  }
+  
+  public static SSUri vocURICreate(final SSFileExtE fileExt) throws Exception{
+    return SSUri.get(vocURIPrefixGet() + "entities/entities/" + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
   /* colls */
@@ -1217,7 +1222,7 @@ public class SSServCaller {
     
     locations.add(
       SSLocation.get(
-        vocURICreate(SSStrU.apiLocation), 
+        vocURICreate(), 
         latitude,
         longitude, 
         accuracy));
@@ -2476,18 +2481,6 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.fileUpdateWritingMinutes, new HashMap<>()));
   }
   
-  public static SSUri fileCreateUri(
-    final SSUri  user,
-    final String fileExt) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,    user);
-    opPars.put(SSVarU.fileExt, fileExt);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.fileCreateUri, opPars));
-  }
-  
   public static String fileExtGet(
     final SSUri  user,
     final SSUri  file) throws Exception{
@@ -2526,16 +2519,6 @@ public class SSServCaller {
     opPars.put(SSVarU.write,         write);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.fileRemoveReaderOrWriter, opPars));
-  }
-  
-  public static SSUri fileUriFromID(SSUri user, String fileID) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user, user);
-    opPars.put(SSVarU.id,   fileID);
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.fileUriFromID, opPars));
   }
   
   public static void dataImportMediaWikiUser(
@@ -2840,22 +2823,34 @@ public class SSServCaller {
   }
   
   /* video */
-   public static SSUri videoUserAdd(
-     final SSUri   user, 
-     final SSUri   link, 
-     final SSUri   forEntity,
-     
-     final Boolean shouldCommit) throws Exception{
-     
-     final Map<String, Object>  opPars           = new HashMap<>();
-     
-     opPars.put(SSVarU.shouldCommit,     shouldCommit);
-     opPars.put(SSVarU.user,             user);
-     opPars.put(SSVarU.link,             link);
-     opPars.put(SSVarU.forEntity,        forEntity);
-     
-     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));
-   }
+  
+  public static SSEntity videoUserGet(
+    final SSUri   user,
+    final SSUri video) throws Exception{
+    
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.video,            video);
+    
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserGet, opPars));
+  }
+  
+  public static SSUri videoUserAdd(
+    final SSUri   user,
+    final SSUri   link,
+    final SSUri   forEntity,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.link,             link);
+    opPars.put(SSVarU.forEntity,        forEntity);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));
+  }
 }
 
 

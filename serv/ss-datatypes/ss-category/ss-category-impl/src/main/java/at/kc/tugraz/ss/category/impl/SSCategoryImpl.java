@@ -70,7 +70,14 @@ import java.util.List;
 import java.util.Map;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClientI, SSCategoryServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
+public class SSCategoryImpl 
+extends SSServImplWithDBA 
+implements 
+  SSCategoryClientI, 
+  SSCategoryServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI, 
+  SSUserRelationGathererI{
   
   private final SSCategorySQLFct   sqlFct;
   
@@ -187,6 +194,19 @@ public class SSCategoryImpl extends SSServImplWithDBA implements SSCategoryClien
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception{
     
+  }
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case category:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
   }
   
   @Override

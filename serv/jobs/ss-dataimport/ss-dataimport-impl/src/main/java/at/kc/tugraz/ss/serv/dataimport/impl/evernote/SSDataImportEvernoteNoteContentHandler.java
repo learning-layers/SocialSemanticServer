@@ -20,9 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -59,9 +61,9 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       try{
         
-        xhtmlFilePath    = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.fileCreateUri     (user, SSFileExtU.xhtml));
-        fileUri          = SSServCaller.fileCreateUri                 (user, SSFileExtU.pdf);
-        pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI (user, fileUri);
+        xhtmlFilePath    = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate(SSFileExtE.xhtml));
+        fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
+        pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI(user, fileUri);
         
         SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
         SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);

@@ -102,7 +102,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     try{
       final SSMessageSendPar  par        = new SSMessageSendPar(parA);
-      final SSUri             messageUri = SSServCaller.vocURICreate(SSStrU.apiMessage);
+      final SSUri             messageUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       

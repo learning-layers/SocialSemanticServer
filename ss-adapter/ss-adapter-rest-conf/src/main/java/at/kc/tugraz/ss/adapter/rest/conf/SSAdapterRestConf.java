@@ -27,7 +27,7 @@ public class SSAdapterRestConf extends SSCoreConfA{
   
   public SSConf       ssConf      = null;
   public SSJSONLDConf jsonLDConf  = null;
-  private SSVocConf   vocConf     = null;
+  public SSVocConf    vocConf     = null;
   
   public static synchronized SSAdapterRestConf instSet(final String pathToFile) throws Exception{
     

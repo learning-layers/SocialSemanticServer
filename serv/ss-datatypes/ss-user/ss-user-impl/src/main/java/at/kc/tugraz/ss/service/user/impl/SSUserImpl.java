@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -59,6 +58,19 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
 //    graphFct = new SSUserGraphFct (this);
     sqlFct   = new SSUserSQLFct   (this);
+  }
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case user:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
   }
   
   @Override
@@ -244,7 +256,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         tmpEmail = SSVoc.systemUserEmail;
       }else{
         
-        userUri  = SSServCaller.vocURICreate(SSStrU.apiUser);
+        userUri  = SSServCaller.vocURICreate();
         tmpLabel = par.label;
         tmpEmail = par.email;        
       }

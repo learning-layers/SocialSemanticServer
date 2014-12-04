@@ -25,53 +25,6 @@ import java.util.List;
 
 public class SSFileExtU {
   
-  public final static String                 yaml            = "yaml";
-  public final static String                 pdf             = "pdf";
-	public final static String                 doc             = "doc";
-  public final static String                 ppt             = "ppt";
-  public final static String                 pptx            = "pptx";
-	public final static String                 mdb             = "mdb";
-	public final static String                 xls             = "xls";
-	public final static String                 docx            = "docx";
-	public final static String                 accdb           = "accdb";
-	public final static String                 xlsx            = "xlsx";
-	public final static String                 atom            = "atom";
-	public final static String                 latex           = "latex";
-	public final static String                 rdf             = "rdf";
-	public final static String                 txt             = "txt";
-	public final static String                 html            = "html";
-  public final static String                 xhtml           = "xhtml";
-	public final static String                 css             = "css";
-  public final static String                 xml             = "xml";
-  
-  //video
-	public final static String                 avi             = "avi";
-	public final static String                 mp4             = "mp4";
-	public final static String                 mpeg            = "mpeg";
-  public final static String                 mpg             = "mpg";
-	public final static String                 mov             = "mov";
-  public final static String                 flv             = "flv";
-	public final static String                 wmv             = "wmv";
-  
-  //audio
-  public final static String                 mp3             = "mp3";
-  public final static String                 ogg             = "ogg";
-  public final static String                 wav             = "wav";
-	public final static String                 midi            = "midi";
-  public final static String                 wma             = "wma";
-  
-  //image
-  public final static String                 jpg             = "jpg";
-	public final static String                 png             = "png";
-	public final static String                 ico             = "ico";
-	public final static String                 gif             = "gif";
-	public final static String                 svg             = "svg";
-	public final static String                 bmp             = "bmp";
-  
-  //zip
-  public final static String                 rar             = "rar";
-  public final static String                 zip             = "zip";
-  
   public final static List<String> videoFileExts = new ArrayList<>();
   public final static List<String> audioFileExts = new ArrayList<>();
   public final static List<String> imageFileExts = new ArrayList<>();
@@ -107,27 +60,28 @@ public class SSFileExtU {
   
   private SSFileExtU(){
   
-    videoFileExts.add(avi);
-    videoFileExts.add(mpeg);
-    videoFileExts.add(mpg);
-    videoFileExts.add(mov);
-    videoFileExts.add(flv);
-    videoFileExts.add(wmv);
+    videoFileExts.add(SSFileExtE.avi.toString());
+    videoFileExts.add(SSFileExtE.mpeg.toString());
+    videoFileExts.add(SSFileExtE.mpg.toString());
+    videoFileExts.add(SSFileExtE.mov.toString());
+    videoFileExts.add(SSFileExtE.flv.toString());
+    videoFileExts.add(SSFileExtE.wmv.toString());
 
-    audioFileExts.add(mp3);
-    audioFileExts.add(ogg);
-    audioFileExts.add(wav);
-    audioFileExts.add(midi);
-    audioFileExts.add(wma);
+    audioFileExts.add(SSFileExtE.mp3.toString());
+    audioFileExts.add(SSFileExtE.ogg.toString());
+    audioFileExts.add(SSFileExtE.wav.toString());
+    audioFileExts.add(SSFileExtE.midi.toString());
+    audioFileExts.add(SSFileExtE.wma.toString());
     
-    imageFileExts.add(jpg);
-    imageFileExts.add(png);
-    imageFileExts.add(ico);
-    imageFileExts.add(gif);
-    imageFileExts.add(svg);
-    imageFileExts.add(bmp);
+    imageFileExts.add(SSFileExtE.jpeg.toString());
+    imageFileExts.add(SSFileExtE.jpg.toString());
+    imageFileExts.add(SSFileExtE.png.toString());
+    imageFileExts.add(SSFileExtE.ico.toString());
+    imageFileExts.add(SSFileExtE.gif.toString());
+    imageFileExts.add(SSFileExtE.svg.toString());
+    imageFileExts.add(SSFileExtE.bmp.toString());
     
-    zipFileExts.add(rar);
-    zipFileExts.add(zip);
+    zipFileExts.add(SSFileExtE.rar.toString());
+    zipFileExts.add(SSFileExtE.zip.toString());
   }
 }

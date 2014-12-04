@@ -76,7 +76,21 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
     
     this.sqlFct = new SSEvernoteSQLFct(dbSQL);
   }
-
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case evernoteNote:
+      case evernoteResource:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
   @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,

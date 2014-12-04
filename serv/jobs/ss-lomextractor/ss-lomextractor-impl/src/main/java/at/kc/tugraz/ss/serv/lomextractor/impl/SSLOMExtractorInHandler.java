@@ -26,7 +26,7 @@ import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSXMLU;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMConceptRelation;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMCoverage;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMDesc;
@@ -81,8 +81,8 @@ public class SSLOMExtractorInHandler {
     List<String>               learningResourceTypes = new ArrayList<>();
     List<String>               intendedEndUserRoles  = new ArrayList<>();
     List<String>               contexts              = new ArrayList<>();
-    List<SSLOMConceptRelation> conceptRelations      = new ArrayList<SSLOMConceptRelation>();
-    List<SSLOMUser>            users                 = new ArrayList<SSLOMUser>();
+    List<SSLOMConceptRelation> conceptRelations      = new ArrayList<>();
+    List<SSLOMUser>            users                 = new ArrayList<>();
     String                     id                    = null;
     String                     titleEn;
     List<SSLOMTitle>           titles;
@@ -94,7 +94,7 @@ public class SSLOMExtractorInHandler {
     String                     fileText;
     
     try{
-      id     = SSStrU.removeTrailingString(file.getName(), SSStrU.dot + SSFileExtU.xml);
+      id     = SSStrU.removeTrailingString(file.getName(), SSStrU.dot + SSFileExtE.xml.toString());
       lomXML = lomXMLBuilder.parse(file);
       lomXML.getDocumentElement().normalize();
       

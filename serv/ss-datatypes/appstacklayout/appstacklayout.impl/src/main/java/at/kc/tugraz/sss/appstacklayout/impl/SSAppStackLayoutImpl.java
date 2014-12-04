@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -59,6 +58,20 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case appStackLayout:
+      case appTile:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
@@ -92,7 +105,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     try{
       
       final SSAppStackLayoutCreatePar par               = new SSAppStackLayoutCreatePar(parA);
-      final SSUri                     appStackLayoutUri = SSServCaller.vocURICreate(SSStrU.apiAppStack);
+      final SSUri                     appStackLayoutUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -158,7 +171,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   
     try{
       final SSAppStackLayoutTileAddPar par    = new SSAppStackLayoutTileAddPar(parA);
-      final SSUri                      tileUri = SSServCaller.vocURICreate(SSStrU.apiAppStackTile);
+      final SSUri                      tileUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       

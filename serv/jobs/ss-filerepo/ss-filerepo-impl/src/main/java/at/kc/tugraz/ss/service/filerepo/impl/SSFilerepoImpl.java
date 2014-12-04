@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUriFromIDPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
@@ -47,7 +46,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCreateUriPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
@@ -57,7 +55,13 @@ import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
 import java.util.*;
 import java.util.List;
 
-public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI, SSFileRepoServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSFilerepoImpl 
+extends SSServImplMiscA
+implements 
+  SSFileRepoClientI, 
+  SSFileRepoServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI{
 
   private final SSFilerepoFct                             fct;
   private final Map<String, SSFileRepoFileAccessProperty> fileAccessProps;
@@ -148,6 +152,19 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case file:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity      desc) throws Exception{
@@ -171,6 +188,7 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
           mimeType);
         
       }
+      
       default: return desc;
     }
   }
@@ -258,16 +276,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
   }
 
   /* SSFileRepoServerI */
-  @Override
-  public SSUri fileCreateUri(SSServPar parA) throws Exception{
-
-    SSFileCreateUriPar par = new SSFileCreateUriPar(parA);
-
-    return 
-      SSUri.get(
-        SSStrU.removeTrailingSlash(
-          SSServCaller.vocURICreate("file")) + SSStrU.dot + par.fileExt);
-  }
 
   @Override
   public String fileExtGet(final SSServPar parA) throws Exception{
@@ -370,21 +378,6 @@ public class SSFilerepoImpl extends SSServImplMiscA implements SSFileRepoClientI
     result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.file);
 
     return result;
-  }
-
-  @Override
-  public SSUri fileUriFromID(SSServPar parA) throws Exception{
-
-    SSFileUriFromIDPar par = new SSFileUriFromIDPar(parA);
-
-    if(SSStrU.isEmpty(par.id)){
-      return null;
-    }
-
-    return 
-      SSUri.get(
-        SSStrU.removeTrailingSlash(
-          SSServCaller.vocURICreate("file")) + par.id);
   }
 
   @Override

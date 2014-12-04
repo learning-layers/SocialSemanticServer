@@ -129,16 +129,22 @@ public class SSSearchFct {
       return result;
     }
     
-    result.addAll(
-      SSServCaller.recommResources(
-        par.user,
-        par.user,
-        null,
-        new ArrayList<>(),
-        10,
-        par.typesToSearchOnlyFor,
-        false,
-        true).keySet());
+    try{
+      
+      result.addAll(
+        SSServCaller.recommResources(
+          par.user,
+          par.user,
+          null,
+          new ArrayList<>(),
+          10,
+          par.typesToSearchOnlyFor,
+          false,
+          true).keySet());
+    }catch(Exception error){
+      SSLogU.warn("reomm entities for search failed");
+      SSServErrReg.reset();
+    }
     
     return result;
   }

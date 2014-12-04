@@ -30,14 +30,12 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSFileRepoServerI{
 
-  public SSUri                                     fileCreateUri            (final SSServPar parA) throws Exception;
   public String                                    fileExtGet               (final SSServPar parA) throws Exception;
   public void                                      fileUpdateWritingMinutes (final SSServPar parA) throws Exception;
   public SSFileCanWriteRet                         fileCanWrite             (final SSServPar parA) throws Exception;
   public SSFileSetReaderOrWriterRet                fileSetReaderOrWriter    (final SSServPar parA) throws Exception;
   public SSFileRemoveReaderOrWriterRet             fileRemoveReaderOrWriter (final SSServPar parA) throws Exception;
   public SSFileWritingMinutesLeftRet               fileWritingMinutesLeft   (final SSServPar parA) throws Exception;
-  public SSUri                                     fileUriFromID            (final SSServPar parA) throws Exception;
   public String                                    fileIDFromURI            (final SSServPar parA) throws Exception;
   public SSFileGetEditingFilesRet                  fileUserFileWrites       (final SSServPar parA) throws Exception;
 }

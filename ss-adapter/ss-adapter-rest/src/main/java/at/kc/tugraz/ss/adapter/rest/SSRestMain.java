@@ -30,7 +30,6 @@ import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
@@ -54,7 +53,7 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSRestMain extends Application {
   
-  protected static SSConf conf;
+  protected static SSAdapterRestConf conf;
 
   public SSRestMain() throws Exception{
    
@@ -77,7 +76,7 @@ public class SSRestMain extends Application {
     /* json-ld */
 //    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
     
-    conf = SSAdapterRestConf.instGet().getSsConf();
+    conf = SSAdapterRestConf.instGet();
   }
   
   @Override
@@ -120,10 +119,10 @@ public class SSRestMain extends Application {
     try{
       
       try{
-        sSCon = new SSSocketCon(conf.host, conf.port, jsonRequ);
+        sSCon = new SSSocketCon(conf.ssConf.host, conf.ssConf.port, jsonRequ);
       }catch(Exception error){
         
-        SSLogU.info("couldnt connect to " + conf.host + " " + conf.port.toString());
+        SSLogU.info("couldnt connect to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
         throw error;
       }
       
@@ -131,7 +130,7 @@ public class SSRestMain extends Application {
         sSCon.writeRequFullToSS ();
       }catch(Exception error){
         
-        SSLogU.info("couldnt write to " + conf.host + " " + conf.port.toString());
+        SSLogU.info("couldnt write to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
         throw error;
       }
       
@@ -139,7 +138,7 @@ public class SSRestMain extends Application {
         readMsgFullFromSS = sSCon.readMsgFullFromSS ();
       }catch(Exception error){
         
-        SSLogU.info("couldnt read from " + conf.host + " " + conf.port.toString());
+        SSLogU.info("couldnt read from " + conf.ssConf.host + " " + conf.ssConf.port.toString());
         throw error;
       }
       

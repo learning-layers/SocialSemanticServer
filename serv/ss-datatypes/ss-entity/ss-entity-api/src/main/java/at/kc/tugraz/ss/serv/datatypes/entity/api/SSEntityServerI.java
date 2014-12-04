@@ -32,6 +32,8 @@ import java.util.List;
 
 public interface SSEntityServerI {
 
+  public SSEntity                        entityUserGetNew                         (final SSServPar parA) throws Exception;
+    
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityDescGet                            (final SSServPar parA) throws Exception;
   public List<SSEntityA>                 entityDescsGet                           (final SSServPar parA) throws Exception;

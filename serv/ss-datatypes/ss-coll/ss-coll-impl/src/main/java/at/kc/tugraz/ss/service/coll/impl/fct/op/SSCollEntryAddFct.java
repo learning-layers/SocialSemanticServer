@@ -43,7 +43,7 @@ public class SSCollEntryAddFct{
       default:   isParentCollSharedOrPublic = true;
     }
     
-    par.entry = SSServCaller.vocURICreate(SSStrU.apiCollection);
+    par.entry = SSServCaller.vocURICreate();
     
     SSServCaller.entityEntityToPrivCircleAdd(
       par.user, 

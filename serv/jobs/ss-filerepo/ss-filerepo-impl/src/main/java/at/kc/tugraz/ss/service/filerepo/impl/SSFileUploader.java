@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSFileU;
@@ -70,7 +71,7 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       this.fileExt           = SSMimeTypeU.fileExtForMimeType             (this.par.mimeType);
-      this.uri               = SSServCaller.fileCreateUri                 (par.user, this.fileExt);
+      this.uri               = SSServCaller.vocURICreate                  (SSFileExtE.valueOf(this.fileExt));
       this.fileId            = SSServCaller.fileIDFromURI                 (par.user, uri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
@@ -213,9 +214,9 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       final String filePath          = localWorkPath + fileId;
-      final SSUri  pngFileUri        = SSServCaller.fileCreateUri                 (par.user, SSFileExtU.png);
+      final SSUri  pngFileUri        = SSServCaller.vocURICreate                  (SSFileExtE.png);
       final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, pngFileUri);
-      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.fileCreateUri     (par.user, SSFileExtU.pdf));
+      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
       Boolean      thumbCreated      = false;
       
       if(SSFileExtU.imageFileExts.contains(fileExt)){
@@ -223,12 +224,12 @@ public class SSFileUploader extends SSServImplStartA{
         thumbCreated = true;
       }
       
-      if(SSStrU.equals(SSFileExtU.pdf, fileExt)){
+      if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
         SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath);
         thumbCreated = true;
       }
       
-      if(SSStrU.equals(SSFileExtU.doc, fileExt)){
+      if(SSStrU.equals(SSFileExtE.doc, fileExt)){
         SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
         SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath);
         thumbCreated = true;

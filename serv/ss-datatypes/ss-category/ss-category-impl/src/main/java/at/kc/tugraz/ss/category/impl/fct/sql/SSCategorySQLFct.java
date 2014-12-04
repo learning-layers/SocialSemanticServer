@@ -176,7 +176,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     try{
       
       if(!exsitsCategory){
-        return SSServCaller.vocURICreate("category");
+        return SSServCaller.vocURICreate();
       }
       
       final Map<String, String>  wheres = new HashMap<>();

@@ -194,7 +194,7 @@ public class SSLOMExtractorOutHandler{
       for(SSLOMUser user : resource.users){
        
         SSServCaller.dataExportUserEntityTagCategoryTimestamps(
-          SSUri.get(SSServCaller.vocURICreate("user") + user.fullName), 
+          SSUri.get(SSServCaller.vocURICreate() + user.fullName), 
           tagsPerEntities, 
           categoriesPerEntities, 
           0L, 

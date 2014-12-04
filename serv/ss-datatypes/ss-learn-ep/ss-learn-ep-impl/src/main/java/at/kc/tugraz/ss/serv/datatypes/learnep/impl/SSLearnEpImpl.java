@@ -410,7 +410,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
       final SSLearnEpVersionCreatePar par               = new SSLearnEpVersionCreatePar(parA);
-      final SSUri                     learnEpVersionUri = SSServCaller.vocURICreate("learnep/version");
+      final SSUri                     learnEpVersionUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityUserCanEdit(par.user, par.learnEp);
       
@@ -478,7 +478,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
       final SSLearnEpVersionAddCirclePar par       = new SSLearnEpVersionAddCirclePar(parA);
-      final SSUri                        circleUri = SSServCaller.vocURICreate("learnep/circle");
+      final SSUri                        circleUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
       
@@ -553,7 +553,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
       final SSLearnEpVersionAddEntityPar par              = new SSLearnEpVersionAddEntityPar(parA);
-      final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate("learnep/entity");
+      final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
       SSServCaller.entityUserCanEdit(par.user, par.entity);
@@ -626,7 +626,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     try{
       final SSLearnEpCreatePar par        = new SSLearnEpCreatePar(parA);
-      final SSUri              learnEpUri = SSServCaller.vocURICreate("learnep");
+      final SSUri              learnEpUri = SSServCaller.vocURICreate();
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -900,7 +900,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
 
       final SSLearnEpVersionSetTimelineStatePar par                     = new SSLearnEpVersionSetTimelineStatePar(parA);
-      final SSUri                               learnEpTimelineStateUri = SSServCaller.vocURICreate("learnep/timelinestate");
+      final SSUri                               learnEpTimelineStateUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
       

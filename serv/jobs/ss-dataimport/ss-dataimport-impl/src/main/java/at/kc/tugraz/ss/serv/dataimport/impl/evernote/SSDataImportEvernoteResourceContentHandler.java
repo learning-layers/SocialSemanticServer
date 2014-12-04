@@ -20,9 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -61,7 +63,7 @@ public class SSDataImportEvernoteResourceContentHandler{
       try{
         fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime()); 
         //application/octet-stream //application/vnd.oasis.opendocument.text //audio/x-m4a
-        fileUri = SSServCaller.fileCreateUri(user, fileExt);
+        fileUri = SSServCaller.vocURICreate(SSFileExtE.valueOf(fileExt));
         fileId  = SSServCaller.fileIDFromURI(user, fileUri);
         
         SSFileU.writeFileBytes(

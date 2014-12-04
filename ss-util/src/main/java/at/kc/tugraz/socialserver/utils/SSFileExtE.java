@@ -18,28 +18,56 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+package at.kc.tugraz.socialserver.utils;
 
-public class SSFileCreateUriPar extends SSServPar{
+public enum SSFileExtE{
   
-  public String fileExt    = null;
+  yaml,
+  pdf ,
+	doc ,
+  ppt ,
+  pptx,
+	mdb ,
+	xls ,
+	docx,
+	accdb,
+	xlsx,
+	atom,
+	latex,
+	rdf,
+	txt,
+	html,
+  xhtml,
+	css,
+  xml,
   
-  public SSFileCreateUriPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        fileExt   = (String) pars.get(SSVarU.fileExt);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }  
+  //video
+	avi,
+	mp4,
+	mpeg,
+  mpg,
+	mov,
+  flv,
+	wmv,
+  
+  //audio
+  mp3,
+  ogg,
+  wav,
+	midi,
+  wma,
+  
+  //image
+  jpeg,
+  jpg,
+	png,
+	ico,
+	gif,
+	svg,
+	bmp,
+  
+  //zip
+  rar,
+  zip;
 }

@@ -113,7 +113,7 @@ public class SSEntityMiscFct{
     
     try{
       
-      final SSUri circleUri = SSServCaller.vocURICreate(SSStrU.apiCircle);
+      final SSUri circleUri = SSServCaller.vocURICreate();
 
       sqlFct.addEntityIfNotExists(
         circleUri, 
@@ -319,6 +319,26 @@ public class SSEntityMiscFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static SSEntity getUserEntityByEntityHandlers(
+    final SSUri user,
+    SSEntity    entity) throws Exception{
+    
+    try{
+      
+      for(SSServA serv : SSServA.getServsDescribingEntities()){
+        
+        entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(
+          user,
+          entity);
+      }
+      
+      return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

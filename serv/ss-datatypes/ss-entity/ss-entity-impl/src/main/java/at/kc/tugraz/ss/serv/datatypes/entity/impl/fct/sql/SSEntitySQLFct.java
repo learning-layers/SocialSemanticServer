@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -497,7 +496,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         }
       }
 
-      final SSUri               circleUri  = SSServCaller.vocURICreate(SSStrU.apiCircle);
+      final SSUri               circleUri  = SSServCaller.vocURICreate();
       
       addEntityIfNotExists(
         circleUri, 
@@ -537,8 +536,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         }
       }
 
-      final Map<String, String> inserts    = new HashMap<>();
-      final SSUri               circleUri  = SSServCaller.vocURICreate(SSStrU.apiCircle);
+      final SSUri               circleUri  = SSServCaller.vocURICreate();
       
       addEntityIfNotExists(
         circleUri, 

@@ -269,7 +269,25 @@ implements
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception{
   }
-
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case disc:
+      case qa:
+      case chat:
+      case discEntry:
+      case qaEntry:
+      case chatEntry:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
   @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
@@ -345,7 +363,7 @@ implements
       
       if(par.addNewDisc){
         
-        par.disc = SSServCaller.vocURICreate("discussion");
+        par.disc = SSServCaller.vocURICreate();
         
         SSDiscUserEntryAddFct.addDisc(
           sqlFct,

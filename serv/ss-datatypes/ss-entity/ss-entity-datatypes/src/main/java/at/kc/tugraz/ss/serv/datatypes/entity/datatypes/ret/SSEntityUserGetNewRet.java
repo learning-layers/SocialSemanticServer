@@ -18,19 +18,43 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.serv.api;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface SSEntityDescriberI{
+public class SSEntityUserGetNewRet extends SSServRetI{
+
+  public SSEntity entity = null;
+
+  public static SSEntityUserGetNewRet get(
+    final SSEntity     entity, 
+    final SSMethU      op){
+    
+    return new SSEntityUserGetNewRet(entity, op);
+  }
   
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception;
-  
-  public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par,
-    final SSEntity           desc) throws Exception;
+  private SSEntityUserGetNewRet(
+    final SSEntity     entity, 
+    final SSMethU      op){
+    
+    super(op);
+    
+    this.entity = entity;
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    
+    return ld;
+  }
 }

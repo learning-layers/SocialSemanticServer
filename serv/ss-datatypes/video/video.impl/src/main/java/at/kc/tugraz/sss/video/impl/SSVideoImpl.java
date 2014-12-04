@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -42,6 +41,7 @@ import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
@@ -51,7 +51,14 @@ import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SSVideoServerI, SSEntityDescriberI, SSEntityUpdaterI, SSEntityHandlerImplI{
+public class SSVideoImpl 
+extends SSServImplWithDBA 
+implements 
+  SSVideoClientI, 
+  SSVideoServerI, 
+  SSEntityDescriberI, 
+  SSEntityUpdaterI, 
+  SSEntityHandlerImplI{
   
   private final SSVideoSQLFct sqlFct;
   
@@ -221,6 +228,19 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case video:
+        return SSServCaller.videoUserGet(user, entity.id);
+    }	
+    
+    return entity;
+  }
+  
+  @Override
   public void videoAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     final SSUri userFromOIDC = SSServCaller.checkKey(parA);
@@ -245,9 +265,9 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
       }else{
         
         if(par.uuid != null){
-          videoUri = SSServCaller.vocURICreate(SSStrU.apiVideo, par.uuid);
+          videoUri = SSServCaller.vocURICreateFromId(par.uuid);
         }else{
-          videoUri = SSServCaller.vocURICreate(SSStrU.apiVideo);
+          videoUri = SSServCaller.vocURICreate();
         }
       }
       
@@ -341,7 +361,7 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
   
     try{
       final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
-      final SSUri                          annotationUri = SSServCaller.vocURICreate(SSStrU.apiVideoAnnotation);
+      final SSUri                          annotationUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityUserCanEdit(par.user, par.video);
       
@@ -382,6 +402,42 @@ public class SSVideoImpl extends SSServImplWithDBA implements SSVideoClientI, SS
       }
       
       dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSVideo videoUserGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSVideoUserGetPar      par         = new SSVideoUserGetPar(parA);
+      final SSVideo                video;
+      
+      SSServCaller.entityUserCanRead(par.user, par.video);
+      
+      video = sqlFct.getVideo(par.user, par.video);
+        
+      for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
+
+        try{
+          SSServCaller.entityUserCanRead(par.user, annotation.id);
+        }catch(Exception error){
+          SSServErrReg.reset();
+          continue;
+        }
+        
+        video.annotations.add(annotation);
+      }
+      
+      video.locations.addAll(
+        SSServCaller.entityLocationsGet(
+          par.user,
+          video.id));
+      
+      return video;
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

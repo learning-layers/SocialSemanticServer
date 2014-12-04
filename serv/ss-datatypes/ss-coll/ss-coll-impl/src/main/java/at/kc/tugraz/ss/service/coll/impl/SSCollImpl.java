@@ -964,7 +964,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       dbSQL.startTrans(par.shouldCommit);
 
-      final SSUri rootCollUri = SSServCaller.vocURICreate(SSStrU.apiCollection);
+      final SSUri rootCollUri = SSServCaller.vocURICreate();
 
       SSServCaller.entityEntityToPrivCircleAdd(
         par.user,

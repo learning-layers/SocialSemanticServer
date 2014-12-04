@@ -179,9 +179,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           entityObj =
             SSServCaller.entityGet(
-              SSServCaller.fileUriFromID(
-                par.user,
-                entityId));
+              SSServCaller.vocURICreateFromId(entityId));
             
           entityObj.circleTypes.addAll(
             SSServCaller.entityUserEntityCircleTypesGet(

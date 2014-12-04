@@ -56,7 +56,14 @@ import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUsersResourcesGathererI{
+public class SSUEImpl 
+extends SSServImplWithDBA 
+implements 
+  SSUEClientI, 
+  SSUEServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI, 
+  SSUsersResourcesGathererI{
   
 //  private final SSUEGraphFct graphFct;
   private final SSUESQLFct   sqlFct;
@@ -183,6 +190,19 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case user:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
@@ -295,7 +315,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     
     try{
       final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
-      final SSUri                    ueUri = SSServCaller.vocURICreate("userevent");
+      final SSUri                    ueUri = SSServCaller.vocURICreate();
     
       try{
         SSServCaller.entityUserCanRead(par.user, par.entity);
@@ -361,7 +381,7 @@ public class SSUEImpl extends SSServImplWithDBA implements SSUEClientI, SSUEServ
     try{
       
       final SSUEAddPar par   = new SSUEAddPar(parA);
-      final SSUri      ueUri = SSServCaller.vocURICreate("userevent");
+      final SSUri      ueUri = SSServCaller.vocURICreate();
       
       if(par.entity != null){
 

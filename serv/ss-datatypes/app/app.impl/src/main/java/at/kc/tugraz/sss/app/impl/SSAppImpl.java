@@ -60,6 +60,19 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case app:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
@@ -93,7 +106,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     try{
       
       final SSAppAddPar par    = new SSAppAddPar(parA);
-      final SSUri       appUri = SSServCaller.vocURICreate(SSStrU.apiApp);
+      final SSUri       appUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       

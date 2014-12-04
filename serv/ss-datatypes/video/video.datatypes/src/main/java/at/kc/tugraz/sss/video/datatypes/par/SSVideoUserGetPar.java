@@ -18,26 +18,26 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
+package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSFileUriFromIDPar extends SSServPar{
+public class SSVideoUserGetPar extends SSServPar{
   
-  public String   id    = null;
+  public SSUri    video            = null;
   
-  public SSFileUriFromIDPar(SSServPar par) throws Exception{
+  public SSVideoUserGetPar(SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        id   = (String) pars.get(SSVarU.id);
+        video           = (SSUri)   pars.get(SSVarU.video);
       }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

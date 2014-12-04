@@ -80,7 +80,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     try{
       
       if(!exsitsTag){
-        return SSServCaller.vocURICreate(SSStrU.apiTag);
+        return SSServCaller.vocURICreate();
       }
       
       final Map<String, String>  wheres = new HashMap<>();

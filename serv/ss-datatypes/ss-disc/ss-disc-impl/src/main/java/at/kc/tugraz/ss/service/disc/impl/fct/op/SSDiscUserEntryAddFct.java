@@ -87,7 +87,7 @@ public class SSDiscUserEntryAddFct{
     final SSTextComment content) throws Exception{
     
     try{
-      final SSUri     discEntryUri  = SSServCaller.vocURICreate("discussion/entry");
+      final SSUri     discEntryUri  = SSServCaller.vocURICreate();
       final SSEntityE discType      = SSServCaller.entityGet    (discUri).type;
       SSEntityE       discEntryType = null;
       

@@ -29,6 +29,7 @@ public enum SSMethU{
   likeSet,
   
   //video
+  videoUserGet,
   videosGet,
   videosUserGet,
   videoAdd,
@@ -87,6 +88,7 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
+  entityUserGetNew,
   entityEntityCirclesGet,
   entityUserCircleGet,
   entityCircleGet,
@@ -280,8 +282,6 @@ public enum SSMethU{
   fileDownload                                        ,
   fileCanWrite                                        ,
   fileIDFromURI                                       ,
-  fileUriFromID                                       ,
-  fileCreateUri                                       ,
   fileExtGet                                          ,
   
   //data import

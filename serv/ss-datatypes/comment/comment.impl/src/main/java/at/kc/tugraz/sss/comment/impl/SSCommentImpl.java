@@ -48,7 +48,14 @@ import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelatio
 import java.util.List;
 import java.util.Map;
 
-public class SSCommentImpl extends SSServImplWithDBA implements SSCommentClientI, SSCommentServerI, SSEntityUpdaterI, SSEntityDescriberI, SSUserRelationGathererI{
+public class SSCommentImpl 
+extends SSServImplWithDBA 
+implements 
+  SSCommentClientI, 
+  SSCommentServerI, 
+  SSEntityUpdaterI, 
+  SSEntityDescriberI, 
+  SSUserRelationGathererI{
   
   private final SSCommentSQLFct sqlFct;
   
@@ -67,6 +74,19 @@ public class SSCommentImpl extends SSServImplWithDBA implements SSCommentClientI
     SSCommentUserRelationGatherFct.getUserRelations(
       allUsers, 
       userRelations);
+  }
+  
+  @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case comment:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
   }
   
   @Override
@@ -97,7 +117,7 @@ public class SSCommentImpl extends SSServImplWithDBA implements SSCommentClientI
       
       for(SSTextComment content : par.comments){
         
-        commentUri = SSServCaller.vocURICreate("comment");
+        commentUri = SSServCaller.vocURICreate();
         
         SSServCaller.entityEntityToPrivCircleAdd(
           par.user,

@@ -56,7 +56,14 @@ import java.util.List;
 import java.util.Map;
 import sss.serv.err.datatypes.SSErrE;
 
-public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, SSRatingServerI, SSEntityHandlerImplI, SSEntityDescriberI, SSUserRelationGathererI{
+public class SSRatingImpl 
+extends SSServImplWithDBA 
+implements 
+  SSRatingClientI, 
+  SSRatingServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI, 
+  SSUserRelationGathererI{
  
   private final SSRatingSQLFct   sqlFct;
 //  private final SSRatingGraphFct graphFct;
@@ -178,6 +185,19 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
   }
     
   @Override
+  public SSEntity getUserEntity(
+    final SSUri              user,
+    final SSEntity           entity) throws Exception{
+    
+    switch(entity.type){
+      case rating:
+//        return SSServCaller.videoUserGet(user, entity.id);
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public SSEntity getDescForEntity(
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
@@ -225,7 +245,7 @@ public class SSRatingImpl extends SSServImplWithDBA implements SSRatingClientI, 
         return true;
       }
       
-      ratingUri = SSServCaller.vocURICreate("rating");
+      ratingUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
