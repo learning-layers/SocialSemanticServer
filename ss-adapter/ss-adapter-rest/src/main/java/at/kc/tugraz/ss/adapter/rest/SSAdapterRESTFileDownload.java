@@ -150,11 +150,25 @@ public class SSAdapterRESTFileDownload{
     String fileName  = SSStrU.removeTrailingSlash(file);
     
     fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
-      
+    
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
+//      
+//      return Response.
+//        ok(stream).
+//        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+//        header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
+//        build();
+//    }
+//    
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
+//      
+//    }
     return Response.
       ok(stream).
-      header("Content-Disposition", "attachment; filename=\"" + fileName + "\"").
+      header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
       header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
       build();
+    
+//      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").
   }
 }

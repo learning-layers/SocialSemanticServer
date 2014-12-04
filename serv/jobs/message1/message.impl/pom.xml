@@ -72,11 +72,6 @@
       <version>14.0.1</version>
     </dependency>
     
-    <dependency>
-      <groupId>tagrec</groupId>
-      <artifactId>tagrec</artifactId>
-      <version>1.2.2</version>
-    </dependency>
     
 <!--        <dependency>
       <groupId>jpedal</groupId>

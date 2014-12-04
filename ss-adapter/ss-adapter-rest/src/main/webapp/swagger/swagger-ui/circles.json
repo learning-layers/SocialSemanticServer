@@ -4,24 +4,6 @@
   "basePath" : "http://localhost:8084/ss-adapter-rest/",
   "resourcePath" : "/circles",
   "apis" : [ {
-    "path" : "/circles/{circle}",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "retrieve a certain circle",
-      "notes" : "",
-      "type" : "SSEntityUserCircleGetRet",
-      "nickname" : "entityCircleGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "circle",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/circles/{circle}/entities",
     "operations" : [ {
       "method" : "POST",
@@ -96,6 +78,24 @@
       "consumes" : [ "application/json" ],
       "parameters" : [ ]
     } ]
+  }, {
+    "path" : "/circles/{circle}",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve a certain circle",
+      "notes" : "",
+      "type" : "SSEntityUserCircleGetRet",
+      "nickname" : "entityCircleGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "circle",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      } ]
+    } ]
   } ],
   "models" : {
     "SSEntityUserUsersToCircleAddRet" : {
@@ -140,18 +140,26 @@
           "type" : "string",
           "description" : "physical file"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -159,39 +167,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
         },
         "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -207,6 +182,10 @@
           "items" : {
             "$ref" : "SSCircleE"
           }
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
         },
         "tags" : {
           "type" : "array",
@@ -240,6 +219,27 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
         },
         "read" : {
           "type" : "boolean",
@@ -295,18 +295,18 @@
     "SSEntityUserUsersToCircleAddPar" : {
       "id" : "SSEntityUserUsersToCircleAddPar",
       "description" : "",
-      "required" : [ "circle", "users" ],
+      "required" : [ "users", "circle" ],
       "properties" : {
-        "circle" : {
-          "type" : "string",
-          "description" : "circle to add users to"
-        },
         "users" : {
           "type" : "array",
           "description" : "users to add",
           "items" : {
             "type" : "string"
           }
+        },
+        "circle" : {
+          "type" : "string",
+          "description" : "circle to add users to"
         },
         "key" : {
           "type" : "string",
@@ -352,16 +352,16 @@
           "type" : "string",
           "description" : "circle name"
         },
-        "entities" : {
+        "users" : {
           "type" : "array",
-          "description" : "entities to add",
+          "description" : "users to add",
           "items" : {
             "type" : "string"
           }
         },
-        "users" : {
+        "entities" : {
           "type" : "array",
-          "description" : "users to add",
+          "description" : "entities to add",
           "items" : {
             "type" : "string"
           }
@@ -386,18 +386,18 @@
     "SSEntityUserEntitiesToCircleAddPar" : {
       "id" : "SSEntityUserEntitiesToCircleAddPar",
       "description" : "",
-      "required" : [ "circle", "entities" ],
+      "required" : [ "entities", "circle" ],
       "properties" : {
-        "circle" : {
-          "type" : "string",
-          "description" : "circle to add entities to"
-        },
         "entities" : {
           "type" : "array",
           "description" : "entities to add",
           "items" : {
             "type" : "string"
           }
+        },
+        "circle" : {
+          "type" : "string",
+          "description" : "circle to add entities to"
         },
         "key" : {
           "type" : "string",

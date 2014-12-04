@@ -86,7 +86,7 @@ public class SSRecommResourcesPar extends SSServPar{
   @ApiModelProperty( 
     required = false, 
     value = "whether own entities should be included in the result")
-  public Boolean includeOwn = false;
+  public Boolean includeOwn = true;
     
   public SSRecommResourcesPar(){}
     

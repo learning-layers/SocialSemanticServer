@@ -117,7 +117,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
           par.categories,
           100,
           !par.includeOwn); //filterOwn
-      
+
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
         
         entity = 
