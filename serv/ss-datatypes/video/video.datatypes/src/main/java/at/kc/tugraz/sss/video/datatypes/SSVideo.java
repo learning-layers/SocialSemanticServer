@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -112,5 +113,10 @@ public class SSVideo extends SSEntity{
 //    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
+  }
+  
+  /* json getters */
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
   }
 }
