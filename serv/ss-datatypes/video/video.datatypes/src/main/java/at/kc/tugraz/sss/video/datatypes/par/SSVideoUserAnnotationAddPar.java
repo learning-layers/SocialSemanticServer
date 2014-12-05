@@ -43,7 +43,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   
   @XmlElement
   public void setVideo(final String video) throws Exception{
-    this.video = SSUri.get(video);
+    try{ this.video = SSUri.get(video); }catch(Exception error){}
   }
   
   @XmlElement

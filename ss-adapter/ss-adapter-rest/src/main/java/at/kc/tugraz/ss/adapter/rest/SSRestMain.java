@@ -66,7 +66,7 @@ public class SSRestMain extends Application {
     resourceConfig.register(MultiPartFeature.class);
     
     //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf-bnp.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf-achso.yaml");
     
     /* util */
     SSMimeTypeU.init();

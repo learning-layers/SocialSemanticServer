@@ -104,7 +104,7 @@ public class SSRESTEntities {
           new SSEntityUserGetNewPar(
             SSMethU.entityUserGetNew,
             null,
-            SSRestMain.conf.vocConf.uriPrefix + decodedURI));
+            SSRestMain.conf.vocConf.uriPrefix + "entities/entities/" + decodedURI));
       }
     }catch(Exception error){
       return Response.status(422).build();

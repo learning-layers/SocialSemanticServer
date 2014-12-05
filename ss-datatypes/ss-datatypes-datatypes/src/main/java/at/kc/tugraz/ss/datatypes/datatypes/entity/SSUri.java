@@ -26,6 +26,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 //import org.apache.commons.httpclient.URIException;
@@ -43,6 +44,7 @@ public class SSUri extends SSEntityA{
       }
       
       try{
+        new URL(string);
         java.net.URI.create (string);
         URLEncoder.encode   (string, SSEncodingU.utf8);
         

@@ -260,16 +260,27 @@ implements
       final SSVideoUserAddPar par      = new SSVideoUserAddPar(parA);
       final SSUri             videoUri;
       
-      if(par.link != null){
-        videoUri = par.link;
+      if(par.uuid != null){
+        videoUri = SSServCaller.vocURICreateFromId(par.uuid);
       }else{
         
-        if(par.uuid != null){
-          videoUri = SSServCaller.vocURICreateFromId(par.uuid);
+        if(par.link != null){
+          videoUri = par.link;
         }else{
           videoUri = SSServCaller.vocURICreate();
         }
       }
+      
+//      if(par.link != null){
+//        videoUri = par.link;
+//      }else{
+//
+//        if(par.uuid != null){
+//          videoUri = SSServCaller.vocURICreateFromId(par.uuid);
+//        }else{
+//          videoUri = SSServCaller.vocURICreate();
+//        }
+//      }
       
       if(par.forEntity != null){
         SSServCaller.entityUserCanRead(par.user, par.forEntity);
@@ -279,8 +290,8 @@ implements
       
       //TODO dtheiler: remove hack of setting public for the review */
       SSServCaller.entityEntityToPubCircleAdd(
-        par.user, 
-        videoUri, 
+        par.user,
+        videoUri,
         SSEntityE.video, 
         par.label, 
         par.description, 
@@ -299,10 +310,23 @@ implements
           false);
       }
       
+      if(par.link != null){
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user, 
+          par.link, 
+          SSEntityE.entity, 
+          null, 
+          null, 
+          null, 
+          false);
+      }
+      
       sqlFct.addVideo(
         videoUri,
         par.genre,
-        par.forEntity);
+        par.forEntity,
+        par.link);
       
       sqlFct.addVideoToUser(
         par.user,
@@ -364,7 +388,7 @@ implements
       final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
       final SSUri                          annotationUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityUserCanEdit(par.user, par.video);
+      SSServCaller.entityUserCanRead(par.user, par.video);
       
       dbSQL.startTrans(par.shouldCommit);
       

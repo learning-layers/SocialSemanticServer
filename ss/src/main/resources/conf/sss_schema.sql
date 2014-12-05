@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `sss` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sss`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: localhost    Database: sss
+-- Host: localhost    Database: achso
 -- ------------------------------------------------------
 -- Server version	5.6.10
 
@@ -747,7 +747,7 @@ CREATE TABLE `entity` (
   `creationTime` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
-  `description` varchar(10000) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
   FULLTEXT KEY `labelIndexEntity` (`label`),
@@ -1585,6 +1585,7 @@ DROP TABLE IF EXISTS `video`;
 CREATE TABLE `video` (
   `videoId` varchar(200) NOT NULL,
   `genre` varchar(200) NOT NULL,
+  `link` varchar(255) NOT NULL,
   PRIMARY KEY (`videoId`),
   CONSTRAINT `videoIdFKvideo` FOREIGN KEY (`videoId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1660,4 +1661,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-03 17:53:53
+-- Dump completed on 2014-12-05 18:43:17

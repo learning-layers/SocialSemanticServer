@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.adapter.rest;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
@@ -88,7 +89,7 @@ public class SSRESTVideo{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{video}/annotation")
+  @Path    ("/{video}/annotations")
   @ApiOperation(
     value = "add an annotation to a video",
     response = SSVideoUserAnnotationAddRet.class)
@@ -99,8 +100,20 @@ public class SSRESTVideo{
       String video,
     final SSVideoUserAnnotationAddPar input){
     
-     try{
-      input.setVideo(URLDecoder.decode(video, SSEncodingU.utf8));
+    try{
+      String decodedURI;
+      
+      try{
+        decodedURI = URLDecoder.decode(video, SSEncodingU.utf8);
+      }catch(Exception error){
+        decodedURI = video;
+      }
+      
+      if(!SSUri.isURI(decodedURI)){
+        decodedURI = SSRestMain.conf.vocConf.uriPrefix + "entities/entities/" + decodedURI;
+      }
+      
+      input.setVideo(decodedURI);
     }catch(Exception error){
       return Response.status(422).build();
     }

@@ -31,7 +31,7 @@ public class SSVideo extends SSEntity{
   
   public String                   genre         = null;
   public List<SSVideoAnnotation>  annotations   = new ArrayList<>();
-  
+  public SSUri                    link          = null;
   
   public static List<SSVideo> get(final List<SSUri> uris) throws Exception{
     
@@ -47,7 +47,7 @@ public class SSVideo extends SSEntity{
   public static SSVideo get(
     final SSUri           id) throws Exception{
     
-    return new SSVideo(id, null, null);
+    return new SSVideo(id, null, null, null);
   }
   
   public static SSVideo get(
@@ -64,6 +64,7 @@ public class SSVideo extends SSEntity{
     super(entity);
     
     this.genre               = video.genre;
+    this.link                = video.link;
    
     if(video.annotations != null){
       this.annotations.addAll(video.annotations);
@@ -73,22 +74,26 @@ public class SSVideo extends SSEntity{
   public static SSVideo get(
     final SSUri                   id,
     final String                  genre, 
-    final List<SSVideoAnnotation> annotations) throws Exception{
+    final List<SSVideoAnnotation> annotations,
+    final SSUri                   link) throws Exception{
     
     return new SSVideo(
       id,
       genre,
-      annotations);
+      annotations,
+      link);
   }
   
   protected SSVideo(
     final SSUri                   id,
     final String                  genre,
-    final List<SSVideoAnnotation> annotations) throws Exception{
+    final List<SSVideoAnnotation> annotations,
+    final SSUri                   link) throws Exception{
     
     super(id, SSEntityE.video);
     
     this.genre               = genre;
+    this.link                = link;
     
     if(annotations != null){
       this.annotations.addAll(annotations);

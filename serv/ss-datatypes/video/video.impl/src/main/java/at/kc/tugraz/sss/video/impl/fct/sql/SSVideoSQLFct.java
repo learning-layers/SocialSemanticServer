@@ -63,7 +63,8 @@ public class SSVideoSQLFct extends SSDBSQLFct{
   public void addVideo(
     final SSUri         video,
     final String        genre,
-    final SSUri         forEntity) throws Exception{
+    final SSUri         forEntity,
+    final SSUri         link) throws Exception{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -73,6 +74,12 @@ public class SSVideoSQLFct extends SSDBSQLFct{
         insert    (inserts,    SSSQLVarU.genre,     SSStrU.empty);
       }else{
         insert    (inserts,    SSSQLVarU.genre,     genre);
+      }
+      
+      if(link == null){
+        insert    (inserts,    SSSQLVarU.link,     SSStrU.empty);
+      }else{
+        insert    (inserts,    SSSQLVarU.link,     link);
       }
       
       insert    (inserts,    SSSQLVarU.videoId,     video);
@@ -160,6 +167,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       column(columns, videoTable,          SSSQLVarU.videoId);
       column(columns, videoTable,          SSSQLVarU.genre);
+      column(columns, videoTable,          SSSQLVarU.link);
       column(columns, entityTable,         SSSQLVarU.creationTime);
       column(columns, entityTable,         SSSQLVarU.label);
       column(columns, entityTable,         SSSQLVarU.description);
@@ -185,7 +193,8 @@ public class SSVideoSQLFct extends SSDBSQLFct{
         SSVideo.get(
           bindingStrToUri         (resultSet, SSSQLVarU.videoId),
           bindingStr              (resultSet, SSSQLVarU.genre),
-          new ArrayList<>());
+          new ArrayList<>(),
+          bindingStrToUri          (resultSet, SSSQLVarU.link));
       
       video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
       video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
@@ -217,6 +226,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       column(columns, videoTable,          SSSQLVarU.videoId);
       column(columns, videoTable,          SSSQLVarU.genre);
+      column(columns, videoTable,          SSSQLVarU.link);
       column(columns, entityTable,         SSSQLVarU.creationTime);
       column(columns, entityTable,         SSSQLVarU.label);
       column(columns, entityTable,         SSSQLVarU.description);
@@ -250,7 +260,8 @@ public class SSVideoSQLFct extends SSDBSQLFct{
           SSVideo.get(
             bindingStrToUri         (resultSet, SSSQLVarU.videoId),
             bindingStr              (resultSet, SSSQLVarU.genre),
-            new ArrayList<>());
+            new ArrayList<>(),
+            bindingStrToUri         (resultSet, SSSQLVarU.link));
           
         video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
         video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
