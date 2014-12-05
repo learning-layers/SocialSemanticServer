@@ -88,6 +88,7 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   
   //entity
+  entitiesUserGetNew,
   entityUserGetNew,
   entityEntityCirclesGet,
   entityUserCircleGet,

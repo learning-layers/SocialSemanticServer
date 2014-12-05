@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetNewPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetNewPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetNewRet;
 import com.wordnik.swagger.annotations.Api;
@@ -43,6 +44,29 @@ import javax.ws.rs.core.Response;
 @Api( value = "entities", description = "SSS REST API for entities" )
 public class SSRESTEntities {
 
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @ApiOperation(
+    value = "retrieve information on entities the user can access",
+    response = SSEntityUserGetNewRet.class)
+  public Response entitiesUserGetNew(
+    @Context HttpHeaders headers,
+    @PathParam (SSVarU.entity) String entity){
+    
+    try{
+      
+        return SSRestMain.handleGETRequest(
+          headers,
+          new SSEntitiesUserGetNewPar(
+            SSMethU.entitiesUserGetNew,
+            null));
+        
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+  }
+    
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

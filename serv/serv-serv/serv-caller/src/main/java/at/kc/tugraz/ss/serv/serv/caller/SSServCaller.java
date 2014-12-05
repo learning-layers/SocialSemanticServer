@@ -1164,6 +1164,18 @@ public class SSServCaller {
   
   /* entity */
   
+  public static SSEntity entityUserGetNew(
+    final SSUri       user,
+    final SSUri       entity) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.entity,       entity);
+    
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserGetNew, opPars));
+  }
+    
   public static void entityUserEntitiesToCircleAdd(
     final SSUri       user,
     final SSUri       circle,

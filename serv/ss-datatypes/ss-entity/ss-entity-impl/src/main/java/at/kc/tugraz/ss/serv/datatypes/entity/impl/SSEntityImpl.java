@@ -48,6 +48,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetNewPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCanPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
@@ -98,6 +99,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesUserGetNewRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetNewRet;
@@ -599,6 +601,46 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par,
         entity);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entitiesUserGetNew(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+    
+    sSCon.writeRetFullToClient(SSEntitiesUserGetNewRet.get(entitiesUserGetNew(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSEntity> entitiesUserGetNew(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSEntitiesUserGetNewPar par      = new SSEntitiesUserGetNewPar(parA);
+      final List<SSEntity>          entities = new ArrayList<>();
+
+      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.user, true)){
+
+        for(SSUri entity : circle.entities){
+          
+          try{
+            SSServCaller.entityUserCanRead(par.user, entity);
+          }catch(Exception error){
+            continue;
+          }
+          
+          entities.add(SSServCaller.entityUserGetNew(par.user, entity));
+        }
+      }
+      
+      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

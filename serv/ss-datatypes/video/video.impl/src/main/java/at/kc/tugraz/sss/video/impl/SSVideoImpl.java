@@ -277,7 +277,8 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
+      //TODO dtheiler: remove hack of setting public for the review */
+      SSServCaller.entityEntityToPubCircleAdd(
         par.user, 
         videoUri, 
         SSEntityE.video, 
@@ -288,7 +289,7 @@ implements
       
       if(par.forEntity != null){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
+        SSServCaller.entityEntityToPubCircleAdd(
           par.user, 
           par.forEntity, 
           SSEntityE.entity, 
@@ -367,7 +368,9 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
+      //TODO dtheiler: remove hack of setting public for the review */
+      
+      SSServCaller.entityEntityToPubCircleAdd(
         par.user, 
         annotationUri, 
         SSEntityE.videoAnnotation, 

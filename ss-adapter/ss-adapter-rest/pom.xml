@@ -43,7 +43,7 @@
             <apiSource>
               <locations>at.kc.tugraz.ss.adapter.rest</locations>
               <apiVersion>${ssVersion}</apiVersion>
-              <basePath>https://api.learning-layers.eu/sss/bnp/api-docs</basePath>
+              <basePath>https://api.learning-layers.eu/sss/achso/api-docs</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
