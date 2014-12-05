@@ -51,8 +51,7 @@ public class SSRESTEntities {
     value = "retrieve information on entities the user can access",
     response = SSEntityUserGetNewRet.class)
   public Response entitiesUserGetNew(
-    @Context HttpHeaders headers,
-    @PathParam (SSVarU.entity) String entity){
+    @Context HttpHeaders headers){
     
     try{
       
