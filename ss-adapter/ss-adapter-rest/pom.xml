@@ -43,7 +43,7 @@
             <apiSource>
               <locations>at.kc.tugraz.ss.adapter.rest</locations>
               <apiVersion>${ssVersion}</apiVersion>
-              <basePath>https://api.learning-layers.eu/sss/achso/</basePath>
+              <basePath>https://api.learning-layers.eu/sss/bnp/api-docs</basePath>
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
@@ -52,14 +52,13 @@
                 <license>${project.license}</license>
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
-<!--              <overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
+              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <mustacheFileRoot>${basedir}/src/main/resources/swagger/</mustacheFileRoot>
               <!--<outputTemplate>${basedir}/src/main/resources/swagger/html.mustache</outputTemplate>-->
-              <outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>
-              <outputPath>${basedir}/src/main/webapp/swagger/generated/document.html</outputPath>
-              <swaggerDirectory>${basedir}/src/main/webapp/swagger/swagger-ui</swaggerDirectory>
-              <swaggerUIDocBasePath>https://api.learning-layers.eu/sss/achso/swagger/swagger-ui</swaggerUIDocBasePath>
+              <!--<outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>-->
+              <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
               <useOutputFlatStructure>false</useOutputFlatStructure>
             </apiSource>
           </apiSources>

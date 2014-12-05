@@ -446,3 +446,13 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/jobs/like/like.impl/target/
 /serv/jobs/like/like.serv/target/
 /serv/jobs/like/like.datatypes/target
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/SSAdapterRESTFile.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/SSAdapterRESTFileDownload.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/SSAdapterRESTFileReplace.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/SSAdapterRESTFileUpload.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/SSAdapterRest.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/auths.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/circles.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/entities.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/service.json
+/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/videos.json
