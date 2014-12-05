@@ -33,6 +33,11 @@ public class SSRecommResourcesFct{
   public static Boolean handleType(
     final SSRecommResourcesPar par, 
     final SSEntity             entity){
+
+    //TODO dtheiler remove hack for review
+    switch(entity.type){
+      case entity: return false;
+    }
     
     if(
       !par.typesToRecommOnly.isEmpty() &&
