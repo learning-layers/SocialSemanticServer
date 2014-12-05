@@ -431,7 +431,13 @@ public class SSDBSQLFct extends SSDBFct{
     final ResultSet resultSet, 
     final String    binding) throws Exception{
     
-    return SSUri.get(bindingStr(resultSet, binding));
+    final String tmp = bindingStr(resultSet, binding);
+    
+    if(SSStrU.isEmpty(tmp)){
+      return null;
+    }
+    
+    return SSUri.get(tmp);
   }
   
   protected static SSSpaceE bindingStrToSpace(

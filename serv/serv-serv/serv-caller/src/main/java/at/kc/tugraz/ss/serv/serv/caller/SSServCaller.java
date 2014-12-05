@@ -1163,6 +1163,15 @@ public class SSServCaller {
   }
   
   /* entity */
+  public static List<SSEntity> entitiesUserGetNew(
+    final SSUri       user) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGetNew, opPars));
+  }
   
   public static SSEntity entityUserGetNew(
     final SSUri       user,
@@ -2852,6 +2861,7 @@ public class SSServCaller {
     final SSUri   user,
     final SSUri   link,
     final SSUri   forEntity,
+    final String  uuid,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object>  opPars           = new HashMap<>();
@@ -2859,6 +2869,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     opPars.put(SSVarU.user,             user);
     opPars.put(SSVarU.link,             link);
+    opPars.put(SSVarU.uuid,             uuid);
     opPars.put(SSVarU.forEntity,        forEntity);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));

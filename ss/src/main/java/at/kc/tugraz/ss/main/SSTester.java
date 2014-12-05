@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.main;
 
+import at.kc.tugraz.ss.main.test.video.SSVideoTester;
 import at.kc.tugraz.ss.test.activity.SSActivityTester;
 import at.kc.tugraz.ss.test.app.SSAppTester;
 import at.kc.tugraz.ss.test.category.SSCategoryTester;
@@ -54,6 +55,7 @@ public class SSTester extends Thread{
       new SSAppTester().start();
       new SSActivityTester().start();
       new SSLikeTester().start();
+      new SSVideoTester().start();
 //    new Thread(new SSRecommTester()).start();
 //    SSFileSysLocalTester.run();
 

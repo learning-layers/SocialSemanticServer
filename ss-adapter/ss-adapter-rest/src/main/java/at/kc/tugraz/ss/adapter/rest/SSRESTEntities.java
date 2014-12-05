@@ -71,7 +71,7 @@ public class SSRESTEntities {
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/{entity}")
   @ApiOperation(
-    value = "retrieve entitiy information for given ID or encoded URI",
+    value = "retrieve entity information for given ID or encoded URI",
     response = SSEntityUserGetNewRet.class)
   public Response entityUserGetNew(
     @Context HttpHeaders headers,
