@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `sss` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sss`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: localhost    Database: achso
+-- Host: localhost    Database: sss
 -- ------------------------------------------------------
 -- Server version	5.6.10
 
@@ -1320,8 +1320,8 @@ CREATE TABLE `likes` (
   `value` varchar(45) NOT NULL,
   PRIMARY KEY (`userId`,`entityId`),
   KEY `entityIdFKlikes_idx` (`entityId`),
-  CONSTRAINT `userIdFKlikes` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKlikes` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKlikes` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKlikes` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1661,4 +1661,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-05 18:43:17
+-- Dump completed on 2014-12-09 16:44:38
