@@ -554,6 +554,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpVersionAddEntityPar par              = new SSLearnEpVersionAddEntityPar(parA);
       final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate();
+      final List<SSUri>                  filesAndThumbs   = new ArrayList<>();
+      final List<SSUri>                  entities         = new ArrayList<>();
 
       SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
       SSServCaller.entityUserCanEdit(par.user, par.entity);
@@ -569,12 +571,23 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         null,
         false);
            
+      for(SSUri file : SSServCaller.entityFilesGet(par.user, par.entity)){
+        filesAndThumbs.add(file);
+      }
+      
+      for(SSUri thumb : SSServCaller.entityThumbsGet(par.user, par.entity)){
+        filesAndThumbs.add(thumb);
+      }
+      
+      entities.add   (par.entity);
+      entities.addAll(filesAndThumbs);
+        
       for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.learnEpVersion, true)){
         
         SSServCaller.entityEntitiesToCircleAdd(
           par.user,
           entityUserCircle.id,
-          SSUri.asListWithoutNullAndEmpty(learnEpEntityUri, par.entity),
+          entities,
           false);
       }        
       

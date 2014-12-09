@@ -40,7 +40,7 @@ public class SSVideoAddTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
    
-    final SSUri entity = 
+   final SSUri entity = 
       SSServCaller.videoUserAdd(
         SSVoc.systemUserUri,
         null, 
