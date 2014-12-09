@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
@@ -37,7 +36,6 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -175,15 +173,16 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case noAuth:{
 
-          final SSUri userUri;
+          final String email = SSStrU.toStr(par.label) + SSStrU.at + ((SSAuthConf)conf).noAuthUserEmailPostFix;
+          final SSUri  userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, SSStrU.toStr(par.label) + "@know-center.at" /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */)){
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
             
             userUri =
               SSServCaller.userAdd(
                 SSVoc.systemUserUri,
                 par.label,
-                SSStrU.toStr(par.label)  + "@know-center.at", /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */
+                email,
                 false,
                 true);
             
@@ -201,7 +200,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             userUri = 
               SSServCaller.userURIGet(
                 SSVoc.systemUserUri, 
-                SSStrU.toStr(par.label) + "@know-center.at" /* TODO dtheiler remove hack for review SSVoc.systemEmailPostFix */);
+                email);
           }
           
           return SSAuthCheckCredRet.get(

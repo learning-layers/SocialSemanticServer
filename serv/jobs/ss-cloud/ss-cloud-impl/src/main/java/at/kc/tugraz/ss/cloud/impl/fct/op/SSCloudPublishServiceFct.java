@@ -85,19 +85,19 @@ public class SSCloudPublishServiceFct{
         serv,
         localWorkTmpDirPath,
         "/home/dtheiler/SSSService/tmp/",
-        SSSystemU.serverNameKeDemo,
+        "1234", /* TODO dtheiler: add server name to conf */ 
         9000);
       
       copyFilesRemotely(
         localWorkTmpDirPath,
         "/home/dtheiler/SSSService/",
-        SSSystemU.serverNameKeDemo,
+        "1234", /* TODO dtheiler: add server name to conf */ 
         "adf",
         "asdf");
       
       startServiceRemotely(
         "/home/dtheiler/SSSService/",
-        SSSystemU.serverNameKeDemo,
+        "1234", /* TODO dtheiler: add server name to conf */ 
         "adsf",
         "adsf");
       

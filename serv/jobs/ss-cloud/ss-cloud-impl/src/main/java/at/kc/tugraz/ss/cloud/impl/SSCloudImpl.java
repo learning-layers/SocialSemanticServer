@@ -76,7 +76,7 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
           localWorkTmpDirPath);
         
         return SSCloudPublishServiceRet.get(
-          SSSystemU.serverNameKeDemo, 
+          "1234", /* TODO dtheiler: add server name to conf */ 
           9000, 
           SSMethU.cloudPublishService);
       }

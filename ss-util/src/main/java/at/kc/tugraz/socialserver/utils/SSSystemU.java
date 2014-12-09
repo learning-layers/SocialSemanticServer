@@ -23,7 +23,6 @@ package at.kc.tugraz.socialserver.utils;
 public class SSSystemU{
 
   public static final String serverNameLocalhost            = "localhost";
-  public static final String serverNameKeDemo               = "kedemo.know-center.tugraz.at";
   public static final String fileNameSSAdapterRestConf      = "ss-adapter-rest-conf.yaml";
   public static final String fileNameSSAdapterWebSocketConf = "ss-adapter-websocket-conf.yaml";
   public static final String fileNameSSConf                 = "ss-conf.yaml";
