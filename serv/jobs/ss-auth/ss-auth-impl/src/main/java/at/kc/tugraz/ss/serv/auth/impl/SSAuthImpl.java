@@ -42,6 +42,7 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         SSServCaller.authRegisterUser(
           SSVoc.systemUserUri,
           SSLabel.get(passwordForUser.getKey()),
-          passwordForUser.getKey() + SSVoc.systemEmailPostFix,
+          passwordForUser.getKey() + SSStrU.at + SSVocConf.systemEmailPostFix,
           passwordForUser.getValue(),
           false,
           false);
@@ -173,7 +174,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case noAuth:{
 
-          final String email = SSStrU.toStr(par.label) + SSStrU.at + ((SSAuthConf)conf).noAuthUserEmailPostFix;
+          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
           final SSUri  userUri;
           
           if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
@@ -211,19 +212,20 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case csvFileAuth:{
 
+          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
           final SSUri userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, par.label + SSVoc.systemEmailPostFix)){
+          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
             throw new SSErr(SSErrE.userIsNotRegistered);
           }
           
-          userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, par.label + SSVoc.systemEmailPostFix);
+          userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, email);
 
           return SSAuthCheckCredRet.get(
             SSAuthMiscFct.checkAndGetKey(
               sqlFct,
               userUri,
-              par.label + SSVoc.systemEmailPostFix,
+              email,
               par.password),
             userUri, 
             SSMethU.authCheckCred);

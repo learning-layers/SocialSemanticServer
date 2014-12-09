@@ -29,7 +29,6 @@ public class SSAuthConf extends SSCoreServConfA{
   public String     fileName               = null;
   public String     systemUserPassword     = null;
   public Boolean    initAtStartUp          = true;
-  public String     noAuthUserEmailPostFix = null;
   
   public static SSAuthConf copy(final SSAuthConf orig){
     
@@ -39,7 +38,6 @@ public class SSAuthConf extends SSCoreServConfA{
     copy.fileName               = orig.fileName;
     copy.systemUserPassword     = orig.systemUserPassword;
     copy.initAtStartUp          = orig.initAtStartUp;
-    copy.noAuthUserEmailPostFix = orig.noAuthUserEmailPostFix;
     
     return copy;
   }

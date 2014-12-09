@@ -1,0 +1,82 @@
+{
+  "apiVersion" : "7.0.4-alpha",
+  "swaggerVersion" : "1.2",
+  "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs",
+  "resourcePath" : "/SSAdapterRESTFileDownload",
+  "apis" : [ {
+    "path" : "/fileDownload",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "download a file via POST request",
+      "notes" : "",
+      "type" : "string",
+      "format" : "byte",
+      "nickname" : "fileDownload",
+      "produces" : [ "application/octet-stream" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileDownloadPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileDownloadGET",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "download a file via GET request with query params",
+      "notes" : "",
+      "type" : "string",
+      "format" : "byte",
+      "nickname" : "fileDownloadGET",
+      "produces" : [ "application/octet-stream" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "user",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "key",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "file",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "SSFileDownloadPar" : {
+      "id" : "SSFileDownloadPar",
+      "description" : "",
+      "required" : [ "file" ],
+      "properties" : {
+        "file" : {
+          "type" : "string",
+          "description" : "file to be downloaded"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "user" : {
+          "type" : "string",
+          "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
+        }
+      }
+    }
+  }
+}

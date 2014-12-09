@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -28,6 +29,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +92,7 @@ public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
       SSServCaller.authRegisterUser(
         SSVoc.systemUserUri,
         SSLabel.get("dieterTest"),
-        "dieterTest" + SSVoc.systemEmailPostFix,
+        "dieterTest" + SSStrU.at + SSVocConf.systemEmailPostFix,
         "1234",
         false,
         true);

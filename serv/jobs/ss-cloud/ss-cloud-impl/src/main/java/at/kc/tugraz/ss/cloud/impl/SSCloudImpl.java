@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 
 public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCloudServerI{
 
@@ -65,7 +66,7 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
           localWorkTmpDirPath);
         
         return SSCloudPublishServiceRet.get(
-          SSSystemU.serverNameLocalhost, 
+          SSVocConf.serverNameLocalhost, 
           7001, 
           SSMethU.cloudPublishService);
           

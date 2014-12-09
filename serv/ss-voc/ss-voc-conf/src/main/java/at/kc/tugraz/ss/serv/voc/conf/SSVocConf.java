@@ -23,6 +23,21 @@ package at.kc.tugraz.ss.serv.voc.conf;
 import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
 public class SSVocConf extends SSCoreServConfA{
+
+  public static final String sssUri                         = "http://social.semantic.server.eu";
+  public static final String systemUserLabel                = "system";
+  public static final String systemEmailPostFix             = "know-center.at";
+  public static final String systemUserEmail                = systemUserLabel + "@" + systemEmailPostFix;
+  public static final String serverNameLocalhost            = "localhost";
+  public static final String fileNameSSAdapterRestConf      = "ss-adapter-rest-conf.yaml";
+  public static final String fileNameSSAdapterWebSocketConf = "ss-adapter-websocket-conf.yaml";
+  public static final String fileNameSSConf                 = "ss-conf.yaml";
+  public static final String fileNameSSJar                  = "ss.jar";
+  public static final String fileNameLog4JProperties        = "log4j.properties";
+  public static final String fileNameRunitSh                = "runit.sh";
+  public static final String fileNameRunitBat               = "runit.bat";
+  public static final String dirNameLib                     = "lib/";
+  public static final String dirNameConf                    = "conf/";
   
   public String   uriPrefix      = null;
  

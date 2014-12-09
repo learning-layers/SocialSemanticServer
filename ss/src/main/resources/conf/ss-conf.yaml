@@ -12,7 +12,6 @@ authConf:
   executeOpAtStartUp: false
   fileName: users.csv
   initAtStartUp: true
-  noAuthUserEmailPostFix: know-center.at
   op: null
   systemUserPassword: '1234'
   use: true

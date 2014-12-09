@@ -55,7 +55,6 @@
               <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <mustacheFileRoot>${basedir}/src/main/resources/swagger/</mustacheFileRoot>
-              <!--<outputTemplate>${basedir}/src/main/resources/swagger/html.mustache</outputTemplate>-->
               <!--<outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>-->
               <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>

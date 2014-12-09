@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -47,7 +48,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
   
   public SSInterfaceWebSocketHandler() throws Exception{
     
-    SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSSystemU.dirNameConf + SSSystemU.fileNameSSAdapterWebSocketConf);
+    SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSVocConf.dirNameConf + SSVocConf.fileNameSSAdapterWebSocketConf);
     
     sSConf =  SSCoreConf.instGet().getSsConf();
   }

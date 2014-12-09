@@ -37,7 +37,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -395,7 +395,7 @@ implements
       }
       
       if(par.entity == null){
-        par.entity = SSUri.get(SSVoc.sssUri);
+        par.entity = SSUri.get(SSVocConf.sssUri);
       }
       
       dbSQL.startTrans(par.shouldCommit);

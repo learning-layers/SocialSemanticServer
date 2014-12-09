@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.voc.serv;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -35,13 +34,9 @@ import java.util.List;
 
 public class SSVoc extends SSServA{
   
-  public static final SSServA inst               = new SSVoc(null, SSVocI.class);
-  public static final String  sssUri             = "http://social.semantic.server.eu";
-  public static SSLabel       systemUserLabel    = null;
-  public static SSUri         systemUserUri      = null;
-  public static String        systemUserEmail    = null;
-  public static String        systemEmailPostFix = "@sss.kc.tugraz.at";
-  
+  public static final SSServA inst                           = new SSVoc(null, SSVocI.class);
+  public static SSUri         systemUserUri                  = null;
+
   protected SSVoc(
     final Class servImplClientInteraceClass, 
     final Class servImplServerInteraceClass){
@@ -59,9 +54,7 @@ public class SSVoc extends SSServA{
     
     super.regServ(conf);
     
-    systemUserLabel = SSLabel.get ("system");
-    systemUserUri   = /*SSUri.get   (SSStrU.toStr(SServCaller.vocURIPrefixGet*/SSServCaller.vocURICreateFromId("system"); //SSStrU.valueUser + SSStrU.slash + systemUserLabel);
-    systemUserEmail = systemUserLabel.toString() + systemEmailPostFix;
+    systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     
     return this;
   }

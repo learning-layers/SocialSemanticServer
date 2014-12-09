@@ -32,6 +32,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
@@ -62,7 +63,7 @@ public class SSCloudPublishServiceFct{
         serv,
         localWorkTmpDirPath,
         "F:\\SSSInstance\\tmp\\",
-        SSSystemU.serverNameLocalhost,
+        SSVocConf.serverNameLocalhost,
         7001);
       
       copyFilesLocally(
@@ -131,7 +132,7 @@ public class SSCloudPublishServiceFct{
       
       String command = 
         "cd " + serviceDestDirPath + SSStrU.semiColon + 
-        "java -jar -Dlog4j.configuration=file:log4j.properties " + serviceDestDirPath + SSSystemU.fileNameSSJar;
+        "java -jar -Dlog4j.configuration=file:log4j.properties " + serviceDestDirPath + SSVocConf.fileNameSSJar;
       
       channel = session.openChannel("exec");
       
@@ -212,47 +213,47 @@ public class SSCloudPublishServiceFct{
       
       channelSftp.cd(serviceDestDirPath);
       
-      in = SSFileU.openFileForRead(localWorkTmpDirPath + SSSystemU.fileNameSSConf);
+      in = SSFileU.openFileForRead(localWorkTmpDirPath + SSVocConf.fileNameSSConf);
         
       channelSftp.put(
         in, 
-        SSSystemU.fileNameSSConf);
+        SSVocConf.fileNameSSConf);
       
       in.close();
       
-      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSSystemU.fileNameSSJar);
+      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSVocConf.fileNameSSJar);
         
       channelSftp.put(
         in, 
-        SSSystemU.fileNameSSJar);
+        SSVocConf.fileNameSSJar);
       
       in.close();
 
-      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSSystemU.fileNameLog4JProperties);
+      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSVocConf.fileNameLog4JProperties);
       
       channelSftp.put(
         in, 
-        SSSystemU.fileNameLog4JProperties);
+        SSVocConf.fileNameLog4JProperties);
       
       in.close();
       
-      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSSystemU.fileNameRunitSh);
+      in = SSFileU.openFileForRead(SSFileU.dirWorking() + SSVocConf.fileNameRunitSh);
       
       channelSftp.put(
         in,
-        SSSystemU.fileNameRunitSh);
+        SSVocConf.fileNameRunitSh);
       
       in.close();
       
       try{
-        channelSftp.mkdir (serviceDestDirPath + SSSystemU.dirNameLib);
+        channelSftp.mkdir (serviceDestDirPath + SSVocConf.dirNameLib);
       }catch(SftpException error){
         SSLogU.warn("service lib folder already exists");
       }
       
-      channelSftp.cd (serviceDestDirPath + SSSystemU.dirNameLib);
+      channelSftp.cd (serviceDestDirPath + SSVocConf.dirNameLib);
       
-      for(File file : SSFileU.filesForDirPath(SSFileU.dirWorking() + SSSystemU.dirNameLib)){
+      for(File file : SSFileU.filesForDirPath(SSFileU.dirWorking() + SSVocConf.dirNameLib)){
         
         in = new FileInputStream(file);
         
@@ -289,24 +290,24 @@ public class SSCloudPublishServiceFct{
     
     try{
       FileUtils.copyFile(
-        new File(localWorkTmpDirPath  + SSSystemU.fileNameSSConf),
-        new File(serviceDestDirPath + SSSystemU.fileNameSSConf));
+        new File(localWorkTmpDirPath  + SSVocConf.fileNameSSConf),
+        new File(serviceDestDirPath + SSVocConf.fileNameSSConf));
       
       FileUtils.copyFile(
-        new File(SSFileU.dirWorking() + SSSystemU.fileNameSSJar),
-        new File(serviceDestDirPath + SSSystemU.fileNameSSJar));
+        new File(SSFileU.dirWorking() + SSVocConf.fileNameSSJar),
+        new File(serviceDestDirPath + SSVocConf.fileNameSSJar));
       
       FileUtils.copyFile(
-        new File(SSFileU.dirWorking() + SSSystemU.fileNameLog4JProperties),
-        new File(serviceDestDirPath + SSSystemU.fileNameLog4JProperties));
+        new File(SSFileU.dirWorking() + SSVocConf.fileNameLog4JProperties),
+        new File(serviceDestDirPath + SSVocConf.fileNameLog4JProperties));
       
       FileUtils.copyFile(
-        new File(SSFileU.dirWorking() + SSSystemU.fileNameRunitBat),
-        new File(serviceDestDirPath + SSSystemU.fileNameRunitBat));
+        new File(SSFileU.dirWorking() + SSVocConf.fileNameRunitBat),
+        new File(serviceDestDirPath + SSVocConf.fileNameRunitBat));
       
       FileUtils.copyDirectory(
-        new File(SSFileU.dirWorking() + SSSystemU.dirNameLib),
-        new File(serviceDestDirPath   + SSSystemU.dirNameLib));
+        new File(SSFileU.dirWorking() + SSVocConf.dirNameLib),
+        new File(serviceDestDirPath   + SSVocConf.dirNameLib));
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -339,7 +340,7 @@ public class SSCloudPublishServiceFct{
       
       ssConf.setLocalWorkPath(serviceDestDirTmpPath);
       
-      confForServ.save(localWorkTmpDirPath + SSSystemU.fileNameSSConf);
+      confForServ.save(localWorkTmpDirPath + SSVocConf.fileNameSSConf);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

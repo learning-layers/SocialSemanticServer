@@ -287,10 +287,13 @@ implements
         SSServCaller.entityUserCanRead(par.user, par.forEntity);
       }
       
+      if(par.link != null){
+        SSServCaller.entityUserCanRead(par.user, par.link);
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      //TODO dtheiler: remove hack of setting public for the review */
-      SSServCaller.entityEntityToPubCircleAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user,
         videoUri,
         SSEntityE.video, 
@@ -301,7 +304,7 @@ implements
       
       if(par.forEntity != null){
         
-        SSServCaller.entityEntityToPubCircleAdd(
+        SSServCaller.entityEntityToPrivCircleAdd(
           par.user, 
           par.forEntity, 
           SSEntityE.entity, 
@@ -313,7 +316,7 @@ implements
       
       if(par.link != null){
         
-        SSServCaller.entityEntityToPubCircleAdd(
+        SSServCaller.entityEntityToPrivCircleAdd(
           par.user, 
           par.link, 
           SSEntityE.entity, 
@@ -393,9 +396,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      //TODO dtheiler: remove hack of setting public for the review */
-      
-      SSServCaller.entityEntityToPubCircleAdd(
+      SSServCaller.entityEntityToPrivCircleAdd(
         par.user, 
         annotationUri, 
         SSEntityE.videoAnnotation, 

@@ -22,17 +22,6 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSystemU{
 
-  public static final String serverNameLocalhost            = "localhost";
-  public static final String fileNameSSAdapterRestConf      = "ss-adapter-rest-conf.yaml";
-  public static final String fileNameSSAdapterWebSocketConf = "ss-adapter-websocket-conf.yaml";
-  public static final String fileNameSSConf                 = "ss-conf.yaml";
-  public static final String fileNameSSJar                  = "ss.jar";
-  public static final String fileNameLog4JProperties        = "log4j.properties";
-  public static final String fileNameRunitSh                = "runit.sh";
-  public static final String fileNameRunitBat               = "runit.bat";
-  public static final String dirNameLib                     = "lib/";
-  public static final String dirNameConf                    = "conf/";
-  
   public static Boolean isWindows(){
     return System.getProperty("os.name").toLowerCase().contains("windows");
   }

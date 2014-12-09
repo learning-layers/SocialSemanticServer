@@ -23,16 +23,13 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.io.FileOutputStream;
@@ -328,7 +325,7 @@ public class SSRecommFct{
     final Map<String, List<String>> categoriesPerEntities = new HashMap<>();
     
     for(Integer counter = 0; counter < numberOfEntities; counter++){
-      categoriesPerEntities.put(SSVoc.sssUri + SSStrU.underline + counter.toString(), new ArrayList<>());
+      categoriesPerEntities.put(SSVocConf.sssUri + SSStrU.underline + counter.toString(), new ArrayList<>());
     }
     
     return categoriesPerEntities;

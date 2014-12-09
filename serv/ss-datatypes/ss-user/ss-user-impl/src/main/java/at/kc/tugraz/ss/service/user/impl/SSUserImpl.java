@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
@@ -252,8 +253,8 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       if(par.isSystemUser){
         userUri  = SSVoc.systemUserUri;
-        tmpLabel = SSVoc.systemUserLabel;
-        tmpEmail = SSVoc.systemUserEmail;
+        tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
+        tmpEmail = SSVocConf.systemUserEmail; 
       }else{
         
         userUri  = SSServCaller.vocURICreate();

@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.impl.SSServerSocket;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 
 public class SSMain{
 
@@ -38,7 +38,7 @@ public class SSMain{
 
 //    addShutDownHookThread ();
     //TODO dtheiler: create conf via service as well
-    SSCoreConf.instSet(SSSystemU.fileNameSSConf);
+    SSCoreConf.instSet(SSVocConf.fileNameSSConf);
     
 //    initJmx               ();
     

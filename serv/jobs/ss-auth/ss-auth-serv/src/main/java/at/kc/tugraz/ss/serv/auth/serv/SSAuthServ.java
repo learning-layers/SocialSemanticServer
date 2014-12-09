@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.auth.serv;
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
@@ -33,6 +34,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
 import java.util.List;
@@ -60,8 +62,8 @@ public class SSAuthServ extends SSServA{
     
     SSServCaller.authRegisterUser(
       SSVoc.systemUserUri,
-      SSVoc.systemUserLabel,
-      SSVoc.systemUserLabel + SSVoc.systemEmailPostFix,
+      SSLabel.get(SSVocConf.systemUserLabel),
+      SSVocConf.systemUserEmail,
       ((SSAuthConf)servConf).systemUserPassword,
       true,
       true);

@@ -34,7 +34,7 @@ public class SSRecommResourcesFct{
     final SSRecommResourcesPar par, 
     final SSEntity             entity){
 
-    //TODO dtheiler remove hack for review
+    //be very specific what to recommend; dont recommend entities without type
     switch(entity.type){
       case entity: return false;
     }

@@ -26,7 +26,6 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
@@ -35,6 +34,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,7 +66,7 @@ public class SSRestMain extends Application {
     resourceConfig.register(MultiPartFeature.class);
     
     //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSSystemU.dirNameConf + "ss-adapter-rest-conf.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "ss-adapter-rest-conf.yaml");
     
     /* util */
     SSMimeTypeU.init();
@@ -93,6 +93,7 @@ public class SSRestMain extends Application {
     classes.add(SSRESTVideo.class);
     classes.add(SSRESTAuth.class);
     classes.add(SSRESTCircle.class);
+    classes.add(SSRESTEntities.class);
 
     return classes;
   }
