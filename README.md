@@ -16,9 +16,9 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## Documentation
 * Please find the documentation of the SSS REST APIs in:
- * `ss-package` from respective release from within this repository in folder `documentation`
- * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/generated/document.html`
- * `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/swagger/generated/document.html`
+ * `ss-package` from respective release from within this repository in folder `api-docs`
+ * `http://{your-host}:{your-port}/ss-adapter-rest/api-docs/`
+ * `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/`
  
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
