@@ -1,0 +1,41 @@
+{
+  "apiVersion" : "7.0.4-alpha",
+  "swaggerVersion" : "1.2",
+  "apis" : [ {
+    "path" : "/entities.{format}",
+    "description" : "SSS REST API for entities"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}",
+    "description" : "SSS File REST API"
+  }, {
+    "path" : "/SSAdapterRest.{format}",
+    "description" : "SSS REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileReplace.{format}",
+    "description" : "SSS File Replace REST API"
+  }, {
+    "path" : "/auths.{format}",
+    "description" : "SSS REST API for authentication"
+  }, {
+    "path" : "/SSAdapterRESTFileDownload.{format}",
+    "description" : "SSS File Download REST API"
+  }, {
+    "path" : "/circles.{format}",
+    "description" : "SSS REST API for circles (groups)"
+  }, {
+    "path" : "/videos.{format}",
+    "description" : "SSS REST API for videos"
+  } ],
+  "info" : {
+    "title" : "Social Semantic Server REST API",
+    "description" : "https://github.com/learning-layers/SocialSemanticServer/",
+    "termsOfServiceUrl" : "https://github.com/learning-layers/",
+    "contact" : "dtheiler#tugraz$at",
+    "license" : "Apache 2.0",
+    "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs"
+}
