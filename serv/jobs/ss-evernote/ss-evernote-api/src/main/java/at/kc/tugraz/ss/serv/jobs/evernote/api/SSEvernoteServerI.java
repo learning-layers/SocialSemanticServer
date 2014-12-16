@@ -25,14 +25,19 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
+import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.List;
 
 public interface SSEvernoteServerI {
-  public SSEvernoteInfo       evernoteNoteStoreGet       (SSServPar parA) throws Exception;
-  public List<Notebook>       evernoteNotebooksGet       (SSServPar parA) throws Exception;
-  public List<SharedNotebook> evernoteNotebooksSharedGet (SSServPar parA) throws Exception;
-  public List<LinkedNotebook> evernoteNotebooksLinkedGet (SSServPar parA) throws Exception;
-  public List<Note>           evernoteNotesGet           (SSServPar parA) throws Exception;
-  public List<Note>           evernoteNotesLinkedGet     (SSServPar parA) throws Exception;
+  public Resource             evernoteResourceGet        (final SSServPar parA) throws Exception;
+  public Note                 evernoteNoteGet            (final SSServPar parA) throws Exception;
+  public List<String>         evernoteNoteTagNamesGet    (final SSServPar parA) throws Exception;
+  public SSEvernoteInfo       evernoteNoteStoreGet       (final SSServPar parA) throws Exception;
+  public List<Notebook>       evernoteNotebooksGet       (final SSServPar parA) throws Exception;
+  public Notebook             evernoteNotebookGet        (final SSServPar parA) throws Exception;
+  public List<SharedNotebook> evernoteNotebooksSharedGet (final SSServPar parA) throws Exception;
+  public List<LinkedNotebook> evernoteNotebooksLinkedGet (final SSServPar parA) throws Exception;
+  public List<Note>           evernoteNotesGet           (final SSServPar parA) throws Exception;
+  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;
 }

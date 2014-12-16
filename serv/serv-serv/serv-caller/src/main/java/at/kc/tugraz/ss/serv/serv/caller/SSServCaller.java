@@ -66,6 +66,7 @@ import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
+import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -516,6 +517,20 @@ public class SSServCaller {
     return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesGet, opPars));
   }
   
+  public static Resource evernoteResourceGet(
+    final NoteStoreClient noteStore, 
+    final String          resourceGUID,
+    final Boolean         includeContent) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.noteStore,        noteStore);
+    opPars.put(SSVarU.resourceGUID,     resourceGUID);
+    opPars.put(SSVarU.includeContent,   includeContent);
+    
+    return (Resource) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteResourceGet, opPars));
+  }
+  
   public static List<Notebook> evernoteNotebooksGet(NoteStoreClient noteStore) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -523,6 +538,32 @@ public class SSServCaller {
     opPars.put(SSVarU.noteStore, noteStore);
     
     return (List<Notebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksGet, opPars));
+  }
+  
+  public static Notebook evernoteNotebookGet(
+    final NoteStoreClient noteStore,
+    final String          notebookGUID) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.noteStore,     noteStore);
+    opPars.put(SSVarU.notebookGUID,  notebookGUID);
+    
+    return (Notebook) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebookGet, opPars));
+  }
+  
+  public static Note evernoteNoteGet(
+    final NoteStoreClient noteStore,
+    final String          noteGUID,
+    final Boolean         includeContent) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.noteStore,       noteStore);
+    opPars.put(SSVarU.noteGUID,        noteGUID);
+    opPars.put(SSVarU.includeContent,  includeContent);
+    
+    return (Note) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteGet, opPars));
   }
   
   public static void fileSysLocalAddTextToFilesNamesAtBeginInDir() throws Exception{
@@ -564,6 +605,18 @@ public class SSServCaller {
     opPars.put(SSVarU.linkedNotebook, linkedNotebook);
     
     return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesLinkedGet, opPars));
+  }
+  
+   public static List<String> evernoteNoteTagNamesGet(
+    final NoteStoreClient noteStore, 
+    final String          noteGUID) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.noteStore,      noteStore);
+    opPars.put(SSVarU.noteGUID,       noteGUID);
+    
+    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteTagNamesGet, opPars));
   }
   
   public static List<LinkedNotebook> evernoteNotebooksLinkedGet(

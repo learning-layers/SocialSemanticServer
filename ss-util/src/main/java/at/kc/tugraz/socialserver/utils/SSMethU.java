@@ -82,10 +82,14 @@ public enum SSMethU{
   //evernote
   evernoteNoteStoreGet                                ,
   evernoteNotebooksGet                                ,
+  evernoteNotebookGet,
+  evernoteNoteGet,
   evernoteNotebooksSharedGet                          ,
   evernoteNotebooksLinkedGet                          ,
   evernoteNotesGet                                    ,
+  evernoteResourceGet,
   evernoteNotesLinkedGet                              ,
+  evernoteNoteTagNamesGet,
   
   //entity
   entitiesUserGetNew,

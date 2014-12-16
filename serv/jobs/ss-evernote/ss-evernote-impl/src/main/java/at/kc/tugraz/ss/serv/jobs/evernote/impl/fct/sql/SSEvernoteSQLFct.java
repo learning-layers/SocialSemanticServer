@@ -47,6 +47,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       insert(inserts, SSSQLVarU.userId,      user);
       insert(inserts, SSSQLVarU.authToken,   authToken);
+      insert(inserts, SSSQLVarU.usn,         0);
       
       uniqueKey(uniqueKeys, SSSQLVarU.userId, user);
       
@@ -57,6 +58,24 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     }
   }
   
+  public void setUSN(
+    final String  authToken,
+    final Integer usn) throws Exception{
+    
+    try{
+      final Map<String, String> updates    =  new HashMap<>();
+      final Map<String, String> wheres     =  new HashMap<>();
+      
+      where  (wheres,  SSSQLVarU.authToken, authToken);
+      update (updates, SSSQLVarU.usn,       usn);
+      
+      dbSQL.update(evernoteUserTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
   public String getAuthToken(
     final SSUri user) throws Exception{
     
@@ -172,6 +191,31 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
         bindingStrToUri(resultSet, SSSQLVarU.noteId), 
         null, 
         null);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public Integer getUSN(final String authToken) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.authToken, authToken);
+      
+      resultSet = dbSQL.select(evernoteUserTable, wheres);
+      
+      if(!resultSet.next()){
+        return 0;
+      }else{
+        return bindingStrToInteger(resultSet, SSSQLVarU.usn);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

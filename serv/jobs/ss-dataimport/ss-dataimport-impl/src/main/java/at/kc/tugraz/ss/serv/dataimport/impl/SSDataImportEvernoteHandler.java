@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHelper;
@@ -61,11 +60,15 @@ public class SSDataImportEvernoteHandler extends SSServImplStartWithDBA{
         
       dbSQL.startTrans(par.shouldCommit);
       
-      final SSLabel userName = dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
+      dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
       
       dataImpEvernoteHelper.handleLinkedNotebooks ();
       dataImpEvernoteHelper.setSharedNotebooks    ();
-      dataImpEvernoteHelper.handleNotebooks       (par, userName);
+      dataImpEvernoteHelper.handleNotebooks       ();
+      dataImpEvernoteHelper.handleNotes           ();
+      dataImpEvernoteHelper.handleResources       ();
+      
+      dataImpEvernoteHelper.setUSN();
       
       dbSQL.commit(par.shouldCommit);
       

@@ -18,45 +18,34 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.test.load;
+package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import com.evernote.clients.NoteStoreClient;
 
-public class SSLoadTestUEAdder extends SSServImplStartA{
+public class SSEvernoteNoteGetPar extends SSServPar{
+
+  public NoteStoreClient  noteStore      = null;
+  public String           noteGUID       = null;
+  public Boolean          includeContent = null;
   
-  private final SSUri userUri;
-  
-  public SSLoadTestUEAdder(SSServConfA conf, SSUri userUri) throws Exception{
-    super(conf);
+  public SSEvernoteNoteGetPar(SSServPar par) throws Exception{
     
-    this.userUri = userUri;
-  }
-  
-  @Override
-  public void run(){
+    super(par);
     
     try{
-      SSServCaller.ueAdd(userUri, SSLoadTest.collUri, SSUEE.evernoteResourceAdd, SSStrU.empty, true);
-    }catch(Exception error1){
-      SSServErrReg.regErr(error1);
-    }finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
+      
+      if(pars != null){
+        noteStore        = (NoteStoreClient)  pars.get(SSVarU.noteStore);
+        noteGUID         = (String)           pars.get(SSVarU.noteGUID);
+        includeContent   = (Boolean)          pars.get(SSVarU.includeContent);
       }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    finalizeThread();
-  }
 }
+

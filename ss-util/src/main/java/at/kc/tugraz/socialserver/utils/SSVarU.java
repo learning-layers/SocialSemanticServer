@@ -121,6 +121,10 @@ public class SSVarU{
   public static final String authToken                                      = "authToken";
   public static final String authEmail                                      = "authEmail";
   public static final String noteStore                                      = "noteStore";
+  public static final String resourceGUID                                   = "resourceGUID";
+  public static final String notebookGUID                                   = "notebookGUID";
+  public static final String noteGUID                                       = "noteGUID";
+  public static final String includeContent                                 = "includeContent";
   public static final String linkedNotebook                                 = "linkedNotebook";
   public static final String notebookGuid                                   = "notebookGuid";
   public static final String companyName                                    = "companyName";

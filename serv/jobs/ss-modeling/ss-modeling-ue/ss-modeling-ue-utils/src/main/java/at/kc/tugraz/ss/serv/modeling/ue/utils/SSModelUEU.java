@@ -405,7 +405,7 @@ public class SSModelUEU {
     
     //adding & deleting event types
 //    addingAndDeletingEventTypes.add(SSUEE.addDiscussionComment);
-    addingAndDeletingEventTypes.add(SSUEE.addPrivateTag);
+//    addingAndDeletingEventTypes.add(SSUEE.addPrivateTag);
 //    addingAndDeletingEventTypes.add(SSUEE.addSharedTag);
 //    addingAndDeletingEventTypes.add(SSUEE.removePrivateTag);
 //    addingAndDeletingEventTypes.add(SSUEE.removeSharedTag);
@@ -522,7 +522,7 @@ public class SSModelUEU {
     
     //event types indicating that a resource was assess by a person
 //    assessEventTypes.add(SSUEE.rateEntity);
-    assessEventTypes.add(SSUEE.addPrivateTag);
+//    assessEventTypes.add(SSUEE.addPrivateTag);
 //    assessEventTypes.add(SSUEE.addSharedTag);
 //    assessEventTypes.add(SSUEE.removePrivateTag);
 //    assessEventTypes.add(SSUEE.removeSharedTag);
@@ -556,7 +556,7 @@ public class SSModelUEU {
 //    personAssociationEventTypes.add(SSUEE.renameDiscussion);
 //    personAssociationEventTypes.add(SSUEE.addDiscussionComment);
     personAssociationEventTypes.add(SSUEE.viewEntity);
-    personAssociationEventTypes.add(SSUEE.addPrivateTag);
+//    personAssociationEventTypes.add(SSUEE.addPrivateTag);
 //    personAssociationEventTypes.add(SSUEE.addSharedTag);
 //    personAssociationEventTypes.add(SSUEE.removePrivateTag);
 //    personAssociationEventTypes.add(SSUEE.removeSharedTag);
@@ -602,7 +602,7 @@ public class SSModelUEU {
 //    relateResourceEventTypes.add(SSUEE.renameDiscussion);
 //    relateResourceEventTypes.add(SSUEE.addDiscussionComment);
     relateResourceEventTypes.add(SSUEE.viewEntity);
-    relateResourceEventTypes.add(SSUEE.addPrivateTag);
+//    relateResourceEventTypes.add(SSUEE.addPrivateTag);
 //    relateResourceEventTypes.add(SSUEE.addSharedTag);
 //    relateResourceEventTypes.add(SSUEE.removePrivateTag);
 //    relateResourceEventTypes.add(SSUEE.removeSharedTag);

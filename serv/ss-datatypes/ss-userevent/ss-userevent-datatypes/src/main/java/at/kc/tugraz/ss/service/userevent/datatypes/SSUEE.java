@@ -48,8 +48,6 @@ public enum SSUEE implements SSJSONLDPropI{
   
   /* user events stored server-side to be used in bits and pieces tool */
   
-  addPrivateTag,
-  
   evernoteNotebookCreate,
   evernoteNotebookUpdate,
   evernoteNotebookFollow,

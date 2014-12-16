@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.clients.UserStoreClient;
 import com.evernote.edam.notestore.SyncChunk;
@@ -30,26 +31,31 @@ public class SSEvernoteInfo {
   public UserStoreClient userStore          = null;
   public NoteStoreClient noteStore          = null;
   public SSUri           shardUri           = null;
-//  public SyncChunk       noteStoreSyncChunk = null;
+  public SyncChunk       noteStoreSyncChunk = null;
+  public String          authToken          = null;
+  public SSLabel         userName           = null;
   
   public static SSEvernoteInfo get(
     final UserStoreClient userStore, 
     final NoteStoreClient noteStore, 
     final SSUri           shardUri,
-    final SyncChunk       noteStoreSyncChunk){
+    final SyncChunk       noteStoreSyncChunk,
+    final String          authToken){
     
-    return new SSEvernoteInfo(userStore, noteStore, shardUri, noteStoreSyncChunk);
+    return new SSEvernoteInfo(userStore, noteStore, shardUri, noteStoreSyncChunk, authToken);
   }
   
   private SSEvernoteInfo(
     final UserStoreClient userStore,
     final NoteStoreClient noteStore,
     final SSUri           shardUri,
-    final SyncChunk       noteStoreSyncChunk){
+    final SyncChunk       noteStoreSyncChunk,
+    final String          authToken){
     
     this.userStore          = userStore;
     this.noteStore          = noteStore;
     this.shardUri           = shardUri;
-//    this.noteStoreSyncChunk = noteStoreSyncChunk;
+    this.noteStoreSyncChunk = noteStoreSyncChunk;
+    this.authToken          = authToken;
   }
 }

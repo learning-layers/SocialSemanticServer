@@ -20,11 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
+import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
@@ -39,6 +44,30 @@ public class SSEvernoteHelper {
     
     this.uriHelper   = new SSEvernoteUriHelper   ();
     this.sqlFct      = new SSEvernoteSQLFct      (dbSQL);
+  }
+  
+  public static String getThumbBase64(
+    final SSUri  user,
+    final SSUri  file) throws Exception{
+    
+    try{
+      
+      final List<SSUri> thumbUris = SSServCaller.entityThumbsGet(user, file);
+      
+      if(thumbUris.isEmpty()){
+        SSLogU.warn("thumb couldnt be retrieved from file " + file);
+        return null;
+      }
+      
+      final String pngFilePath = SSCoreConf.instGet().getSsConf().getLocalWorkPath() + SSServCaller.fileIDFromURI (user, thumbUris.get(0));
+      
+      return SSFileU.readPNGToBase64Str(pngFilePath);
+      
+    }catch(Exception error){
+      SSLogU.warn("base 64 file thumb couldnt be retrieved");
+      SSServErrReg.reset();
+      return null;
+    }
   }
   
   public Boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
