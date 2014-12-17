@@ -96,4 +96,9 @@ public class SSEntityServ extends SSServA{
       }
     }
   }
+
+  @Override
+  public void schedule() throws Exception{
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 }

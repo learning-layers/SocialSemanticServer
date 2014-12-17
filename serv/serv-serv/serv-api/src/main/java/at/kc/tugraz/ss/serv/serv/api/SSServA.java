@@ -153,6 +153,7 @@ public abstract class SSServA{
   
   protected abstract SSServImplA  createServImplForThread   () throws Exception;
   public    abstract void         initServ                  () throws Exception;
+  public    abstract void         schedule                  () throws Exception;
   public    abstract SSCoreConfA  getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   
   protected SSCoreConfA getConfForCloudDeployment(

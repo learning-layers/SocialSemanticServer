@@ -26,14 +26,11 @@ import java.util.List;
 
 public class SSCategoryConf extends SSServConfA{
   
-  public Boolean      initAtStartUp        = false;
   public List<String> predefinedCategories = new ArrayList<>();
   
   public static SSCategoryConf copy(final SSCategoryConf orig){
     
     final SSCategoryConf copy = (SSCategoryConf) SSServConfA.copy(orig, new SSCategoryConf());
-    
-    copy.initAtStartUp = orig.initAtStartUp;
     
     if(orig.predefinedCategories == null){
       copy.predefinedCategories = new ArrayList<>();

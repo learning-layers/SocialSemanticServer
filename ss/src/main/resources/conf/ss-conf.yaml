@@ -1,78 +1,50 @@
 !!at.kc.tugraz.ss.conf.conf.SSCoreConf
 activityConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 appConf:
   use: true
 appStackLayoutConf:
   use: true  
 authConf:
-  authType: noAuth #noAuth, csvFileAuth
-  executeOpAtStartUp: false
+  authType: #noAuth, csvFileAuth, oidc
   fileName: users.csv
-  initAtStartUp: true
-  op: null
   systemUserPassword: '1234'
   use: true
 broadcasterConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 categoryConf:
-  use: false
-  executeOpAtStartUp: false
-  op: 
-  initAtStartUp: false
+  use: true
   predefinedCategories:
 cloudConf:
-  executeOpAtStartUp: false
-  op: null
   use: false
 collConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 commentConf:
-  executeOpAtStartUp: false
-  op: null
   use: true  
 dataExportConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
   fileNameForUserRelationsExport:
 dataImportConf:
-  executeOpAtStartUp: #true, false
-  initAtStartUp: #true, false
-  initAtStartUpOps: #array containing, e.g. dataImportEvernote
-  fileName: #
-  op: #serv op to execute at startup, e.g. dataImportEvernote
   use: true
+  initAtStartUp: false
+  initAtStartUpOps:
+  schedule: true
+  executeScheduleAtStartUp: true
+  scheduleOps:
+  scheduleIntervals:
+  fileName:
 dbGraphConf:
-  executeOpAtStartUp: false
-  host: null
-  op: null
-  password: null
-  port: null
   use: false
-  username: null
 dbSQLConf:
-  executeOpAtStartUp: false
   host: localhost
-  op: null
   password: root
   port: 3306
   schema: sss
   use: true
   username: root
 discConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 entityConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 evernoteConf:
   appName: SSS
@@ -81,19 +53,11 @@ evernoteConf:
   authTokens: 
   companyName: TU Graz
   evernoteEnvironment: production
-  executeOpAtStartUp: false
-  op: null
-  use: false
+  use: true
 fileSysLocalConf:
-  dirPath: null
-  executeOpAtStartUp: false
-  op: null
-  text: null
   use: false
 filerepoConf:
-  executeOpAtStartUp: false
   fileRepoType: fileSys
-  op: null
   password: null
   path: F:/workspace_git/SSS_8/master/SocialSemanticServer/ss/tmp/
   use: true
@@ -101,104 +65,68 @@ filerepoConf:
 friendConf:
   use: true  
 i5CloudConf:
-  executeOpAtStartUp: false
   lasPass: 
   lasUser: 
   oidcConfURI: #http://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration, http://10.255.255.17/o/oauth2/.well-known/openid-configuration
   oidcUserEndPointURI: #http://api.learning-layers.eu/o/oauth2/userinfo, http://10.255.255.17/o/oauth2/userinfo
-  op: null
   pass: 
   uri: http://137.226.58.11:8081/i5Cloud/services/4/
   use: false
   userLabel:
 jsonLDConf:
-  executeOpAtStartUp: false
-  op: null
   uri: http://127.0.0.1:8084/ss-adapter-rest/rest/SSAdapterRest/
   use: true
 learnEpConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 likeConf:
-  executeOpAtStartUp: false
   use: true
-  op: null
 logConf:
-  executeOpAtStartUp: false
   logLevel: debug
   logLevelRoot: debug
-  op: null
   use: true
 lomExtractorConf:
-  executeOpAtStartUp: false
-  inputDirPath: null
-  op: null
-  outputResourceLangFileName: null
-  outputResourceMetadataFileName: null
-  outputResourceRecommFileName: null
   use: false
-  useEPrints: true
-  useEdunet: false
 messageConf:
   use: true
 modelConf:
-  daysToRetrieveEvents: 60
-  executeOpAtStartUp: false
-  initAtStartUp: true
-  op: null
-  use: true
+  use: false
 flagConf:
   use: true
-  executeOpAtStartUp: #true, false
-  op:
 ratingConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 recommConf:
-  executeOpAtStartUp: #true, false
+  use: true
+  initAtStartUp: false
+  initAtStartUpOps:
+  schedule: true
+  executeScheduleAtStartUp: false
+  scheduleOps:
+  scheduleIntervals:
   fileNameForTagRec: hugo1.txt
   fileNameForResourceRec: hugo2.txt
-  initAtStartUp: #true, false
-  op: 
-  updateInterval: #in minutes
-  use: true
-  usePrivateTagsToo: #true, false
+  usePrivateTagsToo: true
 searchConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 solrConf:
-  executeOpAtStartUp: false
   fileRepoType: solr
-  op: null
   password: null
   path: http://localhost:8084/solr/
-  use: true
+  use: false
   user: null
 ssConf:
-  executeOpAtStartUp: false
   host: localhost
   localWorkPath:
-  op: null
   port: 7001
   use: true
   version: #version of sss with respect to github
 tagConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 ueConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 userConf:
-  executeOpAtStartUp: false
-  op: null
   use: true
 videoConf:
   use: true
 vocConf:
   use: true
-  uriPrefix:
+  uriPrefix: http://localhost:8080/ss-adapter-rest/

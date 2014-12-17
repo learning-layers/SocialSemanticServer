@@ -20,41 +20,23 @@
 */
 package at.kc.tugraz.ss.recomm.conf;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 
 public class SSRecommConf extends SSServConfA{
 
-  public    Boolean         initAtStartUp                  = null;
-  public    String          fileNameForTagRec              = null;
-  public    String          fileNameForResourceRec         = null;
-  protected Integer         updateInterval                 = SSDateU.dayInMinutes;
-  public    Boolean         usePrivateTagsToo              = null;
+  public String        fileNameForTagRec          = null;
+  public String        fileNameForResourceRec     = null;
+  public Boolean       usePrivateTagsToo          = null;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
-    copy.initAtStartUp          = orig.initAtStartUp;
     copy.fileNameForTagRec      = orig.fileNameForTagRec;
     copy.fileNameForResourceRec = orig.fileNameForResourceRec;
-    copy.updateInterval         = orig.getUpdateInterval();
     copy.usePrivateTagsToo      = orig.usePrivateTagsToo;
     
     return copy;
-  }
-  
-  public void setUpdateInterval(final Integer value){
-    
-    try{
-      updateInterval = Integer.valueOf(value);
-    }catch(Exception error){
-      updateInterval = 60;
-    }
-  }
-  
-  public Integer getUpdateInterval(){
-    return updateInterval;
   }
     
 //  public String          rPath                                                                                         = null;

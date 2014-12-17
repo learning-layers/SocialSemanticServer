@@ -253,7 +253,6 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
         SSLogU.warn(par.authToken + " didnt receive latest information from evernote | more than 100.000 (new) entries available");
       }
       
-      
       return SSEvernoteInfo.get(
         userStore, 
         noteStore,

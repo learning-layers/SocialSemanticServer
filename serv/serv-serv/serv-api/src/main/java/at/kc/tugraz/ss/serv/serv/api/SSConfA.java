@@ -21,17 +21,49 @@
 package at.kc.tugraz.ss.serv.serv.api;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class SSConfA{
-  public Boolean  use                = false;
-  public Boolean  executeOpAtStartUp = false;
-  public SSMethU  op                 = null;
   
+  public Boolean       use                        = false;
+  public Boolean       initAtStartUp              = false;
+  public List<SSMethU> initAtStartUpOps           = new ArrayList<>();
+  public Boolean       schedule                   = false;
+  public Boolean       executeScheduleAtStartUp   = false;
+  public List<SSMethU> scheduleOps                = new ArrayList<>();
+  public List<Integer> scheduleIntervals          = new ArrayList<>();
+  public Boolean       executeOpAtStartUp         = false;
+  public SSMethU       op                         = null;
+
   public static SSConfA copy(
     final SSConfA orig, 
     final SSConfA copy){
     
-    copy.use                = orig.use;
+    copy.use                    = orig.use;
+    copy.initAtStartUp          = orig.initAtStartUp;
+    
+    if(orig.initAtStartUpOps == null){
+      copy.initAtStartUpOps = new ArrayList<>();
+    }else{
+      copy.initAtStartUpOps.addAll(orig.initAtStartUpOps);
+    }
+    
+    copy.schedule                 = orig.schedule;
+    copy.executeScheduleAtStartUp = orig.executeScheduleAtStartUp;
+    
+    if(orig.scheduleOps == null){
+      copy.scheduleOps = new ArrayList<>();
+    }else{
+      copy.scheduleOps.addAll(orig.scheduleOps);
+    }
+    
+    if(orig.scheduleIntervals == null){
+      copy.scheduleIntervals = new ArrayList<>();
+    }else{
+      copy.scheduleIntervals.addAll(orig.scheduleIntervals);
+    }
+    
     copy.executeOpAtStartUp = orig.executeOpAtStartUp;
     copy.op                 = orig.op;
     

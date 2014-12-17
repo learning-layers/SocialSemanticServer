@@ -42,6 +42,13 @@ public class SSDateU{
 		return System.nanoTime();
 	}
   
+  public static void scheduleNow(final TimerTask updater){
+    
+    Timer  timer = new Timer(); 
+    
+    timer.schedule(updater, new Date()); 
+  }
+  
   public static void scheduleAtFixedRate(final TimerTask updater, final Date date, final long timeBetween){
     
     Timer  timer = new Timer(); 

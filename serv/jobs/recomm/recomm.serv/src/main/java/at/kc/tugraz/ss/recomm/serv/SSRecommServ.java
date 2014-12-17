@@ -21,6 +21,9 @@
 package at.kc.tugraz.ss.recomm.serv;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
@@ -30,7 +33,6 @@ import at.kc.tugraz.ss.recomm.serv.task.SSRecommResourcesUpdateTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommTagsUpdateTask;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
 
 public class SSRecommServ extends SSServA{
@@ -49,39 +51,117 @@ public class SSRecommServ extends SSServA{
     return new SSRecommImpl(servConf);
   }
   
-  public void schedule() throws Exception{
-    
-    if(!servConf.use){
-      return;
-    }
-    
-    if(!((SSRecommConf)servConf).initAtStartUp){
-      SSServCaller.recommTagsUpdate();
-      SSServCaller.recommResourcesUpdate();
-    }
-
-    SSDateU.scheduleAtFixedRate(
-      new SSRecommTagsUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
-      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
-    
-    SSDateU.scheduleAtFixedRate(
-      new SSRecommResourcesUpdateTask(),
-      SSDateU.getDatePlusMinutes(((SSRecommConf)servConf).getUpdateInterval()),
-      ((SSRecommConf)servConf).getUpdateInterval() * SSDateU.minuteInMilliSeconds);
-  }
-  
   @Override
   public void initServ() throws Exception{
     
+    final SSRecommConf recommConf = (SSRecommConf)servConf;
+    
     if(
-      !servConf.use ||
-      !((SSRecommConf)servConf).initAtStartUp){
+      !recommConf.use ||
+      !recommConf.initAtStartUp){
       return;
     }
     
-    SSServCaller.recommTagsUpdate();
-    SSServCaller.recommResourcesUpdate();
+    if(
+      recommConf.initAtStartUpOps == null ||
+      recommConf.initAtStartUpOps.isEmpty()){
+      
+      SSLogU.warn("attempt to init at startup | ops empty");
+      return;
+    }
+    
+    for(SSMethU initAtStartUpOp : recommConf.initAtStartUpOps){
+      
+      switch(initAtStartUpOp){
+        
+        case recommTagsUpdate:{
+          SSDateU.scheduleNow(new SSRecommTagsUpdateTask());
+          break;
+        }
+        
+        case recommResourcesUpdate:{
+          SSDateU.scheduleNow(new SSRecommResourcesUpdateTask());
+          break;
+        }
+        
+        default:{
+          SSLogU.warn("attempt to init op with no init task defined");
+        }
+      }
+    }
+  }
+  
+  @Override
+  public void schedule() throws Exception{
+    
+    final SSRecommConf recommConf = (SSRecommConf)servConf;
+    
+    if(
+      !recommConf.use ||
+      !recommConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(recommConf.scheduleOps, recommConf.scheduleIntervals) ||
+      recommConf.scheduleOps.isEmpty()                                    ||
+      recommConf.scheduleIntervals.isEmpty()                              ||
+      recommConf.scheduleOps.size() != recommConf.scheduleIntervals.size()){
+      
+      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      return;
+    }
+    
+    if(recommConf.executeScheduleAtStartUp){
+      
+      for(SSMethU scheduleOp : recommConf.scheduleOps){
+        
+        switch(scheduleOp){
+          
+          case recommTagsUpdate:{
+            SSDateU.scheduleNow(new SSRecommTagsUpdateTask());
+            break;
+          }
+          
+          case recommResourcesUpdate:{
+            SSDateU.scheduleNow(new SSRecommResourcesUpdateTask());
+            break;
+          }
+          
+          default:{
+            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
+          }
+        }
+      }
+    }
+    
+    for(int counter = 0; counter < recommConf.scheduleOps.size(); counter++){
+      
+      switch(recommConf.scheduleOps.get(counter)){
+        
+        case recommTagsUpdate:{
+          
+          SSDateU.scheduleAtFixedRate(
+            new SSRecommTagsUpdateTask(),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          break;
+        }
+        
+        case recommResourcesUpdate:{
+          
+          SSDateU.scheduleAtFixedRate(
+            new SSRecommResourcesUpdateTask(),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          break;
+        }
+        
+        default:{
+            SSLogU.warn("attempt to schedule op with no schedule task defined");
+          }
+      }
+    }
   }
   
   @Override
