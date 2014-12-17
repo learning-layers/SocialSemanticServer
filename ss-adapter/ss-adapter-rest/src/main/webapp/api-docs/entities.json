@@ -4,18 +4,6 @@
   "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs",
   "resourcePath" : "/entities",
   "apis" : [ {
-    "path" : "/entities",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "retrieve information on entities the user can access",
-      "notes" : "",
-      "type" : "SSEntityUserGetNewRet",
-      "nickname" : "entitiesUserGetNew",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ ]
-    } ]
-  }, {
     "path" : "/entities/{entity}",
     "operations" : [ {
       "method" : "GET",
@@ -32,6 +20,18 @@
         "paramType" : "path",
         "allowMultiple" : false
       } ]
+    } ]
+  }, {
+    "path" : "/entities",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve information on entities the user can access",
+      "notes" : "",
+      "type" : "SSEntityUserGetNewRet",
+      "nickname" : "entitiesUserGetNew",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ ]
     } ]
   } ],
   "models" : {
@@ -100,10 +100,6 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -165,6 +161,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",

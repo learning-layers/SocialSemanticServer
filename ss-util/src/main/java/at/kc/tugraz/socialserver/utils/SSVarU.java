@@ -24,6 +24,9 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String requireds                                      = "requireds";
+  public static final String absents                                        = "absents";
+  public static final String eithers                                        = "eithers";
   public static final String like                                           = "like";
   public static final String likes                                          = "likes";
   public static final String dislikes                                       = "dislikes";
@@ -73,6 +76,8 @@ public class SSVarU{
   public static final String pageNumbers                                    = "pageNumbers";
   public static final String minRating                                      = "minRating";
   public static final String maxRating                                      = "maxRating";
+  public static final String localSearchOp                                  = "localSearchOp";
+  public static final String globalSearchOp                                 = "globalSearchOp";
   public static final String pageNumber                                     = "pageNumber";
   public static final String keywordsToSearchFor                            = "keywordsToSearchFor";
   public static final String flags                                          = "flags";

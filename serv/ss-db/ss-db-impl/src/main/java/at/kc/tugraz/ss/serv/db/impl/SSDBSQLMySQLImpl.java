@@ -335,7 +335,9 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final String       table, 
     final List<String> columns, 
     final List<String> matches, 
-    final List<String> againsts) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
 //      SELECT * FROM articles
 //    -> WHERE MATCH (title,body)
@@ -356,8 +358,16 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
     
-    for(String against : againsts){
-      query += against + "*" + SSStrU.blank;
+    for(String required : requireds){
+      query += "+" + required + "*" + SSStrU.blank;
+    }
+    
+    for(String absent : absents){
+      query += "-" + absent + "*" + SSStrU.blank;
+    }
+    
+    for(String either : eithers){
+      query += either + "*" + SSStrU.blank;
     }
     
     query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE);";

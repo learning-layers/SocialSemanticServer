@@ -21,12 +21,12 @@
 package at.kc.tugraz.ss.test.search;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +78,10 @@ public class SSSearchTest extends SSServOpTestCaseA{
         false,
         null,
         null, 
-        null, 
-        null);
+        null,  //minRating 
+        null,  //maxRating
+        SSSearchOpE.or, //localSearchOp
+        SSSearchOpE.or); //globalSearchOp
     
     if(result.pageNumbers > 1){
       
@@ -104,9 +106,11 @@ public class SSSearchTest extends SSServOpTestCaseA{
           false,
           false,
           result.pagesID,
-          result.pageNumber + 1, 
-          null, 
-          null);
+          result.pageNumber + 1,
+          null,  //minRating
+          null,  //maxRating
+          SSSearchOpE.or, //localSearchOp
+          SSSearchOpE.or); //globalSearchOp
     }
     
     System.out.println (op + " test end");

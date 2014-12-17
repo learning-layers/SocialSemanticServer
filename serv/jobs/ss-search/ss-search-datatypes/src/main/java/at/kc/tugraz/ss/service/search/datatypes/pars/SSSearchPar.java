@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -176,12 +177,32 @@ public class SSSearchPar extends SSServPar{
     value = "minimum overall star rating the entity must have to be returned")
   public Integer              minRating             = null;
   
-    @XmlElement
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "maximum overall star rating the entity must have to be returned")
   public Integer              maxRating             = null;
+    
+  @ApiModelProperty(
+    required = false,
+    value = "how results will be comined for query parameter separately (i.e. or | and; e.g. and: results have to match for all tags given in tagsToSearchFor)")
+  public SSSearchOpE              localSearchOp     = SSSearchOpE.or;
   
+  @XmlElement
+  public void setLocalSearchOp(final String localSearchOp) throws Exception{
+    try{ this.localSearchOp = SSSearchOpE.valueOf(localSearchOp); }catch(Exception error){}
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)")
+  public SSSearchOpE              globalSearchOp     = SSSearchOpE.or;
+  
+  @XmlElement
+  public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
+    try{ this.globalSearchOp = SSSearchOpE.valueOf(globalSearchOp); }catch(Exception error){}
+  }
+    
   public SSSearchPar(){}
   
   public SSSearchPar(final SSServPar par) throws Exception{
@@ -212,6 +233,7 @@ public class SSSearchPar extends SSServPar{
         pageNumber                 = (Integer)                pars.get(SSVarU.pageNumber);
         minRating                  = (Integer)                pars.get(SSVarU.minRating);
         maxRating                  = (Integer)                pars.get(SSVarU.maxRating);
+        localSearchOp              = (SSSearchOpE)            pars.get(SSVarU.localSearchOp);
       }
       
       if(par.clientJSONObj != null){
@@ -283,6 +305,7 @@ public class SSSearchPar extends SSServPar{
         try{ pageNumber                   = par.clientJSONObj.get(SSVarU.pageNumber).getIntValue();                                                                                }catch(Exception error){}
         try{ minRating                    = par.clientJSONObj.get(SSVarU.minRating).getIntValue();                                                                                 }catch(Exception error){}
         try{ maxRating                    = par.clientJSONObj.get(SSVarU.maxRating).getIntValue();                                                                                 }catch(Exception error){}
+        try{ localSearchOp                = SSSearchOpE.valueOf(par.clientJSONObj.get(SSVarU.localSearchOp).getTextValue());                                                       }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -304,5 +327,13 @@ public class SSSearchPar extends SSServPar{
   
   public List<String> getEntitiesToSearchWithin() throws Exception{
     return SSStrU.removeTrailingSlash(entitiesToSearchWithin);
+  }
+  
+  public String getLocalSearchOp() throws Exception{
+    return SSStrU.toStr(localSearchOp);
+  }
+  
+  public String getGlobalSearchOp() throws Exception{
+    return SSStrU.toStr(globalSearchOp);
   }
 }

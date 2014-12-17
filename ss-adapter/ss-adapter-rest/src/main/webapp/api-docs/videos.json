@@ -4,30 +4,6 @@
   "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs",
   "resourcePath" : "/videos",
   "apis" : [ {
-    "path" : "/videos/{video}/annotations",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add an annotation to a video",
-      "notes" : "",
-      "type" : "SSVideoUserAnnotationAddRet",
-      "nickname" : "videoAnnotationAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "video",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      }, {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSVideoUserAnnotationAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/videos",
     "operations" : [ {
       "method" : "POST",
@@ -53,6 +29,30 @@
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ ]
+    } ]
+  }, {
+    "path" : "/videos/{video}/annotations",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add an annotation to a video",
+      "notes" : "",
+      "type" : "SSVideoUserAnnotationAddRet",
+      "nickname" : "videoAnnotationAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "video",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      }, {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSVideoUserAnnotationAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
     } ]
   } ],
   "models" : {
@@ -272,10 +272,6 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -337,6 +333,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -407,10 +407,6 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -472,6 +468,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",

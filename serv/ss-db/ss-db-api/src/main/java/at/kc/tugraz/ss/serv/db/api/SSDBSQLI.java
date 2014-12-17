@@ -53,7 +53,9 @@ public interface SSDBSQLI{
     final String              table, 
     final List<String>        columns, 
     final List<String>        matches, 
-    final List<String>        againsts) throws Exception;
+    final List<String>        requireds,
+    final List<String>        absents,
+    final List<String>        eithers) throws Exception;
   
   public ResultSet select(
     final List<String>        tables, 

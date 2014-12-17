@@ -93,8 +93,6 @@ public class SSStrU{
   public  static final String        valueMD5                                 = "MD5";
   public  static final String        valueDataColon                           = "data:";
   public  static final String        valueSemicolonBase64Comma                = ";base64,";
-  public  static final String        valueAnd                                 = "and";
-  public  static final String        valueOr                                  = "or";
   public  static final String        valueCommaXComma                         = ",x,";
   public  static final String        valueColonColon                          = "::";
   public  static final String        valueGot                                 = "got";

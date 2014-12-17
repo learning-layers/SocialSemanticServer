@@ -20,18 +20,18 @@
 */
  package at.kc.tugraz.ss.service.search.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchTagsPar extends SSServPar{
   
   public List<String>      tags             = new ArrayList<>();
-  public String            searchOp         = null;
+  public SSSearchOpE       searchOp         = null;
   public int               maxResultsPerTag = 0;
     
   public SSSearchTagsPar(SSServPar par) throws Exception{
@@ -41,7 +41,7 @@ public class SSSearchTagsPar extends SSServPar{
     try{
       
       if(pars != null){
-        searchOp         = (String)            pars.get(SSVarU.searchOp);
+        searchOp         = (SSSearchOpE)       pars.get(SSVarU.searchOp);
         tags             = (List<String>)      pars.get(SSVarU.tags);
         maxResultsPerTag = (Integer)           pars.get(SSVarU.maxResultsPerTag);
       }
@@ -54,7 +54,7 @@ public class SSSearchTagsPar extends SSServPar{
   public static SSSearchTagsPar get(
     final SSUri             user,
     final List<String>      tags,
-    final String            searchOp,
+    final SSSearchOpE       searchOp,
     final Integer           maxResultsPerTag){
     
     return new SSSearchTagsPar(user, tags, searchOp, maxResultsPerTag);
@@ -63,7 +63,7 @@ public class SSSearchTagsPar extends SSServPar{
   private SSSearchTagsPar(
     final SSUri             user,
     final List<String>      tags,
-    final String            searchOp,
+    final SSSearchOpE       searchOp,
     final Integer           maxResultsPerTag){
     
     super();

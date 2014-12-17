@@ -1170,7 +1170,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
 
   public List<SSEntity> getEntitiesForLabelsAndDescriptions(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -1178,7 +1180,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
       SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
@@ -1188,9 +1189,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       match  (matches, SSSQLVarU.label);
       match  (matches, SSSQLVarU.description);
       
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
       
@@ -1216,7 +1215,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public List<SSEntity> getEntitiesForLabels(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -1224,7 +1225,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
       SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
@@ -1233,9 +1233,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarU.description);
       match  (matches, SSSQLVarU.label);
       
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
         
@@ -1261,7 +1259,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   }
   
   public List<SSEntity> getEntitiesForDescriptions(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -1269,7 +1269,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<SSEntity>            entities  = new ArrayList<>();
       final List<String>              columns   = new ArrayList<>();
       final List<String>              matches   = new ArrayList<>();
-      final List<String>              againsts  = new ArrayList<>();
       SSEntity                        entityObj;
       
       column (columns, SSSQLVarU.id);
@@ -1278,9 +1277,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarU.description);
       match  (matches, SSSQLVarU.description);
       
-      againsts.addAll(keywords);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, againsts);
+      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
         

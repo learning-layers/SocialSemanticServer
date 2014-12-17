@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,51 +38,56 @@ import sss.serv.err.datatypes.SSErrE;
 public class SSSearchFct {
 
   public static List<SSEntity> selectSearchResultsWithRegardToSearchOp(
-    final String                      searchOp,
+    final SSSearchOpE                 searchOp,
     final Map<String, List<SSEntity>> searchResultsPerKeyword) throws Exception{
     
     final List<SSEntity>      searchResults               = new ArrayList<>();
     final List<SSUri>         checkEntityUris             = new ArrayList<>();
     Boolean                   resourceExistsForEachTag;
     
-    if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueAnd)) {
+    switch(searchOp){
       
-      for(List<SSEntity> outerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
-        
-        for(SSEntity outerSearchResult : outerSearchResultForOneKeyword) {
+      case and:{
+        for(List<SSEntity> outerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
           
-          if(!SSStrU.contains(checkEntityUris, outerSearchResult.id)){
+          for(SSEntity outerSearchResult : outerSearchResultForOneKeyword) {
             
-            checkEntityUris.add(outerSearchResult.id);
-            
-            resourceExistsForEachTag = true;
-            
-            for(List<SSEntity> innerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
+            if(!SSStrU.contains(checkEntityUris, outerSearchResult.id)){
               
-              for(SSEntity innerSearchResult : innerSearchResultForOneKeyword) {
+              checkEntityUris.add(outerSearchResult.id);
+              
+              resourceExistsForEachTag = true;
+              
+              for(List<SSEntity> innerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
                 
-                if(!SSStrU.equals(innerSearchResult.id, outerSearchResult.id)) {
-                  resourceExistsForEachTag = false;
-                  break;
+                for(SSEntity innerSearchResult : innerSearchResultForOneKeyword) {
+                  
+                  if(!SSStrU.equals(innerSearchResult.id, outerSearchResult.id)) {
+                    resourceExistsForEachTag = false;
+                    break;
+                  }
                 }
               }
-            }
-            
-            if(resourceExistsForEachTag) {
-              searchResults.add(outerSearchResult);
+              
+              if(resourceExistsForEachTag) {
+                searchResults.add(outerSearchResult);
+              }
             }
           }
         }
-      }
-    }
-    
-    if(SSStrU.equals(searchOp.toLowerCase(), SSStrU.valueOr)) {
-      
-      for(List<SSEntity> searchResultsForOneKeyword : searchResultsPerKeyword.values()) {
-        searchResults.addAll(searchResultsForOneKeyword);
+        
+        break;
       }
       
-      SSStrU.distinctWithoutEmptyAndNull(searchResults);
+      case or:{
+        for(List<SSEntity> searchResultsForOneKeyword : searchResultsPerKeyword.values()) {
+          searchResults.addAll(searchResultsForOneKeyword);
+        }
+        
+        SSStrU.distinctWithoutEmptyAndNull(searchResults);
+        
+        break;
+      }
     }
     
     return searchResults;

@@ -55,6 +55,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
@@ -1020,7 +1021,9 @@ public class SSServCaller {
     final String               pagesID,
     final Integer              pageNumber,
     final Integer              minRating,
-    final Integer              maxRating) throws Exception{
+    final Integer              maxRating,
+    final SSSearchOpE          localSearchOp,
+    final SSSearchOpE          globalSearchOp) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -1046,6 +1049,8 @@ public class SSServCaller {
     opPars.put(SSVarU.pageNumber,                pageNumber);
     opPars.put(SSVarU.minRating,                 minRating);
     opPars.put(SSVarU.maxRating,                 maxRating);
+    opPars.put(SSVarU.localSearchOp,             localSearchOp);
+    opPars.put(SSVarU.globalSearchOp,            globalSearchOp);
     
     return (SSSearchRet) SSServA.callServViaServer(new SSServPar(SSMethU.search, opPars));
   }
@@ -1540,31 +1545,43 @@ public class SSServCaller {
   }
     
   public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.keywords, keywords);
+    opPars.put(SSVarU.requireds, requireds);
+    opPars.put(SSVarU.absents,   absents);
+    opPars.put(SSVarU.eithers,   eithers);
     
     return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForLabelsAndDescriptionsGet, opPars));
   }
   
   public static List<SSEntity> entitiesForLabelsGet(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.keywords, keywords);
+    opPars.put(SSVarU.requireds, requireds);
+    opPars.put(SSVarU.absents,   absents);
+    opPars.put(SSVarU.eithers,   eithers);
     
     return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForLabelsGet, opPars));
   }
   
   public static List<SSEntity> entitiesForDescriptionsGet(
-    final List<String> keywords) throws Exception{
+    final List<String> requireds,
+    final List<String> absents,
+    final List<String> eithers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.keywords, keywords);
+    opPars.put(SSVarU.requireds, requireds);
+    opPars.put(SSVarU.absents,   absents);
+    opPars.put(SSVarU.eithers,   eithers);
     
     return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesForDescriptionsGet, opPars));
   }

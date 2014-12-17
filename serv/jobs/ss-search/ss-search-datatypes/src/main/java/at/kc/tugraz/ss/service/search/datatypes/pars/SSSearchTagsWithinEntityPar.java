@@ -25,13 +25,15 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchTagsWithinEntityPar extends SSServPar{
   
-  public SSUri         entity  = null;
-  public List<String>  tags    = new ArrayList<>();
+  public SSUri         entity   = null;
+  public List<String>  tags     = new ArrayList<>();
+  public SSSearchOpE   searchOp = null;
     
   public SSSearchTagsWithinEntityPar(SSServPar par) throws Exception{
       
@@ -41,6 +43,7 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
       if(pars != null){
         entity       = (SSUri)                                          pars.get(SSVarU.entity);
         tags         = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tags), SSStrU.comma);
+        searchOp     = (SSSearchOpE)                                    pars.get(SSVarU.searchOp);
       }
       
     }catch(Exception error){
@@ -51,20 +54,23 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
   public static SSSearchTagsWithinEntityPar get(
     final SSUri        user,
     final SSUri        entity, 
-    final List<String> tags) throws Exception{
+    final List<String> tags,
+    final SSSearchOpE  searchOp) throws Exception{
     
-    return new SSSearchTagsWithinEntityPar(user, entity, tags);
+    return new SSSearchTagsWithinEntityPar(user, entity, tags, searchOp);
   }
   
   private SSSearchTagsWithinEntityPar(
     final SSUri        user,
     final SSUri        entity,
-    final List<String> tags) throws Exception{
+    final List<String> tags,
+    final SSSearchOpE  searchOp) throws Exception{
     
     super();
     
-    this.user   = user;
-    this.entity = entity;
+    this.user      = user;
+    this.entity   = entity;
+    this.searchOp = searchOp;
     
     if(tags != null){
       this.tags.addAll(tags);

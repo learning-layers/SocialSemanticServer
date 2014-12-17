@@ -24,12 +24,13 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.util.List;
 
 public class SSSearchMIsPar extends SSServPar{
   
   public List<String> mIs        = null;
-  public String       searchOp   = null;
+  public SSSearchOpE  searchOp   = null;
   
   public SSSearchMIsPar(SSServPar par) throws Exception{
   
@@ -38,8 +39,8 @@ public class SSSearchMIsPar extends SSServPar{
     try{
       
       if(pars != null){
-        searchOp   = (String)       pars.get(SSVarU.searchOp);
-        mIs        = (List<String>) pars.get(SSVarU.mIs);
+        searchOp   = (SSSearchOpE)       pars.get(SSVarU.searchOp);
+        mIs        = (List<String>)      pars.get(SSVarU.mIs);
       }
       
     }catch(Exception error){
@@ -49,14 +50,14 @@ public class SSSearchMIsPar extends SSServPar{
   
   public static SSSearchMIsPar get(
     final List<String> mIs,
-    final String       searchOp) throws Exception{
+    final SSSearchOpE  searchOp) throws Exception{
     
     return new SSSearchMIsPar(mIs, searchOp);
   }
   
   private SSSearchMIsPar(
     final List<String> mIs,
-    final String       searchOp) throws Exception{
+    final SSSearchOpE  searchOp) throws Exception{
     
     super();
     

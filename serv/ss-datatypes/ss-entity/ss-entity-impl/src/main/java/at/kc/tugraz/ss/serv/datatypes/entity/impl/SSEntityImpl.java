@@ -1297,7 +1297,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForLabelsAndDescriptionsGetPar  par = new SSEntitiesForLabelsAndDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForLabelsAndDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+      return sqlFct.getEntitiesForLabelsAndDescriptions(
+        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
+        SSStrU.distinctWithoutEmptyAndNull(par.absents),
+        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1310,7 +1314,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForLabelsGetPar  par      = new SSEntitiesForLabelsGetPar(parA);
 
-      return sqlFct.getEntitiesForLabels(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+      return sqlFct.getEntitiesForLabels(
+        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
+        SSStrU.distinctWithoutEmptyAndNull(par.absents),
+        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1323,7 +1331,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForDescriptionsGetPar  par      = new SSEntitiesForDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForDescriptions(SSStrU.distinctWithoutEmptyAndNull(par.keywords));
+      return sqlFct.getEntitiesForDescriptions(
+        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
+        SSStrU.distinctWithoutEmptyAndNull(par.absents),
+        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

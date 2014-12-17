@@ -28,7 +28,9 @@ import java.util.List;
 
 public class SSEntitiesForDescriptionsGetPar extends SSServPar{
   
-  public List<String> keywords = new ArrayList<>();
+  public List<String> requireds = new ArrayList<>();
+  public List<String> absents   = new ArrayList<>();
+  public List<String> eithers   = new ArrayList<>();
     
   public SSEntitiesForDescriptionsGetPar(SSServPar par) throws Exception{
       
@@ -37,7 +39,9 @@ public class SSEntitiesForDescriptionsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        keywords       = (List<String>)            pars.get(SSVarU.keywords);
+        requireds       = (List<String>)            pars.get(SSVarU.requireds);
+        absents         = (List<String>)            pars.get(SSVarU.absents);
+        eithers         = (List<String>)            pars.get(SSVarU.eithers);
       }
       
     }catch(Exception error){

@@ -76,40 +76,40 @@ public class SSSearchMiscFct{
     }
   }
 
-  public static List<SSEntity> searchForLabelAndDescription(
-    final List<String> keywords,
-    final Boolean      includeDescription,
-    final Boolean      includeLabel) throws Exception{
-    
-    try{
-      final List<SSEntity> labelAndDescSearchResults = new ArrayList<>();
-      
-      if(
-        includeDescription &&
-        includeLabel){
-        
-        labelAndDescSearchResults.addAll(SSServCaller.entitiesForLabelsAndDescriptionsGet(keywords));
-      }
-      
-      if(
-        includeDescription &&
-        !includeLabel){
-        
-        labelAndDescSearchResults.addAll(SSServCaller.entitiesForDescriptionsGet(keywords));
-      }
-      
-      if(
-        !includeDescription &&
-        includeLabel){
-        
-        labelAndDescSearchResults.addAll(SSServCaller.entitiesForLabelsGet(keywords));
-      }
-      
-      return labelAndDescSearchResults;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+//  public static List<SSEntity> searchForLabelAndDescription(
+//    final List<String> keywords,
+//    final Boolean      includeDescription,
+//    final Boolean      includeLabel) throws Exception{
+//    
+//    try{
+//      final List<SSEntity> labelAndDescSearchResults = new ArrayList<>();
+//      
+//      if(
+//        includeDescription &&
+//        includeLabel){
+//        
+//        labelAndDescSearchResults.addAll(SSServCaller.entitiesForLabelsAndDescriptionsGet(keywords));
+//      }
+//      
+//      if(
+//        includeDescription &&
+//        !includeLabel){
+//        
+//        labelAndDescSearchResults.addAll(SSServCaller.entitiesForDescriptionsGet(keywords));
+//      }
+//      
+//      if(
+//        !includeDescription &&
+//        includeLabel){
+//        
+//        labelAndDescSearchResults.addAll(SSServCaller.entitiesForLabelsGet(keywords));
+//      }
+//      
+//      return labelAndDescSearchResults;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
 }

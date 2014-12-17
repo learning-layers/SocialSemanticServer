@@ -5,29 +5,29 @@
     "path" : "/auths.{format}",
     "description" : "SSS REST API for authentication"
   }, {
-    "path" : "/entities.{format}",
-    "description" : "SSS REST API for entities"
-  }, {
-    "path" : "/SSAdapterRESTFile.{format}",
-    "description" : "SSS File REST API"
+    "path" : "/videos.{format}",
+    "description" : "SSS REST API for videos"
   }, {
     "path" : "/circles.{format}",
     "description" : "SSS REST API for circles (groups)"
   }, {
-    "path" : "/SSAdapterRESTFileUpload.{format}",
-    "description" : "SSS File Upload REST API"
+    "path" : "/SSAdapterRESTFileReplace.{format}",
+    "description" : "SSS File Replace REST API"
   }, {
     "path" : "/SSAdapterRest.{format}",
     "description" : "SSS REST API"
   }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}",
+    "description" : "SSS File REST API"
+  }, {
     "path" : "/SSAdapterRESTFileDownload.{format}",
     "description" : "SSS File Download REST API"
   }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}",
-    "description" : "SSS File Replace REST API"
-  }, {
-    "path" : "/videos.{format}",
-    "description" : "SSS REST API for videos"
+    "path" : "/entities.{format}",
+    "description" : "SSS REST API for entities"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

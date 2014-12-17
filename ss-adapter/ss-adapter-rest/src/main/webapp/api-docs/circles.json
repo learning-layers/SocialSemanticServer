@@ -4,6 +4,24 @@
   "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs",
   "resourcePath" : "/circles",
   "apis" : [ {
+    "path" : "/circles/{circle}",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve a certain circle",
+      "notes" : "",
+      "type" : "SSEntityUserCircleGetRet",
+      "nickname" : "entityCircleGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "circle",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/circles/{circle}/entities",
     "operations" : [ {
       "method" : "POST",
@@ -77,24 +95,6 @@
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ ]
-    } ]
-  }, {
-    "path" : "/circles/{circle}",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "retrieve a certain circle",
-      "notes" : "",
-      "type" : "SSEntityUserCircleGetRet",
-      "nickname" : "entityCircleGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "circle",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      } ]
     } ]
   } ],
   "models" : {
@@ -175,10 +175,6 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -241,6 +237,10 @@
             "type" : "string"
           }
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
@@ -295,18 +295,18 @@
     "SSEntityUserUsersToCircleAddPar" : {
       "id" : "SSEntityUserUsersToCircleAddPar",
       "description" : "",
-      "required" : [ "users", "circle" ],
+      "required" : [ "circle", "users" ],
       "properties" : {
+        "circle" : {
+          "type" : "string",
+          "description" : "circle to add users to"
+        },
         "users" : {
           "type" : "array",
           "description" : "users to add",
           "items" : {
             "type" : "string"
           }
-        },
-        "circle" : {
-          "type" : "string",
-          "description" : "circle to add users to"
         },
         "key" : {
           "type" : "string",
@@ -386,18 +386,18 @@
     "SSEntityUserEntitiesToCircleAddPar" : {
       "id" : "SSEntityUserEntitiesToCircleAddPar",
       "description" : "",
-      "required" : [ "entities", "circle" ],
+      "required" : [ "circle", "entities" ],
       "properties" : {
+        "circle" : {
+          "type" : "string",
+          "description" : "circle to add entities to"
+        },
         "entities" : {
           "type" : "array",
           "description" : "entities to add",
           "items" : {
             "type" : "string"
           }
-        },
-        "circle" : {
-          "type" : "string",
-          "description" : "circle to add entities to"
         },
         "key" : {
           "type" : "string",
