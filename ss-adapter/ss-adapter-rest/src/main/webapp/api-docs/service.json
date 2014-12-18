@@ -2,17 +2,14 @@
   "apiVersion" : "7.0.4-alpha",
   "swaggerVersion" : "1.2",
   "apis" : [ {
+    "path" : "/SSAdapterRESTFile.{format}",
+    "description" : "SSS File REST API"
+  }, {
     "path" : "/auths.{format}",
     "description" : "SSS REST API for authentication"
   }, {
-    "path" : "/videos.{format}",
-    "description" : "SSS REST API for videos"
-  }, {
-    "path" : "/circles.{format}",
-    "description" : "SSS REST API for circles (groups)"
-  }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}",
-    "description" : "SSS File Replace REST API"
+    "path" : "/entities.{format}",
+    "description" : "SSS REST API for entities"
   }, {
     "path" : "/SSAdapterRest.{format}",
     "description" : "SSS REST API"
@@ -20,14 +17,17 @@
     "path" : "/SSAdapterRESTFileUpload.{format}",
     "description" : "SSS File Upload REST API"
   }, {
-    "path" : "/SSAdapterRESTFile.{format}",
-    "description" : "SSS File REST API"
+    "path" : "/circles.{format}",
+    "description" : "SSS REST API for circles (groups)"
+  }, {
+    "path" : "/SSAdapterRESTFileReplace.{format}",
+    "description" : "SSS File Replace REST API"
+  }, {
+    "path" : "/videos.{format}",
+    "description" : "SSS REST API for videos"
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}",
     "description" : "SSS File Download REST API"
-  }, {
-    "path" : "/entities.{format}",
-    "description" : "SSS REST API for entities"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
@@ -37,5 +37,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs"
 }

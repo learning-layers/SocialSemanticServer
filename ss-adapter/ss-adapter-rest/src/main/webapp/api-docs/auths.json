@@ -1,7 +1,7 @@
 {
   "apiVersion" : "7.0.4-alpha",
   "swaggerVersion" : "1.2",
-  "basePath" : "https://api.learning-layers.eu/sss/achso/api-docs",
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs",
   "resourcePath" : "/auths",
   "apis" : [ {
     "path" : "/auths",
