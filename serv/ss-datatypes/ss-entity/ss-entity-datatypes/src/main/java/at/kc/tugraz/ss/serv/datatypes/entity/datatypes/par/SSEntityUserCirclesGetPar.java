@@ -22,41 +22,27 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "entityUserCirclesGet request parameter")
 public class SSEntityUserCirclesGetPar extends SSServPar{
 
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to retrieve circles for (optional)")
   public SSUri   forUser             = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
   public Boolean withSystemCircles   = false;
   
   public SSEntityUserCirclesGetPar(
     final SSMethU  op,
     final String   key,
-    final String   forUser,
+    final SSUri    forUser,
     final Boolean  withSystemCircles) throws Exception{
     
     super(op, key);
     
     this.withSystemCircles = withSystemCircles;
-    
-    try{ this.forUser   = SSUri.get(forUser);   }catch(Exception error){}
+    this.forUser           = forUser;
   }
   
-  public SSEntityUserCirclesGetPar(){}
-    
   public SSEntityUserCirclesGetPar(final SSServPar par) throws Exception{
     
     super(par);

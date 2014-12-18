@@ -14,7 +14,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -32,7 +32,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -50,7 +50,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -68,7 +68,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -86,7 +86,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v1</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -109,7 +109,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v1</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -127,7 +127,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v1</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -145,7 +145,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v1</param-value>
     </init-param>
     
     <!-- new jersey start -->
@@ -163,7 +163,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
-      <param-value>at.kc.tugraz.ss.adapter.rest</param-value>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v1</param-value>
     </init-param>
     
     <!-- new jersey start -->

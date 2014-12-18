@@ -19,7 +19,13 @@ The source-code can be directly checked-out through this repository. It contains
  * release: `ss-package/api-docs/`
  * src: `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
- * adapt `SSS/ss-adapter/ss-adapter-rest/pom.xml`: change `swagger-maven-plugin` properties `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs/vX` for each api version
+ * adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest/pom.xml`
+  * for apiVersion `v1` change
+   * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest/SSAdapterRest`
+   * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs/v1`
+  * for apiVersion `v2` 
+   * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest`
+   * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs/v2`
  * build and deploy web project `SSS/ss-adapter/ss-adapter-rest/`
  * adapt `SSS/ss-adapter/ss-adapter-rest/src/main/webapp/swagger/index.html`: change property `url` of object `SwaggerUi` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs/vX`
 

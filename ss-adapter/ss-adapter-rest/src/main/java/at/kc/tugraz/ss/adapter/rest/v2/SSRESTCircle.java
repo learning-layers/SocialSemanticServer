@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCirclesGetPar;
@@ -94,10 +95,11 @@ public class SSRESTCircle {
       return SSRestMain.handleGETRequest(
         headers,
         new SSEntityUserCircleGetPar(
-          SSMethU.entityCircleGet,
+          SSMethU.entityCircleGet, 
+          null, 
+          null, 
           null,
-          null,
-          URLDecoder.decode(circle, SSEncodingU.utf8),
+          SSUri.get(URLDecoder.decode(circle, SSEncodingU.utf8)), 
           false));
       
     }catch(Exception error){

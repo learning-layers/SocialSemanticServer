@@ -23,52 +23,35 @@ package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "authCheckCred request parameter")
 public class SSAuthCheckCredPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "name of the user, e.g. 'hugo'" )
-  public SSLabel label;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
+  public SSLabel label = null;
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "the user’s password" )
-  public String password;
+  public String  password = null;
 
-  public SSAuthCheckCredPar(){}
-    
   public SSAuthCheckCredPar(
-    final SSMethU op, 
+    final SSMethU op,
     final String  key,
-    final String  label, 
-    final String  password) throws Exception{
+    final SSUri   user,
+    final SSLabel label, 
+    final String  password){
     
-    super(op, key);
+    super(op, key, user);
     
-    try{ 
-      this.label    = SSLabel.get(label); 
-    }catch(Exception error){}
-
+    this.label    = label;
     this.password = password;
   }
   
-  public SSAuthCheckCredPar(SSServPar par) throws Exception{
+  public SSAuthCheckCredPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -81,18 +64,17 @@ public class SSAuthCheckCredPar extends SSServPar{
       
       if(par.clientJSONObj != null){
 
-        try{ password  = par.clientJSONObj.get(SSVarU.password).getTextValue(); }catch(Exception error){}
+        try{
+          password  = par.clientJSONObj.get(SSVarU.password).getTextValue();
+        }catch(Exception error){}
 
-        try{ label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue()); }catch(Exception error){}
+        try{ 
+          label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue()); 
+        }catch(Exception error){}
       }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  /* json getters */
-  public String getLabel(){
-    return SSStrU.toStr(label);
   }
 }

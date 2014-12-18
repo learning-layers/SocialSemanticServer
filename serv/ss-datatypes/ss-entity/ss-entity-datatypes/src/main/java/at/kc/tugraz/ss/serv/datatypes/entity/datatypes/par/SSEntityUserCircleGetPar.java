@@ -21,35 +21,11 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entityUserCircleGet request parameter")
 public class SSEntityUserCircleGetPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "circle the circle to retrieve")
   public SSUri   circle                     = null;
-  
-  @XmlElement
-  public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "user for which the circle shall be retrieved")
   public SSUri   forUser                    = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
   public Boolean withSystemCircles          = false;
   
   public SSEntityUserCircleGetPar(){}
@@ -57,16 +33,16 @@ public class SSEntityUserCircleGetPar extends SSServPar{
   public SSEntityUserCircleGetPar(
     final SSMethU  op,
     final String   key,
-    final String   forUser,
-    final String   circle,
+    final SSUri    user,
+    final SSUri    forUser,
+    final SSUri    circle,
     final Boolean  withSystemCircles) throws Exception{
     
-    super(op, key);
+    super(op, key, user);
     
+    this.circle            = circle;
+    this.forUser           = forUser;
     this.withSystemCircles = withSystemCircles;
-    this.circle            = SSUri.get(circle);
-    
-    try{ this.forUser   = SSUri.get(forUser);   }catch(Exception error){}
   }
   
   public SSEntityUserCircleGetPar(final SSServPar par) throws Exception{
@@ -76,18 +52,19 @@ public class SSEntityUserCircleGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser              = (SSUri)   pars.get(SSVarU.forUser);
         circle               = (SSUri)   pars.get(SSVarU.circle);
+        forUser              = (SSUri)   pars.get(SSVarU.forUser);
         withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
       }
       
       if(par.clientJSONObj != null){
         
+        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        
         try{
           forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         }catch(Exception error){}
         
-        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
         withSystemCircles = false;
       }
       

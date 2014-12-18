@@ -29,6 +29,9 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIPar;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityUserCircleGetRESTAPIPar;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityUserCirclesGetRESTAPIPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
@@ -45,6 +48,7 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
@@ -188,6 +192,7 @@ import javax.ws.rs.core.MediaType;
 public class SSAdapterRest{
   
   /* start calls with RESTful counterpart */
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -197,25 +202,22 @@ public class SSAdapterRest{
     response = SSAuthCheckCredRet.class)
   public String authCheckCred(
     @Context HttpHeaders     headers,
-    final SSAuthCheckCredPar input) throws Exception{
+    final SSAuthCheckCredRESTAPIPar input) throws Exception{
+    
+    final SSAuthCheckCredPar par = 
+      new SSAuthCheckCredPar(
+        SSMethU.authCheckCred, 
+        null, 
+        null, 
+        input.label, 
+        input.password);
     
     try{
-      input.key = SSRestMain.getBearer(headers);
+      par.key = SSRestMain.getBearer(headers);
     }catch(Exception error){
     }
     
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.authCheckCred);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleGet")
-  @ApiOperation(
-    value = "retrieve a certain circle",
-    response = SSEntityUserCircleGetRet.class)
-  public String entityCircleGet(final SSEntityUserCircleGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleGet);
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
   @POST
@@ -225,9 +227,40 @@ public class SSAdapterRest{
   @ApiOperation(
     value = "retrieve circles the user is in",
     response = SSEntityUserCirclesGetRet.class)
-  public String entityUserCirclesGet(final SSEntityUserCirclesGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityUserCirclesGet);
+  public String entityUserCirclesGet(final SSEntityUserCirclesGetRESTAPIPar input) throws Exception{
+    
+    final SSEntityUserCirclesGetPar par = 
+      new SSEntityUserCirclesGetPar(
+        SSMethU.entityUserCirclesGet, 
+        input.key, 
+        input.forUser, 
+        false);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityCircleGet")
+  @ApiOperation(
+    value = "retrieve a certain circle",
+    response = SSEntityUserCircleGetRet.class)
+  public String entityCircleGet(final SSEntityUserCircleGetRESTAPIPar input) throws Exception{
+    
+    final SSEntityUserCircleGetPar par = 
+      new SSEntityUserCircleGetPar(
+        SSMethU.entityCircleGet, 
+        input.key, 
+        input.user, 
+        input.forUser, 
+        input.circle,
+        false);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  /* stopped here */
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -239,6 +272,10 @@ public class SSAdapterRest{
   public String entityCircleCreate(final SSEntityUserCircleCreatePar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityCircleCreate);
   }
+  
+  
+  
+  
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

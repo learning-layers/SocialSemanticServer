@@ -43,7 +43,7 @@ public class SSRESTAuth{
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @ApiOperation(
-    value = "retrieve sss authentication token (i.e. key) and the user's uri for given authtoken (e.g. OIDC authtoken)",
+    value = "retrieve sss authentication token (i.e. key) and the user's uri for a given authtoken (e.g. OIDC authtoken)",
     response = SSAuthCheckCredRet.class)
   public Response authCheckCred(
     @Context 
@@ -55,6 +55,7 @@ public class SSRESTAuth{
         headers,
         new SSAuthCheckCredPar(
           SSMethU.authCheckCred,
+          null,
           null,
           null,
           null));

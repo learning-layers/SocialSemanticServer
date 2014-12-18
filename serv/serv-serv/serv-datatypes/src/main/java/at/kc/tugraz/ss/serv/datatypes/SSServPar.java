@@ -39,19 +39,19 @@ public class SSServPar{
   @XmlElement 
   @ApiModelProperty( 
     value = "operation to be executed", 
-    required = false)
+    required = true)
   public        SSMethU              op            = null;
   
   @XmlElement 
   @ApiModelProperty( 
     value = "the user's identifier", 
-    required = false)
+    required = true)
   public        SSUri                user          = null;
   
   @XmlElement 
   @ApiModelProperty( 
     value = "the user's access tocken", 
-    required = false)
+    required = true)
   public String key                    = null;
   
   @JsonIgnore (value = true)
@@ -74,6 +74,16 @@ public class SSServPar{
   
   @JsonIgnore (value = true)
   public        JsonNode             clientJSONObj = null;
+  
+  protected SSServPar(
+    final SSMethU op,
+    final String  key,
+    final SSUri   user){
+    
+    this.op   = op;
+    this.key  = key;
+    this.user = user;
+  }
   
   protected SSServPar(
     final SSMethU op,
