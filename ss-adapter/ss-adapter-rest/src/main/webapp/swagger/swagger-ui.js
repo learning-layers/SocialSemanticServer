@@ -1381,8 +1381,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click #show-pet-store-icon': 'showPetStore',
       'click #show-wordnik-dev-icon': 'showWordnikDev',
       'click #explore': 'showCustom',
-      'keyup #input_baseUrl': 'showCustomOnKeyup',
-      'keyup #input_apiKey': 'showCustomOnKeyup'
+//      'keyup #input_baseUrl': 'showCustomOnKeyup',
+      'change #input_baseUrl': 'showCustomOnChange'
+//      'keyup #input_apiKey': 'showCustomOnKeyup'
     };
 
     HeaderView.prototype.initialize = function() {};
@@ -1399,6 +1400,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
+    HeaderView.prototype.showCustomOnChange = function(e) {
+        return this.showCustom();
+    };
+    
     HeaderView.prototype.showCustomOnKeyup = function(e) {
       if (e.keyCode === 13) {
         return this.showCustom();

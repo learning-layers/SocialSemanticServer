@@ -20,6 +20,15 @@
 */
 package at.kc.tugraz.ss.adapter.rest;
 
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTAuth;
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTCircle;
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTEntities;
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTVideo;
+import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRESTFileReplace;
+import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRest;
+import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRESTFileUpload;
+import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRESTFileDownload;
+import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRESTFile;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
@@ -53,7 +62,7 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSRestMain extends Application {
   
-  protected static SSAdapterRestConf conf;
+  public static SSAdapterRestConf conf;
 
   public SSRestMain() throws Exception{
    
@@ -207,14 +216,14 @@ public class SSRestMain extends Application {
     }
   }
   
-  protected static String getBearer(
+  public static String getBearer(
     final HttpHeaders headers) throws Exception{
     
     String bearer = headers.getRequestHeader("authorization").get(0);
     return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
   }
   
-  protected static Response handleGETRequest(
+  public static Response handleGETRequest(
     final HttpHeaders      headers,
     final SSServPar        par){
     
@@ -247,7 +256,7 @@ public class SSRestMain extends Application {
     }
   }
   
-  protected static Response handlePOSTRequest(
+  public static Response handlePOSTRequest(
     final HttpHeaders      headers,
     final SSServPar        par,
     final SSMethU          op){

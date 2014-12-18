@@ -34,16 +34,19 @@
       
        <!-- SWAGGER start -->
       
-     <plugin>
+      <plugin>
         <groupId>com.github.kongchen</groupId>
         <artifactId>swagger-maven-plugin</artifactId>
         <version>2.3</version>
         <configuration>
+         
           <apiSources>
+           
             <apiSource>
-              <locations>at.kc.tugraz.ss.adapter.rest</locations>
-              <apiVersion>${ssVersion}</apiVersion>
-              <basePath>http://localhost:8080/ss-adapter-rest/api-docs</basePath>
+              <apiVersion>v1</apiVersion>
+              <basePath>http://localhost:8080/ss-adapter-rest</basePath>
+              <locations>at.kc.tugraz.ss.adapter.rest.v1</locations>
+              
               <apiInfo>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
@@ -52,15 +55,39 @@
                 <license>${project.license}</license>
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
-              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
+              
+              <swaggerUIDocBasePath>http://localhost:8080/ss-adapter-rest/api-docs/v1</swaggerUIDocBasePath>
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
-              <mustacheFileRoot>${basedir}/src/main/resources/swagger/</mustacheFileRoot>
-              <!--<outputTemplate>${basedir}/src/main/resources/swagger/strapdown.html.sss</outputTemplate>-->
-              <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
-              <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
+              <outputPath>${basedir}/src/main/webapp/api-docs/v1</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/api-docs/v1</swaggerDirectory>
               <useOutputFlatStructure>false</useOutputFlatStructure>
+              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
             </apiSource>
+            
+            <apiSource>
+              <apiVersion>v2</apiVersion>
+              <basePath>http://localhost:8080/ss-adapter-rest</basePath>
+              <locations>at.kc.tugraz.ss.adapter.rest.v2</locations>
+              
+              <apiInfo>
+                <title>Social Semantic Server REST API</title>
+                <description>https://github.com/learning-layers/SocialSemanticServer/</description>
+                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
+                <contact>${project.contact}</contact>
+                <license>${project.license}</license>
+                <licenseUrl>${project.licenseURI}</licenseUrl>
+              </apiInfo>
+              
+              <swaggerUIDocBasePath>http://localhost:8080/ss-adapter-rest/api-docs/v2</swaggerUIDocBasePath>
+              <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
+              <outputPath>${basedir}/src/main/webapp/api-docs/v2</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/api-docs/v2</swaggerDirectory>
+              <useOutputFlatStructure>false</useOutputFlatStructure>
+              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
+            </apiSource>
+            
           </apiSources>
+          
         </configuration>
         <executions>
           <execution>
@@ -226,12 +253,12 @@
     <!-- CORS end --> 
 
     <!-- SWAGGER start --> 
-    <dependency>
+<!--    <dependency>
       <groupId>com.wordnik</groupId>
       <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
       <scope>compile</scope>
       <version>1.3.7</version>
-    </dependency>
+    </dependency>-->
     
     <!-- SWAGGER end --> 
     

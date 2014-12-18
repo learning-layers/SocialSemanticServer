@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   
-  <!-- for swagger api docs start -->
   <welcome-file-list>
     <welcome-file>service.json</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
-  <!-- for swagger api docs end -->
   
   <display-name>SSAdapterRest</display-name>
   
@@ -25,14 +24,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -51,14 +42,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -77,14 +60,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -103,14 +78,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -129,14 +96,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
 <!--    <init-param>
       <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
       <param-value>at.kc.tugraz.ss.adapter.rest.SSAuthFilter</param-value>
@@ -160,14 +119,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -186,14 +137,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -212,14 +155,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -238,14 +173,6 @@
     </init-param>
     <!-- new jersey end -->
         
-    <!-- SWAGGER start -->
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>https://api.learning-layers.eu/sss/achso/</param-value>
-    </init-param>
-    
-    <!-- SWAGGER end -->
-    
     <load-on-startup>1</load-on-startup>
   </servlet>
   
