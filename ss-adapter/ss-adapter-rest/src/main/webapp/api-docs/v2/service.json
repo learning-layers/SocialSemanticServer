@@ -2,6 +2,9 @@
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
   "apis" : [ {
+    "path" : "/entities.{format}",
+    "description" : "SSS REST API for entities"
+  }, {
     "path" : "/videos.{format}",
     "description" : "SSS REST API for videos"
   }, {
@@ -10,9 +13,6 @@
   }, {
     "path" : "/circles.{format}",
     "description" : "SSS REST API for circles (groups)"
-  }, {
-    "path" : "/entities.{format}",
-    "description" : "SSS REST API for entities"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

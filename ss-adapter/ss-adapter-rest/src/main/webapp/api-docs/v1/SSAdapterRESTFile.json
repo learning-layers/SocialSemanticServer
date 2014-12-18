@@ -4,24 +4,6 @@
   "basePath" : "http://localhost:8080/ss-adapter-rest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileCanWrite",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "query whether given file can be downloaded with write access",
-      "notes" : "",
-      "type" : "SSFileCanWriteRet",
-      "nickname" : "fileCanWrite",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileCanWritePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileExtGet",
     "operations" : [ {
       "method" : "POST",
@@ -35,6 +17,24 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileExtGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileCanWrite",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "query whether given file can be downloaded with write access",
+      "notes" : "",
+      "type" : "SSFileCanWriteRet",
+      "nickname" : "fileCanWrite",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileCanWritePar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
