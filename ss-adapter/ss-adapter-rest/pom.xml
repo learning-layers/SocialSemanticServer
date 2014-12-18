@@ -44,7 +44,7 @@
            
             <apiSource>
               <apiVersion>v1</apiVersion>
-              <basePath>http://localhost:8080/ss-adapter-rest</basePath>
+              <basePath>http://localhost:8080/ss-adapter-rest/SSAdapterRest</basePath>
               <locations>at.kc.tugraz.ss.adapter.rest.v1</locations>
               
               <apiInfo>
@@ -252,6 +252,9 @@
     
     <!-- CORS end --> 
 
+  </dependencies>
+</project>
+
     <!-- SWAGGER start --> 
 <!--    <dependency>
       <groupId>com.wordnik</groupId>
@@ -262,10 +265,6 @@
     
     <!-- SWAGGER end --> 
     
-  </dependencies>
-</project>
-
-
 <!--  dtheiler old jersey use
      <dependency>
       <groupId>com.sun.jersey</groupId>

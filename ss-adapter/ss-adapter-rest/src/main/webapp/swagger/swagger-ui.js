@@ -1380,10 +1380,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     HeaderView.prototype.events = {
       'click #show-pet-store-icon': 'showPetStore',
       'click #show-wordnik-dev-icon': 'showWordnikDev',
-      'click #explore': 'showCustom',
-//      'keyup #input_baseUrl': 'showCustomOnKeyup',
       'change #input_baseUrl': 'showCustomOnChange'
-//      'keyup #input_apiKey': 'showCustomOnKeyup'
     };
 
     HeaderView.prototype.initialize = function() {};
@@ -1401,7 +1398,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     HeaderView.prototype.showCustomOnChange = function(e) {
-        return this.showCustom();
+      
+      if (e != null) {
+        e.preventDefault();
+      }
+      
+      return this.trigger('update-swagger-ui', {
+        url: $('#input_baseUrl').find(":selected").text(),
+        apiKey: $('#input_apiKey').val()
+      });
     };
     
     HeaderView.prototype.showCustomOnKeyup = function(e) {

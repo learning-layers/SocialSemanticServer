@@ -7,7 +7,7 @@
     "path" : "/auths",
     "operations" : [ {
       "method" : "GET",
-      "summary" : "retrieve the authentication key and user's uri for credentials",
+      "summary" : "retrieve sss authentication token (i.e. key) and the user's uri for given authtoken (e.g. OIDC authtoken)",
       "notes" : "",
       "type" : "SSAuthCheckCredRet",
       "nickname" : "authCheckCred",

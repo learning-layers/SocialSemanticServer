@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8080/ss-adapter-rest",
+  "basePath" : "http://localhost:8080/ss-adapter-rest/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFileUpload",
   "apis" : [ {
     "path" : "/fileUpload",
