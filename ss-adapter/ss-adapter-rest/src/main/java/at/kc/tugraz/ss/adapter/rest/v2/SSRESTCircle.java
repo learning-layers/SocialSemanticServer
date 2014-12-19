@@ -24,6 +24,10 @@ import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSEntityCircleCreateRESTAPIV2Par;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSEntityEntitiesToCircleAddRESTAPIV2Par;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSEntityUsersToCircleAddRESTAPIV2Par;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGetPar;
@@ -37,7 +41,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserEntitiesT
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import java.net.URLDecoder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -62,19 +65,23 @@ public class SSRESTCircle {
   public Response entityUserCirclesGet(
     @Context HttpHeaders headers){
     
+    final SSEntityUserCirclesGetPar par;
+    
     try{
       
-      return SSRestMain.handleGETRequest(
-        headers,
+      par =
         new SSEntityUserCirclesGetPar(
           SSMethU.entityUserCirclesGet,
           null,
           null,
-          false));
+          null,
+          false);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
+    
+    return SSRestMain.handleGETRequest(headers, par);
   }
   
   @GET
@@ -87,24 +94,27 @@ public class SSRESTCircle {
   public Response entityCircleGet(
     @Context
       HttpHeaders headers,
-    @PathParam(SSVarU.circle) 
+    @PathParam(SSVarU.circle)
       String   circle){
-   
+    
+    final SSEntityUserCircleGetPar par;
+    
     try{
       
-      return SSRestMain.handleGETRequest(
-        headers,
+      par =
         new SSEntityUserCircleGetPar(
-          SSMethU.entityCircleGet, 
-          null, 
-          null, 
+          SSMethU.entityCircleGet,
           null,
-          SSUri.get(URLDecoder.decode(circle, SSEncodingU.utf8)), 
-          false));
+          null,
+          null,
+          SSUri.get(SSEncodingU.decode(circle)),
+          false);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
+    
+    return SSRestMain.handleGETRequest(headers, par);
   }
   
   @POST
@@ -115,9 +125,29 @@ public class SSRESTCircle {
     response = SSEntityUserCircleCreateRet.class)
   public Response entityCircleCreate(
     @Context HttpHeaders              headers,
-    final SSEntityUserCircleCreatePar input){
+    final SSEntityCircleCreateRESTAPIV2Par input){
     
-    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityCircleCreate);
+    final SSEntityUserCircleCreatePar par;
+    
+    try{
+      
+      par =
+        new SSEntityUserCircleCreatePar(
+          SSMethU.entityCircleCreate,
+          null,
+          null,
+          input.label,
+          input.entities,
+          input.users,
+          input.description,
+          false,
+          SSCircleE.group);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMain.handlePOSTRequest(headers, par, par.op);
   }
   
   @POST
@@ -128,19 +158,28 @@ public class SSRESTCircle {
     value = "add given users to a user-generated circle",
     response = SSEntityUserUsersToCircleAddRet.class)
   public Response entityUsersToCircleAdd(
-    @Context 
+    @Context
       HttpHeaders headers,
-    @PathParam(SSVarU.circle) 
+    @PathParam(SSVarU.circle)
       String   circle,
-    final SSEntityUserUsersToCircleAddPar input){
+    final SSEntityUsersToCircleAddRESTAPIV2Par input){
+    
+    final SSEntityUserUsersToCircleAddPar par;
     
     try{
-      input.setCircle(URLDecoder.decode(circle, SSEncodingU.utf8));
+      par =
+        new SSEntityUserUsersToCircleAddPar(
+          SSMethU.entityUsersToCircleAdd,
+          null,
+          null,
+          SSUri.get(SSEncodingU.decode(circle)),
+          input.users);
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
-      
-    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityUsersToCircleAdd);
+    
+    return SSRestMain.handlePOSTRequest(headers, par, par.op);
   }
   
   @POST
@@ -153,16 +192,26 @@ public class SSRESTCircle {
   public Response entityEntitiesToCircleAdd(
     @Context 
       HttpHeaders headers,
-    @PathParam(SSVarU.circle) 
+    @PathParam(SSVarU.circle)
       String   circle,
-    final SSEntityUserEntitiesToCircleAddPar input){
+    final SSEntityEntitiesToCircleAddRESTAPIV2Par input){
+    
+    final SSEntityUserEntitiesToCircleAddPar par;
     
     try{
-     input.setCircle(URLDecoder.decode(circle, SSEncodingU.utf8));
+      
+      par =
+        new SSEntityUserEntitiesToCircleAddPar(
+          SSMethU.entityEntitiesToCircleAdd,
+          null,
+          null,
+          SSUri.get(SSEncodingU.decode(circle)),
+          input.entities);
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityEntitiesToCircleAdd);
+    return SSRestMain.handlePOSTRequest(headers, par, par.op);
   }
 }

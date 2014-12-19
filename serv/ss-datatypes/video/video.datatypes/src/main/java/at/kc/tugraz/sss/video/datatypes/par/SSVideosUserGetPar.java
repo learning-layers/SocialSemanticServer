@@ -26,50 +26,26 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "videosGet request parameter")
 public class SSVideosUserGetPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = false,
-    value = "entity to get videos for")
-  public SSUri    forEntity            = null;
-  
-  @XmlElement
-  public void setForEntity(final String forEntity) throws Exception{
-    this.forEntity = SSUri.get(forEntity);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "user to get videos for")
-  public SSUri forUser = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  public SSVideosUserGetPar(){}
+  public SSUri forEntity  = null;
+  public SSUri forUser    = null;
   
   public SSVideosUserGetPar(
     final SSMethU op,
     final String  key,
-    final String  forEntity,
-    final String  forUser) throws Exception{
+    final SSUri   user, 
+    final SSUri   forEntity,
+    final SSUri   forUser){
     
-    super(op, key);
+    super(op, key, user);
     
-    try{ this.forEntity = SSUri.get(forEntity); }catch(Exception error){}
-    try{ this.forUser   = SSUri.get(forUser);   }catch(Exception error){}
+    this.forEntity = forEntity;
+    this.forUser   = forUser;
   }
   
-  public SSVideosUserGetPar(SSServPar par) throws Exception{
+  public SSVideosUserGetPar(final SSServPar par) throws Exception{
     super(par);
     
     try{

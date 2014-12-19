@@ -49,7 +49,7 @@ public class SSVideoAddTest extends SSServOpTestCaseA{
         true);
     
     final List<SSEntity> entities = 
-      SSServCaller.entitiesUserGetNew(SSVoc.systemUserUri);
+      SSServCaller.entitiesUserGet(SSVoc.systemUserUri);
     
     System.out.println (op + " test end");
   }

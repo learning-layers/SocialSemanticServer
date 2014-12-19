@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -27,66 +28,38 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "videoAnnotationAdd request parameter")
 public class SSVideoUserAnnotationAddPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "video to add annotation for")
-  public SSUri               video        = null;
+  public SSUri               video              = null;
+  public Long                timePoint          = null;
+  public Float               x                  = null;
+  public Float               y                  = null;
+  public SSLabel             label              = null;
+  public SSTextComment       description        = null;
   
-  @XmlElement
-  public void setVideo(final String video) throws Exception{
-    try{ this.video = SSUri.get(video); }catch(Exception error){}
+  public SSVideoUserAnnotationAddPar(
+    final SSMethU              op,
+    final String               key,
+    final SSUri                user,
+    final SSUri                video,
+    final Long                 timePoint,
+    final Float                x,
+    final Float                y,
+    final SSLabel              label,
+    final SSTextComment        description){
+    
+    super(op, key, user);
+    
+    this.video              = video;
+    this.timePoint          = timePoint;
+    this.x                  = x;
+    this.y                  = y;
+    this.label              = label;
+    this.description        = description;
   }
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "time point the annotation is attached to the video")
-  public Long               timePoint        = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "x coordinate the annotation is attached to the video")
-  public Float               x        = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "y coordinate the annotation is attached to the video")
-  public Float               y        = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "name")
-  public SSLabel               label        = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "description")
-  public SSTextComment               description        = null;
-  
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
-  }
-  
-  public SSVideoUserAnnotationAddPar(){}
-  
-  public SSVideoUserAnnotationAddPar(SSServPar par) throws Exception{
+  public SSVideoUserAnnotationAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -104,18 +77,9 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         video               = SSUri.get(par.clientJSONObj.get(SSVarU.video).getTextValue());
-        
-        try{
-          timePoint =  par.clientJSONObj.get(SSVarU.timePoint).getLongValue();
-        }catch(Exception error){}
-        
-        try{
-          x =  par.clientJSONObj.get(SSVarU.x).getNumberValue().floatValue();
-        }catch(Exception error){}
-        
-        try{
-          y =  par.clientJSONObj.get(SSVarU.y).getNumberValue().floatValue();
-        }catch(Exception error){}
+        timePoint           =  par.clientJSONObj.get(SSVarU.timePoint).getLongValue();
+        x                   =  par.clientJSONObj.get(SSVarU.x).getNumberValue().floatValue();
+        y                   =  par.clientJSONObj.get(SSVarU.y).getNumberValue().floatValue();
         
         try{
           label =  SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());

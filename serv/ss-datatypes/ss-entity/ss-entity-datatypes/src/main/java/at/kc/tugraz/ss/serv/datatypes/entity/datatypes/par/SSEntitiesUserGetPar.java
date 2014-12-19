@@ -21,26 +21,20 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entitiesUserGetNew request parameter")
-public class SSEntitiesUserGetNewPar extends SSServPar{
+public class SSEntitiesUserGetPar extends SSServPar{
   
-  public SSEntitiesUserGetNewPar(
-    final SSMethU op, 
-    final String  key) throws Exception{
-
-    super(op, key);
+  public SSEntitiesUserGetPar(
+    final SSMethU op,
+    final String  key,
+    final SSUri   user) throws Exception{
+    
+    super(op, key, user);
   }
   
-  public SSEntitiesUserGetNewPar(){}
-  
-  public SSEntitiesUserGetNewPar(SSServPar par) throws Exception{
+  public SSEntitiesUserGetPar(SSServPar par) throws Exception{
     super(par);
   }
-  
-  /* json getters */
 }

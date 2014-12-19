@@ -32,9 +32,7 @@ import java.util.List;
 
 public interface SSEntityServerI {
 
-  public List<SSEntity>                  entitiesUserGetNew                       (final SSServPar parA) throws Exception;
-  public SSEntity                        entityUserGetNew                         (final SSServPar parA) throws Exception;
-    
+  public List<SSEntity>                  entitiesUserGet                          (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityDescGet                            (final SSServPar parA) throws Exception;
   public List<SSEntityA>                 entityDescsGet                           (final SSServPar parA) throws Exception;

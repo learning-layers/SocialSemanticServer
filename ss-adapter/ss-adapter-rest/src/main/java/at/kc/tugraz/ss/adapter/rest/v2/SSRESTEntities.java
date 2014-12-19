@@ -20,17 +20,16 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetNewPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetNewPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetNewRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesUserGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import java.net.URLDecoder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -48,79 +47,58 @@ public class SSRESTEntities {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(
-    value = "retrieve information on entities the user can access",
-    response = SSEntityUserGetNewRet.class)
-  public Response entitiesUserGetNew(
-    @Context HttpHeaders headers){
-    
-    try{
-      
-        return SSRestMain.handleGETRequest(
-          headers,
-          new SSEntitiesUserGetNewPar(
-            SSMethU.entitiesUserGetNew,
-            null));
-        
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-  }
-    
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path("/{entity}")
   @ApiOperation(
     value = "retrieve entity information for given ID or encoded URI",
-    response = SSEntityUserGetNewRet.class)
+    response = SSEntityUserGetRet.class)
   public Response entityUserGetNew(
-    @Context HttpHeaders headers,
-    @PathParam (SSVarU.entity) String entity){
+    @Context
+      HttpHeaders headers,
+    @PathParam (SSVarU.entity)
+      String entity){
+    
+    final SSEntityUserGetPar par;
     
     try{
       
-      String decodedURI;
+      par =
+        new SSEntityUserGetPar(
+          SSMethU.entityGet,
+          null,
+          null,
+          SSUri.get(entity, SSRestMain.conf.vocConf.uriPrefix));
       
-      try{
-        decodedURI = URLDecoder.decode(entity, SSEncodingU.utf8);
-      }catch(Exception error){
-        decodedURI = entity;
-      }
-      
-      if(SSUri.isURI(decodedURI)){
-        
-        return SSRestMain.handleGETRequest(
-          headers,
-          new SSEntityUserGetNewPar(
-            SSMethU.entityUserGetNew,
-            null,
-            decodedURI));
-        
-      }else{
-        
-        return SSRestMain.handleGETRequest(
-          headers,
-          new SSEntityUserGetNewPar(
-            SSMethU.entityUserGetNew,
-            null,
-            SSRestMain.conf.vocConf.uriPrefix + "entities/entities/" + decodedURI));
-      }
     }catch(Exception error){
       return Response.status(422).build();
     }
+    
+    return SSRestMain.handleGETRequest(headers, par);
   }
   
-//  @POST
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @ApiOperation(
-//    value = "create a circle and add users and entities to",
-//    response = SSEntityUserCircleCreateRet.class)
-//  public Response entityCircleCreate(
-//    @Context HttpHeaders              headers,
-//    final SSEntityUserCircleCreatePar input){
-//    
-//    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.entityCircleCreate);
-//  }
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @ApiOperation(
+    value = "retrieve information on entities the user can access",
+    response = SSEntitiesUserGetRet.class)
+  public Response entitiesGet(
+    @Context
+      HttpHeaders headers){
+    
+    final SSEntitiesUserGetPar par;
+    
+    try{
+      
+      par =
+        new SSEntitiesUserGetPar(
+          SSMethU.entitiesGet,
+          null,
+          null);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMain.handleGETRequest(headers, par);
+  }
 }

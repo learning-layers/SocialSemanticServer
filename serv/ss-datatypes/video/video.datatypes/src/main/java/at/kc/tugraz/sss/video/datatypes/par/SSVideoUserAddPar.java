@@ -21,6 +21,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -28,93 +29,48 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "videoAdd request parameter")
 public class SSVideoUserAddPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "video's uuid (if provided used within id if link is not set)")
-  public String                uuid        = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "video's link (if provided used as id)")
-  public SSUri                link        = null;
-  
-  @XmlElement
-  public void setLink(final String link) throws Exception{
-    try{ this.link = SSUri.get(link); }catch(Exception error){}
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "entity for which to attach this video")
-  public SSUri                forEntity        = null;
-  
-  @XmlElement
-  public void setForEntity(final String forEntity) throws Exception{
-    try{ this.forEntity = SSUri.get(forEntity); }catch(Exception error){}
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "video's genre")
-  public String                genre        = null;
-  
-  
-  @ApiModelProperty(
-    required = false,
-    value = "name")
-  public SSLabel               label        = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "description")
-  public SSTextComment               description        = null;
-  
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "creation time of the video")
-  public Long               creationTime        = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "latitude")
-  public Double               latitude = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "longitude")
-  public Double               longitude = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "accuracy")
-  public Float               accuracy = null;
+  public String                uuid             = null;
+  public SSUri                 link             = null;
+  public SSUri                 forEntity        = null;
+  public String                genre            = null;
+  public SSLabel               label            = null;
+  public SSTextComment         description      = null;
+  public Long                  creationTime     = null;
+  public Double                latitude         = null;
+  public Double                longitude        = null;
+  public Float                 accuracy         = null;
 
-  public SSVideoUserAddPar(){}
+  public SSVideoUserAddPar(
+    final SSMethU        op,
+    final String         key,
+    final SSUri          user,
+    final String         uuid,
+    final SSUri          link,
+    final SSUri          forEntity,
+    final String         genre,
+    final SSLabel        label,
+    final SSTextComment  description,
+    final Long           creationTime,
+    final Double         latitude,
+    final Double         longitude,
+    final Float          accuracy){
+    
+    super(op, key, user);
+    
+    this.uuid           = uuid;
+    this.link           = link;
+    this.forEntity      = forEntity;
+    this.genre          = genre;
+    this.label          = label;
+    this.description    = description;
+    this.creationTime   = creationTime;
+    this.latitude       = latitude;
+    this.longitude      = longitude;
+    this.accuracy       = accuracy;
+  }
   
   public SSVideoUserAddPar(SSServPar par) throws Exception{
     

@@ -48,7 +48,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetNewPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCanPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCircleCreatePar;
@@ -93,16 +93,14 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleGet
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntityMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetNewPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesUserGetNewRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCircleGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetNewRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
@@ -605,7 +603,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entitiesUserGetNew(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     final SSUri userFromOIDC = SSServCaller.checkKey(parA);
     
@@ -613,54 +611,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       parA.user = userFromOIDC;
     }
     
-    sSCon.writeRetFullToClient(SSEntitiesUserGetNewRet.get(entitiesUserGetNew(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
   }
   
   @Override
-  public List<SSEntity> entitiesUserGetNew(final SSServPar parA) throws Exception{
+  public SSEntity entityUserGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntitiesUserGetNewPar par      = new SSEntitiesUserGetNewPar(parA);
-      final List<SSEntity>          entities = new ArrayList<>();
-
-      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.user, true)){
-
-        for(SSUri entity : circle.entities){
-          
-          try{
-            SSServCaller.entityUserCanRead(par.user, entity);
-          }catch(Exception error){
-            continue;
-          }
-          
-          entities.add(SSServCaller.entityUserGetNew(par.user, entity));
-        }
-      }
-      
-      return entities;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityUserGetNew(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-    
-    sSCon.writeRetFullToClient(SSEntityUserGetNewRet.get(entityUserGetNew(parA), parA.op));
-  }
-  
-  @Override
-  public SSEntity entityUserGetNew(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityUserGetNewPar par = new SSEntityUserGetNewPar(parA);
+      final SSEntityUserGetPar par = new SSEntityUserGetPar(parA);
 
       SSServCaller.entityUserCanRead(par.user, par.entity);
       
@@ -686,22 +644,39 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void entitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+    
+    sSCon.writeRetFullToClient(SSEntitiesUserGetRet.get(entitiesUserGet(parA), parA.op));
   }
   
   @Override
-  public SSEntity entityUserGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> entitiesUserGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityUserGetPar par = new SSEntityUserGetPar(parA);
+      final SSEntitiesUserGetPar par      = new SSEntitiesUserGetPar(parA);
+      final List<SSEntity>          entities = new ArrayList<>();
 
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.user, true)){
+
+        for(SSUri entity : circle.entities){
+          
+          try{
+            SSServCaller.entityUserCanRead(par.user, entity);
+          }catch(Exception error){
+            continue;
+          }
+          
+          entities.add(SSServCaller.entityUserGet(par.user, entity));
+        }
+      }
       
-      return sqlFct.getEntity(par.entity);
+      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

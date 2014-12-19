@@ -1,0 +1,29 @@
+{
+  "apiVersion" : "v1",
+  "swaggerVersion" : "1.2",
+  "apis" : [ {
+    "path" : "/SSAdapterRESTFileDownload.{format}",
+    "description" : "SSS File Download REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileReplace.{format}",
+    "description" : "SSS File Replace REST API"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}",
+    "description" : "SSS File Upload REST API"
+  }, {
+    "path" : "/SSAdapterRest.{format}",
+    "description" : "SSS REST API"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}",
+    "description" : "SSS File REST API"
+  } ],
+  "info" : {
+    "title" : "Social Semantic Server REST API",
+    "description" : "https://github.com/learning-layers/SocialSemanticServer/",
+    "termsOfServiceUrl" : "https://github.com/learning-layers/",
+    "contact" : "dtheiler#tugraz$at",
+    "license" : "Apache 2.0",
+    "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs/v1"
+}

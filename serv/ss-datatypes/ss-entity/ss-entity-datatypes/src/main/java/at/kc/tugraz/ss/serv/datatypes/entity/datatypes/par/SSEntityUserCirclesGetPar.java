@@ -21,11 +21,7 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entityUserCirclesGet request parameter")
 public class SSEntityUserCirclesGetPar extends SSServPar{
 
   public SSUri   forUser             = null;
@@ -34,10 +30,11 @@ public class SSEntityUserCirclesGetPar extends SSServPar{
   public SSEntityUserCirclesGetPar(
     final SSMethU  op,
     final String   key,
+    final SSUri    user,
     final SSUri    forUser,
     final Boolean  withSystemCircles) throws Exception{
     
-    super(op, key);
+    super(op, key, user);
     
     this.withSystemCircles = withSystemCircles;
     this.forUser           = forUser;

@@ -20,33 +20,29 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entityUserGet request parameter")
 public class SSEntityUserGetPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "")
   public SSUri    entity         = null;
   
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
+  public SSEntityUserGetPar(
+    final SSMethU op, 
+    final String  key, 
+    final SSUri   user,
+    final SSUri   entity){
+
+    super(op, key, user);
+    
+    this.entity = entity;
   }
-  public SSEntityUserGetPar(){}
   
-  public SSEntityUserGetPar(SSServPar par) throws Exception{
+  public SSEntityUserGetPar(final SSServPar par) throws Exception{
     
     super(par);
     

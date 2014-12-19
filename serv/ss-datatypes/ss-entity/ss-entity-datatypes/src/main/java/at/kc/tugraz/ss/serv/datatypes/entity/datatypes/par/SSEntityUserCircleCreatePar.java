@@ -15,6 +15,7 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -23,62 +24,46 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "entityUserCircleCreate request parameter")
 public class SSEntityUserCircleCreatePar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "circle name")
   public SSLabel                label          = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "entities to add")
   public List<SSUri>            entities       = new ArrayList<>();
-  
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "users to add")
   public List<SSUri>            users          = new ArrayList<>();
-  
-  @XmlElement
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "textual annotation")
   public SSTextComment          description    = null;
-
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
-  }
-  
   public Boolean                isSystemCircle = null;
   public SSCircleE              type           = null;
+  
+  public SSEntityUserCircleCreatePar(
+    final SSMethU       op,
+    final String        key, 
+    final SSUri         user, 
+    final SSLabel       label, 
+    final List<SSUri>   entities, 
+    final List<SSUri>   users, 
+    final SSTextComment description, 
+    final Boolean       isSystemCircle,
+    final SSCircleE     type){
+    
+    super(op, key, user);
+    
+    this.label     = label;
 
-  public SSEntityUserCircleCreatePar(){}
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
+    
+    if(users != null){
+      this.users.addAll(users);
+    }
+    
+    this.description    = description;
+    this.isSystemCircle = isSystemCircle;
+    this.type           = type;
+  }
     
   public SSEntityUserCircleCreatePar(final SSServPar par) throws Exception{
     

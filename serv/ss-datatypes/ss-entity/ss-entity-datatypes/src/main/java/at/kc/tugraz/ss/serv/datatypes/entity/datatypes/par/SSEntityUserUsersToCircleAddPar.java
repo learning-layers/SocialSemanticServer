@@ -15,45 +15,37 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "entityUserUsersToCircleAdd request parameter")
 public class SSEntityUserUsersToCircleAddPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "circle to add users to")
   public SSUri       circle  = null;
-  
-  @XmlElement
-  public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
-  }
-  
-  @ApiModelProperty(
-    required = true,
-    value = "users to add")
   public List<SSUri> users   = new ArrayList<>();
   
-  @XmlElement
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
+  public SSEntityUserUsersToCircleAddPar(
+    final SSMethU      op,
+    final String       key,
+    final SSUri        user,
+    final SSUri        circle,
+    final List<SSUri>  users){
+    
+    super(op, key, user);
+    
+    this.circle = circle;
+    
+    if(users != null){
+      this.users.addAll(users);
+    }
   }
   
-  public SSEntityUserUsersToCircleAddPar(){}
-     
   public SSEntityUserUsersToCircleAddPar(final SSServPar par) throws Exception{
     
     super(par);
@@ -67,9 +59,7 @@ public class SSEntityUserUsersToCircleAddPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        try{ 
-          circle        = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue()); 
-        }catch(Exception error){}
+        circle        = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue()); 
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
           users.add(SSUri.get(objNode.getTextValue()));

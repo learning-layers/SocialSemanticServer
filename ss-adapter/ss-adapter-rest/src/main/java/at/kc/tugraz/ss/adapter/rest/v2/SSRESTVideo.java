@@ -20,10 +20,11 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSVideoAddRESTAPIV2Par;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSVideoAnnotationAddRESTAPIV2Par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
@@ -33,7 +34,6 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import java.net.URLDecoder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -59,19 +59,23 @@ public class SSRESTVideo{
     @Context
       HttpHeaders headers){
     
+    final SSVideosUserGetPar par;
+    
     try{
       
-      return SSRestMain.handleGETRequest(
-        headers,
+      par =
         new SSVideosUserGetPar(
           SSMethU.videosGet,
           null,
           null,
-          null));
+          null,
+          null);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
+    
+    return SSRestMain.handleGETRequest(headers, par);
   }
   
   @POST
@@ -82,9 +86,33 @@ public class SSRESTVideo{
     response = SSVideoUserAddRet.class)
   public Response videoAdd(
     @Context HttpHeaders     headers,
-    final SSVideoUserAddPar  input){
+    final SSVideoAddRESTAPIV2Par input){
     
-    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.videoAdd);
+    final SSVideoUserAddPar par;
+    
+    try{
+      
+      par =
+        new SSVideoUserAddPar(
+          SSMethU.videoAdd,
+          null, 
+          null,
+          input.uuid,
+          input.link,
+          input.forEntity, 
+          input.genre,
+          input.label, 
+          input.description, 
+          input.creationTime, 
+          input.latitude,
+          input.longitude,
+          input.accuracy);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMain.handlePOSTRequest(headers, par, par.op);
   }
   
   @POST
@@ -99,36 +127,28 @@ public class SSRESTVideo{
       HttpHeaders headers,
     @PathParam(SSVarU.video)
       String video,
-    final SSVideoUserAnnotationAddPar input){
+    final SSVideoAnnotationAddRESTAPIV2Par input){
+    
+    final SSVideoUserAnnotationAddPar par;
     
     try{
-      String decodedURI;
       
-      try{
-        decodedURI = URLDecoder.decode(video, SSEncodingU.utf8);
-      }catch(Exception error){
-        decodedURI = video;
-      }
+      par = 
+        new SSVideoUserAnnotationAddPar(
+          SSMethU.videoAnnotationAdd, 
+          null, 
+          null, 
+          SSUri.get(video, SSRestMain.conf.vocConf.uriPrefix), 
+          input.timePoint, 
+          input.x, 
+          input.y, 
+          input.label, 
+          input.description);
       
-      if(!SSUri.isURI(decodedURI)){
-        decodedURI = SSRestMain.conf.vocConf.uriPrefix + "entities/entities/" + decodedURI;
-      }
-      
-      input.setVideo(decodedURI);
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMain.handlePOSTRequest(headers, input, SSMethU.videoAnnotationAdd);
+    return SSRestMain.handlePOSTRequest(headers, par, par.op);
   }
 }
-
-
-//    @ApiParam(
-//      required = false,
-//      value = "entity to get videos for")
-//    @PathParam ("forUser") String forUser,
-//    @ApiParam(
-//      required = false,
-//      value = "user to get videos for")
-//    @PathParam ("forEntity") String forEntity

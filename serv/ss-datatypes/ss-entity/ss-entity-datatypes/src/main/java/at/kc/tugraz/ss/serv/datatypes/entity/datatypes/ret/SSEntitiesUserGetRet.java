@@ -31,18 +31,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSEntitiesUserGetNewRet extends SSServRetI{
+public class SSEntitiesUserGetRet extends SSServRetI{
 
   public List<SSEntity> entities = new ArrayList<>();
 
-  public static SSEntitiesUserGetNewRet get(
+  public static SSEntitiesUserGetRet get(
     final List<SSEntity> entities, 
     final SSMethU        op){
     
-    return new SSEntitiesUserGetNewRet(entities, op);
+    return new SSEntitiesUserGetRet(entities, op);
   }
   
-  private SSEntitiesUserGetNewRet(
+  private SSEntitiesUserGetRet(
     final List<SSEntity> entities, 
     final SSMethU        op){
     

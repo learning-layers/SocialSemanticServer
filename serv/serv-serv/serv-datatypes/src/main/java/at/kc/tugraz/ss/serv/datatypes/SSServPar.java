@@ -85,14 +85,6 @@ public class SSServPar{
     this.user = user;
   }
   
-  protected SSServPar(
-    final SSMethU op,
-    final String  key){
-    
-    this.op  = op;
-    this.key = key;
-  }
-  
   public SSServPar(final String jsonRequ) throws Exception{
     
     try{

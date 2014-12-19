@@ -64,6 +64,42 @@ public class SSUri extends SSEntityA{
     }
   }
   
+  public static List<SSUri> get(
+    final List<String> strings, 
+    final String       uriPrefix) throws Exception{
+    
+    if(strings == null){
+      throw new Exception("pars null");
+    }
+    
+    final List<SSUri> uris = new ArrayList<>();
+    
+    for(String string : strings){
+      uris.add(get(string, uriPrefix));
+    }
+    
+    return uris;
+  }
+  
+  public static SSUri get(
+    final String string, 
+    final String uriPrefix) throws Exception{
+    
+    String decodedURI;
+    
+    try{
+      decodedURI = SSEncodingU.decode(string);
+    }catch(Exception error){
+      decodedURI = string;
+    }
+    
+    if(isURI(decodedURI)){
+      return get(decodedURI);
+    }else{
+      return get(uriPrefix + "entities/entities/" + decodedURI);
+    }
+  }
+  
   public static SSUri get(final String string) throws Exception{
     return new SSUri(string);
   }

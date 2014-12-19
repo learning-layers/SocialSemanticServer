@@ -1,0 +1,26 @@
+{
+  "apiVersion" : "v2",
+  "swaggerVersion" : "1.2",
+  "apis" : [ {
+    "path" : "/videos.{format}",
+    "description" : "SSS REST API for videos"
+  }, {
+    "path" : "/entities.{format}",
+    "description" : "SSS REST API for entities"
+  }, {
+    "path" : "/circles.{format}",
+    "description" : "SSS REST API for circles (groups)"
+  }, {
+    "path" : "/auths.{format}",
+    "description" : "SSS REST API for authentication"
+  } ],
+  "info" : {
+    "title" : "Social Semantic Server REST API",
+    "description" : "https://github.com/learning-layers/SocialSemanticServer/",
+    "termsOfServiceUrl" : "https://github.com/learning-layers/",
+    "contact" : "dtheiler#tugraz$at",
+    "license" : "Apache 2.0",
+    "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs/v2"
+}

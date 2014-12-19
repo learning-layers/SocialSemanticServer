@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -28,7 +29,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "authCheckCred request parameter")
-public class SSAuthCheckCredRESTAPIPar{
+public class SSAuthCheckCredRESTAPIV1Par{
+  
+  @XmlElement 
+  @ApiModelProperty( 
+    value = "operation to be executed", 
+    required = true)
+  public        SSMethU              op            = null;
   
   @ApiModelProperty(
     required = true,
@@ -46,5 +53,5 @@ public class SSAuthCheckCredRESTAPIPar{
     value = "the user’s password")
   public String  password = null;
   
-  public SSAuthCheckCredRESTAPIPar(){}
+  public SSAuthCheckCredRESTAPIV1Par(){}
 }

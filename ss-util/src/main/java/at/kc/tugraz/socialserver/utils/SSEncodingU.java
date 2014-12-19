@@ -20,6 +20,11 @@
 */
 package at.kc.tugraz.socialserver.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SSEncodingU{
   
   public static final String utf8                       = "UTF-8";
@@ -35,6 +40,21 @@ public class SSEncodingU{
   public static final String no                         = "no";
   public static final String lv                         = "lv";
   public static final String es                         = "es";
+
+  public static String decode(final String toDecode) throws Exception{
+    return URLDecoder.decode(toDecode, SSEncodingU.utf8);
+  }
+  
+  public static List<String> decode(final List<String> toDecodes) throws Exception{
+    
+    final List<String> decodeds = new ArrayList<>();
+    
+    for(String toDecode : toDecodes){
+      decodeds.add(URLDecoder.decode(toDecode, SSEncodingU.utf8));
+    }
+    
+    return decodeds;
+  }
   
   private SSEncodingU(){}
 }

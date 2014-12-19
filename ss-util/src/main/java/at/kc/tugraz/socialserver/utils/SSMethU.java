@@ -23,6 +23,7 @@ package at.kc.tugraz.socialserver.utils;
 public enum SSMethU{
 
   //like
+//like
   likesUserGet,
   likesGet,
   likeUserSet,
@@ -92,8 +93,8 @@ public enum SSMethU{
   evernoteNoteTagNamesGet,
   
   //entity
-  entitiesUserGetNew,
-  entityUserGetNew,
+  entitiesGet,
+  entitiesUserGet,
   entityEntityCirclesGet,
   entityUserCircleGet,
   entityCircleGet,

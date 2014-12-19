@@ -1221,17 +1221,17 @@ public class SSServCaller {
   }
   
   /* entity */
-  public static List<SSEntity> entitiesUserGetNew(
+  public static List<SSEntity> entitiesUserGet(
     final SSUri       user) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
     
-    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGetNew, opPars));
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGet, opPars));
   }
   
-  public static SSEntity entityUserGetNew(
+  public static SSEntity entityUserGet(
     final SSUri       user,
     final SSUri       entity) throws Exception{
     
@@ -1240,7 +1240,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserGetNew, opPars));
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserGet, opPars));
   }
     
   public static void entityUserEntitiesToCircleAdd(

@@ -15,44 +15,36 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
 public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "circle to add entities to")
-  public SSUri       circle  = null;
-  
-  @XmlElement
-  public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
-  }
-  
-  @ApiModelProperty(
-    required = true,
-    value = "entities to add")
+  public SSUri       circle   = null;
   public List<SSUri> entities = new ArrayList<>();
   
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
+  public SSEntityUserEntitiesToCircleAddPar(
+    final SSMethU     op,
+    final String      key,
+    final SSUri       user,
+    final SSUri       circle,
+    final List<SSUri> entities){
+    
+    super(op, key, user);
+    
+    this.circle = circle;
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
   }
-  
-  public SSEntityUserEntitiesToCircleAddPar(){}
   
   public SSEntityUserEntitiesToCircleAddPar(final SSServPar par) throws Exception{
     

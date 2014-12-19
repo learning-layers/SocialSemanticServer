@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,15 +33,15 @@ public class SSEntityUserGetRet extends SSServRetI{
   public SSEntity entity = null;
 
   public static SSEntityUserGetRet get(
-    final SSEntity entity, 
-    final SSMethU  op){
+    final SSEntity     entity, 
+    final SSMethU      op){
     
     return new SSEntityUserGetRet(entity, op);
   }
   
   private SSEntityUserGetRet(
-    final SSEntity entity, 
-    final SSMethU  op){
+    final SSEntity     entity, 
+    final SSMethU      op){
     
     super(op);
     
@@ -56,9 +56,5 @@ public class SSEntityUserGetRet extends SSServRetI{
     ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
     
     return ld;
-  }
-  
-  public SSEntity getEntity() {
-    return entity;
   }
 }
