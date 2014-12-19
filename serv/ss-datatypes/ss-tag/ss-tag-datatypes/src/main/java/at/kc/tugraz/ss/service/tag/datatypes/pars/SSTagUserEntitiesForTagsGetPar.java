@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -27,51 +28,37 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "tagUserEntitiesForTagsGet request parameter")
 public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
 
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to retrieve entities via tags for (optional)")
   public SSUri             forUser   = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "tag labels to consider for retrieving entities via tags (optional)")
   public List<SSTagLabel>  labels    = new ArrayList<>();
-  
-  @XmlElement
-  public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSTagLabel.get(labels);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "access restriction for tags to be considered (i.e. privateSpace, sharedSpace) (optional)")
   public SSSpaceE          space     = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "timestamp to retrieve tags (optional)")
   public Long              startTime = null;
   
-  public SSTagUserEntitiesForTagsGetPar(){}
+  public SSTagUserEntitiesForTagsGetPar(
+    final SSMethU          op,
+    final String           key,
+    final SSUri            user,
+    final SSUri            forUser,
+    final List<SSTagLabel> labels,
+    final SSSpaceE         space,
+    final Long             startTime){
+    
+    super(op, key, user);
+    
+    this.forUser = forUser;
+    
+    if(labels != null){
+      this.labels.addAll(labels);
+    }
+    
+    this.space     = space;
+    this.startTime = startTime;
+  }
   
   public SSTagUserEntitiesForTagsGetPar(SSServPar par) throws Exception{
     

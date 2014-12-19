@@ -20,44 +20,31 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "tagUserEdit request parameter")
 public class SSTagUserEditPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = true, 
-    value = "tag to change the label for")
   public SSUri           tag     = null;
-  
-  @XmlElement
-  public void setTag(final String tag) throws Exception{
-    this.tag = SSUri.get(tag);
-  }
-  
-  @ApiModelProperty(
-    required = true,
-    value = "new label of the tag")
   public SSTagLabel      label   = null;
   
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSTagLabel.get(label);
+  public SSTagUserEditPar(
+    final SSMethU    op,
+    final String     key, 
+    final SSUri      user, 
+    final SSUri      tag, 
+    final SSTagLabel label){
+    
+    super(op, key, user);
+    
+    this.tag   = tag;
+    this.label = label;
   }
-  
-  public SSTagUserEditPar(){}
   
   public SSTagUserEditPar(SSServPar par) throws Exception{
       

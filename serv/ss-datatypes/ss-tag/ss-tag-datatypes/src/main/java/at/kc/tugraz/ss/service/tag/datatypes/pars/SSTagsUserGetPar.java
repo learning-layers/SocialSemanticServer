@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -27,62 +28,43 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "tagsUserGet request parameter")
 public class SSTagsUserGetPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = false, 
-    value = "user to retrieve tag assignments for (optional)")
   public SSUri              forUser        = null;
-  
-    @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  @ApiModelProperty(
-    required = false, 
-    value = "entities to retrieve tag assignments for (optional)")
   public List<SSUri>        entities       = new ArrayList<>();
-  
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "tag labels to consider for retrieving tag assignments (optional)")
   public List<SSTagLabel>   labels         = new ArrayList<>();
-  
-    @XmlElement
-  public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSTagLabel.get(labels);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "access restriction for to be retrieved tag assignments (i.e. privateSpace, sharedSpace) (optional)")
   public SSSpaceE           space          = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "timestamp to retrieve tag assignments from a certain point in time (optional)")
   public Long               startTime      = null;
   
-  public SSTagsUserGetPar(){}
+  public SSTagsUserGetPar(
+    final SSMethU            op,
+    final String             key,
+    final SSUri              user,
+    final SSUri              forUser,
+    final List<SSUri>        entities,
+    final List<SSTagLabel>   labels,
+    final SSSpaceE           space,
+    final Long               startTime){
+    
+    super(op, key, user);
+    
+    this.forUser    = forUser;
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
+    
+    if(labels != null){
+      this.labels.addAll(labels);
+    }
+    
+    this.space    = space;
+    this.startTime    = startTime;
+  }
     
   public SSTagsUserGetPar(SSServPar par) throws Exception{
     

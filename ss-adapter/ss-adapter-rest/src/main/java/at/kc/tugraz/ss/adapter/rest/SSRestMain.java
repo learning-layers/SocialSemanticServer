@@ -284,6 +284,78 @@ public class SSRestMain extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      }
+      
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+    }
+  }
+  
+  public static Response handleDELETERequest(
+    final HttpHeaders      headers,
+    final SSServPar        par,
+    final SSMethU          op){
+    
+    par.op = op;
+    
+    try{
+      par.key = getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    final String   response;
+    
+    try{
+      response = handleStandardJSONRESTCall(par, par.op);
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
+    }
+    
+    try{
+      final ObjectMapper mapper       = new ObjectMapper();
+      final JsonNode     jsonRootNode = mapper.readTree(response);
+      
+      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      }else{
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      }
+      
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+    }
+  }
+  
+  public static Response handlePUTRequest(
+    final HttpHeaders      headers,
+    final SSServPar        par,
+    final SSMethU          op){
+    
+    par.op = op;
+    
+    try{
+      par.key = getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    final String   response;
+    
+    try{
+      response = handleStandardJSONRESTCall(par, par.op);
+    }catch(Exception error){
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
+    }
+    
+    try{
+      final ObjectMapper mapper       = new ObjectMapper();
+      final JsonNode     jsonRootNode = mapper.readTree(response);
+      
+      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      }else{
         return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       

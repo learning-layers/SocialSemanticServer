@@ -20,52 +20,37 @@
   */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "tagsUserRemove request parameter")
 public class SSTagsUserRemovePar extends SSServPar{
   
-  @ApiModelProperty(
-    required = false,
-    value = "entity to consider removing tag assignments from")
   public SSUri        entity     = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "label of the tag to consider when removing tag-assignments")
   public SSTagLabel   label      = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSTagLabel.get(label);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "access restriction (i.e. privateSpace, sharedSpace) for tag-assignments to be removed")
   public SSSpaceE     space      = null;
   
-  public SSTagsUserRemovePar(){}
+  public SSTagsUserRemovePar(
+    final SSMethU      op,
+    final String       key,
+    final SSUri        user,
+    final SSUri        entity,
+    final SSTagLabel   label,
+    final SSSpaceE     space){
   
-  public SSTagsUserRemovePar(SSServPar par) throws Exception{
+    super(op, key, user);
+  
+    this.entity = entity;
+    this.label  = label;
+    this.space  = space;
+  }
+  
+  public SSTagsUserRemovePar(final SSServPar par) throws Exception{
     
     super(par);
     
