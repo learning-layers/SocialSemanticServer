@@ -45,7 +45,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/")
-@Api( value = "SSAdapterRESTFileUpload", description = "SSS File Upload REST API" )
+@Api( value = "SSAdapterRESTFileUpload")
 public class SSAdapterRESTFileUpload{
   
   @POST

@@ -24,6 +24,4 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSDataImportClientI {
-  
-  public void dataImportEvernote  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

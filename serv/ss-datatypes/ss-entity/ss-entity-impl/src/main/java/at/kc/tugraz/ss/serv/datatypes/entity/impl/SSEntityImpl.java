@@ -628,7 +628,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         case circle:
           return SSServCaller.entityUserCircleGet(
             par.user, 
-            null, 
+            par.forUser, 
             par.entity, 
             false);
       }
@@ -660,9 +660,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       final SSEntitiesUserGetPar par      = new SSEntitiesUserGetPar(parA);
-      final List<SSEntity>          entities = new ArrayList<>();
+      final List<SSEntity>       entities = new ArrayList<>();
 
-      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.user, true)){
+      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.forUser, true)){
 
         for(SSUri entity : circle.entities){
           
@@ -672,7 +672,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             continue;
           }
           
-          entities.add(SSServCaller.entityUserGet(par.user, entity));
+          entities.add(SSServCaller.entityUserGet(par.user, entity, par.forUser));
         }
       }
       

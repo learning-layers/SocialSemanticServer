@@ -20,36 +20,22 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "friendsGet request parameter")
 public class SSFriendsUserGetPar extends SSServPar{
   
-  public SSFriendsUserGetPar(){}
-    
+  public SSFriendsUserGetPar(
+    final SSMethU  op,
+    final String   key,
+    final SSUri    user){
+  
+    super(op, key, user);
+  }
+  
   public SSFriendsUserGetPar(final SSServPar par) throws Exception{
     
     super(par);
-    
-    try{
-      if(pars != null){
-        //this.includeRead    =  (Boolean)         pars.get(SSVarU.includeRead);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-     /*   try{
-          this.includeRead   = par.clientJSONObj.get(SSVarU.includeRead).getBooleanValue();
-        }catch(Exception error){}
-		
-		*/
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
 }

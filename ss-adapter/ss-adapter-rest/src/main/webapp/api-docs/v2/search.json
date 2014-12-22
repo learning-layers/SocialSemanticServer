@@ -1,0 +1,305 @@
+{
+  "apiVersion" : "v2",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/ss-adapter-rest",
+  "resourcePath" : "/search",
+  "apis" : [ {
+    "path" : "/search",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "search for entities",
+      "notes" : "",
+      "type" : "SSSearchRet",
+      "nickname" : "search",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSSearchPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "SSSearchRet" : {
+      "id" : "SSSearchRet",
+      "required" : [ "op" ],
+      "properties" : {
+        "pagesID" : {
+          "type" : "string"
+        },
+        "pageNumber" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pageNumbers" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "SSEntity"
+          }
+        },
+        "op" : {
+          "$ref" : "SSMethU",
+          "description" : "service operation executed",
+          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "entitiesGet", "entitiesUserGet", "entityEntityCirclesGet", "entityUserCircleGet", "entityCircleGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityPublicSet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityCircleURIPrivGet", "entityCircleURIPubGet", "entityUserCircleDelete", "entityCircleCreate", "entityEntitiesToCircleAdd", "entityUsersToCircleAdd", "entityUserCircleCreate", "entityUserCan", "entityUserCirclesGet", "entityEntityUsersGet", "entityUserEntityCirclesGet", "entityUserUsersToCircleAdd", "entityUserEntitiesToCircleAdd", "entityCirclesGet", "entityInSharedCircleIs", "entityMostOpenCircleTypeGet", "entityUserEntityCircleTypesGet", "entityUserEntityMostOpenCircleTypeGet", "entityUserPublicSet", "entityUserGet", "entityUserShare", "entityUserCopy", "entityUserEntitiesAttach", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "entityCopy", "entityUserEntityUsersGet", "entityDirectlyAdjoinedEntitiesRemove", "entityShare", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpUserShareWithUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collUserSetPublic", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
+        }
+      }
+    },
+    "SSEntity" : {
+      "id" : "SSEntity",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "uri"
+        },
+        "type" : {
+          "$ref" : "SSEntityE",
+          "description" : "sss entity data type",
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+        },
+        "file" : {
+          "type" : "string",
+          "description" : "physical file"
+        },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "creation / timestamp in milliseconds"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "textual description"
+        },
+        "comments" : {
+          "type" : "array",
+          "description" : "comments given by users",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
+          }
+        },
+        "likes" : {
+          "$ref" : "SSEntityA",
+          "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "read" : {
+          "type" : "boolean",
+          "description" : "whether user has read the entry"
+        }
+      }
+    },
+    "SSSearchPar" : {
+      "id" : "SSSearchPar",
+      "description" : "",
+      "properties" : {
+        "keywordsToSearchFor" : {
+          "type" : "array",
+          "description" : "general keywords to be searched for; get interpreted as, e.g. tags, words if respective flags set (e.g. includeTags)",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "includeTextualContent" : {
+          "type" : "boolean",
+          "description" : "whether the text content (if available) of entities should be scanned"
+        },
+        "wordsToSearchFor" : {
+          "type" : "array",
+          "description" : "keywords to be used in textual content search",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "includeTags" : {
+          "type" : "boolean",
+          "description" : "whether tags of entities should be looked to find entities"
+        },
+        "tagsToSearchFor" : {
+          "type" : "array",
+          "description" : "tags to be searched for",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "includeMIs" : {
+          "type" : "boolean",
+          "description" : "whether maturing indicators should be included in search"
+        },
+        "misToSearchFor" : {
+          "type" : "array",
+          "description" : "maturing indicators of entities to be matched",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "includeLabel" : {
+          "type" : "boolean",
+          "description" : "whether labels of entities should be scanned"
+        },
+        "labelsToSearchFor" : {
+          "type" : "array",
+          "description" : "certain labels to be search for",
+          "items" : {
+            "$ref" : "SSSearchLabel"
+          }
+        },
+        "includeDescription" : {
+          "type" : "boolean",
+          "description" : "whether descriptions of entities should be scanned"
+        },
+        "descriptionsToSearchFor" : {
+          "type" : "array",
+          "description" : "certain descriptions to be searched for",
+          "items" : {
+            "$ref" : "SSSearchLabel"
+          }
+        },
+        "typesToSearchOnlyFor" : {
+          "type" : "array",
+          "description" : "list of entity types to be considered for search exclusively",
+          "items" : {
+            "$ref" : "SSEntityE"
+          }
+        },
+        "includeOnlySubEntities" : {
+          "type" : "boolean",
+          "description" : "whether only sub-entities (e.g. collection entries) of entitiesToSearchWithin should be considered"
+        },
+        "entitiesToSearchWithin" : {
+          "type" : "array",
+          "description" : "entities for whom only sub entities get search for",
+          "items" : {
+            "$ref" : "SSUri"
+          }
+        },
+        "extendToParents" : {
+          "type" : "boolean",
+          "description" : "whether search results shall contain the parents of found entities as search result"
+        },
+        "includeRecommendedResults" : {
+          "type" : "boolean",
+          "description" : "whether possibly recommended entities should be included in search results"
+        },
+        "provideEntries" : {
+          "type" : "boolean",
+          "description" : "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well"
+        },
+        "pagesID" : {
+          "type" : "string",
+          "description" : "unique identifier for the pages of a previous search result"
+        },
+        "pageNumber" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "number of the page to be requested from a previous search result"
+        },
+        "minRating" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "minimum overall star rating the entity must have to be returned"
+        },
+        "maxRating" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "maximum overall star rating the entity must have to be returned"
+        },
+        "localSearchOp" : {
+          "$ref" : "SSSearchOpE",
+          "description" : "how results will be comined for query parameter separately (i.e. or | and; e.g. and: results have to match for all tags given in tagsToSearchFor)",
+          "enum" : [ "and", "or" ]
+        },
+        "globalSearchOp" : {
+          "$ref" : "SSSearchOpE",
+          "description" : "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)",
+          "enum" : [ "and", "or" ]
+        }
+      }
+    }
+  }
+}

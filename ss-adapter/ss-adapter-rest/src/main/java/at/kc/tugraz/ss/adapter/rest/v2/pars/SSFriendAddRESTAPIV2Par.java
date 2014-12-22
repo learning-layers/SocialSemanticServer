@@ -18,25 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.datatypes.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.adapter.rest.SSRestMain;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
-
-  public SSAppStackLayoutsGetPar(
-    final SSMethU op, 
-    final String  key, 
-    final SSUri   user){
-    
-    super(op, key, user);
+@XmlRootElement
+@ApiModel(value = "friendAdd request parameter")
+public class SSFriendAddRESTAPIV2Par{
+  
+  @ApiModelProperty( 
+    required = true, 
+    value = "friend to add")
+  public SSUri         friend    = null;
+  
+  @XmlElement
+  public void setFriend(final String friend) throws Exception{
+    this.friend = SSUri.get(friend, SSRestMain.conf.vocConf.uriPrefix);
   }
   
-  public SSAppStackLayoutsGetPar(final SSServPar par) throws Exception{
-    super(par);
-  }
+  public SSFriendAddRESTAPIV2Par(){}
 }

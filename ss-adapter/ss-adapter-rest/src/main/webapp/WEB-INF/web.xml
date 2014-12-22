@@ -46,7 +46,7 @@
   </servlet>
   
   <servlet>
-    <servlet-name>SSRESTVideo</servlet-name>
+    <servlet-name>SSRESTSearch</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
@@ -63,8 +63,8 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-    <servlet>
-    <servlet-name>SSRESTCircle</servlet-name>
+  <servlet>
+    <servlet-name>SSRESTVideo</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
@@ -187,13 +187,13 @@
   </servlet-mapping>
   
   <servlet-mapping>
-    <servlet-name>SSRESTVideo</servlet-name>
-    <url-pattern>/videos/*</url-pattern>
+    <servlet-name>SSRESTSearch</servlet-name>
+    <url-pattern>/searchs/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
-    <servlet-name>SSRESTCircle</servlet-name>
-    <url-pattern>/circles/*</url-pattern>
+    <servlet-name>SSRESTVideo</servlet-name>
+    <url-pattern>/videos/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
@@ -261,8 +261,8 @@
     <filter-name>CORS</filter-name>
     <servlet-name>SSRESTEntity</servlet-name>
     <servlet-name>SSRESTAuth</servlet-name>
+    <servlet-name>SSRESTSearch</servlet-name>
     <servlet-name>SSRESTVideo</servlet-name>
-    <servlet-name>SSRESTCircle</servlet-name>
     <servlet-name>SSAdapterRest</servlet-name>
     <servlet-name>SSAdapterRESTFile</servlet-name>
     <servlet-name>SSAdapterRESTFileUpload</servlet-name>

@@ -25,18 +25,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
-public class SSEntityEntitiesToCircleAddRESTAPIV2Par{
+@ApiModel(value = "entityUserUsersToCircleAdd request parameter")
+public class SSCircleUsersAddRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
-    value = "entities to add")
-  public List<SSUri> entities = new ArrayList<>();
+    value = "users to add")
+  public List<SSUri> users   = new ArrayList<>();
   
   @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSRestMain.conf.vocConf.uriPrefix);
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users, SSRestMain.conf.vocConf.uriPrefix);
   }
   
-  public SSEntityEntitiesToCircleAddRESTAPIV2Par(){}
+  public SSCircleUsersAddRESTAPIV2Par(){}
 }

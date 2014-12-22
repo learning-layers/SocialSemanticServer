@@ -103,14 +103,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   }
   
   @Override
-  public void dataImportEvernote(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-   
-    SSServCaller.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSDataImportEvernoteRet.get(dataImportEvernote(parA), parA.op));
-  }
-  
-  @Override
   public Boolean dataImportEvernote(final SSServPar parA) throws Exception{
     
     try{

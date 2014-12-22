@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSSearchRESTAPIV1Par;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
@@ -29,6 +30,11 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutCreateRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutTileAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCircleCreateRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCircleGetRESTAPIV1Par;
@@ -36,6 +42,9 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCirclesGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityEntitiesToCircleAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityUsersToCircleAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendsGetRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSLikeSetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagEditRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagEntitiesForTagsGetRESTAPIV1Par;
@@ -73,8 +82,6 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCircleCreatePar;
@@ -198,11 +205,233 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 @Path("/")
-@Api( value = "SSAdapterRest", description = "SSS REST API" )
+@Api( value = "SSAdapterRest")
 public class SSAdapterRest{
   
   /* start calls with RESTful counterpart */
   
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendAdd")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendUserAddRet.class)
+  public String friendAdd(
+    final SSFriendAddRESTAPIV1Par input){
+    
+    final SSFriendUserAddPar par = 
+      new SSFriendUserAddPar(
+        SSMethU.friendAdd, 
+        input.key, 
+        input.user, 
+        input.friend);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "friendsGet")
+  @ApiOperation(
+    value = "add a friend",
+    response = SSFriendsUserGetRet.class)
+  public String friendsGet(
+    final SSFriendsGetRESTAPIV1Par input){
+    
+    final SSFriendsUserGetPar par =
+      new SSFriendsUserGetPar(
+        SSMethU.friendsGet,
+        input.key,
+        input.user);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appAdd")
+  @ApiOperation(
+    value = "add an app",
+    response = SSAppAddRet.class)
+  public String appAdd(
+    final SSAppAddRESTAPIV1Par input){
+    
+    final SSAppAddPar par =
+      new SSAppAddPar(
+        SSMethU.appAdd,
+        input.key,
+        input.user,
+        input.label,
+        input.descriptionShort,
+        input.descriptionFunctional,
+        input.descriptionTechnical,
+        input.descriptionInstall,
+        input.downloads,
+        input.downloadIOS,
+        input.downloadAndroid,
+        input.fork,
+        input.screenShots,
+        input.videos);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appsGet")
+  @ApiOperation(
+    value = "retrieve apps",
+    response = SSAppsGetRet.class)
+  public String appsGet(
+    final SSAppsGetRESTAPIV1Par input){
+    
+    final SSAppsGetPar par = 
+      new SSAppsGetPar(
+        SSMethU.appsGet, 
+        input.key, 
+        input.user);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutCreate")
+  @ApiOperation(
+    value = "create an arrangement of tiles within an app",
+    response = SSAppStackLayoutCreateRet.class)
+  public String appStackLayoutCreate(
+    final SSAppStackLayoutCreateRESTAPIV1Par input){
+    
+    final SSAppStackLayoutCreatePar par =
+      new SSAppStackLayoutCreatePar(
+        SSMethU.appStackLayoutCreate,
+        input.key,
+        input.user,
+        input.app,
+        input.label,
+        input.description);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutTileAdd")
+  @ApiOperation(
+    value = "add a tile to stack",
+    response = SSAppStackLayoutTileAddRet.class)
+  public String appStackLayoutTileAdd(
+    final SSAppStackLayoutTileAddRESTAPIV1Par input){
+    
+    final SSAppStackLayoutTileAddPar par =
+      new SSAppStackLayoutTileAddPar(
+        SSMethU.appStackLayoutTileAdd,
+        input.key,
+        input.user,
+        input.stack,
+        input.app,
+        input.label);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "appStackLayoutsGet")
+  @ApiOperation(
+    value = "retrieve appStackLayouts",
+    response = SSAppStackLayoutsGetRet.class)
+  public String appStackLayoutsGet(
+    final SSAppStackLayoutsGetRESTAPIV1Par input){
+    
+    final SSAppStackLayoutsGetPar par = 
+      new SSAppStackLayoutsGetPar(
+        SSMethU.appStackLayoutsGet, 
+        input.key, 
+        input.user);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "likeSet")
+  @ApiOperation(
+    value = "like or dislike an entity",
+    response = SSLikeUserSetRet.class)
+  public String likeSet(
+    final SSLikeSetRESTAPIV1Par input){
+    
+    final SSLikeUserSetPar par = 
+      new SSLikeUserSetPar(
+        SSMethU.likeSet, 
+        input.key, 
+        input.user, 
+        input.entity, 
+        input.value);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "search")
+  @ApiOperation(
+    value = "search for entities",
+    response = SSSearchRet.class)
+  public String search(
+    final SSSearchRESTAPIV1Par input){
+    
+    final SSSearchPar par = 
+      new SSSearchPar(
+        SSMethU.search, 
+        input.key, 
+        input.user, 
+        input.keywordsToSearchFor, 
+        input.includeTextualContent, 
+        input.wordsToSearchFor, 
+        input.includeTags, 
+        input.tagsToSearchFor, 
+        input.includeLabel, 
+        input.labelsToSearchFor, 
+        input.includeDescription, 
+        input.descriptionsToSearchFor, 
+        input.typesToSearchOnlyFor, 
+        input.includeOnlySubEntities, 
+        input.entitiesToSearchWithin, 
+        input.extendToParents, 
+        input.includeRecommendedResults, 
+        input.provideEntries, 
+        input.pagesID, 
+        input.pageNumber, 
+        input.minRating, 
+        input.maxRating, 
+        input.localSearchOp, 
+        input.globalSearchOp);
+      
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -229,6 +458,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -250,6 +480,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -272,6 +503,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -297,6 +529,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -318,6 +551,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -339,6 +573,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -354,11 +589,82 @@ public class SSAdapterRest{
         SSMethU.entityGet, 
         input.key, 
         input.user, 
-        input.entity);
+        input.entity, 
+        null);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagAdd")
+  @ApiOperation(
+    value = "add a tag within for an entity within given space",
+    response = SSTagAddRet.class)
+  public String tagAdd(
+    final SSTagAddRESTAPIV1Par input){
+    
+    final SSTagAddPar par =  
+      new SSTagAddPar(
+        SSMethU.tagAdd, 
+        input.key, 
+        input.user, 
+        input.entity, 
+        input.label, 
+        input.space, 
+        input.creationTime);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagsRemove")
+  @ApiOperation(
+    value = "remove tag, user, entity, space combinations",
+    response = SSTagsUserRemoveRet.class)
+  public String tagsRemove(
+    final SSTagsRemoveRESTAPIV1Par input){
+    
+    final SSTagsUserRemovePar par = 
+      new SSTagsUserRemovePar(
+        SSMethU.tagsRemove, 
+        input.key, 
+        input.user, 
+        input.entity, 
+        input.label, 
+        input.space);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "tagEdit")
+  @ApiOperation(
+    value = "changes the label of the tag assigned to entities by given user",
+    response = SSTagUserEditRet.class)
+  public String tagEdit(
+    final SSTagEditRESTAPIV1Par input){
+    
+    final SSTagUserEditPar par = 
+      new SSTagUserEditPar(
+        SSMethU.tagEdit, 
+        input.key, 
+        input.user, 
+        input.tag, 
+        input.label);
+    
+    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
+  }
+  
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -383,72 +689,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagAdd")
-  @ApiOperation(
-    value = "add a tag within for an entity within given space",
-    response = SSTagAddRet.class)
-  public String tagAdd(
-    final SSTagAddRESTAPIV1Par input){
-    
-    final SSTagAddPar par =  
-      new SSTagAddPar(
-        SSMethU.tagAdd, 
-        input.key, 
-        input.user, 
-        input.entity, 
-        input.label, 
-        input.space, 
-        input.creationTime);
-    
-    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagsRemove")
-  @ApiOperation(
-    value = "remove tag, user, entity, space combinations",
-    response = SSTagsUserRemoveRet.class)
-  public String tagsRemove(
-    final SSTagsRemoveRESTAPIV1Par input){
-    
-    final SSTagsUserRemovePar par = 
-      new SSTagsUserRemovePar(
-        SSMethU.tagsRemove, 
-        input.key, 
-        input.user, 
-        input.entity, 
-        input.label, 
-        input.space);
-    
-    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "tagEdit")
-  @ApiOperation(
-    value = "changes the label of the tag assigned to entities by given user",
-    response = SSTagUserEditRet.class)
-  public String tagEdit(
-    final SSTagEditRESTAPIV1Par input){
-    
-    final SSTagUserEditPar par = 
-      new SSTagUserEditPar(
-        SSMethU.tagEdit, 
-        input.key, 
-        input.user, 
-        input.tag, 
-        input.label);
-    
-    return SSRestMain.handleStandardJSONRESTCall(par, par.op);
-  }
-  
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -473,6 +714,7 @@ public class SSAdapterRest{
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -556,17 +798,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "dataImportEvernote")
-  @ApiOperation(
-    value = "import data from evernote for certain user",
-    response = SSDataImportEvernoteRet.class)
-  public String dataImportEvernote(final SSDataImportEvernotePar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.dataImportEvernote);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "activitiesGet")
   @ApiOperation(
     value = "retrieve activities from within a certain time frame",
@@ -595,18 +826,6 @@ public class SSAdapterRest{
     response = SSActivityUserAddRet.class)
   public String activityAdd(final SSActivityAddPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.activityAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "search")
-  @ApiOperation(
-    value = "search for entities",
-    response = SSSearchRet.class)
-  public String search(
-    final SSSearchPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.search);
   }
   
   @POST
@@ -1243,94 +1462,6 @@ public class SSAdapterRest{
     response = SSMessagesGetRet.class)
   public String messagesGet(final SSMessagesGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appAdd")
-  @ApiOperation(
-    value = "add an app",
-    response = SSAppAddRet.class)
-  public String appAdd(final SSAppAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appsGet")
-  @ApiOperation(
-    value = "retrieve apps",
-    response = SSAppsGetRet.class)
-  public String appsGet(final SSAppsGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appStackLayoutCreate")
-  @ApiOperation(
-    value = "create an arrangement of tiles within an app",
-    response = SSAppStackLayoutCreateRet.class)
-  public String appStackLayoutCreate(final SSAppStackLayoutCreatePar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutCreate);
-  }
-  
-   @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appStackLayoutTileAdd")
-  @ApiOperation(
-    value = "add a tile to stack",
-    response = SSAppStackLayoutTileAddRet.class)
-  public String appStackLayoutTileAdd(final SSAppStackLayoutTileAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutTileAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appStackLayoutsGet")
-  @ApiOperation(
-    value = "retrieve appStackLayouts",
-    response = SSAppStackLayoutsGetRet.class)
-  public String appStackLayoutsGet(final SSAppStackLayoutsGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.appStackLayoutsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "friendAdd")
-  @ApiOperation(
-    value = "add a friend",
-    response = SSFriendUserAddRet.class)
-  public String friendAdd(final SSFriendUserAddPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendAdd);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "friendsGet")
-  @ApiOperation(
-    value = "add a friend",
-    response = SSFriendsUserGetRet.class)
-  public String friendsGet(final SSFriendsUserGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.friendsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "likeSet")
-  @ApiOperation(
-    value = "like or dislike an entity",
-    response = SSLikeUserSetRet.class)
-  public String likeSet(final SSLikeUserSetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.likeSet);
   }
 }
 

@@ -45,10 +45,12 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Deprecated
 @Path("/videos")
-@Api( value = "videos", description = "SSS REST API for videos" )
+@Api( value = "videos")
 public class SSRESTVideo{
  
+  @Deprecated
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -78,6 +80,7 @@ public class SSRESTVideo{
     return SSRestMain.handleGETRequest(headers, par);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -112,9 +115,10 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMain.handlePOSTRequest(headers, par, par.op);
+    return SSRestMain.handlePOSTRequest(headers, par);
   }
   
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -149,6 +153,6 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMain.handlePOSTRequest(headers, par, par.op);
+    return SSRestMain.handlePOSTRequest(headers, par);
   }
 }

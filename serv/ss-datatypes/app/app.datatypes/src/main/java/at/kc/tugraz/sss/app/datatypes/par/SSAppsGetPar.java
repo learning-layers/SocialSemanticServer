@@ -20,15 +20,19 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "appsGet request parameter")
 public class SSAppsGetPar extends SSServPar{
-
-  public SSAppsGetPar(){}
+  
+  public SSAppsGetPar(
+    final SSMethU  op,
+    final String   key,
+    final SSUri    user){
+    
+    super(op, key, user);
+  }
   
   public SSAppsGetPar(SSServPar par) throws Exception{
     super(par);

@@ -43,7 +43,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
 @Path("/")
-@Api( value = "SSAdapterRESTFileDownload", description = "SSS File Download REST API" )
+@Api( value = "SSAdapterRESTFileDownload")
 public class SSAdapterRESTFileDownload{
   
   @POST

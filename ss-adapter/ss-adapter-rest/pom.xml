@@ -80,10 +80,10 @@
               
               <swaggerUIDocBasePath>http://localhost:8080/ss-adapter-rest/api-docs/v2</swaggerUIDocBasePath>
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
+              <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->
               <outputPath>${basedir}/src/main/webapp/api-docs/v2</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs/v2</swaggerDirectory>
               <useOutputFlatStructure>false</useOutputFlatStructure>
-              <!--<overridingModels>${basedir}/src/main/resources/swagger/swagger-overriding-models.json</overridingModels>-->
             </apiSource>
             
           </apiSources>

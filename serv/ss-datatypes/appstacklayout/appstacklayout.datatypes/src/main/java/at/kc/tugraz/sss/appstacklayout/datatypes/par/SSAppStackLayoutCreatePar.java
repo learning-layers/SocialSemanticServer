@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
@@ -27,46 +28,27 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "appStackLayoutCreate request parameter")
 public class SSAppStackLayoutCreatePar extends SSServPar{
   
-  @ApiModelProperty(
-    required = false,
-    value = "app this stack is for")
-  public SSUri               app        = null;
+  public SSUri               app              = null;
+  public SSLabel             label              = null;
+  public SSTextComment       description        = null;
   
-  @XmlElement
-  public void setApp(final String app) throws Exception{
-    this.app = SSUri.get(app);
+  public SSAppStackLayoutCreatePar(
+    final SSMethU        op,
+    final String         key,
+    final SSUri          user,
+    final SSUri          app,
+    final SSLabel        label,
+    final SSTextComment  description){
+    
+    super(op, key, user);
+    
+    this.app         = app;
+    this.label       = label;
+    this.description = description;
   }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "name")
-  public SSLabel               label        = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "description")
-  public SSTextComment               description        = null;
-  
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
-  }
-  
-  public SSAppStackLayoutCreatePar(){}
   
   public SSAppStackLayoutCreatePar(SSServPar par) throws Exception{
     

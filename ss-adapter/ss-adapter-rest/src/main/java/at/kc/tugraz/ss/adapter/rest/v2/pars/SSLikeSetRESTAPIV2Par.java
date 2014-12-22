@@ -18,25 +18,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.datatypes.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
-
-  public SSAppStackLayoutsGetPar(
-    final SSMethU op, 
-    final String  key, 
-    final SSUri   user){
-    
-    super(op, key, user);
-  }
+@XmlRootElement
+@ApiModel(value = "entityUserUpdate request parameter")
+public class SSLikeSetRESTAPIV2Par{
   
-  public SSAppStackLayoutsGetPar(final SSServPar par) throws Exception{
-    super(par);
-  }
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "value of the like - 1, 0, -1 for like, neutral, dislike")
+  public Integer             value         = null;
+  
+  public SSLikeSetRESTAPIV2Par(){}
 }

@@ -22,13 +22,12 @@ package at.kc.tugraz.ss.adapter.rest.v2;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAuthCheckCredRESTAPIV2Par;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSSearchRESTAPIV2Par;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
+import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,61 +36,55 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/auths")
-@Api( value = "auths")
-public class SSRESTAuth{
+@Path("/search")
+@Api( value = "search")
+public class SSRESTSearch{
  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(
-    value = "retrieve sss authentication token (i.e. key) and the user's uri for a given authtoken (e.g. OIDC authtoken) with header 'Authorization: Bearer yourToken'",
-    response = SSAuthCheckCredRet.class)
-  public Response checkCredWithAuthToken(
-    @Context 
-      HttpHeaders headers){
-
-    try{
-      
-      return SSRestMain.handleGETRequest(
-        headers,
-        new SSAuthCheckCredPar(
-          SSMethU.authCheckCred,
-          null,
-          null,
-          null,
-          null));
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @ApiOperation(
-    value = "retrieve sss authentication token (i.e. key) and the user's uri for user name and password",
-    response = SSAuthCheckCredRet.class)
-  public Response checkCredWithUserNamePassword(
-    final SSAuthCheckCredRESTAPIV2Par input){
+    value = "search for entities",
+    response = SSSearchRet.class)
+  public Response search(
+    @Context HttpHeaders       headers,
+    final SSSearchRESTAPIV2Par input){
     
-    final SSAuthCheckCredPar par;
+    final SSSearchPar par;
     
     try{
       
       par =
-        new SSAuthCheckCredPar(
-          SSMethU.authCheckCred,
-          "1234",
+        new SSSearchPar(
+          SSMethU.search,
           null,
-          input.label,
-          input.password);
+          null,
+          input.keywordsToSearchFor,
+          input.includeTextualContent,
+          input.wordsToSearchFor,
+          input.includeTags,
+          input.tagsToSearchFor,
+          input.includeLabel,
+          input.labelsToSearchFor,
+          input.includeDescription,
+          input.descriptionsToSearchFor,
+          input.typesToSearchOnlyFor,
+          input.includeOnlySubEntities,
+          input.entitiesToSearchWithin,
+          input.extendToParents,
+          input.includeRecommendedResults,
+          input.provideEntries,
+          input.pagesID,
+          input.pageNumber,
+          input.minRating,
+          input.maxRating,
+          input.localSearchOp,
+          input.globalSearchOp);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMain.sendPOSTRequest(par);
+    return SSRestMain.handlePOSTRequest(headers, par);
   }
 }

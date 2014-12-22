@@ -55,7 +55,6 @@ public class SSSearchActivityFct{
       
       keywordsToStore.addAll(par.keywordsToSearchFor);
       keywordsToStore.addAll(SSStrU.distinctWithoutEmptyAndNull(par.labelsToSearchFor));
-      keywordsToStore.addAll(par.misToSearchFor);
       keywordsToStore.addAll(SSStrU.distinctWithoutEmptyAndNull(par.tagsToSearchFor));
       
       keywordsToStore = SSStrU.distinctWithoutEmptyAndNull(keywordsToStore);

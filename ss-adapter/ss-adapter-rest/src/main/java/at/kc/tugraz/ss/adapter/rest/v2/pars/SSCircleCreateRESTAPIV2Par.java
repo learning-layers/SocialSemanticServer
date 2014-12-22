@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "entityUserCircleCreate request parameter")
-public class SSEntityCircleCreateRESTAPIV2Par{
+public class SSCircleCreateRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
@@ -70,5 +70,5 @@ public class SSEntityCircleCreateRESTAPIV2Par{
     try{ this.description = SSTextComment.get(description); } catch(Exception error){}
   }
   
-  public SSEntityCircleCreateRESTAPIV2Par(){}
+  public SSCircleCreateRESTAPIV2Par(){}
 }

@@ -30,16 +30,19 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSEntityUserGetPar extends SSServPar{
   
   public SSUri    entity         = null;
+  public SSUri    forUser        = null;
   
   public SSEntityUserGetPar(
     final SSMethU op, 
     final String  key, 
     final SSUri   user,
-    final SSUri   entity){
+    final SSUri   entity,
+    final SSUri   forUser){
 
     super(op, key, user);
     
-    this.entity = entity;
+    this.entity  = entity;
+    this.forUser = forUser;
   }
   
   public SSEntityUserGetPar(final SSServPar par) throws Exception{
@@ -49,11 +52,16 @@ public class SSEntityUserGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity = (SSUri)   pars.get(SSVarU.entity);
+        entity  = (SSUri)   pars.get(SSVarU.entity);
+        forUser = (SSUri)   pars.get(SSVarU.forUser);
       }
       
       if(par.clientJSONObj != null){
         entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        
+        try{
+          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        }catch(Exception error){}
       }
       
     }catch(Exception error){
@@ -64,5 +72,9 @@ public class SSEntityUserGetPar extends SSServPar{
   /* json getters */
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
   }
 }

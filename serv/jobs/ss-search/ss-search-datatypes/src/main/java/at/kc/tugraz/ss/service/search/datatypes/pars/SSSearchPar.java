@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -28,187 +29,115 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement(name = "SSSearchPar")
-@ApiModel(value = "search request parameter")
 public class SSSearchPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "general keywords to be searched for; get interpreted as, e.g. tags, words if respective flags set (e.g. includeTags)" )
   public List<String>        keywordsToSearchFor        = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether the text content (if available) of entities should be scanned" )
   public Boolean             includeTextualContent      = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    value = "keywords to be used in textual content search",
-    required = false)
   public List<String>        wordsToSearchFor           = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether tags of entities should be looked to find entities" )
   public Boolean             includeTags                = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "tags to be searched for" )
   public List<String>        tagsToSearchFor            = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "whether maturing indicators should be included in search")
-  public Boolean             includeMIs                 = null;
-    
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "maturing indicators of entities to be matched" )
-  public List<String>        misToSearchFor             = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether labels of entities should be scanned" )
   public Boolean             includeLabel               = null;
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "certain labels to be search for" )
   public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
-  
-  @XmlElement
-  public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
-    this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether descriptions of entities should be scanned" )
   public Boolean             includeDescription         = null;
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "certain descriptions to be searched for" )
   public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
-  
-  @XmlElement
-  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
-    this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
-  }
-  
-  @ApiModelProperty( 
-    required = false,
-    value = "list of entity types to be considered for search exclusively " )
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
-  
-  @XmlElement
-  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
-    this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether only sub-entities (e.g. collection entries) of entitiesToSearchWithin should be considered" )
   public Boolean             includeOnlySubEntities     = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "entities for whom only sub entities get search for")
   public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
-  
-  @XmlElement
-  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
-    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether search results shall contain the parents of found entities as search result" )
   public Boolean             extendToParents            = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether possibly recommended entities should be included in search results" )
   public Boolean             includeRecommendedResults  = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well" )
   public Boolean             provideEntries             = null;
+  public String              pagesID                    = null;
+  public Integer             pageNumber                 = null;
+  public Integer             minRating                  = null;
+  public Integer             maxRating                  = null;
+  public SSSearchOpE         localSearchOp              = SSSearchOpE.or;
+  public SSSearchOpE         globalSearchOp             = SSSearchOpE.or;
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "unique identifier for the pages of a previous search result")
-  public String              pagesID             = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "number of the page to be requested from a previous search result")
-  public Integer             pageNumber             = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "minimum overall star rating the entity must have to be returned")
-  public Integer              minRating             = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "maximum overall star rating the entity must have to be returned")
-  public Integer              maxRating             = null;
+  public SSSearchPar(
+    final SSMethU             op,
+    final String              key,
+    final SSUri               user,
+    final List<String>        keywordsToSearchFor        ,
+    final Boolean             includeTextualContent      ,
+    final List<String>        wordsToSearchFor           ,
+    final Boolean             includeTags                ,
+    final List<String>        tagsToSearchFor            ,
+    final Boolean             includeLabel               ,
+    final List<SSSearchLabel> labelsToSearchFor          ,
+    final Boolean             includeDescription         ,
+    final List<SSSearchLabel> descriptionsToSearchFor    ,
+    final List<SSEntityE>     typesToSearchOnlyFor       ,
+    final Boolean             includeOnlySubEntities     ,
+    final List<SSUri>         entitiesToSearchWithin     ,
+    final Boolean             extendToParents            ,
+    final Boolean             includeRecommendedResults  ,
+    final Boolean             provideEntries             ,
+    final String              pagesID                    ,
+    final Integer             pageNumber                 ,
+    final Integer             minRating                  ,
+    final Integer             maxRating                  ,
+    final SSSearchOpE         localSearchOp              ,
+    final SSSearchOpE         globalSearchOp             ){
     
-  @ApiModelProperty(
-    required = false,
-    value = "how results will be comined for query parameter separately (i.e. or | and; e.g. and: results have to match for all tags given in tagsToSearchFor)")
-  public SSSearchOpE              localSearchOp     = SSSearchOpE.or;
-  
-  @XmlElement
-  public void setLocalSearchOp(final String localSearchOp) throws Exception{
-    try{ this.localSearchOp = SSSearchOpE.valueOf(localSearchOp); }catch(Exception error){}
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)")
-  public SSSearchOpE              globalSearchOp     = SSSearchOpE.or;
-  
-  @XmlElement
-  public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
-    try{ this.globalSearchOp = SSSearchOpE.valueOf(globalSearchOp); }catch(Exception error){}
-  }
+    super(op, key, user);
     
-  public SSSearchPar(){}
+    if(keywordsToSearchFor != null){
+      this.keywordsToSearchFor.addAll(keywordsToSearchFor);
+    }
+    
+    this.includeTextualContent      = includeTextualContent;
+    
+    if(wordsToSearchFor != null){
+      this.wordsToSearchFor.addAll(wordsToSearchFor);
+    }
+    
+    this.includeTags                = includeTags;
+    
+    if(tagsToSearchFor != null){
+      this.tagsToSearchFor.addAll(tagsToSearchFor);
+    }
+    
+    this.includeLabel               = includeLabel;
+    
+    if(labelsToSearchFor != null){
+      this.labelsToSearchFor.addAll(labelsToSearchFor);
+    }
+    
+    this.includeDescription         = includeDescription;
+    
+    if(descriptionsToSearchFor != null){
+      this.descriptionsToSearchFor.addAll(descriptionsToSearchFor);
+    }
+    
+    if(typesToSearchOnlyFor != null){
+      this.typesToSearchOnlyFor.addAll(typesToSearchOnlyFor);
+    }    
+    
+    this.includeOnlySubEntities     = includeOnlySubEntities;
+    
+    if(entitiesToSearchWithin != null){
+      this.entitiesToSearchWithin.addAll(entitiesToSearchWithin);
+    }    
+    
+    this.extendToParents            = extendToParents;
+    this.includeRecommendedResults  = includeRecommendedResults;
+    this.provideEntries             = provideEntries;
+    this.pagesID                    = pagesID;
+    this.pageNumber                 = pageNumber;
+    this.minRating                  = minRating;
+    this.maxRating                  = maxRating;
+    this.localSearchOp              = localSearchOp;
+    this.globalSearchOp             = globalSearchOp;
+  }
   
   public SSSearchPar(final SSServPar par) throws Exception{
     
     super(par);
-    
+      
     try{
       
       if(pars != null){
@@ -217,8 +146,6 @@ public class SSSearchPar extends SSServPar{
         wordsToSearchFor           = (List<String>)           pars.get(SSVarU.wordsToSearchFor);
         includeTags                = (Boolean)                pars.get(SSVarU.includeTags);
         tagsToSearchFor            = (List<String>)           pars.get(SSVarU.tagsToSearchFor);
-        includeMIs                 = (Boolean)                pars.get(SSVarU.includeMIs);
-        misToSearchFor             = (List<String>)           pars.get(SSVarU.misToSearchFor);
         includeLabel               = (Boolean)                pars.get(SSVarU.includeLabel);
         labelsToSearchFor          = SSSearchLabel.get((List<String>)pars.get(SSVarU.labelsToSearchFor));
         includeDescription         = (Boolean)                pars.get(SSVarU.includeDescription);
@@ -260,14 +187,6 @@ public class SSSearchPar extends SSServPar{
           }
         }catch(Exception error){}
         
-        try{ includeMIs                   = par.clientJSONObj.get(SSVarU.includeMIs).getBooleanValue();                                                                       }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.misToSearchFor)) {
-            misToSearchFor.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-         
         try{ includeLabel                 = par.clientJSONObj.get(SSVarU.includeLabel).getBooleanValue();                                                                       }catch(Exception error){}
         
         try{

@@ -18,25 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.datatypes.par;
+package at.kc.tugraz.ss.adapter.rest.v1.par;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
-
-  public SSAppStackLayoutsGetPar(
-    final SSMethU op, 
-    final String  key, 
-    final SSUri   user){
-    
-    super(op, key, user);
+@XmlRootElement
+@ApiModel(value = "friendAdd request parameter")
+public class SSFriendAddRESTAPIV1Par{
+  
+  @XmlElement 
+  @ApiModelProperty( 
+    value = "operation to be executed", 
+    required = true)
+  public        SSMethU              op            = null;
+  
+  @ApiModelProperty( 
+    value = "the user's identifier", 
+    required = true)
+  public        SSUri                user          = null;
+  
+  @XmlElement 
+  public void setUser(final String user) throws Exception{
+    this.user = SSUri.get(user);
   }
   
-  public SSAppStackLayoutsGetPar(final SSServPar par) throws Exception{
-    super(par);
+  @XmlElement 
+  @ApiModelProperty( 
+    value = "the user's access tocken", 
+    required = true)
+  public String key                    = null;
+  
+  @ApiModelProperty( 
+    required = true, 
+    value = "friend to add")
+  public SSUri         friend    = null;
+  
+  @XmlElement
+  public void setFriend(final String friend) throws Exception{
+    this.friend = SSUri.get(friend);
   }
+  
+  public SSFriendAddRESTAPIV1Par(){}
 }

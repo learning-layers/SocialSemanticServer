@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.adapter.rest;
 
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTAuth;
-import at.kc.tugraz.ss.adapter.rest.v2.SSRESTCircle;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTEntities;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTVideo;
 import at.kc.tugraz.ss.adapter.rest.v1.SSAdapterRESTFileReplace;
@@ -37,6 +36,7 @@ import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTSearch;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -101,8 +101,8 @@ public class SSRestMain extends Application {
     classes.add(SSAdapterRESTFileReplace.class);
     classes.add(SSRESTVideo.class);
     classes.add(SSRESTAuth.class);
-    classes.add(SSRESTCircle.class);
     classes.add(SSRESTEntities.class);
+    classes.add(SSRESTSearch.class);
 
     return classes;
   }
@@ -258,16 +258,19 @@ public class SSRestMain extends Application {
   
   public static Response handlePOSTRequest(
     final HttpHeaders      headers,
-    final SSServPar        par,
-    final SSMethU          op){
-    
-    par.op = op;
+    final SSServPar        par){
     
     try{
       par.key = getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
+    
+    return sendPOSTRequest(par);
+  }
+  
+  public static Response sendPOSTRequest(
+    final SSServPar        par){
     
     final String   response;
     
@@ -294,10 +297,7 @@ public class SSRestMain extends Application {
   
   public static Response handleDELETERequest(
     final HttpHeaders      headers,
-    final SSServPar        par,
-    final SSMethU          op){
-    
-    par.op = op;
+    final SSServPar        par){
     
     try{
       par.key = getBearer(headers);
@@ -330,10 +330,7 @@ public class SSRestMain extends Application {
   
   public static Response handlePUTRequest(
     final HttpHeaders      headers,
-    final SSServPar        par,
-    final SSMethU          op){
-    
-    par.op = op;
+    final SSServPar        par){
     
     try{
       par.key = getBearer(headers);

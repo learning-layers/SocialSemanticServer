@@ -2,20 +2,13 @@
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/auths.{format}",
-    "description" : "SSS REST API for authentication"
+    "path" : "/search.{format}"
   }, {
-    "path" : "/videos.{format}",
-    "description" : "SSS REST API for videos"
+    "path" : "/videos.{format}"
   }, {
-    "path" : "/circles.{format}",
-    "description" : "SSS REST API for circles (groups)"
+    "path" : "/entities.{format}"
   }, {
-    "path" : "/tags.{format}",
-    "description" : "SSS REST API for tags"
-  }, {
-    "path" : "/entities.{format}",
-    "description" : "SSS REST API for entities"
+    "path" : "/auths.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

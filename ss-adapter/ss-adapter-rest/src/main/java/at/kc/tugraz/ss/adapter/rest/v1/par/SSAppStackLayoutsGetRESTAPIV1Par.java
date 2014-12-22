@@ -18,50 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.main.test.video;
+package at.kc.tugraz.ss.adapter.rest.v1.par;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
-import java.util.List;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSVideoAddTest extends SSServOpTestCaseA{
+@XmlRootElement
+@ApiModel(value = "appStackLayoutsGet request parameter")
+public class SSAppStackLayoutsGetRESTAPIV1Par{
+
+  @XmlElement 
+  @ApiModelProperty( 
+    value = "operation to be executed", 
+    required = true)
+  public        SSMethU              op            = null;
   
-  public SSVideoAddTest(final SSVideoConf videoConf) {
-    super(videoConf, SSMethU.videoUserAdd);
+  @ApiModelProperty( 
+    value = "the user's identifier", 
+    required = true)
+  public        SSUri                user          = null;
+  
+  @XmlElement 
+  public void setUser(final String user) throws Exception{
+    this.user = SSUri.get(user);
   }
   
-  @Override
-  protected void test() throws Exception {
-    
-    System.out.println (op + " test start");
-   
-   final SSUri entity = 
-      SSServCaller.videoUserAdd(
-        SSVoc.systemUserUri,
-        null, 
-        null, 
-        "123456789",
-        true);
-    
-    final List<SSEntity> entities = 
-      SSServCaller.entitiesUserGet(
-        SSVoc.systemUserUri, 
-        null);
-    
-    System.out.println (op + " test end");
-  }
+  @XmlElement 
+  @ApiModelProperty( 
+    value = "the user's access tocken", 
+    required = true)
+  public String key                    = null;
   
-  @Override
-  protected void testFromClient() throws Exception{
-    
-  }
-  
-  @Override
-  protected void setUp() throws Exception {
-  }
+  public SSAppStackLayoutsGetRESTAPIV1Par(){}
 }

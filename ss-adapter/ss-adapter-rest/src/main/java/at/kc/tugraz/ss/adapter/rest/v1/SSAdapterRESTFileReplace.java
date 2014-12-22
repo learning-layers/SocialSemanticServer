@@ -44,7 +44,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/")
-@Api( value = "SSAdapterRESTFileReplace", description = "SSS File Replace REST API" )
+@Api( value = "SSAdapterRESTFileReplace")
 public class SSAdapterRESTFileReplace{
   
   @POST

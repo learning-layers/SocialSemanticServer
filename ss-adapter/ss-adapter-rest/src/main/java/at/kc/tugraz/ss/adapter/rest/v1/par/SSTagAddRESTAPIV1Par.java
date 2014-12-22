@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "tagAdd request parameter")
 public class SSTagAddRESTAPIV1Par{
   
-    @XmlElement 
+  @XmlElement 
   @ApiModelProperty( 
     value = "operation to be executed", 
     required = true)

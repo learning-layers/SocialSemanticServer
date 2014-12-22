@@ -1006,8 +1006,6 @@ public class SSServCaller {
     final List<String>         wordsToSearchFor,
     final Boolean              includeTags,
     final List<String>         tagsToSearchFor,
-    final Boolean              includeMIs,
-    final List<String>         misToSearchFor,
     final Boolean              includeLabel,
     final List<String>         labelsToSearchFor,
     final Boolean              includeDescription,
@@ -1033,8 +1031,6 @@ public class SSServCaller {
     opPars.put(SSVarU.wordsToSearchFor,          wordsToSearchFor);
     opPars.put(SSVarU.includeTags,               includeTags);
     opPars.put(SSVarU.tagsToSearchFor,           tagsToSearchFor);
-    opPars.put(SSVarU.includeMIs,                includeMIs);
-    opPars.put(SSVarU.misToSearchFor,            misToSearchFor);
     opPars.put(SSVarU.includeLabel,              includeLabel);
     opPars.put(SSVarU.labelsToSearchFor,         labelsToSearchFor);
     opPars.put(SSVarU.includeDescription,        includeDescription);
@@ -1222,23 +1218,27 @@ public class SSServCaller {
   
   /* entity */
   public static List<SSEntity> entitiesUserGet(
-    final SSUri       user) throws Exception{
+    final SSUri       user, 
+    final SSUri       forUser) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.user,            user);
+    opPars.put(SSVarU.forUser,         forUser);
     
     return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGet, opPars));
   }
   
   public static SSEntity entityUserGet(
     final SSUri       user,
-    final SSUri       entity) throws Exception{
+    final SSUri       entity,
+    final SSUri       forUser) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarU.forUser,      forUser);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserGet, opPars));
   }

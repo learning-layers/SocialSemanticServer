@@ -40,7 +40,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/")
-@Api( value = "SSAdapterRESTFile", description = "SSS File REST API" )
+@Api( value = "SSAdapterRESTFile")
 public class SSAdapterRESTFile{
 
   @POST

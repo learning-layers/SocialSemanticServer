@@ -18,25 +18,39 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.datatypes.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.adapter.rest.SSRestMain;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
-
-  public SSAppStackLayoutsGetPar(
-    final SSMethU op, 
-    final String  key, 
-    final SSUri   user){
-    
-    super(op, key, user);
+@XmlRootElement
+@ApiModel(value = "appStackLayoutTileAdd request parameter")
+public class SSAppStackLayoutTileAddRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = false,
+    value = "link to the app the tile conains")
+  public SSUri               app        = null;
+  
+  @XmlElement
+  public void setApp(final String app) throws Exception{
+    this.app = SSUri.get(app, SSRestMain.conf.vocConf.uriPrefix);
   }
   
-  public SSAppStackLayoutsGetPar(final SSServPar par) throws Exception{
-    super(par);
+  @ApiModelProperty(
+    required = false,
+    value = "name")
+  public SSLabel               label        = null;
+  
+  @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
+  
+  public SSAppStackLayoutTileAddRESTAPIV2Par(){}
 }

@@ -18,25 +18,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.datatypes.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
+@XmlRootElement
+@ApiModel(value = "authCheckCred request parameter")
+public class SSAuthCheckCredRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = true,
+    value = "name of the user, e.g. 'hugo'")
+  public SSLabel label = null;
 
-  public SSAppStackLayoutsGetPar(
-    final SSMethU op, 
-    final String  key, 
-    final SSUri   user){
-    
-    super(op, key, user);
+  @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
-  public SSAppStackLayoutsGetPar(final SSServPar par) throws Exception{
-    super(par);
-  }
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "the user’s password")
+  public String  password = null;
+  
+  public SSAuthCheckCredRESTAPIV2Par(){}
 }

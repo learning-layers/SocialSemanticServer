@@ -20,52 +20,34 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "appStackLayoutTileAdd request parameter")
 public class SSAppStackLayoutTileAddPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "stack to add this tile")
   public SSUri               stack        = null;
+  public SSUri               app          = null;
+  public SSLabel             label        = null;
   
-  @XmlElement
-  public void setStack(final String stack) throws Exception{
-    this.stack = SSUri.get(stack);
+  public SSAppStackLayoutTileAddPar(
+    final SSMethU  op,
+    final String   key,
+    final SSUri    user,
+    final SSUri    stack,
+    final SSUri    app,
+    final SSLabel  label){
+    
+    super(op, key, user);
+    
+    this.stack  = stack;
+    this.app    = app;
+    this.label  = label;
   }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "link to the app the tile conains")
-  public SSUri               app        = null;
-  
-  @XmlElement
-  public void setApp(final String app) throws Exception{
-    this.app = SSUri.get(app);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "name")
-  public SSLabel               label        = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-  
-  public SSAppStackLayoutTileAddPar(){}
   
   public SSAppStackLayoutTileAddPar(SSServPar par) throws Exception{
     

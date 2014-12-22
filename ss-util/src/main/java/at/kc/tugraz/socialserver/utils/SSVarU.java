@@ -61,7 +61,6 @@ public class SSVarU{
   public static final String includeOnlySubEntities                         = "includeOnlySubEntities";
   public static final String wordsToSearchFor                               = "wordsToSearchFor";
   public static final String tagsToSearchFor                                = "tagsToSearchFor";
-  public static final String misToSearchFor                                 = "misToSearchFor";
   public static final String labelsToSearchFor                              = "labelsToSearchFor";
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
@@ -141,7 +140,6 @@ public class SSVarU{
   public static final String entities                                       = "entities";
   public static final String onlySubEntities                                = "onlySubEntities";
   public static final String includeDescription                             = "includeDescription";
-  public static final String includeMIs                                     = "includeMIs";
   public static final String includeTags                                    = "includeTags";
   public static final String includeLabel                                   = "includeLabel";
   public static final String includeTextualContent                          = "includeTextualContent";
