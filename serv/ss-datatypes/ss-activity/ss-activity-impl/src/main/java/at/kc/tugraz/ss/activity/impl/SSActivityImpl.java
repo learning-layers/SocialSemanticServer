@@ -199,11 +199,12 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           }
           
           entities.addAll(
-            SSServCaller.entityUserCircleGet(
+            SSServCaller.circleGet(
               par.user, 
-              null, 
+              par.user, 
               circle, 
-              false).entities);
+              false,
+              true).entities);
         }
       }
 

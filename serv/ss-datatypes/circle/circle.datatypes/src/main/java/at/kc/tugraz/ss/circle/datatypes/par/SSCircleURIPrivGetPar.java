@@ -23,9 +23,9 @@
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityCircleURIPrivGetPar extends SSServPar{
+public class SSCircleURIPrivGetPar extends SSServPar{
   
-  public SSEntityCircleURIPrivGetPar(SSServPar par) throws Exception{
+  public SSCircleURIPrivGetPar(SSServPar par) throws Exception{
       
     super(par);
     

@@ -31,7 +31,7 @@ import java.util.List;
 public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
   
   public SSEntityCircleCreateTest(SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityCircleCreate);
+    super(entityConf, SSMethU.circleCreate);
   }
   
   @Override
@@ -42,13 +42,14 @@ public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
     final List<SSUri> userUris   = new ArrayList<>();
     
     final SSUri circleUri = 
-      SSServCaller.entityCircleCreate(
+      SSServCaller.circleCreate(
         SSVoc.systemUserUri, 
         SSUri.asListWithoutNullAndEmpty(SSUri.get("http://www.google.at")), 
         userUris, 
         SSLabel.get("dieter priv circle"),
         SSTextComment.get("circle description"),
         false,
+        true,
         true);
     
     System.out.println(circleUri);

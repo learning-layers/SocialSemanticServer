@@ -26,12 +26,9 @@ import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +41,29 @@ public class SSCircleSQLFct extends SSDBSQLFct{
   
   public SSCircleSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
+  }
+  
+  public List<SSUri> getCircleURIs(
+    final Boolean withSystemCircles) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.isSystemCircle, withSystemCircles);
+      
+      resultSet = dbSQL.select(circleTable, wheres);
+      
+      return getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
   
   public List<SSUri> getCircleURIsForUser(
@@ -390,7 +410,8 @@ public class SSCircleSQLFct extends SSDBSQLFct{
   }
   
   public List<SSUri> getCircleURIsForEntity(
-    final SSUri   entityUri) throws Exception{
+    final SSUri   entityUri,
+    final Boolean withSystemCircles) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -398,13 +419,29 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       final Map<String, String>   wheres      = new HashMap<>();
       final List<String>          columns     = new ArrayList<>();
+      final List<SSUri>           circleUris  = new ArrayList<>();
+      final List<SSUri>           tmpCircleUris;
       
       column (columns, SSSQLVarU.circleId);
       where  (wheres,  SSSQLVarU.entityId, entityUri);
       
       resultSet = dbSQL.select(circleEntitiesTable, columns, wheres);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      
+      if(withSystemCircles){
+        return tmpCircleUris;
+      }else{
+        
+        for(SSUri circleUri : tmpCircleUris){
+          
+          if(!isSystemCircle(circleUri)){
+            circleUris.add(circleUri);
+          }
+        }
+        
+        return circleUris;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

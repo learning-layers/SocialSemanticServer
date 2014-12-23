@@ -25,13 +25,13 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSCircleClientI{
 
-  public void entityShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entitiesGet                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityEntityUsersGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCircleGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityEntitiesToCircleAdd            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserCirclesGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCircleCreate                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleEntityShare    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleEntitiesGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleEntityUsersGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circlePublicSet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleGet            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleEntitiesAdd    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleUsersAdd       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circlesGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleCreate         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

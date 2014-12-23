@@ -21,12 +21,12 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
 
-public class SSEntityUserCanPar extends SSServPar{
+public class SSCircleUserCanPar extends SSServPar{
 
   public SSUri           entity       = null;
   public SSCircleRightE  accessRight  = null;
   
-  public SSEntityUserCanPar(final SSServPar par) throws Exception{
+  public SSCircleUserCanPar(final SSServPar par) throws Exception{
     
     super(par);
     

@@ -25,46 +25,47 @@ import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.JsonNode;
 
-public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
+public class SSCircleUsersAddPar extends SSServPar{
+
+  public SSUri       circle  = null;
+  public List<SSUri> users   = new ArrayList<>();
   
-  public SSUri       circle   = null;
-  public List<SSUri> entities = new ArrayList<>();
-  
-  public SSEntityUserEntitiesToCircleAddPar(
-    final SSMethU     op,
-    final String      key,
-    final SSUri       user,
-    final SSUri       circle,
-    final List<SSUri> entities){
+  public SSCircleUsersAddPar(
+    final SSMethU      op,
+    final String       key,
+    final SSUri        user,
+    final SSUri        circle,
+    final List<SSUri>  users,
+    final Boolean      withUserRestriction){
     
     super(op, key, user);
     
     this.circle = circle;
     
-    if(entities != null){
-      this.entities.addAll(entities);
+    if(users != null){
+      this.users.addAll(users);
     }
+    
+    this.withUserRestriction      = withUserRestriction;
   }
   
-  public SSEntityUserEntitiesToCircleAddPar(final SSServPar par) throws Exception{
+  public SSCircleUsersAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
-    
+      
       if(pars != null){
-        circle         = (SSUri)         pars.get(SSVarU.circle);
-        entities       = (List<SSUri>)   pars.get(SSVarU.entities);
+        circle        = (SSUri)         pars.get(SSVarU.circle);
+        users         = (List<SSUri>)   pars.get(SSVarU.users);
       }
       
       if(par.clientJSONObj != null){
         
-        try{
-          circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
-        }catch(Exception error){}
+        circle        = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
         
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-          entities.add(SSUri.get(objNode.getTextValue()));
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          users.add(SSUri.get(objNode.getTextValue()));
         }
       }
     }catch(Exception error){
@@ -72,9 +73,9 @@ public class SSEntityUserEntitiesToCircleAddPar extends SSServPar{
     }
   }
   
-   /* json getters */
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
+  /* json getters */
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
   }
   
   public String getCircle() throws Exception{

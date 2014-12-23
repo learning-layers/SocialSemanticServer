@@ -39,7 +39,7 @@ import at.kc.tugraz.ss.adapter.rest.v2.pars.SSTagsGetRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSTagsRemoveRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSVideoAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSVideoAnnotationAddRESTAPIV2Par;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
@@ -47,15 +47,14 @@ import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntitiesUserGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleCreatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCirclesGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserUsersToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntitiesUserGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleCreateRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -112,21 +111,22 @@ public class SSRESTEntities {
   @Produces(MediaType.APPLICATION_JSON)
   @ApiOperation(
     value = "retrieve information on entities the user can access",
-    response = SSEntitiesUserGetRet.class)
+    response = SSCircleEntitiesGetRet.class)
   public Response entitiesGet(
     @Context
       HttpHeaders headers){
     
-    final SSEntitiesUserGetPar par;
+    final SSCircleEntitiesGetPar par;
     
     try{
       
       par =
-        new SSEntitiesUserGetPar(
-          SSMethU.entitiesGet,
+        new SSCircleEntitiesGetPar(
+          SSMethU.circleEntitiesGet,
           null,
           null,
-          null);
+          null, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -197,21 +197,23 @@ public class SSRESTEntities {
   @Path("/circles")
   @ApiOperation(
     value = "retrieve circles the user can access",
-    response = SSEntitiesUserGetRet.class)
+    response = SSCircleEntitiesGetRet.class)
   public Response circlesGet(
     @Context HttpHeaders headers){
     
-    final SSEntityUserCirclesGetPar par;
+    final SSCirclesGetPar par;
     
     try{
       
       par =
-        new SSEntityUserCirclesGetPar(
-          SSMethU.entityUserCirclesGet,
+        new SSCirclesGetPar(
+          SSMethU.circlesGet,
           null,
           null,
           null,
-          false);
+          null,
+          false,
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -226,26 +228,26 @@ public class SSRESTEntities {
   @Path("/circles")
   @ApiOperation(
     value = "create a circle and add users and entities to",
-    response = SSEntityUserCircleCreateRet.class)
+    response = SSCircleCreateRet.class)
   public Response circleAddPost(
     @Context HttpHeaders              headers,
     final SSCircleCreateRESTAPIV2Par input){
     
-    final SSEntityUserCircleCreatePar par;
+    final SSCircleCreatePar par;
     
     try{
       
       par =
-        new SSEntityUserCircleCreatePar(
-          SSMethU.entityCircleCreate,
+        new SSCircleCreatePar(
+          SSMethU.circleCreate,
           null,
           null,
           input.label,
           input.entities,
           input.users,
           input.description,
-          false,
-          SSCircleE.group);
+          false, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -876,17 +878,19 @@ public class SSRESTEntities {
     @PathParam (SSVarU.user)
       String user){
     
-    final SSEntityUserCirclesGetPar par;
+    final SSCirclesGetPar par;
     
     try{
       
       par =
-        new SSEntityUserCirclesGetPar(
-          SSMethU.entityUserCirclesGet,
+        new SSCirclesGetPar(
+          SSMethU.circlesGet,
           null,
           null,
           SSUri.get(user, SSRestMain.conf.vocConf.uriPrefix),
-          false);
+          null,
+          false,
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -939,18 +943,19 @@ public class SSRESTEntities {
      @PathParam (SSVarU.circle)
       String circle){
     
-    final SSEntityUserCircleGetPar par;
+    final SSCircleGetPar par;
     
     try{
       
       par =
-        new SSEntityUserCircleGetPar(
-          SSMethU.entityCircleGet,
+        new SSCircleGetPar(
+          SSMethU.circleGet,
           null,
           null,
           SSUri.get(user,   SSRestMain.conf.vocConf.uriPrefix),
           SSUri.get(circle, SSRestMain.conf.vocConf.uriPrefix),
-          false);
+          false,
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -971,16 +976,17 @@ public class SSRESTEntities {
     @PathParam(SSVarU.circle) String           circle,
     final SSCircleUsersAddRESTAPIV2Par input){
     
-    final SSEntityUserUsersToCircleAddPar par;
+    final SSCircleUsersAddPar par;
     
     try{
       par =
-        new SSEntityUserUsersToCircleAddPar(
-          SSMethU.entityUsersToCircleAdd,
+        new SSCircleUsersAddPar(
+          SSMethU.circleUsersAdd,
           null,
           null,
           SSUri.get(circle, SSRestMain.conf.vocConf.uriPrefix),
-          input.users);
+          input.users, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -1001,12 +1007,12 @@ public class SSRESTEntities {
     @PathParam(SSVarU.circle) String              circle,
     final SSCircleEntitiesAddRESTAPIV2Par input){
     
-    final SSEntityUserEntitiesToCircleAddPar par;
+    final SSCircleEntitiesAddPar par;
     
     try{
       
       par =
-        new SSEntityUserEntitiesToCircleAddPar(
+        new SSCircleEntitiesAddPar(
           SSMethU.entityEntitiesToCircleAdd,
           null,
           null,

@@ -15,27 +15,34 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import java.util.List;
 
-public class SSEntityUsersToCircleAddPar extends SSServPar{
+public class SSCircleEntityToPubCircleAddPar extends SSServPar{
 
-  public SSUri       circle  = null;
-  public List<SSUri> users   = null;
+  public SSUri           entity       = null;
+  public SSEntityE       type         = null;
+  public SSLabel         label        = null;
+  public SSTextComment   description  = null;
+  public Long            creationTime = null;
   
-  public SSEntityUsersToCircleAddPar(final SSServPar par) throws Exception{
+  public SSCircleEntityToPubCircleAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
     
       if(pars != null){
-        circle        = (SSUri)         pars.get(SSVarU.circle);
-        users         = (List<SSUri>)   pars.get(SSVarU.users);
+        entity       = (SSUri)         pars.get(SSVarU.entity);
+        type         = (SSEntityE)     pars.get(SSVarU.type);
+        label        = (SSLabel)       pars.get(SSVarU.label);
+        description  = (SSTextComment) pars.get(SSVarU.description);
+        creationTime = (Long)          pars.get(SSVarU.creationTime);
       }
       
     }catch(Exception error){

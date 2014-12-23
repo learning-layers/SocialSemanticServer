@@ -95,10 +95,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         if(par.getCircles){
           
           user.circles.addAll(
-            SSServCaller.entityUserCirclesGet(
-              par.user,
-              desc.id,
-              false));
+            SSServCaller.circlesGet(par.user, par.user, null, false, true));
         }
           
         return user;

@@ -148,11 +148,12 @@ public class SSLearnEpMiscFct{
         learnEp,
         circle);
       
-      SSServCaller.entityUsersToCircleAdd(
+      SSServCaller.circleUsersAdd(
         user,
         circle,
         sqlFct.getLearnEpUserURIs(learnEp),
-        false);
+        false, 
+        true);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

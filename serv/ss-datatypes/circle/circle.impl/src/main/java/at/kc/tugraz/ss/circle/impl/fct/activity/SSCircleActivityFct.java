@@ -22,13 +22,13 @@ package at.kc.tugraz.ss.circle.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleCreatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserUsersToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ import sss.serv.err.datatypes.SSErr;
 public class SSCircleActivityFct{
   
   public static void createCircle(
-    final SSEntityUserCircleCreatePar par,
-    final SSUri                       circle) throws Exception{
+    final SSCircleCreatePar par,
+    final SSUri             circle) throws Exception{
     
     try{
       
@@ -70,7 +70,7 @@ public class SSCircleActivityFct{
   }
   
   public static void addEntitiesToCircle(
-    final SSEntityUserEntitiesToCircleAddPar par) throws Exception{
+    final SSCircleEntitiesAddPar par) throws Exception{
     
     try{
       
@@ -101,7 +101,7 @@ public class SSCircleActivityFct{
   }
   
   public static void addUsersToCircle(
-    final SSEntityUserUsersToCircleAddPar par) throws Exception{
+    final SSCircleUsersAddPar par) throws Exception{
     
     try{
       
@@ -127,7 +127,7 @@ public class SSCircleActivityFct{
   }
   
   public static void setEntityPublic(
-    final SSEntityUserPublicSetPar par) throws Exception{
+    final SSCircleEntityPublicSetPar par) throws Exception{
     
      try{
       
@@ -153,7 +153,7 @@ public class SSCircleActivityFct{
   }
   
   public static void shareEntityWithUsers(
-    final SSEntityUserSharePar par) throws Exception{
+    final SSCircleEntitySharePar par) throws Exception{
     
     if(!par.saveActivity){
       return;
@@ -183,7 +183,7 @@ public class SSCircleActivityFct{
   }
   
   public static void shareEntityWithCircles(
-    final SSEntityUserSharePar par) throws Exception{
+    final SSCircleEntitySharePar par) throws Exception{
     
     if(!par.saveActivity){
       return;

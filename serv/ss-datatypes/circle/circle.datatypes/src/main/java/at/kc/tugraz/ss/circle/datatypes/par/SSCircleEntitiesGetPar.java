@@ -27,22 +27,24 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntitiesUserGetPar extends SSServPar{
+public class SSCircleEntitiesGetPar extends SSServPar{
   
   public SSUri    forUser        = null;
   
-  public SSEntitiesUserGetPar(
+  public SSCircleEntitiesGetPar(
     final SSMethU op,
     final String  key,
     final SSUri   user,
-    final SSUri   forUser) throws Exception{
+    final SSUri   forUser,
+    final Boolean withUserRestriction) throws Exception{
     
     super(op, key, user);
     
-    this.forUser = forUser;
+    this.forUser             = forUser;
+    this.withUserRestriction = withUserRestriction;
   }
   
-  public SSEntitiesUserGetPar(SSServPar par) throws Exception{
+  public SSCircleEntitiesGetPar(SSServPar par) throws Exception{
     try{
       
       if(pars != null){

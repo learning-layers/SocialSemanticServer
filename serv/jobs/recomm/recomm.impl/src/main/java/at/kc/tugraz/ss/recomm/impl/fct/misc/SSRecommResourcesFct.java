@@ -89,9 +89,11 @@ public class SSRecommResourcesFct{
     if(par.setCircleTypes){
     
       entity.circleTypes.addAll(
-        SSServCaller.entityUserEntityCircleTypesGet(
+        SSServCaller.circleTypesGet(
           par.user,
-          entity.id));
+          par.user,
+          entity.id, 
+          true));
     }
   }
 }

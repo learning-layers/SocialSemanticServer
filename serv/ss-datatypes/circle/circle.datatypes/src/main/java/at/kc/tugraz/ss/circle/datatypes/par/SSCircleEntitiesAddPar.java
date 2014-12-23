@@ -15,19 +15,38 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
+import org.codehaus.jackson.JsonNode;
 
-public class SSEntityEntitiesToCircleAddPar extends SSServPar{
-
+public class SSCircleEntitiesAddPar extends SSServPar{
+  
   public SSUri       circle   = null;
   public List<SSUri> entities = new ArrayList<>();
   
-  public SSEntityEntitiesToCircleAddPar(final SSServPar par) throws Exception{
+  public SSCircleEntitiesAddPar(
+    final SSMethU     op,
+    final String      key,
+    final SSUri       user,
+    final SSUri       circle,
+    final List<SSUri> entities){
+    
+    super(op, key, user);
+    
+    this.circle = circle;
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
+  }
+  
+  public SSCircleEntitiesAddPar(final SSServPar par) throws Exception{
     
     super(par);
     
@@ -38,8 +57,27 @@ public class SSEntityEntitiesToCircleAddPar extends SSServPar{
         entities       = (List<SSUri>)   pars.get(SSVarU.entities);
       }
       
+      if(par.clientJSONObj != null){
+        
+        try{
+          circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        }catch(Exception error){}
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          entities.add(SSUri.get(objNode.getTextValue()));
+        }
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+   /* json getters */
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
   }
 }

@@ -23,7 +23,6 @@ package at.kc.tugraz.socialserver.utils;
 public enum SSMethU{
 
   //like
-//like
   likesUserGet,
   likesGet,
   likeUserSet,
@@ -92,12 +91,18 @@ public enum SSMethU{
   evernoteNotesLinkedGet                              ,
   evernoteNoteTagNamesGet,
   
+  //circle
+  circleCreate,
+  circleEntitiesGet,
+  circleUsersAdd,
+  circleMostOpenCircleTypeGet,
+  circleTypesGet,
+  circleGet,
+  circlesGet,
+  circleEntityUsersGet,
+  
   //entity
-  entitiesGet,
   entitiesUserGet,
-  entityEntityCirclesGet,
-  entityUserCircleGet,
-  entityCircleGet,
   entitiesForLabelsAndDescriptionsGet,
   entitiesForLabelsGet,
   entitiesForDescriptionsGet,
@@ -120,21 +125,11 @@ public enum SSMethU{
   entityCircleURIPrivGet,
   entityCircleURIPubGet,
   entityUserCircleDelete,
-  entityCircleCreate,
   entityEntitiesToCircleAdd,
-  entityUsersToCircleAdd,
-  entityUserCircleCreate,
   entityUserCan,
-  entityUserCirclesGet,
-  entityEntityUsersGet,
-  entityUserEntityCirclesGet,
-  entityUserUsersToCircleAdd, 
   entityUserEntitiesToCircleAdd,
   entityCirclesGet,
   entityInSharedCircleIs,
-  entityMostOpenCircleTypeGet,
-  entityUserEntityCircleTypesGet,
-  entityUserEntityMostOpenCircleTypeGet,
   entityUserPublicSet,
   entityUserGet,
   entityUserShare,
@@ -143,7 +138,6 @@ public enum SSMethU{
   entityEntityToPrivCircleAdd,
   entityEntityToPubCircleAdd,
   entityCopy, 
-  entityUserEntityUsersGet,
   entityDirectlyAdjoinedEntitiesRemove,
   entityShare,
   entityEntitiesAttachedGet,  

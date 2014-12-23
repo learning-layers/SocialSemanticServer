@@ -38,7 +38,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
@@ -69,10 +69,11 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.activity.SSEntityActivityFct;
-import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather.SSEntityUserRelationsGatherFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -155,10 +156,15 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   
   @Override
   public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    SSEntityClientFct.entityUserCopy(sSCon, parA, this);
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
+    
+    SSEntityActivityFct.copyEntityForUsers(new SSEntityUserCopyPar(parA));
   }
   
-  @Override 
+  @Override
   public Boolean entityUserCopy(final SSServPar parA) throws Exception{
     
     try{   
@@ -481,11 +487,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       switch(entity.type){
         
         case circle:{
-          return SSServCaller.entityUserCircleGet(
+          return SSServCaller.circleGet(
             par.user,
             par.forUser,
             par.entity,
-            false);
+            false,
+            true);
         }
         
         default:{

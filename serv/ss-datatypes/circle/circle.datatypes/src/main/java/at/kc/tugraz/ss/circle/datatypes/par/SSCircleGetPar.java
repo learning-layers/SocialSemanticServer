@@ -22,49 +22,46 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityUserCircleGetPar extends SSServPar{
+public class SSCircleGetPar extends SSServPar{
   
-  public SSUri   circle                     = null;
   public SSUri   forUser                    = null;
+  public SSUri   circle                     = null;
   public Boolean withSystemCircles          = false;
   
-  public SSEntityUserCircleGetPar(){}
+  public SSCircleGetPar(){}
   
-  public SSEntityUserCircleGetPar(
+  public SSCircleGetPar(
     final SSMethU  op,
     final String   key,
     final SSUri    user,
     final SSUri    forUser,
     final SSUri    circle,
-    final Boolean  withSystemCircles) throws Exception{
+    final Boolean  withSystemCircles,
+    final Boolean  withUserRestriction) throws Exception{
     
     super(op, key, user);
     
-    this.circle            = circle;
-    this.forUser           = forUser;
-    this.withSystemCircles = withSystemCircles;
+    this.forUser               = forUser;
+    this.circle                = circle;
+    this.withSystemCircles     = withSystemCircles;
+    this.withUserRestriction   = withUserRestriction;
   }
   
-  public SSEntityUserCircleGetPar(final SSServPar par) throws Exception{
+  public SSCircleGetPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        circle               = (SSUri)   pars.get(SSVarU.circle);
         forUser              = (SSUri)   pars.get(SSVarU.forUser);
+        circle               = (SSUri)   pars.get(SSVarU.circle);
         withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
       }
       
       if(par.clientJSONObj != null){
         
         circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
-        
-        try{
-          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        }catch(Exception error){}
-        
         withSystemCircles = false;
       }
       
@@ -76,9 +73,5 @@ public class SSEntityUserCircleGetPar extends SSServPar{
    /* json getters */
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
-  }
-  
-  public String getForUser() throws Exception{
-    return SSStrU.removeTrailingSlash(forUser);
   }
 }

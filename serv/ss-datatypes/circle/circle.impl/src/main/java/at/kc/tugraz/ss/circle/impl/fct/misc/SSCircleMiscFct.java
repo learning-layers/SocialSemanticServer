@@ -80,7 +80,7 @@ public class SSCircleMiscFct{
     }
   }
   
-  public static void shareUserEntityWithCircleByEntityHandlers(
+  public static void shareEntityWithCircleByHandlers(
     final SSUri                              userUri,
     final List<SSUri>                        entityUris,
     final SSUri                              circleUri) throws Exception{
@@ -381,7 +381,7 @@ public class SSCircleMiscFct{
     }
   }
   
-  public static void shareByEntityHandlers(
+  public static void shareEntityWithUsersByHandlers(
     final SSUri        userUri, 
     final List<SSUri>  userUris,
     final SSUri        entityUri,

@@ -67,7 +67,7 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
@@ -84,21 +84,20 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleCreatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCirclesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntityUsersGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserSharePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserUsersToCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleCreateRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
@@ -469,13 +468,15 @@ public class SSAdapterRest{
   public String entityUserCirclesGet(
     final SSEntityCirclesGetRESTAPIV1Par input) throws Exception{
     
-    final SSEntityUserCirclesGetPar par = 
-      new SSEntityUserCirclesGetPar(
-        SSMethU.entityUserCirclesGet, 
+    final SSCirclesGetPar par = 
+      new SSCirclesGetPar(
+        SSMethU.circlesGet, 
         input.key, 
         input.user,
         input.forUser, 
-        false);
+        null,
+        false,
+        true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
@@ -491,14 +492,15 @@ public class SSAdapterRest{
   public String entityCircleGet(
     final SSEntityCircleGetRESTAPIV1Par input) throws Exception{
     
-    final SSEntityUserCircleGetPar par = 
-      new SSEntityUserCircleGetPar(
-        SSMethU.entityCircleGet, 
+    final SSCircleGetPar par = 
+      new SSCircleGetPar(
+        SSMethU.circleGet, 
         input.key, 
         input.user, 
         input.forUser, 
         input.circle,
-        false);
+        false,
+        true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
@@ -510,13 +512,13 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityCircleCreate")
   @ApiOperation(
     value = "create a circle and add users and entities to",
-    response = SSEntityUserCircleCreateRet.class)
+    response = SSCircleCreateRet.class)
   public String entityCircleCreate(
     final SSEntityCircleCreateRESTAPIV1Par input){
     
-    final SSEntityUserCircleCreatePar par =
-      new SSEntityUserCircleCreatePar(
-        SSMethU.entityCircleCreate,
+    final SSCircleCreatePar par =
+      new SSCircleCreatePar(
+        SSMethU.circleCreate,
         input.key,
         input.user,
         input.label,
@@ -524,7 +526,7 @@ public class SSAdapterRest{
         input.users,
         input.description,
         false,
-        SSCircleE.group);
+        true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
@@ -540,13 +542,14 @@ public class SSAdapterRest{
   public String entityUsersToCircleAdd(
     final SSEntityUsersToCircleAddRESTAPIV1Par input){
     
-    final SSEntityUserUsersToCircleAddPar par =
-      new SSEntityUserUsersToCircleAddPar(
-        SSMethU.entityUsersToCircleAdd,
+    final SSCircleUsersAddPar par =
+      new SSCircleUsersAddPar(
+        SSMethU.circleUsersAdd,
         input.key,
         input.user,
         input.circle,
-        input.users);
+        input.users,
+        true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }
@@ -562,8 +565,8 @@ public class SSAdapterRest{
   public String entityEntitiesToCircleAdd(
     final SSEntityEntitiesToCircleAddRESTAPIV1Par input){
     
-    final SSEntityUserEntitiesToCircleAddPar par = 
-      new SSEntityUserEntitiesToCircleAddPar(
+    final SSCircleEntitiesAddPar par = 
+      new SSCircleEntitiesAddPar(
         SSMethU.entityEntitiesToCircleAdd, 
         input.key, 
         input.user, 
@@ -846,7 +849,7 @@ public class SSAdapterRest{
   @ApiOperation(
     value = "set an entity public (make it accessible for everyone)",
     response = SSEntityUserPublicSetRet.class)
-  public String entityPublicSet(final SSEntityUserPublicSetPar input){
+  public String entityPublicSet(final SSCircleEntityPublicSetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityPublicSet);
   }
   
@@ -868,8 +871,8 @@ public class SSAdapterRest{
   @ApiOperation(
     value = "retrieve users who can access given entity",
     response = SSEntityUserEntityUsersGetRet.class)
-  public String entityEntityUsersGet(final SSEntityUserEntityUsersGetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityEntityUsersGet);
+  public String entityEntityUsersGet(final SSCircleEntityUsersGetPar input){
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.circleEntityUsersGet);
   }
   
   @POST
@@ -978,7 +981,7 @@ public class SSAdapterRest{
   @ApiOperation(
     value = "share an entity directly with given users",
     response = SSEntityUserShareRet.class)
-  public String entityShare(final SSEntityUserSharePar input){
+  public String entityShare(final SSCircleEntitySharePar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityShare);
   }
   

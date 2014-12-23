@@ -16,24 +16,25 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEntityEntityCirclesGetPar extends SSServPar{
+public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
 
-  public SSUri   entity              = null;
-    
-  public SSEntityEntityCirclesGetPar(final SSServPar par) throws Exception{
+  public SSUri forUser = null;
+  public SSUri entity  = null;
+  
+  public SSCircleMostOpenCircleTypeGetPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
-      
+    
       if(pars != null){
-        entity            = (SSUri)   pars.get(SSVarU.entity);
-      }        
-      
+        forUser       = (SSUri)         pars.get(SSVarU.forUser);
+        entity        = (SSUri)         pars.get(SSVarU.entity);
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

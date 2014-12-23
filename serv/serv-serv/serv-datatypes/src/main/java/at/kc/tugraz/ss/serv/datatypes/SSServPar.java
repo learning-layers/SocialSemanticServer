@@ -64,7 +64,7 @@ public class SSServPar{
   public        Boolean              shouldCommit  = true;
   
   @JsonIgnore (value = true)
-  public        Boolean              saveUE        = true;
+  public        Boolean              withUserRestriction     = true;
   
   @JsonIgnore (value = true)
   public        Boolean              saveActivity  = false;
@@ -185,7 +185,7 @@ public class SSServPar{
     }catch(Exception error3){}
     
     try{
-      saveUE = (Boolean) pars.get(SSVarU.saveUE);
+      withUserRestriction = (Boolean) pars.get(SSVarU.withUserRestriction);
     }catch(Exception error4){}
     
     try{
@@ -213,8 +213,8 @@ public class SSServPar{
       this.tryAgain = par.tryAgain;
     }
     
-    if(par.saveUE != null){
-      this.saveUE = par.saveUE;
+    if(par.withUserRestriction != null){
+      this.withUserRestriction = par.withUserRestriction;
     }
     
     if(par.saveActivity != null){

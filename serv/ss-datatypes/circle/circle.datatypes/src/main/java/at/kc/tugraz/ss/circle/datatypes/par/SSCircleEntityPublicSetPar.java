@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Copyright 2013 Graz University of Technology - KTI (Knowledge Technologies Institute)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,57 +15,52 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSEntityUserCirclesGetPar extends SSServPar{
-
-  public SSUri   forUser             = null;
-  public Boolean withSystemCircles   = false;
+@XmlRootElement
+@ApiModel(value = "entityUserPublicSet request parameter")
+public class SSCircleEntityPublicSetPar extends SSServPar{
   
-  public SSEntityUserCirclesGetPar(
-    final SSMethU  op,
-    final String   key,
-    final SSUri    user,
-    final SSUri    forUser,
-    final Boolean  withSystemCircles) throws Exception{
-    
-    super(op, key, user);
-    
-    this.withSystemCircles = withSystemCircles;
-    this.forUser           = forUser;
+  @ApiModelProperty( 
+    required = true, 
+    value = "entity to make public")
+  public SSUri entity  = null;
+
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public SSEntityUserCirclesGetPar(final SSServPar par) throws Exception{
+  public SSCircleEntityPublicSetPar(){}
     
+  public SSCircleEntityPublicSetPar(SSServPar par) throws Exception{
+      
     super(par);
     
     try{
       
       if(pars != null){
-        withSystemCircles = (Boolean) pars.get(SSVarU.withSystemCircles);
-        forUser           = (SSUri)   pars.get(SSVarU.forUser);
+        entity      = (SSUri)      pars.get(SSVarU.entity);
       }
       
       if(par.clientJSONObj != null){
-        withSystemCircles = false;
-
-        try{
-          forUser                    = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        }catch(Exception error){}
+        entity   = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
       }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   /* json getters */
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

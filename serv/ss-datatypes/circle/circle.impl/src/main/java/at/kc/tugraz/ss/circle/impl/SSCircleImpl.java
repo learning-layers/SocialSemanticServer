@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.impl;
 
+import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
@@ -31,36 +32,31 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityCircleCreatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityCircleURIPrivGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityEntitiesToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityEntityCirclesGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityEntityToPrivCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityEntityToPubCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleCreatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCircleGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCirclesGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntitiesToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntityCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntityCirclesGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntityMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserUsersToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUsersToCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleCreateRet;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleURIPrivGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesToCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityToPrivCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityToPubCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserUsersToCircleAddRet;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserCanPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserPublicSetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserEntityUsersGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUserCanPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntityUsersGetRet;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntitiesUserGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSEntityUserSharePar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntitiesUserGetRet;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -71,7 +67,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
-import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, SSCircleServerI{
@@ -85,7 +80,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entityCircleCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void circleCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     final SSUri userFromOIDC = SSServCaller.checkKey(parA);
     
@@ -93,71 +88,24 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       parA.user = userFromOIDC;
     }
     
-    final SSUri result = entityUserCircleCreate(parA);
+    final SSUri result = circleCreate(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserCircleCreateRet.get(result, parA.op));
+    sSCon.writeRetFullToClient(SSCircleCreateRet.get(result, parA.op));
     
-    SSCircleActivityFct.createCircle(new SSEntityUserCircleCreatePar(parA), result);
+    SSCircleActivityFct.createCircle(new SSCircleCreatePar(parA), result);
   }
   
   @Override
-  public SSUri entityUserCircleCreate(final SSServPar parA) throws Exception{
+  public SSUri circleCreate(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSEntityUserCircleCreatePar par = new SSEntityUserCircleCreatePar(parA);
+      final SSCircleCreatePar par        = new SSCircleCreatePar(parA);
+      final SSUri             circleUri  = SSServCaller.vocURICreate();
       
-      SSCircleMiscFct.checkWhetherCircleIsGroupCircle (par.type);
-      SSServCaller.entityUserCanEdit                  (par.user, par.entities);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri circleUri =
-        SSServCaller.entityCircleCreate(
-          par.user,
-          par.entities,
-          par.users,
-          par.label,
-          par.description,
-          par.isSystemCircle,
-          false);
-      
-      SSCircleMiscFct.shareUserEntityWithCircleByEntityHandlers(
-        par.user,
-        par.entities,
-        circleUri);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return circleUri;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserCircleCreate(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      if(par.withUserRestriction){
+        SSServCaller.entityUserCanEdit (par.user, par.entities);
       }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public SSUri entityCircleCreate(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityCircleCreatePar par        = new SSEntityCircleCreatePar(parA);
-      final SSUri                   circleUri  = SSServCaller.vocURICreate();
-      final SSCircleE               circleType = SSCircleE.group;
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -170,12 +118,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         null, 
         false);
       
-      switch(circleType){
-        case priv:
-        case group:
-        case pub: sqlFct.addCircle(circleUri, circleType, par.isSystemCircle); break;
-        default: throw new Exception("circle type " + circleType + "currently not supported");
-      }
+      sqlFct.addCircle(
+        circleUri, 
+        SSCircleE.group, 
+        par.isSystemCircle);
       
       if(!par.entities.isEmpty()){
       
@@ -188,16 +134,25 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(!par.users.isEmpty()){
         
-        SSServCaller.entityUsersToCircleAdd(
+        SSServCaller.circleUsersAdd(
           par.user, 
           circleUri,   
           par.users,  
+          false,
           false);
       }
       
       sqlFct.addUserToCircleIfNotExists(
         circleUri, 
         par.user);
+      
+      if(par.withUserRestriction){
+        
+        SSCircleMiscFct.shareEntityWithCircleByHandlers(
+          par.user,
+          par.entities,
+          circleUri);
+      }
       
       dbSQL.commit(par.shouldCommit);
       
@@ -209,7 +164,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         SSServErrReg.reset();
         
         if(dbSQL.rollBack(parA)){
-          return entityCircleCreate(parA);
+          return circleCreate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -223,14 +178,34 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public SSUri entityUsersToCircleAdd(final SSServPar parA) throws Exception{
+  public void circleUsersAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+
+    final SSUri result = circleUsersAdd(parA);
+    
+    sSCon.writeRetFullToClient(SSEntityUserUsersToCircleAddRet.get(result, parA.op));
+    
+    SSCircleActivityFct.addUsersToCircle(new SSCircleUsersAddPar(parA));
+  }
+  
+  @Override
+  public SSUri circleUsersAdd(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSEntityUsersToCircleAddPar par = new SSEntityUsersToCircleAddPar(parA);
+      final SSCircleUsersAddPar par = new SSCircleUsersAddPar(parA);
+      
+      if(par.withUserRestriction){
+        SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circle);
+      }
       
       SSServCallerU.checkWhetherUsersAreUsers(par.users);
-
+        
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri userUri : par.users){
@@ -247,7 +222,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         SSServErrReg.reset();
         
         if(dbSQL.rollBack(parA)){
-          return entityUsersToCircleAdd(parA);
+          return circleUsersAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -261,14 +236,14 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public SSCircleE entityMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
+  public SSCircleE circleMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSEntityMostOpenCircleTypeGetPar par                = new SSEntityMostOpenCircleTypeGetPar(parA);
+      final SSCircleMostOpenCircleTypeGetPar par                = new SSCircleMostOpenCircleTypeGetPar(parA);
       SSCircleE                              mostOpenCircleType = SSCircleE.priv;
       
-      for(SSCircleE circleType : sqlFct.getCircleTypesForEntity(par.entity)){
+      for(SSCircleE circleType : SSServCaller.circleTypesGet(par.user, par.forUser, par.entity, par.withUserRestriction)){
         
         switch(circleType){
           
@@ -287,12 +262,27 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public List<SSCircleE> entityUserEntityCircleTypesGet(final SSServPar parA) throws Exception{
+  public List<SSCircleE> circleTypesGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityUserEntityCircleTypesGetPar par         = new SSEntityUserEntityCircleTypesGetPar(parA);
+      final SSCircleTypesGetPar par = new SSCircleTypesGetPar(parA);
       
-      return sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
+      if(par.entity == null){
+        throw new Exception("entity to retrieve circle types for is null");
+      }
+      
+      if(
+        par.withUserRestriction &&
+        par.forUser != null &&
+        !SSStrU.equals(par.forUser, par.user)){
+        throw new Exception("user cannot retrieve circle types for other user");
+      }
+      
+      if(par.forUser == null){
+        return sqlFct.getCircleTypesForEntity(par.entity);
+      }else{
+        return sqlFct.getCircleTypesCommonForUserAndEntity(par.forUser, par.entity);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -301,41 +291,169 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public SSCircleE entityUserEntityMostOpenCircleTypeGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityUserEntityMostOpenCircleTypeGetPar par                = new SSEntityUserEntityMostOpenCircleTypeGetPar(parA);
-      SSCircleE                                        mostOpenCircleType = SSCircleE.priv;
-      
-      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity)){
-        
-        switch(circleType){
-          
-          case pub:  return SSCircleE.pub;
-          case priv: continue;
-          default:   mostOpenCircleType = SSCircleE.group;
-        }
-      }
-      
-      return mostOpenCircleType;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override 
-  public List<SSEntityCircle> entityUserEntityCirclesGet(final SSServPar parA) throws Exception{
-    
-    try{
+  public void circleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-      final SSEntityUserEntityCirclesGetPar par = new SSEntityUserEntityCirclesGetPar(parA);
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+
+    sSCon.writeRetFullToClient(SSEntityUserCircleGetRet.get(circleGet(parA), parA.op));
+  }    
+  
+  @Override
+  public SSEntityCircle circleGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSCircleGetPar  par = new SSCircleGetPar(parA);
       
-      return sqlFct.getCirclesCommonForUserAndEntity(
-        par.user, 
-        par.entity, 
-        par.withSystemCircles);
+      if(par.withUserRestriction){
+        
+        if(
+          par.withSystemCircles ||
+          sqlFct.isSystemCircle(par.circle)){
+          
+          throw new Exception("user cannot access system circle");
+        }
+        
+        SSServCaller.entityUserCanRead(par.forUser, par.circle);
+      }
       
+      return sqlFct.getCircle(par.circle, true, true, true);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void circlesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+
+    sSCon.writeRetFullToClient(SSEntityUserCirclesGetRet.get(circlesGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSEntityCircle> circlesGet(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSCirclesGetPar                 par               = new SSCirclesGetPar(parA);
+      final List<SSEntityCircle>            circles           = new ArrayList<>();
+      final List<SSUri>                     circleUris        = new ArrayList<>();
+      
+      if(par.withUserRestriction){
+        
+        if(par.forUser == null){
+          throw new Exception("user not set to retrieve circle");
+        }
+        
+        if(par.withSystemCircles){
+          throw new Exception("user cannot access system circles");
+        }
+        
+        if(par.entity != null){
+          SSServCallerU.canUserReadEntity(par.user, par.entity);
+        }
+      }
+      
+      if(!SSObjU.isNull(par.forUser, par.entity)){
+        
+        for(SSEntityCircle circle : 
+          sqlFct.getCirclesCommonForUserAndEntity(
+            par.forUser,
+            par.entity,
+            par.withSystemCircles)){
+          
+          circleUris.add(circle.id);
+        }
+        
+      }else{
+      
+        if(par.forUser != null){
+          circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
+        }
+
+        if(par.entity != null){
+          circleUris.addAll(sqlFct.getCircleURIsForEntity(par.entity, par.withSystemCircles));
+        }
+      }
+      
+      if(par.withUserRestriction){
+        
+        for(SSUri circleUri : circleUris){
+          
+          try{
+            SSServCallerU.canUserReadEntity(par.forUser, circleUri);
+            
+            circles.add(
+              SSServCaller.circleGet(
+                par.user,
+                circleUri,
+                null,
+                null,
+                false));
+            
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+      }else{
+        
+        for(SSUri circleUri : circleUris){
+          
+          circles.add(
+            SSServCaller.circleGet(
+              par.user,
+              circleUri,
+              null,
+              null,
+              false));
+        }
+      }
+
+      return circles;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void circleEntitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+    
+    sSCon.writeRetFullToClient(SSCircleEntitiesGetRet.get(circleEntitiesGet(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSEntity> circleEntitiesGet(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSCircleEntitiesGetPar par      = new SSCircleEntitiesGetPar(parA);
+      final List<SSEntity>         entities = new ArrayList<>();
+
+      for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, par.forUser, null, true, false)){
+
+        for(SSUri entity : circle.entities){
+          entities.add(SSServCaller.entityUserGet(par.user, entity, par.forUser));
+        }
+      }
+      
+      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -346,7 +464,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   public SSUri entityEntitiesToCircleAdd(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityEntitiesToCircleAddPar par = new SSEntityEntitiesToCircleAddPar(parA);
+      final SSCircleEntitiesToCircleAddPar par = new SSCircleEntitiesToCircleAddPar(parA);
             
       dbSQL.startTrans(par.shouldCommit);
       
@@ -384,7 +502,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSEntityCircleURIPrivGetPar par = new SSEntityCircleURIPrivGetPar(parA);
+      final SSCircleURIPrivGetPar par = new SSCircleURIPrivGetPar(parA);
       final SSUri                       privCircleUri;
       
       dbSQL.startTrans(parA.shouldCommit);
@@ -450,199 +568,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public List<SSEntityCircle> entityEntityCirclesGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityEntityCirclesGetPar       par        = new SSEntityEntityCirclesGetPar(parA);
-      final List<SSEntityCircle>              circles    = new ArrayList<>();
-      
-      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
-        
-        circles.add(
-          sqlFct.getCircle(
-            circleUri,
-            false,
-            true,
-            false));
-      }
-      
-      return circles;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityUsersToCircleAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-
-    final SSUri result = entityUserUsersToCircleAdd(parA);
-    
-    sSCon.writeRetFullToClient(SSEntityUserUsersToCircleAddRet.get(result, parA.op));
-    
-    SSCircleActivityFct.addUsersToCircle(new SSEntityUserUsersToCircleAddPar(parA));
-  }
-  
-  @Override
-  public SSUri entityUserUsersToCircleAdd(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityUserUsersToCircleAddPar par = new SSEntityUserUsersToCircleAddPar(parA);
-      
-      SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circle);
-        
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityUsersToCircleAdd(
-        par.user, 
-        par.circle, 
-        par.users, 
-        false);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.circle;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return entityUserUsersToCircleAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityUserCirclesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-
-    sSCon.writeRetFullToClient(SSEntityUserCirclesGetRet.get(entityUserCirclesGet(parA), parA.op));
-  }
-  
-  @Override
-  public void entityCircleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-
-    sSCon.writeRetFullToClient(SSEntityUserCircleGetRet.get(entityUserCircleGet(parA), parA.op));
-  }    
-  
-  @Override
-  public SSEntityCircle entityUserCircleGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityUserCircleGetPar par = new SSEntityUserCircleGetPar(parA);
-      final SSEntityCircle           otherUserCircle;
-      
-      if(
-        !par.withSystemCircles &&
-        sqlFct.isSystemCircle(par.circle)){
-        throw new Exception("user cannot access circle");
-      }
-      
-      if(
-        par.forUser == null ||
-        SSStrU.equals(par.user, par.forUser)){
-        
-        SSServCaller.entityUserCanRead(par.user, par.circle);
-        
-        return sqlFct.getCircle(par.circle, true, true, true);
-      }else{
-        
-        otherUserCircle = sqlFct.getCircle(par.circle, false, false, true);
-        
-        switch(otherUserCircle.circleType){
-          case pub:
-          case group:
-            otherUserCircle.entities = sqlFct.getCircleEntityURIs(otherUserCircle.id);
-            otherUserCircle.users    = sqlFct.getCircleEntityURIs(otherUserCircle.id);
-            
-            return otherUserCircle;
-          default:
-            throw new SSErr(SSErrE.userAccessedOtherUsersPrivateGroup);
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSEntityCircle> entityUserCirclesGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityUserCirclesGetPar       par        = new SSEntityUserCirclesGetPar(parA);
-      final List<SSEntityCircle>            circles    = new ArrayList<>();
-      final List<SSUri>                     circleUris = new ArrayList<>();
-      
-      if(par.forUser == null){
-        circleUris.addAll(sqlFct.getCircleURIsForUser(par.user,    par.withSystemCircles));
-      }else{
-        circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
-      }
-      
-      for(SSUri circleUri : circleUris){
-        
-        try{
-          circles.add(
-            SSServCaller.entityUserCircleGet(
-              par.user, 
-              par.forUser,
-              circleUri,
-              par.withSystemCircles));
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSErrE.userAccessedOtherUsersPrivateGroup)){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          throw error;
-        }
-      }
-      
-      return circles;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityEntitiesToCircleAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void circleEntitiesAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     final SSUri userFromOIDC = SSServCaller.checkKey(parA);
     
@@ -652,7 +578,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
     sSCon.writeRetFullToClient(SSEntityUserEntitiesToCircleAddRet.get(entityUserEntitiesToCircleAdd(parA), parA.op));
     
-    SSCircleActivityFct.addEntitiesToCircle(new SSEntityUserEntitiesToCircleAddPar(parA));
+    SSCircleActivityFct.addEntitiesToCircle(new SSCircleEntitiesAddPar(parA));
   }
   
   @Override
@@ -660,7 +586,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSEntityUserEntitiesToCircleAddPar par = new SSEntityUserEntitiesToCircleAddPar(parA);
+      final SSCircleEntitiesAddPar par = new SSCircleEntitiesAddPar(parA);
       
       SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circle);
       SSServCaller.entityUserCanEdit                        (par.user, par.entities);
@@ -677,7 +603,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         par.entities, 
         false);
       
-      SSCircleMiscFct.shareUserEntityWithCircleByEntityHandlers(
+      SSCircleMiscFct.shareEntityWithCircleByHandlers(
         par.user, 
         par.entities,
         par.circle);
@@ -710,7 +636,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSEntityEntityToPrivCircleAddPar par = new SSEntityEntityToPrivCircleAddPar(parA);
+      final SSCircleEntityToPrivCircleAddPar par = new SSCircleEntityToPrivCircleAddPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -755,7 +681,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSEntityEntityToPubCircleAddPar par = new SSEntityEntityToPubCircleAddPar(parA);
+      final SSCircleEntityToPubCircleAddPar par = new SSCircleEntityToPubCircleAddPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -800,7 +726,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
    
     try{
 
-      final SSEntityUserCanPar par    = new SSEntityUserCanPar(parA);
+      final SSCircleUserCanPar par    = new SSCircleUserCanPar(parA);
       final SSEntity           entity;
       
       try{
@@ -829,13 +755,13 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entityPublicSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void circlePublicSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCaller.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSEntityUserPublicSetRet.get(entityUserPublicSet(parA), parA.op));
     
-     SSCircleActivityFct.setEntityPublic(new SSEntityUserPublicSetPar(parA));
+     SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
   }
   
   @Override 
@@ -843,7 +769,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
 
-      final SSEntityUserPublicSetPar par = new SSEntityUserPublicSetPar(parA);
+      final SSCircleEntityPublicSetPar par = new SSCircleEntityPublicSetPar(parA);
       
       SSServCaller.entityUserCanEdit(par.user, par.entity);
       
@@ -882,22 +808,22 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entityEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void circleEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(entityUserEntityUsersGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op));
   }
   
   @Override
-  public List<SSEntity> entityUserEntityUsersGet(final SSServPar parA) throws Exception{
-    
+  public List<SSEntity> circleEntityUsersGet(final SSServPar parA) throws Exception{
+    //to be integrated with withUserRestriction
     try{
-      final SSEntityUserEntityUsersGetPar par             = new SSEntityUserEntityUsersGetPar(parA);
+      final SSCircleEntityUsersGetPar     par             = new SSCircleEntityUsersGetPar(parA);
       final List<SSUri>                   userUris        = new ArrayList<>();
       final List<SSUri>                   userCircleUris  = sqlFct.getCircleURIsForUser   (par.user, true);
       
-      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity)){
+      for(SSUri circleUri : sqlFct.getCircleURIsForEntity(par.entity, true)){
         
         switch(sqlFct.getTypeForCircle(circleUri)){
           
@@ -953,47 +879,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-    
-    sSCon.writeRetFullToClient(SSEntitiesUserGetRet.get(entitiesUserGet(parA), parA.op));
-  }
-  
-  @Override
-  public List<SSEntity> entitiesUserGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntitiesUserGetPar par      = new SSEntitiesUserGetPar(parA);
-      final List<SSEntity>       entities = new ArrayList<>();
-
-      for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(par.user, par.forUser, true)){
-
-        for(SSUri entity : circle.entities){
-          
-          try{
-            SSServCaller.entityUserCanRead(par.user, entity);
-          }catch(Exception error){
-            continue;
-          }
-          
-          entities.add(SSServCaller.entityUserGet(par.user, entity, par.forUser));
-        }
-      }
-      
-      return entities;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void circleEntityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCaller.checkKey(parA);
     
@@ -1004,7 +890,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   public SSUri entityUserShare(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityUserSharePar par = new SSEntityUserSharePar(parA);
+      final SSCircleEntitySharePar par = new SSCircleEntitySharePar(parA);
       
       if(
         par.users.isEmpty() &&
@@ -1022,16 +908,17 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         dbSQL.startTrans(par.shouldCommit);
         
         final SSUri circleUri =
-          SSServCaller.entityCircleCreate(
+          SSServCaller.circleCreate(
             par.user,
             SSUri.asListWithoutNullAndEmpty(par.entity),
             par.users,
             null,
             null,
             true,
+            false,
             false);
         
-        SSCircleMiscFct.shareByEntityHandlers(
+        SSCircleMiscFct.shareEntityWithUsersByHandlers(
           par.user,
           par.users,
           par.entity,

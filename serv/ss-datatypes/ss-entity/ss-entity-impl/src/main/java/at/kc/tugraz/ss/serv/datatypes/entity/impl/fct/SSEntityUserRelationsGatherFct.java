@@ -18,12 +18,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.userrelationgather;
+package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.sql.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
@@ -64,7 +63,7 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : SSServCaller.entityUserCirclesGet(userUri, userUri, true)){
+    for(SSEntityCircle circle : SSServCaller.circlesGet(userUri, userUri, null, true, false)){
       
       if(userRelations.containsKey(userStr)){
         userRelations.get(userStr).addAll(circle.users);

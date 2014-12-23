@@ -31,7 +31,7 @@ import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "entityUserShare request parameter")
-public class SSEntityUserSharePar extends SSServPar{
+public class SSCircleEntitySharePar extends SSServPar{
   
   @ApiModelProperty( 
     required = true, 
@@ -73,9 +73,9 @@ public class SSEntityUserSharePar extends SSServPar{
     this.comment = SSTextComment.get(comment);
   }
 
-  public SSEntityUserSharePar(){}
+  public SSCircleEntitySharePar(){}
     
-  public SSEntityUserSharePar(SSServPar par) throws Exception{
+  public SSCircleEntitySharePar(SSServPar par) throws Exception{
       
     super(par);
     

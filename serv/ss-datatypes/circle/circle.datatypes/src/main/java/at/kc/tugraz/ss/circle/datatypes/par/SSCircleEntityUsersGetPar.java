@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "entityUserEntityUsersGet request parameter")
-public class SSEntityUserEntityUsersGetPar extends SSServPar{
+public class SSCircleEntityUsersGetPar extends SSServPar{
   
   @ApiModelProperty( 
     required = true, 
@@ -39,9 +39,9 @@ public class SSEntityUserEntityUsersGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
 
-  public SSEntityUserEntityUsersGetPar(){}
+  public SSCircleEntityUsersGetPar(){}
   
-  public SSEntityUserEntityUsersGetPar(SSServPar par) throws Exception{
+  public SSCircleEntityUsersGetPar(SSServPar par) throws Exception{
       
     super(par);
     

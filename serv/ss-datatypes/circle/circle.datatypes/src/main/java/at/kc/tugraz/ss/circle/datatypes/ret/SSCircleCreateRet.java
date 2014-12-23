@@ -23,15 +23,15 @@ import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserCircleCreateRet extends SSServRetI{
+public class SSCircleCreateRet extends SSServRetI{
 
   public SSUri circle = null;
 
-  public static SSEntityUserCircleCreateRet get(final SSUri circleUri, final SSMethU op){
-    return new SSEntityUserCircleCreateRet(circleUri, op);
+  public static SSCircleCreateRet get(final SSUri circleUri, final SSMethU op){
+    return new SSCircleCreateRet(circleUri, op);
   }
   
-  private SSEntityUserCircleCreateRet(final SSUri circleUri, final SSMethU op){
+  private SSCircleCreateRet(final SSUri circleUri, final SSMethU op){
 
     super(op);
     

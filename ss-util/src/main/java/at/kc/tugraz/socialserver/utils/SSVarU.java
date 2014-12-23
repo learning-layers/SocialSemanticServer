@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String withUserRestriction                            = "withUserRestriction";
   public static final String requireds                                      = "requireds";
   public static final String absents                                        = "absents";
   public static final String eithers                                        = "eithers";
