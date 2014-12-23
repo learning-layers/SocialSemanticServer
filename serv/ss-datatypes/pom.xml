@@ -28,5 +28,6 @@
 	<module>app</module>
 	<module>appstacklayout</module>
 	<module>video</module>
+	<module>circle</module>
   </modules>
 </project>

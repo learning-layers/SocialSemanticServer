@@ -107,6 +107,12 @@
   <dependencies>
    
     <dependency>
+      <groupId>sss.serv.circle</groupId>
+      <artifactId>circle.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.like</groupId>
       <artifactId>like.datatypes</artifactId>
       <version>${project.version}</version>

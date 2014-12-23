@@ -446,3 +446,8 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/jobs/like/like.impl/target/
 /serv/jobs/like/like.serv/target/
 /serv/jobs/like/like.datatypes/target
+/serv/ss-datatypes/circle/circle.datatypes/target/
+/serv/ss-datatypes/circle/circle.conf/target/
+/serv/ss-datatypes/circle/circle.api/target/
+/serv/ss-datatypes/circle/circle.serv/target/
+/serv/ss-datatypes/circle/circle.impl/target/

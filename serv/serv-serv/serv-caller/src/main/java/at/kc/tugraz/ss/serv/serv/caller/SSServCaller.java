@@ -1217,6 +1217,29 @@ public class SSServCaller {
   }
   
   /* entity */
+  
+  public static SSUri entityAdd(
+    final SSUri         user, 
+    final SSUri         entity, 
+    final SSEntityE     type, 
+    final SSLabel       label,
+    final SSTextComment description, 
+    final Long          creationTime,
+    final Boolean       shouldCommit) throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,            user);
+    opPars.put(SSVarU.entity,          entity);
+    opPars.put(SSVarU.type,            type);
+    opPars.put(SSVarU.label,           label);
+    opPars.put(SSVarU.description,     description);
+    opPars.put(SSVarU.creationTime,    creationTime);
+    opPars.put(SSVarU.shouldCommit,    shouldCommit);
+    
+    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));
+  }
+  
   public static List<SSEntity> entitiesUserGet(
     final SSUri       user, 
     final SSUri       forUser) throws Exception{
@@ -1734,7 +1757,7 @@ public class SSServCaller {
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserEntityCirclesGet, opPars));
   }
   
-  private static SSEntity entityUserCan(
+  public static SSEntity entityUserCan(
     final SSUri                    user,
     final SSUri                    entity, 
     final SSCircleRightE           accessRight) throws Exception{
@@ -1752,39 +1775,35 @@ public class SSServCaller {
     final SSUri       user, 
     final List<SSUri> entities) throws Exception{
     
-    for(SSUri entity : entities){
-      entityUserCanEdit(user, entity);
-    }
+    SSServCallerU.canUserEditEntities(user, entities);
   }
   
   public static SSEntity entityUserCanEdit(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserCan(user, entity, SSCircleRightE.edit);
+    return SSServCallerU.canUserEditEntity(user, entity);
   }
   
   public static void entityUserCanRead(
     final SSUri       user, 
     final List<SSUri> entities) throws Exception{
     
-    for(SSUri entity : entities){
-      entityUserCanRead(user, entity);
-    }
+    SSServCallerU.canUserReadEntities(user, entities);
   }
     
   public static SSEntity entityUserCanRead(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserCan(user, entity, SSCircleRightE.read);
+    return SSServCallerU.canUserReadEntity(user, entity);
   }
   
   public static SSEntity entityUserCanAll(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return entityUserCan(user, entity, SSCircleRightE.all);
+    return SSServCallerU.canUserAllEntity(user, entity);
   }
   
   public static SSEntityCircle entityUserCircleGet(

@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
+import at.kc.tugraz.ss.circle.conf.SSCircleConf;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
@@ -102,6 +103,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSAppStackLayoutConf  appStackLayoutConf = null;
   private SSVideoConf           videoConf          = null;
   private SSLikeConf            likeConf           = null;
+  private SSCircleConf          circleConf         = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -209,6 +211,7 @@ public class SSCoreConf extends SSCoreConfA{
       copy.appStackLayoutConf = SSAppStackLayoutConf.copy(inst.appStackLayoutConf);
       copy.videoConf          = SSVideoConf.copy(inst.videoConf);
       copy.likeConf           = SSLikeConf.copy(inst.likeConf);
+      copy.circleConf         = SSCircleConf.copy(inst.circleConf);
       
       return copy;
     }catch(Exception error){
@@ -247,6 +250,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setLikeConf(SSLikeConf likeConf) {
     this.likeConf = likeConf;
+  }
+  
+  public SSCircleConf getCircleConf() {
+    return circleConf;
+  }
+
+  public void setCircleConf(SSCircleConf circleConf) {
+    this.circleConf = circleConf;
   }
   
   public SSVideoConf getVideoConf() {

@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.cloud.serv.SSCloudServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
@@ -100,6 +101,7 @@ public class SSSInitializer extends SSServImplStartA{
       
       try{
         SSEntityServ.inst.regServ          (SSCoreConf.instGet().getEntityConf());
+        SSCircleServ.inst.regServ          (SSCoreConf.instGet().getCircleConf());
         SSUserServ.inst.regServ            (SSCoreConf.instGet().getUserConf());
         
       }catch(Exception error1){
@@ -163,6 +165,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSDBGraph.inst.initServ();
         SSDBSQL.inst.initServ();
         SSEntityServ.inst.initServ();
+        SSCircleServ.inst.initServ();
         SSUserServ.inst.initServ();
         SSCollServ.inst.initServ();
         SSUEServ.inst.initServ();

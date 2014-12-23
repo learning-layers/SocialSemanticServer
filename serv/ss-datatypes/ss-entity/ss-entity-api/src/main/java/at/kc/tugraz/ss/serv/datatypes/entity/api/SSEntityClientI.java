@@ -25,19 +25,10 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSEntityClientI {
 
-  public void entitiesGet                         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCircleGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityUpdate                         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityGet                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDescGet                        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDescsGet                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityShare                          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityPublicSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCircleCreate                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityEntitiesToCircleAdd            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUsersToCircleAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUserCirclesGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityEntityUsersGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityCopy                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

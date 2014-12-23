@@ -15,6 +15,8 @@ broadcasterConf:
 categoryConf:
   use: true
   predefinedCategories:
+circleConf:
+  user: true    
 cloudConf:
   use: false
 collConf:

@@ -23,37 +23,22 @@ package at.kc.tugraz.ss.serv.datatypes.entity.api;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import java.util.List;
 
 public interface SSEntityServerI {
 
-  public List<SSEntity>                  entitiesUserGet                          (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityDescGet                            (final SSServPar parA) throws Exception;
   public List<SSEntityA>                 entityDescsGet                           (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserCircleCreate                   (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserUsersToCircleAdd               (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;
-  public SSEntity                        entityUserCan                            (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserPublicSet                      (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserShare                          (final SSServPar parA) throws Exception;
-  public List<SSEntityCircle>            entityUserCirclesGet                     (final SSServPar parA) throws Exception;
-  public List<SSCircleE>                 entityUserEntityCircleTypesGet           (final SSServPar parA) throws Exception;
-  public List<SSEntityCircle>            entityUserEntityCirclesGet               (final SSServPar parA) throws Exception; 
-  public List<SSEntity>                  entityUserEntityUsersGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
   public Boolean                         entityUserCopy                           (final SSServPar parA) throws Exception;
   public SSUri                           entityUserUpdate                         (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserEntitiesAttach                 (final SSServPar parA) throws Exception;
-  public SSEntityCircle                  entityUserCircleGet                      (final SSServPar parA) throws Exception;
   
-  public List<SSEntityCircle>            entityEntityCirclesGet                   (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entityEntitiesAttachedGet                (final SSServPar parA) throws Exception;
   public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityFilesGet                           (final SSServPar parA) throws Exception;
@@ -64,15 +49,6 @@ public interface SSEntityServerI {
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
   public Boolean                         entityExists                             (final SSServPar parA) throws Exception;
   public SSEntity                        entityGet                                (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleURIPrivGet                   (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleURIPubGet                    (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleCreate                       (final SSServPar parA) throws Exception;
-  public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
-  public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;
-  public SSUri                           entityEntitiesToCircleAdd                (final SSServPar parA) throws Exception;
-  public SSUri                           entityUsersToCircleAdd                   (final SSServPar parA) throws Exception;
-  public SSCircleE                       entityMostOpenCircleTypeGet              (final SSServPar parA) throws Exception;
-  public SSCircleE                       entityUserEntityMostOpenCircleTypeGet    (final SSServPar parA) throws Exception;
   public SSUri                           entityAdd                                (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;

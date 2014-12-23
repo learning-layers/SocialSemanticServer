@@ -49,7 +49,7 @@ public class SSEntityServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEntityImpl(servConf, (SSDBGraphI)SSDBGraph.inst.serv(), (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSEntityImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override

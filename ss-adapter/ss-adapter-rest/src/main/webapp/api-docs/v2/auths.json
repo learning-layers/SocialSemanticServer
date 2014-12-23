@@ -6,6 +6,15 @@
   "apis" : [ {
     "path" : "/auths",
     "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve sss authentication token (i.e. key) and the user's uri for a given authtoken (e.g. OIDC authtoken) with header 'Authorization: Bearer yourToken'",
+      "notes" : "",
+      "type" : "SSAuthCheckCredRet",
+      "nickname" : "checkCredWithAuthToken",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ ]
+    }, {
       "method" : "POST",
       "summary" : "retrieve sss authentication token (i.e. key) and the user's uri for user name and password",
       "notes" : "",
@@ -20,15 +29,6 @@
         "paramType" : "body",
         "allowMultiple" : false
       } ]
-    }, {
-      "method" : "GET",
-      "summary" : "retrieve sss authentication token (i.e. key) and the user's uri for a given authtoken (e.g. OIDC authtoken) with header 'Authorization: Bearer yourToken'",
-      "notes" : "",
-      "type" : "SSAuthCheckCredRet",
-      "nickname" : "checkCredWithAuthToken",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ ]
     } ]
   } ],
   "models" : {
