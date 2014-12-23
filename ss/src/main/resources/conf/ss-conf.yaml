@@ -16,7 +16,7 @@ categoryConf:
   use: true
   predefinedCategories:
 circleConf:
-  user: true    
+  use: true    
 cloudConf:
   use: false
 collConf:
