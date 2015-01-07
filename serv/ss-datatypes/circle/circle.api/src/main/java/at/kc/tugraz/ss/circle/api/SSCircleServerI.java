@@ -38,13 +38,12 @@ public interface SSCircleServerI{
   public List<SSEntityCircle>            circlesGet                               (final SSServPar parA) throws Exception;
   public List<SSEntity>                  circleEntitiesGet                        (final SSServPar parA) throws Exception;
   public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
+  public SSUri                           circlePrivURIGet                         (final SSServPar parA) throws Exception;
+  public SSUri                           circlePubURIGet                          (final SSServPar parA) throws Exception;
+  public SSEntity                        circleUserCan                            (final SSServPar parA) throws Exception;
+  public SSUri                           circleEntityShare                        (final SSServPar parA) throws Exception;
+  public SSUri                           circleEntityPublicSet                    (final SSServPar parA) throws Exception;
 
-  public SSUri                           entityUserShare                          (final SSServPar parA) throws Exception;
-  
-  public SSUri                           entityUserPublicSet                      (final SSServPar parA) throws Exception;
-  public SSEntity                        entityUserCan                            (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleURIPrivGet                   (final SSServPar parA) throws Exception;
-  public SSUri                           entityCircleURIPubGet                    (final SSServPar parA) throws Exception;
   public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
   public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;
 }

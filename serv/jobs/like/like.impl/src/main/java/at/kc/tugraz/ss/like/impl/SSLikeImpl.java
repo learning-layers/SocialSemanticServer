@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -64,7 +65,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
     try{
       final SSLikesUserGetPar par = new SSLikesUserGetPar(parA);
       
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       if(
         par.forUser != null &&
@@ -89,7 +90,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
     try{
       final SSLikeUserSetPar par = new SSLikeUserSetPar(parA);
       
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       final Boolean existsEntity = SSServCaller.entityExists(par.entity);
       

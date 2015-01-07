@@ -58,6 +58,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
@@ -389,7 +390,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      SSServCaller.entityUserCanRead(par.user, par.coll);
+      SSServCallerU.canUserReadEntity(par.user, par.coll);
       
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
         sqlFct,
@@ -445,8 +446,8 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      SSServCaller.entityUserCanEdit(par.user, par.coll);
-      SSServCaller.entityUserCanRead(par.user, par.entry);
+      SSServCallerU.canUserEditEntity(par.user, par.coll);
+      SSServCallerU.canUserReadEntity(par.user, par.entry);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -574,7 +575,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      SSServCaller.entityUserCanEdit(par.user, par.coll);
+      SSServCallerU.canUserEditEntity(par.user, par.coll);
       
       if(par.addNewColl){
 
@@ -593,7 +594,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         switch(SSServCaller.entityGet(par.entry).type){
           case entity: break;
-          default: SSServCaller.entityUserCanRead(par.user, par.entry);
+          default: SSServCallerU.canUserReadEntity(par.user, par.entry);
         }
       }
 
@@ -713,7 +714,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final List<Integer>               order       = new ArrayList<>();
       Integer                           counter     = 0;
       
-      SSServCaller.entityUserCanEdit(par.user, par.coll);
+      SSServCallerU.canUserEditEntity(par.user, par.coll);
       
       while(counter < par.order.size()){
         collEntries.add(SSUri.get(par.order.get(counter++)));
@@ -761,7 +762,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     try{
       final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.coll);
+      SSServCallerU.canUserReadEntity(par.user, par.coll);
       
       return SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
     }catch(Exception error){
@@ -821,7 +822,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       final SSUri                     rootCollUri;
       SSUri                           directPartentCollUri;
 
-      SSServCaller.entityUserCanRead(par.user, par.coll);
+      SSServCallerU.canUserReadEntity(par.user, par.coll);
 
       rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
       directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
@@ -867,7 +868,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       SSCollEntry                           collEntry;
       String                                tagLabel;
 
-      SSServCaller.entityUserCanRead(par.user, par.coll);
+      SSServCallerU.canUserReadEntity(par.user, par.coll);
       
       coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
@@ -948,7 +949,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     try{
 
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       userCollUris = sqlFct.getCollURIsForUser(par.user);
       collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
@@ -990,7 +991,12 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       sqlFct.addColl (rootCollUri);
 
-      SSServCaller.circleUsersAdd(par.user, SSServCaller.entityCircleURIPubGet(false), par.user, false, false);
+      SSServCaller.circleUsersAdd(
+        par.user, 
+        SSServCaller.circlePubURIGet(false), 
+        par.user, 
+        false, 
+        false);
       
       sqlFct.addCollRoot(
         rootCollUri, 

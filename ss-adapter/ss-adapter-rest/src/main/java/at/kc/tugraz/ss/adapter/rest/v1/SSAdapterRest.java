@@ -103,10 +103,10 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntityUsersGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserShareRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSCircleEntityPublicSetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
@@ -851,9 +851,9 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityPublicSet")
   @ApiOperation(
     value = "set an entity public (make it accessible for everyone)",
-    response = SSEntityUserPublicSetRet.class)
+    response = SSCircleEntityPublicSetRet.class)
   public String entityPublicSet(final SSCircleEntityPublicSetPar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityPublicSet);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.circleEntityPublicSet);
   }
   
   @POST
@@ -873,7 +873,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityEntityUsersGet")
   @ApiOperation(
     value = "retrieve users who can access given entity",
-    response = SSEntityUserEntityUsersGetRet.class)
+    response = SSCircleEntityUsersGetRet.class)
   public String entityEntityUsersGet(final SSCircleEntityUsersGetPar input){
     return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.circleEntityUsersGet);
   }
@@ -983,9 +983,9 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityShare")
   @ApiOperation(
     value = "share an entity directly with given users",
-    response = SSEntityUserShareRet.class)
+    response = SSCircleEntityShareRet.class)
   public String entityShare(final SSCircleEntitySharePar input){
-    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.entityShare);
+    return SSRestMain.handleStandardJSONRESTCall(input, SSMethU.circleEntityShare);
   }
   
   @POST

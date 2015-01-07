@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
@@ -112,7 +113,7 @@ public class SSSearchFct {
     
     try{
       
-      return SSServCaller.entityUserCanRead(
+      return SSServCallerU.canUserReadEntity(
         par.user,
         entityID);
       

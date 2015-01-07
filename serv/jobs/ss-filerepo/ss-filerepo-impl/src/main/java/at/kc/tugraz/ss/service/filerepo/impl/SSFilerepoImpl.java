@@ -46,6 +46,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
@@ -242,7 +243,7 @@ implements
       
       final SSFileDownloadPar par = new SSFileDownloadPar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.file);
+      SSServCallerU.canUserReadEntity(par.user, par.file);
       
       new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
       

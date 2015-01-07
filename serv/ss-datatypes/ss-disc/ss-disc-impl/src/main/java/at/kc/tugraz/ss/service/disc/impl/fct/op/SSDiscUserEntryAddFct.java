@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 
@@ -148,7 +149,7 @@ public class SSDiscUserEntryAddFct{
       }
       
       if(!SSObjU.isNull(par.entity)){
-        SSServCaller.entityUserCanRead(par.user, par.entity);
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
     }catch(Exception error){
@@ -165,7 +166,7 @@ public class SSDiscUserEntryAddFct{
         throw new Exception("content missing");
       }
       
-      SSServCaller.entityUserCanEdit(par.user, par.disc);
+      SSServCallerU.canUserEditEntity(par.user, par.disc);
        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

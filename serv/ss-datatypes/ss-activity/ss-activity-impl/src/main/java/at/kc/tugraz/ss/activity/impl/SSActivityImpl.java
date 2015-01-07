@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -175,7 +176,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         for(SSUri entity : par.entities){
           
           try{
-            SSServCaller.entityUserCanRead(par.user, entity);
+            SSServCallerU.canUserReadEntity(par.user, entity);
           }catch(Exception error){
             SSServErrReg.reset();
             SSLogU.warn("user cannot access entity for activities");
@@ -191,7 +192,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         for(SSUri circle : par.circles){
           
           try{
-            SSServCaller.entityUserCanRead(par.user, circle);
+            SSServCallerU.canUserReadEntity(par.user, circle);
           }catch(Exception error){
             SSServErrReg.reset();
             SSLogU.warn("user cannot access circle for activities");

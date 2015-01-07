@@ -83,7 +83,7 @@ public class SSServCallerU{
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return SSServCaller.entityUserCan(user, entity, SSCircleRightE.read);
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.read);
   }
   
   public static void canUserReadEntities(
@@ -91,7 +91,7 @@ public class SSServCallerU{
     final List<SSUri> entities) throws Exception{
     
     for(SSUri entity : entities){
-      SSServCaller.entityUserCan(user, entity, SSCircleRightE.read);
+      SSServCaller.circleUserCan(user, entity, SSCircleRightE.read);
     }
   }
 
@@ -99,7 +99,7 @@ public class SSServCallerU{
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return SSServCaller.entityUserCan(user, entity, SSCircleRightE.edit);
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.edit);
   }
 
   public static void canUserEditEntities(
@@ -107,7 +107,7 @@ public class SSServCallerU{
     final List<SSUri> entities) throws Exception{
     
     for(SSUri entity : entities){
-      SSServCaller.entityUserCan(user, entity, SSCircleRightE.edit);
+      SSServCaller.circleUserCan(user, entity, SSCircleRightE.edit);
     }
   }
   
@@ -115,6 +115,6 @@ public class SSServCallerU{
     final SSUri user, 
     final SSUri entity) throws Exception{
     
-    return SSServCaller.entityUserCan(user, entity, SSCircleRightE.all);
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.all);
   }
 }

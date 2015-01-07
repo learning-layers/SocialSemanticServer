@@ -81,6 +81,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUserCopyPar par = new SSEntityUserCopyPar(parA);
       
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      SSServCallerU.canUserEditEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -234,7 +235,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityUserUpdatePar par = new SSEntityUserUpdatePar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      SSServCallerU.canUserEditEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -480,7 +481,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserGetPar par = new SSEntityUserGetPar(parA);
       SSEntity                 entity;
       
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       entity = sqlFct.getEntity(par.entity);
       
@@ -741,7 +742,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserParentEntitiesGetPar par = new SSEntityUserParentEntitiesGetPar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       final SSEntityE    entityType   = SSServCaller.entityGet(par.entity).type;
       final List<SSUri>  entities     = new ArrayList<>();
@@ -768,7 +769,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityE                     entityType;
       List<SSUri>                         entities;
       
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       entityType = SSServCaller.entityGet(par.entity).type;
       
@@ -866,13 +867,13 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntityUserEntitiesAttachPar par = new SSEntityUserEntitiesAttachPar(parA);
       
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      SSServCallerU.canUserEditEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri entity : par.entities){
         
-        SSServCaller.entityUserCanRead(par.user, entity);
+        SSServCallerU.canUserReadEntity(par.user, entity);
         
         sqlFct.addEntityIfNotExists(
           entity, 

@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserDiscURIsForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserRemovePar;
@@ -426,7 +427,7 @@ implements
       
       if(par.addNewDisc){
         
-        SSServCaller.entityUserShare(
+        SSServCaller.circleEntityShare(
           par.user,
           par.disc,
           par.users,
@@ -519,7 +520,7 @@ implements
       final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
       SSDiscEntry                       discEntry;
       
-      SSServCaller.entityUserCanRead(par.user, par.disc);
+      SSServCallerU.canUserReadEntity(par.user, par.disc);
       
       final SSDisc disc = sqlFct.getDiscWithEntries(par.disc);
       
@@ -576,7 +577,7 @@ implements
     try {
       final SSDiscUserRemovePar par    = new SSDiscUserRemovePar(parA);
 
-      SSServCaller.entityUserCanAll(par.user, par.disc);
+      SSServCallerU.canUserAllEntity(par.user, par.disc);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -624,7 +625,7 @@ implements
     try{
       final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       return sqlFct.getDiscURIs(par.user, par.entity);
     } catch (Exception error){

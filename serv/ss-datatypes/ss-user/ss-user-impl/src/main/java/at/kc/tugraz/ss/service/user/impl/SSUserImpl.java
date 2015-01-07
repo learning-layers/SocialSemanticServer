@@ -272,7 +272,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       SSServCaller.circleEntitiesAdd(
         SSVoc.systemUserUri, 
-        SSServCaller.entityCircleURIPubGet(false), 
+        SSServCaller.circlePubURIGet(false), 
         SSUri.asListWithoutNullAndEmpty(userUri), 
         true, 
         false, 

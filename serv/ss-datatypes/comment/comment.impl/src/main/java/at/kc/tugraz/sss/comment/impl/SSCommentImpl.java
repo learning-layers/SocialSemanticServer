@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
@@ -153,7 +154,7 @@ implements
       final SSCommentsUserGetPar par = new SSCommentsUserGetPar(parA);
       
       if(par.entity != null){
-        SSServCaller.entityUserCanRead(par.user, par.entity);
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
       if(

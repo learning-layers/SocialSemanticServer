@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
@@ -309,7 +310,7 @@ implements
         
         switch(SSServCaller.entityGet(par.entity).type){
           case entity: break;
-          default: SSServCaller.entityUserCanRead(par.user, par.entity);
+          default: SSServCallerU.canUserReadEntity(par.user, par.entity);
         }
       }
       

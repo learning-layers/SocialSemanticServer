@@ -76,6 +76,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -303,7 +304,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final List<SSLearnEpVersion>  result = new ArrayList<>();
       SSLearnEpVersion              learnEpVersion;
       
-      SSServCaller.entityUserCanRead(par.user, par.learnEp);
+      SSServCallerU.canUserReadEntity(par.user, par.learnEp);
       
       for(SSUri learnEpVersionUri : sqlFct.getLearnEpVersionURIs(par.learnEp)){
         
@@ -383,7 +384,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionGetPar par = new SSLearnEpVersionGetPar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.learnEpVersion);
+      SSServCallerU.canUserReadEntity(par.user, par.learnEpVersion);
       
       final SSLearnEpVersion learnEpVersion =
         sqlFct.getLearnEpVersion(
@@ -432,7 +433,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionCreatePar par               = new SSLearnEpVersionCreatePar(parA);
       final SSUri                     learnEpVersionUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEp);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -502,7 +503,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionAddCirclePar par       = new SSLearnEpVersionAddCirclePar(parA);
       final SSUri                        circleUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -581,8 +582,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final List<SSUri>                  filesAndThumbs   = new ArrayList<>();
       final List<SSUri>                  entities         = new ArrayList<>();
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
+      SSServCallerU.canUserEditEntity(par.user, par.entity);
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -720,7 +721,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpCircle);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -782,10 +783,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       final SSLearnEpVersionUpdateEntityPar par = new SSLearnEpVersionUpdateEntityPar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpEntity);
       
       if(par.entity != null){
-        SSServCaller.entityUserCanEdit(par.user, par.entity);
+        SSServCallerU.canUserEditEntity(par.user, par.entity);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -850,7 +851,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpCircle);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpCircle);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -896,7 +897,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpEntity);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpEntity);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -943,7 +944,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionSetTimelineStatePar par                     = new SSLearnEpVersionSetTimelineStatePar(parA);
       final SSUri                               learnEpTimelineStateUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -1015,7 +1016,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionGetTimelineStatePar par = new SSLearnEpVersionGetTimelineStatePar(parA);
 
-      SSServCaller.entityUserCanRead(par.user, par.learnEpVersion);
+      SSServCallerU.canUserReadEntity(par.user, par.learnEpVersion);
       
       return sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
     }catch(Exception error){
@@ -1084,7 +1085,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionCurrentSetPar par = new SSLearnEpVersionCurrentSetPar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.learnEpVersion);
+      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -1119,7 +1120,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpUserCopyForUserPar par = new SSLearnEpUserCopyForUserPar(parA);
 
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
+      SSServCallerU.canUserEditEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
 

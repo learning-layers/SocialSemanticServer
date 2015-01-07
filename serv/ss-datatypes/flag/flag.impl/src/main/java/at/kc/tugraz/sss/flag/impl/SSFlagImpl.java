@@ -33,6 +33,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
@@ -104,7 +105,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       final SSFlagsUserSetPar par = new SSFlagsUserSetPar(parA);
       
-      SSServCaller.entityUserCanEdit(par.user, par.entities);
+      SSServCallerU.canUserEditEntities(par.user, par.entities);
       
       for(SSUri entity : par.entities){
 
@@ -222,7 +223,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       final SSFlagsUserGetPar par = new SSFlagsUserGetPar(parA);
       
-      SSServCaller.entityUserCanRead(par.user, par.entities);
+      SSServCallerU.canUserReadEntities(par.user, par.entities);
       
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       return sqlFct.getFlags(

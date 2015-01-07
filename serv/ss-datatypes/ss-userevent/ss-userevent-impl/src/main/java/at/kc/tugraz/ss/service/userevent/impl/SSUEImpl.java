@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
@@ -318,7 +319,7 @@ implements
       final SSUri                    ueUri = SSServCaller.vocURICreate();
     
       try{
-        SSServCaller.entityUserCanRead(par.user, par.entity);
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }catch(Exception error){
         SSServErrReg.reset();
         SSLogU.warn("user is not allowed to add user event to entity");
@@ -386,7 +387,7 @@ implements
       if(par.entity != null){
 
         try{
-          SSServCaller.entityUserCanRead(par.user, par.entity);
+          SSServCallerU.canUserReadEntity(par.user, par.entity);
         }catch(Exception error){
           SSServErrReg.reset();
           SSLogU.warn("user is not allowed to add user event to entity");

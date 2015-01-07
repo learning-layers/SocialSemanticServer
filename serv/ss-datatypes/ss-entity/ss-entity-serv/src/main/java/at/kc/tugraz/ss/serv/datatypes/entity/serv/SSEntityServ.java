@@ -67,7 +67,7 @@ public class SSEntityServ extends SSServA{
       return;
     }
     
-    SSServCaller.entityCircleURIPubGet(true);    
+    SSServCaller.circlePubURIGet(true);    
     
     regServForGatheringUserRelations();
     regServForGatheringUsersResources();

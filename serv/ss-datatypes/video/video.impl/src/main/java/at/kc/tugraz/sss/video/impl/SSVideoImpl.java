@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
@@ -112,7 +113,7 @@ implements
             for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
               
               try{
-                SSServCaller.entityUserCanRead(user, annotation.id);
+                SSServCallerU.canUserReadEntity(user, annotation.id);
               }catch(Exception error){
                 SSServErrReg.reset();
                 continue;
@@ -159,7 +160,7 @@ implements
         for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
         
           try{
-            SSServCaller.entityUserCanRead(user, annotation.id);
+            SSServCallerU.canUserReadEntity(user, annotation.id);
           }catch(Exception error){
             SSServErrReg.reset();
             continue;
@@ -288,11 +289,11 @@ implements
 //      }
       
       if(par.forEntity != null){
-        SSServCaller.entityUserCanRead(par.user, par.forEntity);
+        SSServCallerU.canUserReadEntity(par.user, par.forEntity);
       }
       
       if(par.link != null){
-        SSServCaller.entityUserCanRead(par.user, par.link);
+        SSServCallerU.canUserReadEntity(par.user, par.link);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -396,7 +397,7 @@ implements
       final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
       final SSUri                          annotationUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityUserCanRead(par.user, par.video);
+      SSServCallerU.canUserReadEntity(par.user, par.video);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -447,14 +448,14 @@ implements
       final SSVideoUserGetPar      par         = new SSVideoUserGetPar(parA);
       final SSVideo                video;
       
-      SSServCaller.entityUserCanRead(par.user, par.video);
+      SSServCallerU.canUserReadEntity(par.user, par.video);
       
       video = sqlFct.getVideo(par.user, par.video);
         
       for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
 
         try{
-          SSServCaller.entityUserCanRead(par.user, annotation.id);
+          SSServCallerU.canUserReadEntity(par.user, annotation.id);
         }catch(Exception error){
           SSServErrReg.reset();
           continue;
@@ -496,7 +497,7 @@ implements
       final List<SSVideo>           videos      = new ArrayList<>();
       
       if(par.forEntity != null){
-        SSServCaller.entityUserCanRead(par.user, par.forEntity);
+        SSServCallerU.canUserReadEntity(par.user, par.forEntity);
       }
       
       for(SSVideo video : sqlFct.getVideos(par.forUser, par.forEntity)){
@@ -504,7 +505,7 @@ implements
         for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
         
           try{
-            SSServCaller.entityUserCanRead(par.user, annotation.id);
+            SSServCallerU.canUserReadEntity(par.user, annotation.id);
           }catch(Exception error){
             SSServErrReg.reset();
             continue;
