@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -36,7 +37,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserCopyForUserPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
@@ -179,17 +179,35 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       switch(entityType){
         
-        case learnEp:
+        case learnEp:{
+          
           for(SSUri userUriToShareWith : usersToShareWith){
             
-            SSServCaller.learnEpUserShareWithUser(
-              user,
-              userUriToShareWith,
-              entity,
-              circle,
-              saveActivity,
+            if(sqlFct.ownsUserLearnEp(userUriToShareWith, entity)){
+              SSLogU.warn("learn ep is already shared with user");
+              continue;
+            }
+            
+            sqlFct.addLearnEp(entity, userUriToShareWith);
+            
+            SSServCaller.circleEntitiesAdd(
+              user, 
+              circle, 
+              SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entity), 
+              false, 
+              false,
               false);
+            
+            SSServCaller.circleUsersAdd(
+              user,
+              circle,
+              sqlFct.getLearnEpUserURIs(entity),
+              false,
+              true);
+            
+            SSLearnEpActivityFct.shareLearnEp(user, userUriToShareWith, entity);
           }
+        }
       }
       
     }catch(Exception error){
@@ -428,11 +446,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         false);
 
       for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEp, true, false)){
-
-        SSServCaller.entityEntitiesToCircleAdd(
-          par.user,
-          entityUserCircle.id,
-          SSUri.asListWithoutNullAndEmpty(learnEpVersionUri),
+        
+        SSServCaller.circleEntitiesAdd(
+          par.user, 
+          entityUserCircle.id, 
+          SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
+          false, 
+          true, 
           false);
       }
 
@@ -496,11 +516,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         false);
             
       for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpVersion, true, false)){
-
-        SSServCaller.entityEntitiesToCircleAdd(
-          par.user,
-          entityUserCircle.id,
-          SSUri.asListWithoutNullAndEmpty(circleUri),
+        
+        SSServCaller.circleEntitiesAdd(
+          par.user, 
+          entityUserCircle.id, 
+          SSUri.asListWithoutNullAndEmpty(circleUri), 
+          true, 
+          false, 
           false);
       }
 
@@ -586,10 +608,12 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         
       for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpVersion, true, false)){
         
-        SSServCaller.entityEntitiesToCircleAdd(
+        SSServCaller.circleEntitiesAdd(
           par.user,
-          entityUserCircle.id,
-          entities,
+          entityUserCircle.id, 
+          entities, 
+          true, 
+          false, 
           false);
       }        
       
@@ -769,11 +793,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       if(par.entity != null){
         
         for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpEntity, true, false)){
-
-          SSServCaller.entityEntitiesToCircleAdd(
-            par.user,
-            entityUserCircle.id,
-            SSUri.asListWithoutNullAndEmpty(par.entity),
+          
+          SSServCaller.circleEntitiesAdd(
+            par.user, 
+            entityUserCircle.id, 
+            SSUri.asListWithoutNullAndEmpty(par.entity), 
+            true, 
+            false, 
             false);
         }
       }
@@ -931,11 +957,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         false);
         
       for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user,par.user, par.learnEpVersion, true, false)){
-
-        SSServCaller.entityEntitiesToCircleAdd(
-          par.user,
-          entityUserCircle.id,
-          SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
+        
+        SSServCaller.circleEntitiesAdd(
+          par.user, 
+          entityUserCircle.id, 
+          SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
+          true, 
+          false, 
           false);
       }
 
@@ -1073,53 +1101,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         
         if(dbSQL.rollBack(parA)){
           return learnEpVersionCurrentSet(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSUri learnEpUserShareWithUser(final SSServPar parA) throws Exception{
-
-    try{
-      final SSLearnEpUserShareWithUserPar par = new SSLearnEpUserShareWithUserPar(parA);
-
-      SSServCaller.entityUserCanEdit(par.user, par.entity);
-      
-      if(sqlFct.ownsUserLearnEp(par.forUser, par.entity)){
-        throw new Exception("learn ep is already shared with user");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSLearnEpMiscFct.shareLearnEpWithUser(
-        sqlFct,
-        par.user,
-        par.forUser,
-        par.entity,
-        par.circle);
-
-      SSLearnEpActivityFct.shareLearnEp(par);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.entity;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return learnEpUserShareWithUser(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

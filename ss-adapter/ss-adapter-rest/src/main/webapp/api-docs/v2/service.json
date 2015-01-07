@@ -4,9 +4,9 @@
   "apis" : [ {
     "path" : "/auths.{format}"
   }, {
-    "path" : "/search.{format}"
-  }, {
     "path" : "/entities.{format}"
+  }, {
+    "path" : "/search.{format}"
   }, {
     "path" : "/videos.{format}"
   } ],

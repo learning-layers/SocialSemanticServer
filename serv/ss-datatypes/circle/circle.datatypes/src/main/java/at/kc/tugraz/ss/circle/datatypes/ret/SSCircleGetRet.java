@@ -23,18 +23,18 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserCircleGetRet extends SSServRetI{
+public class SSCircleGetRet extends SSServRetI{
 
   public SSEntityCircle circle = null;
 
-  public static SSEntityUserCircleGetRet get(
+  public static SSCircleGetRet get(
     final SSEntityCircle circle, 
     final SSMethU        op){
     
-    return new SSEntityUserCircleGetRet(circle, op);
+    return new SSCircleGetRet(circle, op);
   }
   
-  private SSEntityUserCircleGetRet(
+  private SSCircleGetRet(
     final SSEntityCircle circle, 
     final SSMethU        op){
 

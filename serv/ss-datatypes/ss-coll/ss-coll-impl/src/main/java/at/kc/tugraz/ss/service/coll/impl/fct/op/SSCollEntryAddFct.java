@@ -64,10 +64,12 @@ public class SSCollEntryAddFct{
     
     for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.coll, true, false)){
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        par.user,
-        entityUserCircle.id,
+      SSServCaller.circleEntitiesAdd(
+        par.user, 
+        entityUserCircle.id, 
         SSUri.asListWithoutNullAndEmpty(par.entry),
+        false, 
+        false, 
         false);
     }
     
@@ -122,10 +124,12 @@ public class SSCollEntryAddFct{
     
     for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, null, par.coll, true, false)){
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        par.user,
-        circle.id,
-        SSUri.asListWithoutNullAndEmpty(par.entry),
+      SSServCaller.circleEntitiesAdd(
+        par.user, 
+        circle.id, 
+        SSUri.asListWithoutNullAndEmpty(par.entry), 
+        false, 
+        false, 
         false);
     }
     

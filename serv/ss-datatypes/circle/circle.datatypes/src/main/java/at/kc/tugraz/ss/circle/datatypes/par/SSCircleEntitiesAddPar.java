@@ -27,19 +27,23 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSCircleEntitiesAddPar extends SSServPar{
   
-  public SSUri       circle   = null;
-  public List<SSUri> entities = new ArrayList<>();
+  public SSUri       circle               = null;
+  public List<SSUri> entities             = new ArrayList<>();
+  public Boolean     invokeEntityHandlers = true;
   
   public SSCircleEntitiesAddPar(
     final SSMethU     op,
     final String      key,
     final SSUri       user,
     final SSUri       circle,
-    final List<SSUri> entities){
+    final List<SSUri> entities,
+    final Boolean     withUserRestriction,
+    final Boolean     invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.circle = circle;
+    this.circle                 = circle;
+    this.invokeEntityHandlers   = invokeEntityHandlers;
     
     if(entities != null){
       this.entities.addAll(entities);
@@ -53,11 +57,16 @@ public class SSCircleEntitiesAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circle         = (SSUri)         pars.get(SSVarU.circle);
-        entities       = (List<SSUri>)   pars.get(SSVarU.entities);
+        circle               = (SSUri)         pars.get(SSVarU.circle);
+        entities             = (List<SSUri>)   pars.get(SSVarU.entities);
+        invokeEntityHandlers = (Boolean)       pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
+        
+        try{
+          invokeEntityHandlers = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
+        }catch(Exception error){}
         
         try{
           circle         = SSUri.get (par.clientJSONObj.get(SSVarU.circle).getTextValue());

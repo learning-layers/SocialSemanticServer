@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
@@ -58,6 +59,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErrE;
+import sss.serv.err.datatypes.SSWarnE;
 
 public class SSDiscImpl 
 extends SSServImplWithDBA 
@@ -230,12 +232,27 @@ implements
        
         for(SSUri userToShareWith : usersToShareWith){
           
-          SSDiscMiscFct.shareDiscWithUser(
-            sqlFct, 
-            user, 
-            userToShareWith, 
-            entity, 
-            circle);
+          if(sqlFct.ownsUserDisc(userToShareWith, entity)){
+            SSLogU.warn(SSWarnE.discAlreadySharedWithUser);
+            return;
+          }
+          
+          sqlFct.addDisc(entity, userToShareWith);
+          
+          SSServCaller.circleEntitiesAdd(
+            user,
+            circle,
+            SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
+            false,
+            false,
+            false);
+          
+          SSServCaller.circleUsersAdd(
+            user,
+            circle,
+            sqlFct.getDiscUserURIs(entity),
+            false,
+            false);
         }
     }
   }
@@ -252,11 +269,13 @@ implements
       case disc:
       case chat:{
         
-        SSDiscMiscFct.shareDiscWithCircle(
-          sqlFct, 
+        SSServCaller.circleEntitiesAdd(
           user, 
-          entity, 
-          circle);
+          circle, 
+          SSDiscMiscFct.getDiscContentURIs(sqlFct, entity), 
+          false, 
+          false, 
+          false);
       }
     }
   }

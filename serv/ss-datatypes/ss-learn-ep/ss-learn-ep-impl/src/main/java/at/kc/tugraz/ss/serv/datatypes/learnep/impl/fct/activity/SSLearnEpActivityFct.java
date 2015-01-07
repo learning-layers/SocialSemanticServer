@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserShareWithUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
@@ -286,19 +285,17 @@ public class SSLearnEpActivityFct{
   }
 
   public static void shareLearnEp(
-    final SSLearnEpUserShareWithUserPar par) throws Exception{
-    
-    if(!par.saveActivity){
-      return;
-    }
+    final SSUri user,
+    final SSUri forUser,
+    final SSUri learnEp) throws Exception{
     
     try{
       
       SSServCaller.activityAdd(
-        par.user,
+        user,
         SSActivityE.shareLearnEpWithUser,
-        SSUri.asListWithoutNullAndEmpty(par.forUser),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(forUser),
+        SSUri.asListWithoutNullAndEmpty(learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

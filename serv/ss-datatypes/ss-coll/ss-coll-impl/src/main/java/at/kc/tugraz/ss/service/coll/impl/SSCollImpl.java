@@ -60,7 +60,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserSetPublicPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
@@ -69,6 +68,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRe
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.activity.SSCollActivityFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
+import static at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct.getCollSubCollAndEntryURIs;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
@@ -195,27 +195,31 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
   @Override
   public Boolean setUserEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri, 
-    final SSEntityE   entityType,
-    final SSUri          publicCircleUri) throws Exception{
+    final SSUri          user,
+    final SSUri          entity, 
+    final SSEntityE      type,
+    final SSUri          circle) throws Exception{
     
-    if(!SSStrU.equals(entityType, SSEntityE.coll)){
-      return false;
-    }
-    
-    try{
+    switch(type){
       
-      SSServCaller.collUserSetPublic(
-        userUri,
-        entityUri,
-        publicCircleUri,
-        false);
+      case coll:{
+        
+        if(sqlFct.isCollSpecial(entity)){
+          throw new Exception("cannot set special collection public");
+        }
+        
+        SSServCaller.circleEntitiesAdd(
+          user,
+          circle,
+          SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+          false,
+          false,
+          false);
+        
+        return true;
+      }
       
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+      default: return false;
     }
   }
 
@@ -257,13 +261,27 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
               continue;
             }
             
-            SSCollMiscFct.shareCollWithUser(
-              sqlFct,
-              user,
+            sqlFct.addCollToColl(
               userUriToShareWith,
               rootColl,
               entity,
-              circle);
+              false,
+              true);
+            
+            SSServCaller.circleEntitiesAdd(
+              user,
+              circle,
+              SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+              false,
+              false,
+              false);
+            
+            SSServCaller.circleUsersAdd(
+              user,
+              circle,
+              sqlFct.getCollUserURIs(entity),
+              false,
+              false);
           }
           
           break;
@@ -306,13 +324,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
     switch(type){
       
       case coll:{
+        
         try{
           
-          SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(
-            sqlFct,
+          SSServCaller.circleEntitiesAdd(
             user,
-            sqlFct.getCollWithEntries(entity, new ArrayList<>()),
-            circle);
+            circle,
+            getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+            false, 
+            false, 
+            false);
           
         }catch(Exception error){
           SSServErrReg.regErrThrow(error);
@@ -999,52 +1020,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         if(dbSQL.rollBack(parA)){
           return collUserRootAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public SSUri collUserSetPublic(final SSServPar parA) throws Exception{
-
-    final SSCollUserSetPublicPar par = new SSCollUserSetPublicPar(parA);
-
-    try{
-
-      SSServCaller.entityUserCanAll(par.user, par.coll);
-      
-      if(sqlFct.isCollSpecial(par.coll)){
-        throw new Exception("cannot set special collection public");
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSCollMiscFct.addCollAndSubCollsWithEntriesToCircle(
-        sqlFct,
-        par.user,
-        sqlFct.getCollWithEntries(
-          par.coll, 
-          new ArrayList<>()),
-        par.circle);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.coll;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return collUserSetPublic(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

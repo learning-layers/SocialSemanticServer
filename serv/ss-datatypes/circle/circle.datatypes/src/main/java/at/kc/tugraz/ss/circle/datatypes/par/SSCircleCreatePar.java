@@ -34,11 +34,12 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSCircleCreatePar extends SSServPar{
   
-  public SSLabel               label          = null;
-  public List<SSUri>           entities       = new ArrayList<>();
-  public List<SSUri>           users          = new ArrayList<>();
-  public SSTextComment         description    = null;
-  public Boolean               isSystemCircle = null;
+  public SSLabel               label                = null;
+  public List<SSUri>           entities             = new ArrayList<>();
+  public List<SSUri>           users                = new ArrayList<>();
+  public SSTextComment         description          = null;
+  public Boolean               isSystemCircle       = null;
+  public Boolean               invokeEntityHandlers = null;
   
   public SSCircleCreatePar(
     final SSMethU       op,
@@ -49,7 +50,8 @@ public class SSCircleCreatePar extends SSServPar{
     final List<SSUri>   users,
     final SSTextComment description,
     final Boolean       isSystemCircle,
-    final Boolean       withUserRestriction){
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
     
     super(op, key, user);
     
@@ -66,6 +68,7 @@ public class SSCircleCreatePar extends SSServPar{
     this.description              = description;
     this.isSystemCircle           = isSystemCircle;
     this.withUserRestriction      = withUserRestriction;
+    this.invokeEntityHandlers     = invokeEntityHandlers;
   }
   
   public SSCircleCreatePar(final SSServPar par) throws Exception{
@@ -76,15 +79,22 @@ public class SSCircleCreatePar extends SSServPar{
       
       if(pars != null){
         
-        label            = (SSLabel)         pars.get(SSVarU.label);
-        entities         = (List<SSUri>)     pars.get(SSVarU.entities);
-        users            = (List<SSUri>)     pars.get(SSVarU.users);
-        description      = (SSTextComment)   pars.get(SSVarU.description);
-        isSystemCircle   = (Boolean)         pars.get(SSVarU.isSystemCircle);
+        label                = (SSLabel)         pars.get(SSVarU.label);
+        entities             = (List<SSUri>)     pars.get(SSVarU.entities);
+        users                = (List<SSUri>)     pars.get(SSVarU.users);
+        description          = (SSTextComment)   pars.get(SSVarU.description);
+        isSystemCircle       = (Boolean)         pars.get(SSVarU.isSystemCircle);
+        withUserRestriction  = (Boolean)         pars.get(SSVarU.withUserRestriction);
+        invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
         isSystemCircle = false;
+        
+        try{
+          invokeEntityHandlers = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
+        }catch(Exception error){}
+        
         label          = SSLabel.get         (par.clientJSONObj.get(SSVarU.label).getTextValue());
         
         try{

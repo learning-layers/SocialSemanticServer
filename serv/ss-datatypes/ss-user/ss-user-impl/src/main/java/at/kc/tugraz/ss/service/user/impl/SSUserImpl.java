@@ -270,10 +270,12 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         null,
         false);
       
-      SSServCaller.entityEntitiesToCircleAdd(
-        SSVoc.systemUserUri,
-        SSServCaller.entityCircleURIPubGet(false),
-        SSUri.asListWithoutNullAndEmpty(userUri),
+      SSServCaller.circleEntitiesAdd(
+        SSVoc.systemUserUri, 
+        SSServCaller.entityCircleURIPubGet(false), 
+        SSUri.asListWithoutNullAndEmpty(userUri), 
+        true, 
+        false, 
         false);
       
       sqlFct.addUser(userUri, tmpEmail);

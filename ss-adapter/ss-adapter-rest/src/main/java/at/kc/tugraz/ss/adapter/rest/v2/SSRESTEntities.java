@@ -55,8 +55,8 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
@@ -247,6 +247,7 @@ public class SSRESTEntities {
           input.users,
           input.description,
           false, 
+          true,
           true);
       
     }catch(Exception error){
@@ -872,7 +873,7 @@ public class SSRESTEntities {
   @Path("/{user}/circles")
   @ApiOperation(
     value = "retrieve circles for a given user",
-    response = SSEntityUserCirclesGetRet.class)
+    response = SSCirclesGetRet.class)
   public Response circlesForUserGet(
     @Context HttpHeaders headers,
     @PathParam (SSVarU.user)
@@ -935,7 +936,7 @@ public class SSRESTEntities {
   @Path("/{user}/circles/{circle}")
   @ApiOperation(
     value = "retrieve a circle for a given user",
-    response = SSEntityUserCirclesGetRet.class)
+    response = SSCirclesGetRet.class)
   public Response circleForUserGet(
     @Context HttpHeaders headers,
     @PathParam (SSVarU.user)
@@ -1001,7 +1002,7 @@ public class SSRESTEntities {
   @Path    ("/{circle}/circles/entities")
   @ApiOperation(
     value = "add given entities to a user-generated circle",
-    response = SSEntityUserEntitiesToCircleAddRet.class)
+    response = SSCircleEntitiesAddRet.class)
   public Response circleEntitiesAddPost(
     @Context HttpHeaders                          headers,
     @PathParam(SSVarU.circle) String              circle,
@@ -1013,11 +1014,13 @@ public class SSRESTEntities {
       
       par =
         new SSCircleEntitiesAddPar(
-          SSMethU.entityEntitiesToCircleAdd,
+          SSMethU.circleEntitiesAdd,
           null,
           null,
           SSUri.get(circle, SSRestMain.conf.vocConf.uriPrefix),
-          input.entities);
+          input.entities, 
+          true,
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

@@ -31,6 +31,7 @@ public interface SSCircleServerI{
 
   public SSUri                           circleCreate                             (final SSServPar parA) throws Exception;
   public SSUri                           circleUsersAdd                           (final SSServPar parA) throws Exception;
+  public SSUri                           circleEntitiesAdd                        (final SSServPar parA) throws Exception;
   public SSCircleE                       circleMostOpenCircleTypeGet              (final SSServPar parA) throws Exception;
   public List<SSCircleE>                 circleTypesGet                           (final SSServPar parA) throws Exception;
   public SSEntityCircle                  circleGet                                (final SSServPar parA) throws Exception;
@@ -39,9 +40,6 @@ public interface SSCircleServerI{
   public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
 
   public SSUri                           entityUserShare                          (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserEntitiesToCircleAdd            (final SSServPar parA) throws Exception;
-  
-
   
   public SSUri                           entityUserPublicSet                      (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserCan                            (final SSServPar parA) throws Exception;
@@ -49,5 +47,4 @@ public interface SSCircleServerI{
   public SSUri                           entityCircleURIPubGet                    (final SSServPar parA) throws Exception;
   public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
   public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;
-  public SSUri                           entityEntitiesToCircleAdd                (final SSServPar parA) throws Exception;
 }

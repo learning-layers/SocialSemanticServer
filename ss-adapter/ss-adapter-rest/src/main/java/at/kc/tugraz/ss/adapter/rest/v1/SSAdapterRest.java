@@ -98,11 +98,11 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
@@ -464,7 +464,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityUserCirclesGet")
   @ApiOperation(
     value = "retrieve circles the user is in",
-    response = SSEntityUserCirclesGetRet.class)
+    response = SSCirclesGetRet.class)
   public String entityUserCirclesGet(
     final SSEntityCirclesGetRESTAPIV1Par input) throws Exception{
     
@@ -488,7 +488,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityCircleGet")
   @ApiOperation(
     value = "retrieve a certain circle",
-    response = SSEntityUserCircleGetRet.class)
+    response = SSCircleGetRet.class)
   public String entityCircleGet(
     final SSEntityCircleGetRESTAPIV1Par input) throws Exception{
     
@@ -526,6 +526,7 @@ public class SSAdapterRest{
         input.users,
         input.description,
         false,
+        true,
         true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
@@ -561,17 +562,19 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
   @ApiOperation(
     value = "add given entities to a user-generated circle",
-    response = SSEntityUserEntitiesToCircleAddRet.class)
+    response = SSCircleEntitiesAddRet.class)
   public String entityEntitiesToCircleAdd(
     final SSEntityEntitiesToCircleAddRESTAPIV1Par input){
     
     final SSCircleEntitiesAddPar par = 
       new SSCircleEntitiesAddPar(
-        SSMethU.entityEntitiesToCircleAdd, 
+        SSMethU.circleEntitiesAdd, 
         input.key, 
         input.user, 
         input.circle, 
-        input.entities);
+        input.entities,
+        true, 
+        true);
     
     return SSRestMain.handleStandardJSONRESTCall(par, par.op);
   }

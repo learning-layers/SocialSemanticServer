@@ -109,24 +109,6 @@ public class SSCollMiscFct{
     }
   }
 
-  public static void addCollAndSubCollsWithEntriesToCircle(
-    final SSCollSQLFct sqlFct,
-    final SSUri        userUri,
-    final SSColl       startColl,
-    final SSUri        circleUri) throws Exception{
-
-    try{
-      SSServCaller.entityEntitiesToCircleAdd(
-        userUri,
-        circleUri,
-        getCollSubCollAndEntryURIs(sqlFct, startColl),
-        false);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
   public static List<SSUri> getCollSubCollAndEntryURIs(
     final SSCollSQLFct sqlFct,
     final SSColl       startColl) throws Exception{
@@ -215,43 +197,6 @@ public class SSCollMiscFct{
 //      parentCollUris.add(currentCollUri);
 //    }
 //  }
-
-  public static void shareCollWithUser(
-    final SSCollSQLFct sqlFct,
-    final SSUri userUri,
-    final SSUri userUriToShareWith,
-    final SSUri rootCollUri,
-    final SSUri collUri,
-    final SSUri circleUri) throws Exception{
-
-    try{
-
-      sqlFct.addCollToColl(
-        userUriToShareWith,
-        rootCollUri,
-        collUri,
-        false,
-        true);
-
-      addCollAndSubCollsWithEntriesToCircle(
-        sqlFct,
-        userUri,
-        sqlFct.getCollWithEntries(
-          collUri,
-          new ArrayList<>()),
-        circleUri);
-
-      SSServCaller.circleUsersAdd(
-        userUri, 
-        circleUri, 
-        sqlFct.getCollUserURIs(collUri), 
-        false, 
-        false);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 
   public static void shareEntityWithUser(
     final SSCollSQLFct sqlFct, 

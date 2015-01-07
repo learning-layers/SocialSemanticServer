@@ -26,18 +26,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSEntityUserCirclesGetRet extends SSServRetI{
+public class SSCirclesGetRet extends SSServRetI{
 
   public List<SSEntityCircle> circles = new ArrayList<>();
 
-  public static SSEntityUserCirclesGetRet get(
+  public static SSCirclesGetRet get(
     final List<SSEntityCircle> circles, 
     final SSMethU        op){
     
-    return new SSEntityUserCirclesGetRet(circles, op);
+    return new SSCirclesGetRet(circles, op);
   }
   
-  private SSEntityUserCirclesGetRet(
+  private SSCirclesGetRet(
     final List<SSEntityCircle> circles, 
     final SSMethU        op){
 

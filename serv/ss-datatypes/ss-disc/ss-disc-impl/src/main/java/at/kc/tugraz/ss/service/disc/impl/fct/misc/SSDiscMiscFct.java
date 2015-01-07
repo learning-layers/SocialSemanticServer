@@ -20,91 +20,17 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import java.util.ArrayList;
 import java.util.List;
-import sss.serv.err.datatypes.SSWarnE;
 
 public class SSDiscMiscFct{
   
-  public static void shareDiscWithCircle(
-    final SSDiscSQLFct    sqlFct,
-    final SSUri           user,
-    final SSUri           disc,
-    final SSUri           circle) throws Exception{
-    
-    try{
-      
-      addDiscWithContentToCircle(
-        sqlFct,
-        user,
-        disc,
-        circle);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void shareDiscWithUser(
-    final SSDiscSQLFct    sqlFct,
-    final SSUri           user,
-    final SSUri           forUser,
-    final SSUri           disc,
-    final SSUri           circle) throws Exception{
-    
-    try{
-      
-      if(sqlFct.ownsUserDisc(forUser, disc)){
-        SSLogU.warn(SSWarnE.discAlreadySharedWithUser);
-        return;
-      }
-      
-      sqlFct.addDisc(disc, forUser);
-      
-      addDiscWithContentToCircle(
-        sqlFct,
-        user,
-        disc,
-        circle);
-      
-      SSServCaller.circleUsersAdd(
-        user, 
-        circle, 
-        sqlFct.getDiscUserURIs(disc), 
-        false, 
-        false);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private static void addDiscWithContentToCircle(
-    final SSDiscSQLFct    sqlFct,
-    final SSUri           user,
-    final SSUri           disc,
-    final SSUri           circle) throws Exception{
-
-    try{
-      SSServCaller.entityEntitiesToCircleAdd(
-        user,
-        circle,
-        getDiscContentURIs(sqlFct, disc),
-        false);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private static List<SSUri> getDiscContentURIs(
+  public static List<SSUri> getDiscContentURIs(
     final SSDiscSQLFct sqlFct,
     final SSUri        discUri) throws Exception{
 

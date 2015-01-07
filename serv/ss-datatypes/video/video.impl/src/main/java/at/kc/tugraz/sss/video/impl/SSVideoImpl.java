@@ -118,10 +118,12 @@ implements
                 continue;
               }
               
-              SSServCaller.entityEntitiesToCircleAdd(
-                userToShareWith,
-                circle,
-                SSUri.asListWithoutNullAndEmpty(annotation.id),
+              SSServCaller.circleEntitiesAdd(
+                userToShareWith, 
+                circle, 
+                SSUri.asListWithoutNullAndEmpty(annotation.id), 
+                false, 
+                false, 
                 false);
             }
           }
@@ -163,10 +165,12 @@ implements
             continue;
           }
           
-          SSServCaller.entityEntitiesToCircleAdd(
-            user,
-            circle,
-            SSUri.asListWithoutNullAndEmpty(annotation.id),
+          SSServCaller.circleEntitiesAdd(
+            user, 
+            circle, 
+            SSUri.asListWithoutNullAndEmpty(annotation.id), 
+            false, 
+            false, 
             false);
         }
       }

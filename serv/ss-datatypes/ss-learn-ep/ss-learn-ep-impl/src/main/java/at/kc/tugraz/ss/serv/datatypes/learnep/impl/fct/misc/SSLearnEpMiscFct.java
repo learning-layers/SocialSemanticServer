@@ -127,57 +127,6 @@ public class SSLearnEpMiscFct{
     }
   }
   
-  public static void shareLearnEpWithUser(
-    final SSLearnEpSQLFct sqlFct,
-    final SSUri           user,
-    final SSUri           forUser,
-    final SSUri           learnEp,
-    final SSUri           circle) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(sqlFct, user, forUser, learnEp, circle)){
-        throw new Exception("pars null");
-      }
-      
-      sqlFct.addLearnEp(learnEp, forUser);
-      
-      addLearnEpWithContentToCircle(
-        sqlFct,
-        user,
-        learnEp,
-        circle);
-      
-      SSServCaller.circleUsersAdd(
-        user,
-        circle,
-        sqlFct.getLearnEpUserURIs(learnEp),
-        false, 
-        true);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addLearnEpWithContentToCircle(
-    final SSLearnEpSQLFct sqlFct,
-    final SSUri           user,
-    final SSUri           learnEp,
-    final SSUri           circle) throws Exception{
-
-    try{
-      SSServCaller.entityEntitiesToCircleAdd(
-        user,
-        circle,
-        getLearnEpContentURIs(user, sqlFct, learnEp),
-        false);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static List<SSUri> getLearnEpContentURIs(
     final SSUri           user,
     final SSLearnEpSQLFct sqlFct,
