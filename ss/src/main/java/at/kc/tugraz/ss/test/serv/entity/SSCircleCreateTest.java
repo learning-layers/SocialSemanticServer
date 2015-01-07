@@ -28,9 +28,9 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEntityCircleCreateTest extends SSServOpTestCaseA{
+public class SSCircleCreateTest extends SSServOpTestCaseA{
   
-  public SSEntityCircleCreateTest(SSEntityConf entityConf){
+  public SSCircleCreateTest(SSEntityConf entityConf){
     super(entityConf, SSMethU.circleCreate);
   }
   

@@ -106,10 +106,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       for(SSColl coll : allColls){
         
         collUserCircles =
-          SSServCaller.entityUserEntityCirclesGet(
-            userUri,
-            coll.id,
-            true);
+          SSServCaller.circlesGet(userUri, userUri, coll.id, true, false);
         
         for(SSEntityCircle circle : collUserCircles){
           
@@ -125,10 +122,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           collEntry = (SSCollEntry) entry;
           
           collEntryUserCircles =
-            SSServCaller.entityUserEntityCirclesGet(
-              userUri,
-              collEntry.id,
-              true);
+            SSServCaller.circlesGet(userUri, userUri, collEntry.id, true, false);
           
           for(SSEntityCircle circle : collEntryUserCircles){
             
@@ -349,7 +343,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           userUri, 
           entityUri,
           coll.id, 
-          true, 
           false);
       }
 
@@ -517,7 +510,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       dbSQL.startTrans(par.shouldCommit);
 
       for(SSUri collEntryUri : par.entries){
-        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, par.saveUE, false);
+        SSServCaller.collUserEntryDelete(par.user, collEntryUri, par.coll, false);
       }
 
       dbSQL.commit(par.shouldCommit);
@@ -653,7 +646,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           par.entries.get(counter),
           par.labels.get(counter),
           false,
-          par.saveUE,
           false);
       }
 
@@ -977,11 +969,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       sqlFct.addColl (rootCollUri);
 
-      SSServCaller.entityUsersToCircleAdd(
-        par.user,
-        SSServCaller.entityCircleURIPubGet(false),
-        par.user,
-        false);
+      SSServCaller.circleUsersAdd(par.user, SSServCaller.entityCircleURIPubGet(false), par.user, false, false);
       
       sqlFct.addCollRoot(
         rootCollUri, 
@@ -994,7 +982,6 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           null,
           SSLabel.get(SSStrU.valueSharedWithMeFiles),
           true,
-          false,
           false);
       
       sqlFct.addCollSpecial(

@@ -37,7 +37,7 @@ public class SSCollEntryDeleteFct{
         throw new Exception("cant delete special collection");
       }
       
-      switch(SSServCaller.entityMostOpenCircleTypeGet(par.entry)){
+      switch(SSServCaller.circleMostOpenCircleTypeGet(par.user, par.user, par.entry, false)){
         
         case priv:{
           

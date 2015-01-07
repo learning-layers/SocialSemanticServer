@@ -58,7 +58,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserUsersToCircleAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
@@ -970,7 +970,7 @@ public class SSRESTEntities {
   @Path    ("/{circle}/circles/users")
   @ApiOperation(
     value = "add given users to a user-generated circle",
-    response = SSEntityUserUsersToCircleAddRet.class)
+    response = SSCircleUsersAddRet.class)
   public Response circleUsersAddPost(
     @Context HttpHeaders                       headers,
     @PathParam(SSVarU.circle) String           circle,

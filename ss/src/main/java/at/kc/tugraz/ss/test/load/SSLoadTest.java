@@ -44,8 +44,8 @@ public class SSLoadTest extends SSServLoadTestCaseA{
     
     SSLogU.info(SSLoadTest.class.getName() + " start");
     
-    rootCollUri  = SSServCaller.collUserRootGet   (SSVoc.systemUserUri).id;
-    collUri      = SSServCaller.collUserEntryAdd  (SSVoc.systemUserUri, rootCollUri, null, SSLabel.get("firstColl"), true, false, true);
+    rootCollUri  = SSServCaller.collUserRootGet  (SSVoc.systemUserUri).id;
+    collUri      = SSServCaller.collUserEntryAdd (SSVoc.systemUserUri, rootCollUri, null, SSLabel.get("firstColl"), true, true);
     
     for(threadCounter = 0; threadCounter < maxThreads; threadCounter++){
       new Thread(new SSLoadTestUEAdder     (null, SSVoc.systemUserUri)).start();

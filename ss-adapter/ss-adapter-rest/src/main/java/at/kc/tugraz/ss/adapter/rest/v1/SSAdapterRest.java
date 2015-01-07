@@ -108,7 +108,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserPublicSetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserUsersToCircleAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -538,7 +538,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityUsersToCircleAdd")
   @ApiOperation(
     value = "add given users to a user-generated circle",
-    response = SSEntityUserUsersToCircleAddRet.class)
+    response = SSCircleUsersAddRet.class)
   public String entityUsersToCircleAdd(
     final SSEntityUsersToCircleAddRESTAPIV1Par input){
     

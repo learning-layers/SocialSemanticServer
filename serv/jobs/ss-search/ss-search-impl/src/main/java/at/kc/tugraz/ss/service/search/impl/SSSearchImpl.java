@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchMIsPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
@@ -113,50 +112,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   @Deprecated
   @Override
-  public List<SSEntity> searchMIs(final SSServPar parA) throws Exception {
-    return searchMIs(new SSSearchMIsPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchMIs(final SSSearchMIsPar par) throws Exception{
-    
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-      SSEntity                          entityObj;
-     
-      for(String mi : par.mIs){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(SSUri entityUri : SSServCaller.modelUEEntitiesForMiGet(par.user, mi)){
-        
-          entityObj = SSServCaller.entityGet(entityUri);
-          
-          entityObj.circleTypes.addAll(
-            SSServCaller.entityUserEntityCircleTypesGet(
-              par.user, 
-              entityUri));
-            
-          searchResultsForOneKeyword.add(entityObj);
-        }
-        
-        searchResultsPerKeyword.put(mi, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp,  
-        searchResultsPerKeyword);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Deprecated
-  @Override
   public List<SSEntity> searchSolr(final SSServPar parA) throws Exception {
     return searchSolr(new SSSearchSolrPar(parA));
   }
@@ -180,11 +135,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             SSServCaller.entityGet(
               SSServCaller.vocURICreateFromId(entityId));
             
-          entityObj.circleTypes.addAll(
-            SSServCaller.entityUserEntityCircleTypesGet(
-              par.user, 
-              entityObj.id));
-          
           searchResultsForOneKeyword.add(entityObj);
         }
 
@@ -227,11 +177,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
           
           entityObj = SSServCaller.entityGet(entityUri);
-          
-          entityObj.circleTypes.addAll(
-            SSServCaller.entityUserEntityCircleTypesGet(
-              par.user, 
-              entityObj.id));
           
           searchResultsForOneKeyword.add(entityObj);
         }
@@ -433,9 +378,11 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
             entity)));
       
       entity.circleTypes =
-        SSServCaller.entityUserEntityCircleTypesGet(
-          par.user,
-          entity.id);
+        SSServCaller.circleTypesGet(
+          par.user, 
+          par.user, 
+          entity.id,
+          false);
       
       return entity;
     }catch(Exception error){

@@ -863,13 +863,11 @@ public class SSServCaller {
     final SSUri        user, 
     final SSUri        entry, 
     final SSUri        parentColl, 
-    final Boolean      saveUE,
     final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.saveUE,       saveUE);
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.coll,         parentColl);
     opPars.put(SSVarU.entry,        entry);
@@ -883,14 +881,12 @@ public class SSServCaller {
     final SSUri        entry,
     final SSLabel      label,
     final Boolean      addNewColl,
-    final Boolean      saveUE,
     final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.saveUE,            saveUE);
     opPars.put(SSVarU.coll,              coll);
     opPars.put(SSVarU.entry,             entry);
     opPars.put(SSVarU.label,             label);

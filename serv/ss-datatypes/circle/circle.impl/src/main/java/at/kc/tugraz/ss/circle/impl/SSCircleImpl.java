@@ -47,7 +47,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserEntitiesToCircleAddRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntityUserUsersToCircleAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUserCanPar;
@@ -188,7 +188,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
     final SSUri result = circleUsersAdd(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserUsersToCircleAddRet.get(result, parA.op));
+    sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result, parA.op));
     
     SSCircleActivityFct.addUsersToCircle(new SSCircleUsersAddPar(parA));
   }

@@ -78,18 +78,27 @@ public class SSCollMiscFct{
     SSCollEntry collEntry;
     
     try{
-
-      final SSColl coll
-        = sqlFct.getCollWithEntries(
+      
+      final SSColl coll =
+        sqlFct.getCollWithEntries(
           collUri,
-          SSServCaller.entityUserEntityCircleTypesGet(userUri, collUri));
-
+          SSServCaller.circleTypesGet(
+            userUri,
+            userUri,
+            collUri,
+            false));
+      
       for(Object entry : coll.entries){
         
         collEntry = (SSCollEntry) entry;
         
         collEntry.circleTypes.clear();
-        collEntry.circleTypes.addAll(SSServCaller.entityUserEntityCircleTypesGet(userUri, collEntry.id));
+        collEntry.circleTypes.addAll(
+          SSServCaller.circleTypesGet(
+            userUri,
+            userUri,
+            collEntry.id,
+            false));
       }
 
       return coll;
@@ -232,10 +241,11 @@ public class SSCollMiscFct{
           new ArrayList<>()),
         circleUri);
 
-      SSServCaller.entityUsersToCircleAdd(
-        userUri,
-        circleUri,
-        sqlFct.getCollUserURIs(collUri),
+      SSServCaller.circleUsersAdd(
+        userUri, 
+        circleUri, 
+        sqlFct.getCollUserURIs(collUri), 
+        false, 
         false);
 
     }catch(Exception error){

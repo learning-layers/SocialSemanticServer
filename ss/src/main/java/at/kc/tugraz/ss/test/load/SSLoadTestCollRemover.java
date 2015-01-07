@@ -41,7 +41,7 @@ public class SSLoadTestCollRemover extends SSServImplStartA{
   public void run(){
     
     try{
-      SSServCaller.collUserEntryDelete(userUri, SSLoadTest.collUri, SSLoadTest.rootCollUri, false, true);
+      SSServCaller.collUserEntryDelete(userUri, SSLoadTest.collUri, SSLoadTest.rootCollUri, true);
     }catch(Exception error1) {
       SSServErrReg.regErr(error1);
     }finally{

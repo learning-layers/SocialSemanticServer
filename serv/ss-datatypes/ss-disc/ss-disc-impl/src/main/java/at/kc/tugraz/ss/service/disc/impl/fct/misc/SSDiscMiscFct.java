@@ -74,10 +74,11 @@ public class SSDiscMiscFct{
         disc,
         circle);
       
-      SSServCaller.entityUsersToCircleAdd(
-        user,
-        circle,
-        sqlFct.getDiscUserURIs(disc),
+      SSServCaller.circleUsersAdd(
+        user, 
+        circle, 
+        sqlFct.getDiscUserURIs(disc), 
+        false, 
         false);
       
     }catch(Exception error){

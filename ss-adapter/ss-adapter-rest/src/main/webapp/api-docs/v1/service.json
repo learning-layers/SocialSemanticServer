@@ -2,13 +2,13 @@
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/SSAdapterRESTFileUpload.{format}"
-  }, {
-    "path" : "/SSAdapterRESTFileDownload.{format}"
-  }, {
     "path" : "/SSAdapterRESTFile.{format}"
   }, {
     "path" : "/SSAdapterRest.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileUpload.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
     "path" : "/SSAdapterRESTFileReplace.{format}"
   } ],

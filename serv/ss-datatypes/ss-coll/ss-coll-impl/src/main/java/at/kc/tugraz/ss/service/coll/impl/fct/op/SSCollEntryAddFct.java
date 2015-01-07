@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
@@ -38,7 +37,7 @@ public class SSCollEntryAddFct{
     
     final Boolean isParentCollSharedOrPublic;
     
-    switch(SSServCaller.entityMostOpenCircleTypeGet(par.coll)){
+    switch(SSServCaller.circleMostOpenCircleTypeGet(par.user, null, par.coll, false)){
       case priv: isParentCollSharedOrPublic = false; break;
       default:   isParentCollSharedOrPublic = true;
     }
@@ -63,7 +62,7 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSEntityCircle entityUserCircle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll, true)){
+    for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.coll, true, false)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,
@@ -79,11 +78,11 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSCircleE.equals(SSServCaller.entityMostOpenCircleTypeGet(par.entry), SSCircleE.pub)){
+    if(!SSCircleE.equals(SSServCaller.circleMostOpenCircleTypeGet(par.user, null, par.entry, false), SSCircleE.pub)){
       throw new Exception("coll to add is not public");
     }
     
-    switch(SSServCaller.entityMostOpenCircleTypeGet(par.coll)){
+    switch(SSServCaller.circleMostOpenCircleTypeGet(par.user, null, par.coll, false)){
       case priv: break;
       default:   throw new Exception("cannot add shared or public coll to shared / public parent coll");
     }
@@ -121,7 +120,7 @@ public class SSCollEntryAddFct{
     
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    for(SSEntityCircle circle : SSServCaller.entityUserEntityCirclesGet(par.user, par.coll, true)){
+    for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, null, par.coll, true, false)){
       
       SSServCaller.entityEntitiesToCircleAdd(
         par.user,

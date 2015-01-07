@@ -95,10 +95,12 @@ implements
       for(SSDisc disc : allDiscs){
         
         discUserCircles =
-          SSServCaller.entityUserEntityCirclesGet(
-            userUri,
+          SSServCaller.circlesGet(
+            userUri, 
+            userUri, 
             disc.id, 
-            true);
+            true, 
+            false);
         
         for(SSEntityCircle circle : discUserCircles){
           
@@ -467,9 +469,11 @@ implements
             discUri));
         
         disc.circleTypes.addAll(
-          SSServCaller.entityUserEntityCircleTypesGet(
-            par.user,
-            disc.id));
+          SSServCaller.circleTypesGet(
+            par.user, 
+            par.user, 
+            disc.id, 
+            false));
         
         discsWithoutEntries.add(disc);
       }
@@ -557,7 +561,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      switch(SSServCaller.entityMostOpenCircleTypeGet(par.disc)){
+      switch(SSServCaller.circleMostOpenCircleTypeGet(par.user, par.user, par.disc, false)){
       
         case priv: sqlFct.deleteDisc(par.disc);          break;
         case group: 
