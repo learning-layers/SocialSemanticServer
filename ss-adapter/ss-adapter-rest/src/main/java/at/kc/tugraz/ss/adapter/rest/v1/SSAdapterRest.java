@@ -36,12 +36,12 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutTileAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCircleCreateRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCircleGetRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityCirclesGetRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityEntitiesToCircleAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleCreateRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleGetRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCirclesGetRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityUsersToCircleAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleUsersAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSLikeSetRESTAPIV1Par;
@@ -445,7 +445,7 @@ public class SSAdapterRest{
     final SSAuthCheckCredPar par = 
       new SSAuthCheckCredPar(
         SSMethU.authCheckCred, 
-        null,
+        "dummyKey",
         null,
         input.label,
         input.password);
@@ -461,12 +461,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUserCirclesGet")
+  @Path    (SSStrU.slash + "circlesGet")
   @ApiOperation(
     value = "retrieve circles the user is in",
     response = SSCirclesGetRet.class)
-  public String entityUserCirclesGet(
-    final SSEntityCirclesGetRESTAPIV1Par input) throws Exception{
+  public String circlesGet(
+    final SSCirclesGetRESTAPIV1Par input) throws Exception{
     
     final SSCirclesGetPar par = 
       new SSCirclesGetPar(
@@ -485,12 +485,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleGet")
+  @Path    (SSStrU.slash + "circleGet")
   @ApiOperation(
     value = "retrieve a certain circle",
     response = SSCircleGetRet.class)
-  public String entityCircleGet(
-    final SSEntityCircleGetRESTAPIV1Par input) throws Exception{
+  public String circleGet(
+    final SSCircleGetRESTAPIV1Par input) throws Exception{
     
     final SSCircleGetPar par = 
       new SSCircleGetPar(
@@ -509,12 +509,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCircleCreate")
+  @Path    (SSStrU.slash + "circleCreate")
   @ApiOperation(
     value = "create a circle and add users and entities to",
     response = SSCircleCreateRet.class)
-  public String entityCircleCreate(
-    final SSEntityCircleCreateRESTAPIV1Par input){
+  public String circleCreate(
+    final SSCircleCreateRESTAPIV1Par input){
     
     final SSCircleCreatePar par =
       new SSCircleCreatePar(
@@ -536,12 +536,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUsersToCircleAdd")
+  @Path    (SSStrU.slash + "circleUsersAdd")
   @ApiOperation(
     value = "add given users to a user-generated circle",
     response = SSCircleUsersAddRet.class)
-  public String entityUsersToCircleAdd(
-    final SSEntityUsersToCircleAddRESTAPIV1Par input){
+  public String circleUsersAdd(
+    final SSCircleUsersAddRESTAPIV1Par input){
     
     final SSCircleUsersAddPar par =
       new SSCircleUsersAddPar(
@@ -559,12 +559,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityEntitiesToCircleAdd")
+  @Path    (SSStrU.slash + "circleEntitiesAdd")
   @ApiOperation(
     value = "add given entities to a user-generated circle",
     response = SSCircleEntitiesAddRet.class)
-  public String entityEntitiesToCircleAdd(
-    final SSEntityEntitiesToCircleAddRESTAPIV1Par input){
+  public String circleEntitiesAdd(
+    final SSCircleEntitiesAddRESTAPIV1Par input){
     
     final SSCircleEntitiesAddPar par = 
       new SSCircleEntitiesAddPar(

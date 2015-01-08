@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
@@ -254,8 +255,21 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       tagResultUris.addAll                 (getTagResults(par));
       uris.addAll                          (tagResultUris);
       uris.addAll                          (getMIResults(par));
-      contentResultUris.addAll             (getTextualContentResults(par));
-      uris.addAll                          (contentResultUris);
+      
+      try{
+        contentResultUris.addAll             (getTextualContentResults(par));
+        uris.addAll                          (contentResultUris);
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+          default: SSServErrReg.regErrThrow(error);
+        }
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
+      
       labelAndDescriptionResultUris.addAll (getLabelAndDescriptionResults(par));
       uris.addAll                          (labelAndDescriptionResultUris);
       

@@ -2,13 +2,13 @@
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/auths.{format}"
-  }, {
-    "path" : "/search.{format}"
-  }, {
     "path" : "/videos.{format}"
   }, {
+    "path" : "/auths.{format}"
+  }, {
     "path" : "/entities.{format}"
+  }, {
+    "path" : "/search.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

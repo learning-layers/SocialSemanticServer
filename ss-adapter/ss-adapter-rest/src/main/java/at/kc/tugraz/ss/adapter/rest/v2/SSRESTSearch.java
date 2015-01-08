@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.adapter.rest.v2;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.SSRestMain;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.SSSearchRESTAPIV2Par;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import com.wordnik.swagger.annotations.Api;
@@ -40,51 +39,51 @@ import javax.ws.rs.core.Response;
 @Api( value = "search")
 public class SSRESTSearch{
  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(
-    value = "search for entities",
-    response = SSSearchRet.class)
-  public Response search(
-    @Context HttpHeaders       headers,
-    final SSSearchRESTAPIV2Par input){
-    
-    final SSSearchPar par;
-    
-    try{
-      
-      par =
-        new SSSearchPar(
-          SSMethU.search,
-          null,
-          null,
-          input.keywordsToSearchFor,
-          input.includeTextualContent,
-          input.wordsToSearchFor,
-          input.includeTags,
-          input.tagsToSearchFor,
-          input.includeLabel,
-          input.labelsToSearchFor,
-          input.includeDescription,
-          input.descriptionsToSearchFor,
-          input.typesToSearchOnlyFor,
-          input.includeOnlySubEntities,
-          input.entitiesToSearchWithin,
-          input.extendToParents,
-          input.includeRecommendedResults,
-          input.provideEntries,
-          input.pagesID,
-          input.pageNumber,
-          input.minRating,
-          input.maxRating,
-          input.localSearchOp,
-          input.globalSearchOp);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMain.handlePOSTRequest(headers, par);
-  }
+//  @POST
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @ApiOperation(
+//    value = "search for entities",
+//    response = SSSearchRet.class)
+//  public Response search(
+//    @Context HttpHeaders       headers,
+//    final SSSearchRESTAPIV2Par input){
+//    
+//    final SSSearchPar par;
+//    
+//    try{
+//      
+//      par =
+//        new SSSearchPar(
+//          SSMethU.search,
+//          null,
+//          null,
+//          input.keywordsToSearchFor,
+//          input.includeTextualContent,
+//          input.wordsToSearchFor,
+//          input.includeTags,
+//          input.tagsToSearchFor,
+//          input.includeLabel,
+//          input.labelsToSearchFor,
+//          input.includeDescription,
+//          input.descriptionsToSearchFor,
+//          input.typesToSearchOnlyFor,
+//          input.includeOnlySubEntities,
+//          input.entitiesToSearchWithin,
+//          input.extendToParents,
+//          input.includeRecommendedResults,
+//          input.provideEntries,
+//          input.pagesID,
+//          input.pageNumber,
+//          input.minRating,
+//          input.maxRating,
+//          input.localSearchOp,
+//          input.globalSearchOp);
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMain.handlePOSTRequest(headers, par);
+//  }
 }

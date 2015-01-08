@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -25,14 +24,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
-public class SSEntityEntitiesToCircleAddRESTAPIV1Par{
-  
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
-    required = true)
-  public        SSMethU              op            = null;
+@ApiModel(value = "circleUsersAdd request parameter")
+public class SSCircleUsersAddRESTAPIV1Par{
   
   @ApiModelProperty( 
     value = "the user's identifier", 
@@ -52,7 +45,7 @@ public class SSEntityEntitiesToCircleAddRESTAPIV1Par{
   
   @ApiModelProperty(
     required = true,
-    value = "circle to add entities to")
+    value = "circle to add users to")
   public SSUri       circle  = null;
   
   @XmlElement
@@ -62,13 +55,13 @@ public class SSEntityEntitiesToCircleAddRESTAPIV1Par{
   
   @ApiModelProperty(
     required = true,
-    value = "entities to add")
-  public List<SSUri> entities = new ArrayList<>();
+    value = "users to add")
+  public List<SSUri> users   = new ArrayList<>();
   
   @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
   }
   
-  public SSEntityEntitiesToCircleAddRESTAPIV1Par(){}
+  public SSCircleUsersAddRESTAPIV1Par(){}
 }

@@ -15,7 +15,8 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -25,14 +26,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserUsersToCircleAdd request parameter")
-public class SSEntityUsersToCircleAddRESTAPIV1Par{
-  
-    @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
-    required = true)
-  public        SSMethU              op            = null;
+@ApiModel(value = "circleCreate request parameter")
+public class SSCircleCreateRESTAPIV1Par{
   
   @ApiModelProperty( 
     value = "the user's identifier", 
@@ -52,23 +47,43 @@ public class SSEntityUsersToCircleAddRESTAPIV1Par{
   
   @ApiModelProperty(
     required = true,
-    value = "circle to add users to")
-  public SSUri       circle  = null;
+    value = "circle name")
+  public SSLabel                label          = null;
   
   @XmlElement
-  public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
   @ApiModelProperty(
-    required = true,
+    required = false,
+    value = "entities to add")
+  public List<SSUri>            entities       = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    try{ this.entities = SSUri.get(entities); } catch(Exception error){}
+  }
+  
+  @ApiModelProperty(
+    required = false,
     value = "users to add")
-  public List<SSUri> users   = new ArrayList<>();
+  public List<SSUri>            users          = new ArrayList<>();
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
+    try{ this.users = SSUri.get(users); } catch(Exception error){}
   }
   
-  public SSEntityUsersToCircleAddRESTAPIV1Par(){}
+  @ApiModelProperty(
+    required = false,
+    value = "textual annotation")
+  public SSTextComment          description    = null;
+
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    try{ this.description = SSTextComment.get(description); } catch(Exception error){}
+  }
+  
+  public SSCircleCreateRESTAPIV1Par(){}
 }

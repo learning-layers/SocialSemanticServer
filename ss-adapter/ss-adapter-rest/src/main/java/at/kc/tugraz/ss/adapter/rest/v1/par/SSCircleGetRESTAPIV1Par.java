@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -23,14 +22,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserCirclesGet request parameter")
-public class SSEntityCirclesGetRESTAPIV1Par{
-  
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
-    required = true)
-  public        SSMethU              op            = null;
+@ApiModel(value = "circleGet request parameter")
+public class SSCircleGetRESTAPIV1Par{
   
   @ApiModelProperty( 
     value = "the user's identifier", 
@@ -47,16 +40,26 @@ public class SSEntityCirclesGetRESTAPIV1Par{
     value = "the user's access tocken", 
     required = true)
   public String key                    = null;
-
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to retrieve circles for (optional)")
-  public SSUri   forUser             = null;
+  
+  @ApiModelProperty(
+    required = true,
+    value = "circle the circle to retrieve")
+  public SSUri   circle                     = null;
   
   @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
   }
   
-  public SSEntityCirclesGetRESTAPIV1Par(){}
+  @ApiModelProperty(
+    required = false,
+    value = "user for which the circle shall be retrieved")
+  public SSUri   forUser                    = null;
+  
+  @XmlElement
+  public void setForUser(final String forUser){
+    try{ this.forUser   = SSUri.get(forUser);   }catch(Exception error){}
+  }
+  
+  public SSCircleGetRESTAPIV1Par(){}
 }

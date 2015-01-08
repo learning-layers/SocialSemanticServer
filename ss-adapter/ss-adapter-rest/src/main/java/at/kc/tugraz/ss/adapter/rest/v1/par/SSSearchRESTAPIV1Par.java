@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
@@ -35,12 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "SSSearchPar")
 @ApiModel(value = "search request parameter")
 public class SSSearchRESTAPIV1Par{
-  
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
-    required = true)
-  public        SSMethU              op            = null;
   
   @ApiModelProperty( 
     value = "the user's identifier", 

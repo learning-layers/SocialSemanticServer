@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "SSSearchPar")
 @ApiModel(value = "search request parameter")
-public class SSSearchRESTAPIV2Par{
+public class SSSearchRESTAPIV2Par1{
   
   @XmlElement
   @ApiModelProperty(
@@ -186,5 +186,5 @@ public class SSSearchRESTAPIV2Par{
     value = "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)")
   public SSSearchOpE              globalSearchOp     = SSSearchOpE.or;
     
-  public SSSearchRESTAPIV2Par(){}
+  public SSSearchRESTAPIV2Par1(){}
 }

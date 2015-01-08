@@ -23,6 +23,24 @@
       "deprecated" : "true"
     } ]
   }, {
+    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "remove certain attached attributes from an entity",
+      "notes" : "",
+      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
+      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/friendsGet",
     "operations" : [ {
       "method" : "POST",
@@ -137,19 +155,76 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/entityCircleGet",
+    "path" : "/circlesGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve a certain circle",
+      "summary" : "retrieve circles the user is in",
       "notes" : "",
-      "type" : "SSCircleGetRet",
-      "nickname" : "entityCircleGet",
+      "type" : "SSCirclesGetRet",
+      "nickname" : "circlesGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSEntityCircleGetRESTAPIV1Par",
+        "type" : "SSCirclesGetRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a certain circle",
+      "notes" : "",
+      "type" : "SSCircleGetRet",
+      "nickname" : "circleGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleGetRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleCreate",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "create a circle and add users and entities to",
+      "notes" : "",
+      "type" : "SSCircleCreateRet",
+      "nickname" : "circleCreate",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleCreateRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleUsersAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add given users to a user-generated circle",
+      "notes" : "",
+      "type" : "SSCircleUsersAddRet",
+      "nickname" : "circleUsersAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleUsersAddRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -954,24 +1029,6 @@
       } ]
     } ]
   }, {
-    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "remove certain attached attributes from an entity",
-      "notes" : "",
-      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
-      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/appStackLayoutCreate",
     "operations" : [ {
       "method" : "POST",
@@ -1029,76 +1086,19 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/entityUserCirclesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve circles the user is in",
-      "notes" : "",
-      "type" : "SSCirclesGetRet",
-      "nickname" : "entityUserCirclesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityCirclesGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/entityCircleCreate",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "create a circle and add users and entities to",
-      "notes" : "",
-      "type" : "SSCircleCreateRet",
-      "nickname" : "entityCircleCreate",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityCircleCreateRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/entityUsersToCircleAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add given users to a user-generated circle",
-      "notes" : "",
-      "type" : "SSCircleUsersAddRet",
-      "nickname" : "entityUsersToCircleAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUsersToCircleAddRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/entityEntitiesToCircleAdd",
+    "path" : "/circleEntitiesAdd",
     "operations" : [ {
       "method" : "POST",
       "summary" : "add given entities to a user-generated circle",
       "notes" : "",
       "type" : "SSCircleEntitiesAddRet",
-      "nickname" : "entityEntitiesToCircleAdd",
+      "nickname" : "circleEntitiesAdd",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSEntityEntitiesToCircleAddRESTAPIV1Par",
+        "type" : "SSCircleEntitiesAddRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -1368,16 +1368,16 @@
           "type" : "string",
           "description" : "access restriction for category to be considered (i.e. privateSpace, sharedSpace) (optional)"
         },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve entities via category for (optional)"
+        },
         "labels" : {
           "type" : "array",
           "description" : "category labels to consider for retrieving entities via category (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve entities via category for (optional)"
         },
         "startTime" : {
           "type" : "integer",
@@ -1461,26 +1461,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "comments" : {
           "type" : "array",
@@ -1488,6 +1480,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -1499,6 +1495,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -1524,13 +1527,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1558,51 +1554,13 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
-        }
-      }
-    },
-    "SSEntityCircleCreateRESTAPIV1Par" : {
-      "id" : "SSEntityCircleCreateRESTAPIV1Par",
-      "description" : "",
-      "required" : [ "op", "user", "key", "label" ],
-      "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
-        "user" : {
-          "$ref" : "SSUri",
-          "description" : "the user's identifier"
-        },
-        "key" : {
-          "type" : "string",
-          "description" : "the user's access tocken"
-        },
-        "label" : {
-          "$ref" : "SSLabel",
-          "description" : "circle name"
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities to add",
-          "items" : {
-            "$ref" : "SSUri"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users to add",
-          "items" : {
-            "$ref" : "SSUri"
-          }
-        },
-        "description" : {
-          "$ref" : "SSTextComment",
-          "description" : "textual annotation"
         }
       }
     },
@@ -1816,30 +1774,6 @@
         }
       }
     },
-    "SSEntityCirclesGetRESTAPIV1Par" : {
-      "id" : "SSEntityCirclesGetRESTAPIV1Par",
-      "description" : "",
-      "required" : [ "op", "user", "key" ],
-      "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
-        "user" : {
-          "$ref" : "SSUri",
-          "description" : "the user's identifier"
-        },
-        "key" : {
-          "type" : "string",
-          "description" : "the user's access tocken"
-        },
-        "forUser" : {
-          "$ref" : "SSUri",
-          "description" : "user to retrieve circles for (optional)"
-        }
-      }
-    },
     "SSCollsUserEntityIsInGetRet" : {
       "id" : "SSCollsUserEntityIsInGetRet",
       "required" : [ "op" ],
@@ -2022,13 +1956,8 @@
     "SSAppStackLayoutsGetRESTAPIV1Par" : {
       "id" : "SSAppStackLayoutsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -2058,30 +1987,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2089,6 +2006,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2100,6 +2025,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -2126,13 +2058,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -2158,6 +2083,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2208,6 +2137,25 @@
         }
       }
     },
+    "SSCirclesGetRESTAPIV1Par" : {
+      "id" : "SSCirclesGetRESTAPIV1Par",
+      "description" : "",
+      "required" : [ "user", "key" ],
+      "properties" : {
+        "user" : {
+          "$ref" : "SSUri",
+          "description" : "the user's identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "forUser" : {
+          "$ref" : "SSUri",
+          "description" : "user to retrieve circles for (optional)"
+        }
+      }
+    },
     "SSEntityUserUpdatePar" : {
       "id" : "SSEntityUserUpdatePar",
       "description" : "",
@@ -2217,16 +2165,16 @@
           "type" : "string",
           "description" : "entity's updated description (optional)"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "entity's updated name (optional)"
-        },
         "comments" : {
           "type" : "array",
           "description" : "new textual annotations for the entity (optional)",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "entity's updated name (optional)"
         },
         "entity" : {
           "type" : "string",
@@ -2332,37 +2280,6 @@
         }
       }
     },
-    "SSEntityUsersToCircleAddRESTAPIV1Par" : {
-      "id" : "SSEntityUsersToCircleAddRESTAPIV1Par",
-      "description" : "",
-      "required" : [ "op", "user", "key", "circle", "users" ],
-      "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
-        "user" : {
-          "$ref" : "SSUri",
-          "description" : "the user's identifier"
-        },
-        "key" : {
-          "type" : "string",
-          "description" : "the user's access tocken"
-        },
-        "circle" : {
-          "$ref" : "SSUri",
-          "description" : "circle to add users to"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users to add",
-          "items" : {
-            "$ref" : "SSUri"
-          }
-        }
-      }
-    },
     "SSDiscUserEntryAddRet" : {
       "id" : "SSDiscUserEntryAddRet",
       "required" : [ "op" ],
@@ -2448,34 +2365,6 @@
         }
       }
     },
-    "SSEntityCircleGetRESTAPIV1Par" : {
-      "id" : "SSEntityCircleGetRESTAPIV1Par",
-      "description" : "",
-      "required" : [ "op", "user", "key", "circle" ],
-      "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
-        "user" : {
-          "$ref" : "SSUri",
-          "description" : "the user's identifier"
-        },
-        "key" : {
-          "type" : "string",
-          "description" : "the user's access tocken"
-        },
-        "circle" : {
-          "$ref" : "SSUri",
-          "description" : "circle the circle to retrieve"
-        },
-        "forUser" : {
-          "$ref" : "SSUri",
-          "description" : "user for which the circle shall be retrieved"
-        }
-      }
-    },
     "SSEntityCircle" : {
       "id" : "SSEntityCircle",
       "properties" : {
@@ -2504,30 +2393,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2535,6 +2412,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2546,6 +2431,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -2571,13 +2463,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -2605,9 +2490,50 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
+        }
+      }
+    },
+    "SSCircleCreateRESTAPIV1Par" : {
+      "id" : "SSCircleCreateRESTAPIV1Par",
+      "description" : "",
+      "required" : [ "user", "key", "label" ],
+      "properties" : {
+        "user" : {
+          "$ref" : "SSUri",
+          "description" : "the user's identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "label" : {
+          "$ref" : "SSLabel",
+          "description" : "circle name"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities to add",
+          "items" : {
+            "$ref" : "SSUri"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users to add",
+          "items" : {
+            "$ref" : "SSUri"
+          }
+        },
+        "description" : {
+          "$ref" : "SSTextComment",
+          "description" : "textual annotation"
         }
       }
     },
@@ -2644,30 +2570,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2675,6 +2589,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2686,6 +2608,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -2712,13 +2641,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -2744,6 +2666,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2807,30 +2733,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2838,6 +2752,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2849,6 +2771,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -2875,13 +2804,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -2907,6 +2829,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2983,13 +2909,8 @@
     "SSAppsGetRESTAPIV1Par" : {
       "id" : "SSAppsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -3036,13 +2957,8 @@
     "SSTagAddRESTAPIV1Par" : {
       "id" : "SSTagAddRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "entity", "label", "space" ],
+      "required" : [ "user", "key", "entity", "label", "space" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -3091,30 +3007,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -3122,6 +3026,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -3133,6 +3045,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -3159,13 +3078,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -3191,6 +3103,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -3251,16 +3167,16 @@
           "type" : "string",
           "description" : "access restriction for to be retrieved category assignments (i.e. privateSpace, sharedSpace) (optional)"
         },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve category assignments for (optional)"
+        },
         "labels" : {
           "type" : "array",
           "description" : "category labels to consider for retrieving category assignments (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve category assignments for (optional)"
         },
         "entities" : {
           "type" : "array",
@@ -3288,16 +3204,37 @@
         }
       }
     },
+    "SSCircleEntitiesAddRESTAPIV1Par" : {
+      "id" : "SSCircleEntitiesAddRESTAPIV1Par",
+      "description" : "",
+      "required" : [ "user", "key", "circle", "entities" ],
+      "properties" : {
+        "user" : {
+          "$ref" : "SSUri",
+          "description" : "the user's identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "circle" : {
+          "$ref" : "SSUri",
+          "description" : "circle to add entities to"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities to add",
+          "items" : {
+            "$ref" : "SSUri"
+          }
+        }
+      }
+    },
     "SSAuthCheckCredRESTAPIV1Par" : {
       "id" : "SSAuthCheckCredRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "label", "password" ],
+      "required" : [ "label", "password" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "label" : {
           "$ref" : "SSLabel",
           "description" : "name of the user, e.g. 'hugo'"
@@ -3313,13 +3250,6 @@
       "description" : "",
       "required" : [ "key", "user", "op" ],
       "properties" : {
-        "typesToRecommOnly" : {
-          "type" : "array",
-          "description" : "entity types to be recommended",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "forUser" : {
           "type" : "string",
           "description" : "user to be considered to retrieve recommendations for"
@@ -3327,6 +3257,13 @@
         "entity" : {
           "type" : "string",
           "description" : "resource to be considered to retrieve recommendations for"
+        },
+        "typesToRecommOnly" : {
+          "type" : "array",
+          "description" : "entity types to be recommended",
+          "items" : {
+            "type" : "string"
+          }
         },
         "categories" : {
           "type" : "array",
@@ -3394,26 +3331,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "comments" : {
           "type" : "array",
@@ -3421,6 +3350,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -3432,6 +3365,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -3457,13 +3397,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -3491,6 +3424,10 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
@@ -3500,13 +3437,8 @@
     "SSAppAddRESTAPIV1Par" : {
       "id" : "SSAppAddRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "label" ],
+      "required" : [ "user", "key", "label" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -3615,13 +3547,8 @@
     "SSEntityGetRESTAPIV1Par" : {
       "id" : "SSEntityGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "entity" ],
+      "required" : [ "user", "key", "entity" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -3652,30 +3579,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -3683,6 +3598,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -3694,6 +3617,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -3720,13 +3650,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -3752,6 +3675,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -3791,47 +3718,11 @@
         }
       }
     },
-    "SSEntityEntitiesToCircleAddRESTAPIV1Par" : {
-      "id" : "SSEntityEntitiesToCircleAddRESTAPIV1Par",
-      "description" : "",
-      "required" : [ "op", "user", "key", "circle", "entities" ],
-      "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
-        "user" : {
-          "$ref" : "SSUri",
-          "description" : "the user's identifier"
-        },
-        "key" : {
-          "type" : "string",
-          "description" : "the user's access tocken"
-        },
-        "circle" : {
-          "$ref" : "SSUri",
-          "description" : "circle to add entities to"
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities to add",
-          "items" : {
-            "$ref" : "SSUri"
-          }
-        }
-      }
-    },
     "SSAppStackLayoutTileAddRESTAPIV1Par" : {
       "id" : "SSAppStackLayoutTileAddRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "stack" ],
+      "required" : [ "user", "key", "stack" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -3984,13 +3875,8 @@
     "SSFriendAddRESTAPIV1Par" : {
       "id" : "SSFriendAddRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "friend" ],
+      "required" : [ "user", "key", "friend" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -4033,30 +3919,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -4064,6 +3938,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -4075,6 +3957,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -4101,13 +3990,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -4133,6 +4015,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -4402,6 +4288,32 @@
         }
       }
     },
+    "SSCircleUsersAddRESTAPIV1Par" : {
+      "id" : "SSCircleUsersAddRESTAPIV1Par",
+      "description" : "",
+      "required" : [ "user", "key", "circle", "users" ],
+      "properties" : {
+        "user" : {
+          "$ref" : "SSUri",
+          "description" : "the user's identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "circle" : {
+          "$ref" : "SSUri",
+          "description" : "circle to add users to"
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users to add",
+          "items" : {
+            "$ref" : "SSUri"
+          }
+        }
+      }
+    },
     "SSCategoriesUserRemovePar" : {
       "id" : "SSCategoriesUserRemovePar",
       "description" : "",
@@ -4477,13 +4389,8 @@
     "SSTagEntitiesForTagsGetRESTAPIV1Par" : {
       "id" : "SSTagEntitiesForTagsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -4657,30 +4564,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -4688,6 +4583,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -4699,6 +4602,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -4724,13 +4634,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -4758,6 +4661,10 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
@@ -4767,13 +4674,8 @@
     "SSFriendsGetRESTAPIV1Par" : {
       "id" : "SSFriendsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -4804,13 +4706,8 @@
     "SSTagFrequsGetRESTAPIV1Par" : {
       "id" : "SSTagFrequsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -4937,6 +4834,29 @@
         }
       }
     },
+    "SSCircleGetRESTAPIV1Par" : {
+      "id" : "SSCircleGetRESTAPIV1Par",
+      "description" : "",
+      "required" : [ "user", "key", "circle" ],
+      "properties" : {
+        "user" : {
+          "$ref" : "SSUri",
+          "description" : "the user's identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "the user's access tocken"
+        },
+        "circle" : {
+          "$ref" : "SSUri",
+          "description" : "circle the circle to retrieve"
+        },
+        "forUser" : {
+          "$ref" : "SSUri",
+          "description" : "user for which the circle shall be retrieved"
+        }
+      }
+    },
     "SSDiscUserDiscURIsForTargetGetPar" : {
       "id" : "SSDiscUserDiscURIsForTargetGetPar",
       "description" : "",
@@ -4998,30 +4918,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -5029,6 +4937,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -5040,6 +4956,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -5066,13 +4989,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -5098,6 +5014,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -5216,13 +5136,8 @@
     "SSTagsGetRESTAPIV1Par" : {
       "id" : "SSTagsGetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -5277,30 +5192,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -5308,6 +5211,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -5319,6 +5230,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -5345,13 +5263,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -5377,6 +5288,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -5482,13 +5397,8 @@
     "SSTagEditRESTAPIV1Par" : {
       "id" : "SSTagEditRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "tag", "label" ],
+      "required" : [ "user", "key", "tag", "label" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -5511,21 +5421,6 @@
       "id" : "SSModelUEResourceDetailsRet",
       "required" : [ "op" ],
       "properties" : {
-        "relatedPersons" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "recentArtifact" : {
-          "type" : "string"
-        },
-        "contributedEntities" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "entity" : {
           "type" : "string"
         },
@@ -5545,6 +5440,21 @@
           }
         },
         "mIs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "relatedPersons" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "recentArtifact" : {
+          "type" : "string"
+        },
+        "contributedEntities" : {
           "type" : "array",
           "items" : {
             "type" : "string"
@@ -5699,16 +5609,16 @@
           "type" : "string",
           "description" : "access restriction for to be retrieved categories (i.e. privateSpace, sharedSpace) (optional)"
         },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve category for (optional)"
+        },
         "labels" : {
           "type" : "array",
           "description" : "category labels to consider for retrieving categories (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve category for (optional)"
         },
         "entities" : {
           "type" : "array",
@@ -5739,13 +5649,8 @@
     "SSLikeSetRESTAPIV1Par" : {
       "id" : "SSLikeSetRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key", "entity", "value" ],
+      "required" : [ "user", "key", "entity", "value" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -5768,13 +5673,8 @@
     "SSSearchPar" : {
       "id" : "SSSearchPar",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -5988,30 +5888,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -6019,6 +5907,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -6030,6 +5926,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -6055,13 +5958,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -6089,6 +5985,10 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
@@ -6113,13 +6013,8 @@
     "SSAppStackLayoutCreateRESTAPIV1Par" : {
       "id" : "SSAppStackLayoutCreateRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"
@@ -6397,30 +6292,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -6428,6 +6311,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -6439,6 +6330,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -6465,13 +6363,6 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
@@ -6497,6 +6388,10 @@
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -6538,6 +6433,18 @@
     "SSApp" : {
       "id" : "SSApp",
       "properties" : {
+        "downloadIOS" : {
+          "type" : "string"
+        },
+        "downloads" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "fork" : {
+          "type" : "string"
+        },
         "descriptionShort" : {
           "type" : "string"
         },
@@ -6553,18 +6460,6 @@
         "downloadAndroid" : {
           "type" : "string"
         },
-        "downloadIOS" : {
-          "type" : "string"
-        },
-        "downloads" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "fork" : {
-          "type" : "string"
-        },
         "id" : {
           "type" : "string",
           "description" : "uri"
@@ -6578,30 +6473,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -6609,6 +6492,14 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -6620,6 +6511,13 @@
         "entities" : {
           "type" : "array",
           "description" : "entities involved",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
           "items" : {
             "type" : "string"
           }
@@ -6645,13 +6543,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -6679,6 +6570,10 @@
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
+        },
         "read" : {
           "type" : "boolean",
           "description" : "whether user has read the entry"
@@ -6694,13 +6589,6 @@
           "type" : "string",
           "description" : "optional describing text"
         },
-        "entitiesToExclude" : {
-          "type" : "array",
-          "description" : "if set contains sub entities to exclude from copying",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "entity" : {
           "type" : "string",
           "description" : "entity to copy"
@@ -6708,6 +6596,13 @@
         "users" : {
           "type" : "array",
           "description" : "users to copy the entity for",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entitiesToExclude" : {
+          "type" : "array",
+          "description" : "if set contains sub entities to exclude from copying",
           "items" : {
             "type" : "string"
           }
@@ -7033,13 +6928,8 @@
     "SSTagsRemoveRESTAPIV1Par" : {
       "id" : "SSTagsRemoveRESTAPIV1Par",
       "description" : "",
-      "required" : [ "op", "user", "key" ],
+      "required" : [ "user", "key" ],
       "properties" : {
-        "op" : {
-          "$ref" : "SSMethU",
-          "description" : "operation to be executed",
-          "enum" : [ "likesUserGet", "likesGet", "likeUserSet", "likeSet", "videoUserGet", "videosGet", "videosUserGet", "videoAdd", "videoUserAdd", "videoAnnotationAdd", "videoUserAnnotationAdd", "friendsGet", "friendsUserGet", "friendAdd", "friendUserAdd", "appStackLayoutsGet", "appStackLayoutCreate", "appStackLayoutTileAdd", "appsGet", "appAdd", "messageSend", "messagesGet", "commentsGet", "commentsUserGet", "commentEntitiesCommentedGet", "systemVersionGet", "flagsGet", "flagsUserGet", "flagsSet", "flagsUserSet", "cloudPublishService", "vocURIPrefixGet", "testServOverall", "evernoteNoteStoreGet", "evernoteNotebooksGet", "evernoteNotebookGet", "evernoteNoteGet", "evernoteNotebooksSharedGet", "evernoteNotebooksLinkedGet", "evernoteNotesGet", "evernoteResourceGet", "evernoteNotesLinkedGet", "evernoteNoteTagNamesGet", "circleCreate", "circleEntitiesGet", "circleEntitiesAdd", "circleUsersAdd", "circleMostOpenCircleTypeGet", "circleTypesGet", "circleGet", "circlesGet", "circleEntityUsersGet", "circlePrivURIGet", "circlePubURIGet", "circleUserCan", "circleEntityShare", "entityEntityToPrivCircleAdd", "entityEntityToPubCircleAdd", "circleEntityPublicSet", "entitiesUserGet", "entitiesForLabelsAndDescriptionsGet", "entitiesForLabelsGet", "entitiesForDescriptionsGet", "entityDescGet", "entityDescsGet", "entityAdd", "entityGet", "entityExists", "entityUserSubEntitiesGet", "entityUserParentEntitiesGet", "entityUserDirectlyAdjoinedEntitiesRemove", "entityRemove", "entityUserUpdate", "entityThumbAdd", "entityThumbsGet", "entityFilesGet", "entityFileAdd", "entityUpdate", "entityUserGet", "entityUserEntitiesAttach", "entityCopy", "entityUserCopy", "entityDirectlyAdjoinedEntitiesRemove", "entityEntitiesAttachedGet", "entityUserCommentsGet", "entityReadGet", "entityScreenShotsGet", "entityDownloadURIsGet", "entityLocationsAdd", "entityLocationsGet", "learnEpsGet", "learnEpVersionsGet", "learnEpVersionGet", "learnEpVersionCurrentGet", "learnEpVersionCurrentSet", "learnEpVersionCreate", "learnEpVersionAddCircle", "learnEpVersionAddEntity", "learnEpUserCopyForUser", "learnEpCreate", "learnEpVersionUpdateCircle", "learnEpVersionUpdateEntity", "learnEpVersionRemoveCircle", "learnEpVersionRemoveEntity", "learnEpVersionSetTimelineState", "learnEpVersionGetTimelineState", "dataExportUserEntityTags", "dataExportUserRelations", "dataExportUserEntityTagTimestamps", "dataExportUserEntityTagCategories", "dataExportUserEntityTagCategoryTimestamps", "fileSysLocalFormatAudioAndVideoFileNamesInDir", "fileSysLocalAddTextToFilesNamesAtBeginInDir", "jsonLD", "userURIGet", "userAll", "userExists", "usersGet", "userAdd", "uEsGet", "uEAdd", "uEsRemove", "uEAddAtCreationTime", "uEGet", "uECountGet", "tagsAdd", "tagsRemove", "tagsUserRemove", "tagsUserGet", "tagUserFrequsGet", "tagsGet", "tagAdd", "tagFrequsGet", "tagUserEntitiesForTagsGet", "tagEntitiesForTagsGet", "tagEdit", "tagUserEdit", "categoriesPredefinedGet", "categoriesPredefinedAdd", "categoriesAdd", "categoriesRemove", "categoriesUserRemove", "categoriesUserGet", "categoryUserFrequsGet", "categoriesGet", "categoryAdd", "categoryFrequsGet", "categoryUserEntitiesForCategoriesGet", "categoryEntitiesForCategoriesGet", "categoryEdit", "categoryUserEdit", "solrAddDoc", "solrSearch", "solrRemoveDoc", "solrRemoveDocsAll", "searchTags", "searchSolr", "searchMIs", "searchTagsWithinEntity", "search", "searchResultPagesCacheClean", "ratingUserSet", "ratingUserGet", "ratingOverallGet", "ratingsUserRemove", "ratingSet", "scaffRecommTagsBasedOnUserEntityTag", "scaffRecommTagsBasedOnUserEntityTagTime", "scaffRecommTagsBasedOnUserEntityTagCategory", "scaffRecommTagsBasedOnUserEntityTagCategoryTime", "modelUEUpdate", "modelUETopicScores", "modelUETopicRecent", "modelUEEntitiesForMiGet", "modelUEResourcesContributed", "modelUEResourcesAll", "modelUEResourceRecent", "modelUEResourceDetails", "modelUERelatedPersons", "modelUEModelRelations", "modelUEMIsForEntityGet", "modelUEEditors", "modelUEAuthor", "lomExtractFromDir", "fileUserFileWrites", "fileUpload", "fileUpdateWritingMinutes", "fileSetReaderOrWriter", "fileReplace", "fileRemoveReaderOrWriter", "fileWritingMinutesLeft", "fileDownload", "fileCanWrite", "fileIDFromURI", "fileExtGet", "dataImportUserResourceTagFromWikipedia", "dataImportAchso", "dataImportSSSUsersFromCSVFile", "dataImportEvernote", "dataImportMediaWikiUser", "discsUserAllGet", "discURIsForTargetGet", "discUserDiscURIsForTargetGet", "discEntryURIsGet", "discUserWithEntriesGet", "discsUserWithEntriesGet", "discUserEntryAdd", "discUserRemove", "discRemove", "discEntryAdd", "discWithEntriesGet", "discsAllGet", "broadcastServerTime", "broadcastUpdate", "broadcastUpdateTimeGet", "authUsersFromCSVFileAdd", "authRegisterUser", "authCheckCred", "authCheckKey", "collUserRootGet", "collUserParentGet", "collUserEntryAdd", "collUserWithEntries", "collUserRootAdd", "collUserEntryDelete", "collUserEntryChangePos", "collUserEntriesAdd", "collUserEntriesDelete", "collsUserWithEntries", "collsUserEntityIsInGet", "collUserHierarchyGet", "collUserCumulatedTagsGet", "collsUserCouldSubscribeGet", "collsEntityIsInGet", "collsCouldSubscribeGet", "collRootGet", "collParentGet", "collEntryAdd", "collEntriesAdd", "collEntryChangePos", "collEntryDelete", "collEntriesDelete", "collWithEntries", "collsWithEntries", "collHierarchyGet", "collCumulatedTagsGet", "recommTags", "recommResources", "recommTagsUpdate", "recommResourcesUpdate", "i5CloudAuth", "i5CloudAchsoVideoInformationGet", "i5CloudFileUpload", "i5CloudFileDownload", "i5CloudAchsoSemanticAnnotationsSetGet", "activityAdd", "activityContentAdd", "activityContentsAdd", "activitiesGet", "activitiesUserGet", "activityTypesGet" ]
-        },
         "user" : {
           "$ref" : "SSUri",
           "description" : "the user's identifier"

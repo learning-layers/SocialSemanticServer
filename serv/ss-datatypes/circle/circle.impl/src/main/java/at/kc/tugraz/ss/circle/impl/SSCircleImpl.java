@@ -370,6 +370,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(par.withUserRestriction){
         
+        if(par.forUser == null){
+          par.forUser = par.user;
+        }
+        
         if(
           par.withSystemCircles ||
           sqlFct.isSystemCircle(par.circle)){
@@ -412,7 +416,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       if(par.withUserRestriction){
         
         if(par.forUser == null){
-          throw new Exception("user not set to retrieve circle");
+          par.forUser = par.user;
         }
         
         if(par.withSystemCircles){
@@ -420,7 +424,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
         
         if(par.entity != null){
-          SSServCallerU.canUserReadEntity(par.user, par.entity);
+          SSServCallerU.canUserReadEntity(par.forUser, par.entity);
         }
       }
       
@@ -436,13 +440,21 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
         
       }else{
-      
-        if(par.forUser != null){
-          circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
-        }
-
-        if(par.entity != null){
-          circleUris.addAll(sqlFct.getCircleURIsForEntity(par.entity, par.withSystemCircles));
+        
+        if(
+          par.forUser == null &&
+          par.entity  == null){
+          
+          circleUris.addAll(sqlFct.getCircleURIs(par.withSystemCircles));
+        }else{
+          
+          if(par.forUser != null){
+            circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
+          }
+          
+          if(par.entity != null){
+            circleUris.addAll(sqlFct.getCircleURIsForEntity(par.entity, par.withSystemCircles));
+          }
         }
       }
       
@@ -452,18 +464,18 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           
           try{
             SSServCallerU.canUserReadEntity(par.forUser, circleUri);
-            
-            circles.add(
-              SSServCaller.circleGet(
-                par.user,
-                circleUri,
-                null,
-                null,
-                false));
-            
           }catch(Exception error){
             SSServErrReg.reset();
+            continue;
           }
+          
+          circles.add(
+            SSServCaller.circleGet(
+              par.forUser,
+              null,
+              circleUri,
+              par.withSystemCircles,
+              true));
         }
       }else{
         
@@ -472,9 +484,9 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           circles.add(
             SSServCaller.circleGet(
               par.user,
+              null,
               circleUri,
-              null,
-              null,
+              par.withSystemCircles,
               false));
         }
       }
@@ -564,7 +576,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       dbSQL.startTrans(parA.shouldCommit);
       
-      circleUri = sqlFct.getPubCircleURI();
+      circleUri = SSCircleMiscFct.addOrGetPubCircleURI(sqlFct);
       
       dbSQL.commit(parA.shouldCommit);
       

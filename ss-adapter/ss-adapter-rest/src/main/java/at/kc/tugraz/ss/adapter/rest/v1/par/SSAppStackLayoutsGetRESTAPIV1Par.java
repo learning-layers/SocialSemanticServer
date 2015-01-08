@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -31,12 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "appStackLayoutsGet request parameter")
 public class SSAppStackLayoutsGetRESTAPIV1Par{
 
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
-    required = true)
-  public        SSMethU              op            = null;
-  
   @ApiModelProperty( 
     value = "the user's identifier", 
     required = true)

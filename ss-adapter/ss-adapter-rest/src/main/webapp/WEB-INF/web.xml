@@ -45,23 +45,23 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-  <servlet>
+<!--  <servlet>
     <servlet-name>SSRESTSearch</servlet-name>
-    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>     <!--  old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>       old jersey <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
-      <param-name>jersey.config.server.provider.packages</param-name>   <!-- old jersey <param-name>com.sun.jersey.config.property.packages</param-name>-->
+      <param-name>jersey.config.server.provider.packages</param-name>    old jersey <param-name>com.sun.jersey.config.property.packages</param-name>
       <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
     </init-param>
     
-    <!-- new jersey start -->
+     new jersey start 
     <init-param>
       <param-name>javax.ws.rs.Application</param-name>
       <param-value>at.kc.tugraz.ss.adapter.rest.SSRestMain</param-value>
     </init-param>
-    <!-- new jersey end -->
+     new jersey end 
         
     <load-on-startup>1</load-on-startup>
-  </servlet>
+  </servlet>-->
   
   <servlet>
     <servlet-name>SSRESTVideo</servlet-name>
@@ -186,10 +186,10 @@
     <url-pattern>/auths/*</url-pattern>
   </servlet-mapping>
   
-  <servlet-mapping>
+<!--  <servlet-mapping>
     <servlet-name>SSRESTSearch</servlet-name>
     <url-pattern>/searchs/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
   
   <servlet-mapping>
     <servlet-name>SSRESTVideo</servlet-name>
@@ -261,7 +261,7 @@
     <filter-name>CORS</filter-name>
     <servlet-name>SSRESTEntity</servlet-name>
     <servlet-name>SSRESTAuth</servlet-name>
-    <servlet-name>SSRESTSearch</servlet-name>
+    <!--<servlet-name>SSRESTSearch</servlet-name>-->
     <servlet-name>SSRESTVideo</servlet-name>
     <servlet-name>SSAdapterRest</servlet-name>
     <servlet-name>SSAdapterRESTFile</servlet-name>

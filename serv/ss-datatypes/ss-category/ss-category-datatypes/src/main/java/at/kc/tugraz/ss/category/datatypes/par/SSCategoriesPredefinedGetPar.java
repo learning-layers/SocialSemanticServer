@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
 

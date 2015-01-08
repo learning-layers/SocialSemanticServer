@@ -102,7 +102,7 @@ public class SSRestMain extends Application {
     classes.add(SSRESTVideo.class);
     classes.add(SSRESTAuth.class);
     classes.add(SSRESTEntities.class);
-    classes.add(SSRESTSearch.class);
+//    classes.add(SSRESTSearch.class);
 
     return classes;
   }
@@ -112,6 +112,9 @@ public class SSRestMain extends Application {
     final SSMethU     op){
     
     try{
+      
+      input.op = op;
+      
       return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
     }catch(Exception error){
       SSServErrReg.regErr(error);
