@@ -780,15 +780,15 @@ public class SSServCaller {
   }
   
   public static SSUri vocURICreate() throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/entities/" + SSIDU.uniqueID());
+    return SSUri.get(vocURIPrefixGet() + "entities/" + SSIDU.uniqueID());
   }
   
   public static SSUri vocURICreateFromId(final String id) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/entities/" /*+ SSStrU.slash */ + id);
+    return SSUri.get(vocURIPrefixGet() + "entities/" /*+ SSStrU.slash */ + id);
   }
   
   public static SSUri vocURICreate(final SSFileExtE fileExt) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/entities/" + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
+    return SSUri.get(vocURIPrefixGet() + "entities/" + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
   /* colls */

@@ -16,9 +16,10 @@
   
   <modules>
     <module>ss-adapter-websocket</module>
-    <module>ss-adapter-rest</module>
     <module>ss-adapter-socket</module>
     <module>ss-adapter-rest-conf</module>
+    <module>ss-adapter-rest-v2</module>
+    <module>ss-adapter-rest-v1</module>
   </modules>
   
 </project>

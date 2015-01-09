@@ -879,6 +879,7 @@ DROP TABLE IF EXISTS `evernoteuser`;
 CREATE TABLE `evernoteuser` (
   `userId` varchar(200) NOT NULL,
   `authToken` varchar(200) NOT NULL,
+  `usn` varchar(200) NOT NULL,
   PRIMARY KEY (`userId`),
   CONSTRAINT `userIdFKevernoteuser` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1661,4 +1662,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-09 16:44:38
+-- Dump completed on 2015-01-09  9:16:47

@@ -76,7 +76,7 @@ i5CloudConf:
   use: false
   userLabel:
 jsonLDConf:
-  uri: http://127.0.0.1:8084/ss-adapter-rest/rest/SSAdapterRest/
+  uri: http://127.0.0.1:8084/ss-adapter-rest/
   use: true
 learnEpConf:
   use: true
