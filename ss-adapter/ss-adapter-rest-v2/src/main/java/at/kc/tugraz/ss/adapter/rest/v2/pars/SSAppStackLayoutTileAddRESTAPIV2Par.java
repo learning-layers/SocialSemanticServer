@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -39,7 +39,7 @@ public class SSAppStackLayoutTileAddRESTAPIV2Par{
   
   @XmlElement
   public void setApp(final String app) throws Exception{
-    this.app = SSUri.get(app, SSRestMainV2.conf.vocConf.uriPrefix);
+    this.app = SSUri.get(app, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(

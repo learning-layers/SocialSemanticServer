@@ -15,10 +15,10 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class SSCircleCreateRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    try{ this.entities = SSUri.get(entities, SSRestMainV2.conf.vocConf.uriPrefix); } catch(Exception error){}
+    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); } catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -57,7 +57,7 @@ public class SSCircleCreateRESTAPIV2Par{
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    try{ this.users = SSUri.get(users, SSRestMainV2.conf.vocConf.uriPrefix); } catch(Exception error){}
+    try{ this.users = SSUri.get(users, SSVocConf.sssUri); } catch(Exception error){}
   }
   
   @ApiModelProperty(

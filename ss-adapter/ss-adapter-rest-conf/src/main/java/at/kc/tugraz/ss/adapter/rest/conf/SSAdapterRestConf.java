@@ -19,7 +19,6 @@ import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 
 public class SSAdapterRestConf extends SSCoreConfA{
   
@@ -27,7 +26,6 @@ public class SSAdapterRestConf extends SSCoreConfA{
   
   public SSConf       ssConf      = null;
   public SSJSONLDConf jsonLDConf  = null;
-  public SSVocConf    vocConf     = null;
   
   public static synchronized SSAdapterRestConf instSet(final String pathToFile) throws Exception{
     
@@ -64,13 +62,5 @@ public class SSAdapterRestConf extends SSCoreConfA{
   
   public void setSsConf(SSConf ssConf) {
     this.ssConf = ssConf;
-  }
-  
-  public SSVocConf getVocConf() {
-    return vocConf;
-  }
-
-  public void setVocConf(SSVocConf vocConf) {
-    this.vocConf = vocConf;
   }
 }

@@ -58,6 +58,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
@@ -629,7 +630,7 @@ public class SSRESTEntities {
           SSMethU.entityGet,
           null,
           null,
-          SSUri.get(entity, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(entity, SSVocConf.sssUri),
           null);
       
     }catch(Exception error){
@@ -659,7 +660,7 @@ public class SSRESTEntities {
           SSMethU.likeSet,
           null,
           null,
-          SSUri.get(entity, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(entity, SSVocConf.sssUri),
           input.value);
       
     }catch(Exception error){
@@ -689,7 +690,7 @@ public class SSRESTEntities {
           SSMethU.tagsRemove,
           null,
           null,
-          SSUri.get(entity, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(entity, SSVocConf.sssUri),
           input.label,
           input.space);
       
@@ -722,7 +723,7 @@ public class SSRESTEntities {
           SSMethU.tagsGet,
           null,
           null,
-          SSUri.get(user, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(user, SSVocConf.sssUri),
           null,
           null,
           null,
@@ -755,7 +756,7 @@ public class SSRESTEntities {
           SSMethU.tagAdd,
           null,
           null,
-          SSUri.get(entity, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(entity, SSVocConf.sssUri),
           input.label,
           input.space,
           input.creationTime);
@@ -787,7 +788,7 @@ public class SSRESTEntities {
           SSMethU.appStackLayoutTileAdd,
           null,
           null,
-          SSUri.get(stack, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(stack, SSVocConf.sssUri),
           input.app,
           input.label);
       
@@ -819,7 +820,7 @@ public class SSRESTEntities {
           SSMethU.videoAnnotationAdd, 
           null, 
           null, 
-          SSUri.get(video, SSRestMainV2.conf.vocConf.uriPrefix), 
+          SSUri.get(video, SSVocConf.sssUri), 
           input.timePoint, 
           input.x, 
           input.y, 
@@ -854,7 +855,7 @@ public class SSRESTEntities {
           SSMethU.tagFrequsGet,
           null,
           null,
-          SSUri.get(user, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(user, SSVocConf.sssUri),
           null,
           null,
           null,
@@ -888,7 +889,7 @@ public class SSRESTEntities {
           SSMethU.circlesGet,
           null,
           null,
-          SSUri.get(user, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(user, SSVocConf.sssUri),
           null,
           false,
           true);
@@ -920,7 +921,7 @@ public class SSRESTEntities {
           SSMethU.tagEdit,
           null,
           null,
-          SSUri.get(tag, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(tag, SSVocConf.sssUri),
           input.label);
       
     }catch(Exception error){
@@ -953,8 +954,8 @@ public class SSRESTEntities {
           SSMethU.circleGet,
           null,
           null,
-          SSUri.get(user,   SSRestMainV2.conf.vocConf.uriPrefix),
-          SSUri.get(circle, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(user,   SSVocConf.sssUri),
+          SSUri.get(circle, SSVocConf.sssUri),
           false,
           true);
       
@@ -985,7 +986,7 @@ public class SSRESTEntities {
           SSMethU.circleUsersAdd,
           null,
           null,
-          SSUri.get(circle, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(circle, SSVocConf.sssUri),
           input.users, 
           true);
       
@@ -1017,7 +1018,7 @@ public class SSRESTEntities {
           SSMethU.circleEntitiesAdd,
           null,
           null,
-          SSUri.get(circle, SSRestMainV2.conf.vocConf.uriPrefix),
+          SSUri.get(circle, SSVocConf.sssUri),
           input.entities, 
           true,
           true);

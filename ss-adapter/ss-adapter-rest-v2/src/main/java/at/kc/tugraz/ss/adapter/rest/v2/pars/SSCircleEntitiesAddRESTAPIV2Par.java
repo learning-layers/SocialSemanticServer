@@ -15,8 +15,8 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class SSCircleEntitiesAddRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSRestMainV2.conf.vocConf.uriPrefix);
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
   }
   
   public SSCircleEntitiesAddRESTAPIV2Par(){}

@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloads(final List<String> downloads) throws Exception{
-    try{ this.downloads = SSUri.get(downloads, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.downloads = SSUri.get(downloads, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -102,7 +102,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadIOS(final String downloadIOS) throws Exception{
-    try{ this.downloadIOS = SSUri.get(downloadIOS, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.downloadIOS = SSUri.get(downloadIOS, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -112,7 +112,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadAndroid(final String downloadAndroid) throws Exception{
-    try{ this.downloadAndroid = SSUri.get(downloadAndroid, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.downloadAndroid = SSUri.get(downloadAndroid, SSVocConf.sssUri); }catch(Exception error){}
   } 
   
   @ApiModelProperty(
@@ -122,7 +122,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setFork(final String fork) throws Exception{
-    try{ this.fork = SSUri.get(fork, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.fork = SSUri.get(fork, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -132,7 +132,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setScreenShots(final List<String> screenShots) throws Exception{
-    try{ this.screenShots = SSUri.get(screenShots, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.screenShots = SSUri.get(screenShots, SSVocConf.sssUri); }catch(Exception error){}
   }
   
     @ApiModelProperty(
@@ -142,7 +142,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setVideos(final List<String> videos) throws Exception{
-    try{ this.videos = SSUri.get(videos, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.videos = SSUri.get(videos, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   public SSAppAddRESTAPIV2Par(){}

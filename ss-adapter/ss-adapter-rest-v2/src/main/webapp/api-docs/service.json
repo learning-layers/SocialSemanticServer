@@ -16,5 +16,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest-v2/api-docs"
 }

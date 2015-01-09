@@ -50,6 +50,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
@@ -773,22 +774,19 @@ public class SSServCaller {
   }
 
   private static SSUri vocURIPrefixGet() throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.vocURIPrefixGet, opPars));
+    return (SSUri) SSUri.get(SSVocConf.sssUri);
   }
   
   public static SSUri vocURICreate() throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/" + SSIDU.uniqueID());
+    return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID());
   }
   
   public static SSUri vocURICreateFromId(final String id) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/" /*+ SSStrU.slash */ + id);
+    return SSUri.get(vocURIPrefixGet() + id);
   }
   
   public static SSUri vocURICreate(final SSFileExtE fileExt) throws Exception{
-    return SSUri.get(vocURIPrefixGet() + "entities/" + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
+    return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
   /* colls */

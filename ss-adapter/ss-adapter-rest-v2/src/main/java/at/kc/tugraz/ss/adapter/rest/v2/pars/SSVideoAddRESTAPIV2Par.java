@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,7 +46,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setLink(final String link) throws Exception{
-    try{ this.link = SSUri.get(link, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.link = SSUri.get(link, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -56,7 +56,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setForEntity(final String forEntity) throws Exception{
-    try{ this.forEntity = SSUri.get(forEntity, SSRestMainV2.conf.vocConf.uriPrefix); }catch(Exception error){}
+    try{ this.forEntity = SSUri.get(forEntity, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @XmlElement

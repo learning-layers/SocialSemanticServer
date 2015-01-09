@@ -96,7 +96,7 @@ public class SSUri extends SSEntityA{
     if(isURI(decodedURI)){
       return get(decodedURI);
     }else{
-      return get(uriPrefix + "entities/" + decodedURI);
+      return get(uriPrefix + decodedURI);
     }
   }
   

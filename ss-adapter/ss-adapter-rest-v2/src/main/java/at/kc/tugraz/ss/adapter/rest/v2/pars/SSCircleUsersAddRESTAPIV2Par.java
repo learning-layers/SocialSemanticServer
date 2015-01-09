@@ -15,8 +15,8 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class SSCircleUsersAddRESTAPIV2Par{
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSRestMainV2.conf.vocConf.uriPrefix);
+    this.users = SSUri.get(users, SSVocConf.sssUri);
   }
   
   public SSCircleUsersAddRESTAPIV2Par(){}

@@ -22,19 +22,12 @@ package at.kc.tugraz.ss.serv.voc.impl;
 
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 
 public class SSVocImpl extends SSServImplMiscA implements SSVocI{
  
   public SSVocImpl(final SSVocConf conf) throws Exception{
     super(conf);
-  }
-  
-  @Override
-  public SSUri vocURIPrefixGet(final SSServPar parA) throws Exception{
-    return SSUri.get(((SSVocConf)conf).uriPrefix);
   }
 }
 

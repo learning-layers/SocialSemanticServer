@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
-import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,7 +38,7 @@ public class SSFriendAddRESTAPIV2Par{
   
   @XmlElement
   public void setFriend(final String friend) throws Exception{
-    this.friend = SSUri.get(friend, SSRestMainV2.conf.vocConf.uriPrefix);
+    this.friend = SSUri.get(friend, SSVocConf.sssUri);
   }
   
   public SSFriendAddRESTAPIV2Par(){}

@@ -73,9 +73,6 @@ public enum SSMethU{
   //cloud
   cloudPublishService,
   
-  //voc
-  vocURIPrefixGet,
-  
   //test
   testServOverall                                     ,
   

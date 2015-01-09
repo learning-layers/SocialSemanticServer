@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
 
 public class SSVocConf extends SSCoreServConfA{
 
-  public static final String sssUri                         = "http://social.semantic.server.eu";
+  public static final String sssUri                         = "http://sss.eu/";
   public static final String systemUserLabel                = "system";
   public static final String systemEmailPostFix             = "know-center.at";
   public static final String systemUserEmail                = systemUserLabel + "@" + systemEmailPostFix;
@@ -39,13 +39,9 @@ public class SSVocConf extends SSCoreServConfA{
   public static final String dirNameLib                     = "lib/";
   public static final String dirNameConf                    = "conf/";
   
-  public String   uriPrefix      = null;
- 
   public static SSVocConf copy(final SSVocConf orig){
     
     final SSVocConf copy = (SSVocConf) SSCoreServConfA.copy(orig, new SSVocConf());
-    
-    copy.uriPrefix  =        orig.uriPrefix;
     
     return copy;
   }

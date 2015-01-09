@@ -131,4 +131,3 @@ videoConf:
   use: true
 vocConf:
   use: true
-  uriPrefix: http://localhost:8080/ss-adapter-rest/

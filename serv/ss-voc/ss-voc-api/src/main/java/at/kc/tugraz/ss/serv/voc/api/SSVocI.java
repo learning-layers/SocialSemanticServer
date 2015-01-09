@@ -24,5 +24,4 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSVocI{
-  public SSUri vocURIPrefixGet(SSServPar parA) throws Exception;
 }
