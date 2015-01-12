@@ -16,5 +16,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v2/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest-v2/api-docs"
 }
