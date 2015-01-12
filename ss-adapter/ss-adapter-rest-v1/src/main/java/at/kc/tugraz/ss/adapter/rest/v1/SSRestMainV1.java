@@ -123,7 +123,7 @@ public class SSRestMainV1 extends Application {
         
         int lastIndexOf = jsonRequ.lastIndexOf("}");
         
-        String tmp = jsonRequ.substring(0, lastIndexOf - 1);
+        String tmp = jsonRequ.substring(0, lastIndexOf);
         
         tmp += ",\"op\":\"" + op.toString() + "\"}";
         
