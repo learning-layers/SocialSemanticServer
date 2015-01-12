@@ -96,12 +96,20 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       dbSQL.startTrans(par.shouldCommit);
       
+      String email;
+      
       for(Map.Entry<String, String> passwordForUser : passwordsForUsersFromCSVFile.entrySet()){
 
+        if(passwordForUser.getKey().contains("@")){
+          email = passwordForUser.getKey();
+        }else{
+          email = passwordForUser.getKey() + SSStrU.at + SSVocConf.systemEmailPostFix;
+        }
+        
         SSServCaller.authRegisterUser(
           SSVoc.systemUserUri,
           SSLabel.get(passwordForUser.getKey()),
-          passwordForUser.getKey() + SSStrU.at + SSVocConf.systemEmailPostFix,
+          email,
           passwordForUser.getValue(),
           false,
           false);
@@ -212,7 +220,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case csvFileAuth:{
 
-          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
+          String email = SSStrU.toStr(par.label);
+          
+          if(!email.contains("@")){
+           email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
+          }
+        
           final SSUri userUri;
           
           if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){

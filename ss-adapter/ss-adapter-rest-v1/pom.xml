@@ -44,7 +44,7 @@
            
             <apiSource>
               <apiVersion>v1</apiVersion>
-              <basePath>http://test-ll.know-center.tugraz.at/ltb-v1</basePath>
+              <basePath>http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1</basePath>
               <locations>at.kc.tugraz.ss.adapter.rest.v1</locations>
               
               <apiInfo>
@@ -56,7 +56,7 @@
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
               
-              <swaggerUIDocBasePath>http://test-ll.know-center.tugraz.at/ltb-v1/api-docs</swaggerUIDocBasePath>
+              <swaggerUIDocBasePath>http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1/api-docs</swaggerUIDocBasePath>
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
