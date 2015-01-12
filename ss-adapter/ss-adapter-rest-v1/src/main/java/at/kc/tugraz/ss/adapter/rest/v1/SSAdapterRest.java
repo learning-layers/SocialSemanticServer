@@ -979,11 +979,11 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityShare")
+  @Path    (SSStrU.slash + "circleEntityShare")
   @ApiOperation(
     value = "share an entity directly with given users",
     response = SSCircleEntityShareRet.class)
-  public String entityShare(final SSCircleEntitySharePar input){
+  public String circleEntityShare(final SSCircleEntitySharePar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.circleEntityShare);
   }
   

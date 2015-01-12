@@ -191,6 +191,13 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             
             sqlFct.addLearnEp(entity, userUriToShareWith);
             
+            SSServCaller.circleUsersAdd(
+              user,
+              circle,
+              sqlFct.getLearnEpUserURIs(entity),
+              false,
+              false);
+            
             SSServCaller.circleEntitiesAdd(
               user, 
               circle, 
@@ -198,13 +205,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
               false, 
               false,
               false);
-            
-            SSServCaller.circleUsersAdd(
-              user,
-              circle,
-              sqlFct.getLearnEpUserURIs(entity),
-              false,
-              true);
             
             SSLearnEpActivityFct.shareLearnEp(user, userUriToShareWith, entity);
           }
@@ -446,14 +446,14 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         null, 
         false);
 
-      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEp, true, false)){
+      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.learnEp, true, false)){
         
         SSServCaller.circleEntitiesAdd(
           par.user, 
           entityUserCircle.id, 
           SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
           false, 
-          true, 
+          false, 
           false);
       }
 
@@ -516,7 +516,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         null,
         false);
             
-      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpVersion, true, false)){
+      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.learnEpVersion, true, false)){
         
         SSServCaller.circleEntitiesAdd(
           par.user, 
@@ -607,7 +607,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       entities.add   (par.entity);
       entities.addAll(filesAndThumbs);
         
-      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpVersion, true, false)){
+      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.learnEpVersion, true, false)){
         
         SSServCaller.circleEntitiesAdd(
           par.user,
@@ -793,7 +793,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(par.entity != null){
         
-        for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, par.user, par.learnEpEntity, true, false)){
+        for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.learnEpEntity, true, false)){
           
           SSServCaller.circleEntitiesAdd(
             par.user, 
@@ -957,7 +957,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         null, 
         false);
         
-      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user,par.user, par.learnEpVersion, true, false)){
+      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.learnEpVersion, true, false)){
         
         SSServCaller.circleEntitiesAdd(
           par.user, 

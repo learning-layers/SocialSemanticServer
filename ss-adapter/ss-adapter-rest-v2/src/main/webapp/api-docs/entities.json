@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8080/ss-adapter-rest-v2",
+  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-v2",
   "resourcePath" : "/entities",
   "apis" : [ {
     "path" : "/tags/entities",
@@ -466,30 +466,6 @@
       } ]
     } ]
   }, {
-    "path" : "/{tag}/tags/label",
-    "operations" : [ {
-      "method" : "PUT",
-      "summary" : "changes the label of the tag assigned to entities by given user",
-      "notes" : "",
-      "type" : "SSTagUserEditRet",
-      "nickname" : "tagEditPut",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "tag",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      }, {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSTagEditRESTAPIV2Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/{user}/circles/{circle}",
     "operations" : [ {
       "method" : "GET",
@@ -510,6 +486,30 @@
         "required" : true,
         "type" : "string",
         "paramType" : "path",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/{tag}/tags/label",
+    "operations" : [ {
+      "method" : "PUT",
+      "summary" : "changes the label of the tag assigned to entities by given user",
+      "notes" : "",
+      "type" : "SSTagUserEditRet",
+      "nickname" : "tagEditPut",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "tag",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      }, {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSTagEditRESTAPIV2Par",
+        "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]
@@ -647,18 +647,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -667,18 +675,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -686,15 +682,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -706,6 +705,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -734,19 +744,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -905,18 +905,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -925,18 +933,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -944,15 +940,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -964,6 +963,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -992,19 +1002,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1083,13 +1083,13 @@
           "type" : "string",
           "description" : "name"
         },
-        "tagLabel" : {
+        "entity" : {
           "type" : "string"
         },
         "user" : {
           "type" : "string"
         },
-        "entity" : {
+        "tagLabel" : {
           "type" : "string"
         },
         "id" : {
@@ -1105,18 +1105,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "comments" : {
           "type" : "array",
@@ -1125,14 +1129,6 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -1140,15 +1136,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -1160,6 +1159,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1188,19 +1198,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1351,18 +1351,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1371,18 +1379,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -1390,15 +1386,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -1410,6 +1409,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1438,19 +1448,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1576,18 +1576,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1596,18 +1604,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -1615,15 +1611,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -1635,6 +1634,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1663,19 +1673,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1774,18 +1774,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1794,18 +1802,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -1813,15 +1809,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -1833,6 +1832,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1861,19 +1871,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1952,18 +1952,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1972,18 +1980,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -1991,15 +1987,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -2011,6 +2010,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2039,19 +2049,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2179,18 +2179,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2199,18 +2207,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -2218,15 +2214,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -2238,6 +2237,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2266,19 +2276,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2314,18 +2314,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2334,18 +2342,6 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
@@ -2353,15 +2349,18 @@
             "$ref" : "SSEntityA"
           }
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
+        "entities" : {
           "type" : "array",
-          "description" : "types of circles the entity is in",
+          "description" : "entities involved",
           "items" : {
-            "$ref" : "SSCircleE"
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users involved",
+          "items" : {
+            "type" : "string"
           }
         },
         "circles" : {
@@ -2373,6 +2372,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2401,19 +2411,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users involved",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities involved",
-          "items" : {
-            "type" : "string"
-          }
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
