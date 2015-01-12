@@ -67,14 +67,14 @@
           "type" : "string",
           "description" : "physical file"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
+        },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -84,10 +84,6 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
@@ -95,12 +91,9 @@
             "type" : "string"
           }
         },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "entities" : {
           "type" : "array",
@@ -163,6 +156,13 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
