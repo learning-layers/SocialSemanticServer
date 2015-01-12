@@ -117,13 +117,31 @@ public class SSRestMainV1 extends Application {
     String            readMsgFullFromSS;
     
     try{
+      SSLogU.debug(jsonRequ);
       
-      try{
-        sSCon = new SSSocketCon(conf.ssConf.host, conf.ssConf.port, jsonRequ);
-      }catch(Exception error){
+      if(!jsonRequ.contains("\"op\":\"" + op.toString() + "\"")){
         
-        SSLogU.info("couldnt connect to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
-        throw error;
+        int lastIndexOf = jsonRequ.lastIndexOf("}");
+        
+        String tmp = jsonRequ.substring(0, lastIndexOf - 1);
+        
+        tmp += ",\"op\":\"" + op.toString() + "\"}";
+        
+        try{
+          sSCon = new SSSocketCon(conf.ssConf.host, conf.ssConf.port, tmp);
+        }catch(Exception error){
+          
+          SSLogU.info("couldnt connect to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
+          throw error;
+        }
+      }else{
+        try{
+          sSCon = new SSSocketCon(conf.ssConf.host, conf.ssConf.port, jsonRequ);
+        }catch(Exception error){
+          
+          SSLogU.info("couldnt connect to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
+          throw error;
+        }
       }
       
       try{

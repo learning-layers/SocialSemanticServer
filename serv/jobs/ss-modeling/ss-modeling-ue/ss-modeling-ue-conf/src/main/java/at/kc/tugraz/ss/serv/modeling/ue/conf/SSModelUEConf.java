@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 public class SSModelUEConf extends SSServConfA{
   
   public Integer daysToRetrieveEvents = null;
-  public Boolean initAtStartUp        = null;
   
   public static SSModelUEConf copy(final SSModelUEConf orig){
     
