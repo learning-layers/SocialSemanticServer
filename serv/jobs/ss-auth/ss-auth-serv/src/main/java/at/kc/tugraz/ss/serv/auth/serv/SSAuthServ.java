@@ -66,6 +66,7 @@ public class SSAuthServ extends SSServA{
       SSVocConf.systemUserEmail,
       ((SSAuthConf)servConf).systemUserPassword,
       true,
+      true,
       true);
     
     return this;

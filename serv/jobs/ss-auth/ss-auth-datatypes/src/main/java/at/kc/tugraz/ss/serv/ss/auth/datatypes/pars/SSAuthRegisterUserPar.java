@@ -30,6 +30,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
   public SSLabel  label             = null;
   public String   email             = null;
   public String   password          = null;
+  public Boolean  updatePassword    = null;
   public Boolean  isSystemUser      = null;
   
   public SSAuthRegisterUserPar(final SSServPar par) throws Exception{
@@ -42,6 +43,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
         password           = (String)  pars.get(SSVarU.password);
         email              = (String)  pars.get(SSVarU.email);
         label              = (SSLabel) pars.get(SSVarU.label);
+        updatePassword     = (Boolean) pars.get(SSVarU.updatePassword);
         isSystemUser       = (Boolean) pars.get(SSVarU.isSystemUser);
       }
     }catch(Exception error){

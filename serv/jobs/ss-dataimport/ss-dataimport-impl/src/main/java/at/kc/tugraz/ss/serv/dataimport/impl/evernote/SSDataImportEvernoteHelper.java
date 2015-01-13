@@ -75,6 +75,7 @@ public class SSDataImportEvernoteHelper {
         par.authEmail,
         "1234", 
         false,
+        false,
         false);
     
     evernoteHelper.sqlFct.addUserIfNotExists(this.userUri, par.authToken);

@@ -112,6 +112,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           email,
           passwordForUser.getValue(),
           false,
+          false,
           false);
       }
       
@@ -141,16 +142,25 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             par.email,
             par.isSystemUser,
             false);
+        
+        sqlFct.removeKey(userUri);
+        
+        sqlFct.addKey(
+          userUri,
+          SSAuthMiscFct.genKey(par.email, par.password));
       }else{
         
         userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, par.email);
         
-        sqlFct.removeKey(userUri);
+        if(par.updatePassword){
+          
+          sqlFct.removeKey(userUri);
+          
+          sqlFct.addKey(
+            userUri,
+            SSAuthMiscFct.genKey(par.email, par.password));
+        }
       }
-      
-      sqlFct.addKey(
-        userUri,
-        SSAuthMiscFct.genKey(par.email, par.password));
       
       try{
         SSServCaller.collUserRootAdd (userUri, false);

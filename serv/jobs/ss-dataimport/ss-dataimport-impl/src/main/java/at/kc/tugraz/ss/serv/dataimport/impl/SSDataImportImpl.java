@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.dataimport.impl;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -38,7 +37,6 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernoteRet;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
@@ -210,6 +208,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.authorLabel + SSStrU.at + SSVocConf.systemEmailPostFix,
             "1234",
             false,
+            false, 
             true);
         
         SSServCaller.entityEntityToPrivCircleAdd(
@@ -322,6 +321,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             SSLabel.get(userLabel), 
             userLabel + SSStrU.at + SSVocConf.systemEmailPostFix,
             "1234",
+            false,
             false,
             false);
         

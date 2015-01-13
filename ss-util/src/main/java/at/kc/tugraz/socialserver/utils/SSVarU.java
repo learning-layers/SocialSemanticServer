@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String updatePassword                                 = "updatePassword";
   public static final String invokeEntityHandlers                           = "invokeEntityHandlers";
   public static final String withUserRestriction                            = "withUserRestriction";
   public static final String requireds                                      = "requireds";

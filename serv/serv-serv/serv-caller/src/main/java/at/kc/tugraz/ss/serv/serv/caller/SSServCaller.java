@@ -2661,6 +2661,7 @@ public class SSServCaller {
     final String  email, 
     final String  password,
     final Boolean isSystemUser,
+    final Boolean updatePassword,
     final Boolean shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -2670,6 +2671,7 @@ public class SSServCaller {
     opPars.put(SSVarU.email,             email);
     opPars.put(SSVarU.password,          password);
     opPars.put(SSVarU.isSystemUser,      isSystemUser);
+    opPars.put(SSVarU.updatePassword,    updatePassword);
     opPars.put(SSVarU.shouldCommit,      shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.authRegisterUser, opPars));

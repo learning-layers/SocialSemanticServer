@@ -6,11 +6,11 @@
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
   }, {
     "path" : "/SSAdapterRest.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileReplace.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
