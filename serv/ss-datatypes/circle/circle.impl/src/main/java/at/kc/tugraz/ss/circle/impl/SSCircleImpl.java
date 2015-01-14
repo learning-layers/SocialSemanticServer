@@ -519,6 +519,13 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       final SSCircleEntitiesGetPar par      = new SSCircleEntitiesGetPar(parA);
       final List<SSEntity>         entities = new ArrayList<>();
 
+      if(par.withUserRestriction){
+        
+        if(par.forUser == null){
+          par.forUser = par.user;
+        }
+      }
+      
       for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, par.forUser, null, true, false)){
 
         for(SSEntity entity : circle.entities){
@@ -536,6 +543,8 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           }
         }
       }
+      
+      SSStrU.distinctWithoutNull2(entities);
       
       return entities;
     }catch(Exception error){

@@ -1198,17 +1198,17 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityAdd, opPars));
   }
   
-  public static List<SSEntity> entitiesUserGet(
-    final SSUri       user, 
-    final SSUri       forUser) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.forUser,         forUser);
-    
-    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGet, opPars));
-  }
+//  public static List<SSEntity> entitiesUserGet(
+//    final SSUri       user, 
+//    final SSUri       forUser) throws Exception{
+//    
+//    final Map<String, Object>  opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,            user);
+//    opPars.put(SSVarU.forUser,         forUser);
+//    
+//    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entitiesUserGet, opPars));
+//  }
   
   public static SSEntity entityUserGet(
     final SSUri       user,
@@ -1623,41 +1623,6 @@ public class SSServCaller {
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.circleUserCan, opPars));
   }
   
-//  public static void circleUserCanEdit(
-//    final SSUri       user, 
-//    final List<SSUri> entities) throws Exception{
-//    
-//    SSServCallerU.canUserEditEntities(user, entities);
-//  }
-  
-//  public static SSEntity entityUserCanEdit(
-//    final SSUri user, 
-//    final SSUri entity) throws Exception{
-//    
-//    return SSServCallerU.canUserEditEntity(user, entity);
-//  }
-  
-//  public static void circleUserCanRead(
-//    final SSUri       user, 
-//    final List<SSUri> entities) throws Exception{
-//    
-//    SSServCallerU.canUserReadEntities(user, entities);
-//  }
-    
-//  public static SSEntity entityUserCanRead(
-//    final SSUri user, 
-//    final SSUri entity) throws Exception{
-//    
-//    return SSServCallerU.canUserReadEntity(user, entity);
-//  }
-  
-//  public static SSEntity entityUserCanAll(
-//    final SSUri user,
-//    final SSUri entity) throws Exception{
-//    
-//    return SSServCallerU.canUserAllEntity(user, entity);
-//  }
-  
   public static void entityEntityToPrivCircleAdd(
     final SSUri         user,
     final SSUri         entity,
@@ -1897,18 +1862,6 @@ public class SSServCaller {
     return (SSCircleE) SSServA.callServViaServer(new SSServPar(SSMethU.circleMostOpenCircleTypeGet, opPars));
   }
 
-//  public static Boolean entityUserCircleDelete(
-//    final SSUri entity,
-//    final SSUri circle) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.entity, entity);
-//    opPars.put(SSVarU.circle, circle);
-//    
-//    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.circleentityUserCircleDelete, opPars));
-//  }
-
   public static SSUri circleEntityPublicSet(
     final SSUri   user,
     final SSUri   entity,
@@ -1921,6 +1874,20 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.circleEntityPublicSet, opPars));
+  }
+  
+  public static List<SSEntity> circleEntitiesGet(
+    final SSUri   user, 
+    final SSUri   forUser,
+    final Boolean withUserRestriction) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                user);
+    opPars.put(SSVarU.forUser,             forUser);
+    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.circleEntitiesGet, opPars));
   }
   
   /* user event */
@@ -2335,16 +2302,18 @@ public class SSServCaller {
     final List<SSUri>  entities, 
     final List<String> labels,
     final SSSpaceE     space,
-    final Long         startTime) throws Exception{
+    final Long         startTime,
+    final Boolean      useUsersEntities) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.entities,    entities);
-    opPars.put(SSVarU.labels,      labels);
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarU.user,                 user);
+    opPars.put(SSVarU.forUser,              forUser);
+    opPars.put(SSVarU.entities,             entities);
+    opPars.put(SSVarU.labels,               labels);
+    opPars.put(SSVarU.space,                space);
+    opPars.put(SSVarU.startTime,            startTime);
+    opPars.put(SSVarU.useUsersEntities,     useUsersEntities);
     
     return (List<SSTagFrequ>) SSServA.callServViaServer(new SSServPar(SSMethU.tagUserFrequsGet, opPars));
   }

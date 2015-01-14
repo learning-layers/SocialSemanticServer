@@ -21,13 +21,11 @@
 package at.kc.tugraz.ss.main.test.video;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
-import java.util.List;
 
 public class SSVideoAddTest extends SSServOpTestCaseA{
   
@@ -47,11 +45,6 @@ public class SSVideoAddTest extends SSServOpTestCaseA{
         null, 
         "123456789",
         true);
-    
-    final List<SSEntity> entities = 
-      SSServCaller.entitiesUserGet(
-        SSVoc.systemUserUri, 
-        null);
     
     System.out.println (op + " test end");
   }

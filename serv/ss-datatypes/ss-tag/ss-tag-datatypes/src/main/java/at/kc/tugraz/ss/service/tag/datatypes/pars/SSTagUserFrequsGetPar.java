@@ -34,11 +34,12 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSTagUserFrequsGetPar extends SSServPar{
 
-  public SSUri              forUser    = null;
-  public List<SSUri>        entities   = new ArrayList<>();
-  public List<SSTagLabel>   labels     = new ArrayList<>();
-  public SSSpaceE           space      = null;
-  public Long               startTime  = null;
+  public SSUri              forUser              = null;
+  public List<SSUri>        entities             = new ArrayList<>();
+  public List<SSTagLabel>   labels               = new ArrayList<>();
+  public SSSpaceE           space                = null;
+  public Long               startTime            = null;
+  public Boolean            useUsersEntities     = false;
   
   public SSTagUserFrequsGetPar(
     final SSMethU          op,
@@ -48,7 +49,8 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     final List<SSUri>      entities, 
     final List<SSTagLabel> labels, 
     final SSSpaceE         space, 
-    final Long             startTime){
+    final Long             startTime,
+    final Boolean          useUsersEntities){
     
     super(op, key, user);
     
@@ -62,8 +64,9 @@ public class SSTagUserFrequsGetPar extends SSServPar{
       this.labels.addAll(labels);
     }
     
-    this.space     = space;
-    this.startTime = startTime;
+    this.space                = space;
+    this.startTime            = startTime;
+    this.useUsersEntities     = useUsersEntities;
   }
     
   public SSTagUserFrequsGetPar(final SSServPar par) throws Exception{
@@ -73,11 +76,12 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser    = (SSUri)                        pars.get(SSVarU.forUser);
-        entities   = (List<SSUri>)                  pars.get(SSVarU.entities);
-        labels     = SSTagLabel.get((List<String>)  pars.get(SSVarU.labels));
-        space      = (SSSpaceE)                     pars.get(SSVarU.space);
-        startTime  = (Long)                         pars.get(SSVarU.startTime);
+        forUser             = (SSUri)                        pars.get(SSVarU.forUser);
+        entities            = (List<SSUri>)                  pars.get(SSVarU.entities);
+        labels              = SSTagLabel.get((List<String>)  pars.get(SSVarU.labels));
+        space               = (SSSpaceE)                     pars.get(SSVarU.space);
+        startTime           = (Long)                         pars.get(SSVarU.startTime);
+        useUsersEntities    = (Boolean)                      pars.get(SSVarU.useUsersEntities);
       }
       
       if(par.clientJSONObj != null){
@@ -104,6 +108,10 @@ public class SSTagUserFrequsGetPar extends SSServPar{
         
         try{
           startTime      = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
+        }catch(Exception error){}
+        
+        try{
+          useUsersEntities      = par.clientJSONObj.get(SSVarU.useUsersEntities).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

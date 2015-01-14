@@ -599,6 +599,22 @@ implements
       
       final SSTagUserFrequsGetPar par = new SSTagUserFrequsGetPar (parA);
       
+      if(
+        !par.entities.isEmpty() &&
+        par.useUsersEntities){
+        throw new Exception("entities and useForUsersEntities set at the same time");
+      }
+      
+      if(par.useUsersEntities){
+        
+        par.entities.addAll(
+          SSUri.getFromEntitites(
+            SSServCaller.circleEntitiesGet(
+              par.user,
+              par.forUser,
+              par.withUserRestriction)));
+      }
+      
       return SSTagMiscFct.getTagFrequsFromTags(
         SSServCaller.tagsUserGet(
           par.user,

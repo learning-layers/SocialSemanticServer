@@ -269,6 +269,7 @@ public class SSVarU{
   public static final String app                                            = "app";
   public static final String parentColl                                     = "parentColl";
   public static final String startTime                                      = "startTime";
+  public static final String useUsersEntities                               = "useUsersEntities";
   public static final String forUser                                        = "forUser";
   public static final String endTime                                        = "endTime";
   public static final String maxTags                                        = "maxTags";

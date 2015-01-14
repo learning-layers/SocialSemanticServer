@@ -76,5 +76,11 @@ public class SSTagFrequsGetRESTAPIV2Par{
     value = "timestamp to retrieve tags from a certain point in time")
   public Long               startTime  = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false, 
+    value = "whether all user's entities in the system shall be considered to retrieve tag frequencies")
+  public Boolean               useUsersEntities  = false;
+  
   public SSTagFrequsGetRESTAPIV2Par(){}
 }

@@ -107,7 +107,6 @@ public enum SSMethU{
   circleEntityPublicSet,
   
   //entity
-  entitiesUserGet,
   entitiesForLabelsAndDescriptionsGet,
   entitiesForLabelsGet,
   entitiesForDescriptionsGet,

@@ -719,7 +719,8 @@ public class SSAdapterRest{
         input.entities, 
         input.labels, 
         input.space, 
-        input.startTime);
+        input.startTime,
+        input.useUsersEntities);
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }

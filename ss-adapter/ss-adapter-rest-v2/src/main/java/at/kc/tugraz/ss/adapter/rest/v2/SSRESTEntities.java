@@ -533,7 +533,8 @@ public class SSRESTEntities {
           null,
           null,
           null,
-          null);
+          null,
+          false);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -565,7 +566,8 @@ public class SSRESTEntities {
           input.entities,
           input.labels,
           input.space,
-          input.startTime);
+          input.startTime,
+          input.useUsersEntities);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -859,7 +861,8 @@ public class SSRESTEntities {
           null,
           null,
           null,
-          null);
+          null,
+          false);
       
     }catch(Exception error){
       return Response.status(422).build();

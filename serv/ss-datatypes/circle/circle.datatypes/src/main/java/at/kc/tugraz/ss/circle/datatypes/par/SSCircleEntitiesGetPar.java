@@ -45,6 +45,9 @@ public class SSCircleEntitiesGetPar extends SSServPar{
   }
   
   public SSCircleEntitiesGetPar(SSServPar par) throws Exception{
+    
+    super(par);
+    
     try{
       
       if(pars != null){
