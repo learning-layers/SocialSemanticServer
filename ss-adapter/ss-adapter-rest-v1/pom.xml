@@ -44,7 +44,7 @@
            
             <apiSource>
               <apiVersion>v1</apiVersion>
-              <basePath>http://localhost:8080/ss-adapter-rest/SSAdapterRest</basePath>
+              <basePath>http://test-ll.know-center.tugraz.at/peter/SSAdapterRest</basePath>
               <locations>at.kc.tugraz.ss.adapter.rest.v1</locations>
               
               <apiInfo>
@@ -56,7 +56,7 @@
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
               
-              <swaggerUIDocBasePath>http://localhost:8080/ss-adapter-rest/api-docs</swaggerUIDocBasePath>
+              <swaggerUIDocBasePath>http://test-ll.know-center.tugraz.at/peter/api-docs</swaggerUIDocBasePath>
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>

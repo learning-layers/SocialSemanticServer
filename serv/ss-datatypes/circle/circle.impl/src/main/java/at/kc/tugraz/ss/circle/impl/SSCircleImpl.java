@@ -514,14 +514,26 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public List<SSEntity> circleEntitiesGet(final SSServPar parA) throws Exception{
     
+    //TODO to be refactored exhaustively (e.g. introduce circle parameter and user par.withUserRestriction together with par.forUser)
     try{
       final SSCircleEntitiesGetPar par      = new SSCircleEntitiesGetPar(parA);
       final List<SSEntity>         entities = new ArrayList<>();
 
       for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, par.forUser, null, true, false)){
 
-        for(SSUri entity : circle.entities){
-          entities.add(SSServCaller.entityUserGet(par.user, entity, par.forUser));
+        for(SSEntity entity : circle.entities){
+          
+          try{
+            entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser));
+          }catch(Exception error){
+            
+            if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+              SSServErrReg.reset();
+              continue;
+            }
+            
+            throw error;
+          }
         }
       }
       
@@ -817,10 +829,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           
           case pub:{
             
-            for(SSUri userUri : sqlFct.getUserURIsForCircle(circleUri)){
+            for(SSEntity user : sqlFct.getUsersForCircle(circleUri)){
               
-              if(!SSStrU.contains(userUris, userUri)){
-                userUris.add(userUri);
+              if(!SSStrU.contains(userUris, user.id)){
+                userUris.add(user.id);
               }
             }
             
@@ -833,10 +845,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
               continue;
             }
             
-            for(SSUri userUri : sqlFct.getUserURIsForCircle(circleUri)){
+            for(SSEntity user : sqlFct.getUsersForCircle(circleUri)){
               
-              if(!SSStrU.contains(userUris, userUri)){
-                userUris.add(userUri);
+              if(!SSStrU.contains(userUris, user.id)){
+                userUris.add(user.id);
               }
             }
             

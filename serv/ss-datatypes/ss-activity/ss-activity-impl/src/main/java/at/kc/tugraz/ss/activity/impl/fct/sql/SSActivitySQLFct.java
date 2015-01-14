@@ -219,13 +219,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
 
         activityObj.creationTime   = timestamp;
         activityObj.author         = bindingStrToUri        (resultSet, SSSQLVarU.author);
-        
-        activityObj.users.addAll(
-          getActivityUsers(activityObj.id));
-        
-        activityObj.entities.addAll(
-          getActivityEntities(activityObj.id));
-        
+
         activityObj.comments.addAll(
           SSTextComment.asListWithoutNullAndEmpty(
             SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment))));

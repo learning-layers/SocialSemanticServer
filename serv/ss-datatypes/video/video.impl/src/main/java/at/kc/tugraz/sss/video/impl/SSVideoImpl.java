@@ -218,19 +218,14 @@ implements
     final SSEntityDescGetPar par,
     final SSEntity           desc) throws Exception{
     
-   /* if(par.getApps){
+    switch(desc.type){
       
-      desc.flags.addAll(
-        SSServCaller.flagsGet(
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          SSStrU.toStrWithoutEmptyAndNull(),
-          null,
-          null));
-    }
-    */
-	
-    return desc;
+      case video:{
+        return SSServCaller.videoUserGet(par.user, desc.id);
+      }
+      
+      default: return desc;
+    }	
   }
   
   @Override

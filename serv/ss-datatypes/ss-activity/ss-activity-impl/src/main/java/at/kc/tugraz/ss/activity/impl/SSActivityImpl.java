@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.activity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -36,6 +37,8 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -168,8 +171,9 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSActivitiesUserGetPar par         = new SSActivitiesUserGetPar(parA);
-      final List<SSUri>            entities    = new ArrayList<>();
+      final SSActivitiesUserGetPar par              = new SSActivitiesUserGetPar(parA);
+      final List<SSUri>            entitiesToQuery  = new ArrayList<>();
+      final List<SSActivity>       activities       = new ArrayList<>();
       
       if(!par.entities.isEmpty()){
         
@@ -183,7 +187,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             continue;
           }
           
-          entities.add(entity);
+          entitiesToQuery.add(entity);
         }
       }
       
@@ -199,31 +203,70 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             continue;
           }
           
-          entities.addAll(
+          for(SSEntity circleEntity : 
             SSServCaller.circleGet(
               par.user, 
               par.user, 
               circle, 
               false,
-              true).entities);
+              true).entities){
+            
+            entitiesToQuery.add(circleEntity.id);
+          }
         }
       }
 
-      SSStrU.distinctWithoutNull2(entities);
+      SSStrU.distinctWithoutNull2(entitiesToQuery);
       
-      return sqlFct.getActivities(
+      activities.addAll(
+        sqlFct.getActivities(
           par.users,
-          entities,
+          entitiesToQuery,
           par.types,
           par.startTime,
-          par.endTime);
+          par.endTime));
+      
+      for(SSActivity activity : activities){
+        
+        activity.users.addAll(
+          SSServCaller.usersGet(
+            sqlFct.getActivityUsers(activity.id)));
+        
+        for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
+          
+          try{
+            SSServCallerU.canUserReadEntity(par.user, activityEntity);
+          }catch(Exception error){
+            
+            if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+              SSServErrReg.reset();
+              continue;
+            }
+            
+            throw error;            
+          }
+          
+          activity.entities.add(
+            SSServCaller.entityDescGet(
+              par.user,
+              activityEntity,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false));
+        }
+      }
 
+      return activities;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-  
   
   @Override
   public void activityAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{

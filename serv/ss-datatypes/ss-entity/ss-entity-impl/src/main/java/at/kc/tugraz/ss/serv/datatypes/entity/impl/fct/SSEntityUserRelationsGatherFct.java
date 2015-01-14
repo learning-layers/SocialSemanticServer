@@ -42,7 +42,6 @@ public class SSEntityUserRelationsGatherFct{
         final SSUri userUri = SSUri.get(user);
 
         SSEntityUserRelationsGatherFct.addRelationsForUserCircles(
-          sqlFct, 
           userRelations,
           userUri);
       }
@@ -57,7 +56,6 @@ public class SSEntityUserRelationsGatherFct{
   }
   
   private static void addRelationsForUserCircles(
-    final SSEntitySQLFct            sqlFct,
     final Map<String, List<SSUri>>  userRelations,
     final SSUri                     userUri) throws Exception{
     
@@ -66,9 +64,9 @@ public class SSEntityUserRelationsGatherFct{
     for(SSEntityCircle circle : SSServCaller.circlesGet(userUri, userUri, null, true, false)){
       
       if(userRelations.containsKey(userStr)){
-        userRelations.get(userStr).addAll(circle.users);
+        userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));
       }else{
-        userRelations.put(userStr, circle.users);
+        userRelations.put(userStr, SSUri.getFromEntitites(circle.users));
       }
     }
   }

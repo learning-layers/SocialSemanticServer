@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -125,6 +126,21 @@ public class SSUri extends SSEntityA{
     
     for(String string : strings){
       result.add(get(string));
+    }
+    
+    return result;
+  }
+  
+  public static List<SSUri> getFromEntitites(final List<SSEntity> entities) throws Exception{
+
+    if(entities == null){
+      throw new Exception("pars null");
+    }
+    
+    final List<SSUri> result = new ArrayList<>();
+    
+    for(SSEntity entity : entities){
+      result.add(entity.id);
     }
     
     return result;

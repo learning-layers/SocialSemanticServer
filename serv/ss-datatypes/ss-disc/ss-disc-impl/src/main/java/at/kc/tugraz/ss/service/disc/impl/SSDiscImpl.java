@@ -108,9 +108,9 @@ implements
         for(SSEntityCircle circle : discUserCircles){
           
           if(userRelations.containsKey(user)){
-            userRelations.get(user).addAll(circle.users);
+            userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
           }else{
-            userRelations.put(user, circle.users);
+            userRelations.put(user, SSUri.getFromEntitites(circle.users));
           }
         }
       }

@@ -123,12 +123,12 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "users involved")
-  public List<SSUri>         users        = new ArrayList<>();
+  public List<SSEntity>         users        = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
     value = "entities involved")
-  public List<SSUri>         entities     = new ArrayList<>();
+  public List<SSEntity>         entities     = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
@@ -155,6 +155,19 @@ public class SSEntity extends SSEntityA{
     final SSEntityE type) throws Exception{
     
     return new SSEntity(id, type);
+  }
+  
+  public static List<SSEntity> get(
+    final List<SSUri> ids,
+    final SSEntityE   type) throws Exception{
+    
+    final List<SSEntity> entities = new ArrayList<>();
+    
+    for(SSUri id : ids){
+      entities.add(new SSEntity(id, type));
+    }
+    
+    return entities;
   }
   
   public static SSEntity get(
@@ -282,7 +295,7 @@ public class SSEntity extends SSEntityA{
 
     ld.put(SSVarU.uEs,      uEsObj);
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarU.users, usersObj);
@@ -392,12 +405,12 @@ public class SSEntity extends SSEntityA{
     return flags;
   }
   
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
+  public List<? extends SSEntity> getUsers() throws Exception{
+    return users;
   }
 
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
+  public List<? extends SSEntity> getEntities() throws Exception{
+    return entities;
   }
 }
 

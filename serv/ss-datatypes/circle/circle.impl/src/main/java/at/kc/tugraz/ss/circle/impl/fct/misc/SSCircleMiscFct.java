@@ -212,12 +212,7 @@ public class SSCircleMiscFct{
     final SSUri          circle) throws Exception{
     
     try{
-      
-      return SSStrU.contains(
-        sqlFct.getUserURIsForCircle(
-          circle),
-        user);
-      
+      return SSStrU.contains(sqlFct.getUsersForCircle(circle), user);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
