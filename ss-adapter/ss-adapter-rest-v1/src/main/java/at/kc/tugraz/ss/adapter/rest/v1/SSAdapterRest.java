@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSSearchRESTAPIV1Par;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -453,7 +454,11 @@ public class SSAdapterRest{
       par.key = SSRestMainV1.getBearer(headers);
     }catch(Exception error){}
     
-    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
+    String result = SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
+    
+    SSLogU.debug(result);
+    
+    return result;
   }
   
   @Deprecated

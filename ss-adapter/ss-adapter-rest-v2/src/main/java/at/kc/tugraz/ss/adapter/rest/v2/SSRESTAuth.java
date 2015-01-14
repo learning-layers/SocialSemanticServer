@@ -37,7 +37,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("")
-@Api( value = "auth")
+@Api( value = "/auth", basePath = "/auth")
 public class SSRESTAuth{
  
   @GET

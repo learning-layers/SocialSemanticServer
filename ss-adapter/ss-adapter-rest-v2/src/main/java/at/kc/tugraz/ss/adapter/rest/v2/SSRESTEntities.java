@@ -103,7 +103,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("")
-@Api( value = "entities")
+@Api( value = "/entities", basePath = "/entities")
 public class SSRESTEntities {
 
   @GET

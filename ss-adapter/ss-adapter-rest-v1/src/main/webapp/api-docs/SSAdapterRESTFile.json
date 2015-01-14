@@ -1,45 +1,9 @@
 {
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8080/ss-adapter-rest-v1/SSAdapterRest",
+  "basePath" : "http://localhost:8080/ss-adapter-rest/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileUserFileWrites",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
-      "notes" : "",
-      "type" : "SSFileGetEditingFilesRet",
-      "nickname" : "fileUserFileWrites",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileUserFileWritesPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileSetReaderOrWriter",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "set user being writer or reaader for given file",
-      "notes" : "",
-      "type" : "SSFileSetReaderOrWriterRet",
-      "nickname" : "fileSetReaderOrWriter",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileSetReaderOrWriterPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileCanWrite",
     "operations" : [ {
       "method" : "POST",
@@ -71,6 +35,42 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileExtGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileUserFileWrites",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
+      "notes" : "",
+      "type" : "SSFileGetEditingFilesRet",
+      "nickname" : "fileUserFileWrites",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileUserFileWritesPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileSetReaderOrWriter",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "set user being writer or reaader for given file",
+      "notes" : "",
+      "type" : "SSFileSetReaderOrWriterRet",
+      "nickname" : "fileSetReaderOrWriter",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileSetReaderOrWriterPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"

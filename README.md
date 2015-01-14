@@ -20,13 +20,13 @@ The source-code can be directly checked-out through this repository. It contains
  * src: `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/` and `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
  * for apiVersion `v1` adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest-v1/pom.xml`
-    * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v1/SSAdapterRest`
-    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v1/api-docs`
+    * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest/SSAdapterRest`
+    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs`
   * for apiVersion `v2` adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest-v2/pom.xml`
     * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v2`
     * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs`
  * build and deploy web projects `SSS/ss-adapter/ss-adapter-rest-v1` and `SSS/ss-adapter/ss-adapter-rest-v2`
- * in web projects `.../src/main/webapp/swagger/index.html` adapt property `url` of object `SwaggerUi` to `http://{your-host}:{your-port}/ss-adapter-rest-v1/api-docs` and `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs`respectively 
+ * in web projects `.../src/main/webapp/swagger/index.html` adapt property `url` of object `SwaggerUi` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs` and `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs`respectively 
 
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
@@ -122,7 +122,7 @@ The source-code can be directly checked-out through this repository. It contains
 * link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
 
 ## SSS plain REST API V1 access
-* access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/ss-adapter-rest-v1/{API}/{yourOp}/` 
+* access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/ss-adapter-rest/{API}/{yourOp}/` 
  * `your-sss-host` and `your-port` represents the host and port running the REST APIs
  * `API` stands for the name of the REST API to be targeted:
   * `SSAdapterRest` for all REST operations except for file handling

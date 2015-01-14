@@ -2,15 +2,15 @@
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/SSAdapterRESTFile.{format}"
-  }, {
-    "path" : "/SSAdapterRest.{format}"
+    "path" : "/SSAdapterRESTFileReplace.{format}"
   }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileDownload.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}"
+  }, {
+    "path" : "/SSAdapterRest.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
@@ -20,5 +20,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://localhost:8080/ss-adapter-rest-v1/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs"
 }

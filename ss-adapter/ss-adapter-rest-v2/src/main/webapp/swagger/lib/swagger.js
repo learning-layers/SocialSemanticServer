@@ -947,7 +947,7 @@ SwaggerOperation.prototype.encodePathParam = function(pathParam) {
 };
 
 SwaggerOperation.prototype.urlify = function(args) {
-  var url = this.resource.basePath + this.pathJson();
+  var url = this.resource.basePath + "/" + this.resource.id + this.pathJson();
   var params = this.parameters;
   for(var i = 0; i < params.length; i ++){
     var param = params[i];
