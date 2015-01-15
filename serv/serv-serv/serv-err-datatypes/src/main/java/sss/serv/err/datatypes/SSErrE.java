@@ -36,6 +36,7 @@ public enum SSErrE{
   userIsNotInCircle,
   userNotAllowedToAccessCircle,
   userKeyWrong,
+  userNeedsLockOnEntity,
   entityCouldntBeQueried,
   entityDoesntExist,                      //entity doesnt exist
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node

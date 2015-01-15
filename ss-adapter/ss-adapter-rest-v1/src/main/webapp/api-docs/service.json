@@ -4,13 +4,13 @@
   "apis" : [ {
     "path" : "/SSAdapterRESTFile.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileDownload.{format}"
+    "path" : "/SSAdapterRest.{format}"
   }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
   }, {
-    "path" : "/SSAdapterRest.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileReplace.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileDownload.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
@@ -20,5 +20,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs"
+  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1/api-docs"
 }

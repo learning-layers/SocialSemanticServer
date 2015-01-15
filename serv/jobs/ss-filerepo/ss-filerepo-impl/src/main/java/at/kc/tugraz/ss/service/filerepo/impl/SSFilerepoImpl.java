@@ -64,7 +64,6 @@ implements
   SSEntityHandlerImplI, 
   SSEntityDescriberI{
 
-  private final SSFilerepoFct                             fct;
   private final Map<String, SSFileRepoFileAccessProperty> fileAccessProps;
 
   public SSFilerepoImpl(
@@ -74,8 +73,6 @@ implements
     super(conf);
 
     this.fileAccessProps = fileAccessProps;
-    
-    this.fct = new SSFilerepoFct();
   }
   
   @Override

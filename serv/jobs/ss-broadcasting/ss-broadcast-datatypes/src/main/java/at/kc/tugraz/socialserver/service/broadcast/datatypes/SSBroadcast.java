@@ -22,7 +22,6 @@ package at.kc.tugraz.socialserver.service.broadcast.datatypes;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
@@ -34,25 +33,29 @@ public class SSBroadcast implements SSJSONLDPropI{
   public SSUri             entity    = null;
   public SSBroadcastEnum   type      = null;
   public SSUri             user      = null;
+  public Object            content   = null;
   public Long              timestamp = -1L;
 
   public static SSBroadcast get(
-    SSBroadcastEnum    type, 
-    SSUri              resource, 
-    SSUri              user) {
+    final SSBroadcastEnum    type, 
+    final SSUri              entity, 
+    final SSUri              user,
+    final Object             content) {
     
-    return new SSBroadcast(type, resource, user);
+    return new SSBroadcast(type, entity, user, content);
   }
 
   private SSBroadcast(
-    SSBroadcastEnum    type, 
-    SSUri              resource, 
-    SSUri              user){
+    final SSBroadcastEnum    type, 
+    final SSUri              entity, 
+    final SSUri              user,
+    final Object             content){
     
     this.type      = type;
-    this.entity  = resource;
+    this.entity    = entity;
     this.user      = user;
     this.timestamp = System.currentTimeMillis();
+    this.content   = content;
   }
   
   public SSBroadcast(){}
@@ -65,7 +68,8 @@ public class SSBroadcast implements SSJSONLDPropI{
     ld.put(SSVarU.entity,      SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
     ld.put(SSVarU.type,        SSVarU.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
     ld.put(SSVarU.user,        SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp,   SSLinkU.xsd + SSStrU.valueLong);
+    ld.put(SSVarU.timestamp,   SSVarU.xsd  + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarU.content,     SSVarU.xsd  + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }

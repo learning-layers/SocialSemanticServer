@@ -764,7 +764,76 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         dbSQL.closeStmt(resultSet);
       }
   }
+
+  public SSUri getLearnEpForVersion(
+    final SSUri learnEpVersion) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.learnEpVersionId, learnEpVersion);
+      
+      resultSet = dbSQL.select(learnEpVersionsTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.learnEpId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public SSUri getLearnEpVersionForCircle(
+    final SSUri circle) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.learnEpCircleId, circle);
+      
+      resultSet = dbSQL.select(learnEpVersionCirclesTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.learnEpVersionId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public SSUri getLearnEpVersionForEntity(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.learnEpEntityId, entity);
+      
+      resultSet = dbSQL.select(learnEpVersionEntitiesTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.learnEpVersionId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 }
+
+
+//      insert(inserts, SSSQLVarU.learnEpVersionId,   learnEpVersionUri);
+//      insert(inserts, SSSQLVarU.learnEpCircleId,    learnEpCircleUri);
+//      
+//      dbSQL.insert(learnEpVersionCirclesTable, inserts);
 
 //  private SSLearnEpCircle getLearnEpCircle(SSUri circleUri) throws Exception {
 //    

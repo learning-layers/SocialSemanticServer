@@ -52,6 +52,7 @@ public class SSFilerepoServ extends SSServA{
     return new SSFilerepoImpl((SSFileRepoConf)servConf, fileAccessProps);
   }
   
+  @Override
   public void schedule() throws Exception{
     
     if(servConf.use){

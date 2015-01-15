@@ -26,7 +26,8 @@ import java.util.List;
 
 public interface SSBroadcasterServerI {
   
-  public boolean               broadcastUpdate        (SSServPar par)     throws Exception;
-  public List<SSBroadcast>     broadcastUpdateTimeGet (SSServPar par)     throws Exception;
-  public Long                  broadcastServerTime    (SSServPar par)     throws Exception;
+  public Boolean               broadcastAdd           (final SSServPar parA)     throws Exception;
+  public List<SSBroadcast>     broadcastsGet          (final SSServPar parA)     throws Exception;
+  public Long                  broadcastServerTime    (final SSServPar parA)     throws Exception;
+  public void                  broadcastUpdate        (final SSServPar parA)     throws Exception;
 }

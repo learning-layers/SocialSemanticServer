@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.serv.caller;
 
+import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSIDU;
@@ -290,6 +291,42 @@ public class SSServCaller {
   }
   
   /* learn ep */
+  
+  public static Boolean learnEpLockRemove(
+    final SSUri       user,
+    final SSUri       forUser,
+    final SSUri       learnEp,
+    final Boolean     withUserRestriction,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                user);
+    opPars.put(SSVarU.forUser,             forUser);
+    opPars.put(SSVarU.learnEp,             learnEp);
+    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpLockRemove, opPars)); 
+  }
+  
+  public static Boolean learnEpLockSet(
+    final SSUri       user,
+    final SSUri       forUser,
+    final SSUri       learnEp,
+    final Boolean     withUserRestriction,
+    final Boolean     shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                user);
+    opPars.put(SSVarU.forUser,             forUser);
+    opPars.put(SSVarU.learnEp,             learnEp);
+    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpLockSet, opPars)); 
+  }
   
   public static SSUri learnEpUserCopyForUser(
     final SSUri       user,
@@ -757,20 +794,34 @@ public class SSServCaller {
     return (List<SSLearnEpVersion>) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpVersionsGet, opPars));
   }
   
-  public static void broadCastUpdate(
+  public static void broadcastUpdate() throws Exception{
+    SSServA.callServViaServer(new SSServPar(SSMethU.broadcastUpdate, new HashMap<>()));
+  } 
+  
+  public static Boolean broadcastAdd(
     final SSUri           user,
     final SSUri           entity,
     final SSBroadcastEnum type,
-    final Boolean         shouldCommit) throws Exception{
+    final Object          content) throws Exception{
     
     final  Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.type,         type);
+    opPars.put(SSVarU.content,      content);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.broadcastUpdate, opPars));
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.broadcastAdd, opPars));
+  }
+  
+  public static List<SSBroadcast> broadcastsGet(
+    final SSUri           user) throws Exception{
+    
+    final  Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,         user);
+    
+    return (List<SSBroadcast>) SSServA.callServViaServer(new SSServPar(SSMethU.broadcastsGet, opPars));
   }
 
   private static SSUri vocURIPrefixGet() throws Exception{

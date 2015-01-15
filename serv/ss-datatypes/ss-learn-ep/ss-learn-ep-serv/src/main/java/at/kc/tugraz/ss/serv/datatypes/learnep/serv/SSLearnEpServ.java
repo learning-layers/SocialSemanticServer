@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
@@ -29,6 +30,7 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
+import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
@@ -96,6 +98,13 @@ public class SSLearnEpServ extends SSServA{
 
   @Override
   public void schedule() throws Exception{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    if(servConf.use){
+      
+      SSDateU.scheduleAtFixedRate(
+        new SSLearnEpRemainingTimeTask(),
+        SSDateU.getDateForNextHalfMinute(),
+        SSDateU.minuteInMilliSeconds / 2);
+    }
   }
 }

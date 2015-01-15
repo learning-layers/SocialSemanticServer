@@ -26,12 +26,13 @@ import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSBroadcastUpdatePar extends SSServPar{
+public class SSBroadcastAddPar extends SSServPar{
   
   public SSUri             entity   = null;
   public SSBroadcastEnum   type     = null;
+  public Object            content  = null;
   
-  public SSBroadcastUpdatePar(SSServPar par) throws Exception{
+  public SSBroadcastAddPar(SSServPar par) throws Exception{
     
     super(par);
     
@@ -40,6 +41,7 @@ public class SSBroadcastUpdatePar extends SSServPar{
       if(pars != null){
         entity     = (SSUri)            pars.get(SSVarU.entity);
         type       = (SSBroadcastEnum)  pars.get(SSVarU.type);
+        content    = (Object)           pars.get(SSVarU.content);
       }
       
     }catch(Exception error){

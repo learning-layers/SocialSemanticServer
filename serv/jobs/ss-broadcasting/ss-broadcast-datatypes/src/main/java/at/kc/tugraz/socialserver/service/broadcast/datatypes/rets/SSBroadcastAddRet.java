@@ -18,31 +18,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.socialserver.service.broadcast.datatypes.enums;
+package at.kc.tugraz.socialserver.service.broadcast.datatypes.rets;
 
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import at.kc.tugraz.socialserver.utils.SSLinkU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public enum SSBroadcastEnum implements SSJSONLDPropI{
+public class SSBroadcastAddRet extends SSServRetI{
 
-	suDiscssion,
-	suCollectionAddSharedItem,
-	suCollectionRemoveSharedItem,
-  learnEpRemainingLockTime,
-  learnEpLockRemoved,
-  learnEpLockSet;
+  public boolean worked = false;
 
-  public static SSBroadcastEnum get(String type) throws Exception{
+  public static SSBroadcastAddRet get(boolean  worked, SSMethU op) {
+    return new SSBroadcastAddRet(worked, op);
+  }
+
+  private SSBroadcastAddRet(boolean worked, SSMethU op) {
+
+    super(op);
     
-    if(SSStrU.isEmpty(type)){
-      return null;
-    }
+    this.worked = worked;
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc() {
     
-    return SSBroadcastEnum.valueOf(type);
+    Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarU.worked, SSLinkU.xsd + SSStrU.valueBoolean);
+    
+    return ld;
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    return SSLinkU.xsd + SSStrU.valueString;
-  }
+  public boolean isWorked() {
+    return worked;
+  }  
 }

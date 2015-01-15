@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8080/ss-adapter-rest/SSAdapterRest",
+  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFileDownload",
   "apis" : [ {
     "path" : "/fileDownload",

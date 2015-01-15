@@ -206,11 +206,13 @@ public class SSSInitializer extends SSServImplStartA{
       
       try{
         //scheduling
-        SSModelUEServ.inst.schedule    ();
-        SSFilerepoServ.inst.schedule   ();
-        SSRecommServ.inst.schedule     ();
-        SSSearchServ.inst.schedule     ();
-        SSDataImportServ.inst.schedule ();
+        SSModelUEServ.inst.schedule        ();
+        SSFilerepoServ.inst.schedule       ();
+        SSRecommServ.inst.schedule         ();
+        SSSearchServ.inst.schedule         ();
+        SSDataImportServ.inst.schedule     ();
+        SSLearnEpServ.inst.schedule        ();
+        SSBroadcasterServ.inst.schedule    ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

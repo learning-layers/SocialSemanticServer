@@ -95,4 +95,13 @@ public class SSDateU{
 
     return dateForNextMinute.getTime();
   }
+  
+  public static Date getDateForNextHalfMinute() {
+
+    Calendar dateForNextHalfMinute = new GregorianCalendar();
+
+    dateForNextHalfMinute.add(Calendar.SECOND, 30);
+
+    return dateForNextHalfMinute.getTime();
+  }
 }

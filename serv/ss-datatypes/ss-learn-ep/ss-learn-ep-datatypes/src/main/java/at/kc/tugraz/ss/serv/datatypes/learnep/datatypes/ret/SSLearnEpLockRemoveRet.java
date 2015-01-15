@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +18,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.socialserver.service.broadcast.datatypes.rets;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSLinkU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
@@ -28,32 +27,33 @@ import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSBroadcastUpdateRet extends SSServRetI{
+public class SSLearnEpLockRemoveRet extends SSServRetI{
 
-  public boolean worked = false;
+  public Boolean worked = null;
 
-  public static SSBroadcastUpdateRet get(boolean  worked, SSMethU op) {
-    return new SSBroadcastUpdateRet(worked, op);
+  public static SSLearnEpLockRemoveRet get(
+    final Boolean worked, 
+    final SSMethU op){
+    
+    return new SSLearnEpLockRemoveRet(worked, op);
   }
-
-  private SSBroadcastUpdateRet(boolean worked, SSMethU op) {
-
+  
+  private SSLearnEpLockRemoveRet(
+    final Boolean worked,
+    final SSMethU op){
+    
     super(op);
     
     this.worked = worked;
   }
 
   @Override
-  public Map<String, Object> jsonLDDesc() {
+  public Map<String, Object> jsonLDDesc(){
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSLinkU.xsd + SSStrU.valueBoolean);
+    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }
-  
-  public boolean isWorked() {
-    return worked;
-  }  
 }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,51 +18,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.broadcast.impl;
+package at.kc.tugraz.ss.serv.broadcast.impl;
 
 import at.kc.tugraz.socialserver.service.broadcast.api.*;
 import at.kc.tugraz.socialserver.service.broadcast.conf.*;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.pars.SSBroadcastUpdatePar;
+import at.kc.tugraz.socialserver.service.broadcast.datatypes.pars.SSBroadcastAddPar;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastServerTimeRet;
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastUpdateRet;
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastUpdateTimeGetRet;
+import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastAddRet;
+import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastsGetRet;
 import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterClientI, SSBroadcasterServerI{
 
-  // TODO singleton?
-  private List<SSBroadcast>             updateList  = Collections.synchronizedList(new ArrayList<SSBroadcast>());
-  private int                           lifetime    = 10000;
+  private static final List<SSBroadcast>      updateList     = new ArrayList<>();
+  private static final ReentrantReadWriteLock updateListLock = new ReentrantReadWriteLock();
   
   public SSBroadcasterImpl(final SSBroadcasterConf conf) throws Exception{
     super(conf);
   }
   
-  /****** SSBroadcasterClientI ******/
-  
   @Override
-  public void broadcastUpdate(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void broadcastAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSBroadcastUpdateRet.get(broadcastUpdate(par), par.op));
+    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(par), par.op));
   }
 
   @Override
-  public void broadcastUpdateTimeGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void broadcastsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
     
     SSServCaller.checkKey(par);
     
-    sSCon.writeRetFullToClient(SSBroadcastUpdateTimeGetRet.get(broadcastUpdateTimeGet(par), par.op));
+    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(par), par.op));
   }
 
   @Override
@@ -73,38 +70,69 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
     sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(par), par.op));
   }
   
-  /****** SSBroadcasterServerI ******/
-
   @Override
-  public boolean broadcastUpdate(SSServPar parI) throws Exception {
+  public Boolean broadcastAdd(final SSServPar parA) throws Exception {
     
-    SSBroadcastUpdatePar par = new SSBroadcastUpdatePar(parI);
+    try{
+      final SSBroadcastAddPar par = new SSBroadcastAddPar(parA);
+      
+      updateListLock.writeLock().lock();
+      
+      updateList.add(
+        SSBroadcast.get(
+          par.type, 
+          par.entity, 
+          par.user,
+          par.content));
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      updateListLock.writeLock().unlock();
+    }
+  }
+  
+  @Override
+  public void broadcastUpdate(final SSServPar parA) throws Exception {
     
-    updateList.add(SSBroadcast.get(par.type, par.entity, par.user));
-    
-    return true;
+    try{
+      final long currentTime = SSDateU.dateAsLong();
+      
+      updateListLock.writeLock().lock();
+      
+      for(int counter = updateList.size() - 1; counter >= 0; counter--){
+        
+        if(updateList.get(counter).timestamp < currentTime - (SSDateU.minuteInMilliSeconds * 4 /*lifeTime*/)) {
+          updateList.remove(updateList.get(counter));
+          counter--;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      updateListLock.writeLock().unlock();
+    }
   }
 
   @Override
-  public List<SSBroadcast> broadcastUpdateTimeGet(SSServPar par) throws Exception {
+  public List<SSBroadcast> broadcastsGet(final SSServPar parA) throws Exception {
     
-    long              currentTimeMillis = System.currentTimeMillis();
-    List<SSBroadcast> objectArray;
+    try{
       
-    for (int i = 0; i < updateList.size(); i++) {
-      if (updateList.get(i).timestamp < currentTimeMillis - lifetime) {
-        updateList.remove(updateList.get(i));
-        i--;
-      }
+      updateListLock.readLock().lock();
+       
+      return new ArrayList<>(updateList);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      updateListLock.readLock().unlock();
     }
-    
-    objectArray  = new ArrayList<SSBroadcast>(updateList.size());
-    
-    for (SSBroadcast object : updateList) {
-      objectArray.add(object);
-    }
-
-    return objectArray;
   }
 
   @Override

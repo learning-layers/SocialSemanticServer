@@ -25,19 +25,22 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSLearnEpClientI {
   
-  public void learnEpsGet                       (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionsGet                (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionGet                 (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionCreate              (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionAddCircle           (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionAddEntity           (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpCreate                     (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionUpdateCircle        (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionUpdateEntity        (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionRemoveCircle        (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionRemoveEntity        (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionSetTimelineState    (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionGetTimelineState    (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionCurrentGet          (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void learnEpVersionCurrentSet          (SSSocketCon sSCon, SSServPar par) throws Exception;
+  public void learnEpsGet                       (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionsGet                (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionGet                 (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionCreate              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionAddCircle           (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionAddEntity           (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpCreate                     (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionUpdateCircle        (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionUpdateEntity        (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionRemoveCircle        (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionRemoveEntity        (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionSetTimelineState    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionGetTimelineState    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionCurrentGet          (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpVersionCurrentSet          (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  
+  public void learnEpLockSet                    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpLockRemove                 (final SSSocketCon sSCon, final SSServPar par) throws Exception;
 }

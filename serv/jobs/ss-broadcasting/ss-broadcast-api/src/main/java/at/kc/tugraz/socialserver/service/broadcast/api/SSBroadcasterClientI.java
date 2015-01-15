@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSBroadcasterClientI {
   
-  public void       broadcastUpdate        (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void       broadcastUpdateTimeGet (SSSocketCon sSCon, SSServPar par) throws Exception;
-  public void       broadcastServerTime    (SSSocketCon sSCon, SSServPar par) throws Exception;
+  public void       broadcastAdd           (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void       broadcastsGet          (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void       broadcastServerTime    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
 }

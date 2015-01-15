@@ -155,6 +155,8 @@ public enum SSMethU{
   learnEpVersionRemoveEntity                          ,
   learnEpVersionSetTimelineState                      ,
   learnEpVersionGetTimelineState                      ,
+  learnEpLockRemove,
+  learnEpLockSet,
   
   //data export
   dataExportUserEntityTags                            ,
@@ -296,8 +298,9 @@ public enum SSMethU{
   
   //broadcast
   broadcastServerTime                                 ,
-  broadcastUpdate                                     ,
-  broadcastUpdateTimeGet                              ,
+  broadcastAdd                                     ,
+  broadcastsGet                                       ,
+  broadcastUpdate,
   
   //auth
   authUsersFromCSVFileAdd                             ,

@@ -1268,6 +1268,30 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "broadcastsGet")
+  public String broadcastsGet(String jsonRequ){
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.broadcastsGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "learnEpLockSet")
+  public String learnEpLockSet(String jsonRequ){
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "learnEpLockRemove")
+  public String learnEpLockRemove(String jsonRequ){
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockRemove);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpsGet")
   public String learnEpsGet(String jsonRequ){
     return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsGet);
