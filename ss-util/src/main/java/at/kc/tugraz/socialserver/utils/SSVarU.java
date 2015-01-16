@@ -81,7 +81,6 @@ public class SSVarU{
   public static final String localSearchOp                                  = "localSearchOp";
   public static final String globalSearchOp                                 = "globalSearchOp";
   public static final String pageNumber                                     = "pageNumber";
-  public static final String keywordsToSearchFor                            = "keywordsToSearchFor";
   public static final String flags                                          = "flags";
   public static final String notebook                                       = "notebook";
   public static final String thumb                                          = "thumb";

@@ -405,7 +405,6 @@ public class SSAdapterRest{
         SSMethU.search, 
         input.key, 
         input.user, 
-        input.keywordsToSearchFor, 
         input.includeTextualContent, 
         input.wordsToSearchFor, 
         input.includeTags, 

@@ -59,7 +59,6 @@ public class SSRESTSearch{
           SSMethU.search,
           null,
           null,
-          input.keywordsToSearchFor,
           input.includeTextualContent,
           input.wordsToSearchFor,
           input.includeTags,

@@ -107,3 +107,22 @@ public class SSDataImportEvernoteHandler extends SSServImplStartWithDBA{
     finalizeThread();
   }
 }
+
+//}catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        SSServErrReg.reset();
+//        
+//        if(dbSQL.rollBack(parA)){
+//          return collUserEntryDelete(parA);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }
+//      }
+//      
+//      dbSQL.rollBack(parA);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }

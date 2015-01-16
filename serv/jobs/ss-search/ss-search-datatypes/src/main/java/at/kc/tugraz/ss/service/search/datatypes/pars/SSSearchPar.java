@@ -35,7 +35,6 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSSearchPar extends SSServPar{
   
-  public List<String>        keywordsToSearchFor        = new ArrayList<>();
   public Boolean             includeTextualContent      = null;
   public List<String>        wordsToSearchFor           = new ArrayList<>();
   public Boolean             includeTags                = null;
@@ -61,7 +60,6 @@ public class SSSearchPar extends SSServPar{
     final SSMethU             op,
     final String              key,
     final SSUri               user,
-    final List<String>        keywordsToSearchFor        ,
     final Boolean             includeTextualContent      ,
     final List<String>        wordsToSearchFor           ,
     final Boolean             includeTags                ,
@@ -84,10 +82,6 @@ public class SSSearchPar extends SSServPar{
     final SSSearchOpE         globalSearchOp             ){
     
     super(op, key, user);
-    
-    if(keywordsToSearchFor != null){
-      this.keywordsToSearchFor.addAll(keywordsToSearchFor);
-    }
     
     this.includeTextualContent      = includeTextualContent;
     
@@ -141,7 +135,6 @@ public class SSSearchPar extends SSServPar{
     try{
       
       if(pars != null){
-        keywordsToSearchFor        = (List<String>)           pars.get(SSVarU.keywordsToSearchFor);
         includeTextualContent      = (Boolean)                pars.get(SSVarU.includeTextualContent);
         wordsToSearchFor           = (List<String>)           pars.get(SSVarU.wordsToSearchFor);
         includeTags                = (Boolean)                pars.get(SSVarU.includeTags);
@@ -164,12 +157,6 @@ public class SSSearchPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        
-        try{ 
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.keywordsToSearchFor)) {
-            keywordsToSearchFor.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
         
         try{ includeTextualContent        = par.clientJSONObj.get(SSVarU.includeTextualContent).getBooleanValue();                                                       }catch(Exception error){}
         
@@ -225,6 +212,7 @@ public class SSSearchPar extends SSServPar{
         try{ minRating                    = par.clientJSONObj.get(SSVarU.minRating).getIntValue();                                                                                 }catch(Exception error){}
         try{ maxRating                    = par.clientJSONObj.get(SSVarU.maxRating).getIntValue();                                                                                 }catch(Exception error){}
         try{ localSearchOp                = SSSearchOpE.valueOf(par.clientJSONObj.get(SSVarU.localSearchOp).getTextValue());                                                       }catch(Exception error){}
+        try{ globalSearchOp               = SSSearchOpE.valueOf(par.clientJSONObj.get(SSVarU.globalSearchOp).getTextValue());                                                       }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

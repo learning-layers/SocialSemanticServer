@@ -42,10 +42,8 @@ public class SSSearchTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
     
-    final List<String>    keywordsToSearchFor   = new ArrayList<>();
     final List<SSEntityE> typesToSearchOnlyFor  = new ArrayList<>();
     
-    keywordsToSearchFor.add("test");
     
     typesToSearchOnlyFor.add(SSEntityE.entity);
     typesToSearchOnlyFor.add(SSEntityE.file);
@@ -54,12 +52,10 @@ public class SSSearchTest extends SSServOpTestCaseA{
     typesToSearchOnlyFor.add(SSEntityE.evernoteNotebook);
     typesToSearchOnlyFor.add(SSEntityE.coll);
     
-    keywordsToSearchFor.add("test");
     
     SSSearchRet result =
       SSServCaller.search(
         SSVoc.systemUserUri,
-        keywordsToSearchFor,
         false,
         new ArrayList<>(),
         true,
@@ -86,7 +82,6 @@ public class SSSearchTest extends SSServOpTestCaseA{
       result =
         SSServCaller.search(
           SSVoc.systemUserUri,
-          keywordsToSearchFor,
           false,
           new ArrayList<>(),
           false,

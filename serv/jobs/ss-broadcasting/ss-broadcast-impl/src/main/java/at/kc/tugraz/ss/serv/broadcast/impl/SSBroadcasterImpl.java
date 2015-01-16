@@ -107,7 +107,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
         
         if(updateList.get(counter).timestamp < currentTime - (SSDateU.minuteInMilliSeconds * 4 /*lifeTime*/)) {
           updateList.remove(updateList.get(counter));
-          counter--;
+//          counter--;
         }
       }
       

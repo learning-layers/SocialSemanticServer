@@ -1010,7 +1010,6 @@ public class SSServCaller {
   
   public static SSSearchRet search(
     final SSUri                user, 
-    final List<String>         keywordsToSearchFor,
     final Boolean              includeTextualContent,
     final List<String>         wordsToSearchFor,
     final Boolean              includeTags,
@@ -1035,7 +1034,6 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,                      user);
-    opPars.put(SSVarU.keywordsToSearchFor,       keywordsToSearchFor);
     opPars.put(SSVarU.includeTextualContent,     includeTextualContent);
     opPars.put(SSVarU.wordsToSearchFor,          wordsToSearchFor);
     opPars.put(SSVarU.includeTags,               includeTags);

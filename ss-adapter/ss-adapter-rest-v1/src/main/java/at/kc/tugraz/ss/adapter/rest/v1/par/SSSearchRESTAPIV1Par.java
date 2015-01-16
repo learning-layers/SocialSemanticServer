@@ -52,12 +52,6 @@ public class SSSearchRESTAPIV1Par{
   public String key                    = null;
   
   @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "general keywords to be searched for; get interpreted as, e.g. tags, words if respective flags set (e.g. includeTags)" )
-  public List<String>        keywordsToSearchFor        = new ArrayList<>();
-  
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether the text content (if available) of entities should be scanned" )

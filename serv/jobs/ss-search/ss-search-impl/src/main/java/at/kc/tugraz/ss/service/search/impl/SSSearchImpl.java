@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -54,168 +55,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf);
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchTags(final SSServPar parA) throws Exception {
-    return searchTags(new SSSearchTagsPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchTags(final SSSearchTagsPar par) throws Exception {
-    
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerTag = new HashMap<>();
-      List<SSEntity>                    searchResultsForTagOneTag;
-      
-      for(String tagLabel : par.tags){
-        
-        searchResultsForTagOneTag = new ArrayList<>();
-        
-        for(SSUri foundEntity :
-          
-          SSServCaller.tagUserEntitiesForTagsGet(
-            par.user,
-            null,
-            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
-            SSSpaceE.sharedSpace,
-            null)){
-          
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
-        }
-        
-        for(SSUri foundEntity :
-          
-          SSServCaller.tagUserEntitiesForTagsGet(
-            par.user,
-            null,
-            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
-            SSSpaceE.privateSpace,
-            null)){
-          
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
-        }
-        
-        searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerTag);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchSolr(final SSServPar parA) throws Exception {
-    return searchSolr(new SSSearchSolrPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchSolr(final SSSearchSolrPar par) throws Exception{
-
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-      SSEntity                          entityObj;
-      
-      for(String keyword : par.keywords){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(String entityId : SSServCaller.solrSearch(keyword, 20)){
-          
-          entityObj =
-            SSServCaller.entityGet(
-              SSServCaller.vocURICreateFromId(entityId));
-            
-          searchResultsForOneKeyword.add(entityObj);
-        }
-
-        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerKeyword);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchTagsWithinEntity(final SSServPar parA) throws Exception{
-    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
-    
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerTag        = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-      SSEntity                          entityObj;
-      
-      for(String tag : par.tags){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
-          
-          if(SSServCaller.tagsUserGet(par.user, null, SSUri.asListWithoutNullAndEmpty(entityUri), SSStrU.toStrWithoutEmptyAndNull(tag), null, null).isEmpty()){
-            continue;
-          }
-          
-          entityObj = SSServCaller.entityGet(entityUri);
-          
-          searchResultsForOneKeyword.add(entityObj);
-        }
-        
-        searchResultsPerTag.put(tag, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerTag);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void searchResultPagesCacheClean(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final Long                             now            = SSDateU.dateAsLong();
-      final Long                             fiveMinutesAgo = now - SSDateU.minuteInMilliSeconds * 5;
-      Map.Entry<String, SSSearchResultPages> entry;
-      
-      for(Iterator<Map.Entry<String, SSSearchResultPages>> it = searchResultPagesCache.entrySet().iterator(); it.hasNext();){
-        
-        entry = it.next();
-        
-        if(fiveMinutesAgo > entry.getValue().creationTime){
-          it.remove();
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
   
   @Override
@@ -244,6 +83,9 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       final List<SSEntity>          recommendedEntities;
       Integer                       recommendedEntityCounter = 0;
       SSEntity                      entity;
+      Boolean                       tagsThere;
+      Boolean                       contentThere;
+      Boolean                       labelsAndDescsThere;
       
       if(
         par.pagesID    != null &&
@@ -286,10 +128,44 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           
           for(SSUri uri : tmpUris){
             
+            tagsThere           = false;
+            labelsAndDescsThere = false;
+            contentThere        = false;
+            
             if(
-              SSStrU.contains(tagResultUris,                 uri) &&
-              SSStrU.contains(contentResultUris,             uri) &&
-              SSStrU.contains(labelAndDescriptionResultUris, uri)){
+              !par.includeTags ||
+              par.tagsToSearchFor.isEmpty()){
+              tagsThere = true;
+            }else{
+              if(SSStrU.contains(tagResultUris,uri)){
+                tagsThere = true;
+              }
+            }
+            
+            if(
+              (!par.includeLabel &&
+              !par.includeDescription)
+              ||
+              (par.labelsToSearchFor.isEmpty() &&
+              par.descriptionsToSearchFor.isEmpty())){
+              labelsAndDescsThere = true;
+            }else{
+              if(SSStrU.contains(labelAndDescriptionResultUris, uri)){
+                labelsAndDescsThere = true;
+              }
+            }
+            
+            if(
+              !par.includeTextualContent ||
+              par.wordsToSearchFor.isEmpty()){
+              contentThere        = true;
+            }else{
+              if(SSStrU.contains(contentResultUris, uri)){
+                contentThere        = true;
+              }
+            }
+            
+            if(tagsThere && labelsAndDescsThere && contentThere){
               uris.add(uri);
             }
           }
@@ -491,20 +367,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       }
     }
     
-    if(!par.keywordsToSearchFor.isEmpty()){
-      
-      searchTagsPar =
-        SSSearchTagsPar.get(
-          par.user,
-          par.keywordsToSearchFor,
-          par.localSearchOp,
-          10);
-      
-      for(SSEntity result : searchTags(searchTagsPar)){
-        tagResults.add(result.id);
-      }
-    }
-
     return tagResults;
   }
   
@@ -530,19 +392,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       }
     }
     
-    if(!par.keywordsToSearchFor.isEmpty()){
-      
-      searchSolrPar =
-        SSSearchSolrPar.get(
-          par.user,
-          par.keywordsToSearchFor,
-          par.localSearchOp);
-      
-      for(SSEntity solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.id);
-      }    
-    }
-    
     return textualContentResults;
   }
   
@@ -551,9 +400,22 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     final List<SSUri>         results            = new ArrayList<>();
     final List<SSUri>         labelResults       = new ArrayList<>();
     final List<SSUri>         descriptionResults = new ArrayList<>();
-    final List<String>        keywords           = SSStrU.toStr(SSSearchLabel.get(par.keywordsToSearchFor));
     final List<String>        combinedKeywords   = new ArrayList<>();
     
+    for(int counter = par.labelsToSearchFor.size() - 1; counter >= 0; counter--){
+      
+      if(SSStrU.isEmpty(par.labelsToSearchFor.get(counter))){
+        par.labelsToSearchFor.remove(counter);
+      }
+    }
+  
+    for(int counter = par.descriptionsToSearchFor.size() - 1; counter >= 0; counter--){
+      
+      if(SSStrU.isEmpty(par.descriptionsToSearchFor.get(counter))){
+        par.descriptionsToSearchFor.remove(counter);
+      }
+    }
+     
     if(
       par.includeDescription &&
       par.includeLabel){
@@ -561,7 +423,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       switch(par.localSearchOp){
         
         case or:{
-          combinedKeywords.addAll(keywords);
           combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
@@ -571,7 +432,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
           
           combinedKeywords.clear();
-          combinedKeywords.addAll(keywords);
           combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
@@ -585,7 +445,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         case and:{
           
-          combinedKeywords.addAll(keywords);
           combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
@@ -595,7 +454,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
           
           combinedKeywords.clear();
-          combinedKeywords.addAll(keywords);
           combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
@@ -612,7 +470,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       par.includeDescription &&
       !par.includeLabel){
       
-      combinedKeywords.addAll(keywords);
       combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
       
       switch(par.localSearchOp){
@@ -639,7 +496,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
       !par.includeDescription &&
       par.includeLabel){
       
-      combinedKeywords.addAll(keywords);
       combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
       
       switch(par.localSearchOp){
@@ -660,26 +516,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           }
           break;
         }
-      }
-    }
-    
-    switch(par.globalSearchOp){
-      
-      case and:{
-        final List<SSUri> tmpUris = new ArrayList<>();
-        
-        tmpUris.addAll(results);
-        results.clear();
-        
-        for(SSUri uri : tmpUris){
-          
-          if(
-            SSStrU.contains(descriptionResults,       uri) &&
-            SSStrU.contains(labelResults,             uri)){
-            results.add(uri);
-          }
-        }
-        break;
       }
     }
     
@@ -737,6 +573,168 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  @Deprecated
+  @Override
+  public List<SSEntity> searchTags(final SSServPar parA) throws Exception {
+    return searchTags(new SSSearchTagsPar(parA));
+  }
+  
+  @Deprecated
+  protected List<SSEntity> searchTags(final SSSearchTagsPar par) throws Exception {
+    
+    try{
+      
+      final Map<String, List<SSEntity>> searchResultsPerTag = new HashMap<>();
+      List<SSEntity>                    searchResultsForTagOneTag;
+      
+      for(String tagLabel : par.tags){
+        
+        searchResultsForTagOneTag = new ArrayList<>();
+        
+        for(SSUri foundEntity :
+          
+          SSServCaller.tagUserEntitiesForTagsGet(
+            par.user,
+            null,
+            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
+            SSSpaceE.sharedSpace,
+            null)){
+          
+          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+        }
+        
+        for(SSUri foundEntity :
+          
+          SSServCaller.tagUserEntitiesForTagsGet(
+            par.user,
+            null,
+            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
+            SSSpaceE.privateSpace,
+            null)){
+          
+          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+        }
+        
+        searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
+      }
+      
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp, 
+        searchResultsPerTag);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Deprecated
+  @Override
+  public List<SSEntity> searchSolr(final SSServPar parA) throws Exception {
+    return searchSolr(new SSSearchSolrPar(parA));
+  }
+  
+  @Deprecated
+  protected List<SSEntity> searchSolr(final SSSearchSolrPar par) throws Exception{
+
+    try{
+      
+      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+      SSEntity                          entityObj;
+      
+      for(String keyword : par.keywords){
+        
+        searchResultsForOneKeyword.clear();
+        
+        for(String entityId : SSServCaller.solrSearch(keyword, 20)){
+          
+          entityObj =
+            SSServCaller.entityGet(
+              SSServCaller.vocURICreateFromId(entityId));
+            
+          searchResultsForOneKeyword.add(entityObj);
+        }
+
+        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
+      }
+      
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp, 
+        searchResultsPerKeyword);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Deprecated
+  @Override
+  public List<SSEntity> searchTagsWithinEntity(final SSServPar parA) throws Exception{
+    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
+  }
+  
+  @Deprecated
+  protected List<SSEntity> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
+    
+    try{
+      
+      final Map<String, List<SSEntity>> searchResultsPerTag        = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+      SSEntity                          entityObj;
+      
+      for(String tag : par.tags){
+        
+        searchResultsForOneKeyword.clear();
+        
+        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
+          
+          if(SSServCaller.tagsUserGet(par.user, null, SSUri.asListWithoutNullAndEmpty(entityUri), SSStrU.toStrWithoutEmptyAndNull(tag), null, null).isEmpty()){
+            continue;
+          }
+          
+          entityObj = SSServCaller.entityGet(entityUri);
+          
+          searchResultsForOneKeyword.add(entityObj);
+        }
+        
+        searchResultsPerTag.put(tag, new ArrayList<>(searchResultsForOneKeyword));
+      }
+      
+      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+        par.searchOp, 
+        searchResultsPerTag);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void searchResultPagesCacheClean(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final Long                             now            = SSDateU.dateAsLong();
+      final Long                             fiveMinutesAgo = now - SSDateU.minuteInMilliSeconds * 5;
+      Map.Entry<String, SSSearchResultPages> entry;
+      
+      for(Iterator<Map.Entry<String, SSSearchResultPages>> it = searchResultPagesCache.entrySet().iterator(); it.hasNext();){
+        
+        entry = it.next();
+        
+        if(fiveMinutesAgo > entry.getValue().creationTime){
+          it.remove();
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }
