@@ -34,8 +34,10 @@ import java.util.Map;
 
 public class SSLearnEp extends SSEntity {
 
-  public SSUri                   user        = null;
-  public List<SSLearnEpVersion>  versions    = new ArrayList<>();
+  public SSUri                   user         = null;
+  public List<SSLearnEpVersion>  versions     = new ArrayList<>();
+  public Boolean                 locked       = false;
+  public Boolean                 lockedByUser = false;
   
   public static SSLearnEp get(
     final SSUri                  id, 

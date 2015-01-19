@@ -292,6 +292,15 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             true));
         
          learnEp.read = SSServCaller.entityReadGet(par.user, learnEp.id);
+         
+         if(!learnEpConf.useEpisodeLocking){
+           learnEp.locked       = false;
+           learnEp.lockedByUser = false;
+         }else{
+           
+           learnEp.locked       = SSLearnEpAccessController.isLocked (learnEp.id);
+           learnEp.lockedByUser = SSLearnEpAccessController.hasLock  (par.user, learnEp.id);
+         }
       }
 
       return learnEps;

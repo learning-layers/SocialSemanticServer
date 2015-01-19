@@ -94,9 +94,25 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static void checkHasLock(
-    final SSUri         user, 
-    final SSUri         learnEp) throws Exception{
+  public static Boolean isLocked(final SSUri learnEp) throws Exception{
+    
+    try{
+      
+      learnEpsLock.readLock().lock();
+      
+      return lockedLearnEps.containsValue(SSStrU.toStr(learnEp));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      learnEpsLock.readLock().unlock();
+    }
+  }
+  
+  public static Boolean hasLock(
+    final SSUri user, 
+    final SSUri learnEp) throws Exception{
     
     try{
       
@@ -105,10 +121,30 @@ public class SSLearnEpAccessController{
       if(
         lockedLearnEps.containsKey(SSStrU.toStr(user)) &&
         SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(user)), SSStrU.toStr(learnEp))){
-        return;
+        return true;
       }
       
-      throw new SSErr(SSErrE.userNeedsLockOnEntity);
+      return false;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      learnEpsLock.readLock().unlock();
+    }
+  }
+  
+  public static void checkHasLock(
+    final SSUri         user, 
+    final SSUri         learnEp) throws Exception{
+    
+    try{
+      
+      learnEpsLock.readLock().lock();
+      
+      if(!hasLock(user, learnEp)){
+        throw new SSErr(SSErrE.userNeedsLockOnEntity);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
