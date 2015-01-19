@@ -67,21 +67,21 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       final List<SSMessage>   messages    = new ArrayList<>();
       final List<SSMessage>   tmpMessages = sqlFct.getMessages(par.user);
       
-      if(!par.includeRead){
+      for(SSMessage message : tmpMessages){
         
-        for(SSMessage message : tmpMessages){
-          
-          if(SSServCaller.entityReadGet(par.user, message.id)){
-            continue;
-          }
-          
-          messages.add(message);
+        message.read = SSServCaller.entityReadGet(par.user, message.id);
+        
+        if(
+          !par.includeRead &&
+          message.read){
+          continue;
         }
         
-        return messages;
-      }else{
-        return tmpMessages;
+        messages.add(message);
       }
+
+      return messages;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
