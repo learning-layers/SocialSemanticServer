@@ -685,22 +685,33 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public void entityRead(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
+  public void setEntityRead(
+    final SSUri   user, 
+    final SSUri   entity,
+    final Boolean read) throws Exception{
     
     try{
 
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
+      if(read){
       
-      insert(inserts, SSSQLVarU.entityId,     entity);
-      insert(inserts, SSSQLVarU.userId,       user);
+        final Map<String, String> inserts    = new HashMap<>();
+        final Map<String, String> uniqueKeys = new HashMap<>();
 
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
+        insert(inserts, SSSQLVarU.userId,       user);
+        insert(inserts, SSSQLVarU.entityId,     entity);
 
-      dbSQL.insertIfNotExists(entityReadsTable, inserts, uniqueKeys);
+        uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
+        uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
+
+        dbSQL.insertIfNotExists(entityReadsTable, inserts, uniqueKeys);
+      }else{
+        final Map<String, String> deletes = new HashMap<>();
+        
+        delete(deletes, SSSQLVarU.userId,   user);
+        delete(deletes, SSSQLVarU.entityId, entity);
+        
+        dbSQL.deleteIgnore(entityReadsTable, deletes);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

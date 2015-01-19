@@ -290,6 +290,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             par.user,
             learnEp.id, 
             true));
+        
+         learnEp.read = SSServCaller.entityReadGet(par.user, learnEp.id);
       }
 
       return learnEps;

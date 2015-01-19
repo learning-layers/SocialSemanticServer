@@ -247,8 +247,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         par.user, 
         null);
       
-      if(par.read){
-        sqlFct.entityRead(par.user, par.entity);
+      if(par.read != null){
+        
+        sqlFct.setEntityRead(
+          par.user, 
+          par.entity,
+          par.read);
       }
       
       if(!par.comments.isEmpty()){
@@ -443,8 +447,9 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       SSEntity                  entity;
       final List<SSUri>         files;
       
-      entity = sqlFct.getEntity (par.entity);
-      files  = sqlFct.getFiles  (par.entity);
+      entity      = sqlFct.getEntity     (par.entity);
+      entity.read = sqlFct.getEntityRead (par.user, par.entity);
+      files       = sqlFct.getFiles  (par.entity);
       
       if(!files.isEmpty()){
         entity.file = files.get(0);
