@@ -57,7 +57,8 @@ public class SSRecommResourcesFct{
       
       return SSServCallerU.canUserReadEntity(
         par.user,
-        entityID);
+        entityID,
+        false);
       
     }catch(Exception error){
       if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){

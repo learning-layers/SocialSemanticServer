@@ -1262,13 +1262,15 @@ public class SSServCaller {
   public static SSEntity entityUserGet(
     final SSUri       user,
     final SSUri       entity,
-    final SSUri       forUser) throws Exception{
+    final SSUri       forUser,
+    final Boolean     logErr) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.forUser,      forUser);
+    opPars.put(SSVarU.logErr,       logErr);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserGet, opPars));
   }
@@ -1668,6 +1670,22 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.entity,      entity);
     opPars.put(SSVarU.accessRight, accessRight);
+    
+    return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.circleUserCan, opPars));
+  }
+  
+  public static SSEntity circleUserCan(
+    final SSUri                    user,
+    final SSUri                    entity, 
+    final SSCircleRightE           accessRight,
+    final Boolean                  logErr) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.entity,      entity);
+    opPars.put(SSVarU.accessRight, accessRight);
+    opPars.put(SSVarU.logErr,      logErr);
     
     return (SSEntity) SSServA.callServViaServer(new SSServPar(SSMethU.circleUserCan, opPars));
   }

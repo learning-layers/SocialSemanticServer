@@ -371,42 +371,36 @@ public abstract class SSServA{
   }
   
   public static void callServViaClient(
-    final SSSocketCon sSCon, 
+    final SSSocketCon sSCon,
     final SSServPar   parA,
     final Boolean     useCloud) throws Exception{
     
     try{
       
-      try{
-        
-        final SSServA     serv     = getClientServAvailableOnMachine(parA);
-        final SSServImplA servImpl = serv.serv();
-        
-        addClientRequ(parA.op, SSStrU.toStr(parA.user), servImpl);
-       
-        servImpl.handleClientOp(serv.servImplClientInteraceClass, sSCon, parA);
-        
-      }catch(Exception error){
-
-        if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
-          throw error;
-        }
-          
-        if(useCloud){
-          
-          deployServNode(
-            sSCon,
-            parA, 
-            getClientServAvailableOnNodes(parA));
-          
-          return;
-        }
-        
-        throw error;
-      }    
+      final SSServA     serv     = getClientServAvailableOnMachine(parA);
+      final SSServImplA servImpl = serv.serv();
+      
+      addClientRequ(parA.op, SSStrU.toStr(parA.user), servImpl);
+      
+      servImpl.handleClientOp(serv.servImplClientInteraceClass, sSCon, parA);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      
+      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
+        throw error;
+      }
+      
+      if(useCloud){
+        
+        deployServNode(
+          sSCon,
+          parA,
+          getClientServAvailableOnNodes(parA));
+        
+        return;
+      }
+      
+      throw error;
     }
   }
   
@@ -489,14 +483,19 @@ public abstract class SSServA{
     }catch(SSErr error){
 
       switch(error.code){
-        case notServerServiceForOpAvailable: throw error;
-        default: SSServErrReg.regErrThrow(error);
+        
+        case notServerServiceForOpAvailable:{
+          throw error;
+        }
+        
+        default: {
+          SSServErrReg.regErrThrow(error);
+        }
       }
       
       return null;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+      throw error;
     }
   }
   

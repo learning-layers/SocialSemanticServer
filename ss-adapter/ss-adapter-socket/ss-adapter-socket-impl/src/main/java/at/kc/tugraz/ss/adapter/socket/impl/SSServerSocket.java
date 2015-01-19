@@ -97,7 +97,7 @@ public class SSServerSocket implements Runnable{
         
       }catch(Exception error1){
         
-        SSServErrReg.regErr(error1);
+        SSServErrReg.regErr(error1, false);
         
         try{
           
@@ -122,7 +122,7 @@ public class SSServerSocket implements Runnable{
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread();
+      finalizeThread(false);
     }
   }
 }

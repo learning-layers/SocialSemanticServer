@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEn
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -32,9 +31,9 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
@@ -96,13 +95,15 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
 //  private final SSLearnEpGraphFct       graphFct;
   private final SSLearnEpSQLFct sqlFct;
+  private final SSLearnEpConf   learnEpConf;
 
   public SSLearnEpImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
 
     super(conf, dbGraph, dbSQL);
 
 //    graphFct  = new SSLearnEpGraphFct (this);
-    sqlFct = new SSLearnEpSQLFct(this);
+    sqlFct        = new SSLearnEpSQLFct(this);
+    learnEpConf   = (SSLearnEpConf) conf;
   }
 
   @Override
@@ -445,7 +446,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity(par.user, par.learnEp);
       
-      SSLearnEpAccessController.checkHasLock(par.user, par.learnEp);
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock(par.user, par.learnEp);
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -515,8 +518,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final SSLearnEpVersionAddCirclePar par        = new SSLearnEpVersionAddCirclePar(parA);
       final SSUri                        circleUri  = SSServCaller.vocURICreate();
 
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpVersion);
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
+      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
+
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -595,9 +601,12 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       final List<SSUri>                  filesAndThumbs   = new ArrayList<>();
       final List<SSUri>                  entities         = new ArrayList<>();
 
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpVersion);
-      SSServCallerU.canUserEditEntity        (par.user, par.entity);
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
+      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
+      SSServCallerU.canUserEditEntity        (par.user,    par.entity);
+
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
+      }
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -735,8 +744,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionUpdateCirclePar par = new SSLearnEpVersionUpdateCirclePar(parA);
 
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpCircle);
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
+      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
+
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -803,8 +815,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       if(par.entity != null){
         SSServCallerU.canUserEditEntity(par.user, par.entity);
       }
-
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpEntity)));
+            
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForEntity(par.learnEpEntity)));
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -868,8 +882,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveCirclePar par = new SSLearnEpVersionRemoveCirclePar(parA);
 
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpCircle);
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
+      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
+
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -915,8 +932,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSLearnEpVersionRemoveEntityPar par = new SSLearnEpVersionRemoveEntityPar(parA);
 
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpEntity);
-      SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpEntity)));
+      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpEntity);
+
+      if(learnEpConf.useEpisodeLocking){
+        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpEntity)));
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -1080,9 +1100,14 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       }
       
       return learnEpVersion;
-      
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      
+      if(SSServErrReg.containsErr(SSErrE.learnEpCurrentVersionNotSet)){
+        SSServErrReg.regErrThrow(error, false);
+      }else{
+        SSServErrReg.regErrThrow(error);
+      }
+      
       return null;
     }
   }
@@ -1202,23 +1227,28 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      final Boolean lockResult = SSLearnEpAccessController.lock(par.forUser, par.learnEp);
+      Boolean lockResult = false;
       
-      if(lockResult){
+      if(learnEpConf.useEpisodeLocking){
+      
+        lockResult = SSLearnEpAccessController.lock(par.forUser, par.learnEp);
         
-        try{
+        if(lockResult){
           
-          SSServCaller.broadcastAdd(
-            null,
-            par.learnEp,
-            SSBroadcastEnum.learnEpLockSet,
-            SSDateU.dateAsLong());
-          
-        }catch(SSErr error){
-          
-          switch(error.code){
-            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-            default: SSServErrReg.regErrThrow(error);
+          try{
+            
+            SSServCaller.broadcastAdd(
+              null,
+              par.learnEp,
+              SSBroadcastEnum.learnEpLockSet,
+              SSDateU.dateAsLong());
+            
+          }catch(SSErr error){
+            
+            switch(error.code){
+              case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+              default: SSServErrReg.regErrThrow(error);
+            }
           }
         }
       }
@@ -1259,23 +1289,28 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
 
-      final Boolean unLockResult = SSLearnEpAccessController.unLock(par.forUser, par.learnEp);
+      Boolean unLockResult = false;
       
-      if(unLockResult){
-        
-        try{
+      if(learnEpConf.useEpisodeLocking){
+      
+        unLockResult = SSLearnEpAccessController.unLock(par.forUser, par.learnEp);
 
-          SSServCaller.broadcastAdd(
-            null,
-            par.learnEp,
-            SSBroadcastEnum.learnEpLockRemoved,
-            null);
+        if(unLockResult){
 
-        }catch(SSErr error){
+          try{
 
-          switch(error.code){
-            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-            default: SSServErrReg.regErrThrow(error);
+            SSServCaller.broadcastAdd(
+              null,
+              par.learnEp,
+              SSBroadcastEnum.learnEpLockRemoved,
+              null);
+
+          }catch(SSErr error){
+
+            switch(error.code){
+              case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+              default: SSServErrReg.regErrThrow(error);
+            }
           }
         }
       }

@@ -98,6 +98,31 @@ public class SSServErrReg {
     }
   }
   
+  public static void regErr(final Exception error, final Boolean log){
+    
+    if(error == null){
+      SSLogU.err(new Exception("error null"));
+      return;
+    }
+    
+    if(log){
+      SSLogU.err(error);
+    }
+    
+    try{
+      servImplErrors.get().add(SSErrForClient.get(error));
+    }catch(Exception error1){
+      
+      SSLogU.err(error1);
+      
+      try{
+        servImplErrors.get().add(SSErrForClient.get(error1));
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
+  }
+  
   public static void regErr(final Exception error, final String logText){
     
     if(error == null){
@@ -123,16 +148,16 @@ public class SSServErrReg {
     }
   }
   
-  public static void regErrThrow(final Exception error, final Boolean logErr) throws Exception{
+  public static void regErrThrow(
+    final Exception error, 
+    final Boolean   logErr) throws Exception{
     
     if(error == null){
       SSLogU.err(new Exception("error null"));
       return;
     }
     
-    if(
-      logErr &&
-      !containsErr(error.getClass())){
+    if(logErr){
       SSLogU.err(error);
     }
     
@@ -177,6 +202,29 @@ public class SSServErrReg {
     }
     
     throw error;
+  }
+  
+  public static void logServImplErrors(final Boolean log){
+    
+    if(!log){
+      
+      reset();
+      return;
+    }
+    
+    for(SSErrForClient error : servImplErrors.get()){
+      
+      System.err.println(
+        "error: "               + SSStrU.blank   +
+        error.threadWhereThrown + SSStrU.blank   +
+        error.classWhereThrown  + SSStrU.blank   +
+        error.methodWhereThrown + SSStrU.blank   +
+        error.lineWhereThrown   + SSStrU.blank   +
+        error.className         + SSStrU.blank   +
+        error.message           + SSStrU.blank);
+    }
+    
+    reset();
   }
   
   public static void logServImplErrors(){

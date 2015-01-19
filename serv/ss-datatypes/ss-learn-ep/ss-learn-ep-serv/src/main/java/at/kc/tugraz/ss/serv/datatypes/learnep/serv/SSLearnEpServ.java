@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -101,10 +102,13 @@ public class SSLearnEpServ extends SSServA{
     
     if(servConf.use){
       
-      SSDateU.scheduleAtFixedRate(
-        new SSLearnEpRemainingTimeTask(),
-        SSDateU.getDateForNextHalfMinute(),
-        SSDateU.minuteInMilliSeconds / 2);
+      if(((SSLearnEpConf)servConf).useEpisodeLocking){
+        
+        SSDateU.scheduleAtFixedRate(
+          new SSLearnEpRemainingTimeTask(),
+          SSDateU.getDateForNextHalfMinute(),
+          SSDateU.minuteInMilliSeconds / 2);
+      }
     }
   }
 }

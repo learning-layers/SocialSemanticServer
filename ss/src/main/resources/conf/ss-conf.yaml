@@ -80,6 +80,7 @@ jsonLDConf:
   use: true
 learnEpConf:
   use: true
+  useEpisodeLocking: false
 likeConf:
   use: true
 logConf:

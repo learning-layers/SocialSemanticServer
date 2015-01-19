@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1/SSAdapterRest",
+  "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFileReplace",
   "apis" : [ {
     "path" : "/fileReplace",

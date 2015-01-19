@@ -531,7 +531,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         for(SSEntity entity : circle.entities){
           
           try{
-            entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser));
+            entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
           }catch(Exception error){
             
             if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
@@ -741,11 +741,13 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         sqlFct,
         par.user,
         entity,
-        par.accessRight);
+        par.accessRight,
+        par.logErr);
       
       return entity;
+      
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, parA.logErr);
       return null;
     }
   }

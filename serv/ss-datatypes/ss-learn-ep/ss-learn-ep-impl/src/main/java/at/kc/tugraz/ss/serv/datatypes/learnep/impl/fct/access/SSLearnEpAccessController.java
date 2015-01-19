@@ -37,10 +37,11 @@ public class SSLearnEpAccessController{
   private static final ReentrantReadWriteLock    learnEpsLock                 = new ReentrantReadWriteLock();
   
   public static Boolean lock(
-    final SSUri user, 
-    final SSUri learnEp) throws Exception{
+    final SSUri         user,
+    final SSUri         learnEp) throws Exception{
     
     try{
+      
       learnEpsLock.writeLock().lock();
       
       if(
@@ -66,10 +67,11 @@ public class SSLearnEpAccessController{
   }
   
   public static Boolean unLock(
-    final SSUri user, 
-    final SSUri learnEp) throws Exception{
+    final SSUri         user, 
+    final SSUri         learnEp) throws Exception{
     
     try{
+      
       learnEpsLock.writeLock().lock();
       
       if(
@@ -93,10 +95,11 @@ public class SSLearnEpAccessController{
   }
   
   public static void checkHasLock(
-    final SSUri user, 
-    final SSUri learnEp) throws Exception{
+    final SSUri         user, 
+    final SSUri         learnEp) throws Exception{
     
     try{
+      
       learnEpsLock.readLock().lock();
       
       if(

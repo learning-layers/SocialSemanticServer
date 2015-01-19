@@ -481,7 +481,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityUserGetPar par = new SSEntityUserGetPar(parA);
       SSEntity                 entity;
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      SSServCallerU.canUserReadEntity(par.user, par.entity, par.logErr);
       
       entity = sqlFct.getEntity(par.entity);
       
@@ -506,7 +506,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, parA.logErr);
       return null;
     }
   }

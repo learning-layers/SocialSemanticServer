@@ -76,6 +76,25 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     }
   }
   
+  protected void finalizeThread(final Boolean log){
+    
+    List<SSServImplA> usedServs = new ArrayList<>();
+    
+    try{
+      servImplsUsedByThread.get().remove(this);
+
+      usedServs.addAll(servImplsUsedByThread.get());
+
+      for(SSServImplA servImpl : usedServs){
+        servImpl.finalizeImpl();
+      }
+    }catch(Exception error){
+      SSServErrReg.regErr(error);
+    }finally{
+      SSServErrReg.logServImplErrors(log);
+    }
+  }
+  
   @Override
   public void handleClientOp(
     final Class       servImplClientInteraceClass, 

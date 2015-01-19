@@ -86,6 +86,24 @@ public class SSServCallerU{
     return SSServCaller.circleUserCan(user, entity, SSCircleRightE.read);
   }
   
+  public static SSEntity canUserReadEntity(
+    final SSUri   user,
+    final SSUri   entity,
+    final Boolean logErr) throws Exception{
+    
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.read, logErr);
+  }
+  
+  public static void canUserReadEntities(
+    final SSUri       user,
+    final List<SSUri> entities,
+    final Boolean     logErr) throws Exception{
+    
+    for(SSUri entity : entities){
+      SSServCaller.circleUserCan(user, entity, SSCircleRightE.read, logErr);
+    }
+  }
+  
   public static void canUserReadEntities(
     final SSUri       user, 
     final List<SSUri> entities) throws Exception{
@@ -96,12 +114,30 @@ public class SSServCallerU{
   }
 
   public static SSEntity canUserEditEntity(
+    final SSUri   user, 
+    final SSUri   entity,
+    final Boolean logErr) throws Exception{
+    
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.edit, logErr);
+  }
+  
+  public static SSEntity canUserEditEntity(
     final SSUri user, 
     final SSUri entity) throws Exception{
     
     return SSServCaller.circleUserCan(user, entity, SSCircleRightE.edit);
   }
 
+  public static void canUserEditEntities(
+    final SSUri       user, 
+    final List<SSUri> entities,
+    final Boolean     logErr) throws Exception{
+    
+    for(SSUri entity : entities){
+      SSServCaller.circleUserCan(user, entity, SSCircleRightE.edit, logErr);
+    }
+  }
+  
   public static void canUserEditEntities(
     final SSUri       user, 
     final List<SSUri> entities) throws Exception{
@@ -111,7 +147,15 @@ public class SSServCallerU{
     }
   }
   
-   public static SSEntity canUserAllEntity(
+  public static SSEntity canUserAllEntity(
+    final SSUri   user, 
+    final SSUri   entity,
+    final Boolean logErr) throws Exception{
+    
+    return SSServCaller.circleUserCan(user, entity, SSCircleRightE.all, logErr);
+  }
+  
+  public static SSEntity canUserAllEntity(
     final SSUri user, 
     final SSUri entity) throws Exception{
     

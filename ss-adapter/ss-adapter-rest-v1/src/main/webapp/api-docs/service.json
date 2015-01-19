@@ -2,13 +2,13 @@
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/SSAdapterRESTFileDownload.{format}"
+    "path" : "/SSAdapterRESTFile.{format}"
   }, {
-    "path" : "/SSAdapterRest.{format}"
+    "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
   }, {
-    "path" : "/SSAdapterRESTFile.{format}"
+    "path" : "/SSAdapterRest.{format}"
   }, {
     "path" : "/SSAdapterRESTFileReplace.{format}"
   } ],
@@ -20,5 +20,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v1/api-docs"
+  "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/api-docs"
 }

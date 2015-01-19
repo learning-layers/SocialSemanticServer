@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSLearnEpSQLFct extends SSDBSQLFct{
   
@@ -253,11 +255,13 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(learnEpVersionCurrentTable, wheres);
       
       if(!resultSet.first()){
-        throw new Exception("current learn ep version not set");
+        throw new SSErr(SSErrE.learnEpCurrentVersionNotSet);
       }
       
       return bindingStrToUri(resultSet, SSSQLVarU.learnEpVersionId);
-      
+    }catch(SSErr error){
+      SSServErrReg.regErrThrow(error, false);
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -747,7 +751,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
       if(!resultSet.first()){
-        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
+//        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
         return null;
       }
       

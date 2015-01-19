@@ -132,7 +132,8 @@ public class SSCircleMiscFct{
     final SSCircleSQLFct sqlFct,
     final SSUri          user,
     final SSUri          entity,
-    final SSCircleRightE accessRight) throws Exception{
+    final SSCircleRightE accessRight,
+    final Boolean        logErr) throws Exception{
     
     try{
       
@@ -145,7 +146,7 @@ public class SSCircleMiscFct{
       
       return false;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, logErr);
       return null;
     }
   }
@@ -195,14 +196,15 @@ public class SSCircleMiscFct{
   public static void checkWhetherUserIsInCircle(
     final SSCircleSQLFct sqlFct,
     final SSUri          user,
-    final SSUri          circle) throws Exception{
+    final SSUri          circle,
+    final Boolean        logErr) throws Exception{
     
     try{
       if(!isUserInCircle(sqlFct, user, circle)){
         throw new SSErr(SSErrE.userIsNotInCircle);
       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, logErr);
     }
   }
   
@@ -222,7 +224,8 @@ public class SSCircleMiscFct{
   public static void checkWhetherCircleOfTypeHasRight(
     final SSCircleSQLFct sqlFct,
     final SSUri          circle,
-    final SSCircleRightE accessRight) throws Exception{
+    final SSCircleRightE accessRight,
+    final Boolean        logErr) throws Exception{
     
     try{
       final SSCircleE circleType = sqlFct.getTypeForCircle(circle);
@@ -231,7 +234,7 @@ public class SSCircleMiscFct{
         throw new SSErr(SSErrE.circleDoesntHaveQueriedRight);
       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, logErr);
     }
   }
   
@@ -320,7 +323,8 @@ public class SSCircleMiscFct{
     final SSCircleSQLFct sqlFct,
     final SSUri          user, 
     final SSEntity       entity,
-    final SSCircleRightE accessRight) throws Exception{
+    final SSCircleRightE accessRight,
+    final Boolean        logErr) throws Exception{
     
     try{
       switch(entity.type){
@@ -328,8 +332,8 @@ public class SSCircleMiscFct{
         case circle: {
           
           try{
-            checkWhetherUserIsInCircle       (sqlFct, user,      entity.id);
-            checkWhetherCircleOfTypeHasRight (sqlFct, entity.id, accessRight);
+            checkWhetherUserIsInCircle       (sqlFct, user,      entity.id,   logErr);
+            checkWhetherCircleOfTypeHasRight (sqlFct, entity.id, accessRight, logErr);
           }catch(Exception error){
             throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
           }
@@ -338,13 +342,13 @@ public class SSCircleMiscFct{
         }
         
         default:{
-          if(!doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity.id, accessRight)){
+          if(!doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity.id, accessRight, logErr)){
             throw new SSErr(SSErrE.userDoesntHaveRightInAnyCircleOfEntity);
           }
         }
       }
     }catch(SSErr error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity));
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity), logErr);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

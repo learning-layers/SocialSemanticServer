@@ -38,6 +38,7 @@ public enum SSErrE{
   userKeyWrong,
   userNeedsLockOnEntity,
   entityCouldntBeQueried,
+  learnEpCurrentVersionNotSet,
   entityDoesntExist,                      //entity doesnt exist
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op

@@ -75,6 +75,9 @@ public class SSServPar{
   @JsonIgnore (value = true)
   public        JsonNode             clientJSONObj = null;
   
+  @JsonIgnore (value = true)
+  public        Boolean              logErr        = true;
+  
   protected SSServPar(
     final SSMethU op,
     final String  key,
@@ -174,23 +177,27 @@ public class SSServPar{
     
     try{
       user = (SSUri) pars.get(SSVarU.user);
-    }catch(Exception error1){}
+    }catch(Exception error){}
     
     try{
       key = (String) pars.get(SSVarU.key);
-    }catch(Exception error2){}
+    }catch(Exception error){}
     
     try{
       shouldCommit = (Boolean) pars.get(SSVarU.shouldCommit);
-    }catch(Exception error3){}
+    }catch(Exception error){}
     
     try{
       withUserRestriction = (Boolean) pars.get(SSVarU.withUserRestriction);
-    }catch(Exception error4){}
+    }catch(Exception error){}
     
     try{
+      logErr = (Boolean) pars.get(SSVarU.logErr);
+    }catch(Exception error){}
+      
+    try{
       saveActivity = (Boolean) pars.get(SSVarU.saveActivity);
-    }catch(Exception error5){}
+    }catch(Exception error){}
     
     if(
       this.op   == null ||
@@ -215,6 +222,10 @@ public class SSServPar{
     
     if(par.withUserRestriction != null){
       this.withUserRestriction = par.withUserRestriction;
+    }
+    
+    if(par.logErr != null){
+      this.logErr = par.logErr;
     }
     
     if(par.saveActivity != null){
