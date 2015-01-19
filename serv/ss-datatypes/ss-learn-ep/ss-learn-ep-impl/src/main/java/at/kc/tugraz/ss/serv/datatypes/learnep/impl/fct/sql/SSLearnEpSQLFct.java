@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
@@ -35,7 +33,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,6 +107,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>        tableCons = new ArrayList<>();
       final SSLearnEp           learnEpObj;
       
+      column(columns, SSSQLVarU.author);
       column(columns, SSSQLVarU.label);
       column(columns, SSSQLVarU.description);
       
@@ -130,6 +128,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
           learnEpUri,
           bindingStrToLabel(resultSet, SSSQLVarU.label),
           user,
+          bindingStrToUri(resultSet, SSSQLVarU.author),
           new ArrayList<>());
       
       learnEpObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
@@ -181,6 +180,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>        tableCons = new ArrayList<>();
       SSLearnEp                 learnEpObj;
       
+      column(columns, SSSQLVarU.author);
       column(columns, SSSQLVarU.learnEpId);
       column(columns, SSSQLVarU.label);
       column(columns, SSSQLVarU.description);
@@ -199,8 +199,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         learnEpObj =
           SSLearnEp.get(
             bindingStrToUri   (resultSet, SSSQLVarU.learnEpId),
-            bindingStrToLabel(resultSet, SSSQLVarU.label),
+            bindingStrToLabel (resultSet, SSSQLVarU.label),
             user,
+            bindingStrToUri(resultSet, SSSQLVarU.author),
             new ArrayList<>());
         
         learnEpObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);

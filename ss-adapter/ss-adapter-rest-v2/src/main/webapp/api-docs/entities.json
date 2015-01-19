@@ -647,18 +647,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -667,13 +671,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -737,10 +741,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -899,18 +899,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -919,13 +923,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -989,10 +993,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1071,13 +1071,13 @@
           "type" : "string",
           "description" : "name"
         },
+        "entity" : {
+          "type" : "string"
+        },
         "user" : {
           "type" : "string"
         },
         "tagLabel" : {
-          "type" : "string"
-        },
-        "entity" : {
           "type" : "string"
         },
         "id" : {
@@ -1093,14 +1093,14 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1116,6 +1116,10 @@
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -1179,10 +1183,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1337,18 +1337,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1357,13 +1361,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -1427,10 +1431,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1556,18 +1556,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1576,13 +1580,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -1646,10 +1650,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1748,18 +1748,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1768,13 +1772,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -1838,10 +1842,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1920,18 +1920,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -1940,13 +1944,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -2010,10 +2014,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2116,9 +2116,6 @@
         "downloadAndroid" : {
           "type" : "string"
         },
-        "downloadIOS" : {
-          "type" : "string"
-        },
         "fork" : {
           "type" : "string"
         },
@@ -2127,6 +2124,9 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "downloadIOS" : {
+          "type" : "string"
         },
         "id" : {
           "type" : "string",
@@ -2141,18 +2141,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2161,13 +2165,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -2231,10 +2235,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2270,18 +2270,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2290,13 +2294,13 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -2360,10 +2364,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",

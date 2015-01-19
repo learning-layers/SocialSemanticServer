@@ -4,42 +4,6 @@
   "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileCanWrite",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "query whether given file can be downloaded with write access",
-      "notes" : "",
-      "type" : "SSFileCanWriteRet",
-      "nickname" : "fileCanWrite",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileCanWritePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileExtGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve a file's extension",
-      "notes" : "",
-      "type" : "SSFileExtGetRet",
-      "nickname" : "fileExtGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileExtGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileUserFileWrites",
     "operations" : [ {
       "method" : "POST",
@@ -71,6 +35,42 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileSetReaderOrWriterPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileCanWrite",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "query whether given file can be downloaded with write access",
+      "notes" : "",
+      "type" : "SSFileCanWriteRet",
+      "nickname" : "fileCanWrite",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileCanWritePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileExtGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a file's extension",
+      "notes" : "",
+      "type" : "SSFileExtGetRet",
+      "nickname" : "fileExtGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileExtGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"

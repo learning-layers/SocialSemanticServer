@@ -43,20 +43,23 @@ public class SSLearnEp extends SSEntity {
     final SSUri                  id, 
     final SSLabel                label,
     final SSUri                  user, 
+    final SSUri                  author,
     final List<SSLearnEpVersion> versions) throws Exception{
     
-    return new SSLearnEp(id, label, user, versions);
+    return new SSLearnEp(id, label, user, author, versions);
   }
   
   protected SSLearnEp(
     final SSUri                  id, 
     final SSLabel                label,
-    final SSUri                  user, 
+    final SSUri                  user,
+    final SSUri                  author,
     final List<SSLearnEpVersion> versions) throws Exception{
     
     super(id, SSEntityE.learnEp, label);
     
     this.user        = user;
+    this.author      = author;
     
     if(versions != null){
       this.versions.addAll(versions);

@@ -64,14 +64,6 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCaller.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op));
-  }
-  
-  @Override
   public Map<String, Double> recommTags(final SSServPar parA) throws Exception{
     
     try{
@@ -97,6 +89,14 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  @Override
+  public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCaller.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op));
   }
   
   @Override
