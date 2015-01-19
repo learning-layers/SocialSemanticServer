@@ -4,13 +4,13 @@
   "apis" : [ {
     "path" : "/SSAdapterRESTFileReplace.{format}"
   }, {
-    "path" : "/SSAdapterRest.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}"
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
-    "path" : "/SSAdapterRESTFile.{format}"
+    "path" : "/SSAdapterRest.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

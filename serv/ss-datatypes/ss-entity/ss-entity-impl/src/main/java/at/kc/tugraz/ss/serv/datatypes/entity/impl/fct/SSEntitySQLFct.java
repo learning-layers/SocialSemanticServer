@@ -694,6 +694,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
       if(read){
       
+        if(getEntityRead(user, entity)){
+          return;
+        }
+        
         final Map<String, String> inserts    = new HashMap<>();
         final Map<String, String> uniqueKeys = new HashMap<>();
 

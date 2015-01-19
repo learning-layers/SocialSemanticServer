@@ -4,42 +4,6 @@
   "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileUserFileWrites",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
-      "notes" : "",
-      "type" : "SSFileGetEditingFilesRet",
-      "nickname" : "fileUserFileWrites",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileUserFileWritesPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileSetReaderOrWriter",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "set user being writer or reaader for given file",
-      "notes" : "",
-      "type" : "SSFileSetReaderOrWriterRet",
-      "nickname" : "fileSetReaderOrWriter",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileSetReaderOrWriterPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileCanWrite",
     "operations" : [ {
       "method" : "POST",
@@ -71,6 +35,42 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileExtGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileSetReaderOrWriter",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "set user being writer or reaader for given file",
+      "notes" : "",
+      "type" : "SSFileSetReaderOrWriterRet",
+      "nickname" : "fileSetReaderOrWriter",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileSetReaderOrWriterPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileUserFileWrites",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
+      "notes" : "",
+      "type" : "SSFileGetEditingFilesRet",
+      "nickname" : "fileUserFileWrites",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileUserFileWritesPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"
@@ -137,7 +137,7 @@
     "SSFileSetReaderOrWriterPar" : {
       "id" : "SSFileSetReaderOrWriterPar",
       "description" : "",
-      "required" : [ "file", "write", "key", "op", "user" ],
+      "required" : [ "file", "write", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -151,39 +151,39 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSFileUserFileWritesPar" : {
       "id" : "SSFileUserFileWritesPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSFileCanWritePar" : {
       "id" : "SSFileCanWritePar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -193,13 +193,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -220,7 +220,7 @@
     "SSFileExtGetPar" : {
       "id" : "SSFileExtGetPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -230,13 +230,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     }
