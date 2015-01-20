@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
@@ -44,16 +43,12 @@ public class SSCircleActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.addAll (par.entities);
-      eventEntities.add    (circle);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.createCircle,
+        circle,
         par.users,
-        eventEntities,
+        par.entities,
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -75,16 +70,12 @@ public class SSCircleActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.addAll (par.entities);
-      eventEntities.add    (par.circle);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addEntitiesToCircle,
+        par.circle,
         new ArrayList<>(),
-        eventEntities,
+        par.entities,
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -109,8 +100,9 @@ public class SSCircleActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addUsersToCircle,
+        par.circle,
         par.users,
-        SSUri.asListWithoutNullAndEmpty(par.circle),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -135,8 +127,9 @@ public class SSCircleActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.setEntityPublic,
+        par.entity,
         new ArrayList<>(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -166,8 +159,9 @@ public class SSCircleActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.shareEntityWithUsers,
+        par.entity,
         par.users,
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
         null,
         false);
@@ -193,16 +187,12 @@ public class SSCircleActivityFct{
     
     try{
       
-      final List<SSUri> entitites = new ArrayList<>();
-      
-      entitites.add    (par.entity);
-      entitites.addAll (par.circles);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.shareEntityWithCircles,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(entitites ),
+        SSUri.asListWithoutNullAndEmpty(par.circles),
         SSTextComment.asListWithoutNullAndEmpty(par.comment),
         null,
         false);

@@ -21,17 +21,13 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
-import java.util.ArrayList;
-import java.util.List;
 import sss.serv.err.datatypes.SSErr;
 
 public class SSDiscActivityFct{
@@ -47,8 +43,9 @@ public class SSDiscActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.discussEntity,
+          par.entity,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entity, ret.disc),
+          SSUri.asListWithoutNullAndEmpty(ret.disc),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           true);
@@ -58,8 +55,9 @@ public class SSDiscActivityFct{
           SSServCaller.activityAdd(
             par.user,
             SSActivityE.addDiscEntry,
+            par.entity,
             SSUri.asListWithoutNullAndEmpty(),
-            SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
+            SSUri.asListWithoutNullAndEmpty(ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
             null,
             true);
@@ -69,8 +67,9 @@ public class SSDiscActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.addDiscEntry,
+          ret.disc,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(ret.disc, ret.entry),
+          SSUri.asListWithoutNullAndEmpty(ret.entry),
           SSTextComment.asListWithoutNullAndEmpty(par.entry),
           null,
           true);

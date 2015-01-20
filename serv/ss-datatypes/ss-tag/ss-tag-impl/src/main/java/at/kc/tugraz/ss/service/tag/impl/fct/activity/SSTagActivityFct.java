@@ -41,8 +41,9 @@ public class SSTagActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.tagEntity,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity, tagUri),
+        SSUri.asListWithoutNullAndEmpty(tagUri),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -64,9 +65,10 @@ public class SSTagActivityFct{
       
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.removeTag,
+        SSActivityE.removeTags,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

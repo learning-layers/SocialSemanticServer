@@ -46,8 +46,9 @@ public class SSFileRepoActivityFct{
       SSServCaller.activityAdd(
         user,
         SSActivityE.shareFileWithUsers,
+        entity,
         SSUri.asListWithoutNullAndEmpty(usersToShareWith),
-        SSUri.asListWithoutNullAndEmpty(entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

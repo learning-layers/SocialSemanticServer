@@ -70,6 +70,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     final SSUri               author,
     final SSUri               activity, 
     final SSActivityE         type, 
+    final SSUri               entity, 
     final List<SSUri>         users, 
     final List<SSUri>         entityUris, 
     final List<SSTextComment> textComments) throws Exception{
@@ -80,6 +81,12 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       insert(inserts, SSSQLVarU.activityId,     activity);
       insert(inserts, SSSQLVarU.activityType,   type);
+      
+      if(entity != null){
+        insert(inserts, SSSQLVarU.entityId,   entity);
+      }else{
+        insert(inserts, SSSQLVarU.entityId,   SSStrU.empty);
+      }
       
       if(!textComments.isEmpty()){
         insert(inserts, SSSQLVarU.textComment,   textComments.get(0));
@@ -141,6 +148,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       column   (columns,   entityTable,   SSSQLVarU.id);
       column   (columns,   activityTable, SSSQLVarU.activityType);
+      column   (columns,   activityTable, SSSQLVarU.entityId);
       column   (columns,   entityTable,   SSSQLVarU.creationTime);
       column   (columns,   entityTable,   SSSQLVarU.author);
       column   (columns,   activityTable, SSSQLVarU.textComment);
@@ -215,7 +223,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         activityObj = 
           SSActivity.get(
             bindingStrToUri  (resultSet, SSSQLVarU.id), 
-            SSActivityE.get(bindingStr(resultSet, SSSQLVarU.activityType)));
+            SSActivityE.get(bindingStr(resultSet, SSSQLVarU.activityType)),
+            bindingStrToUri(resultSet, SSSQLVarU.entityId));
 
         activityObj.creationTime   = timestamp;
         activityObj.author         = bindingStrToUri        (resultSet, SSSQLVarU.author);

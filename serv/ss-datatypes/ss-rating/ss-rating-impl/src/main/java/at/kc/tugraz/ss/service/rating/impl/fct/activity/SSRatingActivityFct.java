@@ -39,8 +39,9 @@ public class SSRatingActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.rateEntity,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

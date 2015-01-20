@@ -39,8 +39,9 @@ public class SSFriendActivityFct{
        SSServCaller.activityAdd(
         par.user,
         SSActivityE.friendAdd,
+        par.user,
         SSUri.asListWithoutNullAndEmpty(par.friend),
-        SSUri.asListWithoutNullAndEmpty(par.friend),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

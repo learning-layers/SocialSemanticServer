@@ -33,7 +33,7 @@ public enum SSActivityE{
   
   //category
   addCategory,
-  removeCategory,
+  removeCategories,
   
   //cite
   cite, 
@@ -43,7 +43,7 @@ public enum SSActivityE{
   
   //tag
   tagEntity,
-  removeTag,
+  removeTags,
   
   //rating
   rateEntity,

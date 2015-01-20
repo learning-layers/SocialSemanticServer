@@ -4,6 +4,25 @@
   "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/SSAdapterRest",
   "resourcePath" : "/SSAdapterRESTFileDownload",
   "apis" : [ {
+    "path" : "/fileDownload",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "download a file via POST request",
+      "notes" : "",
+      "type" : "string",
+      "format" : "byte",
+      "nickname" : "fileDownload",
+      "produces" : [ "application/octet-stream" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileDownloadPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/fileDownloadGET",
     "operations" : [ {
       "method" : "GET",
@@ -31,25 +50,6 @@
         "required" : false,
         "type" : "string",
         "paramType" : "query",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileDownload",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "download a file via POST request",
-      "notes" : "",
-      "type" : "string",
-      "format" : "byte",
-      "nickname" : "fileDownload",
-      "produces" : [ "application/octet-stream" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileDownloadPar",
-        "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]

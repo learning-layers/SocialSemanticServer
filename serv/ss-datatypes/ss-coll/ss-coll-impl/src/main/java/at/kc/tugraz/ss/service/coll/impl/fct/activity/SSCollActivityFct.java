@@ -40,16 +40,12 @@ public class SSCollActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.add(par.coll);
-      eventEntities.add(par.entry);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeCollEntry,
+        par.coll,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(eventEntities),
+        SSUri.asListWithoutNullAndEmpty(par.entry),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -71,16 +67,12 @@ public class SSCollActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.add   (par.coll);
-      eventEntities.addAll(par.entries);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeCollEntry,
+        par.coll,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(eventEntities),
+        par.entries,
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -102,16 +94,12 @@ public class SSCollActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.add   (par.coll);
-      eventEntities.add   (par.entry);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addCollEntry,
+        par.coll,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(eventEntities),
+        SSUri.asListWithoutNullAndEmpty(par.entry),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         
@@ -133,16 +121,12 @@ public class SSCollActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.add   (par.coll);
-      eventEntities.addAll(par.entries);
-      
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addCollEntry,
+        par.coll,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(eventEntities),
+        par.entries,
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

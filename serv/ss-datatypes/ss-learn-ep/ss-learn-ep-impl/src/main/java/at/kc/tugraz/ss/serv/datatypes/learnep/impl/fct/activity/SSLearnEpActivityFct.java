@@ -47,6 +47,7 @@ public class SSLearnEpActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addCircleToLearnEpVersion,
+        par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(circle),
         SSTextComment.asListWithoutNullAndEmpty(),
@@ -71,16 +72,13 @@ public class SSLearnEpActivityFct{
     
     try{
       
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      eventEntities.add (par.entity);
-      eventEntities.add( entity);
       
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addEntityToLearnEpVersion,
+        par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
-        eventEntities,
+        SSUri.asListWithoutNullAndEmpty(entity, par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -105,8 +103,9 @@ public class SSLearnEpActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.updateLearnEpVersionCircle,
+        par.learnEpCircle,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -131,8 +130,9 @@ public class SSLearnEpActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.updateLearnEpVersionEntity,
+        par.learnEpEntity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -150,13 +150,15 @@ public class SSLearnEpActivityFct{
   }
 
   public static void removeLearnEpVersionCircle(
-    final SSLearnEpVersionRemoveCirclePar par) throws Exception{ 
+    final SSLearnEpVersionRemoveCirclePar par,
+    final SSUri                           learnEp) throws Exception{ 
     
     try{
       
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeLearnEpVersionCircle,
+        learnEp,
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
         SSTextComment.asListWithoutNullAndEmpty(),
@@ -176,13 +178,15 @@ public class SSLearnEpActivityFct{
   }
 
   public static void removeLearnEpVersionEntity(
-    final SSLearnEpVersionRemoveEntityPar par) throws Exception{
+    final SSLearnEpVersionRemoveEntityPar par,
+    final SSUri                           learnEp) throws Exception{
    
     try{
       
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeLearnEpVersionEntity,
+        learnEp, 
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
         SSTextComment.asListWithoutNullAndEmpty(),
@@ -202,18 +206,18 @@ public class SSLearnEpActivityFct{
   }
 
   public static void shareLearnEp(
-    final SSUri user,
-    final SSUri forUser,
-    final SSUri learnEp,
-    final SSUri circle) throws Exception{
+    final SSUri       user,
+    final SSUri       learnEp,
+    final List<SSUri> users) throws Exception{
     
     try{
       
       SSServCaller.activityAdd(
         user,
         SSActivityE.shareLearnEpWithUser,
-        SSUri.asListWithoutNullAndEmpty(forUser),
-        SSUri.asListWithoutNullAndEmpty(learnEp),
+        learnEp,
+        SSUri.asListWithoutNullAndEmpty(users),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

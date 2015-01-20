@@ -40,8 +40,9 @@ public class SSMessageActivityFct{
        SSServCaller.activityAdd(
         par.user,
         SSActivityE.messageSend,
-        SSUri.asListWithoutNullAndEmpty(par.forUser),
-        SSUri.asListWithoutNullAndEmpty(message),
+        message,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

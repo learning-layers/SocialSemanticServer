@@ -39,8 +39,9 @@ public class SSEntityActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.copyEntityForUsers,
+        par.entity,
         par.users,
-        SSUri.asListWithoutNullAndEmpty          (par.entity),
+        SSUri.asListWithoutNullAndEmpty          (),
         SSTextComment.asListWithoutNullAndEmpty  (par.comment),
         null,
         false);

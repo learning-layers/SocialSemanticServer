@@ -48,6 +48,16 @@ public class SSActivityAddPar extends SSServPar{
   
   @ApiModelProperty(
     required = false,
+    value = "targeted entities")
+  public SSUri            entity         = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
+  @ApiModelProperty(
+    required = false,
     value = "involved users")
   public List<SSUri>            users            = new ArrayList<>();
   
@@ -90,6 +100,7 @@ public class SSActivityAddPar extends SSServPar{
       if(pars != null){
         
         type          = (SSActivityE)         pars.get(SSVarU.type);
+        entity        = (SSUri)               pars.get(SSVarU.entity);
         users         = (List<SSUri>)         pars.get(SSVarU.users);
         entities      = (List<SSUri>)         pars.get(SSVarU.entities);
         comments      = (List<SSTextComment>) pars.get(SSVarU.comments);
@@ -99,6 +110,10 @@ public class SSActivityAddPar extends SSServPar{
       if(par.clientJSONObj != null){
         
         type       = SSActivityE.get   (par.clientJSONObj.get(SSVarU.type).getTextValue());
+        
+        try{
+            entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        }catch(Exception error){}
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
@@ -124,7 +139,11 @@ public class SSActivityAddPar extends SSServPar{
     }
   }
   
-    /* json getters */
+  /* json getters */
+  
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
+  }
   
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);

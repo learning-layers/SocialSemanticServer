@@ -41,8 +41,9 @@ public class SSCategoryActivityFct{
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.addCategory,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity, categoryUri),
+        SSUri.asListWithoutNullAndEmpty(categoryUri),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -64,9 +65,10 @@ public class SSCategoryActivityFct{
       
       SSServCaller.activityAdd(
         par.user,
-        SSActivityE.removeCategory,
+        SSActivityE.removeCategories,
+        par.entity,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
+        SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);

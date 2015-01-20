@@ -2841,6 +2841,7 @@ public class SSServCaller {
   public static SSUri activityAdd(
     final SSUri               user, 
     final SSActivityE         type, 
+    final SSUri               entity, 
     final List<SSUri>         users, 
     final List<SSUri>         entities,
     final List<SSTextComment> comments,
@@ -2850,6 +2851,7 @@ public class SSServCaller {
     final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.entity,           entity);
     opPars.put(SSVarU.type,             type);
     opPars.put(SSVarU.users,            users);
     opPars.put(SSVarU.entities,         entities);
