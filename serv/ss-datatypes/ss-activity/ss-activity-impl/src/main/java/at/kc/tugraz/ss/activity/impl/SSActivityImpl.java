@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -202,6 +203,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           }
           
           for(SSEntity circleEntity : 
+            
             SSServCaller.circleGet(
               par.user, 
               par.user, 
@@ -279,21 +281,11 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   public SSUri activityAdd(final SSServPar parA) throws Exception{
 
     try{
-      final SSActivityAddPar par = new SSActivityAddPar(parA);
-      
-      final SSUri activityUri = SSServCaller.vocURICreate();
+      final SSActivityAddPar par         = new SSActivityAddPar(parA);
+      final SSUri            activityUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        activityUri, 
-        SSEntityE.activity, 
-        SSLabel.get(SSStrU.toStr(par.type)), 
-        null, 
-        par.creationTime, 
-        false);
-      
+
       //TODO dhteiler: remove possibly same user par.user from par.users
       
       sqlFct.addActivity(

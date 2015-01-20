@@ -90,7 +90,7 @@ public class SSFileDownloader extends SSServImplStartA{
           sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
           fileReader.close();
           
-          saveActivity();
+//          saveActivity();
           return;
         }
         
@@ -139,28 +139,28 @@ public class SSFileDownloader extends SSServImplStartA{
     finalizeThread();
   }
 
-  private void saveActivity() throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.downloadFile,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(this.par.file),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  private void saveActivity() throws Exception{
+//    
+//    try{
+//      
+//      SSServCaller.activityAdd(
+//        par.user,
+//        SSActivityE.downloadFile,
+//        SSUri.asListWithoutNullAndEmpty(),
+//        SSUri.asListWithoutNullAndEmpty(this.par.file),
+//        SSTextComment.asListWithoutNullAndEmpty(),
+//        null,
+//        false);
+//      
+//    }catch(SSErr error){
+//      
+//      switch(error.code){
+//        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//        default: SSServErrReg.regErrThrow(error);
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
 }

@@ -147,6 +147,7 @@ public class SSVarU{
   public static final String includeLabel                                   = "includeLabel";
   public static final String includeTextualContent                          = "includeTextualContent";
   public static final String circles                                        = "circles";
+  public static final String visibility                                     = "visibility";
   public static final String learnEpVersions                                = "learnEpVersions";
   public static final String learnEps                                       = "learnEps";
   public static final String fileWriter                                     = "fileWriter";

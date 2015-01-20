@@ -98,7 +98,7 @@ public class SSActivityAddPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        type          = SSActivityE.get(par.clientJSONObj.get(SSVarU.type).getTextValue());
+        type       = SSActivityE.get   (par.clientJSONObj.get(SSVarU.type).getTextValue());
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
@@ -111,7 +111,6 @@ public class SSActivityAddPar extends SSServPar{
             entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
-        
         
         try{
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {

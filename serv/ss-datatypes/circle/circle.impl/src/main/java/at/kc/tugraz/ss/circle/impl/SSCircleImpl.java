@@ -109,7 +109,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       dbSQL.startTrans(par.shouldCommit);
       
       SSServCaller.entityAdd(
-        par.user, 
+        par.user,
         circleUri,
         SSEntityE.circle, 
         par.label, 
@@ -120,7 +120,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       sqlFct.addCircle(
         circleUri, 
         SSCircleE.group, 
-        par.isSystemCircle);
+        false);
       
       sqlFct.addUserToCircleIfNotExists(
         circleUri, 
@@ -251,7 +251,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(par.withUserRestriction){
         SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circle);
-        SSServCallerU.canUserEditEntities                        (par.user, par.entities);
+        SSServCallerU.canUserEditEntities                     (par.user, par.entities);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -924,7 +924,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           circleUri,
           par.saveActivity);
         
-        SSCircleActivityFct.shareEntityWithUsers(par);
+        SSCircleActivityFct.shareEntityWithUsers(par, circleUri);
       }
       
       if(!par.circles.isEmpty()){

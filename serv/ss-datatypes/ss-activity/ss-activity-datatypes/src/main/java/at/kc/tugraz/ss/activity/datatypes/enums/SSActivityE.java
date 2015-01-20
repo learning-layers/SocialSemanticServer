@@ -52,22 +52,17 @@ public enum SSActivityE{
   addLocation, 
   
   //files 
-  downloadFile,
   shareFileWithUsers,
   
   //collections
   removeCollEntry,
   addCollEntry,
-  changeCollEntryPos,
   
   //learning episodes
-  createLearnEp,
   updateLearnEpVersionCircle,
   updateLearnEpVersionEntity,
   removeLearnEpVersionCircle,
   removeLearnEpVersionEntity,
-  setCurrentLearnEpVersion,
-  createLearnEpVersion,
   addEntityToLearnEpVersion,
   addCircleToLearnEpVersion,
   shareLearnEpWithUser,
@@ -79,15 +74,13 @@ public enum SSActivityE{
   
   //entities
   setEntityPublic,
-  updateEntity,
   copyEntityForUsers,
   shareEntityWithUsers,
   shareEntityWithCircles,
 
   //discussions
   discussEntity,
-  addDiscEntry,
-  removeDisc;
+  addDiscEntry;
 
   public static SSActivityE get(final String value){
     return SSActivityE.valueOf(value);

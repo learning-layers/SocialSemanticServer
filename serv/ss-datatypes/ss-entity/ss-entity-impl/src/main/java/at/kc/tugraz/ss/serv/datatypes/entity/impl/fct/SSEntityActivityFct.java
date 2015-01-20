@@ -25,10 +25,8 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.ArrayList;
 import sss.serv.err.datatypes.SSErr;
 
 public class SSEntityActivityFct{
@@ -42,34 +40,8 @@ public class SSEntityActivityFct{
         par.user,
         SSActivityE.copyEntityForUsers,
         par.users,
-        SSUri.asListWithoutNullAndEmpty(par.entity),
-        SSTextComment.asListWithoutNullAndEmpty(par.comment),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void entityUpdate(
-    final SSEntityUserUpdatePar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.updateEntity,
-        new ArrayList<>(),
-        SSUri.asListWithoutNullAndEmpty(par.entity),
-        SSTextComment.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty          (par.entity),
+        SSTextComment.asListWithoutNullAndEmpty  (par.comment),
         null,
         false);
       

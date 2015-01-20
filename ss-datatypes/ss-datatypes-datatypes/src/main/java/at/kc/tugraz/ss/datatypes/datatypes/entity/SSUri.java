@@ -131,7 +131,7 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
-  public static List<SSUri> getFromEntitites(final List<SSEntity> entities) throws Exception{
+  public static List<SSUri> getFromEntitites(final List<? extends SSEntity> entities) throws Exception{
 
     if(entities == null){
       throw new Exception("pars null");

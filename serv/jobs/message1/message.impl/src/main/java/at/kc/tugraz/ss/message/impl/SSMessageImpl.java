@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.message.impl;
 
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
@@ -128,7 +129,9 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
         null,
         false);
       
-      SSMessageActivityFct.messageSend(par, messageUri);
+      SSMessageActivityFct.messageSend(
+        par, 
+        messageUri);
       
       dbSQL.commit(par.shouldCommit);
       

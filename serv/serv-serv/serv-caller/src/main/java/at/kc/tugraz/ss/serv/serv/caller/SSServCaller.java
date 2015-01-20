@@ -2827,7 +2827,7 @@ public class SSServCaller {
     final SSActivityContent   content,
     final Boolean             shouldCommit) throws Exception{
    
-    final Map<String, Object>  opPars           = new HashMap<>();
+    final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.activity,      activity);
@@ -2847,7 +2847,7 @@ public class SSServCaller {
     final Long                creationTime, 
     final Boolean             shouldCommit) throws Exception{
    
-    final Map<String, Object>  opPars           = new HashMap<>();
+    final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,             user);
     opPars.put(SSVarU.type,             type);

@@ -217,7 +217,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
               false,
               false);
             
-            SSLearnEpActivityFct.shareLearnEp(user, userUriToShareWith, entity);
+            SSLearnEpActivityFct.shareLearnEp(user, userUriToShareWith, entity, circle);
           }
         }
       }
@@ -463,7 +463,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     
     sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result, parA.op));
     
-    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
+//    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
   }
   
   @Override
@@ -710,7 +710,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     
     sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp, parA.op));
     
-    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
+//    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
   }
   
   @Override
@@ -1148,7 +1148,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op));
     
-    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
+//    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
   }
 
   @Override

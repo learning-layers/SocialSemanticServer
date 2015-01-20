@@ -568,7 +568,7 @@ implements
 
     sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op));
     
-    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
+//    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
   }
   
   @Override

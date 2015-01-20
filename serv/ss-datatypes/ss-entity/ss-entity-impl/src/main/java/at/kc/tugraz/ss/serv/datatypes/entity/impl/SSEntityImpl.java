@@ -225,7 +225,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op));
     
-    SSEntityActivityFct.entityUpdate(new SSEntityUserUpdatePar(parA));
+//    SSEntityActivityFct.entityUpdate(new SSEntityUserUpdatePar(parA));
   }
   
   @Override

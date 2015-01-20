@@ -38,7 +38,7 @@ public class SSCircleCreatePar extends SSServPar{
   public List<SSUri>           entities             = new ArrayList<>();
   public List<SSUri>           users                = new ArrayList<>();
   public SSTextComment         description          = null;
-  public Boolean               isSystemCircle       = null;
+  public Boolean               isSystemCircle       = false;
   public Boolean               invokeEntityHandlers = null;
   
   public SSCircleCreatePar(
@@ -83,13 +83,14 @@ public class SSCircleCreatePar extends SSServPar{
         entities             = (List<SSUri>)     pars.get(SSVarU.entities);
         users                = (List<SSUri>)     pars.get(SSVarU.users);
         description          = (SSTextComment)   pars.get(SSVarU.description);
-        isSystemCircle       = (Boolean)         pars.get(SSVarU.isSystemCircle);
+        isSystemCircle       = (Boolean)   pars.get(SSVarU.isSystemCircle);
         withUserRestriction  = (Boolean)         pars.get(SSVarU.withUserRestriction);
         invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
-        isSystemCircle = false;
+        
+        this.isSystemCircle = false;
         
         try{
           invokeEntityHandlers = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();

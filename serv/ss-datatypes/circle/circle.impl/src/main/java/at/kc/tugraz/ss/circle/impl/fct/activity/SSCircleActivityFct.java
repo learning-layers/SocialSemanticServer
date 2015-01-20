@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
@@ -153,7 +154,8 @@ public class SSCircleActivityFct{
   }
   
   public static void shareEntityWithUsers(
-    final SSCircleEntitySharePar par) throws Exception{
+    final SSCircleEntitySharePar par,
+    final SSUri                  circle) throws Exception{
     
     if(!par.saveActivity){
       return;

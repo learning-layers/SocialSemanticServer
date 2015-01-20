@@ -701,7 +701,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
     
-    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
+//    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
   }
   
   @Override

@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +114,7 @@ public class SSCollActivityFct{
         SSUri.asListWithoutNullAndEmpty(eventEntities),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
+        
         false);
       
     }catch(SSErr error){
@@ -156,44 +156,5 @@ public class SSCollActivityFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  public static void changeCollEntryPos(
-    final SSCollUserEntryChangePosPar par) throws Exception{
-    
-    try{
-      
-      final List<SSUri> eventEntities = new ArrayList<>();
-      
-      final List<SSUri>    collEntries = new ArrayList<>();
-      Integer              counter     = 0;
-      
-      while(counter < par.order.size()){
-        collEntries.add(SSUri.get(par.order.get(counter++)));
-        counter++;
-      }
-      
-      eventEntities.add   (par.coll);
-      eventEntities.addAll(collEntries);
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.changeCollEntryPos,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(eventEntities),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-  }
+  }  
 }

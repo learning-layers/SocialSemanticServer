@@ -24,11 +24,8 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateCirclePar;
@@ -40,33 +37,6 @@ import java.util.List;
 import sss.serv.err.datatypes.SSErr;
 
 public class SSLearnEpActivityFct{
-
-  public static void createLearnEpVersion(
-    final SSLearnEpVersionCreatePar par,
-    final SSUri                     learnEpVersion) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.createLearnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(learnEpVersion),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 
   public static void addCircleToLearnEpVersion(
     final SSLearnEpVersionAddCirclePar par, 
@@ -111,33 +81,6 @@ public class SSLearnEpActivityFct{
         SSActivityE.addEntityToLearnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
         eventEntities,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void createLearnEp(
-    final SSLearnEpCreatePar par, 
-    final SSUri              learnEp) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.createLearnEp,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -258,36 +201,11 @@ public class SSLearnEpActivityFct{
     }
   }
 
-  public static void setCurrentLearnEpVersion(
-    final SSLearnEpVersionCurrentSetPar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.setCurrentLearnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpVersion),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
   public static void shareLearnEp(
     final SSUri user,
     final SSUri forUser,
-    final SSUri learnEp) throws Exception{
+    final SSUri learnEp,
+    final SSUri circle) throws Exception{
     
     try{
       
