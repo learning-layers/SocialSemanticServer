@@ -200,7 +200,11 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      if(!wheres.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      }else{
+        resultSet = dbSQL.select(tables, columns, tableCons);
+      }
       
       while(resultSet.next()){
         

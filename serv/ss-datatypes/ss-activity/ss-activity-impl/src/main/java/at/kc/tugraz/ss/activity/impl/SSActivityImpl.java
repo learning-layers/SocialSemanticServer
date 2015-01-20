@@ -200,17 +200,17 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             continue;
           }
           
-          for(SSEntity circleEntity : 
-            
-            SSServCaller.circleGet(
-              par.user, 
-              par.user, 
-              circle, 
-              false,
-              true).entities){
+          for(SSEntity circleEntity : SSServCaller.circleGet(
+            par.user,
+            par.user,
+            circle,
+            false,
+            true).entities){
             
             entitiesToQuery.add(circleEntity.id);
           }
+          
+          entitiesToQuery.add(circle);
         }
       }
 
@@ -226,6 +226,24 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       for(SSActivity activity : activities){
         
+        if(activity.entity == null){
+          SSLogU.warn("activity entity null for activity type: " + activity.activityType);
+          continue;
+        }
+        
+        try{
+          SSServCallerU.canUserReadEntity(par.user, activity.entity);
+        }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+            SSServErrReg.reset();
+            SSLogU.warn("activity no accessible by user");
+            continue;
+          }
+          
+          throw error;
+        }
+        
         activity.users.addAll(
           SSServCaller.usersGet(
             sqlFct.getActivityUsers(activity.id), 
@@ -239,10 +257,11 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             
             if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
               SSServErrReg.reset();
+              SSLogU.warn("activity entity no accessible by user");
               continue;
             }
             
-            throw error;            
+            throw error;
           }
           
           activity.entities.add(
