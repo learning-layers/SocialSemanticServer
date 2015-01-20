@@ -49,7 +49,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUser user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll(false)){
       
       tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
@@ -86,7 +86,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUser user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll(false)){
       
       tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
@@ -128,7 +128,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUser user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll(false)){
       
       tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
@@ -170,7 +170,7 @@ public class SSRecommFct{
     Boolean                   somethingExported = false;
     Map<String, List<String>> tagsPerEntities;
     
-    for(SSUser user : SSServCaller.userAll()){
+    for(SSUser user : SSServCaller.userAll(false)){
       
       tagsPerEntities = getTagsOfUserPerEntities(user.id, usePrivateTagsToo);
       
@@ -231,7 +231,7 @@ public class SSRecommFct{
     final List<String>                  allUsers;
     
     try{
-      allUserObjs = SSServCaller.userAll();
+      allUserObjs = SSServCaller.userAll(false);
       allUsers    = SSStrU.toStr(allUserObjs);
     }catch(SSErr error){
       

@@ -2005,16 +2005,24 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.userURIGet, opPars));
   }
   
-  public static List<SSUser> userAll() throws Exception{
-    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, new HashMap<>()));
-  }
-  
-  public static List<SSUser> usersGet(
-    final List<SSUri> users) throws Exception{
+  public static List<SSUser> userAll(
+    final Boolean setFriends) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.users, users);
+    opPars.put(SSVarU.setFriends,  setFriends);
+    
+    return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.userAll, opPars));
+  }
+  
+  public static List<SSUser> usersGet(
+    final List<SSUri> users,
+    final Boolean     setFriends) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.users,      users);
+    opPars.put(SSVarU.setFriends, setFriends);
     
     return (List<SSUser>) SSServA.callServViaServer(new SSServPar(SSMethU.usersGet, opPars));
   }

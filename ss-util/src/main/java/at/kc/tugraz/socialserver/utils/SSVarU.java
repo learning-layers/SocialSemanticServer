@@ -158,6 +158,7 @@ public class SSVarU{
   public static final String tagsPerEntities                                = "tagsPerEntities";
   public static final String categoriesPerEntities                          = "categoriesPerEntities";
   public static final String users                                          = "users";
+  public static final String setFriends                                     = "setFriends";
   public static final String uEs                                            = "uEs";
   public static final String tagFrequs                                      = "tagFrequs";
   public static final String searchResults                                  = "searchResults";

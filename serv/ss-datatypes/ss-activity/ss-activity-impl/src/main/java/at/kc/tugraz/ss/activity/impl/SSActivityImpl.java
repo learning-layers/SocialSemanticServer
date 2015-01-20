@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.activity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -38,7 +37,6 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -230,7 +228,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         
         activity.users.addAll(
           SSServCaller.usersGet(
-            sqlFct.getActivityUsers(activity.id)));
+            sqlFct.getActivityUsers(activity.id), 
+            false));
         
         for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
           

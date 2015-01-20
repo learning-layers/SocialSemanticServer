@@ -259,7 +259,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       List<SSUri>                        users;
       
       try{
-        allUsers = SSStrU.toStr(SSServCaller.userAll());
+        allUsers = SSStrU.toStr(SSServCaller.userAll(false));
       }catch(SSErr error){
         
         switch(error.code){

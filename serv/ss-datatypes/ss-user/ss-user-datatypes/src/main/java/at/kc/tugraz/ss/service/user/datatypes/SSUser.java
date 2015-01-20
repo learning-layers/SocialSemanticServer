@@ -37,6 +37,11 @@ public class SSUser extends SSEntity{
 
   @ApiModelProperty(
     required = false,
+    value = "is user friend of current user")
+  public Boolean       friend      = null;
+  
+  @ApiModelProperty(
+    required = false,
     value = "friends")
   public List<SSEntity>       friends      = new ArrayList<>();
 

@@ -18,19 +18,44 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.kc.tugraz.ss.service.user.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
+ 
 @XmlRootElement
 @ApiModel(value = "userAll request parameter")
 public class SSUserAllPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether friends of returned users shall be set" )
+  public Boolean     setFriends     = false;
+  
   public SSUserAllPar(){}
   
   public SSUserAllPar(SSServPar par) throws Exception{
+    
     super(par);
+    
+    try{
+      
+      if(pars != null){
+        setFriends     = (Boolean)     pars.get(SSVarU.setFriends);
+      }
+      
+      if(par.clientJSONObj != null){
+        setFriends = par.clientJSONObj.get(SSVarU.setFriends).getBooleanValue();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

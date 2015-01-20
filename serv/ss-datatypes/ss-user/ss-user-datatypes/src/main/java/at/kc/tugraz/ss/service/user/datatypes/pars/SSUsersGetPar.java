@@ -29,7 +29,8 @@ import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
-  public List<SSUri> users   = new ArrayList<>();
+  public List<SSUri> users          = new ArrayList<>();
+  public Boolean     setFriends     = null;
   
   public SSUsersGetPar(SSServPar par) throws Exception{
    
@@ -38,7 +39,8 @@ public class SSUsersGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        users   = (List<SSUri>) pars.get(SSVarU.users);
+        users          = (List<SSUri>) pars.get(SSVarU.users);
+        setFriends     = (Boolean)     pars.get(SSVarU.setFriends);
       }
       
     }catch(Exception error){

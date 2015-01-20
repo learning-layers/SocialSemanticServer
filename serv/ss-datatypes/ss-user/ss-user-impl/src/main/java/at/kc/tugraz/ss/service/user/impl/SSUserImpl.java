@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -40,6 +41,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -218,7 +220,27 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   
   @Override
   public List<SSUser> userAll(final SSServPar parA) throws Exception {
-    return sqlFct.userAll();
+    
+    try{
+      
+      final SSUserAllPar par   = new SSUserAllPar(parA);
+      final List<SSUser> users = new ArrayList<>();
+      
+      for(SSUser user : sqlFct.userAll()){
+        
+        if(par.setFriends){
+          user.friends.addAll(SSServCaller.friendsUserGet(user.id));
+          user.friend = SSStrU.contains(user.friends, par.user);
+        }
+        
+        users.add(user);
+      }
+      
+      return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 
   @Override 
@@ -227,9 +249,18 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     try{
       final SSUsersGetPar par   = new SSUsersGetPar(parA);
       final List<SSUser>  users = new ArrayList<>();
+      SSUser              user;
       
       for(SSUri userUri : par.users){
-        users.add(sqlFct.getUser(userUri));
+        
+        user        = sqlFct.getUser(userUri);
+        
+        if(par.setFriends){
+          user.friends.addAll(SSServCaller.friendsUserGet(user.id));
+          user.friend = SSStrU.contains(user.friends, par.user);
+        }
+        
+        users.add(user);
       }
       
       return users;
