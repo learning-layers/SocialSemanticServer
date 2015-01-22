@@ -94,7 +94,11 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   @Override
   public void appStackLayoutCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(parA), parA.op));
   }
@@ -161,7 +165,11 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   @Override
   public void appStackLayoutTileAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSAppStackLayoutTileAddRet.get(appStackLayoutTileAdd(parA), parA.op));
   }
@@ -225,7 +233,11 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   @Override
   public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(parA), parA.op));
   }

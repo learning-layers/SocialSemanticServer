@@ -91,6 +91,30 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+  public SSUri getUserForKey(
+    final String key) throws Exception{
+   
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.authKey, key);
+      
+      resultSet = dbSQL.select(authTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.userId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 
   public String addKey(
     final SSUri  userUri, 

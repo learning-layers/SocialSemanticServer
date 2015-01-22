@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-knowbrain-v2",
+  "basePath" : "http://localhost:8080/ss-adapter-rest-v2",
   "resourcePath" : "/search",
   "apis" : [ {
     "path" : "/search",
@@ -80,10 +80,6 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
@@ -91,13 +87,20 @@
             "type" : "string"
           }
         },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "users" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -110,6 +113,10 @@
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "circles"
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "tags" : {
           "type" : "array",
@@ -154,13 +161,6 @@
         "thumb" : {
           "type" : "string",
           "description" : "thumbnail"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
         },
         "read" : {
           "type" : "boolean",

@@ -47,6 +47,7 @@ public class SSSearchActivityFct{
         SSServCaller.activityAdd(
           par.user,
           SSActivityE.search,
+          null,
           SSUri.asListWithoutNullAndEmpty(),
           SSUri.asListWithoutNullAndEmpty(par.entitiesToSearchWithin),
           SSTextComment.asListWithoutNullAndEmpty(),

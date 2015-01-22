@@ -230,28 +230,42 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
         case csvFileAuth:{
 
-          String email = SSStrU.toStr(par.label);
-          
-          if(!email.contains("@")){
-           email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
-          }
-        
           final SSUri userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
-            throw new SSErr(SSErrE.userIsNotRegistered);
-          }
-          
-          userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, email);
-
-          return SSAuthCheckCredRet.get(
-            SSAuthMiscFct.checkAndGetKey(
-              sqlFct,
+          if(
+            par.key != null &&
+            !SSStrU.equals(par.key, noAuthKey)){
+            
+            userUri = sqlFct.getUserForKey(par.key);
+            
+            return SSAuthCheckCredRet.get(
+              par.key,
               userUri,
-              email,
-              par.password),
-            userUri, 
-            SSMethU.authCheckCred);
+              SSMethU.authCheckCred);
+            
+          }else{
+
+            String email = SSStrU.toStr(par.label);
+
+            if(!email.contains("@")){
+             email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
+            }
+
+            if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
+              throw new SSErr(SSErrE.userIsNotRegistered);
+            }
+            
+            userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, email);
+            
+            return SSAuthCheckCredRet.get(
+              SSAuthMiscFct.checkAndGetKey(
+                sqlFct,
+                userUri,
+                email,
+                par.password),
+              userUri,
+              SSMethU.authCheckCred);
+          }
         }
         
         case oidc:{
@@ -339,7 +353,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             throw new SSErr(SSErrE.userKeyWrong);
           }
           
-          return null;
+          return SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key).user;
         }
         
         case oidc:{
