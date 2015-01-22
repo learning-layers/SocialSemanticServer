@@ -157,6 +157,7 @@ public enum SSMethU{
   learnEpVersionGetTimelineState                      ,
   learnEpLockRemove,
   learnEpLockSet,
+  learnEpLockHold,
   
   //data export
   dataExportUserEntityTags                            ,

@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
@@ -43,7 +42,6 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
-import at.kc.tugraz.ss.service.search.impl.fct.activity.SSSearchActivityFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
 import sss.serv.err.datatypes.SSErr;
@@ -64,7 +62,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     sSCon.writeRetFullToClient(search(parA));
     
-    SSSearchActivityFct.search(new SSSearchPar((parA)));
+//    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
 
   @Override
@@ -398,8 +396,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   private List<SSUri> getLabelAndDescriptionResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri>         results            = new ArrayList<>();
-    final List<SSUri>         labelResults       = new ArrayList<>();
-    final List<SSUri>         descriptionResults = new ArrayList<>();
     final List<String>        combinedKeywords   = new ArrayList<>();
     
     for(int counter = par.labelsToSearchFor.size() - 1; counter >= 0; counter--){
@@ -426,8 +422,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            
-            labelResults.add(entity.id);
             results.add     (entity.id);
           }
           
@@ -435,8 +429,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            
-            descriptionResults.add(entity.id);
             results.add           (entity.id);
           }
           
@@ -448,8 +440,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            
-            labelResults.add(entity.id);
             results.add     (entity.id);
           }
           
@@ -457,8 +447,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
           combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
           
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            
-            descriptionResults.add(entity.id);
             results.add           (entity.id);
           }
           break;
@@ -476,7 +464,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         case or:{
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            descriptionResults.add(entity.id);
             results.add(entity.id);
           }
           break;
@@ -484,7 +471,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         case and:{
           for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            descriptionResults.add(entity.id);
             results.add(entity.id);
           }
           break;
@@ -503,7 +489,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         case or:{
           
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            labelResults.add(entity.id);
             results.add(entity.id);
           }
           break;
@@ -511,7 +496,6 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
         
         case and:{
           for(SSEntity entity : SSServCaller.entitiesForLabelsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            labelResults.add(entity.id);
             results.add(entity.id);
           }
           break;

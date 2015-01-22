@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErr;
 
@@ -71,7 +70,6 @@ public class SSLearnEpActivityFct{
     final SSUri                        entity) throws Exception{
     
     try{
-      
       
       SSServCaller.activityAdd(
         par.user,

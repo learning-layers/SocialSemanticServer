@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpUserCopyForUserPar;
@@ -57,6 +58,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpCreateRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionAddCircleRet;
@@ -1234,6 +1236,36 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       }
       
       dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void learnEpLockHold(SSSocketCon sSCon, SSServPar par) throws Exception{
+
+    SSServCaller.checkKey(par);
+
+    sSCon.writeRetFullToClient(SSLearnEpLockHoldRet.get(learnEpLockHold(par), par.op));
+  }
+  
+  @Override
+  public Boolean learnEpLockHold(final SSServPar parA) throws Exception{
+
+    try{
+      final SSLearnEpLockHoldPar par = new SSLearnEpLockHoldPar(parA);
+
+      if(par.withUserRestriction){
+        SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+      }
+      
+      if(learnEpConf.useEpisodeLocking){
+        return SSLearnEpAccessController.hasLock(par.user, par.learnEp);
+      }else{
+        return false;
+      }        
+
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
