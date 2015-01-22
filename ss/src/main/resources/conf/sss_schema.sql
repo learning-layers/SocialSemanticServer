@@ -28,6 +28,7 @@ CREATE TABLE `activity` (
   `activityId` varchar(100) NOT NULL,
   `activityType` varchar(100) NOT NULL,
   `textComment` varchar(5000) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
   PRIMARY KEY (`activityId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1662,4 +1663,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-09  9:16:47
+-- Dump completed on 2015-01-22 11:40:03
