@@ -73,9 +73,7 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
      try{
       final Map<String, String> inserts    = new HashMap<>();
       
-      if(app == null){
-        insert    (inserts,    SSSQLVarU.app,     SSStrU.empty);
-      }else{
+      if(app != null){
         insert    (inserts,    SSSQLVarU.app,     app);
       }
       
