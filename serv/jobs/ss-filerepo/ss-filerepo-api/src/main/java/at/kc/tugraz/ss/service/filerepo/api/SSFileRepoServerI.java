@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
@@ -38,6 +37,7 @@ public interface SSFileRepoServerI{
   public SSFileWritingMinutesLeftRet               fileWritingMinutesLeft   (final SSServPar parA) throws Exception;
   public String                                    fileIDFromURI            (final SSServPar parA) throws Exception;
   public SSFileGetEditingFilesRet                  fileUserFileWrites       (final SSServPar parA) throws Exception;
+  public String                                    fileThumbBase64Get       (final SSServPar parA) throws Exception;
 }
 
 

@@ -66,7 +66,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import com.evernote.clients.NoteStoreClient;
-import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
@@ -517,6 +516,8 @@ public class SSServCaller {
     return (List<SSUE>) SSServA.callServViaServer(new SSServPar(SSMethU.uEsGet, opPars));
   }
   
+  /* fileSys */
+  
   public static void fileSysLocalFormatAudioAndVideoFileNamesInDir() throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -524,16 +525,85 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.fileSysLocalFormatAudioAndVideoFileNamesInDir, opPars));
   }
   
-  public static List<Note> evernoteNotesGet(
-    final NoteStoreClient noteStore, 
-    final String          notebookGuid) throws Exception{
+  public static void fileSysLocalAddTextToFilesNamesAtBeginInDir() throws Exception{
+    
+    final Map<String, Object>  opPars = new HashMap<>();
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.fileSysLocalAddTextToFilesNamesAtBeginInDir, opPars));
+  }
+  
+  /* evernote */ 
+  
+  public static Boolean evernoteResourceAdd(
+    final SSUri    user,
+    final SSUri    note, 
+    final SSUri    resource,
+    final Boolean  shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.noteStore,     noteStore);
-    opPars.put(SSVarU.notebookGuid,  notebookGuid);
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.note,           note);
+    opPars.put(SSVarU.resource,       resource);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
-    return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesGet, opPars));
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteResourceAdd, opPars));
+  }
+  
+  public static Boolean evernoteUSNSet(
+    final SSUri    user,
+    final String   authToken, 
+    final Integer  usn,
+    final Boolean  shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.authToken,      authToken);
+    opPars.put(SSVarU.usn,            usn);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteUSNSet, opPars));
+  }
+    
+  public static Boolean evernoteNoteAdd(
+    final SSUri    user,
+    final SSUri    notebook, 
+    final SSUri    note,
+    final Boolean  shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.notebook,       notebook);
+    opPars.put(SSVarU.note,           note);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteAdd, opPars));
+  }
+    
+  public static String evernoteUsersAuthTokenGet(
+    final SSUri    user) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    
+    return (String) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteUsersAuthTokenGet, opPars));
+  }
+  
+  public static Boolean evernoteUserAdd(
+    final SSUri    user, 
+    final String   authToken,
+    final Boolean  shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.authToken,      authToken);
+    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    
+    return (Boolean) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteUserAdd, opPars));
   }
   
   public static Resource evernoteResourceGet(
@@ -550,16 +620,17 @@ public class SSServCaller {
     return (Resource) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteResourceGet, opPars));
   }
   
-  public static List<Notebook> evernoteNotebooksGet(NoteStoreClient noteStore) throws Exception{
+  public static List<SharedNotebook> evernoteNotebooksSharedGet(
+    final NoteStoreClient noteStore) throws Exception{
     
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.noteStore, noteStore);
-    
-    return (List<Notebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksGet, opPars));
+    final Map<String, Object>  opPars = new HashMap<>();
+
+    opPars.put(SSVarU.noteStore,     noteStore);
+      
+    return (List<SharedNotebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksSharedGet, opPars));
   }
   
-  public static Notebook evernoteNotebookGet(
+   public static Notebook evernoteNotebookGet(
     final NoteStoreClient noteStore,
     final String          notebookGUID) throws Exception{
     
@@ -585,23 +656,6 @@ public class SSServCaller {
     return (Note) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteGet, opPars));
   }
   
-  public static void fileSysLocalAddTextToFilesNamesAtBeginInDir() throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.fileSysLocalAddTextToFilesNamesAtBeginInDir, opPars));
-  }
-  
-  public static List<SharedNotebook> evernoteNotebooksSharedGet(
-    final NoteStoreClient noteStore) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-
-    opPars.put(SSVarU.noteStore,     noteStore);
-      
-    return (List<SharedNotebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksSharedGet, opPars));
-  }
-  
   public static SSEvernoteInfo evernoteNoteStoreGet(
     final SSUri  user, 
     final String authToken) throws Exception{
@@ -612,18 +666,6 @@ public class SSServCaller {
     opPars.put(SSVarU.authToken, authToken);
     
     return (SSEvernoteInfo) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteStoreGet, opPars));
-  }
-  
-  public static List<Note> evernoteNotesLinkedGet(
-    final NoteStoreClient noteStore, 
-    final LinkedNotebook  linkedNotebook) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.noteStore,      noteStore);
-    opPars.put(SSVarU.linkedNotebook, linkedNotebook);
-    
-    return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesLinkedGet, opPars));
   }
   
    public static List<String> evernoteNoteTagNamesGet(
@@ -637,32 +679,51 @@ public class SSServCaller {
     
     return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNoteTagNamesGet, opPars));
   }
+   
+  //  public static List<Note> evernoteNotesGet(
+//    final NoteStoreClient noteStore, 
+//    final String          notebookGuid) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.noteStore,     noteStore);
+//    opPars.put(SSVarU.notebookGuid,  notebookGuid);
+//    
+//    return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesGet, opPars));
+//  }
   
-  public static List<LinkedNotebook> evernoteNotebooksLinkedGet(
-    final NoteStoreClient noteStore) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.noteStore,     noteStore);
-    
-    return (List<LinkedNotebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksLinkedGet, opPars));
-  }
+//  public static List<Notebook> evernoteNotebooksGet(NoteStoreClient noteStore) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.noteStore, noteStore);
+//    
+//    return (List<Notebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksGet, opPars));
+//  }
   
-  public static void dataImportEvernote(
-    final SSUri   user, 
-    final String  authToken, 
-    final String  authEmail,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.authToken,    authToken);
-    opPars.put(SSVarU.authEmail,    authEmail);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataImportEvernote, opPars));
-  }
+  //  public static List<LinkedNotebook> evernoteNotebooksLinkedGet(
+//    final NoteStoreClient noteStore) throws Exception{
+//    
+//    final Map<String, Object>  opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.noteStore,     noteStore);
+//    
+//    return (List<LinkedNotebook>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotebooksLinkedGet, opPars));
+//  }
+  
+//  public static List<Note> evernoteNotesLinkedGet(
+//    final NoteStoreClient noteStore, 
+//    final LinkedNotebook  linkedNotebook) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.noteStore,      noteStore);
+//    opPars.put(SSVarU.linkedNotebook, linkedNotebook);
+//    
+//    return (List<Note>) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteNotesLinkedGet, opPars));
+//  }
+  
+ 
   
   public static void uEAddAtCreationTime(
     final SSUri    user,
@@ -2523,6 +2584,18 @@ public class SSServCaller {
   
   /* file */
   
+  public static String fileThumbBase64Get(
+    final SSUri user,
+    final SSUri file) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,  user);
+    opPars.put(SSVarU.file,  file);
+    
+    return (String) SSServA.callServViaServer(new SSServPar(SSMethU.fileThumbBase64Get, opPars));
+  }
+  
   public static SSFileCanWriteRet fileCanWrite(
     final SSUri user,
     final SSUri file) throws Exception{
@@ -2577,18 +2650,6 @@ public class SSServCaller {
     opPars.put(SSVarU.write,         write);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.fileRemoveReaderOrWriter, opPars));
-  }
-  
-  public static void dataImportMediaWikiUser(
-    final SSUri   user,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataImportMediaWikiUser, opPars));
   }
   
   /* scaff */
@@ -2695,6 +2756,34 @@ public class SSServCaller {
     opPars.put(SSVarU.fileName, fileName);
     
     return (Map<String, String>) SSServA.callServViaServer(new SSServPar(SSMethU.dataImportSSSUsersFromCSVFile, opPars));
+  }
+  
+  public static void dataImportEvernote(
+    final SSUri   user, 
+    final String  authToken, 
+    final String  authEmail,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarU.authToken,    authToken);
+    opPars.put(SSVarU.authEmail,    authEmail);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataImportEvernote, opPars));
+  }
+  
+  public static void dataImportMediaWikiUser(
+    final SSUri   user,
+    final Boolean shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,        user);
+    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataImportMediaWikiUser, opPars));
   }
   
   /* auth */

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,24 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.test.serv.evernote;
+package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSEvernoteTester{
-
-  public static void run() throws Exception {
+public class SSEvernoteUSNSetPar extends SSServPar{
+  
+  public String  authToken = null;
+  public Integer usn       = null;
+  
+  public SSEvernoteUSNSetPar(SSServPar par) throws Exception{
     
-    SSEvernoteConf   evernoteConf   = (SSEvernoteConf) SSEvernoteServ.inst.servConf;
+    super(par);
     
-    if(!evernoteConf.executeOpAtStartUp){
-      return;
-    }
-    
-    if(SSMethU.equals(evernoteConf.op, SSMethU.evernoteNoteStoreGet)){
-      new Thread(new SSEvernoteNoteStoreGetTest(evernoteConf)).start();
+    try{
+      
+      if(pars != null){
+        authToken     = (String)   pars.get(SSVarU.authToken);
+        usn           = (Integer)  pars.get(SSVarU.usn);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

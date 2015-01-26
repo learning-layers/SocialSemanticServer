@@ -25,9 +25,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 
-public abstract class SSServInitA extends SSServImplStartA{
+public abstract class SSServInitAB extends SSServImplStartA{
   
-  public SSServInitA(final SSConfA conf){
+  public SSServInitAB(final SSConfA conf){
     super(conf);
   }
   

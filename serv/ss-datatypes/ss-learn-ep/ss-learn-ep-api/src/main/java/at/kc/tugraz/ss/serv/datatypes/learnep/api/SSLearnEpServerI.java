@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import java.util.List;
 
 public interface SSLearnEpServerI {
@@ -46,7 +47,7 @@ public interface SSLearnEpServerI {
   public SSUri                  learnEpVersionCurrentSet          (final SSServPar parA) throws Exception;
   
   public SSUri                  learnEpUserCopyForUser            (final SSServPar parA) throws Exception;
-  public Boolean                learnEpLockHold                   (final SSServPar parA) throws Exception;
+  public SSLearnEpLockHoldRet   learnEpLockHold                   (final SSServPar parA) throws Exception;
   public Boolean                learnEpLockSet                    (final SSServPar parA) throws Exception;
   public Boolean                learnEpLockRemove                 (final SSServPar parA) throws Exception;
 }

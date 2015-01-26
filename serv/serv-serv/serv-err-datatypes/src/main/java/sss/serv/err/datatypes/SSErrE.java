@@ -21,6 +21,11 @@
 package sss.serv.err.datatypes;
 
 public enum SSErrE{
+  
+  authCouldntConnectToOIDC,
+  authCouldntParseOIDCUserInfoResponse,
+  authOIDCUserInfoRequestFailed,
+  
   sssResponseFailed,
   sssResponseParseFailed,
   searchResultPageUnavailable,

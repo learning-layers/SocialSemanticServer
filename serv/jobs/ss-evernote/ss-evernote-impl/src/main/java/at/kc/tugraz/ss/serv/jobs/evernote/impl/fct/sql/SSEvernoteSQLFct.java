@@ -88,9 +88,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       resultSet = dbSQL.select(evernoteUserTable, wheres);
       
-      if(!resultSet.next()){
-        throw new Exception("evernote user doesnt exist");
-      }
+      checkFirstResult(resultSet);
         
       return bindingStr(resultSet, SSSQLVarU.authToken);
       

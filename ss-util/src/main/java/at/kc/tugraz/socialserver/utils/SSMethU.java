@@ -78,15 +78,20 @@ public enum SSMethU{
   
   //evernote
   evernoteNoteStoreGet                                ,
-  evernoteNotebooksGet                                ,
   evernoteNotebookGet,
   evernoteNoteGet,
   evernoteNotebooksSharedGet                          ,
-  evernoteNotebooksLinkedGet                          ,
-  evernoteNotesGet                                    ,
   evernoteResourceGet,
-  evernoteNotesLinkedGet                              ,
   evernoteNoteTagNamesGet,
+  evernoteUserAdd,
+  evernoteUsersAuthTokenGet,
+  evernoteNoteAdd,
+  evernoteUSNSet,
+  evernoteResourceAdd,
+  //  evernoteNotebooksLinkedGet                          ,
+  //  evernoteNotebooksGet                                ,
+//  evernoteNotesGet                                    ,
+  //  evernoteNotesLinkedGet                              ,
   
   //circle
   circleCreate,
@@ -275,6 +280,7 @@ public enum SSMethU{
   fileCanWrite                                        ,
   fileIDFromURI                                       ,
   fileExtGet                                          ,
+  fileThumbBase64Get,
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,

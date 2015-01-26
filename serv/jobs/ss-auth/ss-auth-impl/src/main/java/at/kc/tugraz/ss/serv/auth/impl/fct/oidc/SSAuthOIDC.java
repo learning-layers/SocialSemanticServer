@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import net.minidev.json.JSONObject;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSAuthOIDC{
   
@@ -55,7 +57,7 @@ public class SSAuthOIDC{
         hrs = hrq.send();
         
       } catch (IOException|URISyntaxException error) {
-        throw new Exception("Unexpected authentication error: " + error.getMessage());
+        throw new SSErr(SSErrE.authCouldntConnectToOIDC);
       }
       
       // process response from OpenID Connect user info endpoint
@@ -63,7 +65,7 @@ public class SSAuthOIDC{
       try {
         userInfoResponse = UserInfoResponse.parse(hrs);
       } catch (ParseException error) {
-        throw new Exception("Couldn't parse UserInfo response: " + error.getMessage());
+        throw new SSErr(SSErrE.authCouldntParseOIDCUserInfoResponse);
       }
       
       // failed request for OpenID Connect user info will result in no agent being returned.
@@ -73,9 +75,9 @@ public class SSAuthOIDC{
           ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
           ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
           
-          throw new Exception("Open ID Connect UserInfo request failed! Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
+          throw new SSErr(SSErrE.authOIDCUserInfoRequestFailed, "Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
         }else{
-          throw new Exception("Open ID Connect UserInfo request failed!");
+          throw new SSErr(SSErrE.authOIDCUserInfoRequestFailed);
         }
       }
       

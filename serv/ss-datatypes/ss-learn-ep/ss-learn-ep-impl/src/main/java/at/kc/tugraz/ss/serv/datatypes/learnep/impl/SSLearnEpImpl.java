@@ -1246,24 +1246,42 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCaller.checkKey(par);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockHoldRet.get(learnEpLockHold(par), par.op));
+    sSCon.writeRetFullToClient(learnEpLockHold(par));
   }
   
   @Override
-  public Boolean learnEpLockHold(final SSServPar parA) throws Exception{
+  public SSLearnEpLockHoldRet learnEpLockHold(final SSServPar parA) throws Exception{
 
     try{
       final SSLearnEpLockHoldPar par = new SSLearnEpLockHoldPar(parA);
+      final SSLearnEpLockHoldRet ret;
 
       if(par.withUserRestriction){
         SSServCallerU.canUserEditEntity(par.user, par.learnEp);
       }
       
       if(learnEpConf.useEpisodeLocking){
-        return SSLearnEpAccessController.hasLock(par.user, par.learnEp);
+        
+        ret =
+          SSLearnEpLockHoldRet.get(
+            SSLearnEpAccessController.isLocked(par.learnEp),
+            SSLearnEpAccessController.hasLock(
+              par.user,
+              par.learnEp),
+            SSLearnEpAccessController.getRemainingTime(par.learnEp),
+            parA.op);
+        
       }else{
-        return false;
-      }        
+        
+        ret =
+          SSLearnEpLockHoldRet.get(
+            false,
+            false,
+            0L,
+            parA.op);
+      }    
+      
+      return ret;
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1347,6 +1365,12 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpLockRemovePar par = new SSLearnEpLockRemovePar(parA);
 
+      Boolean unLockResult = false;
+      
+      if(!learnEpConf.useEpisodeLocking){
+        return unLockResult;
+      }
+      
       if(par.withUserRestriction){
         
         SSServCallerU.canUserEditEntity(par.user, par.learnEp);
@@ -1354,35 +1378,29 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         if(par.forUser == null){
           par.forUser = par.user;
         }
-      }else{
         
-        if(par.forUser == null){
-          throw new Exception("forUser null");
+        if(!SSLearnEpAccessController.hasLock(par.forUser, par.learnEp)){
+          return unLockResult;
         }
       }
 
-      Boolean unLockResult = false;
-      
-      if(learnEpConf.useEpisodeLocking){
-      
-        unLockResult = SSLearnEpAccessController.unLock(par.forUser, par.learnEp);
+      unLockResult = SSLearnEpAccessController.unLock(par.learnEp);
 
-        if(unLockResult){
-
-          try{
-
-            SSServCaller.broadcastAdd(
-              null,
-              par.learnEp,
-              SSBroadcastEnum.learnEpLockRemoved,
-              null);
-
-          }catch(SSErr error){
-
-            switch(error.code){
-              case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-              default: SSServErrReg.regErrThrow(error);
-            }
+      if(unLockResult){
+        
+        try{
+          
+          SSServCaller.broadcastAdd(
+            null,
+            par.learnEp,
+            SSBroadcastEnum.learnEpLockRemoved,
+            null);
+          
+        }catch(SSErr error){
+          
+          switch(error.code){
+            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+            default: SSServErrReg.regErrThrow(error);
           }
         }
       }

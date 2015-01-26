@@ -21,14 +21,12 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import java.util.Map;
 import java.util.TimerTask;
 
 public class SSLearnEpRemainingTimeTask extends TimerTask {
@@ -54,24 +52,26 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
       
       try{
         
-        final Long currentTime = SSDateU.dateAsLong();
+        Long remainingTime;
         
-        for(Map.Entry<String, Long> learnEpLockTime : SSLearnEpAccessController.getLearnEpLockTimes().entrySet()){
+        for(String learnEp : SSLearnEpAccessController.getLockedLearnEps()){
           
-          if(currentTime - learnEpLockTime.getValue() > SSDateU.minuteInMilliSeconds * 5){
+          remainingTime = SSLearnEpAccessController.getRemainingTime(SSUri.get(learnEp));
+            
+          if(remainingTime > 0){
             
             SSServCaller.broadcastAdd(
               null,
-              SSUri.get(learnEpLockTime.getKey()),
+              SSUri.get(learnEp),
               SSBroadcastEnum.learnEpRemainingLockTime,
-              currentTime - learnEpLockTime.getValue());
+              remainingTime);
             
           }else{
             
             SSServCaller.learnEpLockRemove(
               SSVoc.systemUserUri,
               null,
-              SSUri.get(learnEpLockTime.getKey()),
+              SSUri.get(learnEp),
               false,
               true);
           }

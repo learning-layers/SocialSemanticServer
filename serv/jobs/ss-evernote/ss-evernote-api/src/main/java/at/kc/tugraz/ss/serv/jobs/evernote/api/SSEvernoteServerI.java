@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.jobs.evernote.api;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
-import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
@@ -34,10 +33,16 @@ public interface SSEvernoteServerI {
   public Note                 evernoteNoteGet            (final SSServPar parA) throws Exception;
   public List<String>         evernoteNoteTagNamesGet    (final SSServPar parA) throws Exception;
   public SSEvernoteInfo       evernoteNoteStoreGet       (final SSServPar parA) throws Exception;
-  public List<Notebook>       evernoteNotebooksGet       (final SSServPar parA) throws Exception;
   public Notebook             evernoteNotebookGet        (final SSServPar parA) throws Exception;
   public List<SharedNotebook> evernoteNotebooksSharedGet (final SSServPar parA) throws Exception;
-  public List<LinkedNotebook> evernoteNotebooksLinkedGet (final SSServPar parA) throws Exception;
-  public List<Note>           evernoteNotesGet           (final SSServPar parA) throws Exception;
-  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;
+  public Boolean              evernoteUserAdd            (final SSServPar parA) throws Exception;
+  public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws Exception;
+  public Boolean              evernoteNoteAdd            (final SSServPar parA) throws Exception;
+  public Boolean              evernoteUSNSet             (final SSServPar parA) throws Exception;
+  public Boolean              evernoteResourceAdd        (final SSServPar parA) throws Exception;
+  
+//  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;
+//  public List<Notebook>       evernoteNotebooksGet       (final SSServPar parA) throws Exception;
+  //  public List<LinkedNotebook> evernoteNotebooksLinkedGet (final SSServPar parA) throws Exception;
+  //  public List<Note>           evernoteNotesGet           (final SSServPar parA) throws Exception;
 }

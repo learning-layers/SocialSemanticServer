@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
@@ -29,6 +31,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileRemoveReaderOrWrite
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
@@ -50,6 +53,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
@@ -175,7 +179,7 @@ implements
         if(par.getThumb){
           
           desc.thumb =
-            SSFilerepoFct.getThumbBase64(
+            SSServCaller.fileThumbBase64Get(
               par.user,
               par.entity);
         }
@@ -391,6 +395,30 @@ implements
       return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(new Exception("given file uri not valid"));
+      return null;
+    }
+  }
+  
+  @Override
+  public String fileThumbBase64Get(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSFileThumbBase64GetPar par = new SSFileThumbBase64GetPar(parA);
+      final List<SSUri>             thumbUris = SSServCaller.entityThumbsGet(par.user, par.file);
+      
+      if(thumbUris.isEmpty()){
+        SSLogU.warn("thumb couldnt be retrieved from file " + par.file);
+        return null;
+      }
+      
+      final String pngFilePath = SSCoreConf.instGet().getSsConf().getLocalWorkPath() + SSServCaller.fileIDFromURI (par.user, thumbUris.get(0));
+      
+      return SSFileU.readPNGToBase64Str(pngFilePath);
+      
+    }catch(Exception error){
+      SSLogU.warn("base 64 file thumb couldnt be retrieved");
+      SSServErrReg.reset();
       return null;
     }
   }

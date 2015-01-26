@@ -24,7 +24,9 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.err.datatypes.SSErr;
@@ -32,8 +34,8 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSLearnEpAccessController{
   
-  private static final Map<String, String>       lockedLearnEps               = new HashMap<>(); //user, learnEp
-  private static final Map<String, Long>         lockedLearnEpsLockTimes      = new HashMap<>(); //learnEp, remaining milliseconds
+  private static final Map<String, String>       lockedLearnEps               = new HashMap<>(); //learnEp, user
+  private static final Map<String, Long>         lockedLearnEpsLockTimes      = new HashMap<>(); //learnEp, time the episode got locked
   private static final ReentrantReadWriteLock    learnEpsLock                 = new ReentrantReadWriteLock();
   
   public static Boolean lock(
@@ -45,16 +47,16 @@ public class SSLearnEpAccessController{
       learnEpsLock.writeLock().lock();
       
       if(
-        lockedLearnEps.containsKey(SSStrU.toStr(user)) &&
-        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(user)), SSStrU.toStr(learnEp))){
+        lockedLearnEps.containsKey(SSStrU.toStr(learnEp)) &&
+        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
         return true;
       }
       
-      if(lockedLearnEps.containsValue(SSStrU.toStr(learnEp))){
+      if(lockedLearnEps.containsKey(SSStrU.toStr(learnEp))){
         return false;
       }
       
-      lockedLearnEps.put          (SSStrU.toStr(user), SSStrU.toStr(learnEp));
+      lockedLearnEps.put          (SSStrU.toStr(learnEp), SSStrU.toStr(user));
       lockedLearnEpsLockTimes.put (SSStrU.toStr(learnEp), SSDateU.dateAsLong());
       return true;
       
@@ -67,18 +69,15 @@ public class SSLearnEpAccessController{
   }
   
   public static Boolean unLock(
-    final SSUri         user, 
     final SSUri         learnEp) throws Exception{
     
     try{
       
       learnEpsLock.writeLock().lock();
       
-      if(
-        lockedLearnEps.containsKey(SSStrU.toStr(user)) &&
-        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(user)), SSStrU.toStr(learnEp))){
-        
-        lockedLearnEps.remove          (SSStrU.toStr(user));
+      if(lockedLearnEps.containsKey(SSStrU.toStr(learnEp))){
+
+        lockedLearnEps.remove          (SSStrU.toStr(learnEp));
         lockedLearnEpsLockTimes.remove (SSStrU.toStr(learnEp));
         
         return true;
@@ -100,7 +99,7 @@ public class SSLearnEpAccessController{
       
       learnEpsLock.readLock().lock();
       
-      return lockedLearnEps.containsValue(SSStrU.toStr(learnEp));
+      return lockedLearnEps.containsKey(SSStrU.toStr(learnEp));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -119,8 +118,8 @@ public class SSLearnEpAccessController{
       learnEpsLock.readLock().lock();
       
       if(
-        lockedLearnEps.containsKey(SSStrU.toStr(user)) &&
-        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(user)), SSStrU.toStr(learnEp))){
+        lockedLearnEps.containsKey(SSStrU.toStr(learnEp)) &&
+        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
         return true;
       }
       
@@ -153,12 +152,36 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static HashMap<String, Long> getLearnEpLockTimes() throws Exception{
+  public static Long getPassedTime(final SSUri learnEp) throws Exception{
     
     try{
       learnEpsLock.readLock().lock();
       
-      return new HashMap<>(lockedLearnEpsLockTimes);
+      if(isLocked(learnEp)){
+        return SSDateU.dateAsLong() - lockedLearnEpsLockTimes.get(SSStrU.toStr(learnEp));
+      }else{
+        return 0L;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      learnEpsLock.readLock().unlock();
+    }
+  }
+  
+  public static Long getRemainingTime(final SSUri learnEp) throws Exception{
+    return (SSDateU.minuteInMilliSeconds * 5) - SSLearnEpAccessController.getPassedTime(learnEp);
+  }
+  
+  public static List<String> getLockedLearnEps() throws Exception{
+    
+    try{
+      learnEpsLock.readLock().lock();
+      
+      return new ArrayList<>(lockedLearnEps.keySet());
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

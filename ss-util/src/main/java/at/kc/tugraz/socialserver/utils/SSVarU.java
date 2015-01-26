@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String remainingTime                                  = "remainingTime";
+  public static final String locked                                         = "locked";
   public static final String lockedByUser                                   = "lockedByUser";
   public static final String updatePassword                                 = "updatePassword";
   public static final String invokeEntityHandlers                           = "invokeEntityHandlers";
@@ -127,6 +129,7 @@ public class SSVarU{
   public static final String addNewColl                                     = "addNewColl";
   public static final String uE                                             = "uE";
   public static final String authToken                                      = "authToken";
+  public static final String usn                                            = "usn";
   public static final String authEmail                                      = "authEmail";
   public static final String noteStore                                      = "noteStore";
   public static final String resourceGUID                                   = "resourceGUID";

@@ -29,22 +29,30 @@ import java.util.Map;
 
 public class SSLearnEpLockHoldRet extends SSServRetI{
 
-  public Boolean lockedByUser = null;
+  public Boolean lockedByUser  = null;
+  public Boolean locked        = false;
+  public Long    remainingTime = null;
 
   public static SSLearnEpLockHoldRet get(
+    final Boolean locked,
     final Boolean lockedByUser, 
+    final Long    remainingTime, 
     final SSMethU op){
 
-    return new SSLearnEpLockHoldRet(lockedByUser, op);
+    return new SSLearnEpLockHoldRet(locked, lockedByUser, remainingTime, op);
   }
   
   private SSLearnEpLockHoldRet(
+    final Boolean locked,
     final Boolean lockedByUser,
+    final Long    remainingTime,
     final SSMethU op){
     
     super(op);
     
-    this.lockedByUser = lockedByUser;
+    this.locked        = locked;
+    this.lockedByUser  = lockedByUser;
+    this.remainingTime = remainingTime;
   }
 
   @Override
@@ -52,7 +60,9 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.lockedByUser, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.locked,        SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.lockedByUser,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarU.remainingTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.serv.api;
+package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public abstract class SSServImplStartWithDBA extends SSServImplStartA{
+public class SSEvernoteUserAddPar extends SSServPar{
   
-  public final SSDBSQLI   dbSQL;
+  public String          authToken = null;
   
-  public SSServImplStartWithDBA(final SSConfA conf, final SSDBSQLI dbSQL){
-    super(conf);
+  public SSEvernoteUserAddPar(SSServPar par) throws Exception{
     
-    this.dbSQL = dbSQL;
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        authToken        = (String)  pars.get(SSVarU.authToken);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

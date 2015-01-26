@@ -39,12 +39,14 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
+import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHandler;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -60,12 +62,14 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
-  private final SSDataImportSQLFct sqlFct;
+  private final SSDataImportSQLFct          sqlFct;
+  private final SSDataImportEvernoteHandler dataImpEvernoteHelper;
   
   public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     super(conf, dbGraph, dbSQL);
     
-    this.sqlFct = new SSDataImportSQLFct         (dbSQL);
+    this.sqlFct                = new SSDataImportSQLFct         (dbSQL);
+    this.dataImpEvernoteHelper = new SSDataImportEvernoteHandler (dbSQL); 
   }
   
   @Override
@@ -107,17 +111,42 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
      
-      final Thread evernoteImportHandler = 
-        new Thread(
-          new SSDataImportEvernoteHandler(
-            (SSDataImportConf)conf, 
-            par,
-            this));
+      SSLogU.info("start data import for evernote account " + par.authToken);                
       
-      evernoteImportHandler.start();
+      dbSQL.startTrans(par.shouldCommit);
+      
+      dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
+      
+      dataImpEvernoteHelper.handleLinkedNotebooks ();
+      dataImpEvernoteHelper.setSharedNotebooks    ();
+      dataImpEvernoteHelper.handleNotebooks       ();
+      dataImpEvernoteHelper.handleNotes           ();
+      dataImpEvernoteHelper.handleResources       ();
+      
+      dataImpEvernoteHelper.setUSN();
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      SSServA.removeClientRequ(par.op, SSStrU.toStr(par.user), this);
+      
+      SSLogU.info("end data import for evernote account " + par.authToken);
       
       return true;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return dataImportEvernote(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

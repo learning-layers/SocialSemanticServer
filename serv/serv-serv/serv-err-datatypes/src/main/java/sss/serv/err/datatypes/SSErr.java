@@ -27,7 +27,17 @@ public class SSErr extends Exception{
   public SSErrE code = null;
   
   public SSErr(final SSErrE code){
+    
     super(SSStrU.toStr(code));
+    
+    this.code = code;
+  }
+  
+  public SSErr(
+    final SSErrE code,
+    final String message){
+    
+    super(code + SSStrU.colon + SSStrU.blank + message);
     
     this.code = code;
   }

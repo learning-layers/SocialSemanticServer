@@ -35,19 +35,19 @@ import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteTagNamesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksLinkedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotesLinkedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUsersAuthTokenGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
-import at.kc.tugraz.ss.serv.jobs.evernote.impl.helper.SSEvernoteHelper;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
@@ -60,19 +60,15 @@ import com.evernote.clients.NoteStoreClient;
 import com.evernote.clients.UserStoreClient;
 import com.evernote.edam.error.EDAMErrorCode;
 import com.evernote.edam.error.EDAMSystemException;
-import com.evernote.edam.notestore.NoteFilter;
-import com.evernote.edam.notestore.NoteMetadata;
-import com.evernote.edam.notestore.NotesMetadataList;
-import com.evernote.edam.notestore.NotesMetadataResultSpec;
 import com.evernote.edam.notestore.SyncChunk;
 import com.evernote.edam.notestore.SyncChunkFilter;
-import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
@@ -105,7 +101,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
         if(par.getThumb){
           
           desc.thumb =
-            SSEvernoteHelper.getThumbBase64(
+            SSServCaller.fileThumbBase64Get(
               par.user,
               par.entity);
         }
@@ -283,20 +279,6 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   }
   
   @Override
-  public List<Notebook> evernoteNotebooksGet(SSServPar parA) throws Exception {
-    
-    try{
-      
-      SSEvernoteNotebooksGetPar par       = new SSEvernoteNotebooksGetPar(parA);
-      
-      return par.noteStore.listNotebooks();
-    }catch (Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public Notebook evernoteNotebookGet(final SSServPar parA) throws Exception {
     
     try{
@@ -331,54 +313,6 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       SSEvernoteNotebooksSharedGetPar par             = new SSEvernoteNotebooksSharedGetPar(parA);
       
 			return par.noteStore.listSharedNotebooks();
-    }catch (Exception error){
-			SSServErrReg.regErrThrow(error);
-      return null;
-		}
-  }
-  
-  @Override 
-  public List<LinkedNotebook> evernoteNotebooksLinkedGet(SSServPar parA) throws Exception{
-    
-    try{
-      SSEvernoteNotebooksLinkedGetPar par             = new SSEvernoteNotebooksLinkedGetPar(parA);
-      
-			return par.noteStore.listLinkedNotebooks();
-    }catch (Exception error){
-			SSServErrReg.regErrThrow(error);
-      return null;
-		}
-  }
-  
-  @Override
-  public List<Note> evernoteNotesGet(SSServPar parA) throws Exception {
-    
-    try{
-      
-      SSEvernoteNotesGetPar   par        = new SSEvernoteNotesGetPar(parA);
-      List<Note>              notes      = new ArrayList<>();
-      NotesMetadataResultSpec resultSpec = new NotesMetadataResultSpec();
-      NoteFilter              noteFilter = new NoteFilter();
-      NotesMetadataList       noteList;
-//    NoteCollectionCounts    noteCount;
-      
-      resultSpec.setIncludeAttributes(true);
-      resultSpec.setIncludeCreated(true);
-      resultSpec.setIncludeDeleted(true);
-      resultSpec.setIncludeNotebookGuid(true);
-      resultSpec.setIncludeTitle(true);
-      resultSpec.setIncludeUpdated(true);
-      
-      noteFilter.setNotebookGuid(par.notebookGuid);
-      
-//      noteCount = par.noteStore.findNoteCounts    (noteFilter, false);
-      noteList  = par.noteStore.findNotesMetadata (noteFilter, 0, 100, resultSpec);
-      
-      for (NoteMetadata note : noteList.getNotes()) {
-        notes.add(par.noteStore.getNote(note.getGuid(), true, true, false, false));
-      }
-      
-      return notes;
     }catch(Exception error){
       
       if(
@@ -387,28 +321,13 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNotesGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNotebooksSharedGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
         Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
         
-        return evernoteNotesGet (parA);
+        return evernoteNotebooksSharedGet(parA);
       }
       
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEvernoteNotesLinkedGetPar par       = new SSEvernoteNotesLinkedGetPar(parA);
-      final SyncChunk                   synChunk  = par.noteStore.getLinkedNotebookSyncChunk(par.linkedNotebook, 0, 256, true);
-      
-      return synChunk.getNotes();
-      
-    }catch (Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -497,4 +416,241 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       return null;
     }
   }
+  
+  @Override
+  public Boolean evernoteUserAdd(final SSServPar parA) throws Exception{
+     
+    try{
+      final SSEvernoteUserAddPar par = new SSEvernoteUserAddPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.addUserIfNotExists(par.user, par.authToken);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return evernoteUserAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws Exception{
+     
+    try{
+      final SSEvernoteUsersAuthTokenGetPar par = new SSEvernoteUsersAuthTokenGetPar(parA);
+      
+      return sqlFct.getAuthToken(par.user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean evernoteNoteAdd(final SSServPar parA) throws Exception{
+     
+    try{
+      final SSEvernoteNoteAddPar par = new SSEvernoteNoteAddPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.addNoteIfNotExists(par.notebook, par.note);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return evernoteNoteAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean evernoteResourceAdd(final SSServPar parA) throws Exception{
+     
+    try{
+      final SSEvernoteResourceAddPar par = new SSEvernoteResourceAddPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.addResourceIfNotExists(par.note, par.resource);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return evernoteResourceAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean evernoteUSNSet(final SSServPar parA) throws Exception{
+     
+    try{
+      final SSEvernoteUSNSetPar par = new SSEvernoteUSNSetPar(parA);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.setUSN(par.authToken, par.usn);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return true;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return evernoteUSNSet(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+//    @Override 
+//  public List<LinkedNotebook> evernoteNotebooksLinkedGet(SSServPar parA) throws Exception{
+//    
+//    try{
+//      SSEvernoteNotebooksLinkedGetPar par             = new SSEvernoteNotebooksLinkedGetPar(parA);
+//      
+//			return par.noteStore.listLinkedNotebooks();
+//    }catch (Exception error){
+//			SSServErrReg.regErrThrow(error);
+//      return null;
+//		}
+//  }
+  
+  //  @Override
+//  public List<Notebook> evernoteNotebooksGet(SSServPar parA) throws Exception {
+//    
+//    try{
+//      
+//      SSEvernoteNotebooksGetPar par       = new SSEvernoteNotebooksGetPar(parA);
+//      
+//      return par.noteStore.listNotebooks();
+//    }catch (Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+  
+//  @Override
+//  public List<Note> evernoteNotesGet(SSServPar parA) throws Exception {
+//    
+//    try{
+//      
+//      SSEvernoteNotesGetPar   par        = new SSEvernoteNotesGetPar(parA);
+//      List<Note>              notes      = new ArrayList<>();
+//      NotesMetadataResultSpec resultSpec = new NotesMetadataResultSpec();
+//      NoteFilter              noteFilter = new NoteFilter();
+//      NotesMetadataList       noteList;
+////    NoteCollectionCounts    noteCount;
+//      
+//      resultSpec.setIncludeAttributes(true);
+//      resultSpec.setIncludeCreated(true);
+//      resultSpec.setIncludeDeleted(true);
+//      resultSpec.setIncludeNotebookGuid(true);
+//      resultSpec.setIncludeTitle(true);
+//      resultSpec.setIncludeUpdated(true);
+//      
+//      noteFilter.setNotebookGuid(par.notebookGuid);
+//      
+////      noteCount = par.noteStore.findNoteCounts    (noteFilter, false);
+//      noteList  = par.noteStore.findNotesMetadata (noteFilter, 0, 100, resultSpec);
+//      
+//      for (NoteMetadata note : noteList.getNotes()) {
+//        notes.add(par.noteStore.getNote(note.getGuid(), true, true, false, false));
+//      }
+//      
+//      return notes;
+//    }catch(Exception error){
+//      
+//      if(
+//        error instanceof EDAMSystemException &&
+//        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+//        
+//        SSServErrReg.reset();
+//        
+//        SSLogU.info("evernoteNotesGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+//        
+//        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+//        
+//        return evernoteNotesGet (parA);
+//      }
+//      
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+//  
+//  @Override
+//  public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws Exception{
+//    
+//    try{
+//      final SSEvernoteNotesLinkedGetPar par       = new SSEvernoteNotesLinkedGetPar(parA);
+//      final SyncChunk                   synChunk  = par.noteStore.getLinkedNotebookSyncChunk(par.linkedNotebook, 0, 256, true);
+//      
+//      return synChunk.getNotes();
+//      
+//    }catch (Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
 }

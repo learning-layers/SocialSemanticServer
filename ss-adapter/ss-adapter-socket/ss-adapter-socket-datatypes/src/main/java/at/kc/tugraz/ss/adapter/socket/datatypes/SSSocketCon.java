@@ -96,7 +96,7 @@ public class SSSocketCon{
     
 //    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
     ret.put(SSMethU.toStr(op), null);
-    
+
     ret.put(SSVarU.id, null);
     
     if(!errors.isEmpty()){
