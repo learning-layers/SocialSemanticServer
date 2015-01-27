@@ -245,17 +245,24 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           throw error;
         }
         
-        activity.entity = 
-          SSServCaller.entityDescGet(
-            par.user, 
-            activity.entity.id, 
-            false, 
-            false, 
-            false, 
-            false, 
-            false,
-            false, 
-            false);
+        try{
+          
+          activity.entity = 
+            SSServCaller.entityDescGet(
+              par.user, 
+              activity.entity.id, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false,
+              false, 
+              false);
+          
+        }catch(Exception error){
+          SSLogU.warn("information for activity entity couldnt be retrieved");
+          SSServErrReg.reset();
+        }
         
         activity.users.addAll(
           SSServCaller.usersGet(
@@ -277,17 +284,24 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             throw error;
           }
           
-          activity.entities.add(
-            SSServCaller.entityDescGet(
-              par.user,
-              activityEntity,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false));
+          try{
+            
+            activity.entities.add(
+              SSServCaller.entityDescGet(
+                par.user,
+                activityEntity,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false));
+            
+          }catch(Exception error){
+            SSLogU.warn("information for activity entity couldnt be retrieved");
+            SSServErrReg.reset();
+          }
         }
       }
 
