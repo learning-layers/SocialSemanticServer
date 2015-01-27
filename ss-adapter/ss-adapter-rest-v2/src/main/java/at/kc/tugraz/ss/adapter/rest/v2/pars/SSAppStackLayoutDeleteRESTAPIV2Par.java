@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +18,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.api;
+package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
-import java.util.List;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public interface SSAppStackLayoutServerI{
+@XmlRootElement
+@ApiModel(value = "appStackLayoutDelete request parameter")
+public class SSAppStackLayoutDeleteRESTAPIV2Par{
   
-  public List<SSAppStackLayout>  appStackLayoutsGet     (final SSServPar parA) throws Exception;
-  public SSUri                   appStackLayoutCreate   (final SSServPar parA) throws Exception;
-  public SSUri                   appStackLayoutTileAdd  (final SSServPar parA) throws Exception;
-  public Boolean                 appStackLayoutDelete   (final SSServPar parA) throws Exception;
+  @ApiModelProperty(
+    required = true,
+    value = "app stack layout to delete")
+  public SSUri stack = null;
+  
+  @XmlElement
+  public void setStack(final String stack) throws Exception{
+    this.stack = SSUri.get(stack, SSVocConf.sssUri);
+  }
+  
+  public SSAppStackLayoutDeleteRESTAPIV2Par(){
+  }
 }

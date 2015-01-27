@@ -114,4 +114,18 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
        SSServErrReg.regErrThrow(error);
      }
   }
+
+  public void deleteStack(final SSUri stack) throws Exception{
+    
+    try{
+      final Map<String, String> deletes    = new HashMap<>();
+      
+      delete(deletes, SSSQLVarU.stackId, stack);
+      
+      dbSQL.delete(appStackLayoutTable, deletes);
+      
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+  }
 }

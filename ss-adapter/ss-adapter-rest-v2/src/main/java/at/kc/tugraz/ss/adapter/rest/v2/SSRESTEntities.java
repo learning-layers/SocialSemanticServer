@@ -76,9 +76,11 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
@@ -134,62 +136,6 @@ public class SSRESTEntities {
     }
     
     return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/appStackLayouts")
-  @ApiOperation(
-    value = "retrieve appStackLayouts",
-    response = SSAppStackLayoutsGetRet.class)
-  public Response appStackLayoutsGet(
-    @Context HttpHeaders                     headers){
-    
-    final SSAppStackLayoutsGetPar par;
-    
-    try{
-      par =
-        new SSAppStackLayoutsGetPar(
-          SSMethU.appStackLayoutsGet,
-          null,
-          null);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/appStackLayouts")
-  @ApiOperation(
-    value = "create an arrangement of tiles within an app",
-    response = SSAppStackLayoutCreateRet.class)
-  public Response appStackLayoutCreatePost(
-    @Context HttpHeaders                     headers,
-    final SSAppStackLayoutCreateRESTAPIV2Par input){
-    
-    final SSAppStackLayoutCreatePar par;
-    
-    try{
-      par =
-        new SSAppStackLayoutCreatePar(
-          SSMethU.appStackLayoutCreate,
-          null,
-          null,
-          input.app,
-          input.label,
-          input.description);
-    
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
   }
   
   @GET
@@ -773,37 +719,6 @@ public class SSRESTEntities {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{stack}/appStackLayouts/tiles")
-  @ApiOperation(
-    value = "add a tile to stack",
-    response = SSAppStackLayoutTileAddRet.class)
-  public Response appStackLayoutTileAddPost(
-    @Context HttpHeaders                      headers,
-    @PathParam(SSVarU.entity)String           stack,
-    final SSAppStackLayoutTileAddRESTAPIV2Par input){
-    
-    final SSAppStackLayoutTileAddPar par;
-    
-    try{
-      par =
-        new SSAppStackLayoutTileAddPar(
-          SSMethU.appStackLayoutTileAdd,
-          null,
-          null,
-          SSUri.get(stack, SSVocConf.sssUri),
-          input.app,
-          input.label);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    ("/{video}/videos/annotations")
   @ApiOperation(
     value = "add an annotation to a video",
@@ -1025,6 +940,121 @@ public class SSRESTEntities {
           input.entities, 
           true,
           true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/appStackLayouts")
+  @ApiOperation(
+    value = "retrieve appStackLayouts",
+    response = SSAppStackLayoutsGetRet.class)
+  public Response appStackLayoutsGet(
+    @Context HttpHeaders                     headers){
+    
+    final SSAppStackLayoutsGetPar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutsGetPar(
+          SSMethU.appStackLayoutsGet,
+          null,
+          null);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/appStackLayouts")
+  @ApiOperation(
+    value = "create an arrangement of tiles within an app",
+    response = SSAppStackLayoutCreateRet.class)
+  public Response appStackLayoutCreatePost(
+    @Context HttpHeaders                     headers,
+    final SSAppStackLayoutCreateRESTAPIV2Par input){
+    
+    final SSAppStackLayoutCreatePar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutCreatePar(
+          SSMethU.appStackLayoutCreate,
+          null,
+          null,
+          input.app,
+          input.label,
+          input.description);
+    
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/appStackLayouts/{stack}")
+  @ApiOperation(
+    value = "delete an arrangement of tiles within an app",
+    response = SSAppStackLayoutDeleteRet.class)
+  public Response appStackLayoutsDelete(
+    @Context HttpHeaders              headers,
+    @PathParam(SSVarU.stack) String   stack){
+    
+    final SSAppStackLayoutDeletePar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutDeletePar(
+          SSMethU.appStackLayoutDelete,
+          null,
+          null,
+          SSUri.get(stack, SSVocConf.sssUri));
+    
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleDELETERequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/appStackLayouts/{stack}/tiles")
+  @ApiOperation(
+    value = "add a tile to stack",
+    response = SSAppStackLayoutTileAddRet.class)
+  public Response appStackLayoutTileAddPost(
+    @Context HttpHeaders                      headers,
+    @PathParam(SSVarU.entity)String           stack,
+    final SSAppStackLayoutTileAddRESTAPIV2Par input){
+    
+    final SSAppStackLayoutTileAddPar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutTileAddPar(
+          SSMethU.appStackLayoutTileAdd,
+          null,
+          null,
+          SSUri.get(stack, SSVocConf.sssUri),
+          input.app,
+          input.label);
       
     }catch(Exception error){
       return Response.status(422).build();
