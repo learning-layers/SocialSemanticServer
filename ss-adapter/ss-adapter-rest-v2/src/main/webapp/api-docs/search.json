@@ -1,7 +1,7 @@
 {
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
-  "basePath" : "http://localhost:8080/ss-adapter-rest-v2",
+  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-v2",
   "resourcePath" : "/search",
   "apis" : [ {
     "path" : "/search",
@@ -67,18 +67,26 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "comments" : {
           "type" : "array",
@@ -87,13 +95,9 @@
             "type" : "string"
           }
         },
-        "locations" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
+          "description" : "attached entities"
         },
         "flags" : {
           "type" : "array",
@@ -101,10 +105,6 @@
           "items" : {
             "$ref" : "SSEntityA"
           }
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "users" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",

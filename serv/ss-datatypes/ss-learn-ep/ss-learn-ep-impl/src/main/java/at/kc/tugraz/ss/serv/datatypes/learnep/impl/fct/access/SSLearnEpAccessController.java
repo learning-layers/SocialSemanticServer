@@ -22,8 +22,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,8 +137,20 @@ public class SSLearnEpAccessController{
   }
   
   public static void checkHasLock(
-    final SSUri         user, 
+    final SSLearnEpConf learnEpConf,
+    final SSUri         user,
     final SSUri         learnEp) throws Exception{
+    
+    try{
+      if(!learnEpConf.useEpisodeLocking ||
+        !SSStrU.contains(SSServCaller.circleTypesGet(user, user, learnEp, true), SSCircleE.group)){
+        return;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return;
+    }
     
     try{
       

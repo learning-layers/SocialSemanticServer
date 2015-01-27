@@ -39,12 +39,12 @@ public class SSActivity extends SSEntity{
   @ApiModelProperty(
     required = false,
     value = "entity")
-  public SSUri         entity = null;
+  public SSEntity         entity = null;
   
   public static SSActivity get(
     final SSUri               id,
     final SSActivityE         activityType,
-    final SSUri               entity) throws Exception{
+    final SSEntity            entity) throws Exception{
     
     return new SSActivity(id, activityType, entity);
   }
@@ -52,7 +52,7 @@ public class SSActivity extends SSEntity{
   protected SSActivity(
     final SSUri               id,
     final SSActivityE         activityType,
-    final SSUri               entity) throws Exception{
+    final SSEntity            entity) throws Exception{
     
     super(id, SSEntityE.activity);
     
@@ -73,9 +73,5 @@ public class SSActivity extends SSEntity{
   /* json getters */
   public String getActivityType() throws Exception{
     return SSStrU.toStr(activityType);
-  }
-  
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
   }
 }

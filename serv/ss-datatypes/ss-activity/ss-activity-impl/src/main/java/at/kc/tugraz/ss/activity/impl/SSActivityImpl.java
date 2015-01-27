@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -232,7 +233,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
         
         try{
-          SSServCallerU.canUserReadEntity(par.user, activity.entity);
+          SSServCallerU.canUserReadEntity(par.user, activity.entity.id);
         }catch(Exception error){
           
           if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
@@ -243,6 +244,18 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           
           throw error;
         }
+        
+        activity.entity = 
+          SSServCaller.entityDescGet(
+            par.user, 
+            activity.entity.id, 
+            false, 
+            false, 
+            false, 
+            false, 
+            false,
+            false, 
+            false);
         
         activity.users.addAll(
           SSServCaller.usersGet(
@@ -303,7 +316,14 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       dbSQL.startTrans(par.shouldCommit);
 
-      //TODO dhteiler: remove possibly same user par.user from par.users
+      SSServCaller.entityAdd(
+        par.user, 
+        activityUri, 
+        SSEntityE.activity, 
+        SSLabel.get(SSStrU.toStr(par.type)), 
+        null, 
+        null, 
+        false);
       
       sqlFct.addActivity(
         par.user,

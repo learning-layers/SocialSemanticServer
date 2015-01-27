@@ -26,8 +26,10 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -142,6 +144,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>                         tableCons      = new ArrayList<>();
       Long                                       timestamp;
       SSActivity                                 activityObj;
+      SSEntity                                   activityEntity;
 
       table    (tables,    activityTable);
       table    (tables,    entityTable);
@@ -224,11 +227,20 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           continue;
         }
         
+        if(bindingStrToUri(resultSet, SSSQLVarU.entityId) != null){
+          activityEntity =
+            SSEntity.get(
+              bindingStrToUri(resultSet, SSSQLVarU.entityId),
+              SSEntityE.entity);
+        }else{
+          activityEntity = null;
+        }
+        
         activityObj = 
           SSActivity.get(
             bindingStrToUri  (resultSet, SSSQLVarU.id), 
             SSActivityE.get(bindingStr(resultSet, SSSQLVarU.activityType)),
-            bindingStrToUri(resultSet, SSSQLVarU.entityId));
+            activityEntity);
 
         activityObj.creationTime   = timestamp;
         activityObj.author         = bindingStrToUri        (resultSet, SSSQLVarU.author);
@@ -290,7 +302,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       table    (tables,    activityTable);
       table    (tables,    activityEntitiesTable);
-      column   (columns,   SSSQLVarU.entityId);
+      column   (columns,   activityTable,        SSSQLVarU.entityId);
       where    (wheres,    activityTable,        SSSQLVarU.activityId, activity);
       tableCon (tableCons, activityTable,        SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
       

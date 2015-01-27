@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -480,9 +481,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity(par.user, par.learnEp);
       
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock(par.user, par.learnEp);
-      }
+      SSLearnEpAccessController.checkHasLock(learnEpConf, par.user, par.learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -554,9 +553,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
 
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -638,9 +635,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
       SSServCallerU.canUserEditEntity        (par.user,    par.entity);
 
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(par.learnEpVersion));
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -780,9 +775,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
 
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -850,9 +843,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         SSServCallerU.canUserEditEntity(par.user, par.entity);
       }
             
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForEntity(par.learnEpEntity)));
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForEntity(par.learnEpEntity)));
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -918,9 +909,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSUri learnEp = sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle));
         
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, learnEp);
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -972,9 +961,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       final SSUri learnEp = sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpEntity));
       
-      if(learnEpConf.useEpisodeLocking){
-        SSLearnEpAccessController.checkHasLock (par.user, learnEp);
-      }
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
