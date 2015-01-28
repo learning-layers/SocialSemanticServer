@@ -70,7 +70,8 @@ public class SSActivitiesUserGetTest extends SSServOpTestCaseA{
         new ArrayList<>(), //entities,
         new ArrayList<>(), //circles
         null, //startTime
-        null)); //endTime
+        null, //endTime
+        false)); //includeOnlyLastActivities
     
     types.add(SSActivityE.tagEntity);
     
@@ -82,7 +83,8 @@ public class SSActivitiesUserGetTest extends SSServOpTestCaseA{
         new ArrayList<>(), //entities,
         new ArrayList<>(), //circles
         null, //startTime
-        null)); //endTime
+        null, //endTime
+        false)); //includeOnlyLastActivities
     
     System.out.println (op + " test end");
   }

@@ -908,7 +908,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
 
-      final SSUri learnEp = sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle));
+      final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
+      final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
         
       SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
@@ -919,7 +920,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 //      SSServCaller.entityRemove(par.learnEpCircle, false);
 
       if(par.saveActivity){
-        SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEp);
+        SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -962,7 +963,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpEntity);
 
-      final SSUri learnEp = sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpEntity));
+      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle (par.learnEpEntity);
+      final SSUri learnEp        = sqlFct.getLearnEpForVersion       (learnEpVersion);
       
       SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
@@ -972,7 +974,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 //      SSServCaller.entityRemove(par.learnEpEntity, false);
       
       if(par.saveActivity){
-        SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEp);
+        SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion);
       }
 
       dbSQL.commit(par.shouldCommit);
