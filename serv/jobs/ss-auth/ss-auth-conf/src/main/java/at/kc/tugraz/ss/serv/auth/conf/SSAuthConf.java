@@ -25,10 +25,10 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
 
 public class SSAuthConf extends SSCoreServConfA{
   
-  public SSAuthEnum authType               = null;
-  public String     fileName               = null;
-  public String     systemUserPassword     = null;
-  public Boolean    initAtStartUp          = true;
+  public static final String   noAuthKey              = "1234";
+  public SSAuthEnum            authType               = null;
+  public String                fileName               = null;
+  public String                systemUserPassword     = null;
   
   public static SSAuthConf copy(final SSAuthConf orig){
     
@@ -37,7 +37,6 @@ public class SSAuthConf extends SSCoreServConfA{
     copy.authType               = SSAuthEnum.get(SSAuthEnum.toStr(orig.authType));
     copy.fileName               = orig.fileName;
     copy.systemUserPassword     = orig.systemUserPassword;
-    copy.initAtStartUp          = orig.initAtStartUp;
     
     return copy;
   }

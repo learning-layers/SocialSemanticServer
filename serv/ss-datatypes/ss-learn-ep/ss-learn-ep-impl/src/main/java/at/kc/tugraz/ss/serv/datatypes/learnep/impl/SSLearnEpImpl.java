@@ -762,8 +762,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSServCaller.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op));
-    
-    SSLearnEpActivityFct.updateLearnEpVersionCircle(new SSLearnEpVersionUpdateCirclePar(parA));
   }
   
   @Override
@@ -775,7 +773,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
 
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForCircle(par.learnEpCircle)));
+      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
+      
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(learnEpVersion));
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -797,6 +797,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.xC,
         par.yC);
 
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion);
+      
       dbSQL.commit(par.shouldCommit);
 
       return true;
@@ -826,8 +828,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSServCaller.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op));
-    
-    SSLearnEpActivityFct.updateLearnEpVersionEntity(new SSLearnEpVersionUpdateEntityPar(parA));
   }
   
   @Override
@@ -843,7 +843,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         SSServCallerU.canUserEditEntity(par.user, par.entity);
       }
             
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(sqlFct.getLearnEpVersionForEntity(par.learnEpEntity)));
+      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForEntity(par.learnEpEntity);
+      
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(learnEpVersion));
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -867,6 +869,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.x,
         par.y);
 
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateEntity(par, learnEpVersion);
+      
       dbSQL.commit(par.shouldCommit);
 
       return true;

@@ -109,6 +109,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSCircleEntityPublicS
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -444,7 +445,7 @@ public class SSAdapterRest{
     final SSAuthCheckCredPar par = 
       new SSAuthCheckCredPar(
         SSMethU.authCheckCred, 
-        "dummyKey",
+        SSAuthConf.noAuthKey,
         null,
         input.label,
         input.password);

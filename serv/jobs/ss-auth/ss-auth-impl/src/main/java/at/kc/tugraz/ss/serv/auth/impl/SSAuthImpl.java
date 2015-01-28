@@ -54,7 +54,6 @@ import sss.serv.err.datatypes.SSErrE;
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
   private final SSAuthSQLFct    sqlFct;
-  private final String          noAuthKey       = "1234";
   private final List<String>    csvFileAuthKeys = new ArrayList<>();
   
   public SSAuthImpl(final SSAuthConf conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception {
@@ -223,7 +222,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }
           
           return SSAuthCheckCredRet.get(
-            noAuthKey,
+            SSAuthConf.noAuthKey,
             userUri,
             SSMethU.authCheckCred);
         }
@@ -234,7 +233,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           
           if(
             par.key != null &&
-            !SSStrU.equals(par.key, noAuthKey)){
+            !SSStrU.equals(par.key, SSAuthConf.noAuthKey)){
             
             userUri = sqlFct.getUserForKey(par.key);
             
@@ -348,7 +347,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }
           
           if(
-            noAuthKey.equals(parA.key) ||
+            SSAuthConf.noAuthKey.equals(parA.key) ||
             !csvFileAuthKeys.contains(parA.key)){
             throw new SSErr(SSErrE.userKeyWrong);
           }

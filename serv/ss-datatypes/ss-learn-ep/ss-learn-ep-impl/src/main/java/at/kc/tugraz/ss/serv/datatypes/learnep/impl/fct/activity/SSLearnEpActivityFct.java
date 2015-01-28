@@ -93,60 +93,6 @@ public class SSLearnEpActivityFct{
     }
   }
 
-  public static void updateLearnEpVersionCircle(
-    final SSLearnEpVersionUpdateCirclePar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.updateLearnEpVersionCircle,
-        par.learnEpCircle,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public static void updateLearnEpVersionEntity(
-    final SSLearnEpVersionUpdateEntityPar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.updateLearnEpVersionEntity,
-        par.learnEpEntity,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
   public static void removeLearnEpVersionCircle(
     final SSLearnEpVersionRemoveCirclePar par,
     final SSUri                           learnEp) throws Exception{ 
@@ -219,6 +165,100 @@ public class SSLearnEpActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void handleLearnEpVersionUpdateEntity(
+    final SSLearnEpVersionUpdateEntityPar par,
+    final SSUri                           learnEpVersion) throws Exception{
+    
+    try{
+      
+      if(par.entity != null){
+        
+        SSServCaller.activityAdd(
+          par.user,
+          SSActivityE.changeEntityForLearnEpVersionEntity,
+          learnEpVersion,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false);
+      }
+      
+      if(
+        par.x != null || 
+        par.y != null){
+       
+        SSServCaller.activityAdd(
+          par.user,
+          SSActivityE.moveLearnEpVersionEntity,
+          learnEpVersion,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false);
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void handleLearnEpVersionUpdateCircle(
+    final SSLearnEpVersionUpdateCirclePar par,
+    final SSUri                           learnEpVersion) throws Exception{
+    
+    try{
+      
+      if(par.label != null){
+       
+        SSServCaller.activityAdd(
+          par.user,
+          SSActivityE.changeLearnEpVersionCircleLabel,
+          learnEpVersion,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false);
+      }
+      
+      if(
+        par.xC != null || 
+        par.yC != null || 
+        par.xR != null || 
+        par.yR != null){
+       
+        SSServCaller.activityAdd(
+          par.user,
+          SSActivityE.moveLearnEpVersionCircle,
+          learnEpVersion,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false);
+      }
       
     }catch(SSErr error){
       

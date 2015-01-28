@@ -59,13 +59,15 @@ public enum SSActivityE{
   addCollEntry,
   
   //learning episodes
-  updateLearnEpVersionCircle,
-  updateLearnEpVersionEntity,
   removeLearnEpVersionCircle,
   removeLearnEpVersionEntity,
   addEntityToLearnEpVersion,
   addCircleToLearnEpVersion,
   shareLearnEpWithUser,
+  changeEntityForLearnEpVersionEntity,
+  moveLearnEpVersionEntity,
+  changeLearnEpVersionCircleLabel,
+  moveLearnEpVersionCircle,
   
   //entity circles
   createCircle,
