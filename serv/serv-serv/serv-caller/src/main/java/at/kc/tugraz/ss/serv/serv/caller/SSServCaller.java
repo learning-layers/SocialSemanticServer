@@ -2962,17 +2962,19 @@ public class SSServCaller {
     final List<SSUri>         entities,
     final List<SSUri>         circles,
     final Long                startTime,
-    final Long                endTime) throws Exception{
+    final Long                endTime,
+    final Boolean             includeOnlyLastActivities) throws Exception{
    
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.types,            types);
-    opPars.put(SSVarU.users,            users);
-    opPars.put(SSVarU.entities,         entities);
-    opPars.put(SSVarU.circles,          circles);
-    opPars.put(SSVarU.startTime,        startTime);
-    opPars.put(SSVarU.endTime,          endTime);
+    opPars.put(SSVarU.user,                      user);
+    opPars.put(SSVarU.types,                     types);
+    opPars.put(SSVarU.users,                     users);
+    opPars.put(SSVarU.entities,                  entities);
+    opPars.put(SSVarU.circles,                   circles);
+    opPars.put(SSVarU.startTime,                 startTime);
+    opPars.put(SSVarU.endTime,                   endTime);
+    opPars.put(SSVarU.includeOnlyLastActivities, includeOnlyLastActivities);
     
     return (List<SSActivity>) SSServA.callServViaServer(new SSServPar(SSMethU.activitiesUserGet, opPars));
   }

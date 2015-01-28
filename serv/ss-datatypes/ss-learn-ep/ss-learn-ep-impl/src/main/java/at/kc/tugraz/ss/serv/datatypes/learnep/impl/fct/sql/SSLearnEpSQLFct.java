@@ -832,6 +832,32 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       return null;
     }
   }
+
+  public void deleteCircle(final SSUri learnEpCircle) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(deletes, SSSQLVarU.learnEpCircleId, learnEpCircle);
+      
+      dbSQL.deleteIgnore(learnEpVersionCirclesTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void deleteEntity(final SSUri learnEpEntity) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(deletes, SSSQLVarU.learnEpEntityId, learnEpEntity);
+      
+      dbSQL.deleteIgnore(learnEpVersionEntitiesTable, deletes);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
 
 
