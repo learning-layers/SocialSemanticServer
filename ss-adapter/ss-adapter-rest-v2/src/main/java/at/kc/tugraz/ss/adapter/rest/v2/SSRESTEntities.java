@@ -530,10 +530,7 @@ public class SSRESTEntities {
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
     response = SSTagUserEntitiesForTagsGetRet.class)
   public Response tagEntitiesGetPost(
-     @Context
-      HttpHeaders headers,
-    @PathParam(SSVarU.entities)
-      String   entities,
+     @Context HttpHeaders                     headers,
     final SSTagEntitiesForTagsGetRESTAPIV2Par input){
     
     final SSTagUserEntitiesForTagsGetPar par;
