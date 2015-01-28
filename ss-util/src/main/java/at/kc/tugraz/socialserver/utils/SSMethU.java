@@ -46,7 +46,6 @@ public enum SSMethU{
   //appStackLayout
   appStackLayoutsGet,
   appStackLayoutCreate,
-  appStackLayoutTileAdd,
   appStackLayoutDelete,
   
   //app

@@ -38,11 +38,9 @@ import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
-import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
-import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
 import java.util.ArrayList;
@@ -162,74 +160,6 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         
         if(dbSQL.rollBack(parA)){
           return appStackLayoutCreate(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void appStackLayoutTileAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
-    
-    sSCon.writeRetFullToClient(SSAppStackLayoutTileAddRet.get(appStackLayoutTileAdd(parA), parA.op));
-  }
-  
-  @Override
-  public SSUri appStackLayoutTileAdd(final SSServPar parA) throws Exception{
-  
-    try{
-      final SSAppStackLayoutTileAddPar par    = new SSAppStackLayoutTileAddPar(parA);
-      final SSUri                      tileUri = SSServCaller.vocURICreate();
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-       SSServCaller.entityEntityToPubCircleAdd(
-        par.user, 
-        tileUri, 
-        SSEntityE.appTile, 
-        par.label, 
-        null, 
-        null, 
-        false);
-       
-       if(par.app != null){
-        
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.app,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
-      }
-       
-      sqlFct.addTile(tileUri, par.stack, par.app);
-    
-      dbSQL.commit(par.shouldCommit);
-      
-      return tileUri;
-      
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        SSServErrReg.reset();
-        
-        if(dbSQL.rollBack(parA)){
-          return appStackLayoutTileAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

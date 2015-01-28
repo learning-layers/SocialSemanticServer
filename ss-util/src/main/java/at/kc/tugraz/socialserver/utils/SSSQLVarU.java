@@ -28,7 +28,6 @@ public class SSSQLVarU{
   public static final String timePoint                                      = "timePoint";
   public static final String genre                                          = "genre";
   public static final String stackId                                        = "stackId";
-  public static final String tileId                                         = "tileId";
   public static final String app                                            = "app";
   public static final String videoId                                        = "videoId";
   public static final String downloadId                                     = "downloadId";

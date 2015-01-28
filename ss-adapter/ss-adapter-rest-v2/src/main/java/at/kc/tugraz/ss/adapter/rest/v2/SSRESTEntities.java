@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutCreateRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutTileAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleCreateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleEntitiesAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleUsersAddRESTAPIV2Par;
@@ -77,11 +76,9 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
-import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
-import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
@@ -1027,36 +1024,5 @@ public class SSRESTEntities {
     }
     
     return SSRestMainV2.handleDELETERequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/appStackLayouts/{stack}/tiles")
-  @ApiOperation(
-    value = "add a tile to stack",
-    response = SSAppStackLayoutTileAddRet.class)
-  public Response appStackLayoutTileAddPost(
-    @Context HttpHeaders                      headers,
-    @PathParam(SSVarU.entity)String           stack,
-    final SSAppStackLayoutTileAddRESTAPIV2Par input){
-    
-    final SSAppStackLayoutTileAddPar par;
-    
-    try{
-      par =
-        new SSAppStackLayoutTileAddPar(
-          SSMethU.appStackLayoutTileAdd,
-          null,
-          null,
-          SSUri.get(stack, SSVocConf.sssUri),
-          input.app,
-          input.label);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
   }
 }

@@ -27,6 +27,5 @@ public interface SSAppStackLayoutClientI{
   
   public void appStackLayoutsGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void appStackLayoutCreate   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appStackLayoutTileAdd  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void appStackLayoutDelete   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

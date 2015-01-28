@@ -14,3 +14,7 @@ ADD CONSTRAINT `appFKappstacklayout`
   REFERENCES `sss`.`entity` (`id`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION;
+
+DROP TABLE `sss`.`appstacklayouttiles`;
+
+DROP TABLE `sss`.`appstacklayouttile`;

@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutCreateRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutTileAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIV1Par;
@@ -185,10 +184,8 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
-import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutTileAddPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
-import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutTileAddRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
@@ -321,29 +318,6 @@ public class SSAdapterRest{
         input.app,
         input.label,
         input.description);
-    
-    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "appStackLayoutTileAdd")
-  @ApiOperation(
-    value = "add a tile to stack",
-    response = SSAppStackLayoutTileAddRet.class)
-  public String appStackLayoutTileAdd(
-    final SSAppStackLayoutTileAddRESTAPIV1Par input){
-    
-    final SSAppStackLayoutTileAddPar par =
-      new SSAppStackLayoutTileAddPar(
-        SSMethU.appStackLayoutTileAdd,
-        input.key,
-        input.user,
-        input.stack,
-        input.app,
-        input.label);
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }
