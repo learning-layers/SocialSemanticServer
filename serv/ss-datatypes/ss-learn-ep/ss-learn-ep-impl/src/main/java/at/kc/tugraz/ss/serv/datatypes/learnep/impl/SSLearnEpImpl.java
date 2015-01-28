@@ -25,7 +25,6 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -537,11 +536,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCaller.checkKey(parA);
     
-    final SSUri circle = learnEpVersionAddCircle(parA);
-      
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(circle, parA.op));
-    
-    SSLearnEpActivityFct.addCircleToLearnEpVersion(new SSLearnEpVersionAddCirclePar(parA), circle);
+    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op));
   }
   
   @Override
@@ -587,6 +582,8 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.yR,
         par.xC,
         par.yC);
+      
+      SSLearnEpActivityFct.addCircleToLearnEpVersion(par, circleUri);
 
       dbSQL.commit(par.shouldCommit);
 

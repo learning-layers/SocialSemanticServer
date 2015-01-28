@@ -24,6 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutCreateRESTAPIV2Par;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutUpdateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleCreateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleEntitiesAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleUsersAddRESTAPIV2Par;
@@ -76,9 +77,11 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
@@ -1007,7 +1010,7 @@ public class SSRESTEntities {
   @ApiOperation(
     value = "delete an arrangement of tiles within an app",
     response = SSAppStackLayoutDeleteRet.class)
-  public Response appStackLayoutsDelete(
+  public Response appStackLayoutDelete(
     @Context HttpHeaders              headers,
     @PathParam(SSVarU.stack) String   stack){
     
@@ -1026,5 +1029,37 @@ public class SSRESTEntities {
     }
     
     return SSRestMainV2.handleDELETERequest(headers, par);
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/appStackLayouts/{stack}")
+  @ApiOperation(
+    value = "update an arrangement of tiles within an app",
+    response = SSAppStackLayoutUpdateRet.class)
+  public Response appStackLayoutUpdate(
+    @Context HttpHeaders                     headers,
+    @PathParam(SSVarU.stack) String          stack,
+    final SSAppStackLayoutUpdateRESTAPIV2Par input){
+    
+    final SSAppStackLayoutUpdatePar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutUpdatePar(
+          SSMethU.appStackLayoutUpdate,
+          null,
+          null,
+          SSUri.get(stack, SSVocConf.sssUri),
+          input.app, 
+          input.label,
+          input.description);
+    
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePUTRequest(headers, par);
   }
 }

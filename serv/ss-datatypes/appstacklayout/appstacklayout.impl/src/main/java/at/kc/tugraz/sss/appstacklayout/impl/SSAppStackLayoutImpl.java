@@ -23,6 +23,7 @@ package at.kc.tugraz.sss.appstacklayout.impl;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
@@ -38,9 +39,11 @@ import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
+import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
 import java.util.ArrayList;
@@ -171,6 +174,86 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         
         if(dbSQL.rollBack(parA)){
           return appStackLayoutCreate(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void appStackLayoutUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
+    
+    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(parA), parA.op));
+  }
+
+  @Override
+  public SSUri appStackLayoutUpdate(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSAppStackLayoutUpdatePar par               = new SSAppStackLayoutUpdatePar(parA);
+      
+      SSServCallerU.canUserEditEntity(par.user, par.stack);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.app != null){
+        
+        SSServCaller.entityEntityToPubCircleAdd(
+          par.user,
+          par.app,
+          SSEntityE.entity,
+          null,
+          null,
+          null,
+          false);
+        
+        sqlFct.updateAppStackLayout(
+          par.stack,
+          par.app);
+      }
+      
+      if(
+        par.label != null || 
+        par.description != null){
+        
+        SSServCaller.entityUpdate(
+          par.user, 
+          par.stack, 
+          par.label, 
+          par.description, 
+          SSTextComment.asListWithoutNullAndEmpty(), 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListWithoutNullAndEmpty(), 
+          false);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.stack;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return appStackLayoutUpdate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

@@ -84,7 +84,8 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
      }
   }
 
-  public void deleteStack(final SSUri stack) throws Exception{
+  public void deleteStack(
+    final SSUri stack) throws Exception{
     
     try{
       final Map<String, String> deletes    = new HashMap<>();
@@ -92,6 +93,27 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       delete(deletes, SSSQLVarU.stackId, stack);
       
       dbSQL.delete(appStackLayoutTable, deletes);
+      
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+  }
+
+  public void updateAppStackLayout(
+    final SSUri stack, 
+    final SSUri app) throws Exception{
+    
+    try{
+      final Map<String, String> updates    = new HashMap<>();
+      final Map<String, String> wheres     = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.stackId, stack);
+      
+      if(app != null){
+        update(updates,    SSSQLVarU.app,     app);
+      }
+      
+      dbSQL.updateIgnore(appStackLayoutTable, wheres, updates);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
