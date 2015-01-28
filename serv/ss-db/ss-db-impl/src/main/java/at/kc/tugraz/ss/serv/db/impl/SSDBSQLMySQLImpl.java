@@ -46,11 +46,11 @@ import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
-  
-  public         Connection connector                = null;
-  private static DataSource connectionPool           = null;
-  private        Boolean    gotCon                   = false;
-  private        Integer    numberTimesTriedToGetCon = 0;
+
+  private static DataSource   connectionPool           = null;
+  public         Connection   connector                = null;
+  private        Boolean      gotCon                   = false;
+  private        Integer      numberTimesTriedToGetCon = 0;
   
   public SSDBSQLMySQLImpl(final SSConfA conf) throws Exception{
     

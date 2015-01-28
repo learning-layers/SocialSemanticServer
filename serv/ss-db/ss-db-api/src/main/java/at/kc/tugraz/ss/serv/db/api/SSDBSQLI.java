@@ -29,6 +29,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public interface SSDBSQLI{
 
+  public static final Integer entityLabelLength        = 255;
+  
   public Integer    getMaxActive() throws Exception;
   public Integer    getActive()    throws Exception;
   public Connection getConnection();

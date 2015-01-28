@@ -627,6 +627,23 @@ public class SSStrU{
     
     return list;
   }
+  
+  public static String trim(
+    final Object  object, 
+    final Integer maxLength){
+    
+    if(object == null){
+      return null;
+    }
+    
+    String tmpString = object.toString().trim();
+    
+    if(tmpString.length() > maxLength){
+      return tmpString.substring(0, maxLength);
+    }
+    
+    return tmpString;
+  }
 }
 
 ///**

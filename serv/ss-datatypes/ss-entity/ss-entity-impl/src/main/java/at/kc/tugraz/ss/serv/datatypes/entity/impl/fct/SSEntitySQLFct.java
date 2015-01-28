@@ -33,6 +33,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -231,7 +232,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       if(label == null){
         insert(inserts, SSSQLVarU.label, SSStrU.empty);
       }else{
-        insert(inserts, SSSQLVarU.label, label);
+        insert(inserts, SSSQLVarU.label, SSStrU.trim(label, SSDBSQLI.entityLabelLength));
       }
       
       if(entityType == null){
