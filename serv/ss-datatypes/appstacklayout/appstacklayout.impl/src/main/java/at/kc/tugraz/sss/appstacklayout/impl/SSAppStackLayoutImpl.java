@@ -110,7 +110,18 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     try{
       
       final SSAppStackLayoutCreatePar par               = new SSAppStackLayoutCreatePar(parA);
-      final SSUri                     appStackLayoutUri = SSServCaller.vocURICreate();
+      final SSUri                     appStackLayoutUri;
+      
+      if(par.uuid != null){
+        appStackLayoutUri = SSServCaller.vocURICreateFromId(par.uuid);
+      }else{
+        
+        if(par.link != null){
+          appStackLayoutUri = par.link;
+        }else{
+          appStackLayoutUri = SSServCaller.vocURICreate();
+        }
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       

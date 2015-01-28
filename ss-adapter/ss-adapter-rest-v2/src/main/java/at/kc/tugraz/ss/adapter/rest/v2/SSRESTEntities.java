@@ -987,6 +987,8 @@ public class SSRESTEntities {
           SSMethU.appStackLayoutCreate,
           null,
           null,
+          input.uuid,
+          input.link,
           input.app,
           input.label,
           input.description);

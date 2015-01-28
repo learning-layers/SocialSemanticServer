@@ -4,9 +4,9 @@
   "apis" : [ {
     "path" : "/search.{format}"
   }, {
-    "path" : "/entities.{format}"
-  }, {
     "path" : "/auth.{format}"
+  }, {
+    "path" : "/entities.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

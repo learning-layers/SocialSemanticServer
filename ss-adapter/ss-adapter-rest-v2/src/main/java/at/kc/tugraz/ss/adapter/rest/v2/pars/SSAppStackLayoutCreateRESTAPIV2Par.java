@@ -35,6 +35,22 @@ public class SSAppStackLayoutCreateRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
+    value = "video's link (if provided used as id)")
+  public SSUri                link        = null;
+  
+  @XmlElement
+  public void setLink(final String link) throws Exception{
+    try{ this.link = SSUri.get(link, SSVocConf.sssUri); }catch(Exception error){}
+  }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "app stack's uuid (if provided used as id if link is not set)")
+  public String                uuid        = null;
+  
+  @ApiModelProperty(
+    required = false,
     value = "app this stack is for")
   public SSUri               app        = null;
   

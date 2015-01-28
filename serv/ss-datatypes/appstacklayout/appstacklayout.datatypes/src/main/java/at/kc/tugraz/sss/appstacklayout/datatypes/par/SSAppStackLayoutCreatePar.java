@@ -31,23 +31,29 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSAppStackLayoutCreatePar extends SSServPar{
   
+  public String              uuid             = null;
+  public SSUri               link             = null;
   public SSUri               app              = null;
-  public SSLabel             label              = null;
-  public SSTextComment       description        = null;
+  public SSLabel             label            = null;
+  public SSTextComment       description      = null;
   
   public SSAppStackLayoutCreatePar(
     final SSMethU        op,
     final String         key,
     final SSUri          user,
+    final String         uuid,
+    final SSUri          link,
     final SSUri          app,
     final SSLabel        label,
     final SSTextComment  description){
     
     super(op, key, user);
     
-    this.app         = app;
-    this.label       = label;
-    this.description = description;
+    this.uuid           = uuid;
+    this.link           = link;
+    this.app            = app;
+    this.label          = label;
+    this.description    = description;
   }
   
   public SSAppStackLayoutCreatePar(SSServPar par) throws Exception{
@@ -58,11 +64,21 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
       
       if(pars != null){
         
+        uuid              = (String)          pars.get(SSVarU.uuid);
+        link              = (SSUri)           pars.get(SSVarU.link);
         label             = (SSLabel)         pars.get(SSVarU.label);
         description       = (SSTextComment)   pars.get(SSVarU.description);
       }
       
       if(par.clientJSONObj != null){
+        
+        try{
+          uuid =  par.clientJSONObj.get(SSVarU.uuid).getTextValue();
+        }catch(Exception error){}
+        
+        try{
+          link =  SSUri.get(par.clientJSONObj.get(SSVarU.link).getTextValue());
+        }catch(Exception error){}
         
         try{
           app =  SSUri.get(par.clientJSONObj.get(SSVarU.app).getTextValue());
@@ -93,5 +109,9 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
 
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
   }
 }

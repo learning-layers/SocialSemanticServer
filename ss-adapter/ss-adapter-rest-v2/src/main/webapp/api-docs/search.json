@@ -80,10 +80,6 @@
           "type" : "string",
           "description" : "textual description"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
@@ -95,12 +91,9 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "author" : {
           "type" : "string",
@@ -157,6 +150,13 @@
         "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "entities involved"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",

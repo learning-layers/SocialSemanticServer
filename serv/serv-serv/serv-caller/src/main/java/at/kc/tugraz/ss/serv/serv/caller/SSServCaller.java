@@ -122,14 +122,18 @@ public class SSServCaller {
    /* appStackLayout */
     
   public static SSUri appStackLayoutCreate(
-    final SSUri         user,
-    final SSUri         app,
-    final SSLabel       label,
-    final SSTextComment description) throws Exception{
+    final SSUri          user,
+    final String         uuid,
+    final SSUri          link,
+    final SSUri          app,
+    final SSLabel        label,
+    final SSTextComment  description) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,                    user);
+    opPars.put(SSVarU.link,                    link);
+    opPars.put(SSVarU.uuid,                    uuid);
     opPars.put(SSVarU.app,                     app);
     opPars.put(SSVarU.label,                   label);
     opPars.put(SSVarU.description,             description);
