@@ -95,14 +95,14 @@ public class SSLearnEpActivityFct{
 
   public static void removeLearnEpVersionCircle(
     final SSLearnEpVersionRemoveCirclePar par,
-    final SSUri                           learnEp) throws Exception{ 
+    final SSUri                           learnEpVersion) throws Exception{ 
     
     try{
       
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeLearnEpVersionCircle,
-        learnEp,
+        learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
         SSTextComment.asListWithoutNullAndEmpty(),
@@ -123,14 +123,14 @@ public class SSLearnEpActivityFct{
 
   public static void removeLearnEpVersionEntity(
     final SSLearnEpVersionRemoveEntityPar par,
-    final SSUri                           learnEp) throws Exception{
+    final SSUri                           learnEpVersion) throws Exception{
    
     try{
       
       SSServCaller.activityAdd(
         par.user,
         SSActivityE.removeLearnEpVersionEntity,
-        learnEp, 
+        learnEpVersion, 
         SSUri.asListWithoutNullAndEmpty(),
         SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
         SSTextComment.asListWithoutNullAndEmpty(),
