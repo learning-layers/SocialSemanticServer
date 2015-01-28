@@ -302,9 +302,9 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       table    (tables,    activityTable);
       table    (tables,    activityEntitiesTable);
-      column   (columns,   activityTable,        SSSQLVarU.entityId);
-      where    (wheres,    activityTable,        SSSQLVarU.activityId, activity);
-      tableCon (tableCons, activityTable,        SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
+      column   (columns,   activityEntitiesTable,  SSSQLVarU.entityId);
+      where    (wheres,    activityTable,          SSSQLVarU.activityId, activity);
+      tableCon (tableCons, activityTable,          SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       
