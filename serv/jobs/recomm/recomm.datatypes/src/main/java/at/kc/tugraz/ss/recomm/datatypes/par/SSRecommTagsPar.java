@@ -69,6 +69,12 @@ public class SSRecommTagsPar extends SSServPar{
     value = "number of tags to be returned")
   public Integer       maxTags    = 10;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether own tags should be included in the result")
+  public Boolean includeOwn = true;
+  
   public SSRecommTagsPar(){}
     
   public SSRecommTagsPar(final SSServPar par) throws Exception{
@@ -81,6 +87,7 @@ public class SSRecommTagsPar extends SSServPar{
         this.entity     =  (SSUri)         pars.get(SSVarU.entity);
         this.categories =  (List<String>)  pars.get(SSVarU.categories);
         this.maxTags    =  (Integer)       pars.get(SSVarU.maxTags);
+        includeOwn      =  (Boolean)       pars.get(SSVarU.includeOwn);
       }
       
       if(par.clientJSONObj != null){
@@ -101,6 +108,10 @@ public class SSRecommTagsPar extends SSServPar{
         
         try{
           this.maxTags   = par.clientJSONObj.get(SSVarU.maxTags).getIntValue();
+        }catch(Exception error){}
+        
+        try{
+          this.includeOwn  = par.clientJSONObj.get(SSVarU.includeOwn).getBooleanValue();
         }catch(Exception error){}
       }
       

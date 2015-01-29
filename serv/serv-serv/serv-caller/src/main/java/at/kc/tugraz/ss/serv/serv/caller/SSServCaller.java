@@ -2539,7 +2539,8 @@ public class SSServCaller {
     final SSUri         forUser,
     final SSUri         entity,
     final List<String>  categories,
-    final Integer       maxTags) throws Exception{
+    final Integer       maxTags,
+    final Boolean       includeOwn) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -2548,6 +2549,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,         entity);
     opPars.put(SSVarU.categories,     categories);
     opPars.put(SSVarU.maxTags,        maxTags);
+    opPars.put(SSVarU.includeOwn,     includeOwn);
     
     return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTags, opPars));
   }

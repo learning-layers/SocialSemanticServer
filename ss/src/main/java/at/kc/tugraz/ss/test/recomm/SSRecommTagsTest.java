@@ -45,7 +45,8 @@ public class SSRecommTagsTest extends SSServOpTestCaseA{
         null,
         null,
         new ArrayList<>(),
-        10);
+        10,
+        true);
     
     System.out.println (tags);
     

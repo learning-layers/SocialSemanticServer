@@ -85,6 +85,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
         SSStrU.toStr(par.entity), 
         par.categories,
         par.maxTags);
+//      !par.includeOwn); //filterOwn
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
