@@ -200,7 +200,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       final SSAppStackLayoutUpdatePar par               = new SSAppStackLayoutUpdatePar(parA);
       
-      SSServCallerU.canUserEditEntity(par.user, par.stack);
+      SSServCallerU.canUserReadEntity(par.user, par.stack);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -326,7 +326,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     try{
       final SSAppStackLayoutDeletePar par = new SSAppStackLayoutDeletePar(parA);
 
-      SSServCallerU.canUserEditEntity(par.user, par.stack);
+      SSServCallerU.canUserAllEntity(par.user, par.stack);
       
       dbSQL.startTrans(par.shouldCommit);
       
