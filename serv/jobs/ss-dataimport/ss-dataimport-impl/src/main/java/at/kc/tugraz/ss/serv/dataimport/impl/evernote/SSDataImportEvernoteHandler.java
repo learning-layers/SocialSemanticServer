@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLinkU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -31,6 +32,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
@@ -436,20 +438,34 @@ public class SSDataImportEvernoteHandler {
     final Note    note,
     final SSUri   notebookUri) throws Exception{
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      userUri, 
-      noteUri, 
-      SSEntityE.evernoteNote, 
-      noteLabel, 
-      null,
-      note.getCreated(),
-      false);
-    
-    SSServCaller.evernoteNoteAdd(
-      this.userUri, 
-      notebookUri, 
-      noteUri, 
-      false);
+    try{
+      
+      SSServCaller.entityEntityToPrivCircleAdd(
+        userUri,
+        noteUri,
+        SSEntityE.evernoteNote,
+        noteLabel,
+        null,
+        note.getCreated(),
+        false);
+      
+      if(!SSServCaller.entityExists(notebookUri)){
+        
+        addNotebook(
+          notebookUri, 
+          null, 
+          null);
+      }
+      
+      SSServCaller.evernoteNoteAdd(
+        this.userUri,
+        notebookUri,
+        noteUri,
+        false);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   public void handleResources() throws Exception{
@@ -466,6 +482,22 @@ public class SSDataImportEvernoteHandler {
     
     for(Resource resource : resources){
 
+      resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
+      
+      if(
+        resourceWithContent.isSetHeight() &&
+        resourceWithContent.isSetWidth()){
+        
+        if(
+          resourceWithContent.getWidth()  <= 200||
+          resourceWithContent.getHeight() <= 200){
+          SSLogU.debug("width or height to small");
+          continue;
+        }
+      }else{
+        SSLogU.debug("width or height not set");
+      }
+      
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), true);
       resourceUri         = getResourceUri           (evernoteInfo, resource);
       note                = SSServCaller.evernoteNoteGet                      (evernoteInfo.noteStore, resource.getNoteGuid(), false);

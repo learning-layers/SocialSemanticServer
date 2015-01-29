@@ -77,8 +77,10 @@ public class SSDataImportEvernoteTask extends TimerTask {
           true);
             
       }catch(Exception error){
+        
         SSLogU.warn("evernote import failed: " + authToken);
-        SSServErrReg.reset();
+        
+        SSServErrReg.logServImplErrors(true);
       }finally{
         
         try{

@@ -140,34 +140,6 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     }
   }
 
-  public SSEvernoteNote getNote(
-    final SSUri noteUri) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final Map<String, String> wheres = new HashMap<>();
-      
-      where(wheres, SSSQLVarU.noteId, noteUri);
-      
-      resultSet = dbSQL.select(evernoteNoteTable, wheres);
-      
-      if(!resultSet.next()){
-        throw new Exception("evernote note doesnt exist");
-      }
-        
-      return SSEvernoteNote.get(
-        noteUri, 
-        bindingStrToUri(resultSet, SSSQLVarU.notebookId));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public SSEvernoteResource getResource(
     final SSUri resourceId) throws Exception{
     
@@ -222,4 +194,31 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+  public SSEvernoteNote getNote(
+    final SSUri noteUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.noteId, noteUri);
+      
+      resultSet = dbSQL.select(evernoteNoteTable, wheres);
+      
+      checkFirstResult(resultSet);
+      
+      return SSEvernoteNote.get(
+        noteUri,
+        bindingStrToUri(resultSet, SSSQLVarU.notebookId));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 }
+

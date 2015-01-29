@@ -225,6 +225,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       final SSUri                     shardUri           = SSUri.get(userStore.getPublicUserInfo(userStore.getUser().getUsername()).getWebApiUrlPrefix());
       final SyncChunkFilter           filter             = new SyncChunkFilter();
       SyncChunk                       noteStoreSyncChunk;
+      Integer                         lastUSN;
       
       filter.setIncludeNotes                               (true);
       filter.setIncludeNoteResources	                     (true);
@@ -239,15 +240,31 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       filter.setIncludeResourceApplicationDataFullMap	     (true);
       filter.setIncludeNoteResourceApplicationDataFullMap	 (true);
       
-      noteStoreSyncChunk = 
+      noteStoreSyncChunk =
         noteStore.getFilteredSyncChunk(
           sqlFct.getUSN(par.authToken),
-          100000,
+          1000000,
           filter);
       
-      if(noteStoreSyncChunk.getChunkHighUSN() != noteStoreSyncChunk.getUpdateCount()){
-        SSLogU.warn(par.authToken + " didnt receive latest information from evernote | more than 100.000 (new) entries available");
+      if(noteStoreSyncChunk.isSetChunkHighUSN()){
+        lastUSN = noteStoreSyncChunk.getChunkHighUSN();
+      }else{
+        lastUSN = noteStoreSyncChunk.getUpdateCount();
       }
+      
+      if(
+        !noteStoreSyncChunk.isSetUpdateCount()  || 
+        !noteStoreSyncChunk.isSetChunkHighUSN() || 
+        (lastUSN >= noteStoreSyncChunk.getUpdateCount()) && lastUSN >= sqlFct.getUSN(par.authToken)){
+        
+        SSLogU.debug(par.authToken + " received full evernote content");
+      }else{
+        SSLogU.warn(par.authToken + " needs further syncing to retrieve full evernote content");
+      }
+      
+//      if(lastUSN != noteStoreSyncChunk.getUpdateCount()){
+//        SSLogU.warn(par.authToken + " didnt receive latest information from evernote | more than 1.000.000 (new) entries available");
+//      }
       
       return SSEvernoteInfo.get(
         userStore, 
