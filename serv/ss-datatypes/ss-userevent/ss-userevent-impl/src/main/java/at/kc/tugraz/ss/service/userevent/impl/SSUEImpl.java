@@ -84,23 +84,24 @@ implements
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
-    final List<SSUE> ues = new ArrayList<>();
+    final List<SSUEE> ueTypes = new ArrayList<>();
+    
     SSUri userUri;
     
+    ueTypes.add(SSUEE.evernoteNotebookUpdate);
+    ueTypes.add(SSUEE.evernoteNotebookFollow);
+    ueTypes.add(SSUEE.evernoteNoteUpdate);
+    ueTypes.add(SSUEE.evernoteNoteDelete);
+    ueTypes.add(SSUEE.evernoteNoteShare);
+    ueTypes.add(SSUEE.evernoteReminderDone);
+    ueTypes.add(SSUEE.evernoteReminderCreate);
+    ueTypes.add(SSUEE.evernoteResourceAdd);
+      
     for(String user : allUsers){
       
       userUri = SSUri.get(user);
       
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNotebookUpdate, null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNotebookFollow, null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteUpdate,     null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteDelete,     null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteNoteShare,      null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteReminderDone,   null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteReminderCreate, null, null));
-      ues.addAll(SSServCaller.uEsGet(userUri, userUri, null, SSUEE.evernoteResourceAdd,    null, null));
-      
-      for(SSUE ue : ues){
+      for(SSUE ue : SSServCaller.uEsGet(userUri, userUri, null, ueTypes, null, null)){
         
         if(usersResources.containsKey(user)){
           usersResources.get(user).add(ue.entity);
@@ -113,8 +114,6 @@ implements
           usersResources.put(user, resourceList);
         }
       }
-      
-      ues.clear();
     }
     
     for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
@@ -242,7 +241,7 @@ implements
       return sqlFct.getUEs(
         par.forUser,
         par.entity,
-        par.type,
+        SSUEE.asListWithoutEmptyAndNull(par.type),
         par.startTime,
         par.endTime).size();
       
@@ -473,7 +472,7 @@ implements
       return sqlFct.getUEs(
         par.forUser,
         par.entity,
-        par.type,
+        par.types,
         par.startTime,
         par.endTime);
       

@@ -499,19 +499,19 @@ public class SSServCaller {
   }
   
   public static List<SSUE> uEsGet(
-    final SSUri    user,
-    final SSUri    forUser,
-    final SSUri    entity,
-    final SSUEE    type,
-    final Long     startTime,
-    final Long     endTime) throws Exception{
+    final SSUri        user,
+    final SSUri        forUser,
+    final SSUri        entity,
+    final List<SSUEE>  types,
+    final Long         startTime,
+    final Long         endTime) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.forUser,   forUser);
     opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.type,      type);
+    opPars.put(SSVarU.types,      types);
     opPars.put(SSVarU.startTime, startTime);
     opPars.put(SSVarU.endTime,   endTime);
     

@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSUESQLFct extends SSDBSQLFct{
 
@@ -83,24 +85,23 @@ public class SSUESQLFct extends SSDBSQLFct{
   
   //TODO dtheiler: include start and end date in sql query already
   public List<SSUE> getUEs(
-    final SSUri    forUser,
-    final SSUri    entity,
-    final SSUEE    eventType,
-    final Long     startTime,
-    final Long     endTime) throws Exception{
+    final SSUri       forUser,
+    final SSUri       entity,
+    final List<SSUEE> eventTypes,
+    final Long        startTime,
+    final Long        endTime) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
-      final List<String>         tables       = new ArrayList<>();
-      final List<String>         columns      = new ArrayList<>();
-      final List<String>         tableCons    = new ArrayList<>();
-      final Map<String, String>  wheres       = new HashMap<>();
-      final List<SSUE>           ues          = new ArrayList<>();
-      SSUE                       ueObj;
-      
-      SSUEE                      eventTypeFromDB;
-      Long                       timestamp;
+      final List<String>                         tables       = new ArrayList<>();
+      final List<String>                         columns      = new ArrayList<>();
+      final List<String>                         tableCons    = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> wheres       = new ArrayList<>();
+      final List<SSUE>                           ues          = new ArrayList<>();
+      SSUE                                       ueObj;
+      SSUEE                                      eventTypeFromDB;
+      Long                                       timestamp;
       
       column   (columns,   SSSQLVarU.userEventId);
       column   (columns,   SSSQLVarU.userId);
@@ -113,19 +114,44 @@ public class SSUESQLFct extends SSDBSQLFct{
       table    (tables,    uesTable);
       table    (tables,    entityTable);
       
+      tableCon (tableCons, uesTable, SSSQLVarU.userEventId, entityTable, SSSQLVarU.id);
+      
       if(forUser != null){
-        where(wheres, SSSQLVarU.userId, forUser);
+                
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+        where(whereUsers, uesTable, SSSQLVarU.userId, forUser);
+        
+        wheres.add(whereUsers);
       }
       
       if(entity != null){
-        where(wheres, SSSQLVarU.entityId, entity);
+        
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
+        
+        where(whereEntities, uesTable, SSSQLVarU.entityId, forUser);
+        
+        wheres.add(whereEntities);
       }
       
-      if(eventType != null){
-        where(wheres, SSSQLVarU.eventType, eventType);
+      if(
+        eventTypes != null &&
+        !eventTypes.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSUEE eventType : eventTypes){
+          where(whereTypes, uesTable, SSSQLVarU.eventType, eventType);
+        }
+        
+        wheres.add(whereTypes);
       }
 
-      tableCon (tableCons, uesTable, SSSQLVarU.userEventId, entityTable, SSSQLVarU.id);
+      if(!wheres.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      }else{
+        resultSet = dbSQL.select(tables, columns, tableCons);
+      }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons);
       

@@ -28,8 +28,11 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
 @XmlRootElement
 @ApiModel(value = "uesGetPar request parameter")
@@ -55,11 +58,14 @@ public class SSUEsGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "user event type to retrieve")
-  public SSUEE           type           = null;
+    value = "user event types to retrieve")
+  public List<SSUEE>           types           = new ArrayList<>();
+  
+  public void setTypes(final List<String> types){
+    this.types.addAll(SSUEE.get(types));
+  }
   
   @XmlElement
   @ApiModelProperty(
@@ -82,11 +88,11 @@ public class SSUEsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser    = (SSUri)    pars.get(SSVarU.forUser);
-        entity     = (SSUri)    pars.get(SSVarU.entity);
-        type       = (SSUEE)    pars.get(SSVarU.type);
-        startTime  = (Long)     pars.get(SSVarU.startTime);
-        endTime    = (Long)     pars.get(SSVarU.endTime);
+        forUser    = (SSUri)       pars.get(SSVarU.forUser);
+        entity     = (SSUri)       pars.get(SSVarU.entity);
+        types      = (List<SSUEE>) pars.get(SSVarU.types);
+        startTime  = (Long)        pars.get(SSVarU.startTime);
+        endTime    = (Long)        pars.get(SSVarU.endTime);
       }
       
       if(par.clientJSONObj != null){
@@ -100,7 +106,9 @@ public class SSUEsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          type  = SSUEE.get (par.clientJSONObj.get(SSVarU.type).getTextValue());
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+            types.add(SSUEE.get(objNode.getTextValue()));
+          }
         }catch(Exception error){}
         
         try{
@@ -125,7 +133,7 @@ public class SSUEsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public String getType(){
-    return SSStrU.toStr(type);
+  public List<String> getTypes() throws Exception{
+    return SSStrU.toStr(types);
   }
 }

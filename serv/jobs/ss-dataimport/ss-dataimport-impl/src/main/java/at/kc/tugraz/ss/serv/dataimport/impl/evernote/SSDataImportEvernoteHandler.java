@@ -150,7 +150,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         notebookUri,
-        SSUEE.evernoteNotebookCreate,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate),
         null,
         null);
     
@@ -170,7 +170,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         notebookUri,
-        SSUEE.evernoteNotebookUpdate,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate),
         notebook.getServiceUpdated(),
         notebook.getServiceUpdated());
     
@@ -225,7 +225,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         notebookUri,
-        SSUEE.evernoteNotebookFollow,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow),
         creationTimeForLinkedNotebook,
         creationTimeForLinkedNotebook);
     
@@ -298,7 +298,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         noteUri,
-        SSUEE.evernoteNoteCreate,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate),
         null,
         null);
     
@@ -318,7 +318,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         noteUri,
-        SSUEE.evernoteNoteUpdate,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate),
         note.getUpdated(),
         note.getUpdated());
     
@@ -340,7 +340,7 @@ public class SSDataImportEvernoteHandler {
           userUri,
           userUri,
           noteUri,
-          SSUEE.evernoteNoteDelete,
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete),
           null,
           null);
       
@@ -369,7 +369,7 @@ public class SSDataImportEvernoteHandler {
           userUri,
           userUri,
           noteUri,
-          SSUEE.evernoteNoteShare,
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare),
           noteAttr.getShareDate(),
           noteAttr.getShareDate());
       
@@ -392,7 +392,7 @@ public class SSDataImportEvernoteHandler {
           userUri,
           userUri,
           noteUri,
-          SSUEE.evernoteReminderDone,
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone),
           noteAttr.getReminderDoneTime(),
           noteAttr.getReminderDoneTime());
       
@@ -415,7 +415,7 @@ public class SSDataImportEvernoteHandler {
           userUri,
           userUri,
           noteUri,
-          SSUEE.evernoteReminderCreate,
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate),
           noteAttr.getReminderTime(),
           noteAttr.getReminderTime());
       
@@ -532,7 +532,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         userUri,
         resourceUri,
-        SSUEE.evernoteResourceAdd,
+        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd),
         resourceAddTime,
         resourceAddTime);
     

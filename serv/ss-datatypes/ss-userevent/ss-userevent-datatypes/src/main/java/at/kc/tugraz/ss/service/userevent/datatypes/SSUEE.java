@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.*;
 
@@ -73,18 +74,38 @@ public enum SSUEE implements SSJSONLDPropI{
   shareCollection;
   
   public static SSUEE get(
-    final String event){
+    final String eventType){
     
-    return SSUEE.valueOf(event);
+    return SSUEE.valueOf(eventType);
   }
   
   public static List<SSUEE> get(
-    final List<String> events){
+    final List<String> eventTypes){
     
     final List<SSUEE> result = new ArrayList<>();
     
-    for (String event : events){
-      result.add(get(event));
+    for (String eventType : eventTypes){
+      result.add(get(eventType));
+    }
+    
+    return result;
+  }
+
+  public static List<SSUEE> asListWithoutEmptyAndNull(final SSUEE... eventTypes){
+    
+    final List<SSUEE> result = new ArrayList<>();
+    
+    if(eventTypes == null){
+      return result;
+    }
+    
+    for(SSUEE eventType : eventTypes){
+      
+      if(SSStrU.isEmpty(eventType)){
+        continue;
+      }
+      
+      result.add(eventType);
     }
     
     return result;
@@ -94,4 +115,6 @@ public enum SSUEE implements SSJSONLDPropI{
   public Object jsonLDDesc(){
     return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
   }
+  
+  
 }
