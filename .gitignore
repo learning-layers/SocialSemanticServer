@@ -456,3 +456,4 @@ org.eclipse.wst.jsdt.ui.superType.name
 /ss-adapter/ss-adapter-rest-v2/target/
 /ss-adapter/ss-adapter-rest-v1/target/
 .DS_Store
+/ss/ss.log.1

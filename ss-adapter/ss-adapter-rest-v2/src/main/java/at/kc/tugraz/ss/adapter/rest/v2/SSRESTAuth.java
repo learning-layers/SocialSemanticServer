@@ -45,7 +45,7 @@ public class SSRESTAuth{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/auth")
   @ApiOperation(
-    value = "retrieve sss authentication token (i.e. key) and the user's uri for a given authtoken (e.g. OIDC authtoken) with header 'Authorization: Bearer yourToken'",
+    value = "validate given OIDC authentication token (sent as header 'Authorization: Bearer yourToken') and retrieve the user's uri for given token ('only available for SSS 'oidcAuth')",
     response = SSAuthCheckCredRet.class)
   public Response checkCredWithAuthToken(
     @Context 
@@ -72,7 +72,7 @@ public class SSRESTAuth{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/auth")
   @ApiOperation(
-    value = "retrieve sss authentication token (i.e. key) and the user's uri for user name and password",
+    value = "retrieve sss authentication key and the user's uri for given user name and password (only available for SSS 'noAuth' and 'csvFileAuth')",
     response = SSAuthCheckCredRet.class)
   public Response checkCredWithUserNamePassword(
     final SSAuthCheckCredRESTAPIV2Par input){
