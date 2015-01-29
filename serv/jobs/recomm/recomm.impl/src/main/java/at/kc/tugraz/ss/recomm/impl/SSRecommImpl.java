@@ -42,13 +42,14 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import engine.CFResourceRecommenderEngine;
-import engine.TagRecommenderEngine;
+import engine.EngineInterface;
+import engine.TagRecommenderEvalEngine;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
-  private static final TagRecommenderEngine          tagRec       = new TagRecommenderEngine();
+  private static final EngineInterface               tagRec       = new TagRecommenderEvalEngine();
   private static final CFResourceRecommenderEngine   resourceRec  = new CFResourceRecommenderEngine();
   
   public SSRecommImpl(final SSConfA conf) throws Exception{

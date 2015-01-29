@@ -129,7 +129,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
-        where(whereEntities, uesTable, SSSQLVarU.entityId, forUser);
+        where(whereEntities, uesTable, SSSQLVarU.entityId, entity);
         
         wheres.add(whereEntities);
       }

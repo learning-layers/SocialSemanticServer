@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.*;
 
