@@ -33,20 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "appStackLayoutCreate request parameter")
 public class SSAppStackLayoutCreateRESTAPIV2Par{
   
-  @ApiModelProperty(
-    required = false,
-    value = "video's link (if provided used as id)")
-  public SSUri                link        = null;
-  
-  @XmlElement
-  public void setLink(final String link) throws Exception{
-    try{ this.link = SSUri.get(link, SSVocConf.sssUri); }catch(Exception error){}
-  }
-  
   @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "app stack's uuid (if provided used as id if link is not set)")
+    value = "app stack's uuid (if provided used as id)")
   public String                uuid        = null;
   
   @ApiModelProperty(

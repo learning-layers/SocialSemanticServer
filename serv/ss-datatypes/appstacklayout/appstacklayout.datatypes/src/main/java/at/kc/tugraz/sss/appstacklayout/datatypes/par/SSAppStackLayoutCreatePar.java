@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSAppStackLayoutCreatePar extends SSServPar{
   
   public String              uuid             = null;
-  public SSUri               link             = null;
   public SSUri               app              = null;
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
@@ -42,7 +41,6 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
     final String         key,
     final SSUri          user,
     final String         uuid,
-    final SSUri          link,
     final SSUri          app,
     final SSLabel        label,
     final SSTextComment  description){
@@ -50,7 +48,6 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
     super(op, key, user);
     
     this.uuid           = uuid;
-    this.link           = link;
     this.app            = app;
     this.label          = label;
     this.description    = description;
@@ -65,7 +62,6 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
       if(pars != null){
         
         uuid              = (String)          pars.get(SSVarU.uuid);
-        link              = (SSUri)           pars.get(SSVarU.link);
         label             = (SSLabel)         pars.get(SSVarU.label);
         description       = (SSTextComment)   pars.get(SSVarU.description);
       }
@@ -74,10 +70,6 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
         
         try{
           uuid =  par.clientJSONObj.get(SSVarU.uuid).getTextValue();
-        }catch(Exception error){}
-        
-        try{
-          link =  SSUri.get(par.clientJSONObj.get(SSVarU.link).getTextValue());
         }catch(Exception error){}
         
         try{
@@ -109,9 +101,5 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
 
   public String getDescription(){
     return SSStrU.toStr(description);
-  }
-  
-  public String getLink(){
-    return SSStrU.removeTrailingSlash(link);
   }
 }

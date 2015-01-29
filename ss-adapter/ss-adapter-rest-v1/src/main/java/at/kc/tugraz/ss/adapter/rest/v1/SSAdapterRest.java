@@ -316,7 +316,6 @@ public class SSAdapterRest{
         input.key,
         input.user,
         null, 
-        null,
         input.app,
         input.label,
         input.description);
