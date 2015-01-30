@@ -328,70 +328,6 @@ public class SSRESTEntities {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/tags")
-  @ApiOperation(
-    value = "retrieve tag assignments",
-    response = SSTagsUserGetRet.class)
-  public Response tagsGet(
-    @Context HttpHeaders headers){
-    
-    final SSTagsUserGetPar par;
-    
-    try{
-      
-      par =
-        new SSTagsUserGetPar(
-          SSMethU.tagsGet,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/tags")
-  @ApiOperation(
-    value = "retrieve tag assignments",
-    response = SSTagsUserGetRet.class)
-  public Response tagsGetPost(
-    @Context HttpHeaders headers,
-    final SSTagsGetRESTAPIV2Par input){
-    
-    final SSTagsUserGetPar par;
-    
-    try{
-      par =
-        new SSTagsUserGetPar(
-          SSMethU.tagsGet,
-          null,
-          null,
-          input.forUser,
-          input.entities,
-          input.labels,
-          input.space,
-          input.startTime);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path("/videos")
   @ApiOperation(
     value = "retrieve videos",
@@ -448,103 +384,6 @@ public class SSRESTEntities {
           input.latitude,
           input.longitude,
           input.accuracy);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/tags/frequs")
-  @ApiOperation(
-    value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
-  public Response tagFrequsGet(
-    @Context
-      HttpHeaders headers){
-    
-    final SSTagUserFrequsGetPar par;
-    
-    try{
-      par =
-        new SSTagUserFrequsGetPar(
-          SSMethU.tagFrequsGet,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          false);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/tags/frequs")
-  @ApiOperation(
-    value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
-  public Response tagFrequsGetPost(
-    @Context HttpHeaders headers,
-    final SSTagFrequsGetRESTAPIV2Par input){
-    
-    final SSTagUserFrequsGetPar par;
-    
-    try{
-      par =
-        new SSTagUserFrequsGetPar(
-          SSMethU.tagFrequsGet,
-          null,
-          null,
-          input.forUser,
-          input.entities,
-          input.labels,
-          input.space,
-          input.startTime,
-          input.useUsersEntities);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/tags/entities")
-  @ApiOperation(
-    value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
-    response = SSTagUserEntitiesForTagsGetRet.class)
-  public Response tagEntitiesGetPost(
-     @Context HttpHeaders                     headers,
-    final SSTagEntitiesForTagsGetRESTAPIV2Par input){
-    
-    final SSTagUserEntitiesForTagsGetPar par;
-    
-    try{
-      par =
-        new SSTagUserEntitiesForTagsGetPar(
-          SSMethU.tagEntitiesForTagsGet,
-          null,
-          null,
-          input.forUser,
-          input.labels,
-          input.space,
-          input.startTime);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -615,104 +454,6 @@ public class SSRESTEntities {
     return SSRestMainV2.handlePOSTRequest(headers, par);
   }
   
-  @DELETE
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{entity}/tags")
-  @ApiOperation(
-    value = "remove tag, user, entity, space combinations",
-    response = SSTagsUserRemoveRet.class)
-  public Response tagsRemoveDelete(
-    @Context HttpHeaders               headers,
-    @PathParam(SSVarU.entity) String   entity,
-    final SSTagsRemoveRESTAPIV2Par     input){
-    
-    final SSTagsUserRemovePar par;
-    
-    try{
-      par =
-        new SSTagsUserRemovePar(
-          SSMethU.tagsRemove,
-          null,
-          null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          input.label,
-          input.space);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleDELETERequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{user}/tags")
-  @ApiOperation(
-    value = "retrieve tag assignments for user",
-    response = SSTagsUserGetRet.class)
-  public Response tagsForUserGet(
-    @Context 
-      HttpHeaders headers,
-    @PathParam(SSVarU.user)
-      String   user){
-    
-    final SSTagsUserGetPar par;
-    
-    try{
-      
-      par =
-        new SSTagsUserGetPar(
-          SSMethU.tagsGet,
-          null,
-          null,
-          SSUri.get(user, SSVocConf.sssUri),
-          null,
-          null,
-          null,
-          null);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{entity}/tags")
-  @ApiOperation(
-    value = "add a tag for an entity within given space",
-    response = SSTagAddRet.class)
-  public Response tagAddPost(
-    @Context HttpHeaders            headers,
-    @PathParam(SSVarU.entity)String entity,
-    final SSTagAddRESTAPIV2Par      input){
-    
-    final SSTagAddPar par;
-    
-    try{
-      par =
-        new SSTagAddPar(
-          SSMethU.tagAdd,
-          null,
-          null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          input.label,
-          input.space,
-          input.creationTime);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -751,41 +492,6 @@ public class SSRESTEntities {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{user}/tags/frequs")
-  @ApiOperation(
-    value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
-  public Response tagFrequsForUserGet(
-    @Context
-      HttpHeaders headers, 
-    @PathParam(SSVarU.user)
-      String user){
-    
-    final SSTagUserFrequsGetPar par;
-    
-    try{
-      par =
-        new SSTagUserFrequsGetPar(
-          SSMethU.tagFrequsGet,
-          null,
-          null,
-          SSUri.get(user, SSVocConf.sssUri),
-          null,
-          null,
-          null,
-          null,
-          false);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path("/{user}/circles")
   @ApiOperation(
     value = "retrieve circles for a given user",
@@ -814,36 +520,6 @@ public class SSRESTEntities {
     }
     
     return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{tag}/tags/label")
-  @ApiOperation(
-    value = "changes the label of the tag assigned to entities by given user",
-    response = SSTagUserEditRet.class)
-  public Response tagEditPut(
-    @Context HttpHeaders            headers,
-    @PathParam(SSVarU.tag) String   tag,
-    final SSTagEditRESTAPIV2Par     input) throws Exception{
-    
-    final SSTagUserEditPar par;
-    
-    try{
-      par =
-        new SSTagUserEditPar(
-          SSMethU.tagEdit,
-          null,
-          null,
-          SSUri.get(tag, SSVocConf.sssUri),
-          input.label);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePUTRequest(headers, par);
   }
   
   @GET
@@ -1061,4 +737,328 @@ public class SSRESTEntities {
     
     return SSRestMainV2.handlePUTRequest(headers, par);
   }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/tags")
+  @ApiOperation(
+    value = "retrieve tag assignments",
+    response = SSTagsUserGetRet.class)
+  public Response tagsGet(
+    @Context HttpHeaders headers){
+    
+    final SSTagsUserGetPar par;
+    
+    try{
+      
+      par =
+        new SSTagsUserGetPar(
+          SSMethU.tagsGet,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/tags")
+  @ApiOperation(
+    value = "retrieve tag assignments",
+    response = SSTagsUserGetRet.class)
+  public Response tagsGetPost(
+    @Context HttpHeaders headers,
+    final SSTagsGetRESTAPIV2Par input){
+    
+    final SSTagsUserGetPar par;
+    
+    try{
+      par =
+        new SSTagsUserGetPar(
+          SSMethU.tagsGet,
+          null,
+          null,
+          input.forUser,
+          input.entities,
+          input.labels,
+          input.space,
+          input.startTime);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags/frequs")
+  @ApiOperation(
+    value = "retrieve tag frequencies",
+    response = SSTagUserFrequsGetRet.class)
+  public Response tagFrequsGet(
+    @Context
+      HttpHeaders headers){
+    
+    final SSTagUserFrequsGetPar par;
+    
+    try{
+      par =
+        new SSTagUserFrequsGetPar(
+          SSMethU.tagFrequsGet,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          false);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags/frequs")
+  @ApiOperation(
+    value = "retrieve tag frequencies",
+    response = SSTagUserFrequsGetRet.class)
+  public Response tagFrequsGetPost(
+    @Context HttpHeaders headers,
+    final SSTagFrequsGetRESTAPIV2Par input){
+    
+    final SSTagUserFrequsGetPar par;
+    
+    try{
+      par =
+        new SSTagUserFrequsGetPar(
+          SSMethU.tagFrequsGet,
+          null,
+          null,
+          input.forUser,
+          input.entities,
+          input.labels,
+          input.space,
+          input.startTime,
+          input.useUsersEntities);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags/entities")
+  @ApiOperation(
+    value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
+    response = SSTagUserEntitiesForTagsGetRet.class)
+  public Response tagEntitiesGetPost(
+     @Context HttpHeaders                     headers,
+    final SSTagEntitiesForTagsGetRESTAPIV2Par input){
+    
+    final SSTagUserEntitiesForTagsGetPar par;
+    
+    try{
+      par =
+        new SSTagUserEntitiesForTagsGetPar(
+          SSMethU.tagEntitiesForTagsGet,
+          null,
+          null,
+          input.forUser,
+          input.labels,
+          input.space,
+          input.startTime);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags/{entity}")
+  @ApiOperation(
+    value = "remove tag, user, entity, space combinations",
+    response = SSTagsUserRemoveRet.class)
+  public Response tagsRemoveDelete(
+    @Context HttpHeaders               headers,
+    @PathParam(SSVarU.entity) String   entity,
+    final SSTagsRemoveRESTAPIV2Par     input){
+    
+    final SSTagsUserRemovePar par;
+    
+    try{
+      par =
+        new SSTagsUserRemovePar(
+          SSMethU.tagsRemove,
+          null,
+          null,
+          SSUri.get(entity, SSVocConf.sssUri),
+          input.label,
+          input.space);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleDELETERequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/tags/{entity}")
+  @ApiOperation(
+    value = "add a tag for an entity within given space",
+    response = SSTagAddRet.class)
+  public Response tagAddPost(
+    @Context HttpHeaders            headers,
+    @PathParam(SSVarU.entity)String entity,
+    final SSTagAddRESTAPIV2Par      input){
+    
+    final SSTagAddPar par;
+    
+    try{
+      par =
+        new SSTagAddPar(
+          SSMethU.tagAdd,
+          null,
+          null,
+          SSUri.get(entity, SSVocConf.sssUri),
+          input.label,
+          input.space,
+          input.creationTime);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags/label/{tag}")
+  @ApiOperation(
+    value = "changes the label of the tag assigned to entities by given user",
+    response = SSTagUserEditRet.class)
+  public Response tagEditPut(
+    @Context HttpHeaders            headers,
+    @PathParam(SSVarU.tag) String   tag,
+    final SSTagEditRESTAPIV2Par     input) throws Exception{
+    
+    final SSTagUserEditPar par;
+    
+    try{
+      par =
+        new SSTagUserEditPar(
+          SSMethU.tagEdit,
+          null,
+          null,
+          SSUri.get(tag, SSVocConf.sssUri),
+          input.label);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePUTRequest(headers, par);
+  }
+  
+  //  @GET
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("/tags/{user}")
+//  @ApiOperation(
+//    value = "retrieve tag assignments for user",
+//    response = SSTagsUserGetRet.class)
+//  public Response tagsForUserGet(
+//    @Context 
+//      HttpHeaders headers,
+//    @PathParam(SSVarU.user)
+//      String   user){
+//    
+//    final SSTagsUserGetPar par;
+//    
+//    try{
+//      
+//      par =
+//        new SSTagsUserGetPar(
+//          SSMethU.tagsGet,
+//          null,
+//          null,
+//          SSUri.get(user, SSVocConf.sssUri),
+//          null,
+//          null,
+//          null,
+//          null);
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleGETRequest(headers, par);
+//  }
+  
+  //  @GET
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path    ("/{user}/tags/frequs")
+//  @ApiOperation(
+//    value = "retrieve tag frequencies",
+//    response = SSTagUserFrequsGetRet.class)
+//  public Response tagFrequsForUserGet(
+//    @Context
+//      HttpHeaders headers, 
+//    @PathParam(SSVarU.user)
+//      String user){
+//    
+//    final SSTagUserFrequsGetPar par;
+//    
+//    try{
+//      par =
+//        new SSTagUserFrequsGetPar(
+//          SSMethU.tagFrequsGet,
+//          null,
+//          null,
+//          SSUri.get(user, SSVocConf.sssUri),
+//          null,
+//          null,
+//          null,
+//          null,
+//          false);
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleGETRequest(headers, par);
+//  }
 }

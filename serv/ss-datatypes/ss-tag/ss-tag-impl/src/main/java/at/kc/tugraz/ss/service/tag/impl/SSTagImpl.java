@@ -242,7 +242,11 @@ implements
   @Override
   public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op));
   }
@@ -287,7 +291,11 @@ implements
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     final SSUri tagUri = tagAdd(parA);
     
@@ -420,7 +428,11 @@ implements
   @Override
   public void tagEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op));
   }
@@ -494,7 +506,11 @@ implements
   @Override
   public void tagsRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op));
     
@@ -585,11 +601,15 @@ implements
   }
 
   @Override
-  public void tagFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
        
-    SSServCaller.checkKey(par);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(par), par.op));
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
+    
+    sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(parA), parA.op));
   }
   
   @Override
@@ -715,7 +735,11 @@ implements
   @Override
   public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    final SSUri userFromKey = SSServCaller.checkKey(parA);
+    
+    if(userFromKey != null){
+      parA.user = userFromKey;
+    }
     
     sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op));
   }

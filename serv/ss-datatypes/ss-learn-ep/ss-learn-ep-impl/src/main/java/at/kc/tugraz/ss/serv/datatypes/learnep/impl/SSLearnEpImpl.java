@@ -919,9 +919,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
 //      SSServCaller.entityRemove(par.learnEpCircle, false);
 
-      if(par.saveActivity){
-        SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion);
-      }
+      SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -973,9 +971,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       sqlFct.deleteEntity(par.learnEpEntity);
 //      SSServCaller.entityRemove(par.learnEpEntity, false);
       
-      if(par.saveActivity){
-        SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion);
-      }
+      SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion);
 
       dbSQL.commit(par.shouldCommit);
 
