@@ -21,9 +21,12 @@
 package at.kc.tugraz.ss.datatypes.datatypes.enums;
 
 import at.kc.tugraz.socialserver.utils.*;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
+import sss.serv.err.datatypes.SSErrE;
 
 public enum SSSpaceE implements SSJSONLDPropI{
   
@@ -32,7 +35,13 @@ public enum SSSpaceE implements SSJSONLDPropI{
   privateSpace;
   
   public static SSSpaceE get(final String space) throws Exception{
-    return SSSpaceE.valueOf(space);
+    
+    try{
+      return SSSpaceE.valueOf(space);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.spaceNotAvailable));
+      return null;
+    }
   }
   
   public static List<SSSpaceE> get(final List<String> strings) throws Exception{

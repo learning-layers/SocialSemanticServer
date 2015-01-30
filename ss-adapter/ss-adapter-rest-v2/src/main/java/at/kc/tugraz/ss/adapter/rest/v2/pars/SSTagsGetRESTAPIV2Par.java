@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -41,7 +42,7 @@ public class SSTagsGetRESTAPIV2Par{
   
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+    try{ this.forUser = SSUri.get(forUser, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @ApiModelProperty(
@@ -51,7 +52,7 @@ public class SSTagsGetRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); }catch(Exception error){}
   }
   
   @XmlElement

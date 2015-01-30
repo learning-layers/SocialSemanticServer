@@ -26,6 +26,8 @@ public enum SSErrE{
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
   
+  spaceNotAvailable,
+  
   sssResponseFailed,
   sssResponseParseFailed,
   searchResultPageUnavailable,
