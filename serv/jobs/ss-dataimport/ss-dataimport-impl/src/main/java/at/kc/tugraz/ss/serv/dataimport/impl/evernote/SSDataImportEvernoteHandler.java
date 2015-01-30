@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSObjU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -113,7 +112,7 @@ public class SSDataImportEvernoteHandler {
     for(Notebook notebook : notebooks){
       
       notebookUri      = getNormalOrSharedNotebookUri         (evernoteInfo.userName,    notebook, sharedNotebookGuids);
-      notebookLabel    = getNormalOrSharedNotebookLabel       (notebookUri, notebook);
+      notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
       
       addNotebook(
         notebookUri, 
@@ -206,8 +205,7 @@ public class SSDataImportEvernoteHandler {
       addNotebook(
         notebookUri, 
         getLinkedNotebookLabel(
-          linkedNotebook, 
-          notebookUri), 
+          linkedNotebook), 
         creationTimeForLinkedNotebook);
       
       addLinkedNotebookUEs(
@@ -264,8 +262,7 @@ public class SSDataImportEvernoteHandler {
       addNote(
         noteUri, 
         getNoteLabel(
-          note,         
-          noteUri), 
+          note), 
         note, 
         notebookUri);
       
@@ -491,11 +488,9 @@ public class SSDataImportEvernoteHandler {
         if(
           resourceWithContent.getWidth()  <= 200||
           resourceWithContent.getHeight() <= 200){
-          SSLogU.debug("width or height to small");
           continue;
         }
       }else{
-        SSLogU.debug("width or height not set");
       }
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), true);
@@ -507,7 +502,7 @@ public class SSDataImportEvernoteHandler {
         resourceUri,
         getResourceLabel(
           resource,
-          resourceUri),
+          note),
         note.getUpdated(),
         noteUri);
       
@@ -629,31 +624,7 @@ public class SSDataImportEvernoteHandler {
     return SSUri.get(SSLinkU.httpsEvernote + "Home.action#b=" + notebook.getGuid());
   }
   
-  private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws Exception{
-    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
-  }
-  
-  private static Boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
-    
-    String sharedNotebookUriStr;
-    
-    try{
-      sharedNotebookUriStr = createSharedNotebookUriStr(userName, notebook);
-    }catch(Exception error){
-      return false;
-    }
-    
-    if(
-      notebookUri == null || 
-      SSStrU.isEmpty(notebookUri.toString())){
-      return false;
-    }
-    
-    return notebookUri.toString().equals(sharedNotebookUriStr);
-  }
-  
   private static SSLabel getNormalOrSharedNotebookLabel(
-    final SSUri    notebookUri, 
     final Notebook notebook) throws Exception{
     
     try{
@@ -670,8 +641,7 @@ public class SSDataImportEvernoteHandler {
   }
   
   private static SSLabel getLinkedNotebookLabel(
-    final LinkedNotebook linkedNotebook,
-    final SSUri          notebookUri) throws Exception{
+    final LinkedNotebook linkedNotebook) throws Exception{
     
     try{
       final SSLabel tmpLabel = SSLabel.get(linkedNotebook.getShareName());
@@ -686,26 +656,8 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  private static SSLabel getLinkedNoteLabel(
-    final Note  note,
-    final SSUri noteUri) throws Exception {
-    
-    try{
-      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
-      
-      if(tmpLabel == null){
-        return getDefaultLabel();
-      }else{
-        return tmpLabel;
-      }
-    }catch(Exception error){
-      return getDefaultLabel();
-    }
-  }
-  
   public static SSLabel getNoteLabel(
-    final Note  note, 
-    final SSUri noteUri) throws Exception {
+    final Note  note) throws Exception {
     
     try{
       final SSLabel tmpLabel = SSLabel.get(note.getTitle());
@@ -722,14 +674,15 @@ public class SSDataImportEvernoteHandler {
   
   private static SSLabel getResourceLabel(
     final Resource resource,
-    final SSUri    resourceUri) throws Exception{
+    final Note     note) throws Exception{
     
     try{
       
       if(
         SSObjU.isNull (resource, resource.getAttributes()) ||
         SSStrU.isEmpty(resource.getAttributes().getFileName())){
-        return getDefaultLabel();
+        
+        return getNoteLabel(note);
       }
       
       return SSLabel.get(resource.getAttributes().getFileName());
@@ -739,7 +692,7 @@ public class SSDataImportEvernoteHandler {
   }
   
   private static SSLabel getDefaultLabel() throws Exception{
-    return SSLabel.get(SSStrU.empty);
+    return SSLabel.get("no label");
   }
 }
 
@@ -752,4 +705,43 @@ public class SSDataImportEvernoteHandler {
 
 //  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws Exception{
 //    return evernoteInfo.userStore.getUser().getEmail();
+//  }
+
+//  private static SSLabel getLinkedNoteLabel(
+//    final Note  note) throws Exception {
+//    
+//    try{
+//      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
+//      
+//      if(tmpLabel == null){
+//        return getDefaultLabel();
+//      }else{
+//        return tmpLabel;
+//      }
+//    }catch(Exception error){
+//      return getDefaultLabel();
+//    }
+//  }
+
+//private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws Exception{
+//    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
+//  }
+//  
+//  private static Boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
+//    
+//    String sharedNotebookUriStr;
+//    
+//    try{
+//      sharedNotebookUriStr = createSharedNotebookUriStr(userName, notebook);
+//    }catch(Exception error){
+//      return false;
+//    }
+//    
+//    if(
+//      notebookUri == null || 
+//      SSStrU.isEmpty(notebookUri.toString())){
+//      return false;
+//    }
+//    
+//    return notebookUri.toString().equals(sharedNotebookUriStr);
 //  }
