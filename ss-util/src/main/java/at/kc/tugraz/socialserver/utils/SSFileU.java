@@ -273,14 +273,19 @@ public class SSFileU{
       return;
     }
         
-    final byte[]     bytes      = text.getBytes();
-    FileOutputStream fileOut    = null;
+//    final byte[]        bytes      = text.getBytes();
+    OutputStreamWriter fileOut    = null;
     
     try{
       
-      fileOut = openOrCreateFileWithPathForWrite(file.getAbsolutePath());
+      fileOut = 
+        new OutputStreamWriter(
+          openOrCreateFileWithPathForWrite(
+            file.getAbsolutePath()),
+          Charset.forName(SSEncodingU.utf8));
       
-      fileOut.write (bytes, 0, bytes.length);
+      fileOut.write(text);
+//      fileOut.write (bytes, 0, bytes.length);
       
     }catch(Exception error){
       SSLogU.errThrow(error);
@@ -388,6 +393,47 @@ public class SSFileU{
       }
     }
   }
+  
+  public static void writePDFFromText(
+    final String pdfFilePath,
+    final String textFilePath)throws Exception{
+    
+    OutputStream    out = null;
+    BufferedReader  br = null;
+    
+    try{
+      
+      out = openOrCreateFileWithPathForWrite(pdfFilePath);
+      
+      final Document        document = new Document();
+      final PdfWriter       writer   = PdfWriter.getInstance(document, out);
+      String line;
+
+      document.open();
+      writer.setPageEmpty(true);
+      document.newPage();
+      writer.setPageEmpty(true);
+
+      br = new BufferedReader(new FileReader(new File(textFilePath)));
+
+      while((line = br.readLine()) != null){
+        document.add(new Paragraph(line));
+      }
+
+      document.close();
+      
+    }catch(Exception error){
+      
+      if(out != null){
+        out.close();
+      }
+      
+      if(br != null){
+        br.close();
+      }
+    }
+  }
+    
   public static void writePDFFromDoc(
     final String docFilePath,
     final String pdfFilePath) throws Exception{
