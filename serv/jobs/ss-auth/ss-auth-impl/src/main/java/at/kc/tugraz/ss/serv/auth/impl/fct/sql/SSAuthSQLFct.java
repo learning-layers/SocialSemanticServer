@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,10 +138,13 @@ public class SSAuthSQLFct extends SSDBSQLFct{
 
   public List<String> getKeys() throws Exception{
     
-    ResultSet resultSet = null;
+    final List<String>        columns   = new ArrayList<>();
+    final Map<String, String> wheres    = new HashMap<>();
+    ResultSet                 resultSet = null;
     
     try{
-      resultSet = dbSQL.select(authTable);
+      
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.authKey);
       

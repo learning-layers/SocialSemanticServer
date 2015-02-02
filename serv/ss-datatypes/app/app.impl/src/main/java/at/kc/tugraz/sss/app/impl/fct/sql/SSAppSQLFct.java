@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
-import at.kc.tugraz.sss.app.datatypes.SSAppE;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +45,20 @@ public class SSAppSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSApp> apps = new ArrayList<>();
+      final List<SSApp>         apps    = new ArrayList<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      resultSet = dbSQL.select(appTable);
+      column(columns, SSSQLVarU.appId);
+      column(columns, SSSQLVarU.descriptionShort);
+      column(columns, SSSQLVarU.descriptionFunctional);
+      column(columns, SSSQLVarU.descriptionTechnical);
+      column(columns, SSSQLVarU.descriptionInstall);
+      column(columns, SSSQLVarU.downloadIOS);
+      column(columns, SSSQLVarU.downloadAndroid);
+      column(columns, SSSQLVarU.fork);
+      
+      resultSet = dbSQL.select(appTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         

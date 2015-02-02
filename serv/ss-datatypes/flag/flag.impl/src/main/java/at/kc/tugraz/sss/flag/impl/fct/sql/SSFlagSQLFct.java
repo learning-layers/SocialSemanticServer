@@ -117,7 +117,7 @@ public class SSFlagSQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -256,7 +256,7 @@ public class SSFlagSQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.type, flag);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.flagId);
       

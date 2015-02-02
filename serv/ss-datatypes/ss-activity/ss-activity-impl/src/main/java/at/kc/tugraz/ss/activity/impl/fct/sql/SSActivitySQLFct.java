@@ -203,11 +203,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      if(!wheres.isEmpty()){
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-      }else{
-        resultSet = dbSQL.select(tables, columns, tableCons);
-      }
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -228,6 +224,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         }
         
         if(bindingStrToUri(resultSet, SSSQLVarU.entityId) != null){
+          
           activityEntity =
             SSEntity.get(
               bindingStrToUri(resultSet, SSSQLVarU.entityId),
@@ -278,7 +275,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       where    (wheres,    activityTable,        SSSQLVarU.activityId, activity);
       tableCon (tableCons, activityTable,        SSSQLVarU.activityId, activityUsersTable, SSSQLVarU.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -306,7 +303,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       where    (wheres,    activityTable,          SSSQLVarU.activityId, activity);
       tableCon (tableCons, activityTable,          SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
     }catch(Exception error){

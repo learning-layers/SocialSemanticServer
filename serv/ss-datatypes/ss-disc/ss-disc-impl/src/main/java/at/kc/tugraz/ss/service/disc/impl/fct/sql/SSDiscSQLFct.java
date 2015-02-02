@@ -142,7 +142,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.entityId, targetUri);
       tableCon  (tableCons, discTable,          SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -262,7 +262,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.type,   discType);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return resultSet.first();
       
@@ -342,7 +342,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.discId, discUri);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       checkFirstResult(resultSet);
       
@@ -410,7 +410,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, disc);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discEntryId);
       
@@ -452,7 +452,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       tableCon(tableCons, discEntriesTable,     SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
       tableCon(tableCons, discEntryTable,       SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         

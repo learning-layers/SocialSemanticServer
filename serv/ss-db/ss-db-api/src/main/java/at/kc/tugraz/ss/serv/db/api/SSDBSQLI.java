@@ -40,43 +40,44 @@ public interface SSDBSQLI{
     final SSServPar parA);
 
   public ResultSet select(
-    final String tableName) throws Exception;
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> wheres,
+    final List<String>                         tableCons,
+    final String                               orderByColumn, 
+    final String                               sortType) throws Exception;
+  
+  public ResultSet select(
+    final List<String>        tables, 
+    final List<String>        columns, 
+    final Map<String, String> wheres,
+    final List<String>        tableCons,
+    final String              orderByColumn, 
+    final String              sortType) throws Exception;
+  
+  public ResultSet select(
+    final String              table, 
+    final List<String>        columns, 
+    final Map<String, String> where,
+    final String              orderByColumn, 
+    final String              sortType) throws Exception;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+//  public ResultSet select(
+//    final String tableName) throws Exception;
   
   public ResultSet select(
     final String              table, 
     final Map<String, String> wheres) throws Exception;
   
   public ResultSet select(
-    final String              table, 
-    final List<String>        columns, 
-    final Map<String, String> where) throws Exception;
-  
-  public ResultSet select(
-    final String              table, 
-    final List<String>        columns, 
-    final List<String>        matches, 
-    final List<String>        requireds,
-    final List<String>        absents,
-    final List<String>        eithers) throws Exception;
-  
-  public ResultSet select(
-    final List<String>        tables, 
-    final List<String>        columns, 
-    final List<String>        tableConnections) throws Exception;
-    
-  public ResultSet select(
-    final List<String>        tables, 
-    final List<String>        columns, 
-    final Map<String, String> wheres, 
-    final List<String>        tableCons) throws Exception;
-
-  public ResultSet select(
-    final List<String>                         tables,
-    final List<String>                         columns,
-    final List<MultivaluedMap<String, String>> wheres,
-    final List<String>                         tableCons) throws Exception;
-
-    public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
     final Map<String, String> wheres, 
@@ -89,6 +90,14 @@ public interface SSDBSQLI{
     final Map<String, String> wheres, 
     final String              orderByColumn, 
     final String              sortType) throws Exception;
+  
+  public ResultSet select(
+    final String              table, 
+    final List<String>        columns, 
+    final List<String>        matches, 
+    final List<String>        requireds,
+    final List<String>        absents,
+    final List<String>        eithers) throws Exception;
   
   public void insert(
     final String              table, 
@@ -119,11 +128,9 @@ public interface SSDBSQLI{
     final String              table, 
     final Map<String, String> wheres, 
     final Map<String, String> updates) throws Exception;
-
   
   public void closeStmt(
     final ResultSet resultSet) throws Exception;
-  
  
   public void startTrans(
     final Boolean shouldCommit) throws Exception;
@@ -135,3 +142,11 @@ public interface SSDBSQLI{
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;
 //  public void       insertIgnore               (String tableName, Map<String, String> parNamesAndValues)   throws Exception;
 //  public ResultSet  query                      (String query)                                                                                     throws Exception;
+
+
+    
+//  public ResultSet select(
+//    final List<String>        tables, 
+//    final List<String>        columns, 
+//    final Map<String, String> wheres, 
+//    final List<String>        tableCons) throws Exception;

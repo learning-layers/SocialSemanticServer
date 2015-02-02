@@ -275,7 +275,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.tagSpace, tagSpace);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -338,11 +338,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.userId, userUri);
       }
       
-      if(wheres.isEmpty()){
-        resultSet = dbSQL.select(tagAssTable);
-      }else{
-        resultSet = dbSQL.select(tagAssTable, columns, wheres);
-      }
+      resultSet = dbSQL.select(tagAssTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       

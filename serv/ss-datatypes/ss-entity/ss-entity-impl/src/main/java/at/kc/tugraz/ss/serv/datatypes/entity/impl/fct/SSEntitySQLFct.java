@@ -372,7 +372,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -464,15 +464,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         where(wheres, imageTable, SSSQLVarU.type, type);
       }
       
-      if(wheres.isEmpty()){
-        resultSet = dbSQL.select(imageTable);
+      if(!tableCons.isEmpty()){
+        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null);
       }else{
-        
-        if(tableCons.isEmpty()){
-          resultSet = dbSQL.select(imageTable, columns, wheres);
-        }else{
-          resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-        }
+        resultSet = dbSQL.select(imageTable, columns, wheres, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarU.imageId);
@@ -828,19 +823,19 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       final List<SSLocation>     locations  = new ArrayList<>();
-      
+      final List<String>         columns    = new ArrayList<>();              
+      final Map<String, String>  wheres     = new HashMap<>();
+
+      column(columns, locationTable, SSSQLVarU.locationId);
+      column(columns, locationTable, SSSQLVarU.latitude);
+      column(columns, locationTable, SSSQLVarU.longitude);
+      column(columns, locationTable, SSSQLVarU.accuracy);
+        
       if(forEntity != null){
         
-        final List<String>         columns    = new ArrayList<>();              
         final List<String>         tables     = new ArrayList<>();
-        final Map<String, String>  wheres     = new HashMap<>();
         final List<String>         tableCons  = new ArrayList<>();
       
-        column(columns, locationTable, SSSQLVarU.locationId);
-        column(columns, locationTable, SSSQLVarU.latitude);
-        column(columns, locationTable, SSSQLVarU.longitude);
-        column(columns, locationTable, SSSQLVarU.accuracy);
-        
         table(tables, locationTable);
         table(tables, entityLocationsTable);
         
@@ -848,9 +843,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         
         tableCon(tableCons, locationTable, SSSQLVarU.locationId, entityLocationsTable, SSSQLVarU.locationId);
         
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       }else{
-        resultSet = dbSQL.select(locationTable);
+        resultSet = dbSQL.select(locationTable, columns, wheres, null, null);
       }
       
       while(resultSet.next()){

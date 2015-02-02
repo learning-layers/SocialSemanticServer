@@ -273,7 +273,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       tableCon(tableCons, circleEntitiesTable, SSSQLVarU.circleId, circleTable, SSSQLVarU.circleId);
       tableCon(tableCons, circleEntitiesTable, SSSQLVarU.entityId, collTable,   SSSQLVarU.collId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -601,7 +601,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.collId, collUri);
       tableCon (tableCons, collTable, SSSQLVarU.collId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       checkFirstResult(resultSet);
       

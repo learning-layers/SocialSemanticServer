@@ -129,7 +129,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, categoryTable, SSSQLVarU.categoryId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.label);
     }catch(Exception error){
@@ -363,7 +363,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.categorySpace, categorySpace);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         
@@ -422,7 +422,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarU.entityId);
       column(columns, SSSQLVarU.categoryId);
       
-      resultSet = dbSQL.select(categoryAssTable, columns, wheres);
+      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       

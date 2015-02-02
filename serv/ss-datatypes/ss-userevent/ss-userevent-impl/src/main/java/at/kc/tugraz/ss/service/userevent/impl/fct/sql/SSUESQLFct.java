@@ -147,13 +147,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
 
-      if(!wheres.isEmpty()){
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-      }else{
-        resultSet = dbSQL.select(tables, columns, tableCons);
-      }
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       while(resultSet.next()){
         

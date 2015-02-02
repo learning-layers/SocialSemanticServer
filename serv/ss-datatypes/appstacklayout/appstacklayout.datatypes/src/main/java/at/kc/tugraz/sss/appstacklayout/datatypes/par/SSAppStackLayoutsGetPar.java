@@ -23,8 +23,6 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
 public class SSAppStackLayoutsGetPar extends SSServPar{
 

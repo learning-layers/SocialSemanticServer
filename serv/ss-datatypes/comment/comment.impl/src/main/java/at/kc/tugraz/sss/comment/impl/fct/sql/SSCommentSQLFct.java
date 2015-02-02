@@ -21,14 +21,11 @@
 package at.kc.tugraz.sss.comment.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,11 +60,7 @@ public class SSCommentSQLFct extends SSDBSQLFct{
         tableCon(tableCons, entityTable,  SSSQLVarU.id,    commentsTable,  SSSQLVarU.commentId);
       }
       
-      if(!wheres.isEmpty()){
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-      }else{
-        resultSet = dbSQL.select(tables, columns, tableCons);
-      }
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       
@@ -110,11 +103,7 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, commentTable, SSSQLVarU.commentId, commentsTable, SSSQLVarU.commentId);
       
-      if(!wheres.isEmpty()){
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons);
-      }else{
-        resultSet = dbSQL.select(tables, columns, tableCons);
-      }
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
       
       return getTextCommentsFromResult(resultSet, SSSQLVarU.commentContent);
       

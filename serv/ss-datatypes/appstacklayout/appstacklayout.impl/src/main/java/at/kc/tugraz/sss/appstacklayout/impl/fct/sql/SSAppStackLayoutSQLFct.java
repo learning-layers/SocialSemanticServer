@@ -44,8 +44,13 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       
     try{
       final List<SSAppStackLayout> appStackLayouts = new ArrayList<>();
+      final List<String>           columns         = new ArrayList<>();
+      final Map<String, String>    wheres          = new HashMap<>();
       
-      resultSet = dbSQL.select(appStackLayoutTable);
+      column(columns, SSSQLVarU.stackId);
+      column(columns, SSSQLVarU.app);
+        
+      resultSet = dbSQL.select(appStackLayoutTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         

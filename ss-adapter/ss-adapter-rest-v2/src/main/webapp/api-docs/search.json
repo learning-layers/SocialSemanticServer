@@ -80,6 +80,13 @@
           "type" : "string",
           "description" : "textual description"
         },
+        "comments" : {
+          "type" : "array",
+          "description" : "comments given by users",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
@@ -88,30 +95,11 @@
           "type" : "string",
           "description" : "name"
         },
-        "comments" : {
+        "flags" : {
           "type" : "array",
-          "description" : "comments given by users",
+          "description" : "flags assigned",
           "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "users" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
+            "$ref" : "SSEntityA"
           }
         },
         "author" : {
@@ -151,11 +139,23 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "flags" : {
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "tags" : {
           "type" : "array",
-          "description" : "flags assigned",
+          "description" : "tags assigned",
           "items" : {
-            "$ref" : "SSEntityA"
+            "type" : "string"
           }
         },
         "attachedEntities" : {
