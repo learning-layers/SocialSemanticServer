@@ -220,18 +220,18 @@ public class SSFileUploader extends SSServImplStartA{
       Boolean      thumbCreated      = false;
       
       if(SSFileExtU.imageFileExts.contains(fileExt)){
-        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath);
+        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath, 500, 500);
         thumbCreated = true;
       }
       
       if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath);
+        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500);
         thumbCreated = true;
       }
       
       if(SSStrU.equals(SSFileExtE.doc, fileExt)){
         SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath);
+        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500);
         thumbCreated = true;
       }
       

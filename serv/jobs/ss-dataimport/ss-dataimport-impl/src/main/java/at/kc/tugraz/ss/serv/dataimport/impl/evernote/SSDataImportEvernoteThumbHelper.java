@@ -59,12 +59,12 @@ public class SSDataImportEvernoteThumbHelper{
         pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
         //pptx //docx
         if(SSFileExtU.imageFileExts.contains(fileExt)){
-          SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath);
+          SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath, 500, 500);
           thumbCreated = true;
         }
         
         if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath);
+          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500);
           thumbCreated = true;
         }
         
@@ -73,7 +73,7 @@ public class SSDataImportEvernoteThumbHelper{
           final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath);
+          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500);
           thumbCreated = true;
         }
         

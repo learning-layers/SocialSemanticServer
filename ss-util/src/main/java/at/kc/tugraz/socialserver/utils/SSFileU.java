@@ -472,8 +472,10 @@ public class SSFileU{
   }
  
   public static void writeScaledPNGFromPDF(
-    final String pdfFilePath, 
-    final String pngFilePath) throws Exception{
+    final String  pdfFilePath, 
+    final String  pngFilePath, 
+    final Integer width, 
+    final Integer height) throws Exception{
     
     PdfDecoder    pdfToImgDecoder = null;
     BufferedImage buffImage;
@@ -503,7 +505,7 @@ public class SSFileU{
       buffImage = (BufferedImage) pngImage;
       
       //scale the thumb
-      scalePNGAndWrite(buffImage, pngFilePath);
+      scalePNGAndWrite(buffImage, pngFilePath, width, height);
       
     }finally{
       
@@ -515,9 +517,11 @@ public class SSFileU{
   
   public static void scalePNGAndWrite(
     final BufferedImage buffImage, 
-    final String        pngFilePath) throws IOException{
+    final String        pngFilePath, 
+    final Integer       width, 
+    final Integer       height) throws IOException{
     
-    final BufferedImage scaledThumb = new BufferedImage(350, 350, BufferedImage.TYPE_INT_RGB);
+    final BufferedImage scaledThumb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     final Graphics2D    graphics2D  = scaledThumb.createGraphics();
     
     graphics2D.setComposite(AlphaComposite.Src);
