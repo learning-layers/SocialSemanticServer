@@ -1293,28 +1293,41 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Override
   public List<SSLearnEpLockHoldRet> learnEpsLockHold(final SSServPar parA) throws Exception{
-
+    
     try{
       final SSLearnEpsLockHoldPar      par = new SSLearnEpsLockHoldPar(parA);
       final List<SSLearnEpLockHoldRet> locks = new ArrayList<>();
-
+      
       if(learnEpConf.useEpisodeLocking){
         
-        for(SSUri learnEp : par.learnEps){
-        
-        locks.add(
-          SSServCaller.learnEpLockHold(
-            par.user, 
-            learnEp, 
-            true));
+        if(!par.learnEps.isEmpty()){
+          
+          for(SSUri learnEp : par.learnEps){
+            
+            locks.add(
+              SSServCaller.learnEpLockHold(
+                par.user,
+                learnEp,
+                true));
+          }
+        }else{
+          
+          for(SSUri learnEp : sqlFct.getLearnEpURIs(par.user)){
+            
+            locks.add(
+              SSServCaller.learnEpLockHold(
+                par.user,
+                learnEp,
+                true));
+          }
         }
         
         return locks;
         
       }else{
         return locks;
-      }    
-
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1323,7 +1336,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Override
   public void learnEpLockSet(SSSocketCon sSCon, SSServPar par) throws Exception{
-
+    
     SSServCaller.checkKey(par);
 
     sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(par), par.op));

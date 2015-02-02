@@ -44,9 +44,11 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.learnEps)) {
-          learnEps.add(SSUri.get(objNode.getTextValue()));
-        }
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.learnEps)) {
+            learnEps.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
