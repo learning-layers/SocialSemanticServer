@@ -92,7 +92,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
         
@@ -160,7 +160,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.entityId, resourceId);
       
-      resultSet = dbSQL.select(evernoteResourceTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(evernoteResourceTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
         
@@ -191,7 +191,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.authToken, authToken);
       
-      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null, null);
       
       try{
         
@@ -225,7 +225,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.noteId, noteUri);
       
-      resultSet = dbSQL.select(evernoteNoteTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(evernoteNoteTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       

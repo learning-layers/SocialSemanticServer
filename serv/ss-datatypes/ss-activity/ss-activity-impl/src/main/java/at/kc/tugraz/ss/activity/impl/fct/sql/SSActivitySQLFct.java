@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import org.apache.poi.hssf.record.SSTRecord;
 
 public class SSActivitySQLFct extends SSDBSQLFct{
 
@@ -132,7 +133,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     final List<SSUri>       entities,
     final List<SSActivityE> types,
     final Long              startTime,
-    final Long              endTime) throws Exception{
+    final Long              endTime,
+    final Boolean           sortByTime,
+    final Integer           limit,
+    final Boolean           includeOnlyLastActivities) throws Exception{
     
     ResultSet resultSet = null;
       
@@ -150,10 +154,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       table    (tables,    entityTable);
       
       column   (columns,   entityTable,   SSSQLVarU.id);
+      column   (columns,   entityTable,   SSSQLVarU.author);
       column   (columns,   activityTable, SSSQLVarU.activityType);
       column   (columns,   activityTable, SSSQLVarU.entityId);
       column   (columns,   entityTable,   SSSQLVarU.creationTime);
-      column   (columns,   entityTable,   SSSQLVarU.author);
       column   (columns,   activityTable, SSSQLVarU.textComment);
 
       tableCon (tableCons, activityTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
@@ -203,8 +207,19 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      if(sortByTime){
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+      }else{
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
+      }
       
+      
+      final         List<String> latestActivities = new ArrayList<>();
+      SSUri         entity;
+      SSUri         author;
+      SSActivityE   type;
+      String        activityCombi;
+        
       while(resultSet.next()){
         
         timestamp = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
@@ -223,11 +238,28 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           continue;
         }
         
-        if(bindingStrToUri(resultSet, SSSQLVarU.entityId) != null){
+        author = bindingStrToUri  (resultSet, SSSQLVarU.author);
+        entity = bindingStrToUri  (resultSet, SSSQLVarU.entityId);
+        type   = SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType));
+        
+        if(
+          includeOnlyLastActivities &&
+          entity != null){
+          
+          activityCombi = SSStrU.toStr(author) + SSStrU.toStr(entity) + SSStrU.toStr(type);
+          
+          if(latestActivities.contains(activityCombi)){
+            continue;
+          }else{
+            latestActivities.add(activityCombi);
+          }
+        }
+        
+        if(entity != null){
           
           activityEntity =
             SSEntity.get(
-              bindingStrToUri(resultSet, SSSQLVarU.entityId),
+              entity,
               SSEntityE.entity);
         }else{
           activityEntity = null;
@@ -235,12 +267,12 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         
         activityObj = 
           SSActivity.get(
-            bindingStrToUri  (resultSet, SSSQLVarU.id), 
-            SSActivityE.get(bindingStr(resultSet, SSSQLVarU.activityType)),
+            bindingStrToUri  (resultSet, SSSQLVarU.id),
+            type,
             activityEntity);
 
         activityObj.creationTime   = timestamp;
-        activityObj.author         = bindingStrToUri        (resultSet, SSSQLVarU.author);
+        activityObj.author         = author;
 
         activityObj.comments.addAll(
           SSTextComment.asListWithoutNullAndEmpty(
@@ -275,7 +307,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       where    (wheres,    activityTable,        SSSQLVarU.activityId, activity);
       tableCon (tableCons, activityTable,        SSSQLVarU.activityId, activityUsersTable, SSSQLVarU.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -303,7 +335,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       where    (wheres,    activityTable,          SSSQLVarU.activityId, activity);
       tableCon (tableCons, activityTable,          SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
     }catch(Exception error){

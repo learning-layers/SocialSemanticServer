@@ -98,7 +98,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -143,7 +143,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -169,7 +169,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
        
        where(wheres, SSSQLVarU.userId, userUri);
        
-       resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null);
+       resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null, null);
        
        checkFirstResult(resultSet);
        
@@ -196,7 +196,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collId, entityUri);
       
-      resultSet = dbSQL.select(collTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -242,7 +242,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null, null);
       
       resultSet.last();
       
@@ -286,7 +286,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       tableCon(tableCons, circleEntitiesTable, SSSQLVarU.circleId, circleTable, SSSQLVarU.circleId);
       tableCon(tableCons, circleEntitiesTable, SSSQLVarU.entityId, collTable,   SSSQLVarU.collId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -323,7 +323,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);      
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null, null);      
       
       return getStringsFromResult(resultSet, SSSQLVarU.collId);
     }catch(Exception error){
@@ -350,7 +350,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.userId, userUri);
       where(wheres, SSSQLVarU.collId, collUri);
     
-      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -501,7 +501,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collParentId, collUri);
       
-      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collChildId);
       
@@ -527,7 +527,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collChildId, collUri);
       
-      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collParentId);
       
@@ -627,7 +627,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.collId, collUri);
       tableCon (tableCons, collTable, SSSQLVarU.collId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -674,7 +674,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.collId,  coll.id);
       tableCon (tableCons, collEntryPosTable, SSSQLVarU.entryId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.pos, "ASC");
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.pos, "ASC", null);
       
       while(resultSet.next()){
         
@@ -711,7 +711,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
 
@@ -739,7 +739,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.collId,  collUri);
       where(wheres, SSSQLVarU.entryId, collEntryUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -764,7 +764,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet  = dbSQL.select(collRootTable, columns, wheres, null, null);
+      resultSet  = dbSQL.select(collRootTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -789,7 +789,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -814,7 +814,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.entryId, entityUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collId);
       

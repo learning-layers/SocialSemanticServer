@@ -86,7 +86,7 @@ public class SSFriendSQLFct extends SSDBSQLFct{
       
       where     (wheres,    SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(friendsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(friendsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         

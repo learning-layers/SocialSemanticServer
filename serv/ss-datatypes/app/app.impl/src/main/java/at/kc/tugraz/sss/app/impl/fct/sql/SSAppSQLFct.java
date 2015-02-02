@@ -58,7 +58,7 @@ public class SSAppSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarU.downloadAndroid);
       column(columns, SSSQLVarU.fork);
       
-      resultSet = dbSQL.select(appTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(appTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         

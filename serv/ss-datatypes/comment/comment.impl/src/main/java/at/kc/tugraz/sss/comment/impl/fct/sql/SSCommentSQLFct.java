@@ -60,7 +60,7 @@ public class SSCommentSQLFct extends SSDBSQLFct{
         tableCon(tableCons, entityTable,  SSSQLVarU.id,    commentsTable,  SSSQLVarU.commentId);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       
@@ -103,7 +103,7 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, commentTable, SSSQLVarU.commentId, commentsTable, SSSQLVarU.commentId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getTextCommentsFromResult(resultSet, SSSQLVarU.commentContent);
       

@@ -59,7 +59,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.isSystemCircle, withSystemCircles);
       
-      resultSet = dbSQL.select(circleTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
@@ -88,7 +88,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
@@ -193,7 +193,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
-      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null, null);
       
       return SSEntity.get(
         getURIsFromResult(resultSet, SSSQLVarU.userId), 
@@ -221,7 +221,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
-      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null, null);
       
       return SSEntity.get(
         getURIsFromResult(resultSet, SSSQLVarU.entityId), 
@@ -253,7 +253,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.entityId, entityUri);
       tableCon (tableCons, circleTable, SSSQLVarU.circleId, circleEntitiesTable, SSSQLVarU.circleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return SSCircleE.get(getStringsFromResult(resultSet, SSSQLVarU.circleType));
       
@@ -291,7 +291,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       tableCon (tableCons, circleTable, SSSQLVarU.circleId, circleEntitiesTable, SSSQLVarU.circleId);
       tableCon (tableCons, circleTable, SSSQLVarU.circleId, circleUsersTable,    SSSQLVarU.circleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return SSCircleE.get(getStringsFromResult(resultSet, SSSQLVarU.circleType));
       
@@ -339,7 +339,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       tableCon  (tableCons, circleTable, SSSQLVarU.circleId, circleUsersTable,    SSSQLVarU.circleId);
       tableCon  (tableCons, circleTable, SSSQLVarU.circleId, entityTable,         SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -380,7 +380,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where (wheres,    SSSQLVarU.circleId, circleUri);
       
-      resultSet = dbSQL.select(circleTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -419,7 +419,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.circleId, circleUri);
       tableCon (tableCons, circleTable,        SSSQLVarU.circleId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -470,7 +470,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarU.circleId);
       where  (wheres,  SSSQLVarU.entityId, entityUri);
       
-      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
       
@@ -511,7 +511,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.circleId, circleUri);
       
-      resultSet = dbSQL.select(circleTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -564,7 +564,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.circleId, circleUri);
       where(wheres, SSSQLVarU.entityId, entityUri);
       
-      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleEntitiesTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -592,7 +592,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.circleId, circleUri);
       where(wheres, SSSQLVarU.userId,   userUri);
       
-      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -624,7 +624,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       tableCon (tableCons, circleTable, SSSQLVarU.circleId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -657,7 +657,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.circleType, SSCircleE.pub);
       
-      resultSet = dbSQL.select(circleTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(circleTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       

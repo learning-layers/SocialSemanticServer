@@ -63,7 +63,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where(where, SSSQLVarU.id, entity);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
       
       try{
         checkFirstResult(resultSet);
@@ -106,7 +106,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where(where, SSSQLVarU.id, entityUri);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -156,7 +156,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       where(where, SSSQLVarU.label, label);
       where(where, SSSQLVarU.type,  type);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -216,7 +216,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       where(where, SSSQLVarU.author, author);
       where(where, SSSQLVarU.type,   type);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.id);
     }catch(Exception error){
@@ -392,7 +392,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -449,7 +449,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(thumbnailsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(thumbnailsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
       
@@ -487,9 +487,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }
       
       if(!tableCons.isEmpty()){
-        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null);
+        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(imageTable, columns, wheres, null, null);
+        resultSet = dbSQL.select(imageTable, columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarU.imageId);
@@ -515,7 +515,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(downloadsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(downloadsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.downloadId);
       
@@ -539,7 +539,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(filesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(filesTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.fileId);
       
@@ -699,7 +699,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.userId,   user);
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(entityReadsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(entityReadsTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -873,9 +873,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         
         tableCon(tableCons, locationTable, SSSQLVarU.locationId, entityLocationsTable, SSSQLVarU.locationId);
         
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(locationTable, columns, wheres, null, null);
+        resultSet = dbSQL.select(locationTable, columns, wheres, null, null, null);
       }
       
       while(resultSet.next()){

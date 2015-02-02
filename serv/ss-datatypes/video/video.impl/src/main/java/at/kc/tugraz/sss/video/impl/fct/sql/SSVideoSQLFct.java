@@ -185,7 +185,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -248,7 +248,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -305,7 +305,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       tableCon(tableCons, entityTable, SSSQLVarU.id, videoAnnotationTable,  SSSQLVarU.videoAnnotationId);
       tableCon(tableCons, entityTable, SSSQLVarU.id, videoAnnotationsTable, SSSQLVarU.videoAnnotationId);
 
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         

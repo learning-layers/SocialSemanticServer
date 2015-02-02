@@ -44,8 +44,9 @@ public interface SSDBSQLI{
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> wheres,
     final List<String>                         tableCons,
-    final String                               orderByColumn, 
-    final String                               sortType) throws Exception;
+    final String                               orderByColumn,
+    final String                               sortType, 
+    final Integer                              limit) throws Exception;
   
   public ResultSet select(
     final List<String>        tables, 
@@ -53,14 +54,16 @@ public interface SSDBSQLI{
     final Map<String, String> wheres,
     final List<String>        tableCons,
     final String              orderByColumn, 
-    final String              sortType) throws Exception;
+    final String              sortType, 
+    final Integer             limit) throws Exception;
   
   public ResultSet select(
     final String              table, 
     final List<String>        columns, 
     final Map<String, String> where,
     final String              orderByColumn, 
-    final String              sortType) throws Exception;
+    final String              sortType, 
+    final Integer             limit) throws Exception;
   
   public ResultSet select(
     final String              table, 

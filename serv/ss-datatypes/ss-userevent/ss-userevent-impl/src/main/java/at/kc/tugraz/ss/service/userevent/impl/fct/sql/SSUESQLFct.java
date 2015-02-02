@@ -61,7 +61,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userEventId, ue);
       
-      resultSet = dbSQL.select(uesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(uesTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -154,7 +154,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
 
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         

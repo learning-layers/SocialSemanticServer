@@ -38,8 +38,8 @@ public enum SSActivityE{
   //cite
   cite, 
   
-  //search
-  search,
+//  //search
+//  search,
   
   //tag
   tagEntity,

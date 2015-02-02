@@ -51,7 +51,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -85,7 +85,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -112,7 +112,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.authKey, key);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -153,7 +153,7 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.authKey);
       

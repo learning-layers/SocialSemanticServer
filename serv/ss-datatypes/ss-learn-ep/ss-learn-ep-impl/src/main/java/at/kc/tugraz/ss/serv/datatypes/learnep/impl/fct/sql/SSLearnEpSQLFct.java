@@ -60,7 +60,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.learnEpId, learnEp);
     
-      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null, null);
 
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -87,7 +87,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.userId,    user);
       where(wheres, SSSQLVarU.learnEpId, learnEp);
     
-      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -124,7 +124,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, learnEpUserTable, SSSQLVarU.learnEpId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -197,7 +197,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, learnEpUserTable, SSSQLVarU.learnEpId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -237,7 +237,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.learnEpId);
       
@@ -263,7 +263,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null, null);
       
       if(!resultSet.first()){
         throw new SSErr(SSErrE.learnEpCurrentVersionNotSet);
@@ -304,7 +304,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, learnEpVersionsTable, SSSQLVarU.learnEpVersionId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       if(!resultSet.first()){
         throw new Exception("learn ep version doesnt exist");
@@ -348,7 +348,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.learnEpId, learnEpUri);
       
-      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.learnEpVersionId);
       
@@ -390,7 +390,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       tableCon(tableCons, entityTable,                SSSQLVarU.id,              learnEpVersionCirclesTable, SSSQLVarU.learnEpCircleId);
       tableCon(tableCons, learnEpVersionCirclesTable, SSSQLVarU.learnEpCircleId, learnEpCircleTable,         SSSQLVarU.learnEpCircleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -440,7 +440,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, learnEpVersionEntitiesTable, SSSQLVarU.learnEpEntityId, learnEpEntityTable, SSSQLVarU.learnEpEntityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -683,7 +683,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null, null);
       
       if(resultSet.first()){
         
@@ -765,7 +765,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, learnEpTimelineStateTable, SSSQLVarU.learnEpTimelineStateId, learnEpVersionTimelineStatesTable, SSSQLVarU.learnEpTimelineStateId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       if(!resultSet.first()){
 //        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
@@ -799,7 +799,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.learnEpVersionId, learnEpVersion);
       
-      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -823,7 +823,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.learnEpCircleId, circle);
       
-      resultSet = dbSQL.select(learnEpVersionCirclesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionCirclesTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -847,7 +847,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarU.learnEpEntityId, entity);
       
-      resultSet = dbSQL.select(learnEpVersionEntitiesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(learnEpVersionEntitiesTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       

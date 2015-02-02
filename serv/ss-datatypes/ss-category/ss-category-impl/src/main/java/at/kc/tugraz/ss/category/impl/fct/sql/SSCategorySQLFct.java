@@ -126,7 +126,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       
       tableCon(tableCons, entityTable, SSSQLVarU.id, categoryTable, SSSQLVarU.categoryId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.label);
     }catch(Exception error){
@@ -185,7 +185,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarU.tagId,        categoryUri);
       where(wheres, SSSQLVarU.tagSpace,     space);
       
-      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -279,7 +279,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.categorySpace, categorySpace);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -335,7 +335,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       
       column(columns, SSSQLVarU.entityId);
       
-      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       

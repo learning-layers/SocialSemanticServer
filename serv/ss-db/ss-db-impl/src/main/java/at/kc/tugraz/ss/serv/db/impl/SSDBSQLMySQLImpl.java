@@ -76,7 +76,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<MultivaluedMap<String, String>> wheres,
     final List<String>                         tableCons,
     final String                               orderByColumn, 
-    final String                               sortType) throws Exception{
+    final String                               sortType, 
+    final Integer                              limit) throws Exception{
     
     String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
     int                                       counter = 1;
@@ -132,6 +133,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
     }
     
+    if(limit != null){
+      query += " LIMIT " + limit;
+    }
+    
     stmt           = connector.prepareStatement(query);
     
     for(MultivaluedMap<String, String> where : wheres){
@@ -158,7 +163,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final Map<String, String> wheres,
     final List<String>        tableCons,
     final String              orderByColumn, 
-    final String              sortType) throws Exception{
+    final String              sortType,
+    final Integer             limit) throws Exception{
     
     String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
     PreparedStatement                   stmt;
@@ -190,6 +196,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, " AND ");
     }
     
+    if(!wheres.isEmpty()){
+      query += " AND ";
+    }
+    
     for(String tableCon : tableCons){
       query += tableCon + " AND ";
     }
@@ -202,6 +212,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
     }
     
+    if(limit != null){
+      query += " LIMIT " + limit;
+    }
+        
     stmt           = connector.prepareStatement(query);
     
     if(
@@ -223,7 +237,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<String>        columns, 
     final Map<String, String> wheres,
     final String              orderByColumn, 
-    final String              sortType) throws Exception{
+    final String              sortType,
+    final Integer             limit) throws Exception{
     
     String                              query   = "SELECT DISTINCT ";
     int                                 counter = 1;
@@ -257,6 +272,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
     }
     
+    if(limit != null){
+      query += " LIMIT " + limit;
+    }
+        
     stmt           = connector.prepareStatement(query);
     
     if(

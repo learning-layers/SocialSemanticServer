@@ -223,7 +223,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           entitiesToQuery,
           par.types,
           par.startTime,
-          par.endTime));
+          par.endTime, 
+          true,
+          1000, 
+          par.includeOnlyLastActivities));
       
       for(SSActivity activity : activities){
         

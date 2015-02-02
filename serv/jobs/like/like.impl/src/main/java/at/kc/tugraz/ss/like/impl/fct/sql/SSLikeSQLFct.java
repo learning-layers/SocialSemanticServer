@@ -61,7 +61,7 @@ public class SSLikeSQLFct extends SSDBSQLFct{
       
       where (wheres,    SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(likesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
@@ -149,7 +149,7 @@ public class SSLikeSQLFct extends SSDBSQLFct{
       where     (wheres,    SSSQLVarU.entityId, entity);
       where     (wheres,    SSSQLVarU.userId,   user);
       
-      resultSet = dbSQL.select(likesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         return bindingStrToInteger(resultSet, SSSQLVarU.value);

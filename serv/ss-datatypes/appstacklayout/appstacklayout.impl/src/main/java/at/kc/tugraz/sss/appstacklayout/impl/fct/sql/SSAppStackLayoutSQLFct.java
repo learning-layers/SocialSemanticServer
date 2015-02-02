@@ -50,7 +50,7 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarU.stackId);
       column(columns, SSSQLVarU.app);
         
-      resultSet = dbSQL.select(appStackLayoutTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(appStackLayoutTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         

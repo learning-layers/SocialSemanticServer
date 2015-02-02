@@ -54,7 +54,7 @@ public class SSDataImportSQLFct extends SSDBSQLFct{
       
       where(wheres, "user_name", userName);
       
-      resultSet = dbSQL.select("user", columns, wheres, null, null);
+      resultSet = dbSQL.select("user", columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       

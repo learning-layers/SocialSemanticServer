@@ -84,7 +84,7 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       
       tableCon  (tableCons, messageTable, SSSQLVarU.messageId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         

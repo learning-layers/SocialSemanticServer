@@ -93,7 +93,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
 
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -117,7 +117,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -148,7 +148,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.entityId, targetUri);
       tableCon  (tableCons, discTable,          SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -238,7 +238,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, discUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
       
       resultSet.last();
       
@@ -271,7 +271,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.type,   discType);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return resultSet.first();
       
@@ -296,7 +296,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, entityUri);
       
-      resultSet = dbSQL.select(discTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -321,7 +321,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -357,7 +357,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where     (wheres,    SSSQLVarU.discId, discUri);
       tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -425,7 +425,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discId, disc);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discEntryId);
       
@@ -467,7 +467,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       tableCon(tableCons, discEntriesTable,     SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
       tableCon(tableCons, discEntryTable,       SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null);
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -511,7 +511,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       where(wheres, SSSQLVarU.userId, user);
       where(wheres, SSSQLVarU.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -535,7 +535,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.userId, user);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
 
       return getStringsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -559,7 +559,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       where(wheres, SSSQLVarU.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.discId);
       
