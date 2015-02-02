@@ -30,24 +30,25 @@ import java.util.List;
 
 public interface SSLearnEpServerI {
   
-  public List<SSLearnEp>        learnEpsGet                       (final SSServPar parA) throws Exception;
-  public List<SSLearnEpVersion> learnEpVersionsGet                (final SSServPar parA) throws Exception;
-  public SSLearnEpVersion       learnEpVersionGet                 (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpVersionCreate              (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpVersionAddCircle           (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpVersionAddEntity           (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpCreate                     (final SSServPar parA) throws Exception;
-  public Boolean                learnEpVersionUpdateCircle        (final SSServPar parA) throws Exception;
-  public Boolean                learnEpVersionUpdateEntity        (final SSServPar parA) throws Exception;
-  public Boolean                learnEpVersionRemoveCircle        (final SSServPar parA) throws Exception;
-  public Boolean                learnEpVersionRemoveEntity        (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpVersionSetTimelineState    (final SSServPar parA) throws Exception;
-  public SSLearnEpTimelineState learnEpVersionGetTimelineState    (final SSServPar parA) throws Exception;
-  public SSLearnEpVersion       learnEpVersionCurrentGet          (final SSServPar parA) throws Exception;
-  public SSUri                  learnEpVersionCurrentSet          (final SSServPar parA) throws Exception;
+  public List<SSLearnEp>              learnEpsGet                       (final SSServPar parA) throws Exception;
+  public List<SSLearnEpVersion>       learnEpVersionsGet                (final SSServPar parA) throws Exception;
+  public SSLearnEpVersion             learnEpVersionGet                 (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpVersionCreate              (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpVersionAddCircle           (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpVersionAddEntity           (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpCreate                     (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpVersionUpdateCircle        (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpVersionUpdateEntity        (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpVersionRemoveCircle        (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpVersionRemoveEntity        (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpVersionSetTimelineState    (final SSServPar parA) throws Exception;
+  public SSLearnEpTimelineState       learnEpVersionGetTimelineState    (final SSServPar parA) throws Exception;
+  public SSLearnEpVersion             learnEpVersionCurrentGet          (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpVersionCurrentSet          (final SSServPar parA) throws Exception;
   
-  public SSUri                  learnEpUserCopyForUser            (final SSServPar parA) throws Exception;
-  public SSLearnEpLockHoldRet   learnEpLockHold                   (final SSServPar parA) throws Exception;
-  public Boolean                learnEpLockSet                    (final SSServPar parA) throws Exception;
-  public Boolean                learnEpLockRemove                 (final SSServPar parA) throws Exception;
+  public SSUri                        learnEpUserCopyForUser            (final SSServPar parA) throws Exception;
+  public SSLearnEpLockHoldRet         learnEpLockHold                   (final SSServPar parA) throws Exception;
+  public List<SSLearnEpLockHoldRet>   learnEpsLockHold                  (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpLockSet                    (final SSServPar parA) throws Exception;
+  public Boolean                      learnEpLockRemove                 (final SSServPar parA) throws Exception;
 }

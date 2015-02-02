@@ -164,6 +164,7 @@ public enum SSMethU{
   learnEpLockRemove,
   learnEpLockSet,
   learnEpLockHold,
+  learnEpsLockHold,
   
   //data export
   dataExportUserEntityTags                            ,

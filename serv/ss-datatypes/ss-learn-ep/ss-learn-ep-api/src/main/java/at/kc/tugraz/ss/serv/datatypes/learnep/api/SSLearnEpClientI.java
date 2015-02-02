@@ -41,7 +41,9 @@ public interface SSLearnEpClientI {
   public void learnEpVersionCurrentGet          (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void learnEpVersionCurrentSet          (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   
+  @Deprecated 
   public void learnEpLockHold                   (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public void learnEpsLockHold                  (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void learnEpLockSet                    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void learnEpLockRemove                 (final SSSocketCon sSCon, final SSServPar par) throws Exception;
 }

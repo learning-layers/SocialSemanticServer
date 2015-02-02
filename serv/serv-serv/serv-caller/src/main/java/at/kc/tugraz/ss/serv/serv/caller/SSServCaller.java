@@ -48,6 +48,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
@@ -292,6 +293,20 @@ public class SSServCaller {
   }
   
   /* learn ep */
+  
+  public static SSLearnEpLockHoldRet learnEpLockHold(
+    final SSUri       user,
+    final SSUri       learnEp,
+    final Boolean     withUserRestriction) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                user);
+    opPars.put(SSVarU.learnEp,             learnEp);
+    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    
+    return (SSLearnEpLockHoldRet) SSServA.callServViaServer(new SSServPar(SSMethU.learnEpLockHold, opPars)); 
+  }
   
   public static Boolean learnEpLockRemove(
     final SSUri       user,

@@ -24,6 +24,7 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String learnEpLocks                                   = "learnEpLocks";
   public static final String includeOnlyLastActivities                      = "includeOnlyLastActivities";
   public static final String remainingTime                                  = "remainingTime";
   public static final String locked                                         = "locked";

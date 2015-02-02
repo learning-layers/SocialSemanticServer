@@ -23,58 +23,46 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSLearnEpLockHoldRet extends SSServRetI{
+public class SSLearnEpsLockHoldRet extends SSServRetI{
 
-  public SSUri   learnEp       = null;
-  public Boolean lockedByUser  = null;
-  public Boolean locked        = false;
-  public Long    remainingTime = null;
+  public List<SSLearnEpLockHoldRet> learnEpLocks = new ArrayList<>();
 
-  public static SSLearnEpLockHoldRet get(
-    final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser, 
-    final Long    remainingTime, 
+  public static SSLearnEpsLockHoldRet get(
+    final List<SSLearnEpLockHoldRet> learnEpLocks,
     final SSMethU op){
 
-    return new SSLearnEpLockHoldRet(learnEp, locked, lockedByUser, remainingTime, op);
+    return new SSLearnEpsLockHoldRet(learnEpLocks, op);
   }
   
-  private SSLearnEpLockHoldRet(
-    final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser,
-    final Long    remainingTime,
+  private SSLearnEpsLockHoldRet(
+    final List<SSLearnEpLockHoldRet> learnEpLocks,
     final SSMethU op){
     
     super(op);
     
-    this.learnEp       = learnEp;
-    this.locked        = locked;
-    this.lockedByUser  = lockedByUser;
-    this.remainingTime = remainingTime;
+    if(learnEpLocks != null){
+      learnEpLocks.addAll(learnEpLocks);
+    }
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld                = new HashMap<>();
+    final Map<String, Object> learnEpLocksObj   = new HashMap<>();
     
-    ld.put(SSVarU.learnEp,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.locked,        SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarU.lockedByUser,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarU.remainingTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    learnEpLocksObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpLockHoldRet.class.getName());
+    learnEpLocksObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarU.colls, learnEpLocksObj);
     
     return ld;
-  }
-  
-  /* json getters */
-  public String getLearnEp(){
-    return SSStrU.removeTrailingSlash(learnEp);
   }
 }

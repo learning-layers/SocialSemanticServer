@@ -57,6 +57,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpCreateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockRemoveRet;
@@ -75,6 +76,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpdateEntityRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessController;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
@@ -1230,6 +1232,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     }
   }
   
+  @Deprecated
   @Override
   public void learnEpLockHold(SSSocketCon sSCon, SSServPar par) throws Exception{
 
@@ -1253,6 +1256,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         
         ret =
           SSLearnEpLockHoldRet.get(
+            par.learnEp,
             SSLearnEpAccessController.isLocked(par.learnEp),
             SSLearnEpAccessController.hasLock(
               par.user,
@@ -1264,6 +1268,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         
         ret =
           SSLearnEpLockHoldRet.get(
+            par.learnEp,
             false,
             false,
             0L,
@@ -1271,6 +1276,44 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       }    
       
       return ret;
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void learnEpsLockHold(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCaller.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSLearnEpLockHoldRet> learnEpsLockHold(final SSServPar parA) throws Exception{
+
+    try{
+      final SSLearnEpsLockHoldPar      par = new SSLearnEpsLockHoldPar(parA);
+      final List<SSLearnEpLockHoldRet> locks = new ArrayList<>();
+
+      if(learnEpConf.useEpisodeLocking){
+        
+        for(SSUri learnEp : par.learnEps){
+        
+        locks.add(
+          SSServCaller.learnEpLockHold(
+            par.user, 
+            learnEp, 
+            true));
+        }
+        
+        return locks;
+        
+      }else{
+        return locks;
+      }    
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

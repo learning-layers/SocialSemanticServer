@@ -1247,13 +1247,22 @@ public class SSAdapterRest{
   public String broadcastsGet(String jsonRequ){
     return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.broadcastsGet);
   }
-  
+
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpLockHold")
   public String learnEpLockHold(String jsonRequ){
     return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockHold);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "learnEpsLockHold")
+  public String learnEpsLockHold(String jsonRequ){
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsLockHold);
   }
   
   @POST
