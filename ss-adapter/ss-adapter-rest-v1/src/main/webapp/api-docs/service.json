@@ -2,15 +2,15 @@
   "apiVersion" : "v1",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/SSAdapterRESTFile.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
-  }, {
-    "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
     "path" : "/SSAdapterRESTFileReplace.{format}"
   }, {
     "path" : "/SSAdapterRest.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFile.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileDownload.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",

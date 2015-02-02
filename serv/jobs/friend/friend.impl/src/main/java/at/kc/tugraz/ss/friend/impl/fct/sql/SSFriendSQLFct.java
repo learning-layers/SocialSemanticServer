@@ -78,11 +78,15 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     try{
       
       final List<SSFriend>      friends   = new ArrayList<>();
+      final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarU.friendId);
       
       where     (wheres,    SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(friendsTable, wheres);
+      resultSet = dbSQL.select(friendsTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         

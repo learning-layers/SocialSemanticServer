@@ -25,7 +25,9 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSDataImportSQLFct extends SSDBSQLFct{
@@ -42,15 +44,20 @@ public class SSDataImportSQLFct extends SSDBSQLFct{
     ResultSet    resultSet               = null;
     
     try{
-      final Map<String, String>          whereParNamesWithValues = new HashMap<>();
+      final List<String>                 columns = new ArrayList<>();
+      final Map<String, String>          wheres  = new HashMap<>();
       final Statement                    statement               = dbSQL.getConnection().createStatement();
       
       statement.execute("INSERT INTO user (user_name,user_options,user_password,user_email,user_newpassword) values ('" + userName + "','','','','');");
       
-      whereParNamesWithValues.put("user_name", userName);
+      column(columns, "user_id");
       
-      resultSet = dbSQL.select("user", whereParNamesWithValues);
-      resultSet.first();
+      where(wheres, "user_name", userName);
+      
+      resultSet = dbSQL.select("user", columns, wheres, null, null);
+      
+      checkFirstResult(resultSet);
+      
       userId    = resultSet.getString("user_id");
       
       statement.execute("UPDATE user SET user_password = MD5(CONCAT(" + userId + ", '-', MD5('" + password + "'))) WHERE user_name = '" + userName + "'");

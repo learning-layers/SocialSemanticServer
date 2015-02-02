@@ -259,15 +259,17 @@ implements
     try{
       
       final SSCategoriesPredefinedAddPar par            = new SSCategoriesPredefinedAddPar(parA);
-      Boolean                            existsCategory;
       SSUri                              categoryUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSCategoryLabel label : par.labels){
       
-        existsCategory = sqlFct.existsCategoryLabel    (label);
-        categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, label);
+        if(!SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(label)))){
+          categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(label))).id;
+        }else{
+          categoryUri = SSServCaller.vocURICreate();
+        }
 
         SSServCaller.entityEntityToPrivCircleAdd(
           par.user, 
@@ -371,8 +373,8 @@ implements
       
       final SSCategoryAddPar par               = new SSCategoryAddPar(parA);
       final Boolean          existsEntity      = SSServCaller.entityExists(par.entity);
-      final Boolean          existsCategory;
       final SSUri            categoryUri;
+      Boolean                existsCategory;
       
       if(existsEntity){
         
@@ -382,8 +384,13 @@ implements
         }
       }
       
-      existsCategory = sqlFct.existsCategoryLabel    (par.label);
-      categoryUri    = sqlFct.getOrCreateCategoryURI (existsCategory, par.label);
+      existsCategory = SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label)));
+      
+      if(!existsCategory){
+        categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label))).id;
+      }else{
+        categoryUri = SSServCaller.vocURICreate();
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       

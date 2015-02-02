@@ -91,12 +91,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet  resultSet = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      final Map<String, String> wheres = new HashMap<>();
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collRootTable, wheres);
+      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null);
       
       return resultSet.first();
       
@@ -134,12 +136,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet  resultSet               = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      final Map<String, String> wheres = new HashMap<>();
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collSpecialTable, wheres);
+      resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null);
       
       return resultSet.first();
       
@@ -158,11 +162,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
      
      try{
       
-       final Map<String, String> wheres = new HashMap<>();
+       final List<String>        columns = new ArrayList<>();
+       final Map<String, String> wheres  = new HashMap<>();
+       
+       column(columns, SSSQLVarU.collId);
        
        where(wheres, SSSQLVarU.userId, userUri);
        
-       resultSet = dbSQL.select(collSpecialTable, wheres);
+       resultSet = dbSQL.select(collSpecialTable, columns, wheres, null, null);
        
        checkFirstResult(resultSet);
        
@@ -182,11 +189,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.collId, entityUri);
       
-      resultSet = dbSQL.select(collTable, wheres);
+      resultSet = dbSQL.select(collTable, columns, wheres, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -225,11 +235,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, wheres);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
       
       resultSet.last();
       
@@ -303,11 +316,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres   = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
     
+      column(columns, SSSQLVarU.collId);
+      
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(collUserTable, wheres);
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);      
       
       return getStringsFromResult(resultSet, SSSQLVarU.collId);
     }catch(Exception error){
@@ -326,12 +342,15 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.userId, userUri);
       where(wheres, SSSQLVarU.collId, collUri);
     
-      resultSet = dbSQL.select(collUserTable, wheres);
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -475,11 +494,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres   = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collChildId);
       
       where(wheres, SSSQLVarU.collParentId, collUri);
       
-      resultSet = dbSQL.select(collHierarchyTable, wheres);
+      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collChildId);
       
@@ -495,13 +517,17 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final String collUri) throws Exception{
 
     ResultSet resultSet = null;
+    
     try{
       
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collParentId);
       
       where(wheres, SSSQLVarU.collChildId, collUri);
       
-      resultSet = dbSQL.select(collHierarchyTable, wheres);
+      resultSet = dbSQL.select(collHierarchyTable, columns, wheres, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collParentId);
       
@@ -648,7 +674,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       where    (wheres,    SSSQLVarU.collId,  coll.id);
       tableCon (tableCons, collEntryPosTable, SSSQLVarU.entryId, entityTable, SSSQLVarU.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons.get(0), SSSQLVarU.pos, "ASC");
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.pos, "ASC");
       
       while(resultSet.next()){
         
@@ -678,11 +704,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
 
+      column(columns, SSSQLVarU.collId);
+      
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(collRootTable, wheres);
+      resultSet = dbSQL.select(collRootTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
 
@@ -702,12 +731,15 @@ public class SSCollSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.collId,  collUri);
       where(wheres, SSSQLVarU.entryId, collEntryUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, wheres);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -725,11 +757,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
 
+      column(columns, SSSQLVarU.userId);
+      
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet  = dbSQL.select(collRootTable, wheres);
+      resultSet  = dbSQL.select(collRootTable, columns, wheres, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -747,11 +782,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres       = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
 
+      column(columns, SSSQLVarU.userId);
+      
       where(wheres, SSSQLVarU.collId, collUri);
       
-      resultSet = dbSQL.select(collUserTable, wheres);
+      resultSet = dbSQL.select(collUserTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -769,11 +807,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.collId);
       
       where(wheres, SSSQLVarU.entryId, entityUri);
       
-      resultSet = dbSQL.select(collEntryPosTable, wheres);
+      resultSet = dbSQL.select(collEntryPosTable, columns, wheres, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.collId);
       

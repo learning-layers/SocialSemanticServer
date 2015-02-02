@@ -25,18 +25,15 @@ import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.serv.err.datatypes.SSErrE;
 
 public class SSCategorySQLFct extends SSDBSQLFct{
   
@@ -140,63 +137,6 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     }
   }
     
-  public Boolean existsCategoryLabel(
-    final SSCategoryLabel categoryLabel) throws Exception{
-   
-    ResultSet resultSet = null;
-    
-    try{
-      
-      if(categoryLabel == null){
-        return false;
-      }
-      
-      final Map<String, String> wheres = new HashMap<>();
-      
-      where(wheres, SSSQLVarU.label, categoryLabel);
-      where(wheres, SSSQLVarU.type,  SSEntityE.category);
-      
-      resultSet = dbSQL.select(entityTable, wheres);
-      
-      return resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public SSUri getOrCreateCategoryURI(
-    final Boolean          exsitsCategory, 
-    final SSCategoryLabel  categoryLabel) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      
-      if(!exsitsCategory){
-        return SSServCaller.vocURICreate();
-      }
-      
-      final Map<String, String>  wheres = new HashMap<>();
-      
-      where(wheres, SSSQLVarU.label, categoryLabel);
-      where(wheres, SSSQLVarU.type,  SSEntityE.category);
-      
-      resultSet = dbSQL.select(entityTable, wheres);
-      
-      checkFirstResult(resultSet);
-      
-      return bindingStrToUri(resultSet, SSSQLVarU.id);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public void addCategoryAssIfNotExists(
     final SSUri       categoryUri, 
     final SSUri       userUri,
@@ -232,14 +172,20 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     
     try{
     
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarU.categoryId);
+      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarU.tagId);
+      column(columns, SSSQLVarU.tagSpace);
       
       where(wheres, SSSQLVarU.userId,       userUri);
       where(wheres, SSSQLVarU.entityId,     entityUri);
       where(wheres, SSSQLVarU.tagId,        categoryUri);
       where(wheres, SSSQLVarU.tagSpace,     space);
       
-      resultSet = dbSQL.select(categoryAssTable, wheres);
+      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null);
       
       return resultSet.first();
       
@@ -257,40 +203,10 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     final SSCategoryLabel  categoryLabel, 
     final SSSpaceE         space) throws Exception{
     
-    ResultSet resultSet  = null;
-    
     try{
       
-      final Map<String, String> wheres  = new HashMap<>();
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> deletes      = new HashMap<>();
       SSUri                     categoryUri  = null;
-      
-      if(categoryLabel != null){
-        
-        try{
-          where(wheres, SSSQLVarU.label, categoryLabel);
-          where(wheres, SSSQLVarU.type,  SSEntityE.category);
-          
-          resultSet = dbSQL.select(entityTable, wheres);
-          
-          checkFirstResult(resultSet);
-          
-          categoryUri = bindingStrToUri(resultSet, SSSQLVarU.id);
-          
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-            SSServErrReg.reset();
-            return;
-          }
-          
-          SSServErrReg.regErrThrow(error);
-          return;
-          
-        }finally{
-          dbSQL.closeStmt(resultSet);
-        }
-      }
       
       if(space != null){
         delete(deletes, SSSQLVarU.tagSpace, space);
@@ -322,9 +238,9 @@ public class SSCategorySQLFct extends SSDBSQLFct{
   public List<SSCategory> getCategoryAsss(
     final SSUri            userUri, 
     final SSUri            entity, 
-    final SSCategoryLabel  categoryLabel, 
     final SSSpaceE         categorySpace,
-    final Long             startTime) throws Exception{
+    final Long             startTime,
+    final SSUri            categoryURI) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -335,7 +251,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        tables         = new ArrayList<>();
       final List<String>        columns        = new ArrayList<>();
       final List<String>        tableCons      = new ArrayList<>();
-      final SSUri               categoryURI    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
+//      final SSUri               categoryURI    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
 
       table    (tables,    categoryAssTable);
       table    (tables,    entityTable);
@@ -355,7 +271,7 @@ public class SSCategorySQLFct extends SSDBSQLFct{
         where(wheres, SSSQLVarU.entityId, entity);
       }
       
-      if(categoryLabel != null){
+      if(categoryURI != null){
         where(wheres, SSSQLVarU.categoryId, categoryURI);
       }
       
@@ -393,34 +309,31 @@ public class SSCategorySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getEntitiesForCategoryLabel(
-    final SSUri            userUri, 
-    final SSCategoryLabel  tagLabel, 
-    final SSSpaceE         categorySpace) throws Exception{
+  public List<SSUri> getEntities(
+    final SSUri            user, 
+    final SSSpaceE         space,
+    final SSUri            category) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      if(!existsCategoryLabel(tagLabel)){
-        return new ArrayList<>();
-      }
-      
       final Map<String, String> wheres       = new HashMap<>();
       final List<String>        columns      = new ArrayList<>();
       
-      where(wheres, SSSQLVarU.tagId, getOrCreateCategoryURI(true, tagLabel));
-      
-      if(categorySpace != null){
-        where(wheres, SSSQLVarU.categorySpace, categorySpace);
+      if(space != null){
+        where(wheres, SSSQLVarU.categorySpace, space);
       }
       
-      if(userUri != null){
-        where(wheres, SSSQLVarU.userId, userUri);
+      if(user != null){
+        where(wheres, SSSQLVarU.userId, user);
+      }
+      
+      if(category != null){
+        where(wheres, SSSQLVarU.categoryId, category);
       }
       
       column(columns, SSSQLVarU.entityId);
-      column(columns, SSSQLVarU.categoryId);
       
       resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null);
       

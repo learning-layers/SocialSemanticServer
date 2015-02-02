@@ -48,11 +48,14 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.entityId);
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(ratingAssTable, wheres);
+      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
       
@@ -97,16 +100,21 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(new Exception("pars null"));
       return null;
     }
-     
-    final Map<String, String> selectPars  = new HashMap<>();
+    
     ResultSet                 resultSet   = null;
     
-    selectPars.put(SSSQLVarU.userId,   userUri.toString());
-    selectPars.put(SSSQLVarU.entityId, entityUri.toString());
+    final List<String>        columns = new ArrayList<>();
+    final Map<String, String> wheres  = new HashMap<>();
     
     try{
+
+      column(columns, SSSQLVarU.entityId);
       
-      resultSet = dbSQL.select(ratingAssTable, selectPars);
+      where(wheres, SSSQLVarU.userId,   userUri);
+      where(wheres, SSSQLVarU.entityId, entityUri);
+      
+      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null);
+      
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -145,11 +153,17 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     try{
       
       final List<SSRating>          ratings     = new ArrayList<>();
+      final List<String>            columns     = new ArrayList<>();
       final HashMap<String, String> wheres      = new HashMap<>();
+      
+      column(columns, SSSQLVarU.ratingId);
+      column(columns, SSSQLVarU.ratingValue);
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.userId,   userUri);
       
-      resultSet = dbSQL.select(ratingAssTable, wheres);
+      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         
@@ -181,16 +195,21 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       return null;
     }
     
-    Integer                 ratingValue = 0;
-    int                     counter     = 0;
-    HashMap<String, String> selectPars  = new HashMap<>();
     ResultSet               resultSet   = null;
     
-    selectPars.put(SSSQLVarU.userId,   userUri.toString());
-    selectPars.put(SSSQLVarU.entityId, entityUri.toString());
+    final List<String>        columns     = new ArrayList<>();
+    final Map<String, String> wheres      = new HashMap<>();
+    Integer                   ratingValue = 0;
+    int                       counter     = 0;
+    
+    column(columns, SSSQLVarU.ratingId);
+    column(columns, SSSQLVarU.ratingValue);
+    
+    where   (wheres, SSSQLVarU.userId,   userUri);
+    where   (wheres, SSSQLVarU.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(ratingAssTable, selectPars);
+      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);
@@ -217,15 +236,19 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       return null;
     }
     
-    Double                  ratingValue  = 0d;
-    int                     counter      = 0;
-    HashMap<String, String> selectPars   = new HashMap<>();
-    ResultSet               resultSet    = null;
+    final List<String>        columns      = new ArrayList<>();
+    final Map<String, String> wheres       = new HashMap<>();
+    Double                    ratingValue  = 0d;
+    int                       counter      = 0;
+    ResultSet                 resultSet    = null;
     
-    selectPars.put(SSSQLVarU.entityId, entityUri.toString());
+    column(columns, SSSQLVarU.ratingId);
+    column(columns, SSSQLVarU.ratingValue);
+    
+    where(wheres, SSSQLVarU.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(ratingAssTable, selectPars);
+      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);

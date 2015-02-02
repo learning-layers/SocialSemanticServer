@@ -28,7 +28,9 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSEvernoteSQLFct extends SSDBSQLFct {
@@ -82,11 +84,15 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarU.authToken);
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(evernoteUserTable, wheres);
+      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
         
@@ -146,15 +152,17 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.noteId);
+      column(columns, SSSQLVarU.entityId);
       
       where(wheres, SSSQLVarU.entityId, resourceId);
       
-      resultSet = dbSQL.select(evernoteResourceTable, wheres);
+      resultSet = dbSQL.select(evernoteResourceTable, columns, wheres, null, null);
       
-      if(!resultSet.next()){
-        throw new Exception("evernote resource doesnt exist");
-      }
+      checkFirstResult(resultSet);
         
       return SSEvernoteResource.get(
         resourceId, 
@@ -175,16 +183,24 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres = new HashMap<>();
+      
+      column(columns, SSSQLVarU.authToken);
+      column(columns, SSSQLVarU.usn);
       
       where(wheres, SSSQLVarU.authToken, authToken);
       
-      resultSet = dbSQL.select(evernoteUserTable, wheres);
+      resultSet = dbSQL.select(evernoteUserTable, columns, wheres, null, null);
       
-      if(!resultSet.next()){
-        return 0;
-      }else{
+      try{
+        
+        checkFirstResult(resultSet);
+        
         return bindingStrToInteger(resultSet, SSSQLVarU.usn);
+      }catch(Exception error){
+        SSServErrReg.reset();
+        return 0;
       }
       
     }catch(Exception error){
@@ -201,11 +217,15 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.noteId);
+      column(columns, SSSQLVarU.notebookId);
       
       where(wheres, SSSQLVarU.noteId, noteUri);
       
-      resultSet = dbSQL.select(evernoteNoteTable, wheres);
+      resultSet = dbSQL.select(evernoteNoteTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       
@@ -221,4 +241,3 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
     }
   }
 }
-

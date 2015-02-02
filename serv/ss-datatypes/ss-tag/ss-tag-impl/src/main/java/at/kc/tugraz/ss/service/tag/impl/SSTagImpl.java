@@ -322,8 +322,13 @@ implements
         }
       }
       
-      existsTag = sqlFct.existsTagLabel    (par.label);
-      tagUri    = sqlFct.getOrCreateTagURI (existsTag, par.label);
+      existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)));
+      
+      if(existsTag){
+        tagUri = SSServCaller.entityGet(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label))).id;
+      }else{
+        tagUri    = SSServCaller.vocURICreate();
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       

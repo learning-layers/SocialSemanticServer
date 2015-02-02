@@ -56,11 +56,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> where = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      column(columns, SSSQLVarU.id);
       
       where(where, SSSQLVarU.id, entity);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null);
       
       try{
         checkFirstResult(resultSet);
@@ -90,13 +93,20 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-      
-      final Map<String, String> where = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
       final SSEntity            entityObj;
+      
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.type);
+      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.creationTime);
+      column(columns, SSSQLVarU.author);
+      column(columns, SSSQLVarU.description);
       
       where(where, SSSQLVarU.id, entityUri);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null);
       
       checkFirstResult(resultSet);
       
@@ -132,14 +142,21 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-      
-      final Map<String, String> where = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
       final SSEntity            entityObj;
+      
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarU.type);
+      column(columns, SSSQLVarU.creationTime);
+      column(columns, SSSQLVarU.author);
+      column(columns, SSSQLVarU.description);
       
       where(where, SSSQLVarU.label, label);
       where(where, SSSQLVarU.type,  type);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null);
       
       checkFirstResult(resultSet);
       
@@ -191,12 +208,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> where = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      column(columns, SSSQLVarU.id);
       
       where(where, SSSQLVarU.author, author);
       where(where, SSSQLVarU.type,   type);
       
-      resultSet = dbSQL.select(entityTable, where);
+      resultSet = dbSQL.select(entityTable, columns, where, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.id);
     }catch(Exception error){
@@ -422,12 +442,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      final Map<String, String> wheres            = new HashMap<>();
+      column(columns, SSSQLVarU.thumbId);
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(thumbnailsTable, wheres);
+      resultSet = dbSQL.select(thumbnailsTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
       
@@ -486,11 +508,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
+      final List<String>        columns           = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, SSSQLVarU.downloadId);
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(downloadsTable, wheres);
+      resultSet = dbSQL.select(downloadsTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.downloadId);
       
@@ -507,12 +532,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      
+      final List<String>        columns           = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, SSSQLVarU.fileId);
       
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(filesTable, wheres);
+      resultSet = dbSQL.select(filesTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.fileId);
       
@@ -664,12 +691,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String>       wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarU.entityId);
       
       where(wheres, SSSQLVarU.userId,   user);
       where(wheres, SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(entityReadsTable, wheres);
+      resultSet = dbSQL.select(entityReadsTable, columns, wheres, null, null);
       
       return resultSet.first();
       

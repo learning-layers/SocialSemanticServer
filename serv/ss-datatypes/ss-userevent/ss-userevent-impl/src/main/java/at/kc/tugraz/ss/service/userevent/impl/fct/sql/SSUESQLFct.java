@@ -49,20 +49,27 @@ public class SSUESQLFct extends SSDBSQLFct{
     ResultSet            resultSet  = null;
     
     try{
-
-      final Map<String, String>  wheres = new HashMap<>();
+      final List<String>         columns = new ArrayList<>();
+      final Map<String, String>  wheres  = new HashMap<>();
       SSUEE                      eventTypeFromDB;
+      
+      column(columns, SSSQLVarU.userEventId);
+      column(columns, SSSQLVarU.eventType);
+      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.content);
       
       where(wheres, SSSQLVarU.userEventId, ue);
       
-      resultSet = dbSQL.select(uesTable, wheres);
+      resultSet = dbSQL.select(uesTable, columns, wheres, null, null);
       
-      if(!resultSet.first()){
-        throw new Exception("ue not found");
-      }
+      checkFirstResult(resultSet);
       
       try{
-        eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType));
+        eventTypeFromDB = 
+          SSUEE.get(
+            bindingStr(resultSet, SSSQLVarU.eventType));
+        
       }catch(Exception error){
         SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarU.eventType));
         eventTypeFromDB = null;

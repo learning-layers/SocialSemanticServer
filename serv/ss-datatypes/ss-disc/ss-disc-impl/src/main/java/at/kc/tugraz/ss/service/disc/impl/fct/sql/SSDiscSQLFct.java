@@ -86,11 +86,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
 
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns,  SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, wheres);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
 
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -107,11 +110,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
 
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(discUserTable, wheres);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -225,11 +231,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet      = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.discId, discUri);
       
-      resultSet = dbSQL.select(discEntriesTable, wheres);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
       
       resultSet.last();
       
@@ -280,11 +289,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet   = null;
     
     try{
-      final Map<String, String> wheres =  new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.discId, entityUri);
       
-      resultSet = dbSQL.select(discTable, wheres);
+      resultSet = dbSQL.select(discTable, columns, wheres, null, null);
       
       return resultSet.first();
       
@@ -302,11 +314,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet   = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discEntryId);
       
       where(wheres, SSSQLVarU.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, wheres);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
       
       return resultSet.first();
       
@@ -488,12 +503,15 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     
     try{
 
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.userId, user);
       where(wheres, SSSQLVarU.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, wheres);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -510,12 +528,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.userId, user);
     
-      resultSet = dbSQL.select(discUserTable, wheres);
+      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null);
 
       return getStringsFromResult(resultSet, SSSQLVarU.discId);
     }catch(Exception error){
@@ -532,12 +552,14 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      final Map<String, String> wheres = new HashMap<>();
+      column(columns, SSSQLVarU.discId);
       
       where(wheres, SSSQLVarU.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, wheres);
+      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarU.discId);
       

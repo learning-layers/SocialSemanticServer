@@ -44,11 +44,14 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, wheres);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       
@@ -75,11 +78,14 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.authKey);
       
       where(wheres, SSSQLVarU.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, wheres);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       
@@ -99,11 +105,14 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.authKey, key);
       
-      resultSet = dbSQL.select(authTable, wheres);
+      resultSet = dbSQL.select(authTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       

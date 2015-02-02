@@ -27,7 +27,9 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSLikeSQLFct extends SSDBSQLFct{
@@ -47,17 +49,22 @@ public class SSLikeSQLFct extends SSDBSQLFct{
     try{
     
       final SSLikes             likes     = SSLikes.get(0, 0, null);
+      final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
       if(forUser != null){
         where(wheres, SSSQLVarU.userId, forUser);
       }
       
+      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarU.value);
+      
       where (wheres,    SSSQLVarU.entityId, entity);
       
-      resultSet = dbSQL.select(likesTable, wheres);
+      resultSet = dbSQL.select(likesTable, columns, wheres, null, null);
       
       while(resultSet.next()){
+        
         value = bindingStrToInteger(resultSet, SSSQLVarU.value);
         
         if(value == 1){
@@ -133,12 +140,16 @@ public class SSLikeSQLFct extends SSDBSQLFct{
     
     try{
       
+      final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
-      where     (wheres,    SSSQLVarU.userId,   user);
-      where     (wheres,    SSSQLVarU.entityId, entity);
+      column    (columns,   SSSQLVarU.entityId);
+      column    (columns,   SSSQLVarU.value);
       
-      resultSet = dbSQL.select(likesTable, wheres);
+      where     (wheres,    SSSQLVarU.entityId, entity);
+      where     (wheres,    SSSQLVarU.userId,   user);
+      
+      resultSet = dbSQL.select(likesTable, columns, wheres, null, null);
       
       while(resultSet.next()){
         return bindingStrToInteger(resultSet, SSSQLVarU.value);

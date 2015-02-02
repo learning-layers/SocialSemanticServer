@@ -273,113 +273,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     return stmt.executeQuery();
   }
   
-//  @Override
-//  public ResultSet select(
-//    final String table) throws Exception{
-//    return connector.prepareStatement("SELECT * FROM " + table).executeQuery();
-//  }
-  
-  @Override
-  public ResultSet select(
-    String              table, 
-    Map<String, String> wheres, 
-    String              orderByColumn, 
-    String              sortType) throws Exception{
-   
-    String                              query    = "SELECT * FROM " + table + " WHERE ";
-    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
-    int                                 counter  = 1;
-    PreparedStatement                   stmt;
-
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ") + " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    stmt           = connector.prepareStatement(query);
-    iterator       = wheres.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-    
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet select(
-    final String              table, 
-    final Map<String, String> wheres) throws Exception{
-    
-    String                              query    = "SELECT * FROM " + table + " WHERE ";
-    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
-    int                                 counter  = 1;
-    PreparedStatement                   stmt;
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    stmt           = connector.prepareStatement(query);
-    iterator       = wheres.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-    
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet select(
-    final List<String>        tables, 
-    final List<String>        columns, 
-    final Map<String, String> wheres, 
-    final String              tableCon,
-    final String              orderByColumn, 
-    final String              sortType) throws Exception{
-    
-    String                              query   = "SELECT ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String columnName : columns){
-      query += columnName + SSStrU.comma;
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-    
-    for(String tableName : tables){
-      query += tableName + SSStrU.comma;
-    }
-    
-    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
-    iterator      = wheres.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
-    }
-    
-    query         += tableCon;
-    
-    if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    }
-    
-    stmt           = connector.prepareStatement(query);
-    iterator       = wheres.entrySet().iterator();
-    
-    while(iterator.hasNext()){
-      stmt.setObject(counter++, iterator.next().getValue());
-    }
-
-    return stmt.executeQuery();
-  }
-  
   @Override
   public ResultSet select(
     final String       table, 
@@ -1012,6 +905,114 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    }
 //    
 //    query         += tableConnection;
+//    stmt           = connector.prepareStatement(query);
+//    iterator       = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      stmt.setObject(counter++, iterator.next().getValue());
+//    }
+//
+//    return stmt.executeQuery();
+//  }
+
+//  @Override
+//  public ResultSet select(
+//    final String              table, 
+//    final Map<String, String> wheres) throws Exception{
+//    
+//    String                              query    = "SELECT * FROM " + table + " WHERE ";
+//    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
+//    int                                 counter  = 1;
+//    PreparedStatement                   stmt;
+//    
+//    while(iterator.hasNext()){
+//      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+//    }
+//    
+//    query          = SSStrU.removeTrailingString(query, " AND ");
+//    stmt           = connector.prepareStatement(query);
+//    iterator       = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      stmt.setObject(counter++, iterator.next().getValue());
+//    }
+//    
+//    return stmt.executeQuery();
+//  }
+
+//  @Override
+//  public ResultSet select(
+//    final String table) throws Exception{
+//    return connector.prepareStatement("SELECT * FROM " + table).executeQuery();
+//  }
+
+//  @Override
+//  public ResultSet select(
+//    String              table, 
+//    Map<String, String> wheres, 
+//    String              orderByColumn, 
+//    String              sortType) throws Exception{
+//   
+//    String                              query    = "SELECT * FROM " + table + " WHERE ";
+//    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
+//    int                                 counter  = 1;
+//    PreparedStatement                   stmt;
+//
+//    while(iterator.hasNext()){
+//      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+//    }
+//    
+//    query          = SSStrU.removeTrailingString(query, " AND ") + " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+//    stmt           = connector.prepareStatement(query);
+//    iterator       = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      stmt.setObject(counter++, iterator.next().getValue());
+//    }
+//    
+//    return stmt.executeQuery();
+//  }
+
+
+//  @Override
+//  public ResultSet select(
+//    final List<String>        tables, 
+//    final List<String>        columns, 
+//    final Map<String, String> wheres, 
+//    final String              tableCon,
+//    final String              orderByColumn, 
+//    final String              sortType) throws Exception{
+//    
+//    String                              query   = "SELECT ";
+//    int                                 counter = 1;
+//    PreparedStatement                   stmt;
+//    Iterator<Map.Entry<String, String>> iterator;
+//    
+//    for(String columnName : columns){
+//      query += columnName + SSStrU.comma;
+//    }
+//    
+//    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+//    
+//    for(String tableName : tables){
+//      query += tableName + SSStrU.comma;
+//    }
+//    
+//    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+//    iterator      = wheres.entrySet().iterator();
+//    
+//    while(iterator.hasNext()){
+//      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+//    }
+//    
+//    query         += tableCon;
+//    
+//    if(
+//      orderByColumn != null &&
+//      sortType      != null){
+//      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+//    }
+//    
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = wheres.entrySet().iterator();
 //    

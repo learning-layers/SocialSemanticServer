@@ -53,12 +53,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.userId);
       
       where(wheres, SSSQLVarU.learnEpId, learnEp);
     
-      resultSet = dbSQL.select(learnEpUserTable, wheres);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
 
       return getURIsFromResult(resultSet, SSSQLVarU.userId);
     }catch(Exception error){
@@ -77,12 +79,15 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.learnEpId);
       
       where(wheres, SSSQLVarU.userId,    user);
       where(wheres, SSSQLVarU.learnEpId, learnEp);
     
-      resultSet = dbSQL.select(learnEpUserTable, wheres);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -225,12 +230,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     ResultSet           resultSet  = null;
     
     try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      final Map<String, String> wheres = new HashMap<>();
+      column(columns,  SSSQLVarU.learnEpId);
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpUserTable, wheres);
+      resultSet = dbSQL.select(learnEpUserTable, columns, wheres, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.learnEpId);
       
@@ -249,11 +256,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns,  SSSQLVarU.learnEpVersionId);
       
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpVersionCurrentTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null);
       
       if(!resultSet.first()){
         throw new SSErr(SSErrE.learnEpCurrentVersionNotSet);
@@ -331,13 +341,16 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
 
     try{
       
-      final Map<String, String> wheres      = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.learnEpVersionId);
       
       where(wheres, SSSQLVarU.learnEpId, learnEpUri);
       
-      resultSet = dbSQL.select(learnEpVersionsTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null);
       
-      return getURIsFromResult(resultSet,  SSSQLVarU.learnEpVersionId);
+      return getURIsFromResult(resultSet, SSSQLVarU.learnEpVersionId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -661,13 +674,16 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
+      final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       final Map<String, String> updates = new HashMap<>();
       final Map<String, String> inserts = new HashMap<>();
       
+      column(columns, SSSQLVarU.learnEpVersionId);
+      
       where(wheres, SSSQLVarU.userId, user);
       
-      resultSet = dbSQL.select(learnEpVersionCurrentTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null);
       
       if(resultSet.first()){
         
@@ -776,11 +792,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     ResultSet resultSet;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.learnEpId);
       
       where(wheres, SSSQLVarU.learnEpVersionId, learnEpVersion);
       
-      resultSet = dbSQL.select(learnEpVersionsTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionsTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       
@@ -797,11 +816,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     ResultSet resultSet;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.learnEpVersionId);
       
       where(wheres, SSSQLVarU.learnEpCircleId, circle);
       
-      resultSet = dbSQL.select(learnEpVersionCirclesTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionCirclesTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       
@@ -818,11 +840,14 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     ResultSet resultSet;
     
     try{
-      final Map<String, String> wheres = new HashMap<>();
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarU.learnEpVersionId);
       
       where(wheres, SSSQLVarU.learnEpEntityId, entity);
       
-      resultSet = dbSQL.select(learnEpVersionEntitiesTable, wheres);
+      resultSet = dbSQL.select(learnEpVersionEntitiesTable, columns, wheres, null, null);
       
       checkFirstResult(resultSet);
       

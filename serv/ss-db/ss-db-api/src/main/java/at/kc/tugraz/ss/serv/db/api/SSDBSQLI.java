@@ -62,35 +62,6 @@ public interface SSDBSQLI{
     final String              orderByColumn, 
     final String              sortType) throws Exception;
   
-  
-  
-  
-  
-  
-  
-  
-  
-//  public ResultSet select(
-//    final String tableName) throws Exception;
-  
-  public ResultSet select(
-    final String              table, 
-    final Map<String, String> wheres) throws Exception;
-  
-  public ResultSet select(
-    final List<String>        tables, 
-    final List<String>        columns, 
-    final Map<String, String> wheres, 
-    final String              tableCon,
-    final String              orderByColumn,
-    final String              sortType) throws Exception;
-  
-  public ResultSet select(
-    final String              tables, 
-    final Map<String, String> wheres, 
-    final String              orderByColumn, 
-    final String              sortType) throws Exception;
-  
   public ResultSet select(
     final String              table, 
     final List<String>        columns, 
@@ -150,3 +121,25 @@ public interface SSDBSQLI{
 //    final List<String>        columns, 
 //    final Map<String, String> wheres, 
 //    final List<String>        tableCons) throws Exception;
+
+//  public ResultSet select(
+//    final String tableName) throws Exception;
+
+//  public ResultSet select(
+//    final String              table, 
+//    final Map<String, String> wheres) throws Exception;
+
+//  public ResultSet select(
+//    final String              tables, 
+//    final Map<String, String> wheres, 
+//    final String              orderByColumn, 
+//    final String              sortType) throws Exception;
+
+
+//  public ResultSet select(
+//    final List<String>        tables, 
+//    final List<String>        columns, 
+//    final Map<String, String> wheres, 
+//    final String              tableCon,
+//    final String              orderByColumn,
+//    final String              sortType) throws Exception;
