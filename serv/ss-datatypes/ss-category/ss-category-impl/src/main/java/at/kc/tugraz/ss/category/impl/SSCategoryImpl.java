@@ -265,7 +265,7 @@ implements
       
       for(SSCategoryLabel label : par.labels){
       
-        if(!SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(label)))){
+        if(SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(label)))){
           categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(label))).id;
         }else{
           categoryUri = SSServCaller.vocURICreate();
@@ -386,7 +386,7 @@ implements
       
       existsCategory = SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label)));
       
-      if(!existsCategory){
+      if(existsCategory){
         categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label))).id;
       }else{
         categoryUri = SSServCaller.vocURICreate();
