@@ -62,6 +62,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGe
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityThumbsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesAttachPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -69,6 +70,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
@@ -82,6 +84,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
 import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -676,7 +679,84 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
 
   @Override
-  public SSUri entityAdd(final SSServPar parA) throws Exception {
+  public void entityAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+    
+    SSServCaller.checkKey(par);
+    
+    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(par), par.op));
+  }
+  
+  @Override
+  public SSUri entityUserAdd(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEntityUserAddPar par = new SSEntityUserAddPar(parA);
+      final SSUri              entityUri;
+      
+      if(par.link != null){
+        entityUri = par.link;
+      }else{
+        entityUri = SSServCaller.vocURICreate();
+      }
+
+      if(par.type == null){
+        par.type = SSEntityE.entity;
+      }
+      
+      switch(par.type){
+        case entity:{
+          break;
+        }
+        
+        default: throw new SSErr(SSErrE.entityTypeNotSupported);
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      SSServCaller.entityEntityToPrivCircleAdd(
+        par.user,
+        entityUri,
+        par.type,
+        par.label,
+        par.description,
+        par.creationTime,
+        false);
+      
+      SSServCaller.uEAddAtCreationTime(
+        par.user,
+        entityUri,
+        SSUEE.bnpPlaceholderAdd,
+        SSStrU.empty,
+        par.creationTime,
+        false);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return entityUri;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return entityUserAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityAdd(final SSServPar parA) throws Exception{
     
     try{
       

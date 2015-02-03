@@ -28,36 +28,37 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCircleEntityPublicSetRet extends SSServRetI{
+public class SSEntityUserAddRet extends SSServRetI{
 
   public SSUri entity = null;
 
-  public static SSCircleEntityPublicSetRet get(
-    final SSUri entityUri, 
+  public static SSEntityUserAddRet get(
+    final SSUri   entity, 
     final SSMethU op){
     
-    return new SSCircleEntityPublicSetRet(entityUri, op);
+    return new SSEntityUserAddRet(entity, op);
   }
   
-  private SSCircleEntityPublicSetRet(
-    final SSUri entityUri,
+  private SSEntityUserAddRet(
+    final SSUri   entity,
     final SSMethU op){
     
     super(op);
     
-    this.entity = entityUri;
+    this.entity = entity;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
     
     ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
+  /* json getters */
   public String getEntity() throws Exception {
     return SSStrU.removeTrailingSlash(entity);
   }

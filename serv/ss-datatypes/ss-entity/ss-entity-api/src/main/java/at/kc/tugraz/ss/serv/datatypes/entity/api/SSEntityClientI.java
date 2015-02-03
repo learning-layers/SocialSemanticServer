@@ -31,4 +31,5 @@ public interface SSEntityClientI {
   public void entityDescsGet                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityDirectlyAdjoinedEntitiesRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void entityCopy                           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityAdd                            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

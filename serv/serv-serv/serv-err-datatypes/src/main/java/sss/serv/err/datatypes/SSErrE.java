@@ -44,6 +44,7 @@ public enum SSErrE{
   userNotAllowedToAccessCircle,
   userKeyWrong,
   userNeedsLockOnEntity,
+  entityTypeNotSupported,
   entityCouldntBeQueried,
   learnEpCurrentVersionNotSet,
   entityDoesntExist,                      //entity doesnt exist

@@ -109,6 +109,8 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -834,6 +836,17 @@ public class SSAdapterRest{
     response = SSCircleEntityPublicSetRet.class)
   public String entityPublicSet(final SSCircleEntityPublicSetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.circleEntityPublicSet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "entityAdd")
+  @ApiOperation(
+    value = "add an entity",
+    response = SSEntityUserAddRet.class)
+  public String entityAdd(final SSEntityUserAddPar input){
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityAdd);
   }
   
   @POST

@@ -26,25 +26,25 @@ import java.util.*;
 
 public enum SSUEE implements SSJSONLDPropI{
   
-  /* user events stored client-side by bits and pieces tool */
-  timelineChangeTimelineRange,
-  timelineViewEntityDetails,
-  
-  learnEpViewEntityDetails,
-  learnEpOpenEpisodesDialog,
-  learnEpSwitchEpisode,
-  learnEpSwitchVersion,
-  learnEpRenameEpisode,
-  learnEpCreateNewEpisodeFromScratch,
-  learnEpCreateNewEpisodeFromVersion,
-  learnEpCreateNewVersion,
-  learnEpDropOrganizeEntity,
-  learnEpMoveOrganizeEntity,
-  learnEpDeleteOrganizeEntity,
-  learnEpCreateOrganizeCircle,
-  learnEpChangeOrganizeCircle,
-  learnEpRenameOrganizeCircle,
-  learnEpDeleteOrganizeCircle,
+  /* user events maybe to delete as they are not stored on client-side by bits and pieces tool anymore */
+//  timelineChangeTimelineRange,
+//  timelineViewEntityDetails,
+//  
+//  learnEpViewEntityDetails,
+//  learnEpOpenEpisodesDialog,
+//  learnEpSwitchEpisode,
+//  learnEpSwitchVersion,
+//  learnEpRenameEpisode,
+//  learnEpCreateNewEpisodeFromScratch,
+//  learnEpCreateNewEpisodeFromVersion,
+//  learnEpCreateNewVersion,
+//  learnEpDropOrganizeEntity,
+//  learnEpMoveOrganizeEntity,
+//  learnEpDeleteOrganizeEntity,
+//  learnEpCreateOrganizeCircle,
+//  learnEpChangeOrganizeCircle,
+//  learnEpRenameOrganizeCircle,
+//  learnEpDeleteOrganizeCircle,
   
   /* user events stored server-side to be used in bits and pieces tool */
   
@@ -58,19 +58,21 @@ public enum SSUEE implements SSJSONLDPropI{
   evernoteReminderDone,
   evernoteReminderCreate,
   evernoteResourceAdd,
+  bnpPlaceholderAdd
   
   /* user events maybe to delete as they are not stored on client-side anymore */
-  selectedFromOthers,
-  viewEntity,
-  exportCollectionItem,
-  useTag,
-  renamePrivateCollection,
-  renameSharedCollection,
-  renamePrivateCollectionItem,
-  renameSharedCollectionItem,
-  structurePrivateCollection, //structurePrivateCollectionContent
-  structureSharedCollection, //structureSharedCollectionContent
-  shareCollection;
+//  selectedFromOthers,
+//  viewEntity,
+//  exportCollectionItem,
+//  useTag,
+//  renamePrivateCollection,
+//  renameSharedCollection,
+//  renamePrivateCollectionItem,
+//  renameSharedCollectionItem,
+//  structurePrivateCollection, //structurePrivateCollectionContent
+//  structureSharedCollection, //structureSharedCollectionContent
+//  shareCollection
+  ;
   
   public static SSUEE get(
     final String eventType){

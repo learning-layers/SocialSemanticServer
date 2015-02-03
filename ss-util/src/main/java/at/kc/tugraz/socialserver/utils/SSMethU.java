@@ -143,6 +143,7 @@ public enum SSMethU{
   entityDownloadURIsGet,
   entityLocationsAdd,
   entityLocationsGet,
+  entityUserAdd,
   
   //learn ep
   learnEpsGet                                         ,
