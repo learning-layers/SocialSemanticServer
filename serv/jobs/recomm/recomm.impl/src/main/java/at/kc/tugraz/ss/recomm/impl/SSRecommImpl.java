@@ -82,10 +82,11 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       return tagRec.getEntitiesWithLikelihood(
         SSStrU.toStr(par.forUser), 
-        SSStrU.toStr(par.entity), 
+        SSStrU.toStr(par.entity),
         par.categories,
-        par.maxTags);
-//      !par.includeOwn); //filterOwn
+        par.maxTags,
+        !par.includeOwn, //filterOwn
+        null); 
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -118,7 +119,8 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
           SSStrU.toStr(par.entity),
           par.categories,
           100,
-          !par.includeOwn); //filterOwn
+          !par.includeOwn, //filterOwn
+          null); 
 
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
         
