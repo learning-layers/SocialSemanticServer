@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSTagUserEditPar extends SSServPar{
   
   public SSTagLabel      tag     = null;
+  public SSUri           entity  = null;
   public SSTagLabel      label   = null;
   
   public SSTagUserEditPar(
@@ -38,12 +39,14 @@ public class SSTagUserEditPar extends SSServPar{
     final String     key, 
     final SSUri      user, 
     final SSTagLabel tag, 
+    final SSUri      entity,
     final SSTagLabel label){
     
     super(op, key, user);
     
-    this.tag   = tag;
-    this.label = label;
+    this.tag    = tag;
+    this.entity = entity;
+    this.label  = label;
   }
   
   public SSTagUserEditPar(SSServPar par) throws Exception{
@@ -55,11 +58,17 @@ public class SSTagUserEditPar extends SSServPar{
       if(pars != null){
         tag      = SSTagLabel.get((String)pars.get(SSVarU.tag));
         label    = SSTagLabel.get((String)pars.get(SSVarU.label));
+        entity   = SSUri.get     ((String)pars.get(SSVarU.entity));
       }
       
       if(par.clientJSONObj != null){
         tag       = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.tag).getTextValue());
+        
         label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        
+        try{
+          entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        }catch(Exception error){}
       }
       
     }catch(Exception error){
@@ -74,5 +83,9 @@ public class SSTagUserEditPar extends SSServPar{
   
   public String getLabel(){
     return SSStrU.toStr(label);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 }

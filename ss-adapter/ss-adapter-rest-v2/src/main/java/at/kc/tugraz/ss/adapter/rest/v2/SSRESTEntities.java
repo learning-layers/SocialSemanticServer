@@ -984,6 +984,7 @@ public class SSRESTEntities {
           null,
           null,
           SSTagLabel.get(tag),
+          input.entity,
           input.label);
       
     }catch(Exception error){

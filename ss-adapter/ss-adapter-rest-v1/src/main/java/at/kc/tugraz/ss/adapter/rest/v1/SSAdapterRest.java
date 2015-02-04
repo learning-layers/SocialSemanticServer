@@ -646,6 +646,7 @@ public class SSAdapterRest{
         input.key, 
         input.user, 
         input.tag, 
+        input.entity, 
         input.label);
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);

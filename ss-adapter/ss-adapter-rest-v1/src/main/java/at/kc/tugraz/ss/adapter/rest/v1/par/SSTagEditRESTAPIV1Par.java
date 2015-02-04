@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -66,6 +67,16 @@ public class SSTagEditRESTAPIV1Par{
   @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSTagLabel.get(label);
+  }
+  
+  @ApiModelProperty(
+    required = true,
+    value = "entity the tag shall be changed for")
+  public SSUri      entity   = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity, SSVocConf.sssUri);
   }
   
   public SSTagEditRESTAPIV1Par(){}

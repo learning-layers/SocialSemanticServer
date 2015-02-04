@@ -469,7 +469,7 @@ implements
         SSServCaller.tagsUserGet(
           par.user,
           par.user,
-          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.entity),
           SSStrU.toStrWithoutEmptyAndNull(par.tag),
           null,
           null);
