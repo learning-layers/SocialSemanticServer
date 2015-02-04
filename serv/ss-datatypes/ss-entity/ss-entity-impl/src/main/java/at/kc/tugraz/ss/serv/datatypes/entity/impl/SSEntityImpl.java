@@ -701,14 +701,14 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       }
 
       if(par.type == null){
-        par.type = SSEntityE.entity;
+        par.type = SSEntityE.placeholder;
       }
       
       switch(par.type){
-        case entity:{
+        case entity:
+        case placeholder:
           break;
-        }
-        
+                
         default: throw new SSErr(SSErrE.entityTypeNotSupported);
       }
       
