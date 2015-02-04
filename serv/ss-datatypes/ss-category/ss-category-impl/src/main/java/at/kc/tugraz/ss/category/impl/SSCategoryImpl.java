@@ -593,14 +593,25 @@ implements
         throw new Exception("user null");
       }
       
+      SSUri categoryUri = null;
+      
+      if(par.label != null){
+        
+        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
+          categoryUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+        }else{
+          categoryUri = SSServCaller.vocURICreate();
+        }
+      }
+      
       if(
         par.space    == null &&
         par.entity == null){
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.privateSpace);
-        sqlFct.removeCategoryAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
+        sqlFct.removeCategoryAsss(par.user, null, categoryUri, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -612,7 +623,7 @@ implements
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeCategoryAsss(par.user, null, par.label, par.space);
+         sqlFct.removeCategoryAsss(par.user, null, categoryUri, par.space);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -624,8 +635,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeCategoryAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
-        sqlFct.removeCategoryAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
+        sqlFct.removeCategoryAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace);
+        sqlFct.removeCategoryAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -637,7 +648,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
       
-        sqlFct.removeCategoryAsss(null, par.entity, par.label, par.space);
+        sqlFct.removeCategoryAsss(null, par.entity, categoryUri, par.space);
 
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -746,12 +757,23 @@ implements
       
       final SSCategoriesRemovePar par = new SSCategoriesRemovePar (parA);
       
+      SSUri categoryUri = null;
+      
+      if(par.label != null){
+        
+        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
+          categoryUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+        }else{
+          categoryUri = SSServCaller.vocURICreate();
+        }
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeCategoryAsss (
+      sqlFct.removeCategoryAsss(
         par.forUser, 
         par.entity, 
-        par.label, 
+        categoryUri, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);

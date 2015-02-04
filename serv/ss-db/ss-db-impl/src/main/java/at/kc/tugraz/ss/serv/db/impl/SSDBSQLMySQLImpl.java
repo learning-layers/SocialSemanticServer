@@ -89,6 +89,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query += columnName + SSStrU.comma;
     }
     
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
+    }
+    
     query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
     
     for(String tableName : tables){
@@ -175,6 +182,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query += columnName + SSStrU.comma;
     }
     
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
+    }
+    
     query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
     
     for(String tableName : tables){
@@ -249,6 +263,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query += certain + SSStrU.comma + SSStrU.blank;
     }
     
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
+    }
+    
     query          = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table;
     
     if(
@@ -310,6 +331,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     for(String certain : columns){
       query += certain + SSStrU.comma + SSStrU.blank;
+    }
+    
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
     }
     
     query = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table + " WHERE MATCH (";

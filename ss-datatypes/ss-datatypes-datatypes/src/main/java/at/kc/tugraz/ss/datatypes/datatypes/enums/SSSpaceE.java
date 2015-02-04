@@ -37,6 +37,11 @@ public enum SSSpaceE implements SSJSONLDPropI{
   public static SSSpaceE get(final String space) throws Exception{
     
     try{
+      
+      if(space == null){
+        return null;
+      }
+      
       return SSSpaceE.valueOf(space);
     }catch(Exception error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.spaceNotAvailable));

@@ -30,14 +30,14 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSTagUserEditPar extends SSServPar{
   
-  public SSUri           tag     = null;
+  public SSTagLabel      tag     = null;
   public SSTagLabel      label   = null;
   
   public SSTagUserEditPar(
     final SSMethU    op,
     final String     key, 
     final SSUri      user, 
-    final SSUri      tag, 
+    final SSTagLabel tag, 
     final SSTagLabel label){
     
     super(op, key, user);
@@ -53,13 +53,12 @@ public class SSTagUserEditPar extends SSServPar{
     try{
       
       if(pars != null){
-        tag      = (SSUri)                pars.get(SSVarU.tag);
+        tag      = SSTagLabel.get((String)pars.get(SSVarU.tag));
         label    = SSTagLabel.get((String)pars.get(SSVarU.label));
       }
       
       if(par.clientJSONObj != null){
-        
-        tag       = SSUri.get        (par.clientJSONObj.get(SSVarU.tag).getTextValue());
+        tag       = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.tag).getTextValue());
         label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
       }
       
@@ -70,7 +69,7 @@ public class SSTagUserEditPar extends SSServPar{
   
   /* json getters */
   public String getTag(){
-    return SSStrU.removeTrailingSlash(tag);
+    return SSStrU.toStr(tag);
   }
   
   public String getLabel(){

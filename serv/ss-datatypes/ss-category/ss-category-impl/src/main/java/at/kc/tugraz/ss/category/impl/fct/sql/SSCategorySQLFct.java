@@ -200,13 +200,12 @@ public class SSCategorySQLFct extends SSDBSQLFct{
   public void removeCategoryAsss(
     final SSUri            userUri,
     final SSUri            entityUri, 
-    final SSCategoryLabel  categoryLabel, 
+    final SSUri            categoryUri, 
     final SSSpaceE         space) throws Exception{
     
     try{
       
       final Map<String, String> deletes      = new HashMap<>();
-      SSUri                     categoryUri  = null;
       
       if(space != null){
         delete(deletes, SSSQLVarU.tagSpace, space);

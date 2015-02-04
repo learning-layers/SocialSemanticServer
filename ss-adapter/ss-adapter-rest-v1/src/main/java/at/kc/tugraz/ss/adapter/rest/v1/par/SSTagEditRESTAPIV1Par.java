@@ -51,11 +51,11 @@ public class SSTagEditRESTAPIV1Par{
   @ApiModelProperty( 
     required = true, 
     value = "tag to change the label for")
-  public SSUri           tag     = null;
+  public SSTagLabel           tag     = null;
   
   @XmlElement
   public void setTag(final String tag) throws Exception{
-    this.tag = SSUri.get(tag);
+    this.tag = SSTagLabel.get(tag);
   }
   
   @ApiModelProperty(

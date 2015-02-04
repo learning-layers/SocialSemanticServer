@@ -114,7 +114,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
   public void removeTagAsss(
     final SSUri       userUri,
     final SSUri       entityUri, 
-    final SSTagLabel  tagURI, 
+    final SSUri       tagURI, 
     final SSSpaceE    space) throws Exception{
     
     try{

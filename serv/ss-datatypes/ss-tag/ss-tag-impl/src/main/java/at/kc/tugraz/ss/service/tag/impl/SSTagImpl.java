@@ -454,12 +454,23 @@ implements
         throw new Exception("user null");
       }
       
+      final Boolean existsTag;
+      final SSUri   tagUri;
+      
+      existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.tag)));
+      
+      if(existsTag){
+        tagUri = SSServCaller.entityGet(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.tag))).id;
+      }else{
+        tagUri = SSServCaller.vocURICreate();
+      }
+      
       final List<SSTag> tags =
         SSServCaller.tagsUserGet(
           par.user,
           par.user,
           SSUri.asListWithoutNullAndEmpty(),
-          SSStrU.toStrWithoutEmptyAndNull(SSServCaller.entityGet(par.tag).label),
+          SSStrU.toStrWithoutEmptyAndNull(par.tag),
           null,
           null);
       
@@ -483,7 +494,7 @@ implements
       }
       
       if(newTagUri == null){
-        return par.tag;
+        return tagUri;
       }else{
         return newTagUri;
       }
@@ -533,14 +544,26 @@ implements
         throw new Exception("user null");
       }
       
+      SSUri tagUri = null;
+      
+      if(par.label != null){
+        
+        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
+          tagUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+        }else{
+          tagUri = SSServCaller.vocURICreate();
+        }
+      }
+      
+      
       if(
         par.space    == null &&
         par.entity == null){
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, par.label, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss(par.user, null, par.label, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -552,7 +575,7 @@ implements
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeTagAsss(par.user, null, par.label, par.space);
+         sqlFct.removeTagAsss(par.user, null, tagUri, par.space);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -564,8 +587,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.user, par.entity, par.label, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss (null,     par.entity, par.label, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -577,7 +600,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
       
-        sqlFct.removeTagAsss(null, par.entity, par.label, par.space);
+        sqlFct.removeTagAsss(null, par.entity, tagUri, par.space);
 
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -708,10 +731,21 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeTagAsss (
+      SSUri tagUri = null;
+      
+      if(par.label != null){
+        
+        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
+          tagUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+        }else{
+          tagUri = SSServCaller.vocURICreate();
+        }
+      }
+      
+      sqlFct.removeTagAsss(
         par.forUser, 
         par.entity, 
-        par.label, 
+        tagUri, 
         par.space);
       
       dbSQL.commit(par.shouldCommit);

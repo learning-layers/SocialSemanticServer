@@ -59,6 +59,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
@@ -982,7 +983,7 @@ public class SSRESTEntities {
           SSMethU.tagEdit,
           null,
           null,
-          SSUri.get(tag, SSVocConf.sssUri),
+          SSTagLabel.get(tag),
           input.label);
       
     }catch(Exception error){

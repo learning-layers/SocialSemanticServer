@@ -61,7 +61,7 @@ public class SSTagMiscFct {
     
       slabel = SSLabel.get(SSStrU.toStr(label));
       
-      if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+      if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
         continue;
       }
       
@@ -70,7 +70,7 @@ public class SSTagMiscFct {
           userToUse,
           par.space,
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id));
     }
     
@@ -98,13 +98,13 @@ public class SSTagMiscFct {
         
         slabel = SSLabel.get(SSStrU.toStr(label));
         
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
           continue;
         }
         
         categoryURI = 
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id;
           
         categories.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
@@ -124,13 +124,13 @@ public class SSTagMiscFct {
         
         slabel = SSLabel.get(SSStrU.toStr(label));
         
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
           continue;
         }
         
         categoryURI = 
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id;
         
         categories.addAll (sqlFct.getTagAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
@@ -160,13 +160,13 @@ public class SSTagMiscFct {
         
         slabel = SSLabel.get(SSStrU.toStr(label));
         
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
           continue;
         }
         
         categoryURI = 
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id;
         
         categories.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, categoryURI));
@@ -184,13 +184,13 @@ public class SSTagMiscFct {
         
         slabel = SSLabel.get(SSStrU.toStr(label));
         
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
           continue;
         }
         
         categoryURI = 
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id;
         
         categories.addAll (sqlFct.getTagAsss(userToUse, entity, par.space, par.startTime, categoryURI));
@@ -227,7 +227,7 @@ public class SSTagMiscFct {
       
       slabel = SSLabel.get(SSStrU.toStr(label));
       
-      if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+      if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
         continue;
       }
       
@@ -236,7 +236,7 @@ public class SSTagMiscFct {
           par.user,
           SSSpaceE.privateSpace,
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id));
       
       entities.addAll(
@@ -244,7 +244,7 @@ public class SSTagMiscFct {
           par.forUser,
           SSSpaceE.sharedSpace,
           SSServCaller.entityGet(
-            SSEntityE.category,
+            SSEntityE.tag,
             slabel).id));
     }
     

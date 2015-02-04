@@ -246,6 +246,15 @@
   }, {
     "path" : "/friends",
     "operations" : [ {
+      "method" : "GET",
+      "summary" : "get friends",
+      "notes" : "",
+      "type" : "SSFriendsUserGetRet",
+      "nickname" : "friendsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ ]
+    }, {
       "method" : "POST",
       "summary" : "add a friend",
       "notes" : "",
@@ -260,15 +269,6 @@
         "paramType" : "body",
         "allowMultiple" : false
       } ]
-    }, {
-      "method" : "GET",
-      "summary" : "get friends",
-      "notes" : "",
-      "type" : "SSFriendsUserGetRet",
-      "nickname" : "friendsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ ]
     } ]
   }, {
     "path" : "/videos",
@@ -298,6 +298,24 @@
       } ]
     } ]
   }, {
+    "path" : "/{entity}",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve entity information for given ID or encoded URI",
+      "notes" : "",
+      "type" : "SSEntityUserGetRet",
+      "nickname" : "entityGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "entity",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/{entity}/likes",
     "operations" : [ {
       "method" : "POST",
@@ -318,24 +336,6 @@
         "required" : false,
         "type" : "SSLikeSetRESTAPIV2Par",
         "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/{entity}",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "retrieve entity information for given ID or encoded URI",
-      "notes" : "",
-      "type" : "SSEntityUserGetRet",
-      "nickname" : "entityGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "entity",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
         "allowMultiple" : false
       } ]
     } ]
@@ -632,20 +632,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -658,13 +658,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -673,20 +673,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -697,6 +690,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -725,13 +729,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -884,20 +884,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -910,13 +910,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -925,20 +925,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -949,6 +942,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -977,13 +981,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1078,20 +1078,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1115,20 +1115,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1139,6 +1132,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1167,13 +1171,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1336,20 +1336,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1362,13 +1362,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -1377,20 +1377,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1401,6 +1394,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1429,13 +1433,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1541,20 +1541,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1567,13 +1567,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -1582,20 +1582,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1606,6 +1599,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1634,13 +1638,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1733,20 +1733,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1759,13 +1759,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -1774,20 +1774,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1798,6 +1791,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -1826,13 +1830,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1909,20 +1909,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -1935,13 +1935,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -1950,20 +1950,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -1974,6 +1967,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2002,13 +2006,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2096,6 +2096,18 @@
     "SSApp" : {
       "id" : "SSApp",
       "properties" : {
+        "downloadIOS" : {
+          "type" : "string"
+        },
+        "downloads" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "fork" : {
+          "type" : "string"
+        },
         "descriptionShort" : {
           "type" : "string"
         },
@@ -2111,18 +2123,6 @@
         "downloadAndroid" : {
           "type" : "string"
         },
-        "downloadIOS" : {
-          "type" : "string"
-        },
-        "downloads" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "fork" : {
-          "type" : "string"
-        },
         "id" : {
           "type" : "string",
           "description" : "uri"
@@ -2130,20 +2130,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -2156,13 +2156,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -2171,20 +2171,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -2195,6 +2188,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2223,13 +2227,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2259,20 +2259,20 @@
         "type" : {
           "$ref" : "SSEntityE",
           "description" : "sss entity data type",
-          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location" ]
+          "enum" : [ "entity", "coll", "disc", "qa", "chat", "discEntry", "qaEntry", "chatEntry", "user", "file", "rating", "tag", "category", "userEvent", "learnEp", "learnEpTimelineState", "learnEpVersion", "learnEpCircle", "learnEpEntity", "evernoteNotebook", "evernoteNote", "evernoteResource", "circle", "activity", "thumbnail", "flag", "comment", "video", "videoAnnotation", "message", "app", "image", "appStackLayout", "appTile", "location", "placeholder" ]
         },
         "file" : {
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
-        },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
         },
         "description" : {
           "type" : "string",
@@ -2285,13 +2285,13 @@
             "type" : "string"
           }
         },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
         },
         "flags" : {
           "type" : "array",
@@ -2300,20 +2300,13 @@
             "$ref" : "SSEntityA"
           }
         },
-        "attachedEntities" : {
+        "entities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+          "description" : "entities involved"
         },
-        "author" : {
-          "type" : "string",
-          "description" : "creator"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "description" : "types of circles the entity is in",
-          "items" : {
-            "$ref" : "SSCircleE"
-          }
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
         },
         "circles" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
@@ -2324,6 +2317,17 @@
           "description" : "tags assigned",
           "items" : {
             "type" : "string"
+          }
+        },
+        "author" : {
+          "type" : "string",
+          "description" : "creator"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "description" : "types of circles the entity is in",
+          "items" : {
+            "$ref" : "SSCircleE"
           }
         },
         "overallRating" : {
@@ -2352,13 +2356,9 @@
           "type" : "string",
           "description" : "thumbnail"
         },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
