@@ -4,9 +4,9 @@
   "apis" : [ {
     "path" : "/SSAdapterRESTFile.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileDownload.{format}"
-  }, {
     "path" : "/SSAdapterRESTFileUpload.{format}"
+  }, {
+    "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
     "path" : "/SSAdapterRest.{format}"
   }, {

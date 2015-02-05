@@ -139,93 +139,91 @@ public class SSDataImportEvernoteNoteContentHandler{
   
   public static String parseXHTML(final String path) throws Exception{
     
-    return "";
+    BufferedReader br     = null;
+    String         result = SSStrU.empty;
     
-//    BufferedReader br     = null;
-//    String         result = SSStrU.empty;
-//    
-//    try{
-//      
-//      String line, text, tag, tmpTag, href, title;
-//      int tagIndex, tagEndIndex, hrefIndex, hrefEndIndex, titleIndex, titleEndIndex;
-//
-//      br = new BufferedReader(new FileReader(new File(path)));
-//      
-//      while((line = br.readLine()) != null){
-//        
-//        line = line.trim();
-//        
-//        while(line.contains("<")){
-//          
-//          if(!line.contains(">")){
-//            throw new Exception("xhtml invalid");
-//          }
-//          
-//          tagIndex    = line.indexOf("<");
-//          tagEndIndex = line.indexOf(">");
-//          tag         = line.substring(tagIndex, tagEndIndex + 1);
-//          tmpTag = line.substring(tagIndex, tagEndIndex + 1);
-//          
-//          if(tagIndex != 0){
-//            
-//            text = line.substring(0, tagIndex).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
-//            
-//            if(!text.isEmpty()){
-//              result += text + SSStrU.backslashRBackslashN;
-//            }
-//          }
-//          
-//          while(tmpTag.contains("href=\"")){
-//            
-//            hrefIndex = tmpTag.indexOf("href=\"");
-//            hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
-//            href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
-//            
-//            if(tmpTag.contains("title=\"")){
-//              
-//              titleIndex = tmpTag.indexOf("title=\"");
-//              titleEndIndex = tmpTag.indexOf("\"", titleIndex + 7);
-//              title = tmpTag.substring(titleIndex + 7, titleEndIndex);
-//              
-//              result += title.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty) + ": " + SSStrU.backslashRBackslashN;
-//              
-//              tmpTag = tmpTag.substring(0, titleIndex) + tmpTag.substring(titleEndIndex + 1, tmpTag.length() - 1);
-//              
-//              hrefIndex = tmpTag.indexOf("href=\"");
-//              hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
-//              href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
-//              
-//              tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
-//              
-//              result += href + SSStrU.backslashRBackslashN;
-//              
-//            }else{
-//              result += "link" + ": " + href + SSStrU.backslashRBackslashN;
-//              
-//              tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
-//            }
-//          }
-//          
-//          line = line.replace(tag, SSStrU.empty).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
-//        }
-//        
-//        line = line.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
-//        
-//        if(!line.isEmpty()){
-//          result += line + SSStrU.backslashRBackslashN;
-//        }
-//      }
-//      
-//      return result;
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }finally{
-//      
-//      if(br != null){
-//        br.close();
-//      }
-//    }
+    try{
+      
+      String line, text, tag, tmpTag, href, title;
+      int tagIndex, tagEndIndex, hrefIndex, hrefEndIndex, titleIndex, titleEndIndex;
+
+      br = new BufferedReader(new FileReader(new File(path)));
+      
+      while((line = br.readLine()) != null){
+        
+        line = line.trim();
+        
+        while(line.contains("<")){
+          
+          if(!line.contains(">")){
+            throw new Exception("xhtml invalid");
+          }
+          
+          tagIndex    = line.indexOf("<");
+          tagEndIndex = line.indexOf(">");
+          tag         = line.substring(tagIndex, tagEndIndex + 1);
+          tmpTag = line.substring(tagIndex, tagEndIndex + 1);
+          
+          if(tagIndex != 0){
+            
+            text = line.substring(0, tagIndex).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
+            
+            if(!text.isEmpty()){
+              result += text + SSStrU.backslashRBackslashN;
+            }
+          }
+          
+          while(tmpTag.contains("href=\"")){
+            
+            hrefIndex = tmpTag.indexOf("href=\"");
+            hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
+            href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
+            
+            if(tmpTag.contains("title=\"")){
+              
+              titleIndex = tmpTag.indexOf("title=\"");
+              titleEndIndex = tmpTag.indexOf("\"", titleIndex + 7);
+              title = tmpTag.substring(titleIndex + 7, titleEndIndex);
+              
+              result += title.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty) + ": " + SSStrU.backslashRBackslashN;
+              
+              tmpTag = tmpTag.substring(0, titleIndex) + tmpTag.substring(titleEndIndex + 1, tmpTag.length() - 1);
+              
+              hrefIndex = tmpTag.indexOf("href=\"");
+              hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
+              href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
+              
+              tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
+              
+              result += href + SSStrU.backslashRBackslashN;
+              
+            }else{
+              result += "link" + ": " + href + SSStrU.backslashRBackslashN;
+              
+              tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
+            }
+          }
+          
+          line = line.replace(tag, SSStrU.empty).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
+        }
+        
+        line = line.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
+        
+        if(!line.isEmpty()){
+          result += line + SSStrU.backslashRBackslashN;
+        }
+      }
+      
+      return result;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      if(br != null){
+        br.close();
+      }
+    }
   }
 }
