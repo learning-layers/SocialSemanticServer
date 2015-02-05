@@ -83,6 +83,8 @@ public class SSEntityUserAddPar extends SSServPar{
     value = "creation time to be set when adding the entity")
   public Long          creationTime   = null;
   
+  public SSEntityUserAddPar() throws Exception{}
+
   public SSEntityUserAddPar(SSServPar par) throws Exception{
     
     super(par);
