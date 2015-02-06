@@ -4,13 +4,13 @@
   "apis" : [ {
     "path" : "/SSAdapterRESTFile.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileUpload.{format}"
+    "path" : "/SSAdapterRESTFileReplace.{format}"
   }, {
     "path" : "/SSAdapterRESTFileDownload.{format}"
   }, {
-    "path" : "/SSAdapterRest.{format}"
+    "path" : "/SSAdapterRESTFileUpload.{format}"
   }, {
-    "path" : "/SSAdapterRESTFileReplace.{format}"
+    "path" : "/SSAdapterRest.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
@@ -20,5 +20,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://test-ll.know-center.tugraz.at/bp-3/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest/api-docs"
 }
