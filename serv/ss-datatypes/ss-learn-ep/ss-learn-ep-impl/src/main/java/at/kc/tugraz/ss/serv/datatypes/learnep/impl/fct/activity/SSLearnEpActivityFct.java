@@ -206,7 +206,7 @@ public class SSLearnEpActivityFct{
           SSActivityE.moveLearnEpVersionEntity,
           learnEpVersion,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);

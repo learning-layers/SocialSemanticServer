@@ -655,6 +655,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         filesAndThumbs.add(thumb);
       }
       
+      entities.add   (learnEpEntityUri);
       entities.add   (par.entity);
       entities.addAll(filesAndThumbs);
         
