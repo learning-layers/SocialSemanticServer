@@ -300,7 +300,7 @@ public class SSRecommFct{
       return SSTag.getTagLabelsPerEntities(
         SSServCaller.tagsUserGet(
           userUri,
-          null,
+          userUri,
           SSUri.asListWithoutNullAndEmpty(),
           new ArrayList<>(),
           null,
@@ -311,7 +311,7 @@ public class SSRecommFct{
       return SSTag.getTagLabelsPerEntities(
         SSServCaller.tagsUserGet(
           userUri,
-          null,
+          userUri,
           SSUri.asListWithoutNullAndEmpty(),
           new ArrayList<>(),
           SSSpaceE.sharedSpace,
