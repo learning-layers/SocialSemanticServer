@@ -963,7 +963,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpEntity);
 
-      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle (par.learnEpEntity);
+      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForEntity (par.learnEpEntity);
       final SSUri learnEp        = sqlFct.getLearnEpForVersion       (learnEpVersion);
       
       SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
