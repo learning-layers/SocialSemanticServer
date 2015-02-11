@@ -21,20 +21,23 @@
 package at.kc.tugraz.ss.recomm.conf;
 
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import engine.Algorithm;
 
 public class SSRecommConf extends SSServConfA{
 
   public String        fileNameForTagRec          = null;
   public String        fileNameForResourceRec     = null;
   public Boolean       usePrivateTagsToo          = null;
+  public Algorithm     recommTagAlgorithm         = null;
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
-    copy.fileNameForTagRec      = orig.fileNameForTagRec;
-    copy.fileNameForResourceRec = orig.fileNameForResourceRec;
-    copy.usePrivateTagsToo      = orig.usePrivateTagsToo;
+    copy.fileNameForTagRec       = orig.fileNameForTagRec;
+    copy.fileNameForResourceRec  = orig.fileNameForResourceRec;
+    copy.usePrivateTagsToo       = orig.usePrivateTagsToo;
+    copy.recommTagAlgorithm      = orig.recommTagAlgorithm;
     
     return copy;
   }

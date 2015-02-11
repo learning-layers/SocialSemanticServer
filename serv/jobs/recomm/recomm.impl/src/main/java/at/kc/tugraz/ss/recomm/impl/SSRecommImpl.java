@@ -86,7 +86,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
         par.categories,
         par.maxTags,
         !par.includeOwn, //filterOwn
-        null); 
+        ((SSRecommConf)conf).recommTagAlgorithm); /* BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF */
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
