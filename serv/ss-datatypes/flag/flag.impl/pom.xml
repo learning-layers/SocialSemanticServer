@@ -19,6 +19,12 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss.conf</groupId>
+      <artifactId>ss-conf-conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv-caller</artifactId>
       <version>${project.version}</version>

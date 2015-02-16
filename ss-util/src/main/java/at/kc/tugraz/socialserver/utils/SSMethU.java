@@ -22,6 +22,9 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSMethU{
 
+  //eval
+  evalLog, 
+  
   //like
   likesUserGet,
   likesGet,

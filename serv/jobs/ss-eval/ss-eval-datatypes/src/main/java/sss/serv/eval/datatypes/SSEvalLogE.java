@@ -18,10 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package sss.serv.eval.api;
+package sss.serv.eval.datatypes;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
-public interface SSEvalServerI {
-  public void evalLog                       (final SSServPar parA) throws Exception;
+public enum SSEvalLogE{
+  read,
+  readMessage,
+  changeLabel,
+  changeDescription,
+  setImportance,
+  addTag,
+  sendMessage,
+  copyLearnEpForUser,
+  shareLearnEpWithUser,
+  removeLearnEpVersionCircle,
+  removeLearnEpVersionEntity,
+  addEntityToLearnEpVersion,
+  addCircleToLearnEpVersion;
 }

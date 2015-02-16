@@ -64,8 +64,15 @@ public class SSLogU{
     log.info(getMsg(logText));
   }
   
-  public static void trace(final String logText){
-    log.trace(getMsg(logText));
+  public static void trace(
+    final String  logText, 
+    final Boolean provideRuntimeInfo){
+
+    if(provideRuntimeInfo){
+      log.trace(getMsg(logText));
+    }else{
+      log.trace(logText);
+    }
   }
   
   public static void debug(final String logText){

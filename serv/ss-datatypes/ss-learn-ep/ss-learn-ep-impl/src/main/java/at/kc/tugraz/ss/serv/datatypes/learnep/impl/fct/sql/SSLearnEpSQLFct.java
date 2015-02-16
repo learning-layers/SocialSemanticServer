@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import scala.collection.mutable.ArrayLike;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -881,6 +882,39 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       dbSQL.deleteIgnore(learnEpVersionEntitiesTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public SSUri getEntity(
+    final SSUri learnEpVersion, 
+    final SSUri learnEpEntity) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final List<String>        columns   = new ArrayList<>();
+      final List<String>        tables    = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.entityId);
+      
+      table(tables, learnEpEntityTable);
+      table(tables, learnEpVersionEntitiesTable);
+      
+      where(wheres, learnEpVersionEntitiesTable, SSSQLVarU.learnEpEntityId,  learnEpEntity);
+      where(wheres, learnEpVersionEntitiesTable, SSSQLVarU.learnEpVersionId, learnEpVersion);
+      
+      tableCon(tableCons, learnEpEntityTable, SSSQLVarU.learnEpEntityId, learnEpVersionEntitiesTable, SSSQLVarU.learnEpEntityId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarU.entityId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

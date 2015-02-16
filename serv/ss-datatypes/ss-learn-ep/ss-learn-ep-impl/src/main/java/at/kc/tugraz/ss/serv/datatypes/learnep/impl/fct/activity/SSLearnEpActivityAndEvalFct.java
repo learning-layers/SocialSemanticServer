@@ -21,9 +21,13 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveCirclePar;
@@ -32,14 +36,17 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErr;
+import sss.serv.eval.datatypes.SSEvalLogE;
 
-public class SSLearnEpActivityFct{
+public class SSLearnEpActivityAndEvalFct{
 
   public static void addCircleToLearnEpVersion(
     final SSLearnEpVersionAddCirclePar par, 
-    final SSUri                        circle) throws Exception{
+    final SSUri                        circle,
+    final SSUri                        learnEp) throws Exception{
     
     try{
       
@@ -52,6 +59,33 @@ public class SSLearnEpActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+      try{
+        
+        if(!SSCoreConf.instGet().getEvalConf().use){
+          return;
+        }
+        
+        final List<SSEntity> entities = new ArrayList<>();
+        
+        entities.add(SSServCaller.entityGet(learnEp));
+          
+        SSServCaller.evalLog(
+          par.user,
+          SSToolContextE.organizeArea,
+          par.user,
+          SSEvalLogE.addCircleToLearnEpVersion,
+          SSServCaller.entityGet(circle),
+          null,
+          entities,
+          new ArrayList<>(),
+          false);
+        
+      }catch(Exception error){
+        SSServErrReg.reset();
+        
+        SSLogU.warn("addCircleToLearnEpVersion eval logs failed");
+      }
       
     }catch(SSErr error){
       
@@ -67,7 +101,8 @@ public class SSLearnEpActivityFct{
 
   public static void addEntityToLearnEpVersion(
     final SSLearnEpVersionAddEntityPar par, 
-    final SSUri                        entity) throws Exception{
+    final SSUri                        learnEpEntity,
+    final SSUri                        learnEp) throws Exception{
     
     try{
       
@@ -76,10 +111,37 @@ public class SSLearnEpActivityFct{
         SSActivityE.addEntityToLearnEpVersion,
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(entity, par.entity),
+        SSUri.asListWithoutNullAndEmpty(learnEpEntity, par.entity),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+      try{
+        
+        if(!SSCoreConf.instGet().getEvalConf().use){
+          return;
+        }
+        
+        final List<SSEntity> entities = new ArrayList<>();
+        
+        entities.add(SSServCaller.entityGet(learnEp));
+        
+        SSServCaller.evalLog(
+          par.user,
+          SSToolContextE.organizeArea,
+          par.user,
+          SSEvalLogE.addEntityToLearnEpVersion,
+          SSServCaller.entityGet(par.entity),
+          null,
+          entities,
+          new ArrayList<>(),
+          false);
+        
+      }catch(Exception error){
+        SSServErrReg.reset();
+        
+        SSLogU.warn("addEntityToLearnEpVersion eval logs failed");
+      }
       
     }catch(SSErr error){
       
@@ -95,7 +157,8 @@ public class SSLearnEpActivityFct{
 
   public static void removeLearnEpVersionCircle(
     final SSLearnEpVersionRemoveCirclePar par,
-    final SSUri                           learnEpVersion) throws Exception{ 
+    final SSUri                           learnEpVersion,
+    final SSUri                           learnEp) throws Exception{ 
     
     try{
       
@@ -108,6 +171,33 @@ public class SSLearnEpActivityFct{
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+      try{
+        
+        if(!SSCoreConf.instGet().getEvalConf().use){
+          return;
+        }
+        
+        final List<SSEntity> entities = new ArrayList<>();
+        
+        entities.add(SSServCaller.entityGet(learnEp));
+        
+        SSServCaller.evalLog(
+          par.user,
+          SSToolContextE.organizeArea,
+          par.user,
+          SSEvalLogE.removeLearnEpVersionCircle,
+          SSServCaller.entityGet(par.learnEpCircle),
+          null,
+          entities,
+          new ArrayList<>(),
+          false);
+        
+      }catch(Exception error){
+        SSServErrReg.reset();
+        
+        SSLogU.warn("removeLearnEpVersionCircle eval logs failed");
+      }
       
     }catch(SSErr error){
       
@@ -123,7 +213,9 @@ public class SSLearnEpActivityFct{
 
   public static void removeLearnEpVersionEntity(
     final SSLearnEpVersionRemoveEntityPar par,
-    final SSUri                           learnEpVersion) throws Exception{
+    final SSUri                           learnEpVersion,
+    final SSUri                           entity,
+    final SSUri                           learnEp) throws Exception{
    
     try{
       
@@ -132,10 +224,37 @@ public class SSLearnEpActivityFct{
         SSActivityE.removeLearnEpVersionEntity,
         learnEpVersion, 
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpEntity),
+        SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, entity),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+      try{
+        
+        if(!SSCoreConf.instGet().getEvalConf().use){
+          return;
+        }
+        
+        final List<SSEntity> entities = new ArrayList<>();
+        
+        entities.add(SSServCaller.entityGet(learnEp));
+        
+        SSServCaller.evalLog(
+          par.user,
+          SSToolContextE.organizeArea,
+          par.user,
+          SSEvalLogE.removeLearnEpVersionEntity,
+          SSServCaller.entityGet(entity),
+          null,
+          entities,
+          new ArrayList<>(),
+          false);
+        
+      }catch(Exception error){
+        SSServErrReg.reset();
+        
+        SSLogU.warn("removeLearnEpVersionEntity eval logs failed");
+      }
       
     }catch(SSErr error){
       
@@ -148,11 +267,46 @@ public class SSLearnEpActivityFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public static void copyLearnEp(
+    final SSUri       user, 
+    final List<SSUri> usersToShareWith, 
+    final SSUri       learnEp){
+   
+    try{
+      
+      if(!SSCoreConf.instGet().getEvalConf().use){
+        return;
+      }
+      
+      final List<SSEntity> users = new ArrayList<>();
+      
+      for(SSUri targetUser : usersToShareWith){
+        users.add(SSServCaller.entityGet(targetUser));
+      }
+      
+      SSServCaller.evalLog(
+        user,
+        SSToolContextE.episodeTab,
+        user,
+        SSEvalLogE.copyLearnEpForUser,
+        SSServCaller.entityGet(learnEp),
+        null,
+        new ArrayList<>(),
+        users,
+        false);
+      
+    }catch(Exception error){
+      SSServErrReg.reset();
+      
+      SSLogU.warn("copyLearnEp eval logs failed");
+    }
+  }
 
   public static void shareLearnEp(
     final SSUri       user,
     final SSUri       learnEp,
-    final List<SSUri> users) throws Exception{
+    final List<SSUri> usersToShareWith) throws Exception{
     
     try{
       
@@ -160,11 +314,40 @@ public class SSLearnEpActivityFct{
         user,
         SSActivityE.shareLearnEpWithUser,
         learnEp,
-        SSUri.asListWithoutNullAndEmpty(users),
+        SSUri.asListWithoutNullAndEmpty(usersToShareWith),
         SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
+      
+      try{
+        
+        if(!SSCoreConf.instGet().getEvalConf().use){
+          return;
+        }
+        
+        final List<SSEntity> users = new ArrayList<>();
+        
+        for(SSUri targetUser : usersToShareWith){
+          users.add(SSServCaller.entityGet(targetUser));
+        }
+        
+        SSServCaller.evalLog(
+          user,
+          SSToolContextE.episodeTab,
+          user,
+          SSEvalLogE.shareLearnEpWithUser,
+          SSServCaller.entityGet(learnEp),
+          null,
+          new ArrayList<>(),
+          users,
+          false);
+        
+      }catch(Exception error){
+        SSServErrReg.reset();
+        
+        SSLogU.warn("shareLearnEp eval logs failed");
+      }
       
     }catch(SSErr error){
       
@@ -241,6 +424,28 @@ public class SSLearnEpActivityFct{
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);
+        
+        try{
+          
+          if(SSCoreConf.instGet().getEvalConf().use){
+          
+            SSServCaller.evalLog(
+              par.user,
+              SSToolContextE.organizeArea,
+              par.user,
+              SSEvalLogE.changeLabel,
+              SSServCaller.entityGet(par.learnEpCircle),
+              SSStrU.toStr(par.label),
+              new ArrayList<>(),
+              new ArrayList<>(),
+              false);
+          }
+          
+        }catch(Exception error){
+          SSServErrReg.reset();
+          
+          SSLogU.warn("shareLearnEp eval logs failed");
+        }
       }
       
       if(

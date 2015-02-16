@@ -51,6 +51,12 @@
     
       <dependency>
         <groupId>sss.serv</groupId>
+        <artifactId>ss-eval-datatypes</artifactId>
+        <version>${project.version}</version>
+      </dependency> 
+      
+      <dependency>
+        <groupId>sss.serv</groupId>
         <artifactId>ss-activity-datatypes</artifactId>
         <version>${project.version}</version>
       </dependency> 

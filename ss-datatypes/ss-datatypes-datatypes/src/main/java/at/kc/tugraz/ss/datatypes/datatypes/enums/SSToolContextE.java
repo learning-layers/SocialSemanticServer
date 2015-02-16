@@ -18,10 +18,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package sss.serv.eval.api;
+package at.kc.tugraz.ss.datatypes.datatypes.enums;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
-public interface SSEvalServerI {
-  public void evalLog                       (final SSServPar parA) throws Exception;
+public enum SSToolContextE{
+  timelineArea,
+  help,
+  organizeArea,
+  searchTab,
+  episodeTab,
+  bitTab,
+  notificationTab;
 }

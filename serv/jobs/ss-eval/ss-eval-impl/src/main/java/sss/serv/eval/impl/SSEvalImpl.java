@@ -20,12 +20,23 @@
 */
 package sss.serv.eval.impl;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolE;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.conf.SSEvalConf;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.impl.fct.sql.SSEvalSQLFct;
 
 public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEvalServerI{
@@ -50,56 +61,177 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
 //    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(par), par.op));
 //  }
 
-//  @Override
-//  public List<SSLearnEp> learnEpsGet(final SSServPar parA) throws Exception{
-//
-//    try{
-//      final SSLearnEpsGetPar par      = new SSLearnEpsGetPar(parA);
-//      final List<SSLearnEp>  learnEps = sqlFct.getLearnEps(par.user);
-//
-//      for(SSLearnEp learnEp : learnEps){
-//
-//        learnEp.circleTypes.addAll(
-//          SSServCaller.circleTypesGet(
-//            par.user,
-//            par.user,
-//            learnEp.id, 
-//            true));
-//        
-//         learnEp.read = 
-//           SSServCaller.entityReadGet(
-//             par.user, 
-//             learnEp.id);
-//         
-//         for(SSUri user : sqlFct.getLearnEpUserURIs(learnEp.id)){
-//           
-//           learnEp.users.add(
-//             SSServCaller.entityDescGet(
-//               par.user, 
-//               user, 
-//               false,
-//               false, 
-//               false, 
-//               false, 
-//               false, 
-//               false, 
-//               false));
-//         }
-//         
-//         if(!learnEpConf.useEpisodeLocking){
-//           learnEp.locked       = false;
-//           learnEp.lockedByUser = false;
-//         }else{
-//           
-//           learnEp.locked       = SSLearnEpAccessController.isLocked (learnEp.id);
-//           learnEp.lockedByUser = SSLearnEpAccessController.hasLock  (par.user, learnEp.id);
-//         }
-//      }
-//
-//      return learnEps;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
+  @Override
+  public void evalLog(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSEvalLogPar par            = new SSEvalLogPar(parA);
+      String             logText        = new String();
+      
+      if(
+        evalConf.tools.isEmpty()              ||
+        !evalConf.tools.contains(SSToolE.bnp) ||
+        par.type == null){
+        return;
+      }
+      
+      //adjusting log type
+      switch(par.type){
+
+        case read:{
+          
+          if(
+            par.entity != null &&
+            SSStrU.equals(par.entity.type, SSEntityE.message)){
+            
+            par.type = SSEvalLogE.readMessage;
+          }
+          break;
+        }
+      }
+        
+      //time stamp
+      logText += SSDateU.dateAsLong();
+      logText += SSStrU.semiColon;
+      
+      //tool context
+      if(par.toolContext != null){
+        logText += par.toolContext;
+      }else{
+        logText += getToolContext(par);
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      //user
+      if(par.forUser != null){
+        logText += par.forUser;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // log type
+      logText += par.type;
+      logText += SSStrU.semiColon;
+      
+      // entity 
+      if(par.entity != null){
+        logText += par.entity;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // entity type
+      if(par.entity != null){
+        logText += par.entity.type;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // entity label
+      if(par.entity != null){
+        logText += par.entity.label;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // content
+      if(par.content != null){
+        logText += par.content;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // tag type
+      if(
+        SSStrU.equals(par.type, SSEvalLogE.addTag) &&
+        par.content != null){
+          
+        if(par.content.startsWith("#")){
+          logText += 2;
+        }else{
+          logText += 1;
+        }
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // entities' ids
+      for(SSEntity entity : par.entities){
+        logText += entity.id;
+        logText += SSStrU.semiColon;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // entities' labels
+      for(SSEntity entity : par.entities){
+        logText += entity.label;
+        logText += SSStrU.semiColon;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // users' ids
+      for(SSEntity entity : par.users){
+        logText += entity.id;
+        logText += SSStrU.semiColon;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      // users' labels
+      for(SSEntity entity : par.users){
+        logText += entity.label;
+        logText += SSStrU.semiColon;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
+      
+      SSLogU.trace(logText, false);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
+  private String getToolContext(final SSEvalLogPar par){
+    
+    if(par.entity == null){
+      return SSStrU.empty;
+    }
+    
+    switch(par.type){
+      
+      case sendMessage:       return SSToolContextE.notificationTab.toString();
+      case readMessage:       return SSToolContextE.notificationTab.toString();
+      case changeLabel:       return getToolContextFromChangeLabel(par);
+      case changeDescription: return getToolContextFromChangeLabel(par);
+      case setImportance:     return SSToolContextE.bitTab.toString();
+      case addTag:            return SSToolContextE.bitTab.toString();
+      default:                return SSStrU.empty;
+    }
+  }
+
+  private String getToolContextFromChangeLabel(final SSEvalLogPar par){
+
+    switch(par.entity.type){
+      
+      case learnEp:
+      case learnEpVersion:{
+        return SSToolContextE.episodeTab.toString();
+      }
+      
+      case learnEpCircle:{
+        return SSToolContextE.organizeArea.toString();
+      }
+      
+      default:{
+        return SSToolContextE.bitTab.toString();
+      }
+    }
+  }
 }

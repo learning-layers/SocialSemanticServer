@@ -24,6 +24,8 @@ public class SSVarU{
   
   private SSVarU(){}
 
+  public static final String toolContext                                    = "toolContext";
+  public static final String entityType                                     = "entityType";
   public static final String learnEpLocks                                   = "learnEpLocks";
   public static final String includeOnlyLastActivities                      = "includeOnlyLastActivities";
   public static final String remainingTime                                  = "remainingTime";
