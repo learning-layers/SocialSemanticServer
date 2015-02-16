@@ -457,3 +457,8 @@ org.eclipse.wst.jsdt.ui.superType.name
 /ss-adapter/ss-adapter-rest-v1/target/
 .DS_Store
 /ss/ss.log.1
+/serv/jobs/ss-eval/ss-eval-conf/target/
+/serv/jobs/ss-eval/ss-eval-api/target/
+/serv/jobs/ss-eval/ss-eval-impl/target/
+/serv/jobs/ss-eval/ss-eval-datatypes/target/
+/serv/jobs/ss-eval/ss-eval-serv/target/

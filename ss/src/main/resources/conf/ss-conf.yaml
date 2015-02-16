@@ -48,6 +48,9 @@ discConf:
   use: true
 entityConf:
   use: true
+evalConf:
+  tools:
+    #- leave empty for no tool usage to be traced  
 evernoteConf:
   appName: SSS
   appVersion: '1.0'

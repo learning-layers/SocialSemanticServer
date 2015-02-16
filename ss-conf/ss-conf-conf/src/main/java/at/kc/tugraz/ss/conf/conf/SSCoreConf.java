@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.conf.conf;
 
+import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf;
 import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
@@ -104,6 +105,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSVideoConf           videoConf          = null;
   private SSLikeConf            likeConf           = null;
   private SSCircleConf          circleConf         = null;
+  private SSEvalConf            evalConf           = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -212,12 +214,21 @@ public class SSCoreConf extends SSCoreConfA{
       copy.videoConf          = SSVideoConf.copy(inst.videoConf);
       copy.likeConf           = SSLikeConf.copy(inst.likeConf);
       copy.circleConf         = SSCircleConf.copy(inst.circleConf);
+      copy.evalConf           = SSEvalConf.copy(inst.evalConf);
       
       return copy;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  public SSEvalConf getEvalConf() {
+    return evalConf;
+  }
+
+  public void setEvalConf(SSEvalConf evalConf) {
+    this.evalConf = evalConf;
   }
   
   public SSFlagConf getFlagConf() {

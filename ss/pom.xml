@@ -152,6 +152,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ss-eval-serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv.like</groupId>
       <artifactId>like.serv</artifactId>
       <version>${project.version}</version>

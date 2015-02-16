@@ -64,7 +64,7 @@ public class SSServPar{
   public        Boolean              shouldCommit  = true;
   
   @JsonIgnore (value = true)
-  public        Boolean              withUserRestriction     = true;
+  public        Boolean              withUserRestriction = true;
   
   @JsonIgnore (value = true)
   public        Boolean              saveActivity  = false;

@@ -30,5 +30,6 @@
     <module>ss-cloud</module>
 	<module>friend</module>
 	<module>like</module>
+    <module>ss-eval</module>
   </modules>
 </project>

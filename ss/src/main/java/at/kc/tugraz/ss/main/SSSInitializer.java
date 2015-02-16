@@ -63,6 +63,7 @@ import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
+import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
   
@@ -153,6 +154,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayoutConf());
         SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideoConf());
         SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLikeConf());
+        SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEvalConf());
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -198,6 +200,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSAppStackLayoutServ.inst.initServ();
         SSVideoServ.inst.initServ();
         SSLikeServ.inst.initServ();
+        SSEvalServ.inst.initServ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
