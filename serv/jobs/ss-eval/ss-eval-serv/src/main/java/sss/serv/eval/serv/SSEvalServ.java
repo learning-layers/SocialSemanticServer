@@ -52,9 +52,6 @@ public class SSEvalServ extends SSServA{
     
     super.regServ(conf);
     
-    regServForManagingEntities();
-    regServForGatheringUsersResources ();
-    
     return this;
   }
   
