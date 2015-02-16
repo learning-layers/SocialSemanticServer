@@ -38,7 +38,7 @@ public class SSTagsRemoveRESTAPIV2Par{
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
-    this.label = SSTagLabel.get(label);
+    try{ this.label = SSTagLabel.get(label); }catch(Exception error){}
   }
   
   @XmlElement
