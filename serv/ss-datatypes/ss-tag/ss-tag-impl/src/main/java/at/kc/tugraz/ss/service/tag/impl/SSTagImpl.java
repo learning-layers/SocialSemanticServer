@@ -57,7 +57,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
-import at.kc.tugraz.ss.service.tag.impl.fct.eval.SSTagEvalFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
@@ -232,7 +231,7 @@ implements
             par.user, 
             null,
             SSUri.asListWithoutNullAndEmpty(par.entity), 
-            new ArrayList<String>(), 
+            new ArrayList<>(), 
             null, 
             null)));
     }
@@ -303,8 +302,6 @@ implements
     sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op));
 
     SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
-    
-    SSTagEvalFct.addTag(parA);
   }
   
   @Override

@@ -370,7 +370,8 @@ public enum SSMethU{
   activityContentsAdd,
   activitiesGet,
   activitiesUserGet,
-  activityTypesGet;
+  activityTypesGet,
+  activityGet;
   
   
 //  recommTagsCollaborativeFilteringOnUserSimilarity,

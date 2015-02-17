@@ -78,7 +78,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGet
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessController;
-import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityAndEvalFct;
+import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -222,7 +222,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
               false);
           }
           
-          SSLearnEpActivityAndEvalFct.shareLearnEp(
+          SSLearnEpActivityFct.shareLearnEp(
             user, 
             entity, 
             usersToShareWith);
@@ -258,8 +258,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
           false);
       }
 
-      SSLearnEpActivityAndEvalFct.copyLearnEp(user, users, entity);
-      
       return true;
 
     }catch(Exception error){
@@ -590,7 +588,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.xC,
         par.yC);
       
-      SSLearnEpActivityAndEvalFct.addCircleToLearnEpVersion(par, circleUri, learnEp);
+      SSLearnEpActivityFct.addCircleToLearnEpVersion(par, circleUri, learnEp);
 
       dbSQL.commit(par.shouldCommit);
 
@@ -681,7 +679,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.x,
         par.y);
 
-      SSLearnEpActivityAndEvalFct.addEntityToLearnEpVersion(par, learnEpEntityUri, learnEp);
+      SSLearnEpActivityFct.addEntityToLearnEpVersion(par, learnEpEntityUri, learnEp);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -803,7 +801,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.xC,
         par.yC);
 
-      SSLearnEpActivityAndEvalFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion);
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -875,7 +873,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.x,
         par.y);
 
-      SSLearnEpActivityAndEvalFct.handleLearnEpVersionUpdateEntity(par, learnEpVersion);
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateEntity(par, learnEpVersion);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -928,7 +926,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
 //      SSServCaller.entityRemove(par.learnEpCircle, false);
 
-      SSLearnEpActivityAndEvalFct.removeLearnEpVersionCircle(par, learnEpVersion, learnEp);
+      SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion, learnEp);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -981,7 +979,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       sqlFct.deleteEntity(par.learnEpEntity);
 //      SSServCaller.entityRemove(par.learnEpEntity, false);
       
-      SSLearnEpActivityAndEvalFct.removeLearnEpVersionEntity(par, learnEpVersion, entity, learnEp);
+      SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion, entity, learnEp);
 
       dbSQL.commit(par.shouldCommit);
 

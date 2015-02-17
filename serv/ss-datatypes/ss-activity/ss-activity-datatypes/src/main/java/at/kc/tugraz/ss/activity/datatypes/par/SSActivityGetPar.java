@@ -18,28 +18,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package sss.serv.eval.datatypes;
+package at.kc.tugraz.ss.activity.datatypes.par;
 
-public enum SSEvalLogE{
-  clickBit,
-  clickTag,
-  clickLabelRecommendation,
-  clickTagRecommendation,
-  clickJumpToDateButton,
-  clickHelpButton,
-  searchWithKeyword,
-  sendMessage,
-  readMessage,
-  changeLabel,
-  changeDescription,
-  setImportance,
-  addTag,
-  copyLearnEpForUser,
-  shareLearnEpWithUser,
-  removeLearnEpVersionCircle,
-  removeLearnEpVersionEntity,
-  addEntityToLearnEpVersion,
-  addCircleToLearnEpVersion,
-  setFilter,
-  removeFilter;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
+public class SSActivityGetPar extends SSServPar{
+
+  public SSUri                  activity         = null;
+  
+  public SSActivityGetPar(final SSServPar par) throws Exception{
+    
+    super(par);
+    
+    try{
+      
+      if(pars != null){
+        
+        activity     = (SSUri)               pars.get(SSVarU.activity);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

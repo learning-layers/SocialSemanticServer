@@ -32,4 +32,5 @@ public interface SSActivityServerI{
   public void              activityContentsAdd    (final SSServPar parA) throws Exception;
   public List<SSActivity>  activitiesUserGet      (final SSServPar parA) throws Exception;
   public List<SSActivityE> activityTypesGet       (final SSServPar parA) throws Exception;
+  public SSActivity        activityGet            (final SSServPar parA) throws Exception;
 }

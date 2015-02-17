@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
-import at.kc.tugraz.ss.message.impl.fct.eval.SSMessageEvalFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -95,8 +94,6 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSMessageSendRet.get(messageSend(parA), parA.op));
-    
-    SSMessageEvalFct.messageSend(parA);
   }
   
   @Override

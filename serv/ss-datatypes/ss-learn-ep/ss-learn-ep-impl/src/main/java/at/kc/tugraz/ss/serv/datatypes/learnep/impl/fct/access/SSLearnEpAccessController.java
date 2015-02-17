@@ -142,7 +142,8 @@ public class SSLearnEpAccessController{
     final SSUri         learnEp) throws Exception{
     
     try{
-      if(!learnEpConf.useEpisodeLocking ||
+      if(
+        !learnEpConf.useEpisodeLocking ||
         !SSStrU.contains(SSServCaller.circleTypesGet(user, user, learnEp, true), SSCircleE.group)){
         return;
       }

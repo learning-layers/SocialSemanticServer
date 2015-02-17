@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -213,7 +214,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
       }
       
-      
       final         List<String> latestActivities = new ArrayList<>();
       SSUri         entity;
       SSUri         author;
@@ -338,6 +338,57 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public SSActivity getActivity(final SSUri activity) throws Exception{
+   
+    ResultSet resultSet = null;
+      
+    try{
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      final SSActivity                           activityObj;
+      final SSUri                                entity;
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      activityObj = 
+        SSActivity.get(
+          bindingStrToUri  (resultSet, SSSQLVarU.id), 
+          SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType)),
+          null);
+        
+      activityObj.author       = bindingStrToUri  (resultSet, SSSQLVarU.author);
+      activityObj.creationTime = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
+      
+      entity = bindingStrToUri  (resultSet, SSSQLVarU.entityId);
+      
+      if(entity != null){
+        
+        activityObj.entity =
+          SSEntity.get(
+            entity,
+            SSEntityE.entity);
+      }else{
+        activityObj.entity = null;
+      }
+      
+      activityObj.comments.addAll(
+        SSTextComment.asListWithoutNullAndEmpty(
+          SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment))));
+    
+      return activityObj;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

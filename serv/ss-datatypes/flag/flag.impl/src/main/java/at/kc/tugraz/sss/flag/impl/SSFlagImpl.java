@@ -43,7 +43,6 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
-import at.kc.tugraz.sss.flag.impl.fct.eval.SSFlagEvalFct;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
@@ -97,8 +96,6 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     SSServCaller.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op));
-    
-    SSFlagEvalFct.flagsSet(parA);
   }
 
   @Override

@@ -46,7 +46,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
@@ -76,37 +75,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.serv.eval.datatypes.SSEvalLogE;
 
 public class SSServCaller {
 
-  /* eval */
-  public static void evalLog(
-    final SSUri            user,
-    final SSToolContextE   toolContext,
-    final SSUri            forUser,
-    final SSEvalLogE       type,
-    final SSUri            entity,
-    final String           content,
-    final List<SSUri>      entities,
-    final List<SSUri>      users,
-    final Boolean          shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.toolContext,   toolContext);
-    opPars.put(SSVarU.forUser,       forUser);
-    opPars.put(SSVarU.type,          type);
-    opPars.put(SSVarU.entity,        entity);
-    opPars.put(SSVarU.content,       content);
-    opPars.put(SSVarU.entities,      entities);
-    opPars.put(SSVarU.users,         users);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.evalLog, opPars));
-  }
-  
   /* like */
   
   public static SSLikes likesUserGet(
@@ -2938,6 +2909,18 @@ public class SSServCaller {
   } 
 
   /* activity */
+  
+  public static SSActivity activityGet(
+    final SSUri                     user, 
+    final SSUri                     activity) throws Exception{
+   
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.activity,      activity);
+    
+    return (SSActivity) SSServA.callServViaServer(new SSServPar(SSMethU.activityGet, opPars));
+  }
   
   public static SSUri activityContentsAdd(
     final SSUri                     user, 

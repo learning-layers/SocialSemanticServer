@@ -23,10 +23,10 @@ package sss.serv.eval.impl;
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -96,21 +96,93 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         targetUsers.add(SSServCaller.entityGet(user));
       }
       
-      //adjusting log type
       switch(par.type){
-
-        case read:{
+        
+        case clickBit:{
           
-          if(par.entity != null){
+          if(targetEntity != null){
             
-            if(SSStrU.equals(targetEntity.type, SSEntityE.message)){
-              par.type = SSEvalLogE.readMessage;
+            switch(targetEntity.type){
+              
+              case activity:{
+                final SSActivity activity = SSServCaller.activityGet(par.user, par.entity);
+                
+                targetEntities.addAll (activity.users);
+                targetUsers.addAll    (activity.users);
+                break;
+              }
+              
+              case message:{
+                break;
+              }
             }
           }
+          
+          break;
+        }
+        
+        case clickTag:{
+          break;
+        }
+        case clickLabelRecommendation:{
+          break;
+        }
+        case clickTagRecommendation:{
+          break;
+        }
+        case clickJumpToDateButton:{
+          break;
+        }
+        case clickHelpButton:{
+          break;
+        }
+        case searchWithKeyword:{
+          break;
+        }
+        case sendMessage:{
+          break;
+        }
+        case readMessage:{
+          break;
+        }
+        case changeLabel:{
+          break;
+        }
+        case changeDescription:{
+          break;
+        }
+        case setImportance:{
+          break;
+        }
+        case addTag:{
+          break;
+        }
+        case copyLearnEpForUser:{
+          break;
+        }
+        case shareLearnEpWithUser:{
+          break;
+        }
+        case removeLearnEpVersionCircle:{
+          break;
+        }
+        case removeLearnEpVersionEntity:{
+          break;
+        }
+        case addEntityToLearnEpVersion:{
+          break;
+        }
+        case addCircleToLearnEpVersion:{
+          break;
+        }
+        case setFilter:{
+          break;
+        }
+        case removeFilter:{
           break;
         }
       }
-        
+      
       //time stamp
       logText += SSDateU.dateAsLong();
       logText += SSStrU.semiColon;
