@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.tag.impl.fct.eval;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
@@ -49,10 +50,10 @@ public class SSTagEvalFct{
           null,
           par.user,
           SSEvalLogE.addTag,
-          SSServCaller.entityGet(par.entity),
+          par.entity,
           SSStrU.toStr(par.label),
-          new ArrayList<>(),
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
           true);
       }
       

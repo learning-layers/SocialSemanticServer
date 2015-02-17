@@ -23,11 +23,11 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.eval;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.ArrayList;
 import sss.serv.eval.datatypes.SSEvalLogE;
 
 public class SSEntityEvalFct{
@@ -49,10 +49,10 @@ public class SSEntityEvalFct{
           null,
           par.user,
           SSEvalLogE.changeLabel,
-          SSServCaller.entityGet(par.entity),
+          par.entity,
           SSStrU.toStr(par.label),
-          new ArrayList<>(),
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
           true);
       }
       
@@ -63,10 +63,10 @@ public class SSEntityEvalFct{
           null,
           par.user,
           SSEvalLogE.changeDescription,
-          SSServCaller.entityGet(par.entity),
+          par.entity,
           SSStrU.toStr(par.description),
-          new ArrayList<>(),
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
           true);
       }
       
@@ -79,10 +79,10 @@ public class SSEntityEvalFct{
             null,
             par.user,
             SSEvalLogE.read,
-            SSServCaller.entityGet(par.entity),
+            par.entity,
             null,
-            new ArrayList<>(),
-            new ArrayList<>(),
+            SSUri.asListWithoutNullAndEmpty(),
+            SSUri.asListWithoutNullAndEmpty(),
             true);
         }
       }

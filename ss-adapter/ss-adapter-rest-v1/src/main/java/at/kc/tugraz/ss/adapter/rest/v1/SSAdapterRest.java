@@ -202,6 +202,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 @Path("")
 @Api( value = "SSAdapterRest")
@@ -1503,6 +1504,17 @@ public class SSAdapterRest{
     response = SSMessagesGetRet.class)
   public String messagesGet(final SSMessagesGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "evalLog")
+  @ApiOperation(
+    value = "log events for evaluation purposes",
+    response = SSMessagesGetRet.class)
+  public String evalLog(final SSEvalLogPar input){
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.evalLog);
   }
 }
 

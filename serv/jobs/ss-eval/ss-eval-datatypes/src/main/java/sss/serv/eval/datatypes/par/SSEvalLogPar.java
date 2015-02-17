@@ -22,23 +22,81 @@ package sss.serv.eval.datatypes.par;
 
 import sss.serv.eval.datatypes.SSEvalLogE;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.JsonNode;
 
+@XmlRootElement
+@ApiModel(value = "evalLog request parameter")
 public class SSEvalLogPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "context in tool where log was triggered")
   public SSToolContextE   toolContext  = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "user to be logged")
   public SSUri            forUser      = null;
+
+  @XmlElement
+  public void setForUser(final String user){
+    try{ this.user = SSUri.get(user); }catch(Exception error){}
+  }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "type of the log event")
   public SSEvalLogE       type         = null;
-  public SSEntity         entity       = null;
+
+  @ApiModelProperty(
+    required = false,
+    value = "entity to be logged")
+  public SSUri         entity       = null;
+  
+  @XmlElement
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "content to be logged")
   public String           content      = null;
-  public List<SSEntity>   entities     = new ArrayList<>();
-  public List<SSEntity>   users        = new ArrayList<>();
+  
+  @ApiModelProperty(
+    required = false,
+    value = "entities to be logged")
+  public List<SSUri>   entities     = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntities(final List<String> entities){
+    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "users to be logged")
+  public List<SSUri>   users        = new ArrayList<>();
+  
+  @XmlElement
+  public void setUsers(final List<String> users){
+    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  }
+  
+  public SSEvalLogPar(){}
   
   public SSEvalLogPar(SSServPar par) throws Exception{
       
@@ -50,14 +108,44 @@ public class SSEvalLogPar extends SSServPar{
         toolContext  = (SSToolContextE)  pars.get(SSVarU.toolContext);
         forUser      = (SSUri)           pars.get(SSVarU.forUser);
         type         = (SSEvalLogE)      pars.get(SSVarU.type);
-        entity       = (SSEntity)        pars.get(SSVarU.entity);
+        entity       = (SSUri)           pars.get(SSVarU.entity);
         content      = (String)          pars.get(SSVarU.content);
-        entities     = (List<SSEntity>)  pars.get(SSVarU.entities);
-        users        = (List<SSEntity>)  pars.get(SSVarU.users);
+        entities     = (List<SSUri>)     pars.get(SSVarU.entities);
+        users        = (List<SSUri>)     pars.get(SSVarU.users);
       }
       
       if(par.clientJSONObj != null){
-        //forUser   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
+        
+        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        
+        try{ 
+          toolContext   = SSToolContextE.valueOf(par.clientJSONObj.get(SSVarU.toolContext).getTextValue());
+        }catch(Exception error){}
+          
+        try{ 
+          content   = par.clientJSONObj.get(SSVarU.content).getTextValue();
+        }catch(Exception error){}
+        
+        try{ 
+          forUser   = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        }catch(Exception error){}
+        
+        try{
+          entity   = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+            entities.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+            users.add(SSUri.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
+        
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

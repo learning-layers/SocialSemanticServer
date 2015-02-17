@@ -86,10 +86,10 @@ public class SSServCaller {
     final SSToolContextE   toolContext,
     final SSUri            forUser,
     final SSEvalLogE       type,
-    final SSEntity         entity,
+    final SSUri            entity,
     final String           content,
-    final List<SSEntity>   entities,
-    final List<SSEntity>   users,
+    final List<SSUri>      entities,
+    final List<SSUri>      users,
     final Boolean          shouldCommit) throws Exception{
     
     final Map<String, Object>  opPars = new HashMap<>();

@@ -18,12 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package sss.serv.eval.api;
+package sss.serv.eval.datatypes.ret;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface SSEvalClientI {
+public class SSEvalLogRet extends SSServRetI{
+
+  public Boolean worked = null;
+
+  public static SSEvalLogRet get(Boolean worked, SSMethU op){
+    return new SSEvalLogRet(worked, op);
+  }
   
-  public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  private SSEvalLogRet(Boolean worked, SSMethU op){
+    
+    super(op);
+    
+    this.worked = worked;
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    
+    return ld;
+  }
 }

@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
@@ -36,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpda
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -66,19 +64,15 @@ public class SSLearnEpActivityAndEvalFct{
           return;
         }
         
-        final List<SSEntity> entities = new ArrayList<>();
-        
-        entities.add(SSServCaller.entityGet(learnEp));
-          
         SSServCaller.evalLog(
           par.user,
           SSToolContextE.organizeArea,
           par.user,
           SSEvalLogE.addCircleToLearnEpVersion,
-          SSServCaller.entityGet(circle),
+          circle,
           null,
-          entities,
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(learnEp),
+          SSUri.asListWithoutNullAndEmpty(),
           false);
         
       }catch(Exception error){
@@ -122,19 +116,15 @@ public class SSLearnEpActivityAndEvalFct{
           return;
         }
         
-        final List<SSEntity> entities = new ArrayList<>();
-        
-        entities.add(SSServCaller.entityGet(learnEp));
-        
         SSServCaller.evalLog(
           par.user,
           SSToolContextE.organizeArea,
           par.user,
           SSEvalLogE.addEntityToLearnEpVersion,
-          SSServCaller.entityGet(par.entity),
+          par.entity,
           null,
-          entities,
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(learnEp),
+          SSUri.asListWithoutNullAndEmpty(),
           false);
         
       }catch(Exception error){
@@ -178,19 +168,15 @@ public class SSLearnEpActivityAndEvalFct{
           return;
         }
         
-        final List<SSEntity> entities = new ArrayList<>();
-        
-        entities.add(SSServCaller.entityGet(learnEp));
-        
         SSServCaller.evalLog(
           par.user,
           SSToolContextE.organizeArea,
           par.user,
           SSEvalLogE.removeLearnEpVersionCircle,
-          SSServCaller.entityGet(par.learnEpCircle),
+          par.learnEpCircle,
           null,
-          entities,
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(learnEp),
+          SSUri.asListWithoutNullAndEmpty(),
           false);
         
       }catch(Exception error){
@@ -235,19 +221,15 @@ public class SSLearnEpActivityAndEvalFct{
           return;
         }
         
-        final List<SSEntity> entities = new ArrayList<>();
-        
-        entities.add(SSServCaller.entityGet(learnEp));
-        
         SSServCaller.evalLog(
           par.user,
           SSToolContextE.organizeArea,
           par.user,
           SSEvalLogE.removeLearnEpVersionEntity,
-          SSServCaller.entityGet(entity),
+          entity,
           null,
-          entities,
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(learnEp),
+          SSUri.asListWithoutNullAndEmpty(),
           false);
         
       }catch(Exception error){
@@ -279,21 +261,15 @@ public class SSLearnEpActivityAndEvalFct{
         return;
       }
       
-      final List<SSEntity> users = new ArrayList<>();
-      
-      for(SSUri targetUser : usersToShareWith){
-        users.add(SSServCaller.entityGet(targetUser));
-      }
-      
       SSServCaller.evalLog(
         user,
         SSToolContextE.episodeTab,
         user,
         SSEvalLogE.copyLearnEpForUser,
-        SSServCaller.entityGet(learnEp),
+        learnEp,
         null,
-        new ArrayList<>(),
-        users,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(usersToShareWith),
         false);
       
     }catch(Exception error){
@@ -326,21 +302,15 @@ public class SSLearnEpActivityAndEvalFct{
           return;
         }
         
-        final List<SSEntity> users = new ArrayList<>();
-        
-        for(SSUri targetUser : usersToShareWith){
-          users.add(SSServCaller.entityGet(targetUser));
-        }
-        
         SSServCaller.evalLog(
           user,
           SSToolContextE.episodeTab,
           user,
           SSEvalLogE.shareLearnEpWithUser,
-          SSServCaller.entityGet(learnEp),
+          learnEp,
           null,
-          new ArrayList<>(),
-          users,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(usersToShareWith),
           false);
         
       }catch(Exception error){
@@ -434,10 +404,10 @@ public class SSLearnEpActivityAndEvalFct{
               SSToolContextE.organizeArea,
               par.user,
               SSEvalLogE.changeLabel,
-              SSServCaller.entityGet(par.learnEpCircle),
+              par.learnEpCircle,
               SSStrU.toStr(par.label),
-              new ArrayList<>(),
-              new ArrayList<>(),
+              SSUri.asListWithoutNullAndEmpty(),
+              SSUri.asListWithoutNullAndEmpty(),
               false);
           }
           

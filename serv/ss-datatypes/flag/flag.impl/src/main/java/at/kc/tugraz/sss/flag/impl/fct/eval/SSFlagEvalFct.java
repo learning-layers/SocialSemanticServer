@@ -55,10 +55,10 @@ public class SSFlagEvalFct{
           null,
           par.user,
           SSEvalLogE.setImportance,
-          SSServCaller.entityGet(entity),
+          entity,
           SSStrU.toStr(par.value),
-          new ArrayList<>(),
-          new ArrayList<>(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
           true);
       }
       

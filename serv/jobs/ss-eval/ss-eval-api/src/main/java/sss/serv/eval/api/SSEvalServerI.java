@@ -23,5 +23,5 @@ package sss.serv.eval.api;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 
 public interface SSEvalServerI {
-  public void evalLog                       (final SSServPar parA) throws Exception;
+  public Boolean evalLog                       (final SSServPar parA) throws Exception;
 }

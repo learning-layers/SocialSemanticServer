@@ -23,13 +23,11 @@ package at.kc.tugraz.ss.message.impl.fct.eval;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import java.util.ArrayList;
-import java.util.List;
 import sss.serv.eval.datatypes.SSEvalLogE;
 
 public class SSMessageEvalFct{
@@ -43,13 +41,10 @@ public class SSMessageEvalFct{
       }
       
       final SSMessageSendPar par   = new SSMessageSendPar(parA);
-      final List<SSEntity>   users = new ArrayList<>();
       
       if(par.message == null){
         return;
       }
-      
-      users.add(SSServCaller.entityGet(par.forUser));
       
       SSServCaller.evalLog(
         par.user,
@@ -58,8 +53,8 @@ public class SSMessageEvalFct{
         SSEvalLogE.sendMessage,
         null,
         SSStrU.toStr(par.message),
-        new ArrayList<>(),
-        users,
+        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(par.forUser),
         true);
       
     }catch(Exception error){
