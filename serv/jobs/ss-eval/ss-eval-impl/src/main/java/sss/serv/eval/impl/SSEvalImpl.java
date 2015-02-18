@@ -236,14 +236,20 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       logText += SSStrU.semiColon;
       
       // tag type
-      if(
-        SSStrU.equals(par.type, SSEvalLogE.addTag) &&
-        par.content != null){
+      switch(par.type){
+        
+        case addTag:{
           
-        if(par.content.startsWith("#")){
-          logText += 2;
-        }else{
-          logText += 1;
+          if(par.content != null){
+
+            if(par.content.startsWith("#")){
+              logText += 2;
+            }else{
+              logText += 1;
+            }
+          }
+          
+          break;
         }
       }
       
