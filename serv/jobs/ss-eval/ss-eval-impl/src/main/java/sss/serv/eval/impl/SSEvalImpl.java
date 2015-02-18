@@ -247,7 +247,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           
           if(par.content != null){
 
-            if(par.content.startsWith("#")){
+            if(par.content.startsWith("*")){
               logText += 2;
             }else{
               logText += 1;
