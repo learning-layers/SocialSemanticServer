@@ -21,15 +21,24 @@
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplStartWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import java.util.HashMap;
 import java.util.TimerTask;
+import sss.serv.err.datatypes.SSErrE;
 
 public class SSDataImportEvernoteTask extends TimerTask {
+  
+  public SSDataImportEvernoteTask() throws Exception{
+  }
   
   @Override
   public void run(){
@@ -50,16 +59,16 @@ public class SSDataImportEvernoteTask extends TimerTask {
     }
   }
   
-  protected class SSDataImportEvernoteUpdater extends SSServImplStartA{
+  protected class SSDataImportEvernoteUpdater extends SSServImplStartWithDBA{
     
     private final String authToken;
     private final String email;
     
     public SSDataImportEvernoteUpdater(
-      final String authToken,
-      final String email) throws Exception{
+      final String   authToken,
+      final String   email) throws Exception{
       
-      super(null);
+      super(null, (SSDBSQLI) SSDBSQL.inst.serv());
       
       this.authToken = authToken;
       this.email     = email;
@@ -75,12 +84,36 @@ public class SSDataImportEvernoteTask extends TimerTask {
           authToken,
           email,
           true);
-            
+        
       }catch(Exception error){
         
-        SSLogU.warn("evernote import failed: " + authToken);
-        
-        SSServErrReg.logServImplErrors(true);
+        if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+          
+          SSServErrReg.reset();
+          
+          try{
+            if(dbSQL.rollBack(new SSServPar(SSMethU.dataImportEvernote, new HashMap<>()))){
+              
+              SSServCaller.dataImportEvernote(
+                SSVoc.systemUserUri,
+                authToken,
+                email,
+                true);
+            }else{
+              SSLogU.warn("evernote import failed: " + authToken);
+              
+              SSServErrReg.logServImplErrors(true);
+            }
+          }catch(Exception error1){
+            SSLogU.warn("evernote import failed: " + authToken);
+            
+            SSServErrReg.logServImplErrors(true);
+          }
+        }else{
+          SSLogU.warn("evernote import failed: " + authToken);
+          
+          SSServErrReg.logServImplErrors(true);
+        }
       }finally{
         
         try{
