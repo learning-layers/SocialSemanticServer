@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,18 +30,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
-public class SSCircleEntitiesAddRESTAPIV2Par{
+@ApiModel(value = "circleEntitiesRemove request parameter")
+public class SSCircleEntitiesRemoveRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
-    value = "entities to add")
+    value = "to remove from circle")
   public List<SSUri> entities = new ArrayList<>();
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); }catch(Exception error){}
   }
   
-  public SSCircleEntitiesAddRESTAPIV2Par(){}
+  public SSCircleEntitiesRemoveRESTAPIV2Par(){}
 }

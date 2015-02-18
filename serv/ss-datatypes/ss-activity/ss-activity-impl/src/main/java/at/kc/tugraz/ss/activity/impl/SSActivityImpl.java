@@ -207,7 +207,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           par.user,
           circle,
           false,
-          true).entities){
+          true, 
+          false).entities){
           
           entitiesToQuery.add(circleEntity.id);
         }

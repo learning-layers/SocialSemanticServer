@@ -660,7 +660,9 @@ implements
             SSServCaller.circleEntitiesGet(
               par.user,
               par.forUser,
-              par.withUserRestriction)));
+              true, //withSystemCircles
+              par.withUserRestriction, //withUserRestriction
+              false))); //invokeEntityHandlers
       }
       
       return SSTagMiscFct.getTagFrequsFromTags(

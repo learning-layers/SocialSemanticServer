@@ -4,9 +4,9 @@
   "apis" : [ {
     "path" : "/entities.{format}"
   }, {
-    "path" : "/search.{format}"
-  }, {
     "path" : "/auth.{format}"
+  }, {
+    "path" : "/search.{format}"
   } ],
   "info" : {
     "title" : "Social Semantic Server REST API",
@@ -16,5 +16,5 @@
     "license" : "Apache 2.0",
     "licenseUrl" : "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "basePath" : "http://test-ll.know-center.tugraz.at/ltb-v2/api-docs"
+  "basePath" : "http://localhost:8080/ss-adapter-rest-v2/api-docs"
 }

@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutCreateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSAppStackLayoutUpdateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleCreateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleEntitiesAddRESTAPIV2Par;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleEntitiesRemoveRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSCircleUsersAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSFriendAddRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.SSLikeSetRESTAPIV2Par;
@@ -50,12 +51,14 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -115,10 +118,9 @@ public class SSRESTEntities {
   @ApiOperation(
     value = "retrieve information on entities the user can access",
     response = SSCircleEntitiesGetRet.class)
-  @Path("/entities")
+  @Path("/circles/entities")
   public Response entitiesGet(
-    @Context
-      HttpHeaders headers){
+    @Context HttpHeaders headers){
     
     final SSCircleEntitiesGetPar par;
     
@@ -127,9 +129,41 @@ public class SSRESTEntities {
       par =
         new SSCircleEntitiesGetPar(
           SSMethU.circleEntitiesGet,
+          null,  //key
+          null,  //user
+          null,  //forUser
+          true,  //withSystemCircles
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/circles/users/{user}")
+  @ApiOperation(
+    value = "retrieve circles for a given user",
+    response = SSCirclesGetRet.class)
+  public Response circlesForUserGet(
+    @Context                   HttpHeaders headers,
+    @PathParam (SSVarU.user)   String      user){
+    
+    final SSCirclesGetPar par;
+    
+    try{
+      
+      par =
+        new SSCirclesGetPar(
+          SSMethU.circlesGet,
           null,
           null,
-          null, 
+          SSUri.get(user, SSVocConf.sssUri),
+          null,
           true);
       
     }catch(Exception error){
@@ -137,6 +171,134 @@ public class SSRESTEntities {
     }
     
     return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/circles/{circle}/users/{user}")
+  @ApiOperation(
+    value = "retrieve a circle for a given user",
+    response = SSCirclesGetRet.class)
+  public Response circleForUserGet(
+    @Context                    HttpHeaders  headers,
+    @PathParam (SSVarU.user)    String       user,
+    @PathParam (SSVarU.circle)  String       circle){
+    
+    final SSCircleGetPar par;
+    
+    try{
+      
+      par =
+        new SSCircleGetPar(
+          SSMethU.circleGet,
+          null,
+          null,
+          SSUri.get(user,   SSVocConf.sssUri),
+          SSUri.get(circle, SSVocConf.sssUri),
+          true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/circles/{circle}/users")
+  @ApiOperation(
+    value = "add given users to a circle",
+    response = SSCircleUsersAddRet.class)
+  public Response circleUsersAddPost(
+    @Context HttpHeaders                       headers,
+    @PathParam(SSVarU.circle) String           circle,
+    final SSCircleUsersAddRESTAPIV2Par input){
+    
+    final SSCircleUsersAddPar par;
+    
+    try{
+      par =
+        new SSCircleUsersAddPar(
+          SSMethU.circleUsersAdd,
+          null,
+          null,
+          SSUri.get(circle, SSVocConf.sssUri),
+          input.users, 
+          true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/circles/{circle}/entities")
+  @ApiOperation(
+    value = "add given entities to a circle",
+    response = SSCircleEntitiesAddRet.class)
+  public Response circleEntitiesAddPost(
+    @Context HttpHeaders                          headers,
+    @PathParam(SSVarU.circle) String              circle,
+    final SSCircleEntitiesAddRESTAPIV2Par input){
+    
+    final SSCircleEntitiesAddPar par;
+    
+    try{
+      
+      par =
+        new SSCircleEntitiesAddPar(
+          SSMethU.circleEntitiesAdd,
+          null,
+          null,
+          SSUri.get(circle, SSVocConf.sssUri),
+          input.entities, 
+          true,
+          true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/circles/{circle}/entities")
+  @ApiOperation(
+    value = "remove given entities from circle",
+    response = SSCircleEntitiesRemoveRet.class)
+  public Response circleEntitiesDelete(
+    @Context HttpHeaders                          headers,
+    @PathParam(SSVarU.circle) String              circle,
+    final SSCircleEntitiesRemoveRESTAPIV2Par input){
+    
+    final SSCircleEntitiesRemovePar par;
+    
+    try{
+      
+      par =
+        new SSCircleEntitiesRemovePar(
+          SSMethU.circleEntitiesRemove,
+          null,
+          null,
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          input.entities, //entities
+          true); //withUserRestriction
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleDELETERequest(headers, par);
   }
   
   @GET
@@ -160,7 +322,6 @@ public class SSRESTEntities {
           null,
           null,
           null,
-          false,
           true);
       
     }catch(Exception error){
@@ -175,7 +336,7 @@ public class SSRESTEntities {
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/circles")
   @ApiOperation(
-    value = "create a circle and add users and entities to",
+    value = "create a circle and add users / entities",
     response = SSCircleCreateRet.class)
   public Response circleAddPost(
     @Context HttpHeaders              headers,
@@ -482,138 +643,6 @@ public class SSRESTEntities {
           input.y, 
           input.label, 
           input.description);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{user}/circles")
-  @ApiOperation(
-    value = "retrieve circles for a given user",
-    response = SSCirclesGetRet.class)
-  public Response circlesForUserGet(
-    @Context HttpHeaders headers,
-    @PathParam (SSVarU.user)
-      String user){
-    
-    final SSCirclesGetPar par;
-    
-    try{
-      
-      par =
-        new SSCirclesGetPar(
-          SSMethU.circlesGet,
-          null,
-          null,
-          SSUri.get(user, SSVocConf.sssUri),
-          null,
-          false,
-          true);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{user}/circles/{circle}")
-  @ApiOperation(
-    value = "retrieve a circle for a given user",
-    response = SSCirclesGetRet.class)
-  public Response circleForUserGet(
-    @Context HttpHeaders headers,
-    @PathParam (SSVarU.user)
-      String user,
-     @PathParam (SSVarU.circle)
-      String circle){
-    
-    final SSCircleGetPar par;
-    
-    try{
-      
-      par =
-        new SSCircleGetPar(
-          SSMethU.circleGet,
-          null,
-          null,
-          SSUri.get(user,   SSVocConf.sssUri),
-          SSUri.get(circle, SSVocConf.sssUri),
-          false,
-          true);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleGETRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/circles/users")
-  @ApiOperation(
-    value = "add given users to a user-generated circle",
-    response = SSCircleUsersAddRet.class)
-  public Response circleUsersAddPost(
-    @Context HttpHeaders                       headers,
-    @PathParam(SSVarU.circle) String           circle,
-    final SSCircleUsersAddRESTAPIV2Par input){
-    
-    final SSCircleUsersAddPar par;
-    
-    try{
-      par =
-        new SSCircleUsersAddPar(
-          SSMethU.circleUsersAdd,
-          null,
-          null,
-          SSUri.get(circle, SSVocConf.sssUri),
-          input.users, 
-          true);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handlePOSTRequest(headers, par);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/circles/entities")
-  @ApiOperation(
-    value = "add given entities to a user-generated circle",
-    response = SSCircleEntitiesAddRet.class)
-  public Response circleEntitiesAddPost(
-    @Context HttpHeaders                          headers,
-    @PathParam(SSVarU.circle) String              circle,
-    final SSCircleEntitiesAddRESTAPIV2Par input){
-    
-    final SSCircleEntitiesAddPar par;
-    
-    try{
-      
-      par =
-        new SSCircleEntitiesAddPar(
-          SSMethU.circleEntitiesAdd,
-          null,
-          null,
-          SSUri.get(circle, SSVocConf.sssUri),
-          input.entities, 
-          true,
-          true);
       
     }catch(Exception error){
       return Response.status(422).build();

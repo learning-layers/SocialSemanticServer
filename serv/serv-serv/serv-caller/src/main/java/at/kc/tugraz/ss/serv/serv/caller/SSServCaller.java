@@ -1738,6 +1738,24 @@ public class SSServCaller {
   
   /* circle */
   
+  public static List<SSUri> circleEntitiesRemove(
+    final SSUri                    user,
+    final SSUri                    circle, 
+    final List<SSUri>              entities,
+    final Boolean                  withUserRestriction,
+    final Boolean                  shouldCommit) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,                user);
+    opPars.put(SSVarU.circle,              circle);
+    opPars.put(SSVarU.entities,            entities);
+    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    
+    return (List<SSUri>) SSServA.callServViaServer(new SSServPar(SSMethU.circleEntitiesRemove, opPars));
+  }
+  
   public static SSEntity circleUserCan(
     final SSUri                    user,
     final SSUri                    entity, 
@@ -1837,15 +1855,17 @@ public class SSServCaller {
     final SSUri   forUser,
     final SSUri   circle,
     final Boolean withSystemCircles,
-    final Boolean withUserRestriction) throws Exception{
+    final Boolean withUserRestriction,
+    final Boolean invokeEntityHandlers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.circle,              circle);
-    opPars.put(SSVarU.withSystemCircles,   withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.user,                 user);
+    opPars.put(SSVarU.forUser,              forUser);
+    opPars.put(SSVarU.circle,               circle);
+    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
+    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     
     return (SSEntityCircle) SSServA.callServViaServer(new SSServPar(SSMethU.circleGet, opPars));
   }
@@ -1855,14 +1875,16 @@ public class SSServCaller {
     final SSUri   forUser,
     final SSUri   entity,
     final Boolean withSystemCircles,
-    final Boolean withUserRestriction) throws Exception{
+    final Boolean withUserRestriction,
+    final Boolean invokeEntityHandlers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.entity,              entity);
-    opPars.put(SSVarU.withSystemCircles,   withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.user,                 user);
+    opPars.put(SSVarU.entity,               entity);
+    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
+    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.circlesGet, opPars));
   }
@@ -2024,13 +2046,18 @@ public class SSServCaller {
   public static List<SSEntity> circleEntitiesGet(
     final SSUri   user, 
     final SSUri   forUser,
-    final Boolean withUserRestriction) throws Exception{
+    final Boolean withSystemCircles,
+    final Boolean withUserRestriction,
+    final Boolean invokeEntityHandlers) throws Exception{
     
+        
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarU.user,                 user);
+    opPars.put(SSVarU.forUser,              forUser);
+    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
+    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     
     return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.circleEntitiesGet, opPars));
   }

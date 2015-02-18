@@ -107,7 +107,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       for(SSColl coll : allColls){
         
         collUserCircles =
-          SSServCaller.circlesGet(userUri, userUri, coll.id, true, false);
+          SSServCaller.circlesGet(userUri, userUri, coll.id, true, false, false);
         
         for(SSEntityCircle circle : collUserCircles){
           
@@ -123,7 +123,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           collEntry = (SSCollEntry) entry;
           
           collEntryUserCircles =
-            SSServCaller.circlesGet(userUri, userUri, collEntry.id, true, false);
+            SSServCaller.circlesGet(userUri, userUri, collEntry.id, true, false, false);
           
           for(SSEntityCircle circle : collEntryUserCircles){
             

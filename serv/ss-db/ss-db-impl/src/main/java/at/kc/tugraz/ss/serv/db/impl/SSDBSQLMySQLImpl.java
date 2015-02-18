@@ -597,14 +597,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void delete(
     final String              table,
-    final Map<String, String> deletes) throws Exception{
+    final Map<String, String> wheres) throws Exception{
     
     PreparedStatement stmt    = null;
     
     try{
       String                              query    = "DELETE FROM " + table + " WHERE ";
       int                                 counter  = 1;
-      Iterator<Map.Entry<String, String>> iterator = deletes.entrySet().iterator();
+      Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
       
       while(iterator.hasNext()){
         query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
@@ -612,7 +612,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       query          = SSStrU.removeTrailingString(query, " AND ");
       stmt           = connector.prepareStatement(query);
-      iterator       = deletes.entrySet().iterator();
+      iterator       = wheres.entrySet().iterator();
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());

@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleCreateRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCirclesGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesAddRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesRemoveRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleUsersAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendAddRESTAPIV1Par;
@@ -88,6 +89,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
@@ -102,6 +104,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSCircleEntityPublicSetRet;
@@ -439,6 +442,28 @@ public class SSAdapterRest{
     return result;
   }
   
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "circleEntitiesRemove")
+  @ApiOperation(
+    value = "retrieve circles the user is in",
+    response = SSCircleEntitiesRemoveRet.class)
+  public String circleEntitiesRemove(
+    final SSCircleEntitiesRemoveRESTAPIV1Par input) throws Exception{
+    
+     final SSCircleEntitiesRemovePar par = 
+      new SSCircleEntitiesRemovePar(
+        SSMethU.circleEntitiesRemove, 
+        input.key, 
+        input.user,
+        input.circle,
+        input.entities,
+        true);
+    
+    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
+  }
+  
   @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -457,7 +482,6 @@ public class SSAdapterRest{
         input.user,
         input.forUser, 
         null,
-        false,
         true);
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
@@ -481,7 +505,6 @@ public class SSAdapterRest{
         input.user, 
         input.forUser, 
         input.circle,
-        false,
         true);
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);

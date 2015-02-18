@@ -87,7 +87,7 @@ public interface SSDBSQLI{
   
   public void delete(
     final String              table, 
-    final Map<String, String> deletes) throws Exception;
+    final Map<String, String> wheres) throws Exception;
   
   public void deleteIgnore(
     final String              table, 

@@ -27,6 +27,7 @@ public class SSCircleGetPar extends SSServPar{
   public SSUri   forUser                    = null;
   public SSUri   circle                     = null;
   public Boolean withSystemCircles          = false;
+  public Boolean invokeEntityHandlers       = false;
   
   public SSCircleGetPar(){}
   
@@ -36,15 +37,13 @@ public class SSCircleGetPar extends SSServPar{
     final SSUri    user,
     final SSUri    forUser,
     final SSUri    circle,
-    final Boolean  withSystemCircles,
-    final Boolean  withUserRestriction) throws Exception{
+    final Boolean  invokeEntityHandlers) throws Exception{
     
     super(op, key, user);
     
     this.forUser               = forUser;
     this.circle                = circle;
-    this.withSystemCircles     = withSystemCircles;
-    this.withUserRestriction   = withUserRestriction;
+    this.invokeEntityHandlers  = invokeEntityHandlers;
   }
   
   public SSCircleGetPar(final SSServPar par) throws Exception{
@@ -56,13 +55,20 @@ public class SSCircleGetPar extends SSServPar{
       if(pars != null){
         forUser              = (SSUri)   pars.get(SSVarU.forUser);
         circle               = (SSUri)   pars.get(SSVarU.circle);
+        withUserRestriction  = (Boolean) pars.get(SSVarU.withUserRestriction);
         withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
+        invokeEntityHandlers = (Boolean) pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
         
-        circle            = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
-        withSystemCircles = false;
+        withUserRestriction = true;
+        withSystemCircles   = false;
+        circle              = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        
+        try{
+          invokeEntityHandlers      = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
+        }catch(Exception error){}
       }
       
     }catch(Exception error){

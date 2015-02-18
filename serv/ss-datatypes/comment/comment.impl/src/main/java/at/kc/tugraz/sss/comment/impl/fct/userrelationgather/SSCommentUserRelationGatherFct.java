@@ -62,7 +62,7 @@ public class SSCommentUserRelationGatherFct{
     
     for(SSUri entity : SSServCaller.commentEntitiesCommentedGet(userUri, userUri)){
       
-      for(SSEntityCircle entityCircle : SSServCaller.circlesGet(userUri, userUri, entity, true, false)){
+      for(SSEntityCircle entityCircle : SSServCaller.circlesGet(userUri, userUri, entity, true, false, false)){
         
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(SSUri.getFromEntitites(entityCircle.users));

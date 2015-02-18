@@ -54,8 +54,10 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
@@ -66,6 +68,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
+import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, SSCircleServerI{
@@ -76,6 +79,62 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     super(conf, null, dbSQL);
     
     this.sqlFct = new SSCircleSQLFct(dbSQL);
+  }
+  
+  @Override
+  public void circleEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
+    
+    if(userFromOIDC != null){
+      parA.user = userFromOIDC;
+    }
+    
+    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op));
+  }
+  
+  @Override
+  public List<SSUri> circleEntitiesRemove(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSCircleEntitiesRemovePar par        = new SSCircleEntitiesRemovePar(parA);
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserEditEntity(par.user, par.circle);
+        
+        if(sqlFct.isSystemCircle(par.circle)){
+          throw new SSErr(SSErrE.userNotAllowedToAccessCircle);
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri entity : par.entities){
+        sqlFct.removeEntity(par.circle, entity);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entities;
+   }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        SSServErrReg.reset();
+        
+        if(dbSQL.rollBack(parA)){
+          return circleEntitiesRemove(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -366,7 +425,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   public SSEntityCircle circleGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSCircleGetPar  par = new SSCircleGetPar(parA);
+      final SSCircleGetPar  par      = new SSCircleGetPar(parA);
+      final List<SSEntity>  entities = new ArrayList<>();
+      final List<SSEntity>  users    = new ArrayList<>();
+      final SSEntityCircle  circle;
       
       if(par.withUserRestriction){
         
@@ -384,7 +446,48 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         SSServCallerU.canUserReadEntity(par.forUser, par.circle);
       }
       
-      return sqlFct.getCircle(par.circle, true, true, true);
+      circle = sqlFct.getCircle(par.circle, true, true, true);
+      
+      if(par.invokeEntityHandlers){
+        
+        for(SSEntity entity : circle.entities){
+          
+          entities.add(
+            SSServCaller.entityDescGet(
+              par.user, 
+              entity.id, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false));
+        }
+        
+        circle.entities.clear();
+        circle.entities.addAll(entities);
+        
+        for(SSEntity user : circle.users){
+          
+          users.add(
+            SSServCaller.entityDescGet(
+              par.user, 
+              user.id, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false, 
+              false));
+        }
+        
+        circle.users.clear();
+        circle.users.addAll(users);
+      }
+      
+      return circle;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -475,7 +578,8 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
               null,
               circleUri,
               par.withSystemCircles,
-              true));
+              true,
+              par.invokeEntityHandlers));
         }
       }else{
         
@@ -487,7 +591,8 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
               null,
               circleUri,
               par.withSystemCircles,
-              false));
+              false,
+              par.invokeEntityHandlers));
         }
       }
 
@@ -526,7 +631,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, par.forUser, null, true, false)){
+      for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, par.forUser, null, true, false, par.invokeEntityHandlers)){
 
         for(SSEntity entity : circle.entities){
           

@@ -61,7 +61,7 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : SSServCaller.circlesGet(userUri, userUri, null, true, false)){
+    for(SSEntityCircle circle : SSServCaller.circlesGet(userUri, userUri, null, true, false, false)){
       
       if(userRelations.containsKey(userStr)){
         userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));

@@ -114,6 +114,7 @@ public enum SSMethU{
   entityEntityToPrivCircleAdd,
   entityEntityToPubCircleAdd,
   circleEntityPublicSet,
+  circleEntitiesRemove,
   
   //entity
   entitiesForLabelsAndDescriptionsGet,

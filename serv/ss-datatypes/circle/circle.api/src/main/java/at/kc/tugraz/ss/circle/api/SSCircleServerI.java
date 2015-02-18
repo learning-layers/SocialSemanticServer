@@ -43,6 +43,7 @@ public interface SSCircleServerI{
   public SSEntity                        circleUserCan                            (final SSServPar parA) throws Exception;
   public SSUri                           circleEntityShare                        (final SSServPar parA) throws Exception;
   public SSUri                           circleEntityPublicSet                    (final SSServPar parA) throws Exception;
+  public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;
 
   public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
   public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;

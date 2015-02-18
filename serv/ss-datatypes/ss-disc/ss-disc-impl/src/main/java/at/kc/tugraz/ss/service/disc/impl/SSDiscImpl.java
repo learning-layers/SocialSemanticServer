@@ -103,7 +103,7 @@ implements
             userUri, 
             disc.id, 
             true, 
-            false);
+            false, false);
         
         for(SSEntityCircle circle : discUserCircles){
           

@@ -376,7 +376,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       final List<String>          columns   = new ArrayList<>();
       final Map<String, String>   wheres    = new HashMap<>();
       
-      column(columns, SSSQLVarU.circleId);
+      column(columns, SSSQLVarU.isSystemCircle);
       
       where (wheres,    SSSQLVarU.circleId, circleUri);
       
@@ -674,6 +674,23 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void removeEntity(
+    final SSUri circle,
+    final SSUri entity) throws Exception{
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarU.circleId, circle);
+      where(wheres, SSSQLVarU.entityId, entity);
+      
+      dbSQL.delete(circleEntitiesTable, wheres);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }
