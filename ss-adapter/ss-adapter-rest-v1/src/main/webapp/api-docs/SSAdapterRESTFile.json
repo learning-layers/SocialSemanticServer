@@ -4,24 +4,6 @@
   "basePath" : "http://localhost:8080/ss-adapter-rest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileUserFileWrites",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
-      "notes" : "",
-      "type" : "SSFileGetEditingFilesRet",
-      "nickname" : "fileUserFileWrites",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileUserFileWritesPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileSetReaderOrWriter",
     "operations" : [ {
       "method" : "POST",
@@ -35,6 +17,24 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileSetReaderOrWriterPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileUserFileWrites",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve files user currently could replace when uploading respective file again as he is writer",
+      "notes" : "",
+      "type" : "SSFileGetEditingFilesRet",
+      "nickname" : "fileUserFileWrites",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileUserFileWritesPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -115,13 +115,13 @@
       "id" : "SSFileGetEditingFilesRet",
       "required" : [ "op" ],
       "properties" : {
-        "files" : {
+        "labels" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
-        "labels" : {
+        "files" : {
           "type" : "array",
           "items" : {
             "type" : "string"

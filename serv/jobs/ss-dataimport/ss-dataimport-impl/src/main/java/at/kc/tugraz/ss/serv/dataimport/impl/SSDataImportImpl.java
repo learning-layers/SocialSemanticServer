@@ -58,12 +58,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
+  private static final ReentrantReadWriteLock  currentlyRunEvernoteImportsLock  = new ReentrantReadWriteLock();
+  private static final List<String>            currentlyRunEvernoteImports      = new ArrayList<>();
+    
   private final SSDataImportSQLFct          sqlFct;
   private final SSDataImportEvernoteHandler dataImpEvernoteHelper;
+  
   
   public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
     super(conf, dbGraph, dbSQL);
@@ -111,6 +116,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
      
+      currentlyRunEvernoteImportsLock.writeLock().lock();
+      
+      if(currentlyRunEvernoteImports.contains(par.authToken)){
+        SSLogU.warn("import currently runs for " + par.authToken);
+        return false;
+      }else{
+        currentlyRunEvernoteImports.add(par.authToken);
+        
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
+      
       SSLogU.info("start data import for evernote account " + par.authToken);                
       
       dbSQL.startTrans(par.shouldCommit);
@@ -131,6 +147,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       SSLogU.info("end data import for evernote account " + par.authToken);
       
+      currentlyRunEvernoteImportsLock.writeLock().lock();
+      currentlyRunEvernoteImports.remove(par.authToken);
+      
       return true;
     }catch(Exception error){
       
@@ -149,6 +168,11 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      
+      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
     }
   }
   
