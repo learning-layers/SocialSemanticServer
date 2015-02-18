@@ -153,6 +153,10 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       return true;
     }catch(Exception error){
       
+      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
+      
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
         SSServErrReg.reset();

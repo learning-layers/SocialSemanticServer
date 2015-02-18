@@ -76,6 +76,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       final List<SSEntity>   targetUsers      = new ArrayList<>();
       String                 logText          = new String();
       SSEntity               targetEntity     = null;
+      SSActivity             activity         = null;
       
       if(
         evalConf.tools.isEmpty()              ||
@@ -105,7 +106,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
             switch(targetEntity.type){
               
               case activity:{
-                final SSActivity activity = SSServCaller.activityGet(par.user, par.entity);
+                activity = SSServCaller.activityGet(par.user, par.entity);
                 
                 targetEntities.addAll (activity.users);
                 targetUsers.addAll    (activity.users);
@@ -231,6 +232,10 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       // content
       if(par.content != null){
         logText += par.content;
+      }else{
+        if(activity != null){
+          logText += activity.activityType;
+        }
       }
       
       logText += SSStrU.semiColon;

@@ -34,6 +34,7 @@ public enum SSEvalLogE{
   changeDescription,
   setImportance,
   addTag,
+  removeTag, 
   copyLearnEpForUser,
   shareLearnEpWithUser,
   removeLearnEpVersionCircle,
@@ -41,5 +42,6 @@ public enum SSEvalLogE{
   addEntityToLearnEpVersion,
   addCircleToLearnEpVersion,
   setFilter,
-  removeFilter;
+  removeFilter,
+  executeJumpToDateButton;
 }
