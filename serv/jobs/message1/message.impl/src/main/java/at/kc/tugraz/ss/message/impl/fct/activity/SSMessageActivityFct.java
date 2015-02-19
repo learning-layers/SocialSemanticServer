@@ -41,7 +41,7 @@ public class SSMessageActivityFct{
         par.user,
         SSActivityE.messageSend,
         message,
-        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListWithoutNullAndEmpty(par.forUser),
         SSUri.asListWithoutNullAndEmpty(),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
