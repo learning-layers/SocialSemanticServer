@@ -4,6 +4,25 @@
   "basePath" : "http://localhost:8080/ss-adapter-rest",
   "resourcePath" : "/SSAdapterRESTFileDownload",
   "apis" : [ {
+    "path" : "/fileDownload",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "download a file via POST request",
+      "notes" : "",
+      "type" : "string",
+      "format" : "byte",
+      "nickname" : "fileDownload",
+      "produces" : [ "application/octet-stream" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileDownloadPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/fileDownloadGET",
     "operations" : [ {
       "method" : "GET",
@@ -34,31 +53,12 @@
         "allowMultiple" : false
       } ]
     } ]
-  }, {
-    "path" : "/fileDownload",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "download a file via POST request",
-      "notes" : "",
-      "type" : "string",
-      "format" : "byte",
-      "nickname" : "fileDownload",
-      "produces" : [ "application/octet-stream" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileDownloadPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
   } ],
   "models" : {
     "SSFileDownloadPar" : {
       "id" : "SSFileDownloadPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -68,13 +68,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     }

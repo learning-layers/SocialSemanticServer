@@ -475,7 +475,8 @@ public class SSFileU{
     final String  pdfFilePath, 
     final String  pngFilePath, 
     final Integer width, 
-    final Integer height) throws Exception{
+    final Integer height, 
+    final Boolean scale) throws Exception{
     
     PdfDecoder    pdfToImgDecoder = null;
     BufferedImage buffImage;
@@ -505,7 +506,9 @@ public class SSFileU{
       buffImage = (BufferedImage) pngImage;
       
       //scale the thumb
-      scalePNGAndWrite(buffImage, pngFilePath, width, height);
+      if(scale){
+        scalePNGAndWrite(buffImage, pngFilePath, width, height);
+      }
       
     }finally{
       
@@ -525,7 +528,7 @@ public class SSFileU{
     final Graphics2D    graphics2D  = scaledThumb.createGraphics();
     
     graphics2D.setComposite(AlphaComposite.Src);
-    graphics2D.drawImage(buffImage, 0, 0, 350, 350, null);
+    graphics2D.drawImage(buffImage, 0, 0, width, height, null);
     graphics2D.dispose();
     
     ImageIO.write(scaledThumb, SSFileExtE.png.toString(), new File(pngFilePath));

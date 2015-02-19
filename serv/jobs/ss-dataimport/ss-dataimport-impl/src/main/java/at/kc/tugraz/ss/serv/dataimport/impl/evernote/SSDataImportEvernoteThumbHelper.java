@@ -64,7 +64,7 @@ public class SSDataImportEvernoteThumbHelper{
         }
         
         if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500);
+          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
           thumbCreated = true;
         }
         
@@ -73,7 +73,7 @@ public class SSDataImportEvernoteThumbHelper{
           final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500);
+          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
           thumbCreated = true;
         }
         
