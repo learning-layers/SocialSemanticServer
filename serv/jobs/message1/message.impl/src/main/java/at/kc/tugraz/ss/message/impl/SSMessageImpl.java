@@ -117,7 +117,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       sqlFct.sendMessage(
         messageUri, 
         par.user, 
-        par.forUser, 
+        par.forUser,
         par.message);
       
       SSServCaller.circleEntityShare(

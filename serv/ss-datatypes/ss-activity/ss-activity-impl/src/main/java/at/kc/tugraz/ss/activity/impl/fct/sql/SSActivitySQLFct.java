@@ -351,12 +351,26 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final Map<String, String>                  wheres         = new HashMap<>();
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       final SSActivity                           activityObj;
       final SSUri                                entity;
+
+      column(columns, entityTable,   SSSQLVarU.id);
+      column(columns, entityTable,   SSSQLVarU.author);
+      column(columns, entityTable,   SSSQLVarU.creationTime);
+      column(columns, activityTable, SSSQLVarU.activityType);
+      column(columns, activityTable, SSSQLVarU.entityId);
+      column(columns, activityTable, SSSQLVarU.textComment);
+      
+      table(tables, activityTable);
+      table(tables, entityTable);
+      
+      where(wheres, SSSQLVarU.activityId, activity);
+      
+      tableCon(tableCons, activityTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       

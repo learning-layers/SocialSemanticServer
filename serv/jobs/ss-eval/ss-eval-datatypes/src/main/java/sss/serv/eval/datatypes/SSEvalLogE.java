@@ -21,27 +21,28 @@
 package sss.serv.eval.datatypes;
 
 public enum SSEvalLogE{
-  clickBit,
-  clickTag,
-  clickLabelRecommendation,
+  clickBit, //works
+  clickTag, //works
+  clickLabelRecommendation, //works
   clickTagRecommendation,
-  clickJumpToDateButton,
-  clickHelpButton,
-  searchWithKeyword,
-  sendMessage,
-  readMessage,
-  changeLabel,
-  changeDescription,
-  setImportance,
-  addTag,
-  removeTag, 
-  copyLearnEpForUser,
-  shareLearnEpWithUser,
-  removeLearnEpVersionCircle,
-  removeLearnEpVersionEntity,
-  addEntityToLearnEpVersion,
-  addCircleToLearnEpVersion,
-  setFilter,
-  removeFilter,
-  executeJumpToDateButton;
+  clickJumpToDateButton, //works
+  clickAffectButton,
+  clickHelpButton, //works
+  searchWithKeyword, //works
+  sendMessage, //works
+  readMessage,//works
+  changeLabel, //works
+  changeDescription, //works
+  setImportance, //works
+  addTag ,//works
+  removeTag,  //works
+  copyLearnEpForUser, //works
+  shareLearnEpWithUser, //works
+  removeLearnEpVersionCircle, //works
+  removeLearnEpVersionEntity, //works
+  addEntityToLearnEpVersion, //works
+  addCircleToLearnEpVersion, //works
+  setFilter, //works
+  removeFilter, //works
+  executeJumpToDateButton; //works
 }

@@ -35,6 +35,8 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
@@ -74,15 +76,24 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       final SSEvalLogPar     par              = new SSEvalLogPar(parA);
       final List<SSEntity>   targetEntities   = new ArrayList<>();
       final List<SSEntity>   targetUsers      = new ArrayList<>();
+      final List<SSUE>       uEs;
       String                 logText          = new String();
       SSEntity               targetEntity     = null;
+      SSEntity               originUser       = null;
       SSActivity             activity         = null;
+      
       
       if(
         evalConf.tools.isEmpty()              ||
         !evalConf.tools.contains(SSToolE.bnp) ||
         par.type == null){
         return false;
+      }
+      
+      if(par.forUser != null){
+        originUser = SSServCaller.entityGet(par.forUser);
+      }else{
+        originUser = SSServCaller.entityGet(par.user);
       }
       
       if(par.entity != null){
@@ -101,89 +112,25 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         
         case clickBit:{
           
-          if(targetEntity != null){
-            
-            switch(targetEntity.type){
-              
-              case activity:{
-                activity = SSServCaller.activityGet(par.user, par.entity);
-                
-                targetEntities.addAll (activity.users);
-                targetUsers.addAll    (activity.users);
-                break;
-              }
-              
-              case message:{
-                break;
-              }
-            }
+          if(targetEntity == null){
+            break;
           }
           
-          break;
-        }
-        
-        case clickTag:{
-          break;
-        }
-        case clickLabelRecommendation:{
-          break;
-        }
-        case clickTagRecommendation:{
-          break;
-        }
-        case clickJumpToDateButton:{
-          break;
-        }
-        case clickHelpButton:{
-          break;
-        }
-        case searchWithKeyword:{
-          break;
-        }
-        case sendMessage:{
-          break;
-        }
-        case readMessage:{
-          break;
-        }
-        case changeLabel:{
-          break;
-        }
-        case changeDescription:{
-          break;
-        }
-        case setImportance:{
-          break;
-        }
-        case addTag:{
-          break;
-        }
-        case copyLearnEpForUser:{
-          break;
-        }
-        case shareLearnEpWithUser:{
-          break;
-        }
-        case removeLearnEpVersionCircle:{
-          break;
-        }
-        case removeLearnEpVersionEntity:{
-          break;
-        }
-        case addEntityToLearnEpVersion:{
-          break;
-        }
-        case addCircleToLearnEpVersion:{
-          break;
-        }
-        case setFilter:{
-          break;
-        }
-        case removeFilter:{
+          switch(targetEntity.type){
+            
+            case activity:{
+              activity = SSServCaller.activityGet(par.user, par.entity);
+              
+              targetEntities.addAll (activity.entities);
+              targetUsers.addAll    (activity.users);
+              break;
+            }
+          }          
           break;
         }
       }
       
+      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels
       //time stamp
       logText += SSDateU.dateAsLong();
       logText += SSStrU.semiColon;
@@ -198,8 +145,8 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       logText += SSStrU.semiColon;
       
       //user
-      if(par.forUser != null){
-        logText += par.forUser;
+      if(originUser != null){
+        logText += originUser.label;
       }
       
       logText += SSStrU.semiColon;
@@ -271,14 +218,6 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       // entities' labels
       for(SSEntity entity : targetEntities){
         logText += entity.label;
-        logText += SSStrU.semiColon;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // users' ids
-      for(SSEntity user : targetUsers){
-        logText += user.id;
         logText += SSStrU.semiColon;
       }
       

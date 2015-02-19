@@ -20,6 +20,7 @@
 */
 package sss.serv.eval.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -37,7 +38,7 @@ import org.codehaus.jackson.JsonNode;
 @XmlRootElement
 @ApiModel(value = "evalLog request parameter")
 public class SSEvalLogPar extends SSServPar{
-  
+
   @XmlElement
   @ApiModelProperty(
     required = false,
@@ -116,7 +117,7 @@ public class SSEvalLogPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarU.type).getTextValue());
         
         try{ 
           toolContext   = SSToolContextE.valueOf(par.clientJSONObj.get(SSVarU.toolContext).getTextValue());
@@ -150,5 +151,30 @@ public class SSEvalLogPar extends SSServPar{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  /* json getters */
+  public String getToolContext(){
+    return SSStrU.toStr(toolContext);
+  }
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+  
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
   }
 }
