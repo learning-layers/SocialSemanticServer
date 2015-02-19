@@ -274,6 +274,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           sqlFct.getActivityUsers(activity.id),
           false));
       
+      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+      
       for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
         
         try{
@@ -383,7 +385,6 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       final SSActivityContentAddPar par = new SSActivityContentAddPar(parA);
       
       sqlFct.addActivityContent(
-        par.user,
         par.activity,
         par.contentType,
         par.content);
@@ -479,6 +480,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         SSServCaller.usersGet(
           sqlFct.getActivityUsers(activity.id),
           false));
+      
+      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
         

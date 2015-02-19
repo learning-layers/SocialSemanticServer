@@ -130,7 +130,8 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       
       SSMessageActivityFct.messageSend(
         par, 
-        messageUri);
+        messageUri, 
+        par.message);
       
       dbSQL.commit(par.shouldCommit);
       

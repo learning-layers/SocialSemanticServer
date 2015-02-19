@@ -21,5 +21,6 @@
 package at.kc.tugraz.ss.activity.datatypes.enums;
 
 public enum SSActivityContentE{
-  keyword;
+  keyword, 
+  text;
 }

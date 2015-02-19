@@ -21,12 +21,13 @@
 package at.kc.tugraz.ss.activity.datatypes;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SSActivity extends SSEntity{
@@ -41,23 +42,34 @@ public class SSActivity extends SSEntity{
     value = "entity")
   public SSEntity         entity = null;
   
+  @ApiModelProperty(
+    required = false,
+    value = "contents")
+  public List<SSActivityContent>         contents = new ArrayList<>();
+  
   public static SSActivity get(
-    final SSUri               id,
-    final SSActivityE         activityType,
-    final SSEntity            entity) throws Exception{
+    final SSUri                   id,
+    final SSActivityE             activityType,
+    final SSEntity                entity,
+    final List<SSActivityContent> contents) throws Exception{
     
-    return new SSActivity(id, activityType, entity);
+    return new SSActivity(id, activityType, entity, contents);
   }
   
   protected SSActivity(
-    final SSUri               id,
-    final SSActivityE         activityType,
-    final SSEntity            entity) throws Exception{
+    final SSUri                   id,
+    final SSActivityE             activityType,
+    final SSEntity                entity,
+    final List<SSActivityContent> contents) throws Exception{
     
     super(id, SSEntityE.activity);
     
     this.activityType = activityType;
     this.entity       = entity;
+    
+    if(contents != null){
+      this.contents.addAll(contents);
+    }
   }
   
   @Override
@@ -65,8 +77,6 @@ public class SSActivity extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
    
-    ld.put(SSVarU.activityType, SSVarU.sss + SSStrU.colon + SSActivityE.class.getName());
-    
     return ld;
   }
   

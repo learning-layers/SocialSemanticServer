@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -41,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import org.apache.poi.hssf.record.SSTRecord;
 
 public class SSActivitySQLFct extends SSDBSQLFct{
 
@@ -50,7 +48,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
   }
   
   public void addActivityContent(
-    final SSUri               user,
     final SSUri               activity,
     final SSActivityContentE  contentType,
     final SSActivityContent   content) throws Exception{
@@ -67,6 +64,38 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSActivityContent> getActivityContents(
+    final SSUri activity) throws Exception{
+    
+    ResultSet resultSet = null;
+      
+    try{
+      final List<SSActivityContent>   contents       = new ArrayList<>();
+      final Map<String, String>       wheres         = new HashMap<>();
+      final List<String>              columns        = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.content);
+      
+      where(wheres, SSSQLVarU.activityId, activity);
+      
+      resultSet = dbSQL.select(activityContentsTable, columns, wheres, null, null, null);
+      
+      while(resultSet.next()){
+        contents.add(
+          SSActivityContent.get(
+            bindingStr(resultSet, SSSQLVarU.content)));
+      }
+      
+      return contents;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -269,7 +298,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           SSActivity.get(
             bindingStrToUri  (resultSet, SSSQLVarU.id),
             type,
-            activityEntity);
+            activityEntity, 
+            new ArrayList<>());
 
         activityObj.creationTime   = timestamp;
         activityObj.author         = author;
@@ -380,7 +410,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         SSActivity.get(
           bindingStrToUri  (resultSet, SSSQLVarU.id), 
           SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType)),
-          null);
+          null,
+          new ArrayList<>());
         
       activityObj.author       = bindingStrToUri  (resultSet, SSSQLVarU.author);
       activityObj.creationTime = bindingStrToLong (resultSet, SSSQLVarU.creationTime);

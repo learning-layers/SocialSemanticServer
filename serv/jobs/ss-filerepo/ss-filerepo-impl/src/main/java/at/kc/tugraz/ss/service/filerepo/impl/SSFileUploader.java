@@ -225,13 +225,13 @@ public class SSFileUploader extends SSServImplStartA{
       }
       
       if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500);
+        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
         thumbCreated = true;
       }
       
       if(SSStrU.equals(SSFileExtE.doc, fileExt)){
         SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500);
+        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
         thumbCreated = true;
       }
       

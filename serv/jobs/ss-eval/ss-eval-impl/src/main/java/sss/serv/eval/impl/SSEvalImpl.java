@@ -210,7 +210,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       // entities' ids
       for(SSEntity entity : targetEntities){
         logText += entity.id;
-        logText += SSStrU.semiColon;
+        logText += SSStrU.comma;
       }
       
       logText += SSStrU.semiColon;
@@ -218,7 +218,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       // entities' labels
       for(SSEntity entity : targetEntities){
         logText += entity.label;
-        logText += SSStrU.semiColon;
+        logText += SSStrU.comma;
       }
       
       logText += SSStrU.semiColon;
@@ -226,7 +226,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       // users' labels
       for(SSEntity user : targetUsers){
         logText += user.label;
-        logText += SSStrU.semiColon;
+        logText += SSStrU.comma;
       }
       
       logText += SSStrU.semiColon;
