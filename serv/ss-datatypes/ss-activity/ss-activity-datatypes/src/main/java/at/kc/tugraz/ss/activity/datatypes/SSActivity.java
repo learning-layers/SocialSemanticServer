@@ -84,4 +84,8 @@ public class SSActivity extends SSEntity{
   public String getActivityType() throws Exception{
     return SSStrU.toStr(activityType);
   }
+  
+  public List<String> getContents() throws Exception {
+    return SSStrU.toStr(contents);
+  }
 }

@@ -62,6 +62,8 @@ public class SSActivitiesUserGetRet extends SSServRetI{
     return ld;
   }
   
+  /* json getters */
+  
   public List<SSActivity> getActivities() {
     return activities;
   }
