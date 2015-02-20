@@ -49,30 +49,28 @@ public class SSSearchFct {
     switch(searchOp){
       
       case and:{
-        for(List<SSEntity> outerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
+        for(List<SSEntity> outerSearchResultsForOneKeyword : searchResultsPerKeyword.values()) {
           
-          for(SSEntity outerSearchResult : outerSearchResultForOneKeyword) {
+          for(SSEntity outerSearchResult : outerSearchResultsForOneKeyword){
             
-            if(!SSStrU.contains(checkEntityUris, outerSearchResult.id)){
+            if(SSStrU.contains(checkEntityUris, outerSearchResult.id)){
+              continue;
+            }
+            
+            checkEntityUris.add(outerSearchResult.id);
+            
+            resourceExistsForEachTag = true;
+            
+            for(List<SSEntity> innerSearchResultsForOneKeyword : searchResultsPerKeyword.values()) {
               
-              checkEntityUris.add(outerSearchResult.id);
-              
-              resourceExistsForEachTag = true;
-              
-              for(List<SSEntity> innerSearchResultForOneKeyword : searchResultsPerKeyword.values()) {
-                
-                for(SSEntity innerSearchResult : innerSearchResultForOneKeyword) {
-                  
-                  if(!SSStrU.equals(innerSearchResult.id, outerSearchResult.id)) {
-                    resourceExistsForEachTag = false;
-                    break;
-                  }
-                }
+              if(!SSUri.getFromEntitites(innerSearchResultsForOneKeyword).contains(outerSearchResult.id)){
+                resourceExistsForEachTag = false;
+                break;
               }
-              
-              if(resourceExistsForEachTag) {
-                searchResults.add(outerSearchResult);
-              }
+            }
+            
+            if(resourceExistsForEachTag) {
+              searchResults.add(outerSearchResult);
             }
           }
         }

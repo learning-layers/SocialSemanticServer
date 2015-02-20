@@ -80,6 +80,21 @@
           "type" : "string",
           "description" : "textual description"
         },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
+        },
+        "comments" : {
+          "type" : "array",
+          "description" : "comments given by users",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "locations" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "locations"
+        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -136,31 +151,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "entities involved"
         },
-        "comments" : {
-          "type" : "array",
-          "description" : "comments given by users",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
-        "locations" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "locations"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
-        },
         "flags" : {
           "type" : "array",
           "description" : "flags assigned",
           "items" : {
             "$ref" : "SSEntityA"
           }
+        },
+        "attachedEntities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
