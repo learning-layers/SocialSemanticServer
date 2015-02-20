@@ -74,14 +74,15 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
     
     try{
       
-      final SSEvalLogPar     par               = new SSEvalLogPar(parA);
-      final List<SSEntity>   targetEntities    = new ArrayList<>();
-      final List<SSEntity>   targetUsers       = new ArrayList<>();
-      String                 logText           = new String();
-      String                 selectBitsMeasure = SSStrU.empty;
-      SSEntity               targetEntity      = null;
-      SSActivity             activity          = null;
-      SSCircleE              episodeSpace      = null;
+      final SSEvalLogPar     par                 = new SSEvalLogPar(parA);
+      final List<SSEntity>   targetEntities      = new ArrayList<>();
+      final List<SSEntity>   targetUsers         = new ArrayList<>();
+      final List<SSEntity>   notSelectedEntities = new ArrayList<>();
+      String                 logText             = new String();
+      String                 selectBitsMeasure   = SSStrU.empty;
+      SSEntity               targetEntity        = null;
+      SSActivity             activity            = null;
+      SSCircleE              episodeSpace        = null;
       SSEntity               originUser;
       
       if(
@@ -147,7 +148,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         }
       }
       
-      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels
+      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       //time stamp
       logText += SSDateU.dateAsLong();
       logText += SSStrU.semiColon;
@@ -286,11 +287,43 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
           
           selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
+          
+          for(SSEntity circle : learnEpVersion.learnEpCircles){
+            
+            if(!SSStrU.contains(targetEntities, circle)){
+              notSelectedEntities.add(circle);
+            }
+          }
+          
+          for(SSEntity entity : learnEpVersion.learnEpEntities){
+            
+            if(!SSStrU.contains(targetEntities, entity)){
+              notSelectedEntities.add(entity);
+            }
+          }
+          
           break;
         }
       }
 
+      //selected bits measure 
       logText += selectBitsMeasure;
+      logText += SSStrU.semiColon;
+      
+      //not selected entities' ids
+      for(SSEntity entity : notSelectedEntities){
+        logText += entity.id;
+        logText += SSStrU.comma;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      //not selected entities' labels
+      for(SSEntity entity : notSelectedEntities){
+        logText += entity.label;
+        logText += SSStrU.comma;
+      }
+      
       logText += SSStrU.semiColon;
       
       logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
@@ -300,8 +333,8 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       return true;
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+      SSLogU.warn("eval logging failed");
+      return false;
     }
   }
 }
