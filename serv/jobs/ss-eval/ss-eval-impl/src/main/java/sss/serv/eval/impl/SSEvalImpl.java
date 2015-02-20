@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
@@ -35,14 +36,13 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.conf.SSEvalConf;
-import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import sss.serv.eval.impl.fct.sql.SSEvalSQLFct;
@@ -76,12 +76,11 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       final SSEvalLogPar     par              = new SSEvalLogPar(parA);
       final List<SSEntity>   targetEntities   = new ArrayList<>();
       final List<SSEntity>   targetUsers      = new ArrayList<>();
-      final List<SSUE>       uEs;
       String                 logText          = new String();
       SSEntity               targetEntity     = null;
-      SSEntity               originUser       = null;
       SSActivity             activity         = null;
-      
+      SSEntity               originUser;
+      SSCircleE              episodeSpace     = null;
       
       if(
         evalConf.tools.isEmpty()              ||
@@ -119,7 +118,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           switch(targetEntity.type){
             
             case activity:{
-              activity = SSServCaller.activityGet(par.user, par.entity);
+              activity = SSServCaller.activityGet(par.user, targetEntity.id);
               
               targetEntities.addAll (activity.entities);
               targetUsers.addAll    (activity.users);
@@ -138,8 +137,6 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       //tool context
       if(par.toolContext != null){
         logText += par.toolContext;
-      }else{
-        logText += getToolContext(par, targetEntity);
       }
       
       logText += SSStrU.semiColon;
@@ -156,21 +153,21 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       logText += SSStrU.semiColon;
       
       // entity 
-      if(par.entity != null){
-        logText += par.entity;
+      if(targetEntity != null){
+        logText += targetEntity.id;
       }
       
       logText += SSStrU.semiColon;
       
       // entity type
-      if(par.entity != null){
+      if(targetEntity != null){
         logText += targetEntity.type;
       }
       
       logText += SSStrU.semiColon;
       
       // entity label
-      if(par.entity != null){
+      if(targetEntity != null){
         logText += targetEntity.label;
       }
       
@@ -211,6 +208,19 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       for(SSEntity entity : targetEntities){
         logText += entity.id;
         logText += SSStrU.comma;
+        
+        switch(entity.type){
+          
+          case learnEp:
+            
+            episodeSpace = 
+              SSServCaller.circleMostOpenCircleTypeGet(
+                originUser.id, 
+                originUser.id,
+                entity.id, 
+                true);
+            break;
+        }
       }
       
       logText += SSStrU.semiColon;
@@ -231,6 +241,13 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       
       logText += SSStrU.semiColon;
       
+      // episode space
+      if(episodeSpace != null){
+        logText += episodeSpace;
+      }
+      
+      logText += SSStrU.semiColon;
+      
       logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
       
       SSLogU.trace(logText, false);
@@ -240,51 +257,6 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-    
-  private String getToolContext(
-    final SSEvalLogPar par, 
-    final SSEntity     entity){
-    
-    if(par.entity == null){
-      return SSStrU.empty;
-    }
-    
-    switch(par.type){
-      
-      case sendMessage:       return SSToolContextE.notificationTab.toString();
-      case readMessage:       return SSToolContextE.notificationTab.toString();
-      case changeLabel:       return getToolContextFromChangeLabel(par, entity);
-      case changeDescription: return getToolContextFromChangeLabel(par, entity);
-      case setImportance:     return SSToolContextE.bitTab.toString();
-      case addTag:            return SSToolContextE.bitTab.toString();
-      default:                return SSStrU.empty;
-    }
-  }
-
-  private String getToolContextFromChangeLabel(
-    final SSEvalLogPar par, 
-    final SSEntity     entity){
-
-    if(entity == null){
-      return SSToolContextE.bitTab.toString();
-    }
-    
-    switch(entity.type){
-      
-      case learnEp:
-      case learnEpVersion:{
-        return SSToolContextE.episodeTab.toString();
-      }
-      
-      case learnEpCircle:{
-        return SSToolContextE.organizeArea.toString();
-      }
-      
-      default:{
-        return SSToolContextE.bitTab.toString();
-      }
     }
   }
 }
