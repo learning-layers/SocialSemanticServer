@@ -283,23 +283,29 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
             break;
           }
           
-          final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
-          final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
+          try{
           
-          selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
-          
-          for(SSEntity circle : learnEpVersion.learnEpCircles){
+            final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
+            final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
             
-            if(!SSStrU.contains(targetEntities, circle)){
-              notSelectedEntities.add(circle);
-            }
-          }
-          
-          for(SSEntity entity : learnEpVersion.learnEpEntities){
+            selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
             
-            if(!SSStrU.contains(targetEntities, entity)){
-              notSelectedEntities.add(entity);
+            for(SSEntity circle : learnEpVersion.learnEpCircles){
+              
+              if(!SSStrU.contains(targetEntities, circle)){
+                notSelectedEntities.add(circle);
+              }
             }
+            
+            for(SSEntity entity : learnEpVersion.learnEpEntities){
+              
+              if(!SSStrU.contains(targetEntities, entity)){
+                notSelectedEntities.add(entity);
+              }
+            }
+          }catch(Exception error){
+            SSServErrReg.reset();
+            SSLogU.warn("learn ep version couldnt be retrieved");
           }
           
           break;
@@ -333,6 +339,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       return true;
       
     }catch(Exception error){
+      SSServErrReg.reset();
       SSLogU.warn("eval logging failed");
       return false;
     }
