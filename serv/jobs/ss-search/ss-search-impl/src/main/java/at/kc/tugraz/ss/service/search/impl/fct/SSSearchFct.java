@@ -53,7 +53,7 @@ public class SSSearchFct {
           
           for(SSEntity outerSearchResult : outerSearchResultsForOneKeyword){
             
-            if(SSStrU.contains(checkEntityUris, outerSearchResult.id)){
+            if(SSStrU.contains(checkEntityUris, outerSearchResult)){
               continue;
             }
             
@@ -63,7 +63,7 @@ public class SSSearchFct {
             
             for(List<SSEntity> innerSearchResultsForOneKeyword : searchResultsPerKeyword.values()) {
               
-              if(!SSUri.getFromEntitites(innerSearchResultsForOneKeyword).contains(outerSearchResult.id)){
+              if(!SSStrU.contains(innerSearchResultsForOneKeyword, outerSearchResult)){
                 resourceExistsForEachTag = false;
                 break;
               }

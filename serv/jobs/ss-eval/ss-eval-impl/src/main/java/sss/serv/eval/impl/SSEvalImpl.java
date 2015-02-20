@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -73,14 +74,15 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
     
     try{
       
-      final SSEvalLogPar     par              = new SSEvalLogPar(parA);
-      final List<SSEntity>   targetEntities   = new ArrayList<>();
-      final List<SSEntity>   targetUsers      = new ArrayList<>();
-      String                 logText          = new String();
-      SSEntity               targetEntity     = null;
-      SSActivity             activity         = null;
+      final SSEvalLogPar     par               = new SSEvalLogPar(parA);
+      final List<SSEntity>   targetEntities    = new ArrayList<>();
+      final List<SSEntity>   targetUsers       = new ArrayList<>();
+      String                 logText           = new String();
+      String                 selectBitsMeasure = SSStrU.empty;
+      SSEntity               targetEntity      = null;
+      SSActivity             activity          = null;
+      SSCircleE              episodeSpace      = null;
       SSEntity               originUser;
-      SSCircleE              episodeSpace     = null;
       
       if(
         evalConf.tools.isEmpty()              ||
@@ -88,7 +90,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         par.type == null){
         return false;
       }
-      
+
       if(par.forUser != null){
         originUser = SSServCaller.entityGet(par.forUser);
       }else{
@@ -246,6 +248,29 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         logText += episodeSpace;
       }
       
+      logText += SSStrU.semiColon;
+      
+//      switch(par.type){
+//        
+//        case copyLearnEpForUser:{
+//
+//          if(
+//            episodeSpace  == null ||
+//            targetEntity  == null ||
+//            targetEntities.isEmpty()){
+//            break;
+//          }
+//          
+//        final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
+//
+//        learnEpVersion.learnEpCircles;
+//        learnEpVersion.learnEpEntities;
+//        
+//          break;
+//        }
+//      }
+
+      logText += selectBitsMeasure;
       logText += SSStrU.semiColon;
       
       logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
