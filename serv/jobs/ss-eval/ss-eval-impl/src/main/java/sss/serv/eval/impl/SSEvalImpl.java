@@ -109,6 +109,22 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
         targetUsers.add(SSServCaller.entityGet(user));
       }
       
+      if(targetEntity != null){
+        
+        switch(targetEntity.type){
+          
+          case learnEp:
+            
+            episodeSpace = 
+              SSServCaller.circleMostOpenCircleTypeGet(
+                originUser.id, 
+                originUser.id,
+                targetEntity.id, 
+                true);
+            break;
+        }
+      }
+      
       switch(par.type){
         
         case clickBit:{
@@ -208,8 +224,13 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       
       // entities' ids
       for(SSEntity entity : targetEntities){
+        
         logText += entity.id;
         logText += SSStrU.comma;
+        
+        if(episodeSpace != null){
+          continue;
+        }
         
         switch(entity.type){
           
@@ -250,25 +271,24 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
       
       logText += SSStrU.semiColon;
       
-//      switch(par.type){
-//        
-//        case copyLearnEpForUser:{
-//
-//          if(
-//            episodeSpace  == null ||
-//            targetEntity  == null ||
-//            targetEntities.isEmpty()){
-//            break;
-//          }
-//          
-//        final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
-//
-//        learnEpVersion.learnEpCircles;
-//        learnEpVersion.learnEpEntities;
-//        
-//          break;
-//        }
-//      }
+      switch(par.type){
+        
+        case copyLearnEpForUser:{
+
+          if(
+            episodeSpace  == null ||
+            targetEntity  == null ||
+            targetEntities.isEmpty()){
+            break;
+          }
+          
+          final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
+          final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
+          
+          selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
+          break;
+        }
+      }
 
       logText += selectBitsMeasure;
       logText += SSStrU.semiColon;
