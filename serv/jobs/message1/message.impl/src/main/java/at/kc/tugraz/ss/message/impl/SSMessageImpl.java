@@ -27,11 +27,11 @@ import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -65,7 +65,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     try{
       final SSMessagesGetPar  par         = new SSMessagesGetPar(parA);
       final List<SSMessage>   messages    = new ArrayList<>();
-      final List<SSMessage>   tmpMessages = sqlFct.getMessages(par.user);
+      final List<SSMessage>   tmpMessages = sqlFct.getMessages(par.user, par.startTime);
       
       for(SSMessage message : tmpMessages){
         

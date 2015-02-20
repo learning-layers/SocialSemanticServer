@@ -61,9 +61,11 @@ public class SSMessageSQLFct extends SSDBSQLFct{
   }
 
   public List<SSMessage> getMessages(
-    final SSUri   user) throws Exception{
+    final SSUri   user,
+    final Long    startTime) throws Exception{
     
     ResultSet resultSet = null;
+    Long      creationTime;
     
     try{
       
@@ -88,13 +90,22 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
+        creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+          
+        if(
+          startTime    != null &&
+          startTime    != 0    &&
+          creationTime <= startTime){
+          continue;
+        }
+        
         messages.add(
           SSMessage.get(
             bindingStrToUri(resultSet, SSSQLVarU.messageId), 
             bindingStrToUri(resultSet, SSSQLVarU.userId), 
             user, 
             bindingStrToTextComment(resultSet, SSSQLVarU.messageContent),
-            bindingStrToLong       (resultSet, SSSQLVarU.creationTime)));
+            creationTime));
       }
       
       return messages;
