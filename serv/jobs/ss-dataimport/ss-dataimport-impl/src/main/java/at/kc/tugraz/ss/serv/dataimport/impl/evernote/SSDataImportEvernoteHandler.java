@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -45,6 +46,7 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import sss.serv.eval.datatypes.SSEvalLogE;
 
 public class SSDataImportEvernoteHandler {
   
@@ -138,6 +140,16 @@ public class SSDataImportEvernoteHandler {
       null,
       notebookCreationTime,
       false);
+    
+    SSServCaller.evalLog(
+      userUri, 
+      SSToolContextE.evernoteImport, 
+      userUri, 
+      SSEvalLogE.addNotebook, 
+      notebookUri, 
+      null, 
+      SSUri.asListWithoutNullAndEmpty(), 
+      SSUri.asListWithoutNullAndEmpty());
   }
   
   private void addNotebookUEs(
@@ -247,6 +259,7 @@ public class SSDataImportEvernoteHandler {
     Notebook             notebook;
     SSUri                notebookUri;
     SSUri                noteUri;
+    List<String>         noteTagNames;
     
     if(notes == null){
       return;
@@ -266,13 +279,28 @@ public class SSDataImportEvernoteHandler {
         note, 
         notebookUri);
       
+      noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
+        
       SSServCaller.tagsAdd(
         userUri,
         noteUri,
-        SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid()),
+        noteTagNames,
         SSSpaceE.privateSpace,
         note.getUpdated(),
         false);
+      
+      for(String noteTag : noteTagNames){
+       
+        SSServCaller.evalLog(
+          userUri,
+          SSToolContextE.evernoteImport,
+          userUri,
+          SSEvalLogE.addTag,
+          noteUri,
+          noteTag,
+          SSUri.asListWithoutNullAndEmpty(notebookUri),
+          SSUri.asListWithoutNullAndEmpty());
+      }
       
       addNoteUEs(
         note,
@@ -460,6 +488,16 @@ public class SSDataImportEvernoteHandler {
         noteUri,
         false);
       
+      SSServCaller.evalLog(
+        userUri,
+        SSToolContextE.evernoteImport,
+        userUri,
+        SSEvalLogE.addNote,
+        noteUri,
+        null,
+        SSUri.asListWithoutNullAndEmpty(notebookUri),
+        SSUri.asListWithoutNullAndEmpty());
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -563,6 +601,16 @@ public class SSDataImportEvernoteHandler {
       noteUri, 
       resourceUri,
       false);
+    
+    SSServCaller.evalLog(
+      userUri,
+      SSToolContextE.evernoteImport,
+      userUri,
+      SSEvalLogE.addResource,
+      resourceUri,
+      null,
+      SSUri.asListWithoutNullAndEmpty(noteUri),
+      SSUri.asListWithoutNullAndEmpty());
   }
   
   private static List<String> getSharedNotebookGuids(final List<SharedNotebook> sharedNotebooks) {

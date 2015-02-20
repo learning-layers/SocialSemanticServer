@@ -27,5 +27,6 @@ public enum SSToolContextE{
   searchTab,
   episodeTab,
   bitTab,
-  notificationTab;
+  notificationTab,
+  evernoteImport;
 }

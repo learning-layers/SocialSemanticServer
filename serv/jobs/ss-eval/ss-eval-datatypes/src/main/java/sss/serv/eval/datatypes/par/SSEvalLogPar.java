@@ -51,8 +51,8 @@ public class SSEvalLogPar extends SSServPar{
   public SSUri            forUser      = null;
 
   @XmlElement
-  public void setForUser(final String user){
-    try{ this.user = SSUri.get(user); }catch(Exception error){}
+  public void setForUser(final String forUser){
+    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
   }
   
   @XmlElement

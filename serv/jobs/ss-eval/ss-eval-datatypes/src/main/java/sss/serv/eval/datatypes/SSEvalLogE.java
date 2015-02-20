@@ -46,5 +46,8 @@ public enum SSEvalLogE{
   removeFilter, 
   executeJumpToDateButton,
   requestEditButton, 
-  releaseEditButton;
+  releaseEditButton,
+  addNotebook,
+  addNote,
+  addResource;
 }
