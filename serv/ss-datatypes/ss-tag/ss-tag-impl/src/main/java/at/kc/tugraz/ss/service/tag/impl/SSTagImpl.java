@@ -676,17 +676,15 @@ implements
               false)));                //invokeEntityHandlers
       }
       
-      return new ArrayList<>();
-      
-//      SSTagMiscFct.getTagFrequsFromTags(
-//        SSServCaller.tagsUserGet(
-//          par.user,
-//          par.forUser,
-//          par.entities,
-//          SSStrU.toStrWithoutEmptyAndNull(par.labels),
-//          par.space,
-//          par.startTime),
-//        par.space);
+      return SSTagMiscFct.getTagFrequsFromTags(
+        SSServCaller.tagsUserGet(
+          par.user,
+          par.forUser,
+          par.entities,
+          SSStrU.toStrWithoutEmptyAndNull(par.labels),
+          par.space,
+          par.startTime),
+        par.space);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
