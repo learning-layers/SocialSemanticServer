@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -56,7 +57,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), SSDateU.dateAsLong(), parA.op));
   }
   
   @Override
