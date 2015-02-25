@@ -73,7 +73,7 @@ public class SSDataImportEvernoteHandler {
     this.userUri         = 
       SSServCaller.authRegisterUser(
         par.user, 
-        evernoteInfo.userName,
+        SSLabel.get(par.authEmail),//evernoteInfo.userName,
         par.authEmail,
         "1234", 
         false,
