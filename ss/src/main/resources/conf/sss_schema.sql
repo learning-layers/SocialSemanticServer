@@ -696,7 +696,7 @@ CREATE TABLE `entity` (
   `creationTime` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
-  `description` varchar(1000) NOT NULL,
+  `description` varchar(10000) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `labelDescriptionIndexEntity` (`label`,`description`),
   FULLTEXT KEY `labelIndexEntity` (`label`),
@@ -1611,4 +1611,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-05 12:31:34
+-- Dump completed on 2015-02-25 12:16:27

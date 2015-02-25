@@ -18,3 +18,6 @@ ADD CONSTRAINT `appFKappstacklayout`
 DROP TABLE `sss`.`appstacklayouttiles`;
 
 DROP TABLE `sss`.`appstacklayouttile`;
+
+ALTER TABLE `sss`.`entity` 
+CHANGE COLUMN `description` `description` VARCHAR(10000) NOT NULL ;
