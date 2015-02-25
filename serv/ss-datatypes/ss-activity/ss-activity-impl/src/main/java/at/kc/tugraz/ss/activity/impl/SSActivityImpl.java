@@ -20,6 +20,7 @@
  */
 package at.kc.tugraz.ss.activity.impl;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
@@ -163,7 +164,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     
     SSServCaller.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), SSDateU.dateAsLong(), parA.op));
   }
   
   @Override
