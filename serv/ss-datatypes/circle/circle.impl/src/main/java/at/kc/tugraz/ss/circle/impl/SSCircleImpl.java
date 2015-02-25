@@ -623,6 +623,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     try{
       final SSCircleEntitiesGetPar par      = new SSCircleEntitiesGetPar(parA);
       final List<SSEntity>         entities = new ArrayList<>();
+      SSEntity tmpEntity;
 
       if(par.withUserRestriction){
         
@@ -636,7 +637,16 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         for(SSEntity entity : circle.entities){
           
           try{
-            entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
+            
+            tmpEntity = SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false);
+            
+            if(
+              !par.types.isEmpty() &&
+              !SSStrU.contains(par.types, tmpEntity.type)){
+              continue;
+            }
+            
+            entities.add(tmpEntity);
           }catch(Exception error){
             
             if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){

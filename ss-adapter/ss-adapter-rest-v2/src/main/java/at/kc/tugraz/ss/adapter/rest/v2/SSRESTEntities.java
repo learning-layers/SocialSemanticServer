@@ -61,6 +61,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
@@ -132,6 +133,7 @@ public class SSRESTEntities {
           null,  //key
           null,  //user
           null,  //forUser
+          SSEntityE.asListWithoutNullAndEmpty(), //types
           true,  //withSystemCircles
           true); //invokeEntityHandlers
       

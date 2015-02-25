@@ -2072,17 +2072,18 @@ public class SSServCaller {
   }
   
   public static List<SSEntity> circleEntitiesGet(
-    final SSUri   user, 
-    final SSUri   forUser,
-    final Boolean withSystemCircles,
-    final Boolean withUserRestriction,
-    final Boolean invokeEntityHandlers) throws Exception{
-    
+    final SSUri            user, 
+    final SSUri            forUser,
+    final List<SSEntityE>  types,
+    final Boolean          withSystemCircles,
+    final Boolean          withUserRestriction,
+    final Boolean          invokeEntityHandlers) throws Exception{
         
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,                 user);
     opPars.put(SSVarU.forUser,              forUser);
+    opPars.put(SSVarU.types,                types);
     opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
     opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
     opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);

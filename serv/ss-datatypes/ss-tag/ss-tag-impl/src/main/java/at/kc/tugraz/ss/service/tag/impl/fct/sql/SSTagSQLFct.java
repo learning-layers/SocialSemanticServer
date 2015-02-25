@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSTagSQLFct extends SSDBSQLFct{
   
@@ -190,6 +192,117 @@ public class SSTagSQLFct extends SSDBSQLFct{
       
       if(tagSpace != null){
         where(wheres, SSSQLVarU.tagSpace, tagSpace);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      while(resultSet.next()){
+        
+        //TODO dtheiler: use db for date restriction here
+        if(
+          startTime != null &&
+          startTime != 0    &&
+          bindingStrToLong(resultSet, SSSQLVarU.creationTime) < startTime){
+          continue;
+        }
+        
+        tagAsss.add(
+          SSTag.get(
+            bindingStrToUri  (resultSet, SSSQLVarU.tagId),
+            bindingStrToUri  (resultSet, SSSQLVarU.entityId),
+            bindingStrToUri  (resultSet, SSSQLVarU.userId),
+            bindingStrToSpace(resultSet, SSSQLVarU.tagSpace),
+            SSTagLabel.get   (bindingStr(resultSet, SSSQLVarU.label))));
+      }
+      
+      return tagAsss;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  
+  public List<SSTag> getTagAsss(
+    final List<SSUri> users, 
+    final List<SSUri> entities, 
+    final SSSpaceE    tagSpace,
+    final Long        startTime,
+    final List<SSUri> tagURIs) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<SSTag>                          tagAsss        = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+//      final SSUri               tagURI         = getOrCreateTagURI(existsTagLabel(tagString), tagString);
+
+      table    (tables,    tagAssTable);
+      table    (tables,    entityTable);
+      column   (columns,   SSSQLVarU.tagId);
+      column   (columns,   SSSQLVarU.entityId);
+      column   (columns,   SSSQLVarU.userId);
+      column   (columns,   SSSQLVarU.tagSpace);
+      column   (columns,   SSSQLVarU.label);
+      column   (columns,   tagAssTable, SSSQLVarU.creationTime);
+      tableCon (tableCons, tagAssTable, SSSQLVarU.tagId, entityTable, SSSQLVarU.id);
+      
+      if(
+        users != null &&
+        !users.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+        for(SSUri user : users){
+          where(whereUsers, tagAssTable, SSSQLVarU.userId, user);
+        }
+        
+        wheres.add(whereUsers);
+      }
+      
+      if(
+        entities != null &&
+        !entities.isEmpty()){
+
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
+        
+        for(SSUri entity : entities){
+          where(whereEntities, tagAssTable, SSSQLVarU.entityId, entity);
+        }
+        
+        wheres.add(whereEntities);
+      }
+      
+      if(
+        tagURIs != null &&
+        !tagURIs.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTags = new MultivaluedHashMap<>();
+        
+        for(SSUri tagURI : tagURIs){
+          where(whereTags, tagAssTable, SSSQLVarU.tagId, tagURI);
+        }
+        
+        wheres.add(whereTags);
+      }
+      
+      if(tagSpace != null){
+        
+        final MultivaluedMap<String, String> whereTags = new MultivaluedHashMap<>();
+        
+        where(whereTags, tagAssTable, SSSQLVarU.tagSpace, tagSpace);
+        
+        wheres.add(whereTags);
+      }
+      
+      if(wheres.isEmpty()){
+        throw new Exception("wheres empty");
       }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);

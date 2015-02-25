@@ -24,28 +24,38 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
+import org.codehaus.jackson.JsonNode;
 
 public class SSCircleEntitiesGetPar extends SSServPar{
   
-  public SSUri    forUser               = null;
-  public Boolean  withSystemCircles     = false;
-  public Boolean  invokeEntityHandlers  = false;
+  public SSUri           forUser               = null;
+  public List<SSEntityE> types                 = new ArrayList<>();
+  public Boolean         withSystemCircles     = false;
+  public Boolean         invokeEntityHandlers  = false;
   
   public SSCircleEntitiesGetPar(
-    final SSMethU op,
-    final String  key,
-    final SSUri   user,
-    final SSUri   forUser,
-    final Boolean withSystemCircles,
-    final Boolean invokeEntityHandlers) throws Exception{
+    final SSMethU         op,
+    final String          key,
+    final SSUri           user,
+    final SSUri           forUser,
+    final List<SSEntityE> types,
+    final Boolean         withSystemCircles,
+    final Boolean         invokeEntityHandlers) throws Exception{
     
     super(op, key, user);
     
     this.forUser              = forUser;
     this.withSystemCircles    = withSystemCircles;
     this.invokeEntityHandlers = invokeEntityHandlers;
+    
+    if(types != null){
+      this.types.addAll(types);
+    }
   }
   
   public SSCircleEntitiesGetPar(SSServPar par) throws Exception{
@@ -55,9 +65,10 @@ public class SSCircleEntitiesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser              = (SSUri)     pars.get(SSVarU.forUser);
-        withSystemCircles    = (Boolean)   pars.get(SSVarU.withSystemCircles);
-        invokeEntityHandlers = (Boolean)   pars.get(SSVarU.invokeEntityHandlers);
+        forUser              = (SSUri)           pars.get(SSVarU.forUser);
+        types                = (List<SSEntityE>) pars.get(SSVarU.types);
+        withSystemCircles    = (Boolean)         pars.get(SSVarU.withSystemCircles);
+        invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
@@ -66,6 +77,12 @@ public class SSCircleEntitiesGetPar extends SSServPar{
         
         try{
           forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        }catch(Exception error){}
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+            types.add(SSEntityE.get(objNode.getTextValue()));
+          }
         }catch(Exception error){}
         
         try{

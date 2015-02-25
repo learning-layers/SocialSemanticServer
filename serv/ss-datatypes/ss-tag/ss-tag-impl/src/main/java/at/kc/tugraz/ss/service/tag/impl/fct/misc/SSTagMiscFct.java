@@ -111,31 +111,28 @@ public class SSTagMiscFct {
         categories.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, categoryURI));
       }
     }
+      
+    if(par.labels.isEmpty()){
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser), par.entities, SSSpaceE.sharedSpace,  par.startTime, null));
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.user),    par.entities, SSSpaceE.privateSpace, par.startTime, null));
+    }
     
     //TODO dtheiler: handle loops in db
-    for(SSUri entity : par.entities){
+    for(SSTagLabel label : par.labels){
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(par.forUser, entity, SSSpaceE.sharedSpace,  par.startTime, null));
-        categories.addAll (sqlFct.getTagAsss(par.user,    entity, SSSpaceE.privateSpace, par.startTime, null));
+      slabel = SSLabel.get(SSStrU.toStr(label));
+      
+      if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
+        continue;
       }
       
-      for(SSTagLabel label : par.labels){
-        
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
-          continue;
-        }
-        
-        categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id;
-        
-        categories.addAll (sqlFct.getTagAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
-        categories.addAll (sqlFct.getTagAsss(par.user,        entity, SSSpaceE.privateSpace, par.startTime, categoryURI));
-      }
+      categoryURI =
+        SSServCaller.entityGet(
+          SSEntityE.tag,
+          slabel).id;
+      
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser),     par.entities, SSSpaceE.sharedSpace,  par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.user),        par.entities, SSSpaceE.privateSpace, par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
     }
     
     return categories;
@@ -173,28 +170,25 @@ public class SSTagMiscFct {
       }
     }
     
+    if(par.labels.isEmpty()){
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, null));
+    }
+
     //TODO dtheiler: handle loops in db
-    for(SSUri entity : par.entities){
+    for(SSTagLabel label : par.labels){
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(userToUse, entity, par.space, par.startTime, null));
+      slabel = SSLabel.get(SSStrU.toStr(label));
+      
+      if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
+        continue;
       }
       
-      for(SSTagLabel label : par.labels){
-        
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.tag, slabel)){
-          continue;
-        }
-        
-        categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id;
-        
-        categories.addAll (sqlFct.getTagAsss(userToUse, entity, par.space, par.startTime, categoryURI));
-      }
+      categoryURI =
+        SSServCaller.entityGet(
+          SSEntityE.tag,
+          slabel).id;
+      
+      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
     }
     
     return categories;
@@ -257,33 +251,33 @@ public class SSTagMiscFct {
     final List<SSTag> tags,
     final SSSpaceE    space) throws Exception{
     
-    final Map<String, Integer> counterPerTags = new HashMap<>();
+    final Map<String, SSTagFrequ> tagFrequs = new HashMap<>();
     
     String tagLabel;
     
     for (SSTag tag : tags) {
       
-      tagLabel = SSStrU.toStr(tag.label);
+      tagLabel = SSStrU.toStr(tag.tagLabel);
       
-      if(counterPerTags.containsKey(tagLabel)){
-        counterPerTags.put(tagLabel, counterPerTags.get(tagLabel) + 1);
-      } else {
-        counterPerTags.put(tagLabel, 1);
+      if(tagFrequs.containsKey(tagLabel)){
+        tagFrequs.get(tagLabel).frequ += 1;
+      }else{
+        tagFrequs.put(tagLabel, SSTagFrequ.get(tag.tagLabel, space, 1));
       }
     }
     
-    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
-    
-    for(String key : counterPerTags.keySet()){
-      
-      outList.add(
-        SSTagFrequ.get(
-          SSTagLabel.get(key),
-          space,
-          counterPerTags.get(key)));
-    }
-    
-    return outList;
+//    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
+//    
+//    for(Map.Entry<String, Integer> entry : counterPerTags.entrySet()){
+//      
+//      outList.add(
+//        SSTagFrequ.get(
+//          SSTagLabel.get(entry.getKey()),
+//          space,
+//          counterPerTags.get(entry.getKey())));
+//    }
+//    
+    return new ArrayList(tagFrequs.values());
   }
 }
 

@@ -149,4 +149,45 @@ public enum SSEntityE implements SSJSONLDPropI{
     
     return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
   }
+  
+  public static List<SSEntityE> asListWithoutNullAndEmpty(final SSEntityE... types){
+   
+    final List<SSEntityE> result = new ArrayList<>();
+    
+    if(types == null){
+      return result;
+    }
+    
+    for(SSEntityE type : types){
+      
+      if(SSStrU.isEmpty(type)){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
+  }
+  
+  public static List<SSEntityE> asListWithoutNullAndEmpty(final List<SSEntityE> types){
+   
+    final List<SSEntityE> result = new ArrayList<>();
+    
+    if(types == null){
+      return result;
+    }
+    
+    for(SSEntityE type : types){
+      
+      if(SSStrU.isEmpty(type)){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
+  }
+  
 }
