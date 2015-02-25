@@ -73,49 +73,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getCircleURIsForUser(
-    final SSUri   userUri,
-    final Boolean withSystemCircles) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final List<SSUri>         circleUris  = new ArrayList<>();
-      final List<String>        columns     = new ArrayList<>();
-      final Map<String, String> wheres      = new HashMap<>();
-      final List<SSUri>         tmpCircleUris;
-      
-      column(columns, SSSQLVarU.circleId);
-      
-      where(wheres, SSSQLVarU.userId, userUri);
-      
-      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null, null);
-      
-      tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
-      
-      if(withSystemCircles){
-        return tmpCircleUris;
-      }else{
-        
-        for(SSUri circleUri : tmpCircleUris){
-          
-          if(!isSystemCircle(circleUri)){
-            circleUris.add(circleUri);
-          }
-        }
-        
-        return circleUris;
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public void addCircle(
     final SSUri     circleUri,
     final SSCircleE circleType,
@@ -236,62 +193,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
 //      dbSQL.closeStmt(resultSet);
 //    }
 //  }
-  
-  public List<SSEntity> getEntitiesForCircle(
-    final SSUri           circleUri,
-    final List<SSEntityE> types) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
-      
-      column(columns, circleEntitiesTable, SSSQLVarU.entityId);
-      
-      table    (tables,    entityTable);
-      table    (tables,    circleEntitiesTable);
-
-      tableCon (tableCons, circleEntitiesTable, SSSQLVarU.entityId, entityTable, SSSQLVarU.id);
-      
-      if(circleUri == null){
-        throw new Exception("circle has to be given");
-      }
-        
-      final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
-      
-      where(whereCircles, circleEntitiesTable, SSSQLVarU.circleId, circleUri);
-      
-      wheres.add(whereCircles);
-      
-      if(
-        types != null &&
-        !types.isEmpty()){
-        
-        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
-        
-        for(SSEntityE type : types){
-          where(whereTypes, entityTable, SSSQLVarU.type, type);
-        }
-        
-        wheres.add(whereTypes);
-      }
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      return SSEntity.get(
-        getURIsFromResult(resultSet, SSSQLVarU.entityId), 
-        SSEntityE.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
   
   public List<SSCircleE> getCircleTypesForEntity(
     final SSUri entityUri) throws Exception{
@@ -749,6 +650,177 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       dbSQL.delete(circleEntitiesTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public List<SSUri> getCircleURIsForUser(
+    final SSUri   userUri,
+    final Boolean withSystemCircles) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<SSUri>         circleUris  = new ArrayList<>();
+      final List<String>        columns     = new ArrayList<>();
+      final Map<String, String> wheres      = new HashMap<>();
+      final List<SSUri>         tmpCircleUris;
+      
+      column(columns, SSSQLVarU.circleId);
+      
+      where(wheres, SSSQLVarU.userId, userUri);
+      
+      resultSet = dbSQL.select(circleUsersTable, columns, wheres, null, null, null);
+      
+      tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarU.circleId);
+      
+      if(withSystemCircles){
+        return tmpCircleUris;
+      }else{
+        
+        for(SSUri circleUri : tmpCircleUris){
+          
+          if(!isSystemCircle(circleUri)){
+            circleUris.add(circleUri);
+          }
+        }
+        
+        return circleUris;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getCircleEntityURIsForUser(
+    final SSUri           user, 
+    final Boolean         withSystemCircles, 
+    final List<SSEntityE> types) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column(columns, circleEntitiesTable,   SSSQLVarU.entityId);
+//      column(columns, circleUsersTable,      SSSQLVarU.circleId);
+      
+      table    (tables,    circleUsersTable);
+      table    (tables,    circleEntitiesTable);
+      table    (tables,    entityTable);
+      
+      tableCon (tableCons, circleUsersTable,    SSSQLVarU.circleId, circleEntitiesTable, SSSQLVarU.circleId);
+      tableCon (tableCons, circleEntitiesTable, SSSQLVarU.entityId, entityTable,         SSSQLVarU.id);
+      
+      if(user == null){
+        throw new Exception("user has to be given");
+      }
+      
+      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+      where(whereUsers, circleUsersTable, SSSQLVarU.userId, user);
+      
+      wheres.add(whereUsers);
+      
+      if(!withSystemCircles){
+      
+        table    (tables,    circleTable);
+        tableCon (tableCons, circleTable, SSSQLVarU.circleId, circleUsersTable,         SSSQLVarU.circleId);
+        
+        final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
+
+        where(whereIsSystemCircles, circleTable, SSSQLVarU.isSystemCircle, withSystemCircles);
+
+        wheres.add(whereIsSystemCircles);
+      }
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, entityTable, SSSQLVarU.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      return SSEntity.get(
+        getURIsFromResult(resultSet, SSSQLVarU.entityId), 
+        SSEntityE.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntitiesForCircle(
+    final SSUri           circleUri,
+    final List<SSEntityE> types) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column(columns, circleEntitiesTable, SSSQLVarU.entityId);
+      
+      table    (tables,    entityTable);
+      table    (tables,    circleEntitiesTable);
+
+      tableCon (tableCons, circleEntitiesTable, SSSQLVarU.entityId, entityTable, SSSQLVarU.id);
+      
+      if(circleUri == null){
+        throw new Exception("circle has to be given");
+      }
+        
+      final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
+      
+      where(whereCircles, circleEntitiesTable, SSSQLVarU.circleId, circleUri);
+      
+      wheres.add(whereCircles);
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, entityTable, SSSQLVarU.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      return SSEntity.get(
+        getURIsFromResult(resultSet, SSSQLVarU.entityId), 
+        SSEntityE.entity);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 }

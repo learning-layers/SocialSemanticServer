@@ -631,23 +631,25 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
+      for(SSEntity entity : sqlFct.getCircleEntityURIsForUser(par.forUser, par.withSystemCircles, par.types))
         
-        for(SSEntity entity : sqlFct.getEntitiesForCircle(circle, par.types)){
+//      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
+        
+//        for(SSEntity entity : sqlFct.getEntitiesForCircle(circle, par.types)){
+        
+        try{
+          entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
+        }catch(Exception error){
           
-          try{
-            entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
-          }catch(Exception error){
-            
-            if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-              SSServErrReg.reset();
-              continue;
-            }
-            
-            throw error;
+          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+            SSServErrReg.reset();
+            continue;
           }
+          
+          throw error;
         }
-      }
+//        }
+////      }
       
       SSStrU.distinctWithoutNull2(entities);
       
