@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.impl.fct.sql;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
@@ -163,7 +164,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     final List<SSUri>       entities,
     final List<SSActivityE> types,
     final Long              startTime,
-    final Long              endTime,
+    Long              endTime,
     final Boolean           sortByTime,
     final Integer           limit,
     final Boolean           includeOnlyLastActivities) throws Exception{
@@ -171,14 +172,15 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSActivity>                     activities     = new ArrayList<>();
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
-      Long                                       timestamp;
-      SSActivity                                 activityObj;
-      SSEntity                                   activityEntity;
+      final List<SSActivity>                                       activities     = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
+      final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
+      final List<String>                                           tables         = new ArrayList<>();
+      final List<String>                                           columns        = new ArrayList<>();
+      final List<String>                                           tableCons      = new ArrayList<>();
+      Long                                                         timestamp;
+      SSActivity                                                   activityObj;
+      SSEntity                                                     activityEntity;
 
       table    (tables,    activityTable);
       table    (tables,    entityTable);
@@ -237,10 +239,53 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      if(sortByTime){
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+      final List<MultivaluedMap<String, String>> greaterWheres = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> lessWheres    = new ArrayList<>();
+      final String                               greater       = ">";
+      final String                               less          = "<";
+        
+      wheresNumeric.put(greater, greaterWheres);
+      wheresNumeric.put(less,    lessWheres);
+      
+      if(
+        startTime != null &&
+        startTime != 0){
+        
+        final MultivaluedMap<String, String> whereNumbericStartTimes = new MultivaluedHashMap<>();
+        
+        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        
+        greaterWheres.add(whereNumbericStartTimes);
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+        
+        final MultivaluedMap<String, String> whereNumbericEndTimes = new MultivaluedHashMap<>();
+        
+        where(whereNumbericEndTimes, entityTable, SSSQLVarU.creationTime, endTime);
+        
+        lessWheres.add(whereNumbericEndTimes);
+      }
+      
+      if(
+        !lessWheres.isEmpty() ||
+        !greaterWheres.isEmpty()){
+        
+        if(sortByTime){
+          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+        }else{
+          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, limit);
+        }
+        
       }else{
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
+        
+        if(sortByTime){
+          resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+        }else{
+          resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
+        }
       }
       
       final         List<String> latestActivities = new ArrayList<>();
@@ -250,22 +295,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       String        activityCombi;
         
       while(resultSet.next()){
-        
-        timestamp = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
-        
-        if(
-          startTime != null &&
-          startTime != 0    &&
-          timestamp <= startTime){
-          continue;
-        }
-        
-        if(
-          endTime != null &&
-          endTime != 0    &&
-          timestamp >= endTime){
-          continue;
-        }
         
         author = bindingStrToUri  (resultSet, SSSQLVarU.author);
         entity = bindingStrToUri  (resultSet, SSSQLVarU.entityId);
@@ -301,7 +330,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
             activityEntity, 
             new ArrayList<>());
 
-        activityObj.creationTime   = timestamp;
+        activityObj.creationTime   = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
         activityObj.author         = author;
 
         activityObj.comments.addAll(

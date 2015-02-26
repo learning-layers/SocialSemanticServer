@@ -49,6 +49,16 @@ public interface SSDBSQLI{
     final Integer                              limit) throws Exception;
   
   public ResultSet select(
+    final List<String>                                           tables,
+    final List<String>                                           columns,
+    final List<MultivaluedMap<String, String>>                   wheres,
+    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
+    final List<String>                                           tableCons,
+    final String                                                 orderByColumn, 
+    final String                                                 sortType, 
+    final Integer                                                limit) throws Exception;
+  
+  public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
     final Map<String, String> wheres,

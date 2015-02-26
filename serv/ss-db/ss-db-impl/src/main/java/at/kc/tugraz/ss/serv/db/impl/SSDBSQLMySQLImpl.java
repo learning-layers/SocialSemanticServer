@@ -71,6 +71,145 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
+    final List<String>                                           tables,
+    final List<String>                                           columns,
+    final List<MultivaluedMap<String, String>>                   wheres,
+    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
+    final List<String>                                           tableCons,
+    final String                                                 orderByColumn, 
+    final String                                                 sortType, 
+    final Integer                                                limit) throws Exception{
+           
+    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    int                                       counter = 1;
+    PreparedStatement                         stmt;
+    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+    Map.Entry<String, List<String>>           entrySet;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      
+    for(MultivaluedMap<String, String> where : wheres){
+      
+      query += "(";
+      
+      iteratorMultiValue = where.entrySet().iterator();
+
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+
+        for(String value : entrySet.getValue()){
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+        }
+      }
+      
+      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+    }
+    
+    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+      
+      String comparator = wheresNumberic.getKey();
+
+      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+      
+        query += "(";
+        
+        iteratorMultiValue = whereNumeric.entrySet().iterator();
+
+        while(iteratorMultiValue.hasNext()){
+
+          entrySet = iteratorMultiValue.next();
+
+          for(String value : entrySet.getValue()){
+            query += entrySet.getKey() + comparator + SSStrU.questionMark + " OR ";
+          }
+        }
+        
+        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+      }
+    }
+
+    if(wheresNumbericComparision.isEmpty()){
+      query = SSStrU.removeTrailingString(query, ") AND ");
+    }else{
+      query = SSStrU.removeTrailingString(query, " AND ");
+    }
+      
+    if(!wheres.isEmpty()){
+      query += " AND ";
+    }
+    
+    for(String tableCon : tableCons){
+      query += tableCon + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    
+    if(
+      orderByColumn != null &&
+      sortType      != null){
+      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+    }
+    
+    if(limit != null){
+      query += " LIMIT " + limit;
+    }
+    
+    stmt           = connector.prepareStatement(query);
+    
+    for(MultivaluedMap<String, String> where : wheres){
+      
+      iteratorMultiValue = where.entrySet().iterator();
+      
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+        
+        for(String value : entrySet.getValue()){
+          stmt.setObject(counter++, value);
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+      
+      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+      
+        iteratorMultiValue = whereNumeric.entrySet().iterator();
+
+        while(iteratorMultiValue.hasNext()){
+
+          entrySet = iteratorMultiValue.next();
+
+          for(String value : entrySet.getValue()){
+            stmt.setObject(counter++, value);
+          }
+        }
+      }
+    }
+
+    return stmt.executeQuery();
+  }
+  
+  @Override
+  public ResultSet select(
     final List<String>                         tables,
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> wheres,
