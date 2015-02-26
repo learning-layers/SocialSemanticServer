@@ -123,10 +123,14 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
         
         try{
           
-          final List<SSUri> filesForEntity = SSServCaller.entityFilesGet    (par.user, par.entity);
+//          final List<SSUri> filesForEntity = SSServCaller.entityFilesGet    (par.user, par.entity);
           
-          fileExt        = SSServCaller.fileExtGet        (par.user, filesForEntity.get(0));
-          mimeType       = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+          if(desc.file != null){
+            fileExt        = SSServCaller.fileExtGet        (par.user, desc.file);
+            mimeType       = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+          }else{
+            SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
+          }
           
         }catch(Exception error){
           SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");

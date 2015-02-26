@@ -114,7 +114,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     for(String user : allUsers){
       
-      for(SSUri entity : sqlFct.getEntities(SSUri.get(user), types)){
+      for(SSUri entity : sqlFct.getEntityURIs(SSUri.get(user), types)){
         
         if(usersResources.containsKey(user)){
           usersResources.get(user).add(entity);
@@ -380,49 +380,31 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityDescsGetPar  par      = new SSEntityDescsGetPar(parA);
       final List<SSEntityA>      entities = new ArrayList<>();
       
-      for(SSUri entityUri : par.entities){
-        
-        if(
-          !par.types.isEmpty() &&
-          !SSStrU.contains(par.types, sqlFct.getEntity (entityUri).type)){
-          continue;
-        }
-        
-        entities.add(
-          SSServCaller.entityDescGet(
-            par.user,
-            entityUri,
-            par.getTags,
-            par.getOverallRating,
-            par.getDiscs,
-            par.getUEs,
-            par.getThumb,
-            par.getFlags,
-            false));
-      }
+      final SSEntityDescGetPar entityDescGetPar = 
+        new SSEntityDescGetPar(
+          par.user,
+          null, 
+          par.getTags, 
+          par.getOverallRating, 
+          par.getDiscs, 
+          par.getUEs, 
+          par.getThumb, 
+          par.getFlags, 
+          false);
       
-      if(par.entities.isEmpty()){
+      for(SSEntity entity : sqlFct.getEntities(par.entities, par.types)){
         
-        if(par.types.isEmpty()){
-          throw new Exception("either types or entites must be set");
+        entityDescGetPar.entity = entity.id;
+        
+        setReadAndFileInformation(par.user, entity);
+        
+        for(SSServA serv : SSServA.getServsDescribingEntities()){
+          entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(entityDescGetPar, entity);
         }
         
-        for(SSUri entityUri : sqlFct.getEntities(par.user, par.types)){
-          
-          entities.add(
-            SSServCaller.entityDescGet(
-              par.user,
-              entityUri,
-              par.getTags,
-              par.getOverallRating,
-              par.getDiscs,
-              par.getUEs,
-              par.getThumb,
-              par.getFlags,
-              false));
-        }
+        entities.add(entity);
       }
-      
+        
       return entities;
       
     }catch(Exception error){
@@ -447,17 +429,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       
       final SSEntityDescGetPar  par    = new SSEntityDescGetPar(parA);
-      SSEntity                  entity;
-      final List<SSUri>         files;
+      SSEntity                  entity = sqlFct.getEntity     (par.entity);
       
-      entity      = sqlFct.getEntity     (par.entity);
-      entity.read = sqlFct.getEntityRead (par.user, par.entity);
-      files       = sqlFct.getFiles  (par.entity);
+      setReadAndFileInformation(par.user, entity);
       
-      if(!files.isEmpty()){
-        entity.file = files.get(0);
-      }
-        
       for(SSServA serv : SSServA.getServsDescribingEntities()){
         entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(par, entity);
       }
@@ -467,6 +442,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  private void setReadAndFileInformation(
+    final SSUri    user, 
+    final SSEntity entity) throws Exception{
+    
+    try{
+      final List<SSUri> files = sqlFct.getFiles (entity.id);
+      
+      entity.read = sqlFct.getEntityRead (user, entity.id);
+      
+      if(!files.isEmpty()){
+        entity.file = files.get(0);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

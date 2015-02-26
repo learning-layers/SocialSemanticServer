@@ -86,6 +86,28 @@ public class SSEntityDescGetPar extends SSServPar{
     value = "whether the entity's circles should be included")
   public Boolean  getCircles          = false;
   
+  public SSEntityDescGetPar(
+    final SSUri   user, 
+    final SSUri   entity,
+    final Boolean getTags,
+    final Boolean getOverallRating,
+    final Boolean getDiscs,
+    final Boolean getUEs,
+    final Boolean getThumb,
+    final Boolean getFlags,
+    final Boolean getCircles){
+
+    this.user             = user;
+    this.entity           = entity;
+    this.getTags          = getTags;
+    this.getOverallRating = getOverallRating;
+    this.getDiscs         = getDiscs;
+    this.getUEs           = getUEs;
+    this.getThumb         = getThumb;
+    this.getFlags         = getFlags;
+    this.getCircles       = getCircles;
+  }
+  
   public SSEntityDescGetPar(){}
     
   public SSEntityDescGetPar(SSServPar par) throws Exception{

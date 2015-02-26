@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
@@ -86,7 +88,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-    
+  
   public SSEntity getEntity(
     final SSUri entityUri) throws Exception{
     
@@ -185,40 +187,129 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getEntities(
-    final SSUri           user,
+  public List<SSUri> getEntityURIs(
+    final SSUri           author,
     final List<SSEntityE> types) throws Exception{
-    
-    final List<SSUri> entities = new ArrayList<>();
-    
-    for(SSEntityE type : types){
-      entities.addAll(getEntities(user, type));
-    }
-    
-    SSStrU.distinctWithoutNull2(entities);
-    
-    return entities;
-  }
-  
-  public List<SSUri> getEntities(
-    final SSUri     author,
-    final SSEntityE type) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
+      final List<String>                         columns    = new ArrayList<>();
+      final List<String>                         tables     = new ArrayList<>();
+      final List<String>                         tableCons  = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> wheres     = new ArrayList<>();
       
-      column(columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.id);
       
-      where(where, SSSQLVarU.author, author);
-      where(where, SSSQLVarU.type,   type);
+      table  (tables,  entityTable);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
+      if(author == null){
+        throw new Exception("author has to be given");
+      }
+      
+      final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
+      
+      where(whereAuthors, entityTable, SSSQLVarU.author, author);
+      
+      wheres.add(whereAuthors);
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, entityTable, SSSQLVarU.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarU.id);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntities(
+    final List<SSUri>     entityURIs,
+    final List<SSEntityE> types) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>                         columns    = new ArrayList<>();
+      final List<String>                         tables     = new ArrayList<>();
+      final List<String>                         tableCons  = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> wheres     = new ArrayList<>();
+      final List<SSEntity>                       entities   = new ArrayList<>();
+      SSEntity                                   entity;
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.type);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.creationTime);
+      column (columns, SSSQLVarU.author);
+      column (columns, SSSQLVarU.description);
+      
+      table  (tables,  entityTable);
+      
+      if(
+        entityURIs != null &&
+        !entityURIs.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
+        
+        for(SSUri entityURI : entityURIs){
+          where(whereEntities, entityTable, SSSQLVarU.id, entityURI);
+        }
+        
+        wheres.add(whereEntities);
+      }
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, entityTable, SSSQLVarU.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      if(wheres.isEmpty()){
+        throw new Exception("at least one parameter has to be set");
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      while(resultSet.next()){
+        
+        entity =
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+        
+        entity.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
+        entity.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
+        entity.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+        
+        entities.add(entity);
+      }
+      
+      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
