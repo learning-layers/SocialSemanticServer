@@ -482,6 +482,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.removeLearnEpForUser(par.user, par.learnEp);
+      sqlFct.deleteCurrentEpVersion(par.user);
       
       dbSQL.commit(par.shouldCommit);
 

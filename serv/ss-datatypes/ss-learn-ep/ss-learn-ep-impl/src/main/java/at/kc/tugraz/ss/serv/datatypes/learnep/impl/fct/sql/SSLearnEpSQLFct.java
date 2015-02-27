@@ -667,6 +667,22 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
   
+  public void deleteCurrentEpVersion(
+    final SSUri user) throws Exception {
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      delete(wheres, SSSQLVarU.userId, user);
+      
+      dbSQL.delete(learnEpVersionCurrentTable, wheres);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  
   public void setLearnEpCurrentVersion(
     final SSUri user, 
     final SSUri learnEpVersionUri) throws Exception {
