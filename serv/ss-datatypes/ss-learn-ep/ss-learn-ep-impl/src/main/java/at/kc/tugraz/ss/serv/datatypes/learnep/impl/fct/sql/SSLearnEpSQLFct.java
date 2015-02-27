@@ -924,12 +924,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
-      final Map<String, String> deletes = new HashMap<>();
       
       delete(wheres, SSSQLVarU.learnEpId, learnEp);
       delete(wheres, SSSQLVarU.userId,    user);
 
-      dbSQL.delete(learnEpUserTable, deletes);
+      dbSQL.delete(learnEpUserTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
