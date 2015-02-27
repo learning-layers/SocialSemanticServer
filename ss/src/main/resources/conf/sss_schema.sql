@@ -693,7 +693,7 @@ DROP TABLE IF EXISTS `entity`;
 CREATE TABLE `entity` (
   `id` varchar(255) NOT NULL,
   `label` varchar(255) NOT NULL,
-  `creationTime` varchar(200) NOT NULL,
+  `creationTime` bigint(13) NOT NULL,
   `type` varchar(200) NOT NULL,
   `author` varchar(200) NOT NULL,
   `description` varchar(10000) NOT NULL,
@@ -1611,4 +1611,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-25 12:16:27
+-- Dump completed on 2015-02-27  9:24:51
