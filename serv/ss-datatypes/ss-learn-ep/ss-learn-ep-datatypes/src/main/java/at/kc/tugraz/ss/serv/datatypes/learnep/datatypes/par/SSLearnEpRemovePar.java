@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,43 +18,51 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import java.util.HashMap;
-import java.util.Map;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
-public class SSLearnEpCreateRet extends SSServRetI{
-
-  public SSUri learnEp = null;
-
-  public static SSLearnEpCreateRet get(SSUri learnEpUri, SSMethU op){
-    return new SSLearnEpCreateRet(learnEpUri, op);
+public class SSLearnEpRemovePar extends SSServPar{
+  
+  public SSUri         learnEp       = null;
+  
+  public SSLearnEpRemovePar(
+    final SSMethU  op,
+    final String   key,
+    final SSUri    user,
+    final SSUri    learnEp){
+    
+    super(op, key, user);
+   
+    this.learnEp = learnEp;
   }
   
-  private SSLearnEpCreateRet(SSUri learnEpUri, SSMethU op){
+  public SSLearnEpRemovePar(SSServPar par) throws Exception{
+      
+    super(par);
     
-    super(op);
-    
-    this.learnEp = learnEpUri;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarU.learnEp, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
+    try{
+      
+      if(pars != null){
+        learnEp    = (SSUri)  pars.get(SSVarU.learnEp);
+        
+      }
+      
+      if(par.clientJSONObj != null){
+        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarU.learnEp).getTextValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
-  /* json getters */
-  public String getLearnEp() throws Exception {
+  public String getLearnEp(){
     return SSStrU.removeTrailingSlash(learnEp);
   }
 }

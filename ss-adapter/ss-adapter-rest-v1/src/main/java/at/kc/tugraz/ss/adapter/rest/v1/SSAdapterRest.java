@@ -1439,6 +1439,14 @@ public class SSAdapterRest{
     return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveEntity);
   }
   
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    (SSStrU.slash + "learnEpRemove")
+  public String learnEpRemove(String jsonRequ){
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpRemove);
+  }
+  
   /* category */ 
   
   @POST

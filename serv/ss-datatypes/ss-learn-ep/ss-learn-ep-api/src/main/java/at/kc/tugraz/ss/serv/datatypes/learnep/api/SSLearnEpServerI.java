@@ -30,6 +30,7 @@ import java.util.List;
 
 public interface SSLearnEpServerI {
   
+  public SSUri                        learnEpRemove                     (final SSServPar parA) throws Exception;
   public List<SSLearnEp>              learnEpsGet                       (final SSServPar parA) throws Exception;
   public List<SSLearnEpVersion>       learnEpVersionsGet                (final SSServPar parA) throws Exception;
   public SSLearnEpVersion             learnEpVersionGet                 (final SSServPar parA) throws Exception;

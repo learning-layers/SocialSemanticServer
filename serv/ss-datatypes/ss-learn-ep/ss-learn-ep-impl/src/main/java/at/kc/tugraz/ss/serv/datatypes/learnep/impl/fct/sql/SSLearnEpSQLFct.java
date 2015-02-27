@@ -917,6 +917,24 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       return null;
     }
   }
+
+  public void removeLearnEpForUser(
+    final SSUri user, 
+    final SSUri learnEp) throws Exception{
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(wheres, SSSQLVarU.learnEpId, learnEp);
+      delete(wheres, SSSQLVarU.userId,    user);
+
+      dbSQL.delete(learnEpUserTable, deletes);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }    
+  }
 }
 
 
