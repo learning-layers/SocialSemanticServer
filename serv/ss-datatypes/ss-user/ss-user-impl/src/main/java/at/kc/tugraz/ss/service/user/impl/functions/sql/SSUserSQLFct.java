@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
@@ -32,53 +32,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSUserSQLFct extends SSDBSQLFct{
   
   public SSUserSQLFct(SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
-  }
-  
-  public List<SSUser> userAll() throws Exception {
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSUser>        users            = new ArrayList<>();
-      final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
-      final Map<String, String> wheres           = new HashMap<>();
-      final List<String>        tableCons        = new ArrayList<>();
-      
-      where(wheres, SSSQLVarU.type, SSEntityE.user);
-      
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.label);
-      column(columns, SSSQLVarU.email);
-
-      table(tables, entityTable);
-      table(tables, userTable);
-      
-      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      while(resultSet.next()){
-        
-        users.add(
-          SSUser.get(
-            bindingStrToUri   (resultSet, SSSQLVarU.id),
-            bindingStrToLabel (resultSet, SSSQLVarU.label),
-            bindingStr        (resultSet, SSSQLVarU.email)));
-      }
-      
-      return users;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
   }
   
   public Boolean existsUser(final String email) throws Exception{
@@ -92,7 +52,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarU.id);
-
+      
       table(tables, entityTable);
       table(tables, userTable);
       
@@ -125,7 +85,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarU.id);
-
+      
       table(tables, entityTable);
       table(tables, userTable);
       
@@ -146,7 +106,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-   
+  
   public SSUser getUser(final SSUri user) throws Exception{
     
     ResultSet resultSet  = null;
@@ -160,7 +120,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarU.id);
       column(columns, SSSQLVarU.email);
       column(columns, SSSQLVarU.label);
-
+      
       table(tables, entityTable);
       table(tables, userTable);
       
@@ -173,9 +133,64 @@ public class SSUserSQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       return SSUser.get(
-        user, 
+        user,
         bindingStrToLabel(resultSet, SSSQLVarU.label),
         bindingStr(resultSet, SSSQLVarU.email));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUser> getUsers(
+    final List<SSUri> userURIs) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final List<SSUser>                         users            = new ArrayList<>();
+      final List<String>                         columns          = new ArrayList<>();
+      final List<String>                         tables           = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> wheres           = new ArrayList<>();
+      final List<String>                         tableCons        = new ArrayList<>();
+      
+      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarU.email);
+      column(columns, SSSQLVarU.label);
+      
+      table(tables, entityTable);
+      table(tables, userTable);
+      
+      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      
+      if(
+        userURIs != null &&
+        !userURIs.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+        for(SSUri userURI : userURIs){
+          where(whereUsers, entityTable, SSSQLVarU.id, userURI);
+        }
+        
+        wheres.add(whereUsers);
+      }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      while(resultSet.next()){
+        
+        users.add(
+          SSUser.get(
+            bindingStrToUri   (resultSet, SSSQLVarU.id),
+            bindingStrToLabel (resultSet, SSSQLVarU.label),
+            bindingStr        (resultSet, SSSQLVarU.email)));
+      }
+      
+      return users;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

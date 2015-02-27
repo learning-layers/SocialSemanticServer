@@ -29,11 +29,12 @@ import java.util.List;
 public class SSActivityContent extends SSEntityA{
 
   public static SSActivityContent get(final String str) throws Exception{
-    return new SSActivityContent(str);
+    
+    return new SSActivityContent(SSStrU.trim(str, 199));
   }
   
   public static SSActivityContent get(final SSEntityA entity) throws Exception{
-    return new SSActivityContent(SSStrU.toStr(entity));
+    return get(SSStrU.toStr(entity));
   }
   
   public static List<SSActivityContent> get(final List<String> strings) throws Exception{

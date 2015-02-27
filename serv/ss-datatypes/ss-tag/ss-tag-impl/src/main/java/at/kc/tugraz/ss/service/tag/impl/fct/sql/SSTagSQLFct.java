@@ -224,7 +224,6 @@ public class SSTagSQLFct extends SSDBSQLFct{
     }
   }
   
-  
   public List<SSTag> getTagAsss(
     final List<SSUri> users, 
     final List<SSUri> entities, 

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.message.impl.fct.sql;
 
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
+import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSMessageSQLFct extends SSDBSQLFct{
 
@@ -61,51 +64,68 @@ public class SSMessageSQLFct extends SSDBSQLFct{
   }
 
   public List<SSMessage> getMessages(
-    final SSUri   user,
+    final SSUri   targetUserURI,
     final Long    startTime) throws Exception{
     
     ResultSet resultSet = null;
-    Long      creationTime;
     
     try{
+      final List<SSMessage>                                        messages       = new ArrayList<>();
+      final List<String>                                           tables         = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
+      final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
+      final List<String>                                           columns        = new ArrayList<>();
+      final List<String>                                           tableCons      = new ArrayList<>();
       
-      final List<SSMessage>     messages  = new ArrayList<>();
-      final List<String>        tables    = new ArrayList<>();
-      final Map<String, String> wheres    = new HashMap<>();
-      final List<String>        columns   = new ArrayList<>();
-      final List<String>        tableCons = new ArrayList<>();
-      
-      table     (tables,    messageTable);
-      table     (tables,    entityTable);     
       column    (columns,   messageTable,       SSSQLVarU.userId);
       column    (columns,   messageTable,       SSSQLVarU.messageId);
       column    (columns,   messageTable,       SSSQLVarU.messageContent);
       column    (columns,   entityTable,        SSSQLVarU.creationTime);
-      
-      where     (wheres,    SSSQLVarU.forEntityId, user);
+
+      table     (tables,    messageTable);
+      table     (tables,    entityTable);     
       
       tableCon  (tableCons, messageTable, SSSQLVarU.messageId, entityTable, SSSQLVarU.id);
+
+      if(targetUserURI == null){
+        throw new Exception("target user has to be given");
+      }
+       
+      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      where(whereUsers, messageTable, SSSQLVarU.forEntityId, targetUserURI);
+      
+      wheres.add(whereUsers);
+
+      if(
+        startTime != null &&
+        startTime != 0){
+
+        final List<MultivaluedMap<String, String>> greaterWheres           = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericStartTimes = new MultivaluedHashMap<>();
+
+        wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
+        
+        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        
+        greaterWheres.add(whereNumbericStartTimes);
+      }
+      
+      if(!wheresNumeric.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
+      }else{
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      }
       
       while(resultSet.next()){
-        
-        creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
-          
-        if(
-          startTime    != null &&
-          startTime    != 0    &&
-          creationTime <= startTime){
-          continue;
-        }
         
         messages.add(
           SSMessage.get(
             bindingStrToUri(resultSet, SSSQLVarU.messageId), 
             bindingStrToUri(resultSet, SSSQLVarU.userId), 
-            user, 
+            targetUserURI, 
             bindingStrToTextComment(resultSet, SSSQLVarU.messageContent),
-            creationTime));
+            bindingStrToLong(resultSet, SSSQLVarU.creationTime)));
       }
       
       return messages;

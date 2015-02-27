@@ -90,7 +90,6 @@ public class SSUESQLFct extends SSDBSQLFct{
     }
   }
   
-  //TODO dtheiler: include start and end date in sql query already
   public List<SSUE> getUEs(
     final SSUri       forUser,
     final SSUri       entity,
@@ -101,19 +100,18 @@ public class SSUESQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
-      final List<String>                         tables       = new ArrayList<>();
-      final List<String>                         columns      = new ArrayList<>();
-      final List<String>                         tableCons    = new ArrayList<>();
-      final List<MultivaluedMap<String, String>> wheres       = new ArrayList<>();
-      final List<SSUE>                           ues          = new ArrayList<>();
-      SSUE                                       ueObj;
-      SSUEE                                      eventTypeFromDB;
-      Long                                       timestamp;
+      final List<String>                                           tables        = new ArrayList<>();
+      final List<String>                                           columns       = new ArrayList<>();
+      final List<String>                                           tableCons     = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>                   wheres        = new ArrayList<>();
+      final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric = new MultivaluedHashMap<>();
+      final List<SSUE>                                             ues           = new ArrayList<>();
+      SSUE                                                         ueObj;
+      SSUEE                                                        eventTypeFromDB;
       
       column   (columns,   SSSQLVarU.userEventId);
       column   (columns,   SSSQLVarU.userId);
       column   (columns,   SSSQLVarU.entityId);
-//      column   (columns,   SSSQLVarU.id);
       column   (columns,   SSSQLVarU.content);
       column   (columns,   SSSQLVarU.creationTime);
       column   (columns,   SSSQLVarU.eventType);
@@ -153,8 +151,40 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         wheres.add(whereTypes);
       }
-
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      if(
+        startTime != null &&
+        startTime != 0){
+        
+        final List<MultivaluedMap<String, String>> greaterWheres           = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericStartTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
+        
+        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        
+        greaterWheres.add(whereNumbericStartTimes);
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+        
+        final List<MultivaluedMap<String, String>> lessWheres            = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericEndTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.lessThan, lessWheres);
+        
+        where(whereNumbericEndTimes, entityTable, SSSQLVarU.creationTime, endTime);
+        
+        lessWheres.add(whereNumbericEndTimes);
+      }
+      
+      if(!wheresNumeric.isEmpty()){
+        resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
+      }else{
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      }
       
       while(resultSet.next()){
         
@@ -165,26 +195,13 @@ public class SSUESQLFct extends SSDBSQLFct{
           continue;
         }
         
-        try{
-          timestamp = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
-        }catch(Exception error){
-          SSLogU.warn("timestamp isn't valid " + bindingStrToLong(resultSet, SSSQLVarU.creationTime));
-          continue;
-        }
-        
-        if(
-          startTime != null &&
-          startTime != 0    &&
-          timestamp <= startTime){
-          continue;
-        }
-        
-        if(
-          endTime != null &&
-          endTime != 0    &&
-          timestamp >= endTime){
-          continue;
-        }
+        //TODO check whether really needed
+//        try{
+//          timestamp = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+//        }catch(Exception error){
+//          SSLogU.warn("timestamp isn't valid " + bindingStrToLong(resultSet, SSSQLVarU.creationTime));
+//          continue;
+//        }
         
         ueObj = 
          SSUE.get(
@@ -194,7 +211,7 @@ public class SSUESQLFct extends SSDBSQLFct{
            bindingStrToUri       (resultSet, SSSQLVarU.entityId), 
            bindingStr            (resultSet, SSSQLVarU.content));
         
-        ueObj.creationTime = timestamp;
+        ueObj.creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
 
         ues.add(ueObj);
       }

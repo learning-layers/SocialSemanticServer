@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.activity.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSSQLVarU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
@@ -164,7 +163,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     final List<SSUri>       entities,
     final List<SSActivityE> types,
     final Long              startTime,
-    Long              endTime,
+    final Long              endTime,
     final Boolean           sortByTime,
     final Integer           limit,
     final Boolean           includeOnlyLastActivities) throws Exception{
@@ -178,7 +177,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>                                           tables         = new ArrayList<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
-      Long                                                         timestamp;
       SSActivity                                                   activityObj;
       SSEntity                                                     activityEntity;
 
@@ -239,19 +237,14 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      final List<MultivaluedMap<String, String>> greaterWheres = new ArrayList<>();
-      final List<MultivaluedMap<String, String>> lessWheres    = new ArrayList<>();
-      final String                               greater       = ">";
-      final String                               less          = "<";
-        
-      wheresNumeric.put(greater, greaterWheres);
-      wheresNumeric.put(less,    lessWheres);
-      
       if(
         startTime != null &&
         startTime != 0){
         
-        final MultivaluedMap<String, String> whereNumbericStartTimes = new MultivaluedHashMap<>();
+        final List<MultivaluedMap<String, String>> greaterWheres           = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericStartTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
         where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
         
@@ -262,16 +255,17 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         endTime != null &&
         endTime != 0){
         
-        final MultivaluedMap<String, String> whereNumbericEndTimes = new MultivaluedHashMap<>();
+        final List<MultivaluedMap<String, String>> lessWheres            = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericEndTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.lessThan,    lessWheres);
         
         where(whereNumbericEndTimes, entityTable, SSSQLVarU.creationTime, endTime);
         
         lessWheres.add(whereNumbericEndTimes);
       }
       
-      if(
-        !lessWheres.isEmpty() ||
-        !greaterWheres.isEmpty()){
+      if(!wheresNumeric.isEmpty()){
         
         if(sortByTime){
           resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarU.creationTime, "DESC", limit);

@@ -241,7 +241,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query += tableName + SSStrU.comma;
     }
     
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+    if(
+      wheres.isEmpty() &&
+      tableCons.isEmpty()){
+      query = SSStrU.removeTrailingString(query, SSStrU.comma);
+    }else{
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
+    }
       
     for(MultivaluedMap<String, String> where : wheres){
       
@@ -263,7 +269,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     
     query = SSStrU.removeTrailingString(query, " AND ");
       
-    if(!wheres.isEmpty()){
+    if(
+      !wheres.isEmpty() &&
+      !tableCons.isEmpty()){
+      
       query += " AND ";
     }
     

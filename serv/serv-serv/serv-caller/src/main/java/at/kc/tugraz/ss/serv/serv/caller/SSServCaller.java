@@ -1706,6 +1706,32 @@ public class SSServCaller {
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
   
+  public static List<SSEntity> entityDescsGet(
+    final SSUri           user, 
+    final List<SSUri>     entities,
+    final List<SSEntityE> types,
+    final Boolean         getTags,
+    final Boolean         getOverallRating,
+    final Boolean         getDiscs,
+    final Boolean         getUEs,
+    final Boolean         getThumb,
+    final Boolean         getFlags) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarU.entities,         entities);
+    opPars.put(SSVarU.types,            types);
+    opPars.put(SSVarU.getTags,          getTags);
+    opPars.put(SSVarU.getOverallRating, getOverallRating);
+    opPars.put(SSVarU.getDiscs,         getDiscs);
+    opPars.put(SSVarU.getUEs,           getUEs);
+    opPars.put(SSVarU.getThumb,         getThumb);
+    opPars.put(SSVarU.getFlags,         getFlags);
+    
+    return (List<SSEntity>) SSServA.callServViaServer(new SSServPar(SSMethU.entityDescsGet, opPars));
+  }
+  
   public static SSEntity entityDescGet(
     final SSUri   user, 
     final SSUri   entity,

@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.activity.impl;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
@@ -53,7 +53,9 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClientI, SSActivityServerI, SSEntityHandlerImplI{
@@ -171,150 +173,174 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSActivitiesUserGetPar par              = new SSActivitiesUserGetPar(parA);
-      final List<SSUri>            entitiesToQuery  = new ArrayList<>();
-      final List<SSActivity>       activities       = new ArrayList<>();
-    
-    if(!par.entities.isEmpty()){
+      final SSActivitiesUserGetPar     par                = new SSActivitiesUserGetPar(parA);
+      final List<SSUri>                entitiesToQuery    = new ArrayList<>();
+      final List<SSActivity>           activities         = new ArrayList<>();
+      final List<SSUri>                descURIs           = new ArrayList<>();
+      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
+      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
+      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
+      String                           activityID;
       
-      for(SSUri entity : par.entities){
+      if(!par.entities.isEmpty()){
         
-        try{
-          SSServCallerU.canUserReadEntity(par.user, entity);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          SSLogU.warn("user cannot access entity for activities");
-          continue;
-        }
-        
-        entitiesToQuery.add(entity);
-      }
-    }
-    
-    if(!par.circles.isEmpty()){
-      
-      for(SSUri circle : par.circles){
-        
-        try{
-          SSServCallerU.canUserReadEntity(par.user, circle);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          SSLogU.warn("user cannot access circle for activities");
-          continue;
-        }
-        
-        for(SSEntity circleEntity : SSServCaller.circleGet(
-          par.user,
-          par.user,
-          circle,
-          false,
-          true, 
-          false).entities){
+        for(SSUri entity : par.entities){
           
-          entitiesToQuery.add(circleEntity.id);
+          try{
+            SSServCallerU.canUserReadEntity(par.user, entity);
+          }catch(Exception error){
+            SSServErrReg.reset();
+            SSLogU.warn("user cannot access entity for activities");
+            continue;
+          }
+          
+          entitiesToQuery.add(entity);
         }
-        
-        entitiesToQuery.add(circle);
-      }
-    }
-    
-    SSStrU.distinctWithoutNull2(entitiesToQuery);
-    
-    activities.addAll(
-      sqlFct.getActivities(
-        par.users,
-        entitiesToQuery,
-        par.types,
-        par.startTime,
-        par.endTime,
-        true,
-        1000,
-        par.includeOnlyLastActivities));
-    
-    for(SSActivity activity : activities){
-      
-      if(activity.entity == null){
-        SSLogU.warn("activity entity null for activity type: " + activity.activityType);
-        continue;
       }
       
-      try{
-        SSServCallerU.canUserReadEntity(par.user, activity.entity.id);
-      }catch(Exception error){
+      if(!par.circles.isEmpty()){
         
-        if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-          SSServErrReg.reset();
-          SSLogU.warn("activity no accessible by user");
+        for(SSUri circle : par.circles){
+          
+          try{
+            SSServCallerU.canUserReadEntity(par.user, circle);
+          }catch(Exception error){
+            SSServErrReg.reset();
+            SSLogU.warn("user cannot access circle for activities");
+            continue;
+          }
+          
+          for(SSEntity circleEntity : SSServCaller.circleGet(
+            par.user,
+            par.user,
+            circle,
+            false,
+            true,
+            false).entities){
+            
+            entitiesToQuery.add(circleEntity.id);
+          }
+          
+          entitiesToQuery.add(circle);
+        }
+      }
+      
+      SSStrU.distinctWithoutNull2(entitiesToQuery);
+      
+      activities.addAll(
+        sqlFct.getActivities(
+          par.users,
+          entitiesToQuery,
+          par.types,
+          par.startTime,
+          par.endTime,
+          true,
+          1000,
+          par.includeOnlyLastActivities));
+      
+      for(SSActivity activity : activities){
+        
+        activityID = SSStrU.toStr(activity);
+        
+        activitiesUsers.put   (SSStrU.toStr(activity), new ArrayList<>());
+        activitiesEntities.put(SSStrU.toStr(activity), new ArrayList<>());
+        
+        if(activity.entity == null){
+          SSLogU.warn("activity entity null for activity type: " + activity.activityType);
           continue;
         }
         
-        throw error;
-      }
-      
-      try{
-        
-        activity.entity =
-          SSServCaller.entityDescGet(
-            par.user,
-            activity.entity.id,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false);
-        
-      }catch(Exception error){
-        SSLogU.warn("information for activity entity couldnt be retrieved");
-        SSServErrReg.reset();
-      }
-      
-      activity.users.addAll(
-        SSServCaller.usersGet(
-          sqlFct.getActivityUsers(activity.id),
-          false));
-      
-      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
-      
-      for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
-        
         try{
-          SSServCallerU.canUserReadEntity(par.user, activityEntity);
+          SSServCallerU.canUserReadEntity(par.user, activity.entity.id);
         }catch(Exception error){
           
           if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
             SSServErrReg.reset();
-            SSLogU.warn("activity entity no accessible by user");
+            SSLogU.debug("activity not accessible by user");
             continue;
           }
           
           throw error;
         }
         
-        try{
+        activitiesEntity.put(activityID, activity.entity.id);
+        descURIs.add(activity.entity.id);
+        
+        activitiesUsers.get(activityID).addAll(sqlFct.getActivityUsers(activity.id));
+        descURIs.addAll(activitiesUsers.get(activityID));
+        
+        for(SSUri activityEntityURI : sqlFct.getActivityEntities(activity.id)){
           
-          activity.entities.add(
-            SSServCaller.entityDescGet(
-              par.user,
-              activityEntity,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false));
+          try{
+            SSServCallerU.canUserReadEntity(par.user, activityEntityURI);
+          }catch(Exception error){
+            
+            if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+              SSServErrReg.reset();
+              SSLogU.debug("activity entity not accessible by user");
+              continue;
+            }
+            
+            throw error;
+          }
           
-        }catch(Exception error){
-          SSLogU.warn("information for activity entity couldnt be retrieved");
-          SSServErrReg.reset();
+          activitiesEntities.get(activityID).add(activityEntityURI);
+          descURIs.add(activityEntityURI);
+        }
+        
+        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+      }
+      
+      SSStrU.distinctWithoutEmptyAndNull2(descURIs);
+      
+      final List<SSEntity> descs = new ArrayList<>();
+      
+      try{
+        descs.addAll(
+          SSServCaller.entityDescsGet(
+            par.user,
+            descURIs,
+            SSEntityE.asListWithoutNullAndEmpty(),
+            false,
+            false,
+            false,
+            false,
+            false,
+            false));
+        
+      }catch(Exception error){
+        SSLogU.warn("information for activities couldnt be filled up");
+        SSServErrReg.reset();
+      }
+      
+      if(descs.isEmpty()){
+        return activities;
+      }
+      
+      for(SSActivity activity : activities){
+        
+        activityID = SSStrU.toStr(activity);
+        
+        for(SSEntity desc : descs){
+          
+          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
+            activity.entity = desc;
+            continue;
+          }
+          
+          if(SSStrU.contains(activitiesUsers.get(activityID), desc)){
+            activity.users.add(desc);
+            continue;
+          }
+          
+          if(SSStrU.contains(activitiesEntities.get(activityID), desc)){
+            activity.entities.add(desc);
+          }
         }
       }
-    }
-    
-    return activities;
-    
+      
+      return activities;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -476,7 +502,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           SSServErrReg.reset();
         }
       }
-        
+      
       activity.users.addAll(
         SSServCaller.usersGet(
           sqlFct.getActivityUsers(activity.id),
@@ -505,11 +531,11 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           SSServErrReg.reset();
         }
       }
-
+      
       return activity;
     }catch(Exception error){
-       SSServErrReg.regErrThrow(error);
-       return null;
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

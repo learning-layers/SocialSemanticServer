@@ -223,20 +223,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       
-      final SSUserAllPar par   = new SSUserAllPar(parA);
-      final List<SSUser> users = new ArrayList<>();
+      final SSUserAllPar par = new SSUserAllPar(parA);
       
-      for(SSUser user : sqlFct.userAll()){
-        
-        if(par.setFriends){
-          user.friends.addAll(SSServCaller.friendsUserGet(user.id));
-          user.friend = SSStrU.contains(user.friends, par.user);
-        }
-        
-        users.add(user);
-      }
-      
-      return users;
+      return SSServCaller.usersGet(SSUri.asListWithoutNullAndEmpty(), par.setFriends);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -248,19 +237,14 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       final SSUsersGetPar par   = new SSUsersGetPar(parA);
-      final List<SSUser>  users = new ArrayList<>();
-      SSUser              user;
+      final List<SSUser>  users = sqlFct.getUsers(par.users);
       
-      for(SSUri userUri : par.users){
-        
-        user        = sqlFct.getUser(userUri);
+      for(SSUser user : users){
         
         if(par.setFriends){
           user.friends.addAll(SSServCaller.friendsUserGet(user.id));
           user.friend = SSStrU.contains(user.friends, par.user);
         }
-        
-        users.add(user);
       }
       
       return users;
