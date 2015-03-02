@@ -22,6 +22,8 @@ package at.kc.tugraz.ss.recomm.conf;
 
 import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
 import engine.Algorithm;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSRecommConf extends SSServConfA{
 
@@ -29,6 +31,7 @@ public class SSRecommConf extends SSServConfA{
   public String        fileNameForResourceRec     = null;
   public Boolean       usePrivateTagsToo          = null;
   public Algorithm     recommTagAlgorithm         = null;
+  public List<String>  recommTagsGroups           = new ArrayList<>();
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
@@ -38,6 +41,10 @@ public class SSRecommConf extends SSServConfA{
     copy.fileNameForResourceRec  = orig.fileNameForResourceRec;
     copy.usePrivateTagsToo       = orig.usePrivateTagsToo;
     copy.recommTagAlgorithm      = orig.recommTagAlgorithm;
+    
+    if(orig.recommTagsGroups != null){
+      copy.recommTagsGroups.addAll(orig.recommTagsGroups);
+    }
     
     return copy;
   }

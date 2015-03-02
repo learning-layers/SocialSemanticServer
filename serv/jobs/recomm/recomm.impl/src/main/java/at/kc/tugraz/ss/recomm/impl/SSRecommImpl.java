@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import engine.Algorithm;
 import engine.CFResourceRecommenderEngine;
 import engine.EngineInterface;
 import engine.TagRecommenderEvalEngine;
@@ -51,9 +52,12 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   
   private static final EngineInterface               tagRec       = new TagRecommenderEvalEngine();
   private static final CFResourceRecommenderEngine   resourceRec  = new CFResourceRecommenderEngine();
+  private        final SSRecommConf                  recommConf;
   
   public SSRecommImpl(final SSConfA conf) throws Exception{
     super(conf);
+    
+    recommConf = ((SSRecommConf)conf);
   }
   
   @Override
@@ -68,7 +72,10 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   public Map<String, Double> recommTags(final SSServPar parA) throws Exception{
     
     try{
-      final SSRecommTagsPar par = new SSRecommTagsPar(parA);
+      final SSRecommTagsPar par  = new SSRecommTagsPar(parA);
+      final SSEntity        forUserEntity;
+      Algorithm             algo = recommConf.recommTagAlgorithm;
+      
       
       if(par.user == null){
         throw new Exception("user cannot be null");
@@ -80,13 +87,26 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
         throw new Exception("user cannot retrieve tag recommendations for other users");
       }
       
+      if(!recommConf.recommTagsGroups.isEmpty()){
+       
+        forUserEntity = SSServCaller.entityGet(par.forUser);
+        
+        for(String tagRecommGroup : recommConf.recommTagsGroups){
+          
+          if(SSStrU.equals(SSStrU.split(tagRecommGroup, SSStrU.colon).get(0), forUserEntity.label)){
+            algo = Algorithm.valueOf(SSStrU.split(tagRecommGroup, SSStrU.colon).get(1));
+            break;
+          }
+        }
+      }
+      
       return tagRec.getEntitiesWithLikelihood(
         SSStrU.toStr(par.forUser), 
         SSStrU.toStr(par.entity),
         par.categories,
         par.maxTags,
         !par.includeOwn, //filterOwn
-        ((SSRecommConf)conf).recommTagAlgorithm); /* BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF */
+        algo); /* BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF */
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

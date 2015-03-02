@@ -32,6 +32,7 @@ public class SSEvernoteConf extends SSServConfA{
   public String       evernoteEnvironment = "sandbox";
   public List<String> authTokens          = new ArrayList<>();
   public List<String> authEmails          = new ArrayList<>();
+  public List<String> groups              = new ArrayList<>();
   
   public static SSEvernoteConf copy(final SSEvernoteConf orig){
     
@@ -52,6 +53,10 @@ public class SSEvernoteConf extends SSServConfA{
       copy.authEmails = null;
     }else{
       copy.authEmails = orig.authEmails;
+    }
+    
+    if(orig.groups != null){
+      copy.groups.addAll(orig.groups);
     }
     
     return copy;
