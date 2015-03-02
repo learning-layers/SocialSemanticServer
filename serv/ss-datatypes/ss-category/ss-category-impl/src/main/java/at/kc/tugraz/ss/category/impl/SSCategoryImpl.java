@@ -293,9 +293,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoriesPredefinedAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -482,9 +483,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoryAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -556,9 +558,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoryUserEdit(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -660,9 +663,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoriesUserRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -734,9 +738,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoriesAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -783,9 +788,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return categoriesRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);

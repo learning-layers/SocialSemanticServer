@@ -165,9 +165,10 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return appStackLayoutCreate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -245,9 +246,10 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return appStackLayoutUpdate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -340,9 +342,10 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return appStackLayoutDelete(parA);
         }else{
           SSServErrReg.regErrThrow(error);

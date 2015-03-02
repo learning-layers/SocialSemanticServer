@@ -491,9 +491,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -563,9 +564,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionCreate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -643,9 +645,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionAddCircle(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -735,9 +738,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionAddEntity(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -790,9 +794,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpCreate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -856,9 +861,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionUpdateCircle(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -928,9 +934,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionUpdateEntity(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -981,9 +988,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionRemoveCircle(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1034,9 +1042,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionRemoveEntity(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1106,9 +1115,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionSetTimelineState(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1227,9 +1237,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpVersionCurrentSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1268,9 +1279,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return learnEpUserCopyForUser(parA);
         }else{
           SSServErrReg.regErrThrow(error);

@@ -171,9 +171,10 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return flagsUserSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);

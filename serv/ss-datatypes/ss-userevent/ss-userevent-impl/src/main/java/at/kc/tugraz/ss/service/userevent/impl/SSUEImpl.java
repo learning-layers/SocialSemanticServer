@@ -294,9 +294,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return uEsRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -359,9 +360,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return uEAddAtCreationTime(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -432,9 +434,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return uEAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);

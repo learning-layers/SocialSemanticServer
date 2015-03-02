@@ -112,22 +112,19 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   @Override
   public Boolean dataImportEvernote(final SSServPar parA) throws Exception{
     
+    String authToken = null;
+    
     try{
       
       final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
      
-      currentlyRunEvernoteImportsLock.writeLock().lock();
-      
-      if(currentlyRunEvernoteImports.contains(par.authToken)){
-        SSLogU.warn("import currently runs for " + par.authToken);
-        return false;
-      }else{
-        currentlyRunEvernoteImports.add(par.authToken);
+      authToken = par.authToken;
         
-        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      if(!addCurrentlyRunEvernotImport(authToken)){
+        return false;
       }
       
-      SSLogU.info("start data import for evernote account " + par.authToken);                
+      SSLogU.info("start data import for evernote account " + authToken);                
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -143,25 +140,19 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       dbSQL.commit(par.shouldCommit);
       
-      SSServA.removeClientRequ(par.op, SSStrU.toStr(par.user), this);
-      
-      SSLogU.info("end data import for evernote account " + par.authToken);
-      
-      currentlyRunEvernoteImportsLock.writeLock().lock();
-      currentlyRunEvernoteImports.remove(par.authToken);
+      SSLogU.info("end data import for evernote account " + authToken);
       
       return true;
     }catch(Exception error){
       
-      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
-        currentlyRunEvernoteImportsLock.writeLock().unlock();
-      }
-      
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+       
+          SSServErrReg.reset();
+          
+          removeCurrentlyRunEvernoteImport(authToken);
+          
           return dataImportEvernote(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -173,11 +164,38 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      
-      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
-        currentlyRunEvernoteImportsLock.writeLock().unlock();
-      }
+      removeCurrentlyRunEvernoteImport(authToken);
     }
+  }
+  
+  private Boolean addCurrentlyRunEvernotImport(final String authToken){
+    
+    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+      currentlyRunEvernoteImportsLock.writeLock().lock();
+    }
+    
+    if(currentlyRunEvernoteImports.contains(authToken)){
+      SSLogU.warn("import currently runs for " + authToken);
+      return false;
+    }else{
+      currentlyRunEvernoteImports.add(authToken);
+      
+      currentlyRunEvernoteImportsLock.writeLock().unlock();
+      return true;
+    }
+  }
+  
+  private void removeCurrentlyRunEvernoteImport(final String authToken){
+    
+    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+      currentlyRunEvernoteImportsLock.writeLock().lock();
+    }
+    
+    if(authToken != null){
+      currentlyRunEvernoteImports.remove(authToken);
+    }
+    
+    currentlyRunEvernoteImportsLock.writeLock().unlock();
   }
   
   @Override
@@ -228,9 +246,10 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           dataImportMediaWikiUser(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -404,9 +423,10 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return dataImportUserResourceTagFromWikipedia(parA);
         }else{
           SSServErrReg.regErrThrow(error);

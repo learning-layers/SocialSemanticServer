@@ -465,9 +465,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserEntryDelete(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -542,9 +543,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserEntriesDelete(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -625,9 +627,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserEntryAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -678,9 +681,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserEntriesAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -732,9 +736,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserEntryChangePos(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1022,9 +1027,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return collUserRootAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);

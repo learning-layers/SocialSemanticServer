@@ -89,10 +89,10 @@ public class SSDataImportEvernoteTask extends TimerTask {
         
         if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
           
-          SSServErrReg.reset();
-          
           try{
             if(dbSQL.rollBack(new SSServPar(SSMethU.dataImportEvernote, new HashMap<>()))){
+              
+              SSServErrReg.reset();
               
               SSServCaller.dataImportEvernote(
                 SSVoc.systemUserUri,

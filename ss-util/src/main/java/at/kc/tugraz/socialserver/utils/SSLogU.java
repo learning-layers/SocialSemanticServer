@@ -105,6 +105,15 @@ public class SSLogU{
 //    error.printStackTrace();
   }
   
+  public static void err(final String errorMsg){
+    
+    if(errorMsg == null){
+      return;
+    }
+    
+    log.error(errorMsg);
+  }
+  
   public static void errThrow(final Exception error) throws Exception{
     
     if(error == null){

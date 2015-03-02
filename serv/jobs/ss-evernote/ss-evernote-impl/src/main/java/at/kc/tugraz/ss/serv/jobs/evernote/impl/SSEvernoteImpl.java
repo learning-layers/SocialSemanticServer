@@ -456,9 +456,10 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return evernoteUserAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -503,9 +504,10 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return evernoteNoteAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -536,9 +538,10 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return evernoteResourceAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -569,9 +572,10 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return evernoteUSNSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);

@@ -414,9 +414,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return tagAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -503,9 +504,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return tagUserEdit(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -612,9 +614,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return tagsUserRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -719,9 +722,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return tagsAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -768,9 +772,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return tagsRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);

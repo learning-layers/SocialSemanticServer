@@ -389,9 +389,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return activityAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -421,9 +422,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return activityContentAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -458,9 +460,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           activityContentsAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);

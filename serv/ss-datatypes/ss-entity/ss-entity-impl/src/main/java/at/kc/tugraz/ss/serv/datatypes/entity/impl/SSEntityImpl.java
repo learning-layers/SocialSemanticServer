@@ -205,9 +205,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUserCopy(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -280,9 +281,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUserUpdate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -346,9 +348,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUpdate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -548,9 +551,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUserDirectlyAdjoinedEntitiesRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -732,9 +736,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUserAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -768,9 +773,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -798,9 +804,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -895,9 +902,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityThumbAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -972,9 +980,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityUserEntitiesAttach(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1035,9 +1044,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityLocationsAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1068,9 +1078,10 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return entityFileAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);

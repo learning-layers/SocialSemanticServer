@@ -304,9 +304,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return ratingUserSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -388,9 +389,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return ratingsUserRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);

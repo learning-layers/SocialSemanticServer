@@ -214,14 +214,13 @@ public class SSServErrReg {
     
     for(SSErrForClient error : servImplErrors.get()){
       
-      System.err.println(
-        "error: "               + SSStrU.blank   +
+      SSLogU.err(
         error.threadWhereThrown + SSStrU.blank   +
         error.classWhereThrown  + SSStrU.blank   +
         error.methodWhereThrown + SSStrU.blank   +
         error.lineWhereThrown   + SSStrU.blank   +
         error.className         + SSStrU.blank   +
-        error.message           + SSStrU.blank);
+        error.message);
     }
     
     reset();
@@ -231,14 +230,13 @@ public class SSServErrReg {
     
     for(SSErrForClient error : servImplErrors.get()){
       
-      System.err.println(
-        "error: "               + SSStrU.blank   +
+      SSLogU.err(
         error.threadWhereThrown + SSStrU.blank   +
         error.classWhereThrown  + SSStrU.blank   +
         error.methodWhereThrown + SSStrU.blank   +
         error.lineWhereThrown   + SSStrU.blank   +
         error.className         + SSStrU.blank   +
-        error.message           + SSStrU.blank);
+        error.message);
     }
     
     reset();

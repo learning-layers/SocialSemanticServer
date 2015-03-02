@@ -447,9 +447,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return discUserEntryAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -595,9 +596,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return discUserRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);

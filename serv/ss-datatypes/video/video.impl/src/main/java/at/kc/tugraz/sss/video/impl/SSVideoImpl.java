@@ -357,9 +357,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return videoUserAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -420,9 +421,10 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return videoUserAnnotationAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);

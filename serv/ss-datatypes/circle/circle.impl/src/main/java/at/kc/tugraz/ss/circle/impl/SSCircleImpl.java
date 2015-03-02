@@ -121,9 +121,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleEntitiesRemove(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -213,9 +214,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleCreate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -271,9 +273,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleUsersAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -338,9 +341,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleEntitiesAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -679,9 +683,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circlePrivURIGet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -714,9 +719,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circlePubURIGet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -762,9 +768,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           entityEntityToPrivCircleAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -809,9 +816,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           entityEntityToPrivCircleAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -896,9 +904,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleEntityPublicSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
@@ -1071,9 +1080,10 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        SSServErrReg.reset();
-        
         if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
           return circleEntityShare(parA);
         }else{
           SSServErrReg.regErrThrow(error);
