@@ -394,6 +394,33 @@ public class SSFileU{
     }
   }
   
+  public static synchronized void writePDFFromXHTMLWithRenderer(
+    final String pdfFilePath, 
+    final String xhtmlFilePath) throws Exception{
+    
+    FileOutputStream out = null;
+    
+    try{
+      
+      final ITextRenderer renderer = new ITextRenderer();
+      final String        uri      = new File(xhtmlFilePath).toURI().toURL().toString();
+      
+      out = new FileOutputStream(pdfFilePath);
+      
+      renderer.getSharedContext().setReplacedElementFactory(new ProfileImageReplacedElementFactory(renderer.getSharedContext().getReplacedElementFactory()));
+      
+      renderer.setDocument(uri);
+      renderer.layout(); //can happen http://stackoverflow.com/questions/13678641/while-converting-xhtml-with-css-to-pdf-got-an-exception-java-lang-indexoutofboun
+      renderer.createPDF(out);
+      
+    }finally{
+      
+      if(out != null){
+        out.close();
+      }
+    }
+  }
+  
   public static void writePDFFromText(
     final String pdfFilePath,
     final String textFilePath)throws Exception{

@@ -579,6 +579,22 @@ public class SSServCaller {
   
   /* evernote */ 
   
+  public static Resource evernoteResourceByHashGet(
+    final SSUri           user,
+    final NoteStoreClient noteStore,
+    final String          noteGUID, 
+    final String          resourceHash) throws Exception{
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.noteStore,      noteStore);
+    opPars.put(SSVarU.noteGUID,       noteGUID);
+    opPars.put(SSVarU.resourceHash,   resourceHash);
+    
+    return (Resource) SSServA.callServViaServer(new SSServPar(SSMethU.evernoteResourceByHashGet, opPars));
+  }
+    
   public static Boolean evernoteResourceAdd(
     final SSUri    user,
     final SSUri    note, 

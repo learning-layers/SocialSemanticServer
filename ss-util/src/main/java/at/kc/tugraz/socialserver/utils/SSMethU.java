@@ -92,6 +92,7 @@ public enum SSMethU{
   evernoteNoteAdd,
   evernoteUSNSet,
   evernoteResourceAdd,
+  evernoteResourceByHashGet,
   //  evernoteNotebooksLinkedGet                          ,
   //  evernoteNotebooksGet                                ,
 //  evernoteNotesGet                                    ,

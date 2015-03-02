@@ -34,6 +34,7 @@ public interface SSEvernoteServerI {
   public List<String>         evernoteNoteTagNamesGet    (final SSServPar parA) throws Exception;
   public SSEvernoteInfo       evernoteNoteStoreGet       (final SSServPar parA) throws Exception;
   public Notebook             evernoteNotebookGet        (final SSServPar parA) throws Exception;
+  public Resource             evernoteResourceByHashGet  (final SSServPar parA) throws Exception;
   public List<SharedNotebook> evernoteNotebooksSharedGet (final SSServPar parA) throws Exception;
   public Boolean              evernoteUserAdd            (final SSServPar parA) throws Exception;
   public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws Exception;

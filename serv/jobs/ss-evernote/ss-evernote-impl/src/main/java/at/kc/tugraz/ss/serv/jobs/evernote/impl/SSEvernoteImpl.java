@@ -43,6 +43,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
@@ -66,6 +67,7 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
@@ -320,6 +322,55 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
         Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
         
         return evernoteNotebookGet (parA);
+      }
+      
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Resource evernoteResourceByHashGet(final SSServPar parA) throws Exception {
+    
+    try{
+      
+      final SSEvernoteResourceByHashGetPar par       = new SSEvernoteResourceByHashGetPar(parA);
+      
+//      short      a     = Short.parseShort  (par.resourceHash, 2);
+      
+//      byte[] array =  par.resourceHash.getBytes();
+      
+//      ByteBuffer bytes = ByteBuffer.wrap(array);
+        
+        //allocate(2).putShort(a);
+      
+//      int numberChars = par.resourceHash.length();
+//      byte[] bytes = new byte[numberChars / 2];
+//      
+//      for (int i = 0; i < numberChars; i += 2){
+//        bytes[i / 2] = Byte.parseByte(par.resourceHash.substring(i, i + 1), 16);
+//      }
+      
+      byte[] result = new byte[par.resourceHash.length() / 2];
+      for (int i = 0; i < result.length; ++i) {
+        int offset = i * 2;
+        result[i] = (byte) Integer.parseInt(par.resourceHash.substring(offset, offset + 2), 16);
+      }
+      
+      return par.noteStore.getResourceByHash(par.noteGUID, result, true, false, false);
+    }catch(Exception error){
+      
+      if(
+        error instanceof EDAMSystemException &&
+        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+        
+        SSServErrReg.reset();
+        
+        SSLogU.info("evernoteResourceByHashGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        
+        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        
+        return evernoteResourceByHashGet (parA);
       }
       
       SSServErrReg.regErrThrow(error);

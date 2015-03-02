@@ -28,37 +28,45 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
+import com.evernote.edam.type.Resource;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
   private final SSUri   user;
   private final SSUri   noteUri;
   private final Note    note;
+  private final NoteStoreClient noteStore;
   private final String  localWorkPath;
   
   public SSDataImportEvernoteNoteContentHandler(
     final SSUri   user,
     final Note    note,
     final SSUri   noteUri,
+    final NoteStoreClient noteStore,
     final String  localWorkPath){
     
     this.user          = user;
     this.note          = note;
     this.noteUri       = noteUri;
+    this.noteStore     = noteStore;
     this.localWorkPath = localWorkPath;
   }
   
    //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   public void handleNoteContent() throws Exception{
     
-    String xhtmlFilePath = null;
-    SSUri  fileUri       = null;
-    String pdfFilePath;
-    String textFilePath;
+    String                    xhtmlFilePath     = null;
+    SSUri                     fileUri           = null;
+    String                    pdfFilePath;
+    String                    textFilePath;
     
     try{
       
@@ -71,7 +79,10 @@ public class SSDataImportEvernoteNoteContentHandler{
         SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
         
         try{
-          SSFileU.writePDFFromXHTML     (pdfFilePath,       xhtmlFilePath);
+          
+          SSFileU.writeStr            (fillXHTMLWithImageLinks(xhtmlFilePath), xhtmlFilePath);
+          
+          SSFileU.writePDFFromXHTMLWithRenderer     (pdfFilePath,       xhtmlFilePath);
         }catch(Exception error){
           
           textFilePath = xhtmlFilePath;
@@ -212,6 +223,99 @@ public class SSDataImportEvernoteNoteContentHandler{
         if(!line.isEmpty()){
           result += line + SSStrU.backslashRBackslashN;
         }
+      }
+      
+      return result;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      if(br != null){
+        br.close();
+      }
+    }
+  }
+
+  private String fillXHTMLWithImageLinks(
+    final String              path) throws Exception{
+    
+    BufferedReader br     = null;
+    String         result = SSStrU.empty;
+    
+    try{
+      
+      String line, mediaTag, hash;
+      int tagIndex, tagEndIndex, hashIndex, hashEndIndex;
+      
+      br = new BufferedReader(new FileReader(new File(path)));
+      
+      while((line = br.readLine()) != null){
+        
+        line = line.trim();
+        
+        if(!line.contains("<en-media")){
+          result += line + SSStrU.backslashRBackslashN;
+          continue;
+        }
+        
+        if(!line.contains("</en-media>")){
+          result += line + SSStrU.backslashRBackslashN;
+          continue;
+          //throw new Exception("xhtml invalid"); ///>
+        }
+        
+        tagIndex    = line.indexOf("<en-media");
+        tagEndIndex = line.indexOf("</en-media>");
+        mediaTag    = line.substring(tagIndex + 10, tagEndIndex);
+        
+        if(!line.contains("type=\"image/png\"")){ //application/pdf  //application/vnd.openxmlformats-officedocument.presentationml.presentation //"image/jpeg" //application/msword //application/vnd.openxmlformats-officedocument.wordprocessingml.document
+          result += line + SSStrU.backslashRBackslashN;
+          continue;
+        }
+        
+        if(!line.contains("hash=\"")){
+          result += line + SSStrU.backslashRBackslashN;
+          continue;
+        }
+        
+        hashIndex    = line.indexOf("hash=\"");
+        hashEndIndex = line.indexOf("\"", hashIndex + 6);
+        hash         = line.substring(hashIndex + 6, hashEndIndex);
+        
+        String fileURI         = SSStrU.toStr(SSServCaller.vocURICreate(SSFileExtE.png));
+        String fileID          = SSServCaller.fileIDFromURI(user, SSUri.get(fileURI));
+          
+        Resource resource = 
+          SSServCaller.evernoteResourceByHashGet(
+            user, 
+            noteStore, 
+            note.getGuid(), 
+            hash);
+        
+        SSFileU.writeFileBytes(
+          new FileOutputStream(localWorkPath + fileID),
+          resource.getData().getBody(),
+          resource.getData().getSize());
+
+        String hashReplacement = 
+//          "<div style=\"position:absolute;top:0;left:0;border-color:transparent;\">" + 
+          "<div class=\"xmyImagex\" width=\"" + 
+          resource.getWidth() + 
+          "\" height=\"" + 
+          resource.getHeight() + 
+          "\" href=\"" + 
+          localWorkPath + fileID + 
+          "\"/>"; //+ 
+//          "</div>;";
+        
+        line = 
+          line.substring(0, tagIndex) + 
+          hashReplacement + 
+          line.substring(tagEndIndex + 11, line.length());
+        
+        result += line + SSStrU.backslashRBackslashN;
       }
       
       return result;

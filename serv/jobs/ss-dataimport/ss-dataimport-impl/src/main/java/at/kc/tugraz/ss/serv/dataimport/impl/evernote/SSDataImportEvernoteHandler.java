@@ -310,6 +310,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         noteWithContent,
         noteUri,
+        evernoteInfo.noteStore,
         localWorkPath).handleNoteContent();
     }
   }
