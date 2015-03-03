@@ -35,14 +35,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
-  private final SSUri   user;
-  private final SSUri   noteUri;
-  private final Note    note;
+  private static final Map<String, SSUri> hashsPerFileURIs = new HashMap<>();
+  
+  private final SSUri           user;
+  private final SSUri           noteUri;
+  private final Note            note;
   private final NoteStoreClient noteStore;
-  private final String  localWorkPath;
+  private final String          localWorkPath;
   
   public SSDataImportEvernoteNoteContentHandler(
     final SSUri   user,
@@ -78,7 +82,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       try{
         
         SSFileU.writeStr(
-          fillXHTMLWithImageLinks(xhtmlFilePath), 
+          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath), 
           xhtmlFilePath);
         
         SSFileU.writePDFFromXHTML(
@@ -93,11 +97,11 @@ public class SSDataImportEvernoteNoteContentHandler{
         
         try{
           SSFileU.writeStr(
-            parseXHTML(xhtmlFilePath), 
+            reduceXHTMLToTextAndImage(xhtmlFilePath), 
             xhtmlFilePath);
           
           SSFileU.writeStr(
-            fillXHTMLWithImageLinks(xhtmlFilePath), 
+            downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath), 
             xhtmlFilePath);
           
           SSFileU.writePDFFromXHTML(
@@ -156,7 +160,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     }
   }
   
-  public static String parseXHTML(final String path) throws Exception{
+  public static String reduceXHTMLToTextAndImage(final String path) throws Exception{
     
     BufferedReader br     = null;
     String         result = SSStrU.empty;
@@ -275,20 +279,27 @@ public class SSDataImportEvernoteNoteContentHandler{
     }
   }
   
-  private String fillXHTMLWithImageLinks(
+  private String downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
     final String              path) throws Exception{
     
-    BufferedReader br     = null;
-    String         result = SSStrU.empty;
+    BufferedReader lineReader      = null;
+    String         result          = SSStrU.empty;
+    Resource       resource;
+    SSUri          fileURI;
+    String         fileID;
+    String         line;
+    String         mediaTag;
+    String         hash;
+    int            tagIndex;
+    int            tagEndIndex; 
+    int            hashIndex;
+    int            hashEndIndex;
     
     try{
       
-      String line, mediaTag, hash;
-      int tagIndex, tagEndIndex, hashIndex, hashEndIndex;
+      lineReader = new BufferedReader(new FileReader(new File(path)));
       
-      br = new BufferedReader(new FileReader(new File(path)));
-      
-      while((line = br.readLine()) != null){
+      while((line = lineReader.readLine()) != null){
         
         line = line.trim();
         
@@ -321,38 +332,32 @@ public class SSDataImportEvernoteNoteContentHandler{
         hashEndIndex = line.indexOf("\"", hashIndex + 6);
         hash         = line.substring(hashIndex + 6, hashEndIndex);
         
-        String fileURI         = SSStrU.toStr(SSServCaller.vocURICreate(SSFileExtE.png));
-        String fileID          = SSServCaller.fileIDFromURI(user, SSUri.get(fileURI));
-        
-        Resource resource =
-          SSServCaller.evernoteResourceByHashGet(
-            user,
-            noteStore,
-            note.getGuid(),
-            hash);
-        
-        SSFileU.writeFileBytes(
-          new FileOutputStream(localWorkPath + fileID),
-          resource.getData().getBody(),
-          resource.getData().getSize());
-        
-        //<div style=\"width:200px;height:200px;\"> </div>
-        String hashReplacement = "<img class=\"xmyImagex\" width=\"" + resource.getWidth() + "\" height=\"" + resource.getHeight() + "\" src=\"" + localWorkPath + fileID + "\"/>";
-        
-//        String hashReplacement =
-////          "<div style=\"position:absolute;top:0;left:0;border-color:transparent;\">" +
-//          "<div class=\"xmyImagex\" width=\"" +
-//          resource.getWidth() +
-//          "\" height=\"" +
-//          resource.getHeight() +
-//          "\" href=\"" +
-//          localWorkPath + fileID +
-//          "\"/>"; //+
-////          "</div>;";
+        if(hashsPerFileURIs.containsKey(hash)){
+          fileURI = hashsPerFileURIs.get(hash);
+          
+          fileID = SSServCaller.fileIDFromURI(user, fileURI);
+        }else{
+          fileURI = SSServCaller.vocURICreate(SSFileExtE.png);
+          fileID  = SSServCaller.fileIDFromURI(user, fileURI);
+          
+          hashsPerFileURIs.put(hash, fileURI);
+          
+          resource =
+            SSServCaller.evernoteResourceByHashGet(
+              user,
+              noteStore,
+              note.getGuid(),
+              hash);
+          
+          SSFileU.writeFileBytes(
+            new FileOutputStream(localWorkPath + fileID),
+            resource.getData().getBody(),
+            resource.getData().getSize());
+        }
         
         line =
           line.substring(0, tagIndex) +
-          hashReplacement +
+          "<img class=\"xmyImagex\" src=\"" + localWorkPath + fileID + "\"/>" +
           line.substring(tagEndIndex + 11, line.length());
         
         result += line + SSStrU.backslashRBackslashN;
@@ -365,8 +370,8 @@ public class SSDataImportEvernoteNoteContentHandler{
       return null;
     }finally{
       
-      if(br != null){
-        br.close();
+      if(lineReader != null){
+        lineReader.close();
       }
     }
   }
