@@ -1,23 +1,23 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
@@ -35,8 +35,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
@@ -60,49 +58,59 @@ public class SSDataImportEvernoteNoteContentHandler{
     this.localWorkPath = localWorkPath;
   }
   
-   //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
+  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   public void handleNoteContent() throws Exception{
     
-    String                    xhtmlFilePath     = null;
-    SSUri                     fileUri           = null;
+    String                    xhtmlFilePath;
+    SSUri                     fileUri;
     String                    pdfFilePath;
-    String                    textFilePath;
     
     try{
       
+      xhtmlFilePath    = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate(SSFileExtE.xhtml));
+      fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
+      pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI (user, fileUri);
+      
+      SSFileU.writeStr(
+        note.getContent(), 
+        xhtmlFilePath);
+      
       try{
         
-        xhtmlFilePath    = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate(SSFileExtE.xhtml));
-        fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
-        pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI (user, fileUri);
+        SSFileU.writeStr(
+          fillXHTMLWithImageLinks(xhtmlFilePath), 
+          xhtmlFilePath);
         
-        SSFileU.writeStr              (note.getContent(), xhtmlFilePath);
+        SSFileU.writePDFFromXHTML(
+          pdfFilePath,
+          xhtmlFilePath, 
+          true);
+        
+      }catch(Exception error){
+        
+        SSServErrReg.reset();
+        SSLogU.warn("PDF from XHTML failed");
         
         try{
+          SSFileU.writeStr(
+            parseXHTML(xhtmlFilePath), 
+            xhtmlFilePath);
           
-          SSFileU.writeStr            (fillXHTMLWithImageLinks(xhtmlFilePath), xhtmlFilePath);
+          SSFileU.writeStr(
+            fillXHTMLWithImageLinks(xhtmlFilePath), 
+            xhtmlFilePath);
           
-          SSFileU.writePDFFromXHTMLWithRenderer     (pdfFilePath,       xhtmlFilePath);
-        }catch(Exception error){
+          SSFileU.writePDFFromXHTML(
+            pdfFilePath,
+            xhtmlFilePath, 
+            true);
           
-          textFilePath = xhtmlFilePath;
+        }catch(Exception error1){
           
-          SSLogU.warn("PDF creation failed from evernote note content");
-          
-          String parsedXHTML = parseXHTML(xhtmlFilePath);
-          
-          SSFileU.writeFileText(new File(textFilePath), parsedXHTML);
-          
-          try{
-            SSFileU.writePDFFromText     (pdfFilePath,  textFilePath);
-          }catch(Exception error1){
-            SSLogU.warn("PDF creation from parsed XHTML (now text) failed from evernote note content");
-            throw error1;
-          }
+          SSServErrReg.reset();
+          SSLogU.warn("PDF from reduced XHTML failed");
+          return;
         }
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return;
       }finally{
         
         try{
@@ -111,20 +119,20 @@ public class SSDataImportEvernoteNoteContentHandler{
       }
       
       SSServCaller.entityEntityToPrivCircleAdd(
-        user, 
-        fileUri, 
-        SSEntityE.file, 
-        null, 
-        null, 
-        null, 
+        user,
+        fileUri,
+        SSEntityE.file,
+        null,
+        null,
+        null,
         false);
-       
+      
       for(SSUri file : SSServCaller.entityFilesGet(user, noteUri)){
-
+        
         SSServCaller.entityRemove(file, false);
         
         try{
-          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, file));  
+          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, file));
         }catch(Exception error){
           SSLogU.warn("evernote note file couldnt be removed");
         }
@@ -155,9 +163,21 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
+      result +=
+        "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n" +
+        "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
+        "\n" +
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "\n" +
+        "<head>\n" +
+        "  <title>Title of document</title>\n" +
+        "</head>\n" +
+        "\n" +
+        "<body>\n";
+      
       String line, text, tag, tmpTag, href, title;
       int tagIndex, tagEndIndex, hrefIndex, hrefEndIndex, titleIndex, titleEndIndex;
-
+      
       br = new BufferedReader(new FileReader(new File(path)));
       
       while((line = br.readLine()) != null){
@@ -173,7 +193,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           tagIndex    = line.indexOf("<");
           tagEndIndex = line.indexOf(">");
           tag         = line.substring(tagIndex, tagEndIndex + 1);
-          tmpTag = line.substring(tagIndex, tagEndIndex + 1);
+          tmpTag      = line.substring(tagIndex, tagEndIndex + 1);
           
           if(tagIndex != 0){
             
@@ -184,11 +204,23 @@ public class SSDataImportEvernoteNoteContentHandler{
             }
           }
           
+          String mediaTag;
+          if(tmpTag.contains("<en-media")){
+            
+            tagIndex    = tmpTag.indexOf("<en-media");
+            tagEndIndex = tmpTag.indexOf(">");
+            
+            if(tagEndIndex != -1){
+              mediaTag    = tmpTag.substring(tagIndex, tagEndIndex);
+              result += mediaTag  + "></en-media>";
+            }
+          }
+          
           while(tmpTag.contains("href=\"")){
             
-            hrefIndex = tmpTag.indexOf("href=\"");
+            hrefIndex    = tmpTag.indexOf("href=\"");
             hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
-            href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
+            href         = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
             
             if(tmpTag.contains("title=\"")){
               
@@ -225,6 +257,11 @@ public class SSDataImportEvernoteNoteContentHandler{
         }
       }
       
+      result += 
+        "</body>\n"
+        + "\n"
+        + "</html>";
+      
       return result;
       
     }catch(Exception error){
@@ -237,7 +274,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       }
     }
   }
-
+  
   private String fillXHTMLWithImageLinks(
     final String              path) throws Exception{
     
@@ -286,33 +323,36 @@ public class SSDataImportEvernoteNoteContentHandler{
         
         String fileURI         = SSStrU.toStr(SSServCaller.vocURICreate(SSFileExtE.png));
         String fileID          = SSServCaller.fileIDFromURI(user, SSUri.get(fileURI));
-          
-        Resource resource = 
+        
+        Resource resource =
           SSServCaller.evernoteResourceByHashGet(
-            user, 
-            noteStore, 
-            note.getGuid(), 
+            user,
+            noteStore,
+            note.getGuid(),
             hash);
         
         SSFileU.writeFileBytes(
           new FileOutputStream(localWorkPath + fileID),
           resource.getData().getBody(),
           resource.getData().getSize());
-
-        String hashReplacement = 
-//          "<div style=\"position:absolute;top:0;left:0;border-color:transparent;\">" + 
-          "<div class=\"xmyImagex\" width=\"" + 
-          resource.getWidth() + 
-          "\" height=\"" + 
-          resource.getHeight() + 
-          "\" href=\"" + 
-          localWorkPath + fileID + 
-          "\"/>"; //+ 
-//          "</div>;";
         
-        line = 
-          line.substring(0, tagIndex) + 
-          hashReplacement + 
+        //<div style=\"width:200px;height:200px;\"> </div>
+        String hashReplacement = "<img class=\"xmyImagex\" width=\"" + resource.getWidth() + "\" height=\"" + resource.getHeight() + "\" src=\"" + localWorkPath + fileID + "\"/>";
+        
+//        String hashReplacement =
+////          "<div style=\"position:absolute;top:0;left:0;border-color:transparent;\">" +
+//          "<div class=\"xmyImagex\" width=\"" +
+//          resource.getWidth() +
+//          "\" height=\"" +
+//          resource.getHeight() +
+//          "\" href=\"" +
+//          localWorkPath + fileID +
+//          "\"/>"; //+
+////          "</div>;";
+        
+        line =
+          line.substring(0, tagIndex) +
+          hashReplacement +
           line.substring(tagEndIndex + 11, line.length());
         
         result += line + SSStrU.backslashRBackslashN;
