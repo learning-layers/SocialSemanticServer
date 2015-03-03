@@ -87,7 +87,9 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
         throw new Exception("user cannot retrieve tag recommendations for other users");
       }
       
-      if(!recommConf.recommTagsGroups.isEmpty()){
+      if(
+        recommConf.recommTagsGroups != null &&
+        !recommConf.recommTagsGroups.isEmpty()){
        
         forUserEntity = SSServCaller.entityGet(par.forUser);
         

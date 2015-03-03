@@ -1,28 +1,29 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -76,18 +77,18 @@ public class SSDataImportEvernoteNoteContentHandler{
       pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI (user, fileUri);
       
       SSFileU.writeStr(
-        note.getContent(), 
+        note.getContent(),
         xhtmlFilePath);
       
       try{
         
         SSFileU.writeStr(
-          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath), 
+          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
           xhtmlFilePath);
         
         SSFileU.writePDFFromXHTML(
           pdfFilePath,
-          xhtmlFilePath, 
+          xhtmlFilePath,
           true);
         
       }catch(Exception error){
@@ -97,16 +98,16 @@ public class SSDataImportEvernoteNoteContentHandler{
         
         try{
           SSFileU.writeStr(
-            reduceXHTMLToTextAndImage(xhtmlFilePath), 
+            reduceXHTMLToTextAndImage(xhtmlFilePath),
             xhtmlFilePath);
           
           SSFileU.writeStr(
-            downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath), 
+            downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
             xhtmlFilePath);
           
           SSFileU.writePDFFromXHTML(
             pdfFilePath,
-            xhtmlFilePath, 
+            xhtmlFilePath,
             true);
           
         }catch(Exception error1){
@@ -208,17 +209,17 @@ public class SSDataImportEvernoteNoteContentHandler{
             }
           }
           
-          String mediaTag;
-          if(tmpTag.contains("<en-media")){
-            
-            tagIndex    = tmpTag.indexOf("<en-media");
-            tagEndIndex = tmpTag.indexOf(">");
-            
-            if(tagEndIndex != -1){
-              mediaTag    = tmpTag.substring(tagIndex, tagEndIndex);
-              result += mediaTag  + "></en-media>";
-            }
-          }
+//          String mediaTag;
+//          if(tmpTag.contains("<en-media")){
+//
+//            tagIndex    = tmpTag.indexOf("<en-media");
+//            tagEndIndex = tmpTag.indexOf(">");
+//
+//            if(tagEndIndex != -1){
+//              mediaTag    = tmpTag.substring(tagIndex, tagEndIndex);
+//              result += mediaTag  + "></en-media>";
+//            }
+//          }
           
           while(tmpTag.contains("href=\"")){
             
@@ -261,7 +262,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         }
       }
       
-      result += 
+      result +=
         "</body>\n"
         + "\n"
         + "</html>";
@@ -280,7 +281,7 @@ public class SSDataImportEvernoteNoteContentHandler{
   }
   
   private String downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
-    final String              path) throws Exception{
+    final String path) throws Exception{
     
     BufferedReader lineReader      = null;
     String         result          = SSStrU.empty;
@@ -288,10 +289,12 @@ public class SSDataImportEvernoteNoteContentHandler{
     SSUri          fileURI;
     String         fileID;
     String         line;
-    String         mediaTag;
+    String         tmpLine;
     String         hash;
-    int            tagIndex;
-    int            tagEndIndex; 
+    int            startIndex;
+    int            endIndex1;
+    int            endIndex2;
+    int            endIndex;
     int            hashIndex;
     int            hashEndIndex;
     
@@ -303,44 +306,81 @@ public class SSDataImportEvernoteNoteContentHandler{
         
         line = line.trim();
         
-        if(!line.contains("<en-media")){
-          result += line + SSStrU.backslashRBackslashN;
-          continue;
-        }
+        tmpLine = line;
         
-        if(!line.contains("</en-media>")){
-          result += line + SSStrU.backslashRBackslashN;
-          continue;
-          //throw new Exception("xhtml invalid"); ///>
-        }
-        
-        tagIndex    = line.indexOf("<en-media");
-        tagEndIndex = line.indexOf("</en-media>");
-        mediaTag    = line.substring(tagIndex + 10, tagEndIndex);
-        
-        if(!line.contains("type=\"image/png\"")){ //application/pdf  //application/vnd.openxmlformats-officedocument.presentationml.presentation //"image/jpeg" //application/msword //application/vnd.openxmlformats-officedocument.wordprocessingml.document
-          result += line + SSStrU.backslashRBackslashN;
-          continue;
-        }
-        
-        if(!line.contains("hash=\"")){
-          result += line + SSStrU.backslashRBackslashN;
-          continue;
-        }
-        
-        hashIndex    = line.indexOf("hash=\"");
-        hashEndIndex = line.indexOf("\"", hashIndex + 6);
-        hash         = line.substring(hashIndex + 6, hashEndIndex);
-        
-        if(hashsPerFileURIs.containsKey(hash)){
-          fileURI = hashsPerFileURIs.get(hash);
+        while(tmpLine.contains("<en-media")){
           
-          fileID = SSServCaller.fileIDFromURI(user, fileURI);
-        }else{
+          startIndex = tmpLine.indexOf("<en-media");
+          
+          if(
+            !tmpLine.contains("</en-media>") &&
+            !tmpLine.contains("/>")){
+            
+            result += tmpLine;
+            break; //xhtml invalid
+          }
+          
+          if(!tmpLine.contains("hash=\"")){
+            result += tmpLine;
+            break;
+          }
+          
+          endIndex1 = tmpLine.indexOf("</en-media>");
+          endIndex2 = tmpLine.indexOf("/>");
+          
+          if(endIndex1 != -1){
+            endIndex = endIndex1;
+          }else{
+            endIndex = endIndex2;
+          }
+//          imageGif
+          if(//application/pdf  //application/vnd.openxmlformats-officedocument.presentationml.presentation //application/msword //application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            !(tmpLine.contains("type=\"" + SSMimeTypeU.imagePng  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imagePng  + "\"")
+            ) &&
+            !(tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")
+            )){
+            
+            if(endIndex == endIndex1){
+              result += tmpLine.substring(0, endIndex + 11);
+              tmpLine = tmpLine.substring(endIndex + 11);
+            }else{
+              
+              result += tmpLine.substring(0, endIndex + 2);
+              tmpLine = tmpLine.substring(endIndex + 2);
+            }
+            
+            continue;
+          }
+          
+          hashIndex = tmpLine.indexOf("hash=\"");
+          
+          if(!(tmpLine.contains("hash=\"") && endIndex > hashIndex)){
+            
+            if(endIndex == endIndex1){
+              result += tmpLine.substring(0, endIndex + 11);
+              tmpLine = tmpLine.substring(endIndex + 11);
+            }else{
+              result += tmpLine.substring(0, endIndex + 2);
+              tmpLine = tmpLine.substring(endIndex + 2);
+            }
+            
+            continue;
+          }
+          
+          hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);
+          hash         = tmpLine.substring(hashIndex + 6, hashEndIndex);
+          
+//          if(hashsPerFileURIs.containsKey(hash)){
+//            fileURI = hashsPerFileURIs.get(hash);
+          
+//            fileID = SSServCaller.fileIDFromURI(user, fileURI);
+//          }else{
           fileURI = SSServCaller.vocURICreate(SSFileExtE.png);
           fileID  = SSServCaller.fileIDFromURI(user, fileURI);
           
-          hashsPerFileURIs.put(hash, fileURI);
+//            hashsPerFileURIs.put(hash, fileURI);
           
           resource =
             SSServCaller.evernoteResourceByHashGet(
@@ -353,17 +393,22 @@ public class SSDataImportEvernoteNoteContentHandler{
             new FileOutputStream(localWorkPath + fileID),
             resource.getData().getBody(),
             resource.getData().getSize());
+//          }
+          
+          result += tmpLine.substring(0, startIndex) + "<img width=\"" + resource.getWidth() + "\" height=\"" + resource.getHeight() + "\" class=\"xmyImagex\" src=\"" + localWorkPath + fileID + "\"/>";
+          
+          if(endIndex == endIndex1){
+            tmpLine = tmpLine.substring(endIndex + 11, tmpLine.length());
+          }else{
+            tmpLine = tmpLine.substring(endIndex + 2, tmpLine.length());
+          }
         }
         
-        line =
-          line.substring(0, tagIndex) +
-          "<img class=\"xmyImagex\" src=\"" + localWorkPath + fileID + "\"/>" +
-          line.substring(tagEndIndex + 11, line.length());
-        
-        result += line + SSStrU.backslashRBackslashN;
+        result += tmpLine;
+        result += SSStrU.backslashN;
       }
       
-      return result;
+      return result.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
