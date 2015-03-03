@@ -165,6 +165,9 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     BufferedReader br     = null;
     String         result = SSStrU.empty;
+    String         mediaTag;
+    int            mediaStartIndex;
+    int            mediaEndIndex;
     
     try{
       
@@ -173,10 +176,6 @@ public class SSDataImportEvernoteNoteContentHandler{
         "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
         "\n" +
         "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
-        "\n" +
-        "<head>\n" +
-        "  <title>Title of document</title>\n" +
-        "</head>\n" +
         "\n" +
         "<body>\n";
       
@@ -205,21 +204,31 @@ public class SSDataImportEvernoteNoteContentHandler{
             text = line.substring(0, tagIndex).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
             
             if(!text.isEmpty()){
-              result += text + SSStrU.backslashRBackslashN;
+              result += "<div>" + text + "</div>" + SSStrU.backslashRBackslashN;
             }
           }
           
-//          String mediaTag;
-//          if(tmpTag.contains("<en-media")){
-//
-//            tagIndex    = tmpTag.indexOf("<en-media");
-//            tagEndIndex = tmpTag.indexOf(">");
-//
-//            if(tagEndIndex != -1){
-//              mediaTag    = tmpTag.substring(tagIndex, tagEndIndex);
-//              result += mediaTag  + "></en-media>";
-//            }
-//          }
+          if(tmpTag.startsWith("<en-media")){
+            
+            mediaStartIndex    = tmpTag.indexOf("<en-media");
+            mediaEndIndex      = tmpTag.indexOf(">");
+
+            if(mediaEndIndex != -1){
+              mediaTag    = tmpTag.substring(mediaStartIndex, mediaEndIndex + 1);
+              
+              if(
+                !mediaTag.endsWith("/>") &&
+                mediaTag.length() > 2){
+                
+                result += mediaTag.substring(0, mediaTag.length() - 1) + "/>";
+              }else{
+                result += mediaTag;
+              }
+              
+              line = line.replace(mediaTag, SSStrU.empty).replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
+              continue;
+            }
+          }
           
           while(tmpTag.contains("href=\"")){
             
@@ -229,25 +238,23 @@ public class SSDataImportEvernoteNoteContentHandler{
             
             if(tmpTag.contains("title=\"")){
               
-              titleIndex = tmpTag.indexOf("title=\"");
+              titleIndex    = tmpTag.indexOf("title=\"");
               titleEndIndex = tmpTag.indexOf("\"", titleIndex + 7);
-              title = tmpTag.substring(titleIndex + 7, titleEndIndex);
+              title         = tmpTag.substring(titleIndex + 7, titleEndIndex);
+              title         = title.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty);
               
-              result += title.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty) + ": " + SSStrU.backslashRBackslashN;
-              
-              tmpTag = tmpTag.substring(0, titleIndex) + tmpTag.substring(titleEndIndex + 1, tmpTag.length() - 1);
-              
-              hrefIndex = tmpTag.indexOf("href=\"");
+              tmpTag       = tmpTag.substring(0, titleIndex) + tmpTag.substring(titleEndIndex + 1, tmpTag.length() - 1);
+              hrefIndex    = tmpTag.indexOf("href=\"");
               hrefEndIndex = tmpTag.indexOf("\"", hrefIndex + 6);
-              href = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
+              href         = tmpTag.substring(hrefIndex + 6, hrefEndIndex);
               
               tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
               
-              result += href + SSStrU.backslashRBackslashN;
+              result += "<div>" + "<a href=\"" + href + "\">" + title + "</a>" + "</div>" + SSStrU.backslashRBackslashN;
               
             }else{
-              result += "link" + ": " + href + SSStrU.backslashRBackslashN;
-              
+              result += "<div>" + "<a href=\"" + href + "\">" + href + "</a>" + "</div>" + SSStrU.backslashRBackslashN;
+                
               tmpTag = tmpTag.substring(0, hrefIndex) + tmpTag.substring(hrefEndIndex + 1, tmpTag.length() - 1);
             }
           }
@@ -258,13 +265,12 @@ public class SSDataImportEvernoteNoteContentHandler{
         line = line.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
         
         if(!line.isEmpty()){
-          result += line + SSStrU.backslashRBackslashN;
+          result += "<div>" + line + "</div>" + SSStrU.backslashRBackslashN;
         }
       }
       
       result +=
         "</body>\n"
-        + "\n"
         + "</html>";
       
       return result;
@@ -333,13 +339,16 @@ public class SSDataImportEvernoteNoteContentHandler{
           }else{
             endIndex = endIndex2;
           }
-//          imageGif
+
           if(//application/pdf  //application/vnd.openxmlformats-officedocument.presentationml.presentation //application/msword //application/vnd.openxmlformats-officedocument.wordprocessingml.document
             !(tmpLine.contains("type=\"" + SSMimeTypeU.imagePng  + "\"") &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imagePng  + "\"")
             ) &&
             !(tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg  + "\"") &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")
+            ) &&
+            !(tmpLine.contains("type=\"" + SSMimeTypeU.imageGif  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageGif  + "\"")
             )){
             
             if(endIndex == endIndex1){
