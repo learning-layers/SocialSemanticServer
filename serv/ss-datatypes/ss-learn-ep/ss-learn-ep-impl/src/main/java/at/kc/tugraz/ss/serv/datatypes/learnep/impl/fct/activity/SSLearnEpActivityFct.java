@@ -49,7 +49,7 @@ public class SSLearnEpActivityFct{
         SSActivityE.addCircleToLearnEpVersion,
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(circle),
+        SSUri.asListWithoutNullAndEmpty(circle, learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -78,7 +78,7 @@ public class SSLearnEpActivityFct{
         SSActivityE.addEntityToLearnEpVersion,
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(learnEpEntity, par.entity),
+        SSUri.asListWithoutNullAndEmpty(learnEpEntity, par.entity, learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -107,7 +107,7 @@ public class SSLearnEpActivityFct{
         SSActivityE.removeLearnEpVersionCircle,
         learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+        SSUri.asListWithoutNullAndEmpty(par.learnEpCircle, learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -137,7 +137,7 @@ public class SSLearnEpActivityFct{
         SSActivityE.removeLearnEpVersionEntity,
         learnEpVersion, 
         SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, entity),
+        SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, entity, learnEp),
         SSTextComment.asListWithoutNullAndEmpty(),
         null,
         false);
@@ -185,7 +185,8 @@ public class SSLearnEpActivityFct{
 
   public static void handleLearnEpVersionUpdateEntity(
     final SSLearnEpVersionUpdateEntityPar par,
-    final SSUri                           learnEpVersion) throws Exception{
+    final SSUri                           learnEpVersion, 
+    final SSUri                           learnEp) throws Exception{
     
     try{
       
@@ -196,7 +197,7 @@ public class SSLearnEpActivityFct{
           SSActivityE.changeEntityForLearnEpVersionEntity,
           learnEpVersion,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity, learnEp),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);
@@ -211,7 +212,7 @@ public class SSLearnEpActivityFct{
           SSActivityE.moveLearnEpVersionEntity,
           learnEpVersion,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, par.entity, learnEp),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);
@@ -231,7 +232,8 @@ public class SSLearnEpActivityFct{
   
   public static void handleLearnEpVersionUpdateCircle(
     final SSLearnEpVersionUpdateCirclePar par,
-    final SSUri                           learnEpVersion) throws Exception{
+    final SSUri                           learnEpVersion, 
+    final SSUri                           learnEp) throws Exception{
     
     try{
       
@@ -242,7 +244,7 @@ public class SSLearnEpActivityFct{
           SSActivityE.changeLearnEpVersionCircleLabel,
           learnEpVersion,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle, learnEp),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);
@@ -259,7 +261,7 @@ public class SSLearnEpActivityFct{
           SSActivityE.moveLearnEpVersionCircle,
           learnEpVersion,
           SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle),
+          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle, learnEp),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false);

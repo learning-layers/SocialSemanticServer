@@ -828,9 +828,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
 
-      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
+      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle  (par.learnEpCircle);
+      final SSUri learnEp        = sqlFct.getLearnEpForVersion        (learnEpVersion);
       
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(learnEpVersion));
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -852,7 +853,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.xC,
         par.yC);
 
-      SSLearnEpActivityFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion);
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion, learnEp);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -899,9 +900,10 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         SSServCallerU.canUserEditEntity(par.user, par.entity);
       }
             
-      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForEntity(par.learnEpEntity);
+      final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForEntity(par.learnEpEntity);
+      final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
       
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, sqlFct.getLearnEpForVersion(learnEpVersion));
+      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -925,7 +927,14 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         par.x,
         par.y);
 
-      SSLearnEpActivityFct.handleLearnEpVersionUpdateEntity(par, learnEpVersion);
+      if(
+        par.entity        == null &&
+        par.learnEpEntity != null){
+        
+        par.entity = sqlFct.getEntity(learnEpVersion, par.learnEpEntity);
+      }
+      
+      SSLearnEpActivityFct.handleLearnEpVersionUpdateEntity(par, learnEpVersion, learnEp);
       
       dbSQL.commit(par.shouldCommit);
 
