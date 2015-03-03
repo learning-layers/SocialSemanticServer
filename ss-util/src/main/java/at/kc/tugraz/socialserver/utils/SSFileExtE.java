@@ -23,7 +23,9 @@ package at.kc.tugraz.socialserver.utils;
 
 public enum SSFileExtE{
   
+  bin,
   yaml,
+  odt,
   pdf ,
 	doc ,
   ppt ,
@@ -44,7 +46,7 @@ public enum SSFileExtE{
   
   //video
 	avi,
-	mp4,
+	m4v,
 	mpeg,
   mpg,
 	mov,
@@ -57,6 +59,7 @@ public enum SSFileExtE{
   wav,
 	midi,
   wma,
+  m4a,
   
   //image
   jpeg,

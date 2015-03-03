@@ -25,6 +25,8 @@ import java.util.Map;
 
 public class SSMimeTypeU {
 
+  public final static String                 applicationBin                                             = "application/octet-stream";
+  public final static String                 applicationOpenOfficeDoc                                   = "application/vnd.oasis.opendocument.text";
   public final static String                 applicationPdf                                             = "application/pdf";
 	public final static String                 applicationMsword                                          = "application/msword";
 	public final static String                 applicationMsaccess                                        = "application/msaccess";
@@ -55,6 +57,7 @@ public class SSMimeTypeU {
 	public final static String                 videoQuicktime                                             = "video/quicktime";
 	public final static String                 audioMp3                                                   = "audio/mp3";
 	public final static String                 audioMidi                                                  = "audio/midi";
+  public final static String                 audioMpeg4                                                 = "audio/x-m4a";
   
   public       static Map<String, String>    mimeTypesFileExt                                           = null;
   public       static Map<String, String>    fileExtForMimTypes                                         = null;
@@ -66,13 +69,15 @@ public class SSMimeTypeU {
     mimeTypesFileExt   = new HashMap<>();
     fileExtForMimTypes = new HashMap<>();
       
+    mimeTypesFileExt.put(applicationBin,               SSFileExtE.bin.toString());
+    mimeTypesFileExt.put(applicationOpenOfficeDoc,     SSFileExtE.odt.toString());
     mimeTypesFileExt.put(applicationPdf,               SSFileExtE.pdf.toString());
     mimeTypesFileExt.put(applicationMsword,            SSFileExtE.doc.toString());
     mimeTypesFileExt.put(applicationMspowerpoint,      SSFileExtE.ppt.toString());
     mimeTypesFileExt.put(applicationMsaccess,          SSFileExtE.mdb.toString());
     mimeTypesFileExt.put(applicationMsexcel,           SSFileExtE.xls.toString());
-    mimeTypesFileExt.put(applicationMsword2007,        SSFileExtE.pptx.toString());
-    mimeTypesFileExt.put(applicationMspowerpoint2007,  SSFileExtE.docx.toString());
+    mimeTypesFileExt.put(applicationMsword2007,        SSFileExtE.docx.toString());
+    mimeTypesFileExt.put(applicationMspowerpoint2007,  SSFileExtE.pptx.toString());
     mimeTypesFileExt.put(applicationMsaccess2007,      SSFileExtE.accdb.toString());
     mimeTypesFileExt.put(applicationMsexcel2007,       SSFileExtE.xlsx.toString());
     mimeTypesFileExt.put(textPlain,                    SSFileExtE.txt.toString());
@@ -80,10 +85,11 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(imagePng,                     SSFileExtE.png.toString());
     mimeTypesFileExt.put(audioMp3,                     SSFileExtE.mp3.toString());
     mimeTypesFileExt.put(videoAvi,                     SSFileExtE.avi.toString());
-    mimeTypesFileExt.put(videoMp4,                     SSFileExtE.mp4.toString());
     mimeTypesFileExt.put(videoMpeg,                    SSFileExtE.mpeg.toString());
     mimeTypesFileExt.put(videoQuicktime,               SSFileExtE.mov.toString());
     mimeTypesFileExt.put(audioMidi,                    SSFileExtE.midi.toString());
+    mimeTypesFileExt.put(audioMpeg4,                   SSFileExtE.m4a.toString());
+    mimeTypesFileExt.put(videoMp4,                     SSFileExtE.m4v.toString());
     mimeTypesFileExt.put(imageIcon,                    SSFileExtE.ico.toString());
     mimeTypesFileExt.put(textHtml,                     SSFileExtE.html.toString());
     mimeTypesFileExt.put(imageGif,                     SSFileExtE.gif.toString());
@@ -95,7 +101,8 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(applicationRdf,               SSFileExtE.rdf.toString());
     mimeTypesFileExt.put(applicationOgg,               SSFileExtE.ogg.toString());
     
-    
+    fileExtForMimTypes.put(SSFileExtE.bin.toString(),   applicationBin);
+    fileExtForMimTypes.put(SSFileExtE.odt.toString(),   applicationOpenOfficeDoc);
     fileExtForMimTypes.put(SSFileExtE.pdf.toString(),   applicationPdf);
     fileExtForMimTypes.put(SSFileExtE.doc.toString(),   applicationMsword);
     fileExtForMimTypes.put(SSFileExtE.ppt.toString(),   applicationMspowerpoint);
@@ -110,8 +117,9 @@ public class SSMimeTypeU {
     fileExtForMimTypes.put(SSFileExtE.jpeg.toString(),  imageJpeg);
     fileExtForMimTypes.put(SSFileExtE.png.toString(),   imagePng);
     fileExtForMimTypes.put(SSFileExtE.mp3.toString(),   audioMp3);
+    fileExtForMimTypes.put(SSFileExtE.m4a.toString(),   audioMpeg4);
     fileExtForMimTypes.put(SSFileExtE.avi.toString(),   videoAvi);
-    fileExtForMimTypes.put(SSFileExtE.mp4.toString(),   videoMp4);
+    fileExtForMimTypes.put(SSFileExtE.m4v.toString(),   videoMp4);
     fileExtForMimTypes.put(SSFileExtE.mpeg.toString(),  videoMpeg);
     fileExtForMimTypes.put(SSFileExtE.mov.toString(),   videoQuicktime);
     fileExtForMimTypes.put(SSFileExtE.midi.toString(),  audioMidi);

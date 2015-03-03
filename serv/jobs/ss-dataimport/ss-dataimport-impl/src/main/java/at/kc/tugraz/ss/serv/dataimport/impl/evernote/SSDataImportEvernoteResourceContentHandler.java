@@ -61,7 +61,6 @@ public class SSDataImportEvernoteResourceContentHandler{
       
       try{
         fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime()); 
-        //application/octet-stream //application/vnd.oasis.opendocument.text //audio/x-m4a
         fileUri = SSServCaller.vocURICreate(SSFileExtE.valueOf(fileExt));
         fileId  = SSServCaller.fileIDFromURI(user, fileUri);
         
