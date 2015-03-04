@@ -226,6 +226,18 @@
       } ]
     } ]
   }, {
+    "path" : "/circles/entities",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "retrieve information on entities the user can access",
+      "notes" : "",
+      "type" : "SSCircleEntitiesGetRet",
+      "nickname" : "entitiesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ ]
+    } ]
+  }, {
     "path" : "/circles/{circle}/users/{user}",
     "operations" : [ {
       "method" : "GET",
@@ -248,18 +260,6 @@
         "paramType" : "path",
         "allowMultiple" : false
       } ]
-    } ]
-  }, {
-    "path" : "/circles/entities",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "retrieve information on entities the user can access",
-      "notes" : "",
-      "type" : "SSCircleEntitiesGetRet",
-      "nickname" : "entitiesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ ]
     } ]
   }, {
     "path" : "/apps",
@@ -2152,18 +2152,6 @@
     "SSApp" : {
       "id" : "SSApp",
       "properties" : {
-        "downloadIOS" : {
-          "type" : "string"
-        },
-        "fork" : {
-          "type" : "string"
-        },
-        "downloads" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "descriptionShort" : {
           "type" : "string"
         },
@@ -2177,6 +2165,18 @@
           "type" : "string"
         },
         "downloadAndroid" : {
+          "type" : "string"
+        },
+        "downloadIOS" : {
+          "type" : "string"
+        },
+        "downloads" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "fork" : {
           "type" : "string"
         },
         "id" : {

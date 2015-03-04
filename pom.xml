@@ -161,7 +161,6 @@
     <module>ss-util</module>
     <module>ss-adapter</module>
     <module>serv</module>
-    <module>ss-log</module>
     <module>ss-datatypes</module>
     <module>ss-conf</module>
   </modules>
