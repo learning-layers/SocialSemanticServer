@@ -42,47 +42,21 @@ public class SSDataImportEvernoteThumbHelper{
     final SSUri   fileUri,
     final Boolean shouldCommit) throws Exception{
 
-    Boolean thumbCreated      = false;
-    String  fileId;
-    String  fileExt;    
-    String  filePath;   
-    SSUri   pngFileUri; 
-    String  pngFilePath;
+    SSUri pngFileUri; 
           
     try{
       
       try{
-        fileId            = SSServCaller.fileIDFromURI (user, fileUri);
-        fileExt           = SSServCaller.fileExtGet    (user, fileUri);
-        filePath          = localWorkPath + fileId;
-        pngFileUri        = SSServCaller.vocURICreate(SSFileExtE.png);
-        pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, pngFileUri);
-        //pptx //docx
-        if(SSFileExtU.imageFileExts.contains(fileExt)){
-          SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath, 500, 500);
-          thumbCreated = true;
-        }
         
-        if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
-          thumbCreated = true;
-        }
+        pngFileUri = createThumbnail(user, localWorkPath, fileUri, 500, 500);
         
-        if(SSStrU.equals(SSFileExtE.doc, fileExt)){
-          
-          final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
-          
-          SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
-          thumbCreated = true;
-        }
-        
-        if(!thumbCreated){
-          SSLogU.warn("thumb creation for fileExt " + fileExt + " not supported");
+        if(pngFileUri == null){
           return;
         }
         
       }catch(Exception error){
+        
+        SSServErrReg.reset();
         SSLogU.warn("thumb couldnt be created from file");
         return;
       }
@@ -115,6 +89,48 @@ public class SSDataImportEvernoteThumbHelper{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static SSUri createThumbnail(
+    final SSUri   user,
+    final String  localWorkPath,
+    final SSUri   fileURI,
+    final Integer width, 
+    final Integer height) throws Exception{
+    
+    try{
+    
+      final String  filePath          = localWorkPath + SSServCaller.fileIDFromURI (user, fileURI);
+      final String  fileExt           = SSServCaller.fileExtGet    (user, fileURI);
+      final SSUri   thumbnailFileURI  = SSServCaller.vocURICreate(SSFileExtE.png);
+      final String  thumbnailPath     = localWorkPath + SSServCaller.fileIDFromURI (user, thumbnailFileURI);
+
+      if(SSFileExtU.imageFileExts.contains(fileExt)){
+        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
+        return thumbnailFileURI;
+      }
+
+      if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
+        SSFileU.writeScaledPNGFromPDF(filePath, thumbnailPath, width, width, false);
+        return thumbnailFileURI;
+      }
+
+      if(SSStrU.equals(SSFileExtE.doc, fileExt)){
+
+        final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
+
+        SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
+        SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
+        return thumbnailFileURI;
+      }
+
+      SSLogU.warn("thumb creation for fileExt " + fileExt + " not supported");
+    
+      return null;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

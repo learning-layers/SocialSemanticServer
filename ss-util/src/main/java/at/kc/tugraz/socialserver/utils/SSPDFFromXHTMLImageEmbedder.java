@@ -77,7 +77,14 @@ public class SSPDFFromXHTMLImageEmbedder implements ReplacedElementFactory {
     InputStream in = null;
     
     try{
-      in                    = new FileInputStream(src);
+      
+      try{
+        in                    = new FileInputStream(src);
+      }catch(Exception error){
+        SSLogU.warn("to embed image no found");
+        throw error;
+      }
+      
       final byte[]  bytes   = IOUtils.toByteArray(in);
       final Image   image   = Image.getInstance(bytes);
       final FSImage fsImage = new ITextFSImage(image);

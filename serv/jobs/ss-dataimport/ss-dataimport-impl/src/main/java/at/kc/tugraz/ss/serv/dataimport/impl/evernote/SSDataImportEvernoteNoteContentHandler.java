@@ -291,12 +291,14 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     BufferedReader lineReader      = null;
     String         result          = SSStrU.empty;
-    Resource       resource;
-    SSUri          fileURI;
-    String         fileID;
+    SSUri          fileURI         = null;
+    String         fileID          = null;
+    Resource       resource        = null;
+    SSUri          thumbnailURI;
     String         line;
     String         tmpLine;
     String         hash;
+    String         mimeType;
     int            startIndex;
     int            endIndex1;
     int            endIndex2;
@@ -331,8 +333,8 @@ public class SSDataImportEvernoteNoteContentHandler{
             break;
           }
           
-          endIndex1 = tmpLine.indexOf("</en-media>");
-          endIndex2 = tmpLine.indexOf("/>");
+          endIndex1 = tmpLine.indexOf("</en-media>", startIndex);
+          endIndex2 = tmpLine.indexOf("/>",          startIndex);
           
           if(endIndex1 != -1){
             endIndex = endIndex1;
@@ -340,16 +342,71 @@ public class SSDataImportEvernoteNoteContentHandler{
             endIndex = endIndex2;
           }
 
-          if(//application/pdf  //application/vnd.openxmlformats-officedocument.presentationml.presentation //application/msword //application/vnd.openxmlformats-officedocument.wordprocessingml.document
-            !(tmpLine.contains("type=\"" + SSMimeTypeU.imagePng  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imagePng  + "\"")
-            ) &&
-            !(tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")
-            ) &&
-            !(tmpLine.contains("type=\"" + SSMimeTypeU.imageGif  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageGif  + "\"")
-            )){
+          mimeType = null;
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")){
+            mimeType = SSMimeTypeU.imageJpeg;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.imagePng + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imagePng + "\"")){
+            mimeType = SSMimeTypeU.imagePng;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.imageGif  + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageGif  + "\"")){
+            mimeType = SSMimeTypeU.imageGif;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationPdf  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationPdf  + "\"")){
+            mimeType = SSMimeTypeU.applicationPdf;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsword2007  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsword2007  + "\"")){
+            mimeType = SSMimeTypeU.applicationMsword2007;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsword  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsword  + "\"")){
+            mimeType = SSMimeTypeU.applicationMsword;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMspowerpoint2007  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMspowerpoint2007  + "\"")){
+            mimeType = SSMimeTypeU.applicationMspowerpoint2007;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMspowerpoint  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMspowerpoint  + "\"")){
+            mimeType = SSMimeTypeU.applicationMspowerpoint;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcel2007 + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcel2007  + "\"")){
+            mimeType = SSMimeTypeU.applicationMsexcel2007;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"")){
+            mimeType = SSMimeTypeU.applicationMsexcel;
+          } 
+          
+          if(mimeType == null){
+             
+            SSLogU.warn("no / unknown mime type set in:"  + tmpLine);
             
             if(endIndex == endIndex1){
               result += tmpLine.substring(0, endIndex + 11);
@@ -378,33 +435,89 @@ public class SSDataImportEvernoteNoteContentHandler{
             continue;
           }
           
-          hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);
-          hash         = tmpLine.substring(hashIndex + 6, hashEndIndex);
+          if(
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)       &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword)           &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007) &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint)     &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)      &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel)){
+
+            hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);
+            hash         = tmpLine.substring(hashIndex + 6, hashEndIndex);
+            fileURI      = SSServCaller.vocURICreate(SSFileExtE.valueOf(SSMimeTypeU.fileExtForMimeType(mimeType)));
+            fileID       = SSServCaller.fileIDFromURI(user, fileURI);
+            
+            resource =
+              SSServCaller.evernoteResourceByHashGet(
+                user,
+                noteStore,
+                note.getGuid(),
+                hash);
+            
+            SSFileU.writeFileBytes(
+              new FileOutputStream(localWorkPath + fileID),
+              resource.getData().getBody(),
+              resource.getData().getSize());
+          }
           
-//          if(hashsPerFileURIs.containsKey(hash)){
-//            fileURI = hashsPerFileURIs.get(hash);
+          result += tmpLine.substring(0, startIndex);
           
-//            fileID = SSServCaller.fileIDFromURI(user, fileURI);
-//          }else{
-          fileURI = SSServCaller.vocURICreate(SSFileExtE.png);
-          fileID  = SSServCaller.fileIDFromURI(user, fileURI);
+          if(SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
+            thumbnailURI = SSDataImportEvernoteThumbHelper.createThumbnail(user, localWorkPath, fileURI, 500, 500);
+            fileID       = SSServCaller.fileIDFromURI(user, thumbnailURI);
+            
+            result +=
+              "<div>Included PDF (preview):</div>" +
+              "<img width=\"" +
+              500 +
+              "\" height=\"" +
+              500 +
+              "\" class=\"xmyImagex\" src=\"" +
+              localWorkPath + fileID +
+              "\"/>";
+          }
           
-//            hashsPerFileURIs.put(hash, fileURI);
+          if(
+            resource != null                                                  &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)              &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)       &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword)           &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007) &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint)     &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)      &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel)){
           
-          resource =
-            SSServCaller.evernoteResourceByHashGet(
-              user,
-              noteStore,
-              note.getGuid(),
-              hash);
+            result +=
+              "<img width=\"" +
+              resource.getWidth() +
+              "\" height=\"" +
+              resource.getHeight() +
+              "\" class=\"xmyImagex\" src=\"" +
+              localWorkPath + fileID +
+              "\"/>";
+          }
           
-          SSFileU.writeFileBytes(
-            new FileOutputStream(localWorkPath + fileID),
-            resource.getData().getBody(),
-            resource.getData().getSize());
-//          }
+          if(
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword) ||
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)){
+            
+            result += "<div>Includes Microsoft Office Document (no preview available)</div>";
+          }
           
-          result += tmpLine.substring(0, startIndex) + "<img width=\"" + resource.getWidth() + "\" height=\"" + resource.getHeight() + "\" class=\"xmyImagex\" src=\"" + localWorkPath + fileID + "\"/>";
+          if(
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint) ||
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007)){
+
+            result += "<div>Includes Microsoft Office Powerpoint Document (no preview available)</div>";
+          }
+          
+          if(
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel) ||
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)){
+
+            result += "<div>Includes Microsoft Office Excel Document (no preview available)</div>";
+          }
           
           if(endIndex == endIndex1){
             tmpLine = tmpLine.substring(endIndex + 11, tmpLine.length());
@@ -414,7 +527,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         }
         
         result += tmpLine;
-        result += SSStrU.backslashN;
+        result += SSStrU.backslashRBackslashN;
       }
       
       return result.replace("&amp;nbsp;", SSStrU.empty).replace("Â", SSStrU.empty).trim();
