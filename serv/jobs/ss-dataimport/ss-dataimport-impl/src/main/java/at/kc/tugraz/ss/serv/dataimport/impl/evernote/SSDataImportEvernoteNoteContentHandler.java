@@ -345,6 +345,42 @@ public class SSDataImportEvernoteNoteContentHandler{
           mimeType = null;
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.textPlain + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textPlain  + "\"")){
+            mimeType = SSMimeTypeU.textPlain;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.textVcard + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textVcard  + "\"")){
+            mimeType = SSMimeTypeU.textVcard;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioAmr + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioAmr  + "\"")){
+            mimeType = SSMimeTypeU.audioAmr;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg4  + "\"")){
+            mimeType = SSMimeTypeU.audioMpeg4;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textHtml  + "\"")){
+            mimeType = SSMimeTypeU.textHtml;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationBin + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationBin  + "\"")){
+            mimeType = SSMimeTypeU.applicationBin;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")){
             mimeType = SSMimeTypeU.imageJpeg;
@@ -436,12 +472,10 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)       &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword)           &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007) &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint)     &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)      &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel)){
+            SSStrU.equals(mimeType, SSMimeTypeU.imageJpeg)      ||
+            SSStrU.equals(mimeType, SSMimeTypeU.imagePng)       ||
+            SSStrU.equals(mimeType, SSMimeTypeU.imageGif)       ||
+            SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
 
             hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);
             hash         = tmpLine.substring(hashIndex + 6, hashEndIndex);
@@ -479,14 +513,8 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
-            resource != null                                                  &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)              &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)       &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword)           &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007) &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint)     &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)      &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel)){
+            resource != null                                    &&
+            !SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
           
             result +=
               "<img width=\"" +
@@ -517,6 +545,30 @@ public class SSDataImportEvernoteNoteContentHandler{
             SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)){
 
             result += "<div>Includes Microsoft Office Excel Document (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.textPlain + "\"")){
+            result += "<div>Includes Plain Text Document (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.textVcard + "\"")){
+            result += "<div>Includes VCard (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioAmr + "\"")){
+            result += "<div>Includes Adaptive Multi-Rate Audio (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")){
+            result += "<div>Includes MPEG 4 Audio (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")){
+            result += "<div>Includes HTML Page (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.applicationBin + "\"")){
+            result += "<div>Includes Application File (no preview available)</div>";
           }
           
           if(endIndex == endIndex1){

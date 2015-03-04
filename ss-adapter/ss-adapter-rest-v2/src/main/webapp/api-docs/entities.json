@@ -676,16 +676,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -886,14 +886,14 @@
     "SSEntityCircle" : {
       "id" : "SSEntityCircle",
       "properties" : {
-        "circleType" : {
-          "type" : "string"
-        },
         "accessRights" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
+        },
+        "circleType" : {
+          "type" : "string"
         },
         "isSystemCircle" : {
           "type" : "boolean"
@@ -928,16 +928,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -1093,15 +1093,15 @@
         "space" : {
           "type" : "string"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "user" : {
           "type" : "string"
         },
         "entity" : {
           "type" : "string"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "tagLabel" : {
           "type" : "string"
@@ -1411,16 +1411,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -1616,16 +1616,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -1808,16 +1808,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -1988,16 +1988,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2167,17 +2167,17 @@
         "downloadAndroid" : {
           "type" : "string"
         },
+        "downloadIOS" : {
+          "type" : "string"
+        },
+        "fork" : {
+          "type" : "string"
+        },
         "downloads" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           }
-        },
-        "fork" : {
-          "type" : "string"
-        },
-        "downloadIOS" : {
-          "type" : "string"
         },
         "id" : {
           "type" : "string",
@@ -2209,16 +2209,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",
@@ -2338,16 +2338,16 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "comments" : {
           "type" : "array",
           "description" : "comments given by users",
           "items" : {
             "type" : "string"
           }
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "flags" : {
           "type" : "array",

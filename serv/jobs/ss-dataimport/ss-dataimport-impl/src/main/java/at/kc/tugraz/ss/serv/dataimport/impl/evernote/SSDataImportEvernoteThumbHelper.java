@@ -125,7 +125,7 @@ public class SSDataImportEvernoteThumbHelper{
         return thumbnailFileURI;
       }
 
-      SSLogU.warn("thumb creation for fileExt " + fileExt + " not supported");
+//      SSLogU.warn("thumb creation for fileExt " + fileExt + " not supported");
     
       return null;
     }catch(Exception error){

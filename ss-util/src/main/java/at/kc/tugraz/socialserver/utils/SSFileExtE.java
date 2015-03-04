@@ -43,6 +43,7 @@ public enum SSFileExtE{
   xhtml,
 	css,
   xml,
+  vcf,
   
   //video
 	avi,
@@ -60,6 +61,7 @@ public enum SSFileExtE{
 	midi,
   wma,
   m4a,
+  amr,
   
   //image
   jpeg,
