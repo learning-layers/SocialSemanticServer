@@ -180,10 +180,6 @@ public enum SSMethU{
   dataExportUserEntityTagCategories                   ,
   dataExportUserEntityTagCategoryTimestamps           ,
   
-  //file sys
-  fileSysLocalFormatAudioAndVideoFileNamesInDir       ,
-  fileSysLocalAddTextToFilesNamesAtBeginInDir         ,
-  
   //json ld
   jsonLD                                              ,
   

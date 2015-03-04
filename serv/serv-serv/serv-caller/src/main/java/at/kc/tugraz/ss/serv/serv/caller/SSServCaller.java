@@ -561,22 +561,6 @@ public class SSServCaller {
     return (List<SSUE>) SSServA.callServViaServer(new SSServPar(SSMethU.uEsGet, opPars));
   }
   
-  /* fileSys */
-  
-  public static void fileSysLocalFormatAudioAndVideoFileNamesInDir() throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.fileSysLocalFormatAudioAndVideoFileNamesInDir, opPars));
-  }
-  
-  public static void fileSysLocalAddTextToFilesNamesAtBeginInDir() throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.fileSysLocalAddTextToFilesNamesAtBeginInDir, opPars));
-  }
-  
   /* evernote */ 
   
   public static Resource evernoteResourceByHashGet(

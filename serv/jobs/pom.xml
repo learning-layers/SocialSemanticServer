@@ -24,7 +24,6 @@
     <module>message1</module>
     <module>recomm</module>
     <module>ss-dataexport</module>
-    <module>ss-file-sys-local</module>
     <module>ss-evernote</module>
     <module>ss-i5cloud</module>
     <module>ss-cloud</module>

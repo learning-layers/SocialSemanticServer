@@ -37,6 +37,9 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hwpf.usermodel.Range;
@@ -583,6 +586,61 @@ public class SSFileU{
     }
     
     return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
+  }
+  
+  private static void formatAudioAndVideoFileNamesInDir(final File[] files) throws Exception {
+    
+    for(File file : files){
+      
+      if(file.isDirectory()){
+        formatAudioAndVideoFileNamesInDir(file.listFiles());
+      }else{
+        formatAudioAndVideoFileName(file);
+      }
+    }
+  }
+  
+  private static void formatAudioAndVideoFileName(final File file) throws IOException{
+    
+    Path   pathToFile  = file.toPath();
+    String fileName    = pathToFile.getFileName().toString().toLowerCase();
+    String fileExt     = SSFileExtU.ext(fileName);
+    
+    if(!SSFileExtU.isAudioOrVideoFileExt(fileExt)){
+      return;
+    }
+    
+    fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
+
+    try{
+      Files.move(pathToFile, pathToFile.resolveSibling(fileName));
+    }catch(FileAlreadyExistsException error){
+      System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
+    }
+  }
+  
+  private static void addTextToFileNamesAtBeginInDir(File[] files, String textToAddAtBegin) throws IOException{
+    
+    Path   pathToFile;
+    String fileName;
+    
+    for(File file : files){
+      
+      if(file.isDirectory()){
+        return;
+      }else{
+        
+        pathToFile  = file.toPath();
+        fileName    = pathToFile.getFileName().toString();
+        fileName    = textToAddAtBegin + fileName;
+        
+        try{
+          Files.move(pathToFile, pathToFile.resolveSibling(fileName));
+        }catch(FileAlreadyExistsException error){
+          System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
+        }
+      }
+    }
   }
 }
 
