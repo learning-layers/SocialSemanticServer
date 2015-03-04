@@ -84,8 +84,6 @@ learnEpConf:
   useEpisodeLocking: false
 likeConf:
   use: true
-lomExtractorConf:
-  use: false
 messageConf:
   use: true
 modelConf:
