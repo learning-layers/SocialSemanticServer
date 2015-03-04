@@ -20,16 +20,13 @@
   */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.cloud.serv.SSCloudServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
 import at.kc.tugraz.ss.message.serv.SSMessageServ;
@@ -43,15 +40,12 @@ import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
-import at.kc.tugraz.ss.serv.job.file.sys.local.serv.SSFileSysLocalServ;
 import at.kc.tugraz.ss.serv.job.i5cloud.serv.SSI5CloudServ;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.ss.serv.lomextractor.serv.SSLOMExtractorServ;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
@@ -67,7 +61,6 @@ import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
-import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -143,12 +136,10 @@ public class SSSInitializer extends SSServImplStartA{
         SSActivityServ.inst.regServ        (SSCoreConf.instGet().getActivityConf());
         SSSearchServ.inst.regServ          (SSCoreConf.instGet().getSearchConf());
         SSDataExportServ.inst.regServ      (SSCoreConf.instGet().getDataExportConf());
-        SSLOMExtractorServ.inst.regServ    (SSCoreConf.instGet().getLomExtractorConf());
         SSSolrServ.inst.regServ            (SSCoreConf.instGet().getSolrConf());
         SSModelUEServ.inst.regServ         (SSCoreConf.instGet().getModelConf());
         SSBroadcasterServ.inst.regServ     (SSCoreConf.instGet().getBroadcasterConf());
         SSRecommServ.inst.regServ          (SSCoreConf.instGet().getRecommConf());
-        SSFileSysLocalServ.inst.regServ    (SSCoreConf.instGet().getFileSysLocalConf());
         SSI5CloudServ.inst.regServ         (SSCoreConf.instGet().getI5CloudConf());
         SSCloudServ.inst.regServ           (SSCoreConf.instGet().getCloudConf());
         SSFlagServ.inst.regServ            (SSCoreConf.instGet().getFlagConf());
@@ -189,12 +180,10 @@ public class SSSInitializer extends SSServImplStartA{
         SSActivityServ.inst.initServ();
         SSSearchServ.inst.initServ();
         SSDataExportServ.inst.initServ();
-        SSLOMExtractorServ.inst.initServ();
         SSSolrServ.inst.initServ();
         SSModelUEServ.inst.initServ();
         SSBroadcasterServ.inst.initServ();
         SSRecommServ.inst.initServ();
-        SSFileSysLocalServ.inst.initServ();
         SSI5CloudServ.inst.initServ();
         SSCloudServ.inst.initServ();
         SSFlagServ.inst.initServ();

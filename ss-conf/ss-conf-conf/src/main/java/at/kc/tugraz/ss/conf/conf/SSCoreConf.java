@@ -24,7 +24,6 @@ import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf;
 import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
-import at.kc.tugraz.ss.log.conf.SSLogConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
@@ -43,12 +42,10 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
-import at.kc.tugraz.ss.serv.job.file.sys.local.conf.SSFileSysLocalConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
-import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
 import at.kc.tugraz.ss.serv.rating.conf.SSRatingConf;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
@@ -71,20 +68,17 @@ public class SSCoreConf extends SSCoreConfA{
   private SSDBGraphConf         dbGraphConf        = null;
   private SSDBSQLConf           dbSQLConf          = null;
   private SSModelUEConf         modelConf          = null;
-  private SSLogConf             logConf            = null;
   private SSFileRepoConf        filerepoConf       = null;
   private SSFileRepoConf        solrConf           = null;
   private SSVocConf             vocConf            = null;
   private SSBroadcasterConf     broadcasterConf    = null;
   private SSRecommConf          recommConf         = null;
-  private SSFileSysLocalConf    fileSysLocalConf   = null;
   private SSEvernoteConf        evernoteConf       = null;
   private SSI5CloudConf         i5CloudConf        = null;
   private SSCloudConf           cloudConf          = null;
   private SSAuthConf            authConf           = null;
   private SSDataImportConf      dataImportConf     = null;
   private SSDataExportConf      dataExportConf     = null;
-  private SSLOMExtractorConf    lomExtractorConf   = null;
   private SSUserConf            userConf           = null;
   private SSEntityConf          entityConf         = null;
   private SSCollConf            collConf           = null;
@@ -120,20 +114,17 @@ public class SSCoreConf extends SSCoreConfA{
 //    confs.add(inst.dbGraphConf);
 //    confs.add(inst.dbSQLConf);
 //    confs.add(inst.modelConf);
-//    confs.add(inst.logConf);
 //    confs.add(inst.filerepoConf);
 //    confs.add(inst.solrConf);
 //    confs.add(inst.vocConf);
 //    confs.add(inst.broadcasterConf);
 //    confs.add(inst.recommConf);
-//    confs.add(inst.fileSysLocalConf);
 //    confs.add(inst.evernoteConf);
 //    confs.add(inst.i5CloudConf);
 //    confs.add(inst.cloudConf);
 //    confs.add(inst.authConf);
 //    confs.add(inst.dataImportConf);
 //    confs.add(inst.dataExportConf);
-//    confs.add(inst.lomExtractorConf);
 //    confs.add(inst.userConf);
 //    confs.add(inst.entityConf);
 //    confs.add(inst.collConf);
@@ -180,20 +171,17 @@ public class SSCoreConf extends SSCoreConfA{
       copy.dbGraphConf        = SSDBGraphConf.copy(inst.dbGraphConf);
       copy.dbSQLConf          = SSDBSQLConf.copy(inst.dbSQLConf);
       copy.modelConf          = SSModelUEConf.copy(inst.modelConf);
-      copy.logConf            = SSLogConf.copy(inst.logConf);
       copy.filerepoConf       = SSFileRepoConf.copy(inst.filerepoConf);
       copy.solrConf           = SSFileRepoConf.copy(inst.solrConf);
       copy.vocConf            = SSVocConf.copy(inst.vocConf);
       copy.broadcasterConf    = SSBroadcasterConf.copy(inst.broadcasterConf);
       copy.recommConf         = SSRecommConf.copy(inst.recommConf);
-      copy.fileSysLocalConf   = SSFileSysLocalConf.copy(inst.fileSysLocalConf);
       copy.evernoteConf       = SSEvernoteConf.copy(inst.evernoteConf);
       copy.i5CloudConf        = SSI5CloudConf.copy(inst.i5CloudConf);
       copy.cloudConf          = SSCloudConf.copy(inst.cloudConf);
       copy.authConf           = SSAuthConf.copy(inst.authConf);
       copy.dataImportConf     = SSDataImportConf.copy(inst.dataImportConf);
       copy.dataExportConf     = SSDataExportConf.copy(inst.dataExportConf);
-      copy.lomExtractorConf   = SSLOMExtractorConf.copy(inst.lomExtractorConf);
       copy.userConf           = SSUserConf.copy(inst.userConf);
       copy.entityConf         = SSEntityConf.copy(inst.entityConf);
       copy.collConf           = SSCollConf.copy(inst.collConf);
@@ -323,14 +311,6 @@ public class SSCoreConf extends SSCoreConfA{
     return modelConf;
   }
   
-  public void setLogConf(SSLogConf logConf){
-    this.logConf = logConf;
-  }
-    
-  public SSLogConf getLogConf(){
-    return logConf;
-  }
-
   public void setModelConf(SSModelUEConf modelConf) {
     this.modelConf = modelConf;
   }
@@ -373,14 +353,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   public SSRecommConf getRecommConf(){
     return recommConf;
-  }
-  
-  public void setFileSysLocalConf(SSFileSysLocalConf fileSysLocalConf){
-    this.fileSysLocalConf = fileSysLocalConf;
-  }
-  
-  public SSFileSysLocalConf getFileSysLocalConf(){
-    return fileSysLocalConf;
   }
   
   public void setEvernoteConf(SSEvernoteConf evernoteConf){
@@ -429,14 +401,6 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setDataExportConf(SSDataExportConf dataExportConf) {
     this.dataExportConf = dataExportConf;
-  }
-  
-  public SSLOMExtractorConf getLomExtractorConf(){
-    return lomExtractorConf;
-  }
-  
-  public void setLomExtractorConf(SSLOMExtractorConf lomExtractorConf){
-    this.lomExtractorConf = lomExtractorConf;
   }
   
   public SSUserConf getUserConf(){

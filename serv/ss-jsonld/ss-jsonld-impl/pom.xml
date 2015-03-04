@@ -74,12 +74,6 @@
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-lomextractor-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-modeling-ue-datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
