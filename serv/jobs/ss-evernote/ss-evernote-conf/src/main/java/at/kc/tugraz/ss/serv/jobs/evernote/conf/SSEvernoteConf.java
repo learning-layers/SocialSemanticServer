@@ -43,15 +43,11 @@ public class SSEvernoteConf extends SSServConfA{
     copy.appVersion              = orig.appVersion;
     copy.evernoteEnvironment     = orig.evernoteEnvironment;
     
-    if(orig.authTokens == null){
-      copy.authTokens = null;
-    }else{
+    if(orig.authTokens != null){
       copy.authTokens.addAll(orig.authTokens);
     }
     
-    if(orig.authEmails == null){
-      copy.authEmails = null;
-    }else{
+    if(orig.authEmails != null){
       copy.authEmails = orig.authEmails;
     }
     

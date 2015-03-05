@@ -4,42 +4,6 @@
   "basePath" : "http://localhost:8080/ss-adapter-rest",
   "resourcePath" : "/SSAdapterRESTFile",
   "apis" : [ {
-    "path" : "/fileCanWrite",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "query whether given file can be downloaded with write access",
-      "notes" : "",
-      "type" : "SSFileCanWriteRet",
-      "nickname" : "fileCanWrite",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileCanWritePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileExtGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve a file's extension",
-      "notes" : "",
-      "type" : "SSFileExtGetRet",
-      "nickname" : "fileExtGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileExtGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/fileUserFileWrites",
     "operations" : [ {
       "method" : "POST",
@@ -71,6 +35,42 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFileSetReaderOrWriterPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileCanWrite",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "query whether given file can be downloaded with write access",
+      "notes" : "",
+      "type" : "SSFileCanWriteRet",
+      "nickname" : "fileCanWrite",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileCanWritePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileExtGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a file's extension",
+      "notes" : "",
+      "type" : "SSFileExtGetRet",
+      "nickname" : "fileExtGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileExtGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -137,7 +137,7 @@
     "SSFileSetReaderOrWriterPar" : {
       "id" : "SSFileSetReaderOrWriterPar",
       "description" : "",
-      "required" : [ "file", "write", "key", "op", "user" ],
+      "required" : [ "file", "write", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -151,39 +151,39 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSFileUserFileWritesPar" : {
       "id" : "SSFileUserFileWritesPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSFileCanWritePar" : {
       "id" : "SSFileCanWritePar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -193,13 +193,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -220,7 +220,7 @@
     "SSFileExtGetPar" : {
       "id" : "SSFileExtGetPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -230,13 +230,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     }

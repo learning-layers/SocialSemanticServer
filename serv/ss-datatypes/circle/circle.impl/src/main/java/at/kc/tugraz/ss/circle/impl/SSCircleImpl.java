@@ -180,7 +180,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       sqlFct.addCircle(
         circleUri, 
         SSCircleE.group, 
-        false);
+        par.isSystemCircle);
       
       sqlFct.addUserToCircleIfNotExists(
         circleUri, 
