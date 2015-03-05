@@ -23,79 +23,22 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/entityPublicSet",
+    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "set an entity public (make it accessible for everyone)",
+      "summary" : "remove certain attached attributes from an entity",
       "notes" : "",
-      "type" : "SSCircleEntityPublicSetRet",
-      "nickname" : "entityPublicSet",
+      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
+      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSCircleEntityPublicSetPar",
+        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
-    } ]
-  }, {
-    "path" : "/authCheckCred",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the authentication key and user's uri for credentials",
-      "notes" : "",
-      "type" : "SSAuthCheckCredRet",
-      "nickname" : "authCheckCred",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSAuthCheckCredRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/circlesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve circles the user is in",
-      "notes" : "",
-      "type" : "SSCirclesGetRet",
-      "nickname" : "circlesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCirclesGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/appsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve apps",
-      "notes" : "",
-      "type" : "SSAppsGetRet",
-      "nickname" : "appsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSAppsGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
     } ]
   }, {
     "path" : "/friendsGet",
@@ -111,120 +54,6 @@
         "name" : "body",
         "required" : false,
         "type" : "SSFriendsGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/entityGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve information for given entity",
-      "notes" : "",
-      "type" : "SSEntityUserGetRet",
-      "nickname" : "entityGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/tagsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve tag assignments",
-      "notes" : "",
-      "type" : "SSTagsUserGetRet",
-      "nickname" : "tagsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSTagsGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/tagFrequsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve tag frequencies",
-      "notes" : "",
-      "type" : "SSTagUserFrequsGetRet",
-      "nickname" : "tagFrequsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSTagFrequsGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/circleUsersAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add given users to a user-generated circle",
-      "notes" : "",
-      "type" : "SSCircleUsersAddRet",
-      "nickname" : "circleUsersAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCircleUsersAddRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/circleGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve a certain circle",
-      "notes" : "",
-      "type" : "SSCircleGetRet",
-      "nickname" : "circleGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCircleGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/circleCreate",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "create a circle and add users and entities to",
-      "notes" : "",
-      "type" : "SSCircleCreateRet",
-      "nickname" : "circleCreate",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCircleCreateRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -269,6 +98,25 @@
       "deprecated" : "true"
     } ]
   }, {
+    "path" : "/appsGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve apps",
+      "notes" : "",
+      "type" : "SSAppsGetRet",
+      "nickname" : "appsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSAppsGetRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
     "path" : "/likeSet",
     "operations" : [ {
       "method" : "POST",
@@ -288,19 +136,114 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/tagsRemove",
+    "path" : "/authCheckCred",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "remove tag, user, entity, space combinations",
+      "summary" : "retrieve the authentication key and user's uri for credentials",
       "notes" : "",
-      "type" : "SSTagsUserRemoveRet",
-      "nickname" : "tagsRemove",
+      "type" : "SSAuthCheckCredRet",
+      "nickname" : "authCheckCred",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSTagsRemoveRESTAPIV1Par",
+        "type" : "SSAuthCheckCredRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circlesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve circles the user is in",
+      "notes" : "",
+      "type" : "SSCirclesGetRet",
+      "nickname" : "circlesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCirclesGetRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve a certain circle",
+      "notes" : "",
+      "type" : "SSCircleGetRet",
+      "nickname" : "circleGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleGetRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleCreate",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "create a circle and add users and entities to",
+      "notes" : "",
+      "type" : "SSCircleCreateRet",
+      "nickname" : "circleCreate",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleCreateRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/circleUsersAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add given users to a user-generated circle",
+      "notes" : "",
+      "type" : "SSCircleUsersAddRet",
+      "nickname" : "circleUsersAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleUsersAddRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
+    "path" : "/entityGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve information for given entity",
+      "notes" : "",
+      "type" : "SSEntityUserGetRet",
+      "nickname" : "entityGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityGetRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -326,6 +269,25 @@
       "deprecated" : "true"
     } ]
   }, {
+    "path" : "/tagsRemove",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "remove tag, user, entity, space combinations",
+      "notes" : "",
+      "type" : "SSTagsUserRemoveRet",
+      "nickname" : "tagsRemove",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSTagsRemoveRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
     "path" : "/tagEdit",
     "operations" : [ {
       "method" : "POST",
@@ -345,55 +307,57 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/messageSend",
+    "path" : "/tagsGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "send a message to a user",
+      "summary" : "retrieve tag assignments",
       "notes" : "",
-      "type" : "SSMessageSendRet",
-      "nickname" : "messageSend",
+      "type" : "SSTagsUserGetRet",
+      "nickname" : "tagsGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSMessageSendPar",
+        "type" : "SSTagsGetRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
-      } ]
+      } ],
+      "deprecated" : "true"
     } ]
   }, {
-    "path" : "/messagesGet",
+    "path" : "/tagFrequsGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve messages for the user",
+      "summary" : "retrieve tag frequencies",
       "notes" : "",
-      "type" : "SSMessagesGetRet",
-      "nickname" : "messagesGet",
+      "type" : "SSTagUserFrequsGetRet",
+      "nickname" : "tagFrequsGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSMessagesGetPar",
+        "type" : "SSTagFrequsGetRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
-      } ]
+      } ],
+      "deprecated" : "true"
     } ]
   }, {
-    "path" : "/systemVersionGet",
+    "path" : "/flagsSet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve the version of the sss instance",
+      "summary" : "set flags",
       "notes" : "",
-      "type" : "SSSystemVersionGetRet",
-      "nickname" : "systemVersionGet",
+      "type" : "SSFlagsUserSetRet",
+      "nickname" : "flagsSet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSSystemVersionGetPar",
+        "type" : "SSFlagsUserSetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -417,42 +381,6 @@
       } ]
     } ]
   }, {
-    "path" : "/flagsSet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "set flags",
-      "notes" : "",
-      "type" : "SSFlagsUserSetRet",
-      "nickname" : "flagsSet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFlagsUserSetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/entityDescGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve more detailed information for given entity",
-      "notes" : "",
-      "type" : "SSEntityDescGetRet",
-      "nickname" : "entityDescGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityDescGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/entityDescsGet",
     "operations" : [ {
       "method" : "POST",
@@ -466,6 +394,96 @@
         "name" : "body",
         "required" : false,
         "type" : "SSEntityDescsGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/activitiesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve activities from within a certain time frame",
+      "notes" : "",
+      "type" : "SSActivitiesUserGetRet",
+      "nickname" : "activitiesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSActivitiesUserGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/activityTypesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve available activity types",
+      "notes" : "",
+      "type" : "SSActivityTypesGetRet",
+      "nickname" : "activityTypesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSActivityTypesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/activityAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add an activity",
+      "notes" : "",
+      "type" : "SSActivityUserAddRet",
+      "nickname" : "activityAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSActivityAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/systemVersionGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the version of the sss instance",
+      "notes" : "",
+      "type" : "SSSystemVersionGetRet",
+      "nickname" : "systemVersionGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSSystemVersionGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityPublicSet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "set an entity public (make it accessible for everyone)",
+      "notes" : "",
+      "type" : "SSCircleEntityPublicSetRet",
+      "nickname" : "entityPublicSet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleEntityPublicSetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -489,24 +507,6 @@
       } ]
     } ]
   }, {
-    "path" : "/entityUpdate",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "updates/adds given properties for an entity",
-      "notes" : "",
-      "type" : "SSEntityUserUpdateRet",
-      "nickname" : "entityUpdate",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSEntityUserUpdatePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/entityCopy",
     "operations" : [ {
       "method" : "POST",
@@ -520,258 +520,6 @@
         "name" : "body",
         "required" : false,
         "type" : "SSEntityUserCopyPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/userAll",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve all users",
-      "notes" : "",
-      "type" : "SSUserAllRet",
-      "nickname" : "userAll",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSUserAllPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/uEsGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve user events for user, entity, time combination",
-      "notes" : "",
-      "type" : "SSUEsGetRet",
-      "nickname" : "uEsGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSUEsGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/uEAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add a usage-based trace, i.e. user event, for entity, user combination",
-      "notes" : "",
-      "type" : "SSUEAddRet",
-      "nickname" : "uEAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSUEAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/uEGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve given user event",
-      "notes" : "",
-      "type" : "SSUEGetRet",
-      "nickname" : "uEGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSUEGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/uECountGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the number of certain user events",
-      "notes" : "",
-      "type" : "SSUECountGetRet",
-      "nickname" : "uECountGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSUECountGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoriesRemove",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "remove category, user, entity, space combinations",
-      "notes" : "",
-      "type" : "SSCategoriesUserRemoveRet",
-      "nickname" : "categoriesRemove",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoriesUserRemovePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoriesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve category assignments",
-      "notes" : "",
-      "type" : "SSCategoriesUserGetRet",
-      "nickname" : "categoriesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoriesUserGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoryAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add a category within for an entity within given space",
-      "notes" : "",
-      "type" : "SSCategoryAddRet",
-      "nickname" : "categoryAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoryAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoryEdit",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "changes the label of the category assigned to entities by given user",
-      "notes" : "",
-      "type" : "SSCategoryUserEditRet",
-      "nickname" : "categoryEdit",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoryUserEditPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/ratingOverallGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the overall rating (by all users) for given entity",
-      "notes" : "",
-      "type" : "SSRatingOverallGetRet",
-      "nickname" : "ratingOverallGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSRatingOverallGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/ratingSet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "set the user's rating for given entity",
-      "notes" : "",
-      "type" : "SSRatingUserSetRet",
-      "nickname" : "ratingSet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSRatingUserSetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discRemove",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "remove a discussion from given user",
-      "notes" : "",
-      "type" : "SSDiscUserRemoveRet",
-      "nickname" : "discRemove",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserRemovePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discEntryAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
-      "notes" : "",
-      "type" : "SSDiscUserEntryAddRet",
-      "nickname" : "discEntryAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserEntryAddPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discsAllGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve all discussions given user is allowed to see",
-      "notes" : "",
-      "type" : "SSDiscsUserAllGetRet",
-      "nickname" : "discsAllGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscsUserAllGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -921,6 +669,132 @@
       } ]
     } ]
   }, {
+    "path" : "/discEntryAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
+      "notes" : "",
+      "type" : "SSDiscUserEntryAddRet",
+      "nickname" : "discEntryAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDiscUserEntryAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/discRemove",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "remove a discussion from given user",
+      "notes" : "",
+      "type" : "SSDiscUserRemoveRet",
+      "nickname" : "discRemove",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDiscUserRemovePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/discsAllGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve all discussions given user is allowed to see",
+      "notes" : "",
+      "type" : "SSDiscsUserAllGetRet",
+      "nickname" : "discsAllGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSDiscsUserAllGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityDescGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve more detailed information for given entity",
+      "notes" : "",
+      "type" : "SSEntityDescGetRet",
+      "nickname" : "entityDescGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityDescGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/entityUpdate",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "updates/adds given properties for an entity",
+      "notes" : "",
+      "type" : "SSEntityUserUpdateRet",
+      "nickname" : "entityUpdate",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSEntityUserUpdatePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/ratingOverallGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the overall rating (by all users) for given entity",
+      "notes" : "",
+      "type" : "SSRatingOverallGetRet",
+      "nickname" : "ratingOverallGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSRatingOverallGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/ratingSet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "set the user's rating for given entity",
+      "notes" : "",
+      "type" : "SSRatingUserSetRet",
+      "nickname" : "ratingSet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSRatingUserSetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/recommTags",
     "operations" : [ {
       "method" : "POST",
@@ -957,55 +831,199 @@
       } ]
     } ]
   }, {
-    "path" : "/activityAdd",
+    "path" : "/userAll",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "add an activity",
+      "summary" : "retrieve all users",
       "notes" : "",
-      "type" : "SSActivityUserAddRet",
-      "nickname" : "activityAdd",
+      "type" : "SSUserAllRet",
+      "nickname" : "userAll",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSActivityAddPar",
+        "type" : "SSUserAllPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]
   }, {
-    "path" : "/activitiesGet",
+    "path" : "/uEAdd",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve activities from within a certain time frame",
+      "summary" : "add a usage-based trace, i.e. user event, for entity, user combination",
       "notes" : "",
-      "type" : "SSActivitiesUserGetRet",
-      "nickname" : "activitiesGet",
+      "type" : "SSUEAddRet",
+      "nickname" : "uEAdd",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSActivitiesUserGetPar",
+        "type" : "SSUEAddPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]
   }, {
-    "path" : "/activityTypesGet",
+    "path" : "/uEsGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve available activity types",
+      "summary" : "retrieve user events for user, entity, time combination",
       "notes" : "",
-      "type" : "SSActivityTypesGetRet",
-      "nickname" : "activityTypesGet",
+      "type" : "SSUEsGetRet",
+      "nickname" : "uEsGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSActivityTypesGetPar",
+        "type" : "SSUEsGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/uEGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve given user event",
+      "notes" : "",
+      "type" : "SSUEGetRet",
+      "nickname" : "uEGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSUEGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/uECountGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve the number of certain user events",
+      "notes" : "",
+      "type" : "SSUECountGetRet",
+      "nickname" : "uECountGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSUECountGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryEdit",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "changes the label of the category assigned to entities by given user",
+      "notes" : "",
+      "type" : "SSCategoryUserEditRet",
+      "nickname" : "categoryEdit",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryUserEditPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoriesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve category assignments",
+      "notes" : "",
+      "type" : "SSCategoriesUserGetRet",
+      "nickname" : "categoriesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoriesUserGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryAdd",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "add a category within for an entity within given space",
+      "notes" : "",
+      "type" : "SSCategoryAddRet",
+      "nickname" : "categoryAdd",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryAddPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoriesRemove",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "remove category, user, entity, space combinations",
+      "notes" : "",
+      "type" : "SSCategoriesUserRemoveRet",
+      "nickname" : "categoriesRemove",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoriesUserRemovePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/messageSend",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "send a message to a user",
+      "notes" : "",
+      "type" : "SSMessageSendRet",
+      "nickname" : "messageSend",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSMessageSendPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/messagesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve messages for the user",
+      "notes" : "",
+      "type" : "SSMessagesGetRet",
+      "nickname" : "messagesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSMessagesGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -1029,6 +1047,25 @@
       } ]
     } ]
   }, {
+    "path" : "/appStackLayoutCreate",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "create an arrangement of tiles within an app",
+      "notes" : "",
+      "type" : "SSAppStackLayoutCreateRet",
+      "nickname" : "appStackLayoutCreate",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSAppStackLayoutCreateRESTAPIV1Par",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "deprecated" : "true"
+    } ]
+  }, {
     "path" : "/appStackLayoutsGet",
     "operations" : [ {
       "method" : "POST",
@@ -1042,25 +1079,6 @@
         "name" : "body",
         "required" : false,
         "type" : "SSAppStackLayoutsGetRESTAPIV1Par",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "deprecated" : "true"
-    } ]
-  }, {
-    "path" : "/circleEntitiesAdd",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "add given entities to a user-generated circle",
-      "notes" : "",
-      "type" : "SSCircleEntitiesAddRet",
-      "nickname" : "circleEntitiesAdd",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCircleEntitiesAddRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -1085,19 +1103,19 @@
       } ]
     } ]
   }, {
-    "path" : "/appStackLayoutCreate",
+    "path" : "/circleEntitiesAdd",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "create an arrangement of tiles within an app",
+      "summary" : "add given entities to a user-generated circle",
       "notes" : "",
-      "type" : "SSAppStackLayoutCreateRet",
-      "nickname" : "appStackLayoutCreate",
+      "type" : "SSCircleEntitiesAddRet",
+      "nickname" : "circleEntitiesAdd",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSAppStackLayoutCreateRESTAPIV1Par",
+        "type" : "SSCircleEntitiesAddRESTAPIV1Par",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -1123,24 +1141,6 @@
       "deprecated" : "true"
     } ]
   }, {
-    "path" : "/circleEntityShare",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "share an entity directly with given users",
-      "notes" : "",
-      "type" : "SSCircleEntityShareRet",
-      "nickname" : "circleEntityShare",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCircleEntitySharePar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
     "path" : "/categoriesPredefinedGet",
     "operations" : [ {
       "method" : "POST",
@@ -1159,109 +1159,19 @@
       } ]
     } ]
   }, {
-    "path" : "/categoryFrequsGet",
+    "path" : "/entityEntityUsersGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve category frequencies",
+      "summary" : "retrieve users who can access given entity",
       "notes" : "",
-      "type" : "SSCategoryUserFrequsGetRet",
-      "nickname" : "categoryFrequsGet",
+      "type" : "SSCircleEntityUsersGetRet",
+      "nickname" : "entityEntityUsersGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSCategoryUserFrequsGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/categoryEntitiesForCategoriesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve entities for categories (currently startTime is not used to retrieve entities)",
-      "notes" : "",
-      "type" : "SSCategoryUserEntitiesForCategoriesGetRet",
-      "nickname" : "categoryEntitiesForCategoriesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSCategoryUserEntitiesForCategoriesGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/modelUEResourceDetails",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve automatically usage-based modeled details for given entity",
-      "notes" : "",
-      "type" : "SSModelUEResourceDetailsRet",
-      "nickname" : "modelUEResourceDetails",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSModelUEEntityDetailsPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/fileWritingMinutesLeft",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve number of minutes left user is allowed to replace / re-upload a file",
-      "notes" : "",
-      "type" : "SSFileWritingMinutesLeftRet",
-      "nickname" : "fileWritingMinutesLeft",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSFileWritingMinutesLeftPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discURIsForTargetGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve discussions for a certain entity",
-      "notes" : "",
-      "type" : "SSDiscUserDiscURIsForTargetGetRet",
-      "nickname" : "discURIsForTargetGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserDiscURIsForTargetGetPar",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ]
-    } ]
-  }, {
-    "path" : "/discWithEntriesGet",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "retrieve the discussion with its entries",
-      "notes" : "",
-      "type" : "SSDiscUserWithEntriesRet",
-      "nickname" : "discWithEntriesGet",
-      "produces" : [ "application/json" ],
-      "consumes" : [ "application/json" ],
-      "parameters" : [ {
-        "name" : "body",
-        "required" : false,
-        "type" : "SSDiscUserWithEntriesGetPar",
+        "type" : "SSCircleEntityUsersGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -1339,6 +1249,24 @@
       } ]
     } ]
   }, {
+    "path" : "/circleEntityShare",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "share an entity directly with given users",
+      "notes" : "",
+      "type" : "SSCircleEntityShareRet",
+      "nickname" : "circleEntityShare",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCircleEntitySharePar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
     "path" : "/collCumulatedTagsGet",
     "operations" : [ {
       "method" : "POST",
@@ -1357,37 +1285,109 @@
       } ]
     } ]
   }, {
-    "path" : "/entityDirectlyAdjoinedEntitiesRemove",
+    "path" : "/discURIsForTargetGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "remove certain attached attributes from an entity",
+      "summary" : "retrieve discussions for a certain entity",
       "notes" : "",
-      "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemoveRet",
-      "nickname" : "entityDirectlyAdjoinedEntitiesRemove",
+      "type" : "SSDiscUserDiscURIsForTargetGetRet",
+      "nickname" : "discURIsForTargetGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
+        "type" : "SSDiscUserDiscURIsForTargetGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
     } ]
   }, {
-    "path" : "/entityEntityUsersGet",
+    "path" : "/discWithEntriesGet",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "retrieve users who can access given entity",
+      "summary" : "retrieve the discussion with its entries",
       "notes" : "",
-      "type" : "SSCircleEntityUsersGetRet",
-      "nickname" : "entityEntityUsersGet",
+      "type" : "SSDiscUserWithEntriesRet",
+      "nickname" : "discWithEntriesGet",
       "produces" : [ "application/json" ],
       "consumes" : [ "application/json" ],
       "parameters" : [ {
         "name" : "body",
         "required" : false,
-        "type" : "SSCircleEntityUsersGetPar",
+        "type" : "SSDiscUserWithEntriesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/fileWritingMinutesLeft",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve number of minutes left user is allowed to replace / re-upload a file",
+      "notes" : "",
+      "type" : "SSFileWritingMinutesLeftRet",
+      "nickname" : "fileWritingMinutesLeft",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSFileWritingMinutesLeftPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/modelUEResourceDetails",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve automatically usage-based modeled details for given entity",
+      "notes" : "",
+      "type" : "SSModelUEResourceDetailsRet",
+      "nickname" : "modelUEResourceDetails",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSModelUEEntityDetailsPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryEntitiesForCategoriesGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve entities for categories (currently startTime is not used to retrieve entities)",
+      "notes" : "",
+      "type" : "SSCategoryUserEntitiesForCategoriesGetRet",
+      "nickname" : "categoryEntitiesForCategoriesGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryUserEntitiesForCategoriesGetPar",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ]
+    } ]
+  }, {
+    "path" : "/categoryFrequsGet",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "retrieve category frequencies",
+      "notes" : "",
+      "type" : "SSCategoryUserFrequsGetRet",
+      "nickname" : "categoryFrequsGet",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/json" ],
+      "parameters" : [ {
+        "name" : "body",
+        "required" : false,
+        "type" : "SSCategoryUserFrequsGetPar",
         "paramType" : "body",
         "allowMultiple" : false
       } ]
@@ -1397,7 +1397,7 @@
     "SSCategoryUserEntitiesForCategoriesGetPar" : {
       "id" : "SSCategoryUserEntitiesForCategoriesGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "space" : {
           "type" : "string",
@@ -1423,13 +1423,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1470,17 +1470,17 @@
         "space" : {
           "type" : "string"
         },
-        "categoryLabel" : {
-          "type" : "string"
-        },
         "label" : {
           "type" : "string",
           "description" : "name"
         },
-        "user" : {
+        "categoryLabel" : {
           "type" : "string"
         },
         "entity" : {
+          "type" : "string"
+        },
+        "user" : {
           "type" : "string"
         },
         "id" : {
@@ -1496,22 +1496,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "comments" : {
           "type" : "array",
@@ -1524,6 +1520,54 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -1535,57 +1579,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -1610,11 +1610,11 @@
     "SSActivitiesUserGetPar" : {
       "id" : "SSActivitiesUserGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
-        "circles" : {
+        "entities" : {
           "type" : "array",
-          "description" : "groups for which activities shall be retrieved (optional)",
+          "description" : "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)",
           "items" : {
             "type" : "string"
           }
@@ -1626,16 +1626,16 @@
             "type" : "string"
           }
         },
-        "entities" : {
+        "types" : {
           "type" : "array",
-          "description" : "entities which have been involved in activities as targets (e.g. the target for a discussion) (optional)",
+          "description" : "types of activities to be queried (optional)",
           "items" : {
             "type" : "string"
           }
         },
-        "types" : {
+        "circles" : {
           "type" : "array",
-          "description" : "types of activities to be queried (optional)",
+          "description" : "groups for which activities shall be retrieved (optional)",
           "items" : {
             "type" : "string"
           }
@@ -1658,13 +1658,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1716,7 +1716,7 @@
     "SSCategoryAddPar" : {
       "id" : "SSCategoryAddPar",
       "description" : "",
-      "required" : [ "space", "label", "entity", "key", "op", "user" ],
+      "required" : [ "space", "label", "entity", "key", "user", "op" ],
       "properties" : {
         "space" : {
           "type" : "string",
@@ -1739,13 +1739,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1766,7 +1766,7 @@
     "SSCollUserEntriesDeletePar" : {
       "id" : "SSCollUserEntriesDeletePar",
       "description" : "",
-      "required" : [ "entries", "coll", "key", "op", "user" ],
+      "required" : [ "entries", "coll", "key", "user", "op" ],
       "properties" : {
         "entries" : {
           "type" : "array",
@@ -1783,13 +1783,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1813,7 +1813,7 @@
     "SSModelUEEntityDetailsPar" : {
       "id" : "SSModelUEEntityDetailsPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -1823,13 +1823,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1881,7 +1881,7 @@
     "SSCollUserWithEntriesPar" : {
       "id" : "SSCollUserWithEntriesPar",
       "description" : "",
-      "required" : [ "coll", "key", "op", "user" ],
+      "required" : [ "coll", "key", "user", "op" ],
       "properties" : {
         "coll" : {
           "type" : "string",
@@ -1891,13 +1891,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -1918,7 +1918,7 @@
     "SSEntityDescsGetPar" : {
       "id" : "SSEntityDescsGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "entities" : {
           "type" : "array",
@@ -1962,13 +1962,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2006,22 +2006,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2030,13 +2030,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -2049,57 +2093,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2110,7 +2110,7 @@
     "SSFlagsUserGetPar" : {
       "id" : "SSFlagsUserGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "entities" : {
           "type" : "array",
@@ -2140,13 +2140,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2179,11 +2179,15 @@
     "SSEntityUserUpdatePar" : {
       "id" : "SSEntityUserUpdatePar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "description" : {
           "type" : "string",
           "description" : "entity's updated description (optional)"
+        },
+        "label" : {
+          "type" : "string",
+          "description" : "entity's updated name (optional)"
         },
         "comments" : {
           "type" : "array",
@@ -2191,10 +2195,6 @@
           "items" : {
             "type" : "string"
           }
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "entity's updated name (optional)"
         },
         "entity" : {
           "type" : "string",
@@ -2208,13 +2208,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2235,7 +2235,7 @@
     "SSDiscUserEntryAddPar" : {
       "id" : "SSDiscUserEntryAddPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
@@ -2253,9 +2253,12 @@
           "type" : "string",
           "description" : "discussion name (optional in case of an existing discussion)"
         },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to start a discussion for (optional)"
+        "entities" : {
+          "type" : "array",
+          "description" : "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)",
+          "items" : {
+            "type" : "string"
+          }
         },
         "users" : {
           "type" : "array",
@@ -2264,16 +2267,13 @@
             "type" : "string"
           }
         },
-        "entities" : {
-          "type" : "array",
-          "description" : "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "disc" : {
           "type" : "string",
           "description" : "discussion to add an entry for (optional in case of a new discussion)"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to start a discussion for (optional)"
         },
         "addNewDisc" : {
           "type" : "boolean",
@@ -2290,13 +2290,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2365,7 +2365,7 @@
     "SSCollsUserEntityIsInGetPar" : {
       "id" : "SSCollsUserEntityIsInGetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -2375,13 +2375,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2413,22 +2413,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2437,13 +2437,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -2456,57 +2500,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2557,10 +2557,10 @@
         "flagType" : {
           "type" : "string"
         },
-        "user" : {
+        "entity" : {
           "type" : "string"
         },
-        "entity" : {
+        "user" : {
           "type" : "string"
         },
         "endTime" : {
@@ -2584,22 +2584,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2608,13 +2608,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -2627,57 +2671,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2688,7 +2688,7 @@
     "SSUEAddPar" : {
       "id" : "SSUEAddPar",
       "description" : "",
-      "required" : [ "type", "entity", "content", "key", "op", "user" ],
+      "required" : [ "type", "entity", "content", "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
@@ -2706,13 +2706,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2722,10 +2722,10 @@
         "content" : {
           "type" : "string"
         },
-        "user" : {
+        "forUser" : {
           "type" : "string"
         },
-        "forUser" : {
+        "user" : {
           "type" : "string"
         },
         "id" : {
@@ -2741,22 +2741,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -2765,13 +2765,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -2784,57 +2828,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -2878,19 +2878,19 @@
     "SSDiscsUserAllGetPar" : {
       "id" : "SSDiscsUserAllGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -2940,19 +2940,19 @@
     "SSActivityTypesGetPar" : {
       "id" : "SSActivityTypesGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -3020,22 +3020,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -3044,13 +3044,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -3063,57 +3107,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -3141,7 +3141,7 @@
     "SSMessageSendPar" : {
       "id" : "SSMessageSendPar",
       "description" : "",
-      "required" : [ "message", "forUser", "key", "op", "user" ],
+      "required" : [ "message", "forUser", "key", "user", "op" ],
       "properties" : {
         "message" : {
           "type" : "string",
@@ -3155,20 +3155,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSCategoriesUserGetPar" : {
       "id" : "SSCategoriesUserGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "space" : {
           "type" : "string",
@@ -3181,16 +3181,16 @@
             "type" : "string"
           }
         },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve category assignments for (optional)"
+        },
         "entities" : {
           "type" : "array",
           "description" : "entities to retrieve category assignments for (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve category assignments for (optional)"
         },
         "startTime" : {
           "type" : "integer",
@@ -3201,13 +3201,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -3255,22 +3255,22 @@
     "SSRecommResourcesPar" : {
       "id" : "SSRecommResourcesPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to be considered to retrieve recommendations for"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "resource to be considered to retrieve recommendations for"
+        },
         "typesToRecommOnly" : {
           "type" : "array",
           "description" : "entity types to be recommended",
           "items" : {
             "type" : "string"
           }
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "resource to be considered to retrieve recommendations for"
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to be considered to retrieve recommendations for"
         },
         "categories" : {
           "type" : "array",
@@ -3296,13 +3296,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -3316,13 +3316,13 @@
           "type" : "string",
           "description" : "name"
         },
-        "user" : {
+        "tagLabel" : {
           "type" : "string"
         },
         "entity" : {
           "type" : "string"
         },
-        "tagLabel" : {
+        "user" : {
           "type" : "string"
         },
         "id" : {
@@ -3338,22 +3338,18 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
-        },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
         },
         "comments" : {
           "type" : "array",
@@ -3366,6 +3362,54 @@
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
         },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
         "author" : {
           "type" : "string",
           "description" : "creator"
@@ -3377,57 +3421,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -3580,22 +3580,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -3604,13 +3604,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -3623,57 +3667,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -3701,7 +3701,7 @@
     "SSDiscUserWithEntriesGetPar" : {
       "id" : "SSDiscUserWithEntriesGetPar",
       "description" : "",
-      "required" : [ "disc", "maxEntries", "key", "op", "user" ],
+      "required" : [ "disc", "maxEntries", "key", "user", "op" ],
       "properties" : {
         "disc" : {
           "type" : "string",
@@ -3720,13 +3720,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -3750,7 +3750,7 @@
     "SSActivityAddPar" : {
       "id" : "SSActivityAddPar",
       "description" : "",
-      "required" : [ "type", "key", "op", "user" ],
+      "required" : [ "type", "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
@@ -3763,9 +3763,12 @@
             "type" : "string"
           }
         },
-        "entity" : {
-          "type" : "string",
-          "description" : "targeted entities"
+        "entities" : {
+          "type" : "array",
+          "description" : "involved entities",
+          "items" : {
+            "type" : "string"
+          }
         },
         "users" : {
           "type" : "array",
@@ -3774,31 +3777,28 @@
             "type" : "string"
           }
         },
-        "entities" : {
-          "type" : "array",
-          "description" : "involved entities",
-          "items" : {
-            "type" : "string"
-          }
+        "entity" : {
+          "type" : "string",
+          "description" : "targeted entities"
         },
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSRatingOverallGetPar" : {
       "id" : "SSRatingOverallGetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -3808,13 +3808,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -3889,10 +3889,10 @@
         "ueType" : {
           "type" : "string"
         },
-        "user" : {
+        "entity" : {
           "type" : "string"
         },
-        "entity" : {
+        "user" : {
           "type" : "string"
         },
         "id" : {
@@ -3908,22 +3908,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -3932,13 +3932,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -3951,57 +3995,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -4026,7 +4026,7 @@
     "SSCircleEntityUsersGetPar" : {
       "id" : "SSCircleEntityUsersGetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -4036,13 +4036,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4062,38 +4062,38 @@
     "SSSystemVersionGetPar" : {
       "id" : "SSSystemVersionGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSCollUserRootGetPar" : {
       "id" : "SSCollUserRootGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4148,19 +4148,19 @@
     "SSUECountGetPar" : {
       "id" : "SSUECountGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
           "description" : "user event type to retrieve"
         },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to count user events for"
-        },
         "forUser" : {
           "type" : "string",
           "description" : "user to count user events for"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to count user events for"
         },
         "startTime" : {
           "type" : "integer",
@@ -4176,13 +4176,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4220,7 +4220,7 @@
     "SSCollUserEntriesAddPar" : {
       "id" : "SSCollUserEntriesAddPar",
       "description" : "",
-      "required" : [ "entries", "coll", "labels", "key", "op", "user" ],
+      "required" : [ "entries", "labels", "coll", "key", "user", "op" ],
       "properties" : {
         "entries" : {
           "type" : "array",
@@ -4229,10 +4229,6 @@
             "type" : "string"
           }
         },
-        "coll" : {
-          "type" : "string",
-          "description" : "collection to add sub-entities to"
-        },
         "labels" : {
           "type" : "array",
           "description" : "collection item labels",
@@ -4240,17 +4236,21 @@
             "type" : "string"
           }
         },
+        "coll" : {
+          "type" : "string",
+          "description" : "collection to add sub-entities to"
+        },
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4300,7 +4300,7 @@
     "SSCategoriesUserRemovePar" : {
       "id" : "SSCategoriesUserRemovePar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "space" : {
           "type" : "string",
@@ -4318,25 +4318,21 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSUEsGetPar" : {
       "id" : "SSUEsGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to retrieve user events for"
-        },
         "forUser" : {
           "type" : "string",
           "description" : "user to retrieve user events for"
@@ -4347,6 +4343,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to retrieve user events for"
         },
         "startTime" : {
           "type" : "integer",
@@ -4362,13 +4362,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4451,7 +4451,7 @@
     "SSFlagsUserSetPar" : {
       "id" : "SSFlagsUserSetPar",
       "description" : "",
-      "required" : [ "entities", "types", "key", "op", "user" ],
+      "required" : [ "entities", "types", "key", "user", "op" ],
       "properties" : {
         "entities" : {
           "type" : "array",
@@ -4477,13 +4477,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4518,7 +4518,7 @@
     "SSMessagesGetPar" : {
       "id" : "SSMessagesGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "includeRead" : {
           "type" : "boolean",
@@ -4533,13 +4533,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4580,22 +4580,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -4604,13 +4604,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -4623,57 +4667,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -4763,22 +4763,11 @@
     "SSCircleEntitySharePar" : {
       "id" : "SSCircleEntitySharePar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "comment" : {
           "type" : "string",
           "description" : "textual comment for sharing"
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to be shared"
-        },
-        "circles" : {
-          "type" : "array",
-          "description" : "circles to share the entity with",
-          "items" : {
-            "type" : "string"
-          }
         },
         "users" : {
           "type" : "array",
@@ -4787,17 +4776,28 @@
             "type" : "string"
           }
         },
+        "circles" : {
+          "type" : "array",
+          "description" : "circles to share the entity with",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to be shared"
+        },
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4821,7 +4821,7 @@
     "SSCollUserEntryChangePosPar" : {
       "id" : "SSCollUserEntryChangePosPar",
       "description" : "",
-      "required" : [ "coll", "order", "key", "op", "user" ],
+      "required" : [ "coll", "order", "key", "user", "op" ],
       "properties" : {
         "coll" : {
           "type" : "string",
@@ -4838,13 +4838,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4881,7 +4881,7 @@
     "SSDiscUserDiscURIsForTargetGetPar" : {
       "id" : "SSDiscUserDiscURIsForTargetGetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -4891,13 +4891,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -4943,22 +4943,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -4967,13 +4967,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -4986,57 +5030,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -5079,7 +5079,7 @@
     "SSCircleEntityPublicSetPar" : {
       "id" : "SSCircleEntityPublicSetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -5089,20 +5089,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSEntityUserDirectlyAdjoinedEntitiesRemovePar" : {
       "id" : "SSEntityUserDirectlyAdjoinedEntitiesRemovePar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -5128,13 +5128,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5211,22 +5211,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -5235,13 +5235,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -5254,57 +5298,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -5343,15 +5343,15 @@
     "SSRecommTagsPar" : {
       "id" : "SSRecommTagsPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
-        "entity" : {
-          "type" : "string",
-          "description" : "resource to be considered to retrieve recommendations for"
-        },
         "forUser" : {
           "type" : "string",
           "description" : "user to be considered to retrieve recommendations for"
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "resource to be considered to retrieve recommendations for"
         },
         "categories" : {
           "type" : "array",
@@ -5373,13 +5373,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5519,7 +5519,7 @@
     "SSCollUserHierarchyGetPar" : {
       "id" : "SSCollUserHierarchyGetPar",
       "description" : "",
-      "required" : [ "coll", "key", "op", "user" ],
+      "required" : [ "coll", "key", "user", "op" ],
       "properties" : {
         "coll" : {
           "type" : "string",
@@ -5529,13 +5529,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5588,19 +5588,19 @@
     "SSCategoriesPredefinedGetPar" : {
       "id" : "SSCategoriesPredefinedGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5624,7 +5624,7 @@
     "SSCategoryUserFrequsGetPar" : {
       "id" : "SSCategoryUserFrequsGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "space" : {
           "type" : "string",
@@ -5637,16 +5637,16 @@
             "type" : "string"
           }
         },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to retrieve category for (optional)"
+        },
         "entities" : {
           "type" : "array",
           "description" : "entities to retrieve category for (optional)",
           "items" : {
             "type" : "string"
           }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to retrieve category for (optional)"
         },
         "startTime" : {
           "type" : "integer",
@@ -5657,13 +5657,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5840,19 +5840,19 @@
     "SSTagLikelihood" : {
       "id" : "SSTagLikelihood",
       "properties" : {
+        "label" : {
+          "type" : "string"
+        },
         "likelihood" : {
           "type" : "number",
           "format" : "double"
-        },
-        "label" : {
-          "type" : "string"
         }
       }
     },
     "SSCollUserParentGetPar" : {
       "id" : "SSCollUserParentGetPar",
       "description" : "",
-      "required" : [ "coll", "key", "op", "user" ],
+      "required" : [ "coll", "key", "user", "op" ],
       "properties" : {
         "coll" : {
           "type" : "string",
@@ -5862,13 +5862,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -5902,22 +5902,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -5926,13 +5926,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -5945,57 +5989,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -6048,7 +6048,7 @@
     "SSCollUserEntryDeletePar" : {
       "id" : "SSCollUserEntryDeletePar",
       "description" : "",
-      "required" : [ "entry", "coll", "key", "op", "user" ],
+      "required" : [ "entry", "coll", "key", "user", "op" ],
       "properties" : {
         "entry" : {
           "type" : "string",
@@ -6062,20 +6062,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSUserAllPar" : {
       "id" : "SSUserAllPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "setFriends" : {
           "type" : "boolean",
@@ -6085,32 +6085,32 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSCollsUserWithEntriesPar" : {
       "id" : "SSCollsUserWithEntriesPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6148,7 +6148,7 @@
     "SSDiscUserRemovePar" : {
       "id" : "SSDiscUserRemovePar",
       "description" : "",
-      "required" : [ "disc", "key", "op", "user" ],
+      "required" : [ "disc", "key", "user", "op" ],
       "properties" : {
         "disc" : {
           "type" : "string",
@@ -6158,13 +6158,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6216,19 +6216,19 @@
     "SSCollUserEntryAddPar" : {
       "id" : "SSCollUserEntryAddPar",
       "description" : "",
-      "required" : [ "coll", "label", "key", "op", "user" ],
+      "required" : [ "label", "coll", "key", "user", "op" ],
       "properties" : {
         "entry" : {
           "type" : "string",
           "description" : "either null for the creation of new sub-collection, an existing collection or an entity"
         },
-        "coll" : {
-          "type" : "string",
-          "description" : "collection to add an entity to"
-        },
         "label" : {
           "type" : "string",
           "description" : "title of the collection entry"
+        },
+        "coll" : {
+          "type" : "string",
+          "description" : "collection to add an entity to"
         },
         "addNewColl" : {
           "type" : "boolean",
@@ -6238,13 +6238,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6304,22 +6304,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -6328,13 +6328,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -6347,57 +6391,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -6439,6 +6439,18 @@
     "SSApp" : {
       "id" : "SSApp",
       "properties" : {
+        "downloads" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "downloadIOS" : {
+          "type" : "string"
+        },
+        "fork" : {
+          "type" : "string"
+        },
         "descriptionShort" : {
           "type" : "string"
         },
@@ -6454,18 +6466,6 @@
         "downloadAndroid" : {
           "type" : "string"
         },
-        "downloadIOS" : {
-          "type" : "string"
-        },
-        "fork" : {
-          "type" : "string"
-        },
-        "downloads" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "id" : {
           "type" : "string",
           "description" : "uri"
@@ -6479,22 +6479,22 @@
           "type" : "string",
           "description" : "physical file"
         },
+        "entries" : {
+          "$ref" : "List[?]",
+          "description" : "entities sub-entities"
+        },
         "creationTime" : {
           "type" : "integer",
           "format" : "int64",
           "description" : "creation / timestamp in milliseconds"
         },
-        "entries" : {
-          "$ref" : "List[?]",
-          "description" : "entities sub-entities"
-        },
         "description" : {
           "type" : "string",
           "description" : "textual description"
         },
-        "attachedEntities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "attached entities"
+        "label" : {
+          "type" : "string",
+          "description" : "name"
         },
         "comments" : {
           "type" : "array",
@@ -6503,13 +6503,57 @@
             "type" : "string"
           }
         },
-        "label" : {
-          "type" : "string",
-          "description" : "name"
-        },
         "locations" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
           "description" : "locations"
+        },
+        "flags" : {
+          "type" : "array",
+          "description" : "flags assigned",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
+        },
+        "entities" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "entities involved"
+        },
+        "users" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "users involved"
+        },
+        "overallRating" : {
+          "$ref" : "SSEntityA",
+          "description" : "overall star rating"
+        },
+        "discs" : {
+          "type" : "array",
+          "description" : "discussions about",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "tags assigned",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "thumb" : {
+          "type" : "string",
+          "description" : "thumbnail"
+        },
+        "circles" : {
+          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
+          "description" : "circles"
+        },
+        "uEs" : {
+          "type" : "array",
+          "description" : "user events",
+          "items" : {
+            "$ref" : "SSEntityA"
+          }
         },
         "author" : {
           "type" : "string",
@@ -6522,57 +6566,13 @@
             "$ref" : "SSCircleE"
           }
         },
-        "circles" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "circles"
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "tags assigned",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "SSEntityA",
-          "description" : "overall star rating"
-        },
         "likes" : {
           "$ref" : "SSEntityA",
           "description" : "likes for the entity"
         },
-        "discs" : {
-          "type" : "array",
-          "description" : "discussions about",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "uEs" : {
-          "type" : "array",
-          "description" : "user events",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
-        },
-        "thumb" : {
-          "type" : "string",
-          "description" : "thumbnail"
-        },
-        "users" : {
+        "attachedEntities" : {
           "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "users involved"
-        },
-        "entities" : {
-          "$ref" : "List[? extends at.kc.tugraz.ss.datatypes.datatypes.SSEntity]",
-          "description" : "entities involved"
-        },
-        "flags" : {
-          "type" : "array",
-          "description" : "flags assigned",
-          "items" : {
-            "$ref" : "SSEntityA"
-          }
+          "description" : "attached entities"
         },
         "read" : {
           "type" : "boolean",
@@ -6583,15 +6583,11 @@
     "SSEntityUserCopyPar" : {
       "id" : "SSEntityUserCopyPar",
       "description" : "",
-      "required" : [ "entity", "users", "key", "op", "user" ],
+      "required" : [ "users", "entity", "key", "user", "op" ],
       "properties" : {
         "comment" : {
           "type" : "string",
           "description" : "optional describing text"
-        },
-        "entity" : {
-          "type" : "string",
-          "description" : "entity to copy"
         },
         "users" : {
           "type" : "array",
@@ -6599,6 +6595,10 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "entity" : {
+          "type" : "string",
+          "description" : "entity to copy"
         },
         "entitiesToExclude" : {
           "type" : "array",
@@ -6611,13 +6611,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6641,11 +6641,29 @@
     "SSEvalLogPar" : {
       "id" : "SSEvalLogPar",
       "description" : "",
-      "required" : [ "type", "key", "op", "user" ],
+      "required" : [ "type", "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
           "description" : "type of the log event"
+        },
+        "forUser" : {
+          "type" : "string",
+          "description" : "user to be logged"
+        },
+        "entities" : {
+          "type" : "array",
+          "description" : "entities to be logged",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "description" : "users to be logged",
+          "items" : {
+            "type" : "string"
+          }
         },
         "toolContext" : {
           "type" : "string",
@@ -6655,24 +6673,6 @@
           "type" : "string",
           "description" : "entity to be logged"
         },
-        "users" : {
-          "type" : "array",
-          "description" : "users to be logged",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "description" : "entities to be logged",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "forUser" : {
-          "type" : "string",
-          "description" : "user to be logged"
-        },
         "content" : {
           "type" : "string",
           "description" : "content to be logged"
@@ -6681,13 +6681,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6715,34 +6715,34 @@
     "SSCategoryUserEditPar" : {
       "id" : "SSCategoryUserEditPar",
       "description" : "",
-      "required" : [ "category", "label", "key", "op", "user" ],
+      "required" : [ "label", "category", "key", "user", "op" ],
       "properties" : {
-        "category" : {
-          "type" : "string",
-          "description" : "category to change the label for"
-        },
         "label" : {
           "type" : "string",
           "description" : "new label for the category"
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "category to change the label for"
         },
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSUEGetPar" : {
       "id" : "SSUEGetPar",
       "description" : "",
-      "required" : [ "ue", "key", "op", "user" ],
+      "required" : [ "ue", "key", "user", "op" ],
       "properties" : {
         "ue" : {
           "type" : "string",
@@ -6752,20 +6752,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSCollUserCumulatedTagsGetPar" : {
       "id" : "SSCollUserCumulatedTagsGetPar",
       "description" : "",
-      "required" : [ "coll", "key", "op", "user" ],
+      "required" : [ "coll", "key", "user", "op" ],
       "properties" : {
         "coll" : {
           "type" : "string",
@@ -6775,13 +6775,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6802,7 +6802,7 @@
     "SSRatingUserSetPar" : {
       "id" : "SSRatingUserSetPar",
       "description" : "",
-      "required" : [ "entity", "value", "key", "op", "user" ],
+      "required" : [ "entity", "value", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -6817,20 +6817,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSEntityDescGetPar" : {
       "id" : "SSEntityDescGetPar",
       "description" : "",
-      "required" : [ "entity", "key", "op", "user" ],
+      "required" : [ "entity", "key", "user", "op" ],
       "properties" : {
         "entity" : {
           "type" : "string",
@@ -6868,20 +6868,20 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
     "SSFileWritingMinutesLeftPar" : {
       "id" : "SSFileWritingMinutesLeftPar",
       "description" : "",
-      "required" : [ "file", "key", "op", "user" ],
+      "required" : [ "file", "key", "user", "op" ],
       "properties" : {
         "file" : {
           "type" : "string",
@@ -6891,13 +6891,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -6935,19 +6935,19 @@
     "SSCollsUserCouldSubscribeGetPar" : {
       "id" : "SSCollsUserCouldSubscribeGetPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "key" : {
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },
@@ -7031,7 +7031,7 @@
     "SSEntityUserAddPar" : {
       "id" : "SSEntityUserAddPar",
       "description" : "",
-      "required" : [ "key", "op", "user" ],
+      "required" : [ "key", "user", "op" ],
       "properties" : {
         "type" : {
           "type" : "string",
@@ -7058,13 +7058,13 @@
           "type" : "string",
           "description" : "the user's access tocken"
         },
-        "op" : {
-          "type" : "string",
-          "description" : "operation to be executed"
-        },
         "user" : {
           "type" : "string",
           "description" : "the user's identifier"
+        },
+        "op" : {
+          "type" : "string",
+          "description" : "operation to be executed"
         }
       }
     },

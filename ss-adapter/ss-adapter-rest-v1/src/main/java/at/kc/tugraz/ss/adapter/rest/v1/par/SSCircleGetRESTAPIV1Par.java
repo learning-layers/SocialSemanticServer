@@ -70,7 +70,7 @@ public class SSCircleGetRESTAPIV1Par{
   public List<SSEntityE>   entityTypesToIncludeOnly             = new ArrayList<>();
   
   @XmlElement
-  public void setForUser(final List<String> entityTypesToIncludeOnly) throws Exception{
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
     this.entityTypesToIncludeOnly.addAll(SSEntityE.get(entityTypesToIncludeOnly));
   }
   
