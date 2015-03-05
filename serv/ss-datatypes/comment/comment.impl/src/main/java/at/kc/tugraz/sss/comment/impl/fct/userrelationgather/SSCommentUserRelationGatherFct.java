@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.List;
 import java.util.Map;
 import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 
 public class SSCommentUserRelationGatherFct{
@@ -62,7 +63,15 @@ public class SSCommentUserRelationGatherFct{
     
     for(SSUri entity : SSServCaller.commentEntitiesCommentedGet(userUri, userUri)){
       
-      for(SSEntityCircle entityCircle : SSServCaller.circlesGet(userUri, userUri, entity, true, false, false)){
+      for(SSEntityCircle entityCircle : 
+        SSServCaller.circlesGet(
+          userUri, 
+          userUri, 
+          entity, 
+          SSEntityE.asListWithoutNullAndEmpty(),
+          true, 
+          false, 
+          false)){
         
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(SSUri.getFromEntitites(entityCircle.users));

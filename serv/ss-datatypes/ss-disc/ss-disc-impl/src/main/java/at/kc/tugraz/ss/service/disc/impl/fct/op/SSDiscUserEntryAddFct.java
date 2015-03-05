@@ -108,7 +108,15 @@ public class SSDiscUserEntryAddFct{
         null,
         false);
             
-      for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(userUri, null, discUri, true, false, false)){
+      for(SSEntityCircle entityUserCircle : 
+        SSServCaller.circlesGet(
+          userUri, 
+          null, 
+          discUri, 
+          SSEntityE.asListWithoutNullAndEmpty(),
+          true, 
+          false, 
+          false)){
         
         SSServCaller.circleEntitiesAdd(
           userUri,

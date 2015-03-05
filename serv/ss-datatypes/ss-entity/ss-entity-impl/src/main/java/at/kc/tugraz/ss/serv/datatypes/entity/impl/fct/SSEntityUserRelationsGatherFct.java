@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.List;
@@ -61,7 +62,15 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : SSServCaller.circlesGet(userUri, userUri, null, true, false, false)){
+    for(SSEntityCircle circle : 
+      SSServCaller.circlesGet( 
+        userUri,  //user
+        userUri,  //forUser
+        null,     //entity
+        SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
+        true,    //withSystemCircles
+        false,    //withUserRestriction
+        false)){  //invokeEntityHandlers)
       
       if(userRelations.containsKey(userStr)){
         userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));

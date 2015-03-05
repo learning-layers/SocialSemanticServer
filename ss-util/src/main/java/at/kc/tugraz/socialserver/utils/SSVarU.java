@@ -76,6 +76,7 @@ public class SSVarU{
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
   public static final String typesToRecommOnly                              = "typesToRecommOnly";
+  public static final String entityTypesToIncludeOnly                       = "entityTypesToIncludeOnly";
   public static final String setCircleTypes                                 = "setCircleTypes";
   public static final String includeOwn                                     = "includeOwn";
   public static final String entitiesToSearchWithin                         = "entitiesToSearchWithin";

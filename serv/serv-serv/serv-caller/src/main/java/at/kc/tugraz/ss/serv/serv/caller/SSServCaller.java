@@ -1905,40 +1905,44 @@ public class SSServCaller {
   }
   
   public static SSEntityCircle circleGet(
-    final SSUri   user,
-    final SSUri   forUser,
-    final SSUri   circle,
-    final Boolean withSystemCircles,
-    final Boolean withUserRestriction,
-    final Boolean invokeEntityHandlers) throws Exception{
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri           circle,
+    final List<SSEntityE> entityTypesToIncludeOnly,
+    final Boolean         withSystemCircles,
+    final Boolean         withUserRestriction,
+    final Boolean         invokeEntityHandlers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.forUser,              forUser);
-    opPars.put(SSVarU.circle,               circle);
-    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarU.user,                      user);
+    opPars.put(SSVarU.forUser,                   forUser);
+    opPars.put(SSVarU.circle,                    circle);
+    opPars.put(SSVarU.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
+    opPars.put(SSVarU.withSystemCircles,         withSystemCircles);
+    opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
+    opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
     
     return (SSEntityCircle) SSServA.callServViaServer(new SSServPar(SSMethU.circleGet, opPars));
   }
    
   public static List<SSEntityCircle> circlesGet(
-    final SSUri   user,
-    final SSUri   forUser,
-    final SSUri   entity,
-    final Boolean withSystemCircles,
-    final Boolean withUserRestriction,
-    final Boolean invokeEntityHandlers) throws Exception{
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri           entity,
+    final List<SSEntityE> entityTypesToIncludeOnly,
+    final Boolean         withSystemCircles,
+    final Boolean         withUserRestriction,
+    final Boolean         invokeEntityHandlers) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.entity,               entity);
-    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarU.user,                      user);
+    opPars.put(SSVarU.entity,                    entity);
+    opPars.put(SSVarU.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
+    opPars.put(SSVarU.withSystemCircles,         withSystemCircles);
+    opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
+    opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
     
     return (List<SSEntityCircle>) SSServA.callServViaServer(new SSServPar(SSMethU.circlesGet, opPars));
   }

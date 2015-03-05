@@ -166,6 +166,7 @@ public class SSRESTEntities {
           null,
           SSUri.get(user, SSVocConf.sssUri),
           null,
+          SSEntityE.asListWithoutNullAndEmpty(),
           true);
       
     }catch(Exception error){
@@ -198,6 +199,7 @@ public class SSRESTEntities {
           null,
           SSUri.get(user,   SSVocConf.sssUri),
           SSUri.get(circle, SSVocConf.sssUri),
+          SSEntityE.asListWithoutNullAndEmpty(),
           true);
       
     }catch(Exception error){
@@ -324,6 +326,7 @@ public class SSRESTEntities {
           null,
           null,
           null,
+          SSEntityE.asListWithoutNullAndEmpty(),
           true);
       
     }catch(Exception error){

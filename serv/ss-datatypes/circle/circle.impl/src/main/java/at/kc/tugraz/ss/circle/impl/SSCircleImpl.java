@@ -450,7 +450,13 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         SSServCallerU.canUserReadEntity(par.forUser, par.circle);
       }
       
-      circle = sqlFct.getCircle(par.circle, true, true, true);
+      circle = 
+        sqlFct.getCircle(
+          par.circle, 
+          true, 
+          true, 
+          true, 
+          par.entityTypesToIncludeOnly);
       
       if(par.invokeEntityHandlers){
         
@@ -458,7 +464,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           
           entities.add(
             SSServCaller.entityDescGet(
-              par.user, 
+              par.user,
               entity.id, 
               false, 
               false, 
@@ -581,6 +587,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
               par.forUser,
               null,
               circleUri,
+              par.entityTypesToIncludeOnly,
               par.withSystemCircles,
               true,
               par.invokeEntityHandlers));
@@ -594,6 +601,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
               par.user,
               null,
               circleUri,
+              par.entityTypesToIncludeOnly,
               par.withSystemCircles,
               false,
               par.invokeEntityHandlers));

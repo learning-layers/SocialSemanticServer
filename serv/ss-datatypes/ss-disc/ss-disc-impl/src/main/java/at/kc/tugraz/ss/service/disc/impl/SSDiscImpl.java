@@ -101,7 +101,8 @@ implements
           SSServCaller.circlesGet(
             userUri, 
             userUri, 
-            disc.id, 
+            disc.id,
+            SSEntityE.asListWithoutNullAndEmpty(),
             true, 
             false, false);
         

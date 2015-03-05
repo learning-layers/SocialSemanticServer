@@ -83,7 +83,7 @@ public class SSCircleCreatePar extends SSServPar{
         entities             = (List<SSUri>)     pars.get(SSVarU.entities);
         users                = (List<SSUri>)     pars.get(SSVarU.users);
         description          = (SSTextComment)   pars.get(SSVarU.description);
-        isSystemCircle       = (Boolean)   pars.get(SSVarU.isSystemCircle);
+        isSystemCircle       = (Boolean)         pars.get(SSVarU.isSystemCircle);
         withUserRestriction  = (Boolean)         pars.get(SSVarU.withUserRestriction);
         invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
       }

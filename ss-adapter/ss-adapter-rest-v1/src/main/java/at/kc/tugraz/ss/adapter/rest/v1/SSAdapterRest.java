@@ -481,8 +481,9 @@ public class SSAdapterRest{
         input.key, 
         input.user,
         input.forUser, 
-        null,
-        true);
+        null,  //entity
+        input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+        true); //invokeEntityHandlers
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }
@@ -505,7 +506,8 @@ public class SSAdapterRest{
         input.user, 
         input.forUser, 
         input.circle,
-        true);
+        input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+        true); //invokeEntityHandlers
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }

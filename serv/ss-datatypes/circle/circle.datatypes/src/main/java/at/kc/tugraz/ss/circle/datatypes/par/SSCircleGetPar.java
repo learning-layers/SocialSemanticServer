@@ -19,31 +19,41 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
+import org.codehaus.jackson.JsonNode;
 
 public class SSCircleGetPar extends SSServPar{
   
-  public SSUri   forUser                    = null;
-  public SSUri   circle                     = null;
-  public Boolean withSystemCircles          = false;
-  public Boolean invokeEntityHandlers       = false;
+  public SSUri           forUser                    = null;
+  public SSUri           circle                     = null;
+  public List<SSEntityE> entityTypesToIncludeOnly   = new ArrayList<>();
+  public Boolean         withSystemCircles          = false;
+  public Boolean         invokeEntityHandlers       = false;
   
   public SSCircleGetPar(){}
   
   public SSCircleGetPar(
-    final SSMethU  op,
-    final String   key,
-    final SSUri    user,
-    final SSUri    forUser,
-    final SSUri    circle,
-    final Boolean  invokeEntityHandlers) throws Exception{
+    final SSMethU         op,
+    final String          key,
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri           circle,
+    final List<SSEntityE> entityTypesToIncludeOnly,
+    final Boolean         invokeEntityHandlers) throws Exception{
     
     super(op, key, user);
     
     this.forUser               = forUser;
     this.circle                = circle;
     this.invokeEntityHandlers  = invokeEntityHandlers;
+    
+    if(entityTypesToIncludeOnly != null){
+      this.entityTypesToIncludeOnly.addAll(entityTypesToIncludeOnly);
+    }
   }
   
   public SSCircleGetPar(final SSServPar par) throws Exception{
@@ -53,11 +63,12 @@ public class SSCircleGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser              = (SSUri)   pars.get(SSVarU.forUser);
-        circle               = (SSUri)   pars.get(SSVarU.circle);
-        withUserRestriction  = (Boolean) pars.get(SSVarU.withUserRestriction);
-        withSystemCircles    = (Boolean) pars.get(SSVarU.withSystemCircles);
-        invokeEntityHandlers = (Boolean) pars.get(SSVarU.invokeEntityHandlers);
+        forUser                   = (SSUri)           pars.get(SSVarU.forUser);
+        circle                    = (SSUri)           pars.get(SSVarU.circle);
+        entityTypesToIncludeOnly  = (List<SSEntityE>) pars.get(SSVarU.entityTypesToIncludeOnly);
+        withUserRestriction       = (Boolean)         pars.get(SSVarU.withUserRestriction);
+        withSystemCircles         = (Boolean)         pars.get(SSVarU.withSystemCircles);
+        invokeEntityHandlers      = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
@@ -65,6 +76,12 @@ public class SSCircleGetPar extends SSServPar{
         withUserRestriction = true;
         withSystemCircles   = false;
         circle              = SSUri.get(par.clientJSONObj.get(SSVarU.circle).getTextValue());
+        
+        try{
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entityTypesToIncludeOnly)) {
+            entityTypesToIncludeOnly.add(SSEntityE.get(objNode.getTextValue()));
+          }
+        }catch(Exception error){}
         
         try{
           invokeEntityHandlers      = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
@@ -79,5 +96,9 @@ public class SSCircleGetPar extends SSServPar{
    /* json getters */
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
+  }
+  
+  public List<String> getEntityTypesToIncludeOnly() throws Exception{
+    return SSStrU.toStr(entityTypesToIncludeOnly);
   }
 }

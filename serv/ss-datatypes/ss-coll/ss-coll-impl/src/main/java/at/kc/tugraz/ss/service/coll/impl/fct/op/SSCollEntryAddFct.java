@@ -62,7 +62,15 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSEntityCircle entityUserCircle : SSServCaller.circlesGet(par.user, null, par.coll, true, false, false)){
+    for(SSEntityCircle entityUserCircle : 
+      SSServCaller.circlesGet(
+        par.user, 
+        null, 
+        par.coll, 
+        SSEntityE.asListWithoutNullAndEmpty(),
+        true, 
+        false, 
+        false)){
       
       SSServCaller.circleEntitiesAdd(
         par.user, 
@@ -122,7 +130,15 @@ public class SSCollEntryAddFct{
     
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    for(SSEntityCircle circle : SSServCaller.circlesGet(par.user, null, par.coll, true, false, false)){
+    for(SSEntityCircle circle : 
+      SSServCaller.circlesGet(
+        par.user, 
+        null, 
+        par.coll, 
+        SSEntityE.asListWithoutNullAndEmpty(),
+        true, 
+        false, 
+        false)){
       
       SSServCaller.circleEntitiesAdd(
         par.user, 

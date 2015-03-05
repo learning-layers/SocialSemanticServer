@@ -16,8 +16,11 @@
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -49,6 +52,16 @@ public class SSCirclesGetRESTAPIV1Par{
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "entity types to include in 'entitites' only")
+  public List<SSEntityE>   entityTypesToIncludeOnly             = new ArrayList<>();
+  
+  @XmlElement
+  public void setForUser(final List<String> entityTypesToIncludeOnly) throws Exception{
+    this.entityTypesToIncludeOnly.addAll(SSEntityE.get(entityTypesToIncludeOnly));
   }
   
   public SSCirclesGetRESTAPIV1Par(){}

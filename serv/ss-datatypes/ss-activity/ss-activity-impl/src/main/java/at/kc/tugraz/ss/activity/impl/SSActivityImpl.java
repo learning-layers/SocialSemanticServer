@@ -211,12 +211,13 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           }
           
           for(SSEntity circleEntity : SSServCaller.circleGet(
-            par.user,
-            par.user,
-            circle,
-            false,
-            true,
-            false).entities){
+            par.user, //user
+            par.user, //forUser
+            circle,   //circle
+            SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
+            false,    //withSystemCircles
+            true, //withUserRestriction
+            false).entities){ //invokeEntityHandlers
             
             entitiesToQuery.add(circleEntity.id);
           }

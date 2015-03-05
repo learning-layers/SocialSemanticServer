@@ -495,6 +495,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
             par.user,
             par.forUser,
             par.entity,
+            SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
             false,
             true,
             false);

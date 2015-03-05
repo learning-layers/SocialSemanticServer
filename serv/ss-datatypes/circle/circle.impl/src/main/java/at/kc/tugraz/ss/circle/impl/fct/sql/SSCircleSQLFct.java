@@ -356,7 +356,8 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     final SSUri                circleUri,
     final Boolean              withUsers,
     final Boolean              withEntities,
-    final Boolean              withCircleRights) throws Exception{
+    final Boolean              withCircleRights,
+    final List<SSEntityE>      entityTypesToIncludeOnly) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -396,7 +397,11 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       }
       
       if(withEntities){
-        circleObj.entities.addAll(getEntitiesForCircle(circleUri, SSEntityE.asListWithoutNullAndEmpty()));
+        
+        circleObj.entities.addAll(
+          getEntitiesForCircle(
+            circleUri, 
+            entityTypesToIncludeOnly));
       }
       
       if(withCircleRights){
