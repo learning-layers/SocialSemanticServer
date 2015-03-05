@@ -345,6 +345,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           mimeType = null;
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationZip + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationZip  + "\"")){
+            mimeType = SSMimeTypeU.applicationZip;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeU.textPlain + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textPlain  + "\"")){
             mimeType = SSMimeTypeU.textPlain;
@@ -366,6 +372,12 @@ public class SSDataImportEvernoteNoteContentHandler{
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg4  + "\"")){
             mimeType = SSMimeTypeU.audioMpeg4;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
+            mimeType = SSMimeTypeU.audioMpeg;
           }
           
           if(
@@ -526,6 +538,10 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\"/>";
           }
           
+          if(SSStrU.equals(mimeType, SSMimeTypeU.applicationZip)){
+            result += "<div>Includes Compressed Archive (no preview available)</div>";
+          }
+          
           if(
             SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword) ||
             SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)){
@@ -559,8 +575,10 @@ public class SSDataImportEvernoteNoteContentHandler{
             result += "<div>Includes Adaptive Multi-Rate Audio (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")){
-            result += "<div>Includes MPEG 4 Audio (no preview available)</div>";
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"") ||
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
+            result += "<div>Includes MPEG Audio (no preview available)</div>";
           }
           
           if(tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")){
