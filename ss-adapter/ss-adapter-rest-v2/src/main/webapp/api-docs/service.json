@@ -4,6 +4,8 @@
   "apis" : [ {
     "path" : "/entities.{format}"
   }, {
+    "path" : "/search.{format}"
+  }, {
     "path" : "/auth.{format}"
   }, {
     "path" : "/search.{format}"

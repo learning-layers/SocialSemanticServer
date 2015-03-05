@@ -140,12 +140,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>ss-file-sys-local-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>ss-dataexport-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -205,12 +199,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.log</groupId>
-      <artifactId>ss-log-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-dataimport-conf</artifactId>
       <version>${project.version}</version>
@@ -249,12 +237,6 @@
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ss-modeling-ue-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>ss-lomextractor-conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

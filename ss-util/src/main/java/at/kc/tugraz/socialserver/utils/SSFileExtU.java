@@ -32,11 +32,7 @@ public class SSFileExtU {
   
   private static SSFileExtU inst = new SSFileExtU();
 
-  public static boolean isNotAudioOrVideoFileExt(String fileExt) {
-    return !isAudioOrVideoFileExt(fileExt);
-  }
-  
-  public static boolean isAudioOrVideoFileExt(String fileExt){
+  public static boolean isAudioOrVideoFileExt(final String fileExt){
     
     if(
         SSFileExtU.audioFileExts.contains(fileExt) ||
@@ -61,6 +57,7 @@ public class SSFileExtU {
   private SSFileExtU(){
   
     videoFileExts.add(SSFileExtE.avi.toString());
+    videoFileExts.add(SSFileExtE.m4v.toString());
     videoFileExts.add(SSFileExtE.mpeg.toString());
     videoFileExts.add(SSFileExtE.mpg.toString());
     videoFileExts.add(SSFileExtE.mov.toString());
@@ -72,7 +69,9 @@ public class SSFileExtU {
     audioFileExts.add(SSFileExtE.wav.toString());
     audioFileExts.add(SSFileExtE.midi.toString());
     audioFileExts.add(SSFileExtE.wma.toString());
-    
+    audioFileExts.add(SSFileExtE.m4a.toString());
+    audioFileExts.add(SSFileExtE.amr.toString());
+  
     imageFileExts.add(SSFileExtE.jpeg.toString());
     imageFileExts.add(SSFileExtE.jpg.toString());
     imageFileExts.add(SSFileExtE.png.toString());

@@ -59,8 +59,6 @@ evernoteConf:
   companyName: TU Graz
   evernoteEnvironment: production
   use: true
-fileSysLocalConf:
-  use: false
 filerepoConf:
   fileRepoType: fileSys
   password: null
@@ -86,12 +84,6 @@ learnEpConf:
   useEpisodeLocking: false
 likeConf:
   use: true
-logConf:
-  logLevel: debug
-  logLevelRoot: debug
-  use: true
-lomExtractorConf:
-  use: false
 messageConf:
   use: true
 modelConf:

@@ -272,18 +272,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>ss-file-sys-local-serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>ss-file-sys-local-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.serv.recomm</groupId>
       <artifactId>recomm.serv</artifactId>
       <version>${project.version}</version>
@@ -340,12 +328,6 @@
     <dependency>
       <groupId>sss.conf</groupId>
       <artifactId>ss-conf-conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>ss-lomextractor-serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

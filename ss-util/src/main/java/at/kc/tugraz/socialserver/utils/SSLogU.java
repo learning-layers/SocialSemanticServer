@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.socialserver.utils;
 
-import at.kc.tugraz.ss.log.datatypes.SSLogLevelEnum;
 import org.apache.log4j.Logger;
 
 public class SSLogU{
@@ -136,20 +135,5 @@ public class SSLogU{
     log.fatal(getMsg(error));
     
 //    error.printStackTrace();
-  }
-  
-  public static Boolean isNotSame(final SSLogLevelEnum level1, final SSLogLevelEnum level2){
-    return !isSame(level1, level2);
-  }
-  
-  public static Boolean isSame(final SSLogLevelEnum level1, final SSLogLevelEnum level2){
-    
-    if(
-      level1 == null ||
-      level2 == null){
-      return false;
-    }
-    
-    return level1.toString().equals(level2.toString());
   }
 }

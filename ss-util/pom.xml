@@ -40,12 +40,6 @@
   
   <dependencies>
     
-    <dependency>
-      <groupId>sss.log</groupId>
-      <artifactId>ss-log-datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
 <!--    <dependency>
       <groupId>com.github.jsonld-java</groupId>
       <artifactId>jsonld-java</artifactId>
