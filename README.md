@@ -16,10 +16,11 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## Documentation
 * Swagger JSON-based REST API documentation
- * release: `ss-package/api-docs`
+ * release
+    * `ss-package/api-docs`
  * src
-   * `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/`
-   * `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/api-docs/`
+    * `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/`
+    * `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
  * for apiVersion `v1` 
     * adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest-v1/pom.xml`
@@ -32,11 +33,11 @@ The source-code can be directly checked-out through this repository. It contains
     * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs`
     * adapt swagger property `url` of object `SwaggerUi` in `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/index.html` to `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs` 
  * build and deploy web projects 
-   * `SSS/ss-adapter/ss-adapter-rest-v1` 
-   * `SSS/ss-adapter/ss-adapter-rest-v2`
+    * `SSS/ss-adapter/ss-adapter-rest-v1` 
+    * `SSS/ss-adapter/ss-adapter-rest-v2`
  * access swagger docs via 
-   * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/index.html`
-   * `http://{your-host}:{your-port}/ss-adapter-rest-v2/index.html`
+    * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/index.html`
+    * `http://{your-host}:{your-port}/ss-adapter-rest-v2/index.html`
 
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
