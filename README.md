@@ -18,7 +18,7 @@ The source-code can be directly checked-out through this repository. It contains
 * Swagger JSON-based REST API documentation
  * release: `ss-package/api-docs`
  * src
-   * `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/`
+   * `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/` 
    * `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
  * for apiVersion `v1` 
