@@ -1,7 +1,0 @@
-{
-	"SSSearchRESTAPIV2Par" :
-	{
-		"className" : "at.kc.tugraz.ss.adapter.rest.v2.pars.SSSearchRESTAPIV2Par",
-		"jsonString" : "{\"keywordsToSearchFor\": [test1, test2]}}}"
-	}
-}

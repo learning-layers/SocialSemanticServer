@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>sss</groupId>
-  <artifactId>ss-root</artifactId>
+  <artifactId>sss.root</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>ss-root</name>
+  <name>sss.root</name>
   <packaging>pom</packaging>
   <!-- <url>http://maven.apache.org</url> -->
   
@@ -27,7 +27,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/openrdf-sesame-2.1.2-onejar.jar</file> 
+              <file>./3rdpartylibs/libs/openrdf-sesame-2.1.2-onejar.jar</file> 
               <groupId>org.openrdf</groupId>
               <artifactId>openrdf-sesame</artifactId>
               <version>2.1.2</version>
@@ -42,7 +42,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/html2image-0.9.jar</file>
+              <file>./3rdpartylibs/libs/html2image-0.9.jar</file>
               <groupId>gui.ava</groupId>
               <artifactId>html2image</artifactId>
               <version>0.9</version>
@@ -58,7 +58,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/i5Cloud-http-connector-client.jar</file>
+              <file>./3rdpartylibs/libs/i5Cloud-http-connector-client.jar</file>
               <groupId>i5Cloud</groupId>
               <artifactId>i5Cloud-http-connector-client</artifactId>
               <version>1</version>
@@ -75,7 +75,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/tagrec_v2.1.jar</file>
+              <file>./3rdpartylibs/libs/tagrec_v2.1.jar</file>
               <groupId>tagrec</groupId>
               <artifactId>tagrec</artifactId>
               <version>2.1</version>
@@ -92,7 +92,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/jpedal_lgpl.jar</file>
+              <file>./3rdpartylibs/libs/jpedal_lgpl.jar</file>
               <groupId>jpedal</groupId>
               <artifactId>jpedal_lgpl</artifactId>
               <version>1</version>
@@ -108,7 +108,7 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./ss-3rdpartylibs/libs/lingpipe-4.1.0.jar</file>
+              <file>./3rdpartylibs/libs/lingpipe-4.1.0.jar</file>
               <groupId>lingpipe</groupId>
               <artifactId>lingpipe-jar</artifactId>
               <version>4.1.0</version>
@@ -144,7 +144,7 @@
   </build>
   
   <properties>
-    <ssVersion>7.0.4-alpha</ssVersion>
+    <ssVersion>8.2.1-alpha</ssVersion>
     <ssLog4JVersion>1.2.17</ssLog4JVersion>
     <!--<junitVersion>4.10</junitVersion>-->
     <!--<snakeyamlVersion>1.10</snakeyamlVersion>-->
@@ -157,12 +157,12 @@
   </properties>
 
   <modules>
-    <module>ss</module>
-    <module>ss-util</module>
-    <module>ss-adapter</module>
+    <module>sss</module>
+    <module>util</module>
+    <module>adapter</module>
     <module>serv</module>
-    <module>ss-datatypes</module>
-    <module>ss-conf</module>
+    <module>datatypes</module>
+    <module>conf</module>
   </modules>
   
 </project>

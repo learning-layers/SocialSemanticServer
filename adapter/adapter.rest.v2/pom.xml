@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>sss.adapter</groupId>
+    <artifactId>sss.adapter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>sss.adapter</groupId>
+  <artifactId>sss.adapter.rest.v2</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>sss.adapter.rest.v2</name>
+
+  <build>
+    
+    <plugins>
+      
+      <!-- MAVEN WAR start --> 
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+        </configuration>
+      </plugin>
+      
+      <!-- MAVEN WAR end -->
+      
+       <!-- SWAGGER start -->
+      
+      <plugin>
+        <groupId>com.github.kongchen</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+         
+          <apiSources>
+                       
+            <apiSource>
+              <apiVersion>v2</apiVersion>
+              <basePath>http://localhost:8080/sss.adapter.rest.v2</basePath> 
+              <!-- 
+                localhost:8080/sss.adapter.rest.v2  
+                test-ll.know-center.tugraz.at/ltb.v2   
+              -->
+              <locations>at.kc.tugraz.ss.adapter.rest.v2</locations>
+              
+              <apiInfo>
+                <title>Social Semantic Server REST API</title>
+                <description>https://github.com/learning-layers/SocialSemanticServer/</description>
+                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
+                <contact>${project.contact}</contact>
+                <license>${project.license}</license>
+                <licenseUrl>${project.licenseURI}</licenseUrl>
+              </apiInfo>
+              
+              <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v2/api-docs</swaggerUIDocBasePath> 
+              <!-- 
+                localhost:8080/sss.adapter.rest.v2/api-docs 
+                test-ll.know-center.tugraz.at/ltb.v2/api-docs  
+              -->
+              <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
+              <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->
+              <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
+              <useOutputFlatStructure>false</useOutputFlatStructure>
+            </apiSource>
+            
+          </apiSources>
+          
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- SWAGGER end -->
+        
+    </plugins>
+  </build>
+  
+  <dependencies>
+   
+    <dependency>
+      <groupId>sss.serv.circle</groupId>
+      <artifactId>circle.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv.like</groupId>
+      <artifactId>like.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv.video</groupId>
+      <artifactId>video.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv.appstacklayout</groupId>
+      <artifactId>appstacklayout.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.serv.app</groupId>
+      <artifactId>app.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv.message</groupId>
+      <artifactId>message.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>sss.dataimport.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  
+    <dependency>
+      <groupId>sss.conf</groupId>
+      <artifactId>sss.conf.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.errreg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>sss.jsonld.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.adapter</groupId>
+      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>sss.jsonld.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.adapter</groupId>
+      <artifactId>sss.adapter.rest.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.util</groupId>
+      <artifactId>sss.util</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <!-- TOMCAT start --> 
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina</artifactId>
+      <version>7.0.41</version>
+      <scope>provided</scope>
+    </dependency>
+            
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-coyote</artifactId>
+      <version>7.0.41</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- TOMCAT end --> 
+     
+     <!-- JERSEY start -->
+     
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+           
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+              
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+    
+    <!-- JERSEY end -->           
+    
+   <!-- CORS start --> 
+    <dependency>
+      <groupId>com.thetransactioncompany</groupId>
+      <artifactId>cors-filter</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.thetransactioncompany</groupId>
+      <artifactId>java-property-utils</artifactId>
+      <version>1.9</version>
+    </dependency>
+    
+    <!-- CORS end --> 
+
+  </dependencies>
+</project>
+
+    <!-- SWAGGER start --> 
+<!--    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+      <scope>compile</scope>
+      <version>1.3.7</version>
+    </dependency>-->
+    
+    <!-- SWAGGER end --> 
+    
+<!--  dtheiler old jersey use
+     <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.18</version>
+    </dependency>
+     
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-bundle</artifactId>
+      <version>1.18</version>
+    </dependency>
+    
+ <dependency>
+   <groupId>com.sun.jersey.contribs</groupId>
+   <artifactId>jersey-multipart</artifactId>
+   <version>1.18</version>
+ </dependency>
+--> 

@@ -441,3 +441,7 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/jobs/ss-eval/ss-eval-datatypes/target/
 /serv/jobs/ss-eval/ss-eval-serv/target/
 /ss/ss-eval.log
+/adapter/adapter.rest.v1/target/
+/adapter/adapter.rest.conf/target
+/sss/target/sss.app/lib
+/serv/voc/voc.api/target

@@ -1,2 +1,0 @@
-java -jar -Dlog4j.configuration=file:log4j.properties ss.jar
-::-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1618 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false

@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>ss-root</artifactId>
+    <artifactId>sss.root</artifactId>
     <groupId>sss</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -12,11 +12,43 @@
   <packaging>pom</packaging>
   <name>serv</name>
   <modules>
-    <module>ss-datatypes</module>
-    <module>jobs</module>
-    <module>serv-serv</module>
-    <module>ss-db</module>
-    <module>ss-voc</module>
-    <module>ss-jsonld</module>
+    <module>serv</module>
+    <module>db</module>
+    <module>voc</module>
+    <module>jsonld</module>
+	
+	<module>filerepo</module>
+    <module>broadcasting</module>
+    <module>modeling</module>
+    <module>search</module>
+    <module>auth</module>
+    <module>dataimport</module>
+    <module>solr</module>
+    <module>message</module>
+    <module>recomm</module>
+    <module>dataexport</module>
+    <module>evernote</module>
+    <module>i5cloud</module>
+    <module>cloud</module>
+	<module>friend</module>
+	<module>like</module>
+    <module>eval</module>
+	
+	<module>coll</module> 
+    <module>disc</module> 
+    <module>user</module>
+    <module>ue</module>
+    <module>tag</module>
+    <module>rating</module>
+    <module>learnep</module>
+    <module>entity</module>
+    <module>activity</module>
+    <module>category</module>
+	<module>flag</module>
+	<module>comment</module>
+	<module>app</module>
+	<module>appstacklayout</module>
+	<module>video</module>
+	<module>circle</module>
   </modules>
 </project>

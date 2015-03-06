@@ -1,0 +1,9 @@
+::call mvn install:install-file -Dfile=./libs/lingpipe-4.1.0.jar              -DgroupId=lingpipe    -DartifactId=lingpipe-jar   -Dversion=4.1.0 -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/jpedal_lgpl.jar                 -DgroupId=jpedal      -DartifactId=jpedal_lgpl    -Dversion=1     -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/html2image-0.9.jar              -DgroupId=gui.ava     -DartifactId=html2image     -Dversion=0.9   -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/openrdf-sesame-2.1.2-onejar.jar -DgroupId=org.openrdf -DartifactId=openrdf-sesame -Dversion=2.1.2 -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true 
+::call mvn install:install-file -Dfile=./libs/virtjdbc3.jar                   -DgroupId=virtuoso    -DartifactId=jdbc           -Dversion=3     -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true 
+::call mvn install:install-file -Dfile=./libs/virt_sesame2.jar                -DgroupId=virtuoso    -DartifactId=sesame         -Dversion=2     -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/mahout-core-0.7-job.jar         -DgroupId=mahout-core -DartifactId=job            -Dversion=0.7   -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/mallet-deps.jar                 -DgroupId=mallet      -DartifactId=deps           -Dversion=0.1   -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true
+::call mvn install:install-file -Dfile=./libs/mulan.jar                       -DgroupId=mulan       -DartifactId=mulan          -Dversion=1.0   -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true

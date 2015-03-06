@@ -17,35 +17,35 @@ The source-code can be directly checked-out through this repository. It contains
 ## Documentation
 * Swagger JSON-based REST API documentation
  * release
-    * `ss-package/api-docs`
+    * `sss.package/api-docs`
  * src
-    * `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/api-docs/`
-    * `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/api-docs/`
+    * `SSS/sss.adapter/sss.adapter.rest.v1/src/main/webapp/api-docs/`
+    * `SSS/sss.adapter/sss.adapter.rest.v2/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
  * for apiVersion `v1` 
-    * adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest-v1/pom.xml`
-    * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest/SSAdapterRest`
-    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/ss-adapter/ss-adapter-rest-v1/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/ss-adapter-rest/api-docs`
+    * adapt `swagger-maven-plugin` in `SSS/sss.adapter/sss.adapter.rest.v1/pom.xml`
+    * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/SSAdapterRest`
+    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
+    * adapt swagger property `url` of object `SwaggerUi` in `SSS/sss.adapter/sss.adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
   * for apiVersion `v2` 
-    * adapt `swagger-maven-plugin` in `SSS/ss-adapter/ss-adapter-rest-v2/pom.xml`
-    * property `basePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v2`
-    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/ss-adapter/ss-adapter-rest-v2/src/main/webapp/index.html` to `http://{your-host}:{your-port}/ss-adapter-rest-v2/api-docs` 
+    * adapt `swagger-maven-plugin` in `SSS/sss.adapter/sss.adapter.rest.v2/pom.xml`
+    * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2`
+    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs`
+    * adapt swagger property `url` of object `SwaggerUi` in `SSS/sss.adapter/sss.adapter.rest.v2/src/main/webapp/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs` 
  * build and deploy web projects 
-    * `SSS/ss-adapter/ss-adapter-rest-v1` 
-    * `SSS/ss-adapter/ss-adapter-rest-v2`
+    * `SSS/sss.adapter/sss.adapter.rest.v1` 
+    * `SSS/sss.adapter/sss.adapter.rest.v2`
  * access swagger docs via 
-    * `http://{your-host}:{your-port}/ss-adapter-rest/swagger/index.html`
-    * `http://{your-host}:{your-port}/ss-adapter-rest-v2/index.html`
+    * `http://{your-host}:{your-port}/sss.adapter.rest.v1/swagger/index.html`
+    * `http://{your-host}:{your-port}/sss.adapter.rest.v2/index.html`
 
 ## SSS for deployment
 * follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
-* download `ss-package` from respective release from within this repository
-* adjust `ss-package/ss-app/ss-conf.yaml` and `ss-package/ss-app/log4j.properties`
-* copy `ss-package/ss-app/` to custom SSS's execution dir
-* copy `ss-package/ss-adapter-rest-v1.war` and `ss-package/ss-adapter-rest-v2.war`to `tomcat webapps` dir
-* adjust and copy `ss-package/ss-adapter-rest-conf.yaml` to `tomcat conf` dir
+* download `sss.package` from respective release from within this repository
+* adjust `sss.package/sss.app/sss.conf.yaml` and `sss.package/sss.app/log4j.properties`
+* copy `sss.package/sss.app/` to custom SSS's execution dir
+* copy `sss.package/sss.adapter.rest.v1.war` and `sss.package/sss.adapter.rest.v2.war` to `tomcat webapps` dir
+* adjust and copy `sss.package/sss.adapter.rest.v1.conf.yaml` and `sss.package/sss.adapter.rest.v2.conf.yaml`to `tomcat conf` dir
 * run `runit.sh / .bat`
  
 ## SSS for development
@@ -77,8 +77,8 @@ The source-code can be directly checked-out through this repository. It contains
     * `tika-parsers-1.5.jar` to `tika-parsers-1.6.jar`
     * `tika-xmp-1.5.jar` to `tika-xmp-1.6.jar`
 * replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir (e.g.: `/solr/collection1/conf`) with: 
- * `SSS/ss/src/main/resources/conf/solr_schema.xml`
- * `SSS/ss/src/main/resources/conf/solr_solrconfig.xml`
+ * `SSS/sss/src/main/resources/conf/solr_schema.xml`
+ * `SSS/sss/src/main/resources/conf/solr_solrconfig.xml`
 * adjust `solrconfig.xml` to have directives pointing to `solr home lib subfolders`, e.g.:
  * `<lib dir="/solr/lib/contrib/extraction/lib" regex=".*\.jar" />`
  * `<lib dir="/solr/lib/dist/" regex="solr-cell-\d.*\.jar" />`
@@ -110,30 +110,31 @@ The source-code can be directly checked-out through this repository. It contains
  * [mysqld] 
    * init-connect='SET NAMES utf8'
     * character-set-server = utf8
-* either import `SSS/ss/src/main/resources/conf/sss_schema.sql` to setup `sss` scheme or apply respective database migration script, e.g. `SSS/ss/src/main/resources/conf/sss_schema_upgrade_6.0.0_6.0.1.sql`
+* either import `SSS/sss/src/main/resources/conf/sss_schema.sql` to setup `sss` scheme or apply respective database migration script, e.g. `SSS/sss/src/main/resources/conf/sss_schema_upgrade_6.0.0_6.0.1.sql`
 
 ### SSS and REST adapter
 * download SSS containing its REST adapter from this repository
 * import SSS as Maven project into, e.g. Netbeans or Eclipse
 
 ### Logging and Configuration
-* adjust `SSS/ss/src/main/resources/conf/log4j.properties` and copy to `SSS/ss/`
-* adjust `SSS/ss/src/main/resources/conf/ss-conf.yaml` and copy to `SSS/ss/`
-* adjust `SSS/ss-adapter/ss-adapter-rest/src/main/resources/ss-adapter-rest-conf.yaml` and copy to `tomcat conf` dir
+* adjust `SSS/sss/src/main/resources/conf/log4j.properties` and copy to `SSS/sss/`
+* adjust `SSS/sss/src/main/resources/conf/sss.conf.yaml` and copy to `SSS/sss/`
+* adjust `SSS/sss.adapter/sss.adapter.rest.v1/src/main/resources/sss.adapter.rest.v1.conf.yaml` and copy to `tomcat conf` dir or
+* adjust `SSS/sss.adapter/sss.adapter.rest.v2/src/main/resources/sss.adapter.rest.v2.conf.yaml` and copy to `tomcat conf` dir
 
 ### Run
-* run `mvn clean install` on project `SSS/ss-root` to have 
- * `SSS/ss/target/ss-app/`
- * `SSS/ss-adapter/ss-adapter-rest/target/ss-adapter-rest-X.X-SNAPSHOT.war`
-* execute `SSS/ss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
-* rename `ss-adapter-rest-X.X-SNAPSHOT.war` to `ss-adapter-rest.war` and copy to `tomcat webapps` dir
+* run `mvn clean install` on project `SSS/sss.root` to have 
+ * `SSS/sss/target/sss.app/`
+ * `SSS/sss.adapter/sss.adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
+* execute `SSS/sss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
+* rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `tomcat webapps` dir
 
 ## SSS client-side libraries
 * download [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libs to use with SSS API version 1
 * link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
 
 ## SSS plain REST API V1 access
-* access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/ss-adapter-rest/{API}/{yourOp}/` 
+* access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v1/{API}/{yourOp}/` 
  * `your-sss-host` and `your-port` represents the host and port running the REST APIs
  * `API` stands for the name of the REST API to be targeted:
   * `SSAdapterRest` for all REST operations except for file handling
@@ -157,10 +158,10 @@ The source-code can be directly checked-out through this repository. It contains
  * `errorThreadsWhereThrown` if error, id's of threads where the errors got thrown
  
 ## SSS plain REST API V2 access
-* access the REST APIs via requests to `http://{your-sss-host}:{your-port}/ss-adapter-rest-v2/{API}/{OP or ID}` 
+* access the REST APIs via requests to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v2/{API}/{OP or ID}` 
  * `your-sss-host` and `your-port` represents the host and port running the REST APIs
  * `API` stands for the REST resource to be targeted
- * `OP or ID`respresents the path to the actual service call to be executed, e.g. GET to  `http://{your-sss-host}:{your-port}/ss-adapter-rest-v2/entities/entityID` gets information for a certain entity (please have a look at the swagger documention for more calls available for the SSS REST API V2)
+ * `OP or ID` respresents the path to the actual service call to be executed, e.g. GET to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v2/entities/entityID` gets information for a certain entity (please have a look at the swagger documention for more calls available for the SSS REST API V2)
 
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
