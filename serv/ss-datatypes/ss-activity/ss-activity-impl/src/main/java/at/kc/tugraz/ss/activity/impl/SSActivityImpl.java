@@ -141,7 +141,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   @Override
   public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(parA), parA.op));
   }
@@ -164,7 +164,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   @Override
   public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), SSDateU.dateAsLong(), parA.op));
   }
@@ -351,7 +351,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   @Override
   public void activityAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSActivityUserAddRet.get(activityAdd(parA), parA.op));
   }

@@ -345,7 +345,7 @@ implements
   @Override
   public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     final SSDiscUserEntryAddRet ret = discUserEntryAdd(parA);
     
@@ -466,11 +466,11 @@ implements
   }
   
   @Override
-  public void discsAllGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void discsAllGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(par), par.op));
+    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(parA), parA.op));
   }
   
   @Override
@@ -508,11 +508,11 @@ implements
   }
 
   @Override
-  public void discWithEntriesGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void discWithEntriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(par), par.op));
+    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(parA), parA.op));
   }
   
   @Override
@@ -566,7 +566,7 @@ implements
   @Override
   public void discRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op));
     
@@ -617,7 +617,7 @@ implements
   @Override
   public void discURIsForTargetGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSDiscUserDiscURIsForTargetGetRet.get(discUserDiscURIsForTargetGet(parA), parA.op));
   }

@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import engine.Algorithm;
 import engine.CFResourceRecommenderEngine;
 import engine.EngineInterface;
@@ -63,7 +64,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   @Override
   public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op));
   }
@@ -119,7 +120,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   @Override
   public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op));
   }
@@ -181,7 +182,6 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     try{
       
       final SSRecommTagsUpdatePar     par        = new SSRecommTagsUpdatePar(parA);
-      final SSRecommConf              recommConf = (SSRecommConf) conf;
       
       SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(
         recommConf.fileNameForTagRec,
@@ -203,7 +203,6 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     try{
       
       final SSRecommResourcesUpdatePar par        = new SSRecommResourcesUpdatePar(parA);
-      final SSRecommConf               recommConf = (SSRecommConf) conf;
       
       SSRecommFct.exportUsersResourcesForAllUsers(
         recommConf.fileNameForResourceRec);

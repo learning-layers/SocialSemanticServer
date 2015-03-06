@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -38,7 +37,6 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
@@ -64,7 +62,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
   @Override
   public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(parA), parA.op));
   }

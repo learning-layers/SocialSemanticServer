@@ -161,7 +161,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
     
@@ -225,7 +225,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public void entityUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op));
 
@@ -368,7 +368,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
 @Override
   public void entityDescsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op));
     
@@ -419,7 +419,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public void entityDescGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op));
     
@@ -468,11 +468,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   @Override
   public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
   }
@@ -517,11 +513,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
   
   @Override
-  public void entityDirectlyAdjoinedEntitiesRemove(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void entityDirectlyAdjoinedEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(par), par.op));
+    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA), parA.op));
   }
   
   @Override
@@ -677,11 +673,11 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   }
 
   @Override
-  public void entityAdd(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void entityAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(par), par.op));
+    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(parA), parA.op));
   }
   
   @Override

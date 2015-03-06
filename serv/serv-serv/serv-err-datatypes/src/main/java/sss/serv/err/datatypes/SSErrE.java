@@ -25,6 +25,7 @@ public enum SSErrE{
   authCouldntConnectToOIDC,
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
+  authNoUserForKey,
   
   spaceNotAvailable,
   

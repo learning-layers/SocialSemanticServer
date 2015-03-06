@@ -3,11 +3,73 @@
   
   <welcome-file-list>
     <welcome-file>service.json</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   
   <display-name>SSAdapterRestV2</display-name>
+  
+  <servlet>
+    <servlet-name>SSRESTAppStackLayouts</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTAppStackLayouts</servlet-name>
+    <url-pattern>/appstacklayouts/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTApps</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTApps</servlet-name>
+    <url-pattern>/apps/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTVideos</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTVideos</servlet-name>
+    <url-pattern>/videos/*</url-pattern>
+  </servlet-mapping>
   
   <servlet>
     <servlet-name>SSRESTSearch</servlet-name>
@@ -28,6 +90,69 @@
   <servlet-mapping>
     <servlet-name>SSRESTSearch</servlet-name>
     <url-pattern>/search/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SSRESTTags</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTTags</servlet-name>
+    <url-pattern>/tags/*</url-pattern>
+  </servlet-mapping>
+    
+  <servlet>
+    <servlet-name>SSRESTFriends</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTFriends</servlet-name>
+    <url-pattern>/friends/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTCircles</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTCircles</servlet-name>
+    <url-pattern>/circles/*</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -111,8 +236,15 @@
   <filter-mapping>
     <filter-name>CORS</filter-name>
     <servlet-name>SSRESTSearch</servlet-name>
+    <servlet-name>SSRESTTags</servlet-name>
     <servlet-name>SSRESTAuth</servlet-name>
     <servlet-name>SSRESTEntities</servlet-name>
+    <servlet-name>SSRESTFriends</servlet-name>
+    <servlet-name>SSRESTCircles</servlet-name>
+    <servlet-name>SSRESTVideos</servlet-name>
+    <servlet-name>SSRESTApps</servlet-name>
+    <servlet-name>SSRESTAppStackLayouts</servlet-name>
+    
   </filter-mapping>
   
   <filter-mapping>

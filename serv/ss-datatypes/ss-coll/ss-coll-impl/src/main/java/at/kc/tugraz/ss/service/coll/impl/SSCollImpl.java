@@ -390,7 +390,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     SSColl collParent = collUserParentGet(parA);
 
@@ -418,11 +418,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collRootGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collRootGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op));
   }
   
   @Override
@@ -446,7 +446,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collEntryDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op));
     
@@ -497,11 +497,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar par) throws Exception{
+  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(par), par.op));
+    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op));
   }
   
    @Override
@@ -530,7 +530,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collEntriesDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op));
     
@@ -577,7 +577,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collEntryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op));
     
@@ -661,7 +661,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collEntriesAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
     
@@ -715,7 +715,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collEntryChangePos(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
     
@@ -768,11 +768,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collWithEntries(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op));
   }
   
   @Override
@@ -791,11 +791,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collsWithEntries(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collsWithEntries(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(par), par.op));
+    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op));
   }
   
   @Override
@@ -823,11 +823,11 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void collHierarchyGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void collHierarchyGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(par), par.op));
+    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op));
   }
   
   @Override
@@ -870,7 +870,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collCumulatedTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op));
   }
@@ -953,7 +953,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   @Override
   public void collsEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
   }

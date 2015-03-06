@@ -234,7 +234,7 @@ implements
   @Override
   public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(parA), parA.op));
   }  
@@ -313,7 +313,7 @@ implements
   @Override
   public void categoryEntitiesForCategoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCategoryUserEntitiesForCategoriesGetRet.get(categoryUserEntitiesForCategoriesGet(parA), parA.op));
   }
@@ -358,7 +358,7 @@ implements
   @Override
   public void categoryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     final SSUri tagUri = categoryAdd(parA);
     
@@ -503,7 +503,7 @@ implements
   @Override
   public void categoryEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCategoryUserEditRet.get(categoryUserEdit(parA), parA.op));
   }
@@ -578,7 +578,7 @@ implements
   @Override
   public void categoriesRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(parA), parA.op));
     
@@ -681,11 +681,11 @@ implements
   }
 
   @Override
-  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
        
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(par), par.op));
+    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(parA), parA.op));
   }
   
   @Override
@@ -808,7 +808,7 @@ implements
   @Override
   public void categoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCategoriesUserGetRet.get(categoriesUserGet(parA), parA.op));
   }

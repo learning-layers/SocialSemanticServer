@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
@@ -217,7 +216,7 @@ implements
   @Override
   public void ratingSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(parA), parA.op));
     
@@ -322,11 +321,11 @@ implements
   }
 
   @Override
-  public void ratingUserGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void ratingUserGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(par), par.op));
+    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(parA), parA.op));
   }
   
   @Override
@@ -345,11 +344,11 @@ implements
   }
 
   @Override
-  public void ratingOverallGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void ratingOverallGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par), par.op));
+    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(parA), parA.op));
   }
   
   @Override

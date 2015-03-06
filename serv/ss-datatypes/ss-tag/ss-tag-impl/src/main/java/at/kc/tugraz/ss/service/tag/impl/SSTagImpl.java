@@ -242,11 +242,7 @@ implements
   @Override
   public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op));
   }
@@ -291,11 +287,7 @@ implements
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+   SSServCallerU.checkKey(parA);
     
     final SSUri tagUri = tagAdd(parA);
     
@@ -434,11 +426,7 @@ implements
   @Override
   public void tagEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op));
   }
@@ -524,11 +512,7 @@ implements
   @Override
   public void tagsRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op));
     
@@ -634,11 +618,7 @@ implements
   @Override
   public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
        
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(parA), parA.op));
   }
@@ -792,11 +772,7 @@ implements
   @Override
   public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    final SSUri userFromKey = SSServCaller.checkKey(parA);
-    
-    if(userFromKey != null){
-      parA.user = userFromKey;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op));
   }

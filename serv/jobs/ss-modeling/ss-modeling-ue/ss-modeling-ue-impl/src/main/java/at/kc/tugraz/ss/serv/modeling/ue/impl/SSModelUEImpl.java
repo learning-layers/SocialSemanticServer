@@ -49,6 +49,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRe
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 
@@ -66,27 +67,27 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   /* SSModelUserEventClientI  */
   
   @Override
-  public void modelUEResourceDetails(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void modelUEResourceDetails(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(modelUEResourceDetails(par));
+    sSCon.writeRetFullToClient(modelUEResourceDetails(parA));
   }
   
   @Override
-  public void modelUERelatedPersons(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void modelUERelatedPersons(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(par), par.op));
+    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op));
   }
   
   @Override
-  public void modelUEMIsForEntityGet(final SSSocketCon sSCon, final SSServPar par) throws Exception {
+  public void modelUEMIsForEntityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(par), par.op));
+    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op));
   }
   
   /* SSModelUEServerI  */
@@ -148,7 +149,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   }
   
   @Override
-  public void modelUEUpdate(final SSServPar par) throws Exception {
+  public void modelUEUpdate(final SSServPar parA) throws Exception {
     
     final SSModelUEResourcePropertySetter resourcePropertySetter        = new SSModelUEResourcePropertySetter (resources);
     final SSModelUEMIThresholdSetter      thresholdSetter               = new SSModelUEMIThresholdSetter      (resources);
@@ -225,7 +226,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   }
   
   @Override
-  public List<String> modelUEResourcesAll(SSServPar par) throws Exception {
+  public List<String> modelUEResourcesAll(SSServPar parA) throws Exception {
     
     List<String> allResources = new ArrayList<>();
     

@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,21 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSServCallerU{
   
+  public static void checkKey(final SSServPar parA) throws Exception{
+  
+    final SSUri user = SSServCaller.checkKey(parA);
+    
+    if(user != null){
+      parA.user = user;
+    }
+    
+    if(
+      user      == null &&
+      parA.user == null){
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.authNoUserForKey));
+    }
+  }
+    
   public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
     
     try{
@@ -160,5 +176,9 @@ public class SSServCallerU{
     final SSUri entity) throws Exception{
     
     return SSServCaller.circleUserCan(user, entity, SSCircleRightE.all);
+  }
+
+  public static void checkKey(){
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

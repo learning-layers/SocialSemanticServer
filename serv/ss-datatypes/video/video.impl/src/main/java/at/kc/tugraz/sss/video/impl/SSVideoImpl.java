@@ -244,11 +244,7 @@ implements
   @Override
   public void videoAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoUserAdd(parA), parA.op));
   }
@@ -377,11 +373,7 @@ implements
   @Override
   public void videoAnnotationAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSVideoUserAnnotationAddRet.get(videoUserAnnotationAdd(parA), parA.op));
   }
@@ -477,11 +469,7 @@ implements
   @Override
   public void videosGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSVideosUserGetRet.get(videosUserGet(parA), parA.op));
   }

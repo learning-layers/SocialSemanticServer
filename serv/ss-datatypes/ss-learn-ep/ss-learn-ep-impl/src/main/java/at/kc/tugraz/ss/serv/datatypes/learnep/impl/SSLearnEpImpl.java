@@ -277,11 +277,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void learnEpsGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpsGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(parA), parA.op));
   }
 
   @Override
@@ -338,11 +338,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public void learnEpVersionsGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpVersionsGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(parA), parA.op));
   }
   
   @Override
@@ -419,11 +419,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void learnEpVersionGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpVersionGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(parA), parA.op));
   }
   
    @Override
@@ -466,7 +466,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpRemove(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(parA), parA.op));
   }
@@ -511,7 +511,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionCreate(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     final SSUri result = learnEpVersionCreate(parA);
     
@@ -592,7 +592,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionAddCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op));
   }
@@ -681,7 +681,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionAddEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(parA), parA.op));
   }
@@ -782,7 +782,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpCreate(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     final SSUri learnEp = learnEpCreate(parA);
     
@@ -838,7 +838,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionUpdateCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op));
   }
@@ -906,7 +906,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionUpdateEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op));
   }
@@ -995,7 +995,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionRemoveCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(parA), parA.op));
   }
@@ -1049,7 +1049,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionRemoveEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(parA), parA.op));
   }
@@ -1103,7 +1103,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionSetTimelineState(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op));
     
@@ -1184,7 +1184,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionGetTimelineState(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op));
     
@@ -1209,11 +1209,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void learnEpVersionCurrentGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpVersionCurrentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(parA), parA.op));
   }
   
   @Override
@@ -1259,7 +1259,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpVersionCurrentSet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op));
     
@@ -1347,11 +1347,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   
   @Deprecated
   @Override
-  public void learnEpLockHold(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpLockHold(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(learnEpLockHold(par));
+    sSCon.writeRetFullToClient(learnEpLockHold(parA));
   }
   
   @Override
@@ -1399,7 +1399,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   @Override
   public void learnEpsLockHold(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op));
   }
@@ -1448,11 +1448,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public void learnEpLockSet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpLockSet(SSSocketCon sSCon, SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(parA), parA.op));
   }
   
   @Override
@@ -1510,11 +1510,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
   
   @Override
-  public void learnEpLockRemove(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void learnEpLockRemove(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(par), par.op));
+    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(parA), parA.op));
   }
   
   @Override

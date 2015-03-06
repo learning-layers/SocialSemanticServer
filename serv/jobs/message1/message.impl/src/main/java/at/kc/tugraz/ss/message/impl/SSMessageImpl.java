@@ -39,6 +39,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   @Override
   public void messagesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), SSDateU.dateAsLong(), parA.op));
   }
@@ -92,7 +93,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   @Override
   public void messageSend(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSMessageSendRet.get(messageSend(parA), parA.op));
   }

@@ -141,7 +141,7 @@ implements
   @Override
   public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCommentsUserGetRet.get(commentsUserGet(parA), parA.op));
   }

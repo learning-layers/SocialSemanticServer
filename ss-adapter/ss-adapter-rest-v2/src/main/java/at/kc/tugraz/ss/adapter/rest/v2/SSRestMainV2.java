@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
+import at.kc.tugraz.ss.adapter.rest.v2.pars.search.SSRESTSearch;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.entity.SSRESTEntities;
+import at.kc.tugraz.ss.adapter.rest.v2.pars.auth.SSRESTAuth;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;

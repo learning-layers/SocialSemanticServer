@@ -84,11 +84,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op));
   }
@@ -141,11 +137,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     final SSUri result = circleCreate(parA);
     
@@ -234,11 +226,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleUsersAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
 
     final SSUri result = circleUsersAdd(parA);
     
@@ -293,11 +281,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleEntitiesAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(parA), parA.op));
     
@@ -415,15 +399,11 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   
   @Override
   public void circleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
     
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
-
+    SSServCallerU.checkKey(parA);
+    
     sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(parA), parA.op));
-  }    
+  }
   
   @Override
   public SSEntityCircle circleGet(final SSServPar parA) throws Exception{
@@ -508,13 +488,9 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circlesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+   SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(parA), parA.op));
+   sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(parA), parA.op));
   }
   
   @Override
@@ -619,11 +595,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleEntitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    final SSUri userFromOIDC = SSServCaller.checkKey(parA);
-    
-    if(userFromOIDC != null){
-      parA.user = userFromOIDC;
-    }
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCircleEntitiesGetRet.get(circleEntitiesGet(parA), parA.op));
   }
@@ -877,12 +849,12 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   
   @Override
   public void circleEntityPublicSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCaller.checkKey(parA);
-
+    
+    SSServCallerU.checkKey(parA);
+    
     sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op));
     
-     SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
+    SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
   }
   
   @Override 
@@ -932,7 +904,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCircleEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op));
   }
@@ -1003,7 +975,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   @Override
   public void circleEntityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(circleEntityShare(parA), parA.op));
   }

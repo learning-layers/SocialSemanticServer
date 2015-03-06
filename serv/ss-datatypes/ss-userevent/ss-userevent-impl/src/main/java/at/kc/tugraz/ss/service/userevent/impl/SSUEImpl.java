@@ -225,7 +225,7 @@ implements
   @Override
   public void uECountGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSUECountGetRet.get(uECountGet(parA), parA.op));
   }
@@ -254,7 +254,7 @@ implements
   @Override
   public void uEGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(parA), parA.op));
   }
@@ -262,7 +262,7 @@ implements
   @Override
   public void uEsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op));
   }
@@ -270,7 +270,7 @@ implements
   @Override
   public void uEAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op));
   }

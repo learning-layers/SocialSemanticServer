@@ -93,7 +93,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   @Override
   public void flagsSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op));
   }
@@ -191,7 +191,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   @Override
   public void flagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op));
   }

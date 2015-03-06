@@ -29,9 +29,9 @@ import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDDescRet;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 
 public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SSJSONLDServerI{
 
@@ -40,11 +40,11 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
   }
   
   @Override
-  public void jsonLD(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void jsonLD(SSSocketCon sSCon, SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(par), par.op));
+    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op));
   }
 
   @Override

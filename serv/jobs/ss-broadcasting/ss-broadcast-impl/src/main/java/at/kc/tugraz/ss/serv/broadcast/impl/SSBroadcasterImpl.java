@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -47,27 +47,27 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
   }
   
   @Override
-  public void broadcastAdd(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void broadcastAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(par), par.op));
+    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op));
   }
 
   @Override
-  public void broadcastsGet(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void broadcastsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(par), par.op));
+    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op));
   }
 
   @Override
-  public void broadcastServerTime(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void broadcastServerTime(SSSocketCon sSCon, SSServPar parA) throws Exception {
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(par), par.op));
+    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op));
   }
   
   @Override
@@ -136,7 +136,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
   }
 
   @Override
-  public Long broadcastServerTime(SSServPar par) throws Exception {
+  public Long broadcastServerTime(SSServPar parA) throws Exception {
     return SSDateU.dateAsNano();
   }
 }

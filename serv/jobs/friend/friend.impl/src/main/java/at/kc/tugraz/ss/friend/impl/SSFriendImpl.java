@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   @Override
   public void friendsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFriendsUserGetRet.get(friendsUserGet(parA), parA.op));
   }
@@ -82,7 +83,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   @Override
   public void friendAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSFriendUserAddRet.get(friendUserAdd(parA), parA.op));
   }

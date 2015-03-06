@@ -21,7 +21,6 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -35,6 +34,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
@@ -95,7 +95,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   @Override
   public void appAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(parA), parA.op));
   }
@@ -193,7 +193,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   @Override
   public void appsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(parA), parA.op));
   }

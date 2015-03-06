@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
@@ -213,15 +214,15 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
     @Override
-  public void userAll(SSSocketCon sSCon, SSServPar par) throws Exception {
+  public void userAll(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
 //      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
 //        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
 //      }else{
         
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(par), par.op));
+    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(parA), parA.op));
 //      }
   }
   

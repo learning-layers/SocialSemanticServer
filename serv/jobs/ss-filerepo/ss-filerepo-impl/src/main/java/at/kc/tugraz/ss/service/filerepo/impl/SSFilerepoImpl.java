@@ -196,49 +196,49 @@ implements
   }
   
   @Override
-  public void fileCanWrite(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileCanWrite(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileCanWrite(par));
+    sSCon.writeRetFullToClient(fileCanWrite(parA));
   }
 
   @Override
-  public void fileSetReaderOrWriter(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileSetReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileSetReaderOrWriter(par));
+    sSCon.writeRetFullToClient(fileSetReaderOrWriter(parA));
   }
 
   @Override
-  public void fileRemoveReaderOrWriter(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileRemoveReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(par));
+    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(parA));
   }
 
   @Override
-  public void fileWritingMinutesLeft(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileWritingMinutesLeft(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileWritingMinutesLeft(par));
+    sSCon.writeRetFullToClient(fileWritingMinutesLeft(parA));
   }
 
   @Override
-  public void fileUserFileWrites(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileUserFileWrites(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileUserFileWrites(par));
+    sSCon.writeRetFullToClient(fileUserFileWrites(parA));
   }
 
   @Override
   public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCaller.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
     try{
       
@@ -254,27 +254,27 @@ implements
   }
 
   @Override
-  public void fileReplace(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileReplace(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    new Thread(new SSFileReplacer((SSFileRepoConf)conf, sSCon, par, fileAccessProps)).start();
+    new Thread(new SSFileReplacer((SSFileRepoConf)conf, sSCon, parA, fileAccessProps)).start();
   }
 
   @Override
-  public void fileUpload(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileUpload(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, par)).start();
+    new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, parA)).start();
   }
 
   @Override
-  public void fileExtGet(SSSocketCon sSCon, SSServPar par) throws Exception{
+  public void fileExtGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
         
-    SSServCaller.checkKey(par);
+    SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(new SSFileExtGetRet(fileExtGet(par), par.op));
+    sSCon.writeRetFullToClient(new SSFileExtGetRet(fileExtGet(parA), parA.op));
   }
 
   /* SSFileRepoServerI */
