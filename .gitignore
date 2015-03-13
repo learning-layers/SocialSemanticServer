@@ -1,3 +1,10 @@
+# intellij
+.idea
+*.iml
+# eclipse
+.settings
+#
+target
 /ss-util/target/
 /ss-serv/ss-serv-serv/ss-serv-err-reg/target/
 /ss-conf/ss-conf-api/target/
