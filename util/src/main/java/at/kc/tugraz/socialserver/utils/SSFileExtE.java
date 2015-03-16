@@ -35,6 +35,7 @@ public enum SSFileExtE{
 	docx,
 	accdb,
 	xlsx,
+  xlsb,
 	atom,
 	latex,
 	rdf,

@@ -37,6 +37,7 @@ public class SSMimeTypeU {
 	public final static String                 applicationMsword2007                                      = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 	public final static String                 applicationMsaccess2007                                    = "application/msaccess";
 	public final static String                 applicationMsexcel2007                                     = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  public final static String                 applicationMsexcelBinary                                   = "application/vnd.ms-excel.sheet.binary.macroEnabled.12";
 	public final static String                 applicationAtom                                            = "application/atom+xml";
 	public final static String                 applicationLatex                                           = "application/x-latex";
 	public final static String                 applicationRdf                                             = "application/rdf+xml";
@@ -86,6 +87,7 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(applicationMspowerpoint2007,  SSFileExtE.pptx.toString());
     mimeTypesFileExt.put(applicationMsaccess2007,      SSFileExtE.accdb.toString());
     mimeTypesFileExt.put(applicationMsexcel2007,       SSFileExtE.xlsx.toString());
+    mimeTypesFileExt.put(applicationMsexcelBinary,     SSFileExtE.xlsb.toString());
     mimeTypesFileExt.put(textPlain,                    SSFileExtE.txt.toString());
     mimeTypesFileExt.put(textHtml,                     SSFileExtE.html.toString());
     mimeTypesFileExt.put(textVcard,                    SSFileExtE.vcf.toString());
@@ -122,6 +124,7 @@ public class SSMimeTypeU {
     fileExtForMimTypes.put(SSFileExtE.docx.toString(),  applicationMsword2007);
     fileExtForMimTypes.put(SSFileExtE.accdb.toString(), applicationMsaccess2007);
     fileExtForMimTypes.put(SSFileExtE.xlsx.toString(),  applicationMsexcel2007);
+    fileExtForMimTypes.put(SSFileExtE.xlsb.toString(),  applicationMsexcelBinary);
     fileExtForMimTypes.put(SSFileExtE.jpg.toString(),   imageJpeg);
     fileExtForMimTypes.put(SSFileExtE.jpeg.toString(),  imageJpeg);
     fileExtForMimTypes.put(SSFileExtE.png.toString(),   imagePng);
