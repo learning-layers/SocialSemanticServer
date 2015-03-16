@@ -369,6 +369,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioWav  + "\"")){
+            mimeType = SSMimeTypeU.audioWav;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg4  + "\"")){
             mimeType = SSMimeTypeU.audioMpeg4;
@@ -450,6 +456,12 @@ public class SSDataImportEvernoteNoteContentHandler{
             tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"") &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"")){
             mimeType = SSMimeTypeU.applicationMsexcel;
+          } 
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcelBinary  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcelBinary  + "\"")){
+            mimeType = SSMimeTypeU.applicationMsexcelBinary;
           } 
           
           if(mimeType == null){
@@ -575,6 +587,10 @@ public class SSDataImportEvernoteNoteContentHandler{
             result += "<div>Includes Adaptive Multi-Rate Audio (no preview available)</div>";
           }
           
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")){
+            result += "<div>Includes Wave Audio (no preview available)</div>";
+          }
+          
           if(
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"") ||
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
@@ -587,6 +603,10 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           if(tmpLine.contains("type=\"" + SSMimeTypeU.applicationBin + "\"")){
             result += "<div>Includes Application File (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcelBinary + "\"")){
+            result += "<div>Includes Binary Spreadsheet File (no preview available)</div>";
           }
           
           if(endIndex == endIndex1){

@@ -174,13 +174,14 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     
     try{
       final SSActivitiesUserGetPar     par                = new SSActivitiesUserGetPar(parA);
+      final List<SSActivity>           result             = new ArrayList<>();
       final List<SSUri>                entitiesToQuery    = new ArrayList<>();
-      final List<SSActivity>           activities         = new ArrayList<>();
       final List<SSUri>                descURIs           = new ArrayList<>();
       final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
       final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
       final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
       String                           activityID;
+      
       
       if(!par.entities.isEmpty()){
         
@@ -227,7 +228,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       SSStrU.distinctWithoutNull2(entitiesToQuery);
       
-      activities.addAll(
+      for(
+        SSActivity activity :
         sqlFct.getActivities(
           par.users,
           entitiesToQuery,
@@ -236,9 +238,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           par.endTime,
           true,
           1000,
-          par.includeOnlyLastActivities));
-      
-      for(SSActivity activity : activities){
+          par.includeOnlyLastActivities)){
         
         activityID = SSStrU.toStr(activity);
         
@@ -262,6 +262,8 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
           
           throw error;
         }
+        
+        result.add(activity);
         
         activitiesEntity.put(activityID, activity.entity.id);
         descURIs.add(activity.entity.id);
@@ -314,10 +316,10 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       }
       
       if(descs.isEmpty()){
-        return activities;
+        return result;
       }
       
-      for(SSActivity activity : activities){
+      for(SSActivity activity : result){
         
         activityID = SSStrU.toStr(activity);
         
@@ -339,7 +341,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
       }
       
-      return activities;
+      return result;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
