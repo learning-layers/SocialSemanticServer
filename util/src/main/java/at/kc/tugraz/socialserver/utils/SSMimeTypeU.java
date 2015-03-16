@@ -62,6 +62,7 @@ public class SSMimeTypeU {
   public final static String                 audioMpeg4                                                 = "audio/x-m4a";
   public final static String                 audioAmr                                                   = "audio/amr";
   public final static String                 audioMpeg                                                  = "audio/mpeg";
+  public final static String                 audioWav                                                   = "audio/wav";
   
   public       static Map<String, String>    mimeTypesFileExt                                           = null;
   public       static Map<String, String>    fileExtForMimTypes                                         = null;
@@ -98,6 +99,7 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(audioMp3,                     SSFileExtE.mp3.toString()); 
     mimeTypesFileExt.put(audioAmr,                     SSFileExtE.amr.toString());
     mimeTypesFileExt.put(audioMpeg,                    SSFileExtE.mp3.toString());
+    mimeTypesFileExt.put(audioWav,                     SSFileExtE.wav.toString());
     mimeTypesFileExt.put(videoMp4,                     SSFileExtE.m4v.toString());
     mimeTypesFileExt.put(imageIcon,                    SSFileExtE.ico.toString());
     mimeTypesFileExt.put(imageGif,                     SSFileExtE.gif.toString());
@@ -128,6 +130,7 @@ public class SSMimeTypeU {
     fileExtForMimTypes.put(SSFileExtE.midi.toString(),  audioMidi);
     fileExtForMimTypes.put(SSFileExtE.amr.toString(),   audioAmr);
     fileExtForMimTypes.put(SSFileExtE.mp3.toString(),   audioMpeg);
+    fileExtForMimTypes.put(SSFileExtE.wav.toString(),   audioWav);
     fileExtForMimTypes.put(SSFileExtE.avi.toString(),   videoAvi);
     fileExtForMimTypes.put(SSFileExtE.m4v.toString(),   videoMp4);
     fileExtForMimTypes.put(SSFileExtE.mpeg.toString(),  videoMpeg);

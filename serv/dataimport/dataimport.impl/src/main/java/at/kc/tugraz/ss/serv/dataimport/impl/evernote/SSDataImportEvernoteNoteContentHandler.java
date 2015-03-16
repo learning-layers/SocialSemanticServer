@@ -381,6 +381,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioWav  + "\"")){
+            mimeType = SSMimeTypeU.audioWav;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textHtml  + "\"")){
             mimeType = SSMimeTypeU.textHtml;
@@ -579,6 +585,10 @@ public class SSDataImportEvernoteNoteContentHandler{
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"") ||
             tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
             result += "<div>Includes MPEG Audio (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")){
+            result += "<div>Includes Wave Audio (no preview available)</div>";
           }
           
           if(tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")){
