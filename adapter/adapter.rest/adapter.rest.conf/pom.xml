@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.adapter</groupId>
-    <artifactId>adapter</artifactId>
+    <groupId>sss.adapter.rest</groupId>
+    <artifactId>adapter.rest</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.adapter</groupId>
+  <groupId>sss.adapter.rest</groupId>
   <artifactId>adapter.rest.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>adapter.rest.conf</name>

@@ -17,9 +17,7 @@
   <modules>
     <module>adapter.websocket</module>
     <module>adapter.socket</module>
-    <module>adapter.rest.conf</module>
-    <module>adapter.rest.v2</module>
-    <module>adapter.rest.v1</module>
+    <module>adapter.rest</module>
   </modules>
   
 </project>
