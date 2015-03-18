@@ -18,20 +18,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.api;
+package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import java.util.ArrayList;
-import java.util.List;
+import at.kc.tugraz.ss.serv.serv.api.SSServContainerI;
 
-public interface SSDiscI{
-  
-  public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
-    add(SSEntityE.disc);
-    add(SSEntityE.qa);
-    add(SSEntityE.chat);
-    add(SSEntityE.discEntry);
-    add(SSEntityE.qaEntry);
-    add(SSEntityE.chatEntry);
-  }};
+public interface SSCollServContainerI extends SSServContainerI{
 }

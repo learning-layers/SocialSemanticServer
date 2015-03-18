@@ -27,12 +27,12 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
-import at.kc.tugraz.ss.service.user.api.SSUserServI;
+import at.kc.tugraz.ss.service.user.api.SSUserServContainerI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.impl.*;
 import java.util.List;
 
-public class SSUserServ extends SSServA implements SSUserServI{
+public class SSUserServ extends SSServA implements SSUserServContainerI{
   
   public static final SSServA inst = new SSUserServ(SSUserClientI.class, SSUserServerI.class);
     

@@ -18,13 +18,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.api;
+package at.kc.tugraz.ss.service.disc.api;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServI;
+import at.kc.tugraz.ss.serv.serv.api.SSServContainerI;
 
-public interface SSCollServI extends SSServI{
-  
-//  public static List<SSEntityE> supportedEntityTypes = new ArrayList<SSEntityE>(){{
-//    add(SSEntityE.coll);
-//  }};
+public interface SSDiscServContainerI extends SSServContainerI{
 }

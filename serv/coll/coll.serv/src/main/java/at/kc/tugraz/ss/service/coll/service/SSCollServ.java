@@ -30,12 +30,12 @@ import at.kc.tugraz.ss.service.coll.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
-import at.kc.tugraz.ss.service.coll.api.SSCollServI;
+import at.kc.tugraz.ss.service.coll.api.SSCollServContainerI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
-import at.kc.tugraz.ss.service.tag.api.SSTagServI;
+import at.kc.tugraz.ss.service.tag.api.SSTagServContainerI;
 import java.util.List;
 
-public class SSCollServ extends SSServA implements SSCollServI{
+public class SSCollServ extends SSServA implements SSCollServContainerI{
   
  public static final SSServA  inst = new SSCollServ(SSCollClientI.class, SSCollServerI.class);
   
@@ -72,7 +72,7 @@ public class SSCollServ extends SSServA implements SSCollServI{
     final List<Class> configuredServs) throws Exception{
    
     //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
-    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
+    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServContainerI.class, coreConfA, configuredServs);
     final SSCollConf collConf = coreConf.getColl();
     
     collConf.use                = true;

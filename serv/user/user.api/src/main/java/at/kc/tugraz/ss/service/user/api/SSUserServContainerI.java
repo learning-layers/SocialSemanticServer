@@ -18,10 +18,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.kc.tugraz.ss.service.user.api;
 
-package at.kc.tugraz.ss.service.tag.api;
+import at.kc.tugraz.ss.serv.serv.api.SSServContainerI;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServI;
-
-public interface SSTagServI extends SSServI{
+public interface SSUserServContainerI extends SSServContainerI{
+  
 }

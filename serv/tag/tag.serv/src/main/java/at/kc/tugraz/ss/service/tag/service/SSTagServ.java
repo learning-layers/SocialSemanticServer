@@ -29,12 +29,12 @@ import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagClientI;
-import at.kc.tugraz.ss.service.tag.api.SSTagServI;
+import at.kc.tugraz.ss.service.tag.api.SSTagServContainerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
 import java.util.List;
 
-public class SSTagServ extends SSServA implements SSTagServI{
+public class SSTagServ extends SSServA implements SSTagServContainerI{
   
   public static final SSServA  inst = new SSTagServ(SSTagClientI.class, SSTagServerI.class);
   

@@ -28,11 +28,11 @@ import at.kc.tugraz.ss.service.disc.impl.*;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
-import at.kc.tugraz.ss.service.disc.api.SSDiscI;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServContainerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import java.util.List;
 
-public class SSDiscServ extends SSServA implements SSDiscI{
+public class SSDiscServ extends SSServA implements SSDiscServContainerI{
   
   public static final SSServA inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
   
