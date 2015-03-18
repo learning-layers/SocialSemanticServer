@@ -34,7 +34,7 @@ import java.util.List;
 public class SSAppAddTest extends SSServOpTestCaseA{
   
   public SSAppAddTest(final SSAppConf appConf) {
-    super(appConf, SSMethU.appAdd);
+    super(appConf, null, SSMethU.appAdd);
   }
   
   @Override

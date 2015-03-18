@@ -32,7 +32,7 @@ import java.util.List;
 public class SSActivitiesUserGetTest extends SSServOpTestCaseA{
   
   public SSActivitiesUserGetTest(final SSActivityConf activityConf) {
-    super(activityConf, SSMethU.activitiesUserGet);
+    super(activityConf, null, SSMethU.activitiesUserGet);
   }
   
   @Override

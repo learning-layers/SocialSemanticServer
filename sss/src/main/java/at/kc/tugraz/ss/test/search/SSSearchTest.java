@@ -34,7 +34,7 @@ import java.util.List;
 public class SSSearchTest extends SSServOpTestCaseA{
   
   public SSSearchTest(final SSSearchConf searchConf){
-    super(searchConf, SSMethU.search);
+    super(searchConf, null, SSMethU.search);
   }
   
   @Override

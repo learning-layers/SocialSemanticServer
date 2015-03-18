@@ -37,7 +37,7 @@ import java.util.List;
 public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
   
   public SSLearnEpUserCopyForUserTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpUserCopyForUser);
+    super(learnEpConf, null, SSMethU.learnEpUserCopyForUser);
   }
   
   @Override

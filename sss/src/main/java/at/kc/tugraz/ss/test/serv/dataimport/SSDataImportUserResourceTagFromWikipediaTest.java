@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCaseA{
   
   public SSDataImportUserResourceTagFromWikipediaTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, SSMethU.dataImportUserResourceTagFromWikipedia);
+    super(dataImportConf, null, SSMethU.dataImportUserResourceTagFromWikipedia);
   }
   
   @Override

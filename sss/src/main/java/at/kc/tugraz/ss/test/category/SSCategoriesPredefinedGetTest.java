@@ -30,7 +30,7 @@ import java.util.List;
 public class SSCategoriesPredefinedGetTest extends SSServOpTestCaseA{
   
   public SSCategoriesPredefinedGetTest(final SSCategoryConf catConf) {
-    super(catConf, SSMethU.categoriesPredefinedGet);
+    super(catConf, null, SSMethU.categoriesPredefinedGet);
   }
   
   @Override

@@ -22,8 +22,6 @@ package at.kc.tugraz.ss.test.category;
 
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
-import at.kc.tugraz.ss.test.category.SSCategoriesPredefinedAddTest;
-import at.kc.tugraz.ss.test.category.SSCategoriesPredefinedGetTest;
 
 public class SSCategoryTester extends Thread{
   
@@ -37,7 +35,6 @@ public class SSCategoryTester extends Thread{
     }
     
     switch(categoryConf.op){
-      case testServOverall:                new Thread(new SSCategoryOverallTest(categoryConf)).start();         break;
       case categoriesPredefinedGet:        new Thread(new SSCategoriesPredefinedGetTest(categoryConf)).start(); break;
       case categoriesPredefinedAdd:        new Thread(new SSCategoriesPredefinedAddTest(categoryConf)).start(); break;  
     }

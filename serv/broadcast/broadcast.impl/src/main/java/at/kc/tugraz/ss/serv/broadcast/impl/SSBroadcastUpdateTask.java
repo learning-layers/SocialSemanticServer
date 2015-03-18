@@ -41,7 +41,7 @@ public class SSBroadcastUpdateTask extends TimerTask {
   protected class SSBroadcastUpdateHandler extends SSServImplStartA{
     
     public SSBroadcastUpdateHandler() throws Exception{
-      super(null);
+      super(null, null);
     }
     
     @Override

@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLearnEpVersionSetTimelineStateTest extends SSServOpTestCaseA{
   
   public SSLearnEpVersionSetTimelineStateTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpVersionSetTimelineState);
+    super(learnEpConf, null, SSMethU.learnEpVersionSetTimelineState);
   }
   
   @Override

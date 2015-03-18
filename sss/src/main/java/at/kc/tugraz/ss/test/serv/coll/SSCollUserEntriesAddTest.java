@@ -38,7 +38,7 @@ import java.util.List;
 public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   
   public SSCollUserEntriesAddTest(SSCollConf collConf) throws Exception {
-    super(collConf, SSMethU.collUserEntriesAdd);
+    super(collConf, null, SSMethU.collUserEntriesAdd);
   }
   
   @Override

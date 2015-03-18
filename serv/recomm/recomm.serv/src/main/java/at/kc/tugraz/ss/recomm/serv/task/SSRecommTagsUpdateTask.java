@@ -41,7 +41,7 @@ public class SSRecommTagsUpdateTask extends TimerTask {
   protected class SSRecommTagsUpdater extends SSServImplStartA{
     
     public SSRecommTagsUpdater() throws Exception{
-      super(null);
+      super(null, null);
     }
     
     @Override

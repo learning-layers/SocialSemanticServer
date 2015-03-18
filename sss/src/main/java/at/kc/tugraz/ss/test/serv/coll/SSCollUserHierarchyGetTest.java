@@ -34,7 +34,7 @@ import java.util.List;
 public class SSCollUserHierarchyGetTest extends SSServOpTestCaseA{
   
   public SSCollUserHierarchyGetTest(SSCollConf collConf) throws Exception {
-    super(collConf, SSMethU.collUserHierarchyGet);
+    super(collConf, null, SSMethU.collUserHierarchyGet);
   }
   
   @Override

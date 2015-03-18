@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataExportUserRelationsTest extends SSServOpTestCaseA{
   
   public SSDataExportUserRelationsTest(final SSDataExportConf dataExportConf){
-    super(dataExportConf, SSMethU.dataExportUserRelations);
+    super(dataExportConf, null, SSMethU.dataExportUserRelations);
   }  
   
   @Override

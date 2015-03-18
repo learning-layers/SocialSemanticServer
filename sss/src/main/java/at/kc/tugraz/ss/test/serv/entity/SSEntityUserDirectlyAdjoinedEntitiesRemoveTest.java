@@ -28,11 +28,10 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
-
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTestCaseA{
   
   public SSEntityUserDirectlyAdjoinedEntitiesRemoveTest(final SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityUserDirectlyAdjoinedEntitiesRemove);
+    super(entityConf, null, SSMethU.entityUserDirectlyAdjoinedEntitiesRemove);
   }  
   
   @Override

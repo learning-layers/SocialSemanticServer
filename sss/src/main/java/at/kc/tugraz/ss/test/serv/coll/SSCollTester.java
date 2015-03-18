@@ -34,7 +34,6 @@ public class SSCollTester {
     }      
     
     switch(collConf.op){
-      case testServOverall:          new Thread(new SSCollOverallTest(collConf)).start();               break;
       case collUserHierarchyGet:     new Thread(new SSCollUserHierarchyGetTest(collConf)).start();      break;
       case collUserEntriesAdd:       new Thread(new SSCollUserEntriesAddTest(collConf)).start();        break;
       case collUserCumulatedTagsGet: new Thread(new SSCollUserCummulatedTagsGetTest(collConf)).start(); break;

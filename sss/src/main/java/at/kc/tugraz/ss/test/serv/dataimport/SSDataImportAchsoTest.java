@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportAchsoTest extends SSServOpTestCaseA{
   
   public SSDataImportAchsoTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, SSMethU.dataImportAchso);
+    super(dataImportConf, null, SSMethU.dataImportAchso);
   }  
   
   @Override

@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportMediaWikiUserTest extends SSServOpTestCaseA{
   
   public SSDataImportMediaWikiUserTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, SSMethU.dataImportMediaWikiUser);
+    super(dataImportConf, null, SSMethU.dataImportMediaWikiUser);
   }  
   
   @Override

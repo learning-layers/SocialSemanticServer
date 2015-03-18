@@ -31,7 +31,7 @@ import java.util.Map;
 public class SSRecommTagsTest extends SSServOpTestCaseA{
   
   public SSRecommTagsTest(final SSRecommConf recommConf) {
-    super(recommConf, SSMethU.recommTags);
+    super(recommConf, null, SSMethU.recommTags);
   }
   
   @Override

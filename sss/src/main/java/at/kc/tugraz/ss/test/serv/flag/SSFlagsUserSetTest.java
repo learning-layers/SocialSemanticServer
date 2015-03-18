@@ -35,7 +35,7 @@ import java.util.List;
 public class SSFlagsUserSetTest extends SSServOpTestCaseA{
   
   public SSFlagsUserSetTest(final SSFlagConf flagConf) {
-    super(flagConf, SSMethU.flagsUserSet);
+    super(flagConf, null, SSMethU.flagsUserSet);
   }
   
   @Override

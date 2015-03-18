@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 public class SSI5CloudFileUploadTest extends SSServOpTestCaseA{
   
   public SSI5CloudFileUploadTest(SSI5CloudConf i5CloudConf){
-    super(i5CloudConf, SSMethU.i5CloudFileUpload);
+    super(i5CloudConf, null, SSMethU.i5CloudFileUpload);
   }
   
   @Override

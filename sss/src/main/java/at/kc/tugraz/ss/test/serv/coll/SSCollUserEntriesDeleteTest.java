@@ -36,7 +36,7 @@ import java.util.List;
 public class SSCollUserEntriesDeleteTest extends SSServOpTestCaseA{
   
   public SSCollUserEntriesDeleteTest(final SSCollConf collConf) throws Exception {
-    super(collConf, SSMethU.collUserEntriesDelete);
+    super(collConf, null, SSMethU.collUserEntriesDelete);
   }
   
   @Override

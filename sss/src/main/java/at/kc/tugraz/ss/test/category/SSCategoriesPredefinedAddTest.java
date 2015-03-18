@@ -31,7 +31,7 @@ import java.util.List;
 public class SSCategoriesPredefinedAddTest extends SSServOpTestCaseA{
   
   public SSCategoriesPredefinedAddTest(final SSCategoryConf catConf) {
-    super(catConf, SSMethU.categoriesPredefinedAdd);
+    super(catConf, null, SSMethU.categoriesPredefinedAdd);
   }
   
   @Override

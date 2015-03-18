@@ -31,7 +31,7 @@ import java.util.Map;
 public class SSI5CloudAuthTest extends SSServOpTestCaseA{
   
   public SSI5CloudAuthTest(SSI5CloudConf i5CloudConf){
-    super(i5CloudConf, SSMethU.i5CloudAuth);
+    super(i5CloudConf, null, SSMethU.i5CloudAuth);
   }  
   
   @Override

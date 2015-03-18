@@ -37,7 +37,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import sss.serv.err.datatypes.SSErr;
 
 public class SSFileDownloader extends SSServImplStartA{
   
@@ -54,7 +53,7 @@ public class SSFileDownloader extends SSServImplStartA{
     final SSSocketCon       sSCon, 
     final SSFileDownloadPar par) throws Exception{
     
-    super(fileRepoConf);
+    super(fileRepoConf, null);
     
     this.sSCon             = sSCon;
     this.par               = par;

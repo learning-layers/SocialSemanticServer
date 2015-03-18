@@ -23,12 +23,15 @@ package at.kc.tugraz.ss.serv.serv.api;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SSServImplStartA extends SSServImplA implements Runnable{
 
+  public final SSDBSQLI   dbSQL;
+  
   private static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
     
     @Override protected List<SSServImplA> initialValue() {
@@ -42,8 +45,10 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     }
   };
   
-  public SSServImplStartA(final SSConfA conf){
+  public SSServImplStartA(final SSConfA conf, final SSDBSQLI dbSQL){
     super(conf);
+    
+    this.dbSQL = dbSQL;
   }
   
   public static void regServImplUsedByThread(final SSServImplA servImpl){

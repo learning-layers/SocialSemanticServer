@@ -68,7 +68,7 @@ public class SSServerSocket implements Runnable{
     
     public SSServerSocketHandler(Socket clientSocket) throws Exception{
       
-      super(null);
+      super(null, null);
       
       sScon = new SSSocketCon(clientSocket);
     }

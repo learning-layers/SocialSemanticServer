@@ -32,7 +32,7 @@ import java.util.Map;
 public class SSRecommResourcesTest extends SSServOpTestCaseA{
   
   public SSRecommResourcesTest(final SSRecommConf recommConf) {
-    super(recommConf, SSMethU.recommResources);
+    super(recommConf, null, SSMethU.recommResources);
   }
   
   @Override

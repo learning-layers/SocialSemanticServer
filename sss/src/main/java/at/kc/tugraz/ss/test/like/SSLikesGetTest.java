@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLikesGetTest extends SSServOpTestCaseA{
   
   public SSLikesGetTest(final SSLikeConf likeConf) {
-    super(likeConf, SSMethU.likesGet);
+    super(likeConf, null, SSMethU.likesGet);
   }
   
   @Override

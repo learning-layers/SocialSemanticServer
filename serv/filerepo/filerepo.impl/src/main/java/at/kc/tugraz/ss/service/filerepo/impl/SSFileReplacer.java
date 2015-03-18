@@ -58,7 +58,7 @@ public class SSFileReplacer extends SSServImplStartA{
     final SSServPar                                 par,
     final Map<String, SSFileRepoFileAccessProperty> fileAccessProperties) throws Exception{
     
-    super(fileRepoConf);
+    super(fileRepoConf, null);
     
     this.fileAccessProperties = fileAccessProperties;
     this.sSCon                = sSCon;

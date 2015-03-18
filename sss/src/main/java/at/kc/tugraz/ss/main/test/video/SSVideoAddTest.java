@@ -30,7 +30,7 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
 public class SSVideoAddTest extends SSServOpTestCaseA{
   
   public SSVideoAddTest(final SSVideoConf videoConf) {
-    super(videoConf, SSMethU.videoUserAdd);
+    super(videoConf, null, SSMethU.videoUserAdd);
   }
   
   @Override

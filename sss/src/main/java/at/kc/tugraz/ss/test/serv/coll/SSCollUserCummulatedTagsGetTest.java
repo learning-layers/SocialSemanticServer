@@ -33,7 +33,7 @@ import java.util.List;
 public class SSCollUserCummulatedTagsGetTest extends SSServOpTestCaseA{
   
   public SSCollUserCummulatedTagsGetTest(final SSCollConf collConf) throws Exception {
-    super(collConf, SSMethU.collUserCumulatedTagsGet);
+    super(collConf, null, SSMethU.collUserCumulatedTagsGet);
   }
   
   @Override

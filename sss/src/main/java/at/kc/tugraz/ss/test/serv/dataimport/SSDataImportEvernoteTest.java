@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
   public SSDataImportEvernoteTest(SSEvernoteConf evernoteConf){
-    super(evernoteConf, SSMethU.dataImportEvernote);
+    super(evernoteConf, null, SSMethU.dataImportEvernote);
   }  
   
   @Override

@@ -21,16 +21,12 @@
 package at.kc.tugraz.ss.test.tag;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +35,7 @@ import java.util.List;
 public class SSTagsUserGetTest extends SSServOpTestCaseA{
   
   public SSTagsUserGetTest(final SSTagConf tagConf) {
-    super(tagConf, SSMethU.tagsUserGet);
+    super(tagConf, null, SSMethU.tagsUserGet);
   }
   
   @Override

@@ -34,7 +34,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
   public SSEntityDescGetTest(final SSEntityConf entityConf){
-    super(entityConf, SSMethU.entityDescGet);
+    super(entityConf, null, SSMethU.entityDescGet);
   }  
   
   @Override

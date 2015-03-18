@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLearnEpVersionRemoveCircleTest extends SSServOpTestCaseA{
   
   public SSLearnEpVersionRemoveCircleTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpVersionRemoveCircle);
+    super(learnEpConf, null, SSMethU.learnEpVersionRemoveCircle);
   }
   
   @Override

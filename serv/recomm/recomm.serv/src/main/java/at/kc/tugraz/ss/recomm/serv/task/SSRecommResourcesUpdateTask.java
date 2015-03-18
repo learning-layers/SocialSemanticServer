@@ -41,7 +41,7 @@ public class SSRecommResourcesUpdateTask extends TimerTask {
   protected class SSRecommResourcesUpdater extends SSServImplStartA{
     
     public SSRecommResourcesUpdater() throws Exception{
-      super(null);
+      super(null, null);
     }
     
     @Override

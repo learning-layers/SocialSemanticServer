@@ -63,7 +63,7 @@ public class SSFileUploader extends SSServImplStartA{
     final SSSocketCon        sSCon, 
     final SSServPar          par) throws Exception{
     
-    super(fileRepoConf);
+    super(fileRepoConf, null);
     
     this.sSCon             = sSCon;
     this.par               = new SSFileUploadPar(par);

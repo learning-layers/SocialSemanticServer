@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartWithDBA;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class SSDataImportEvernoteTask extends TimerTask {
     }
   }
   
-  protected class SSDataImportEvernoteUpdater extends SSServImplStartWithDBA{
+  protected class SSDataImportEvernoteUpdater extends SSServImplStartA{
     
     private final String authToken;
     private final String email;

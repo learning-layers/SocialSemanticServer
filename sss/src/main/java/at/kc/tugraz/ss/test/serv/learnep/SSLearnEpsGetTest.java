@@ -35,7 +35,7 @@ import java.util.List;
 public class SSLearnEpsGetTest extends SSServOpTestCaseA{
   
   public SSLearnEpsGetTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpsGet);
+    super(learnEpConf, null, SSMethU.learnEpsGet);
   }
   
   @Override

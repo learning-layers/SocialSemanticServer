@@ -67,7 +67,7 @@ public class SSSInitializer extends SSServImplStartA{
   protected static Boolean finished = false;
   
   public SSSInitializer() throws Exception{
-    super(null);
+    super(null, null);
   }
   
   @Override

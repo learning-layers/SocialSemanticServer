@@ -33,7 +33,7 @@ import java.util.List;
 public class SSFlagsUserGetTest extends SSServOpTestCaseA{
   
   public SSFlagsUserGetTest(final SSFlagConf flagConf) {
-    super(flagConf, SSMethU.flagsUserGet);
+    super(flagConf, null, SSMethU.flagsUserGet);
   }
   
   @Override

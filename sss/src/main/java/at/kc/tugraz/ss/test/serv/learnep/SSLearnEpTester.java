@@ -35,7 +35,6 @@ public class SSLearnEpTester extends Thread{
     }
     
     switch(learnEpConf.op){
-      case testServOverall:                new Thread(new SSLearnEpOverallTest                (learnEpConf)).start(); break;
       case learnEpCreate:                  new Thread(new SSLearnEpCreateTest                 (learnEpConf)).start(); break;
       case learnEpVersionCreate:           new Thread(new SSLearnEpVersionCreateTest          (learnEpConf)).start(); break;
       case learnEpVersionGet:              new Thread(new SSLearnEpVersionGetTest             (learnEpConf)).start(); break;

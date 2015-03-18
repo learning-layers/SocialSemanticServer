@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSTagAddTest extends SSServOpTestCaseA{
   
   public SSTagAddTest(final SSTagConf tagConf) {
-    super(tagConf, SSMethU.tagAdd);
+    super(tagConf, null, SSMethU.tagAdd);
   }
   
   @Override

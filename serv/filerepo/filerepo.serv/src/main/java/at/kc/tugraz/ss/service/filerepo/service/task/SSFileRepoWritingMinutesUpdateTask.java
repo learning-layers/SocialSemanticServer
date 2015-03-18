@@ -41,7 +41,7 @@ public class SSFileRepoWritingMinutesUpdateTask extends TimerTask {
   protected class SSFileRepoWritingMinutesUpdater extends SSServImplStartA{
     
     public SSFileRepoWritingMinutesUpdater() throws Exception{
-      super(null);
+      super(null, null);
     }
     
     @Override

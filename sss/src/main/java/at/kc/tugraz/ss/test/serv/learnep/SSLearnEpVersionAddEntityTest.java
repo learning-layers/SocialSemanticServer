@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLearnEpVersionAddEntityTest extends SSServOpTestCaseA{
   
   public SSLearnEpVersionAddEntityTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, SSMethU.learnEpVersionAddEntity);
+    super(learnEpConf, null, SSMethU.learnEpVersionAddEntity);
   }
   
   @Override
