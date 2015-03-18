@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>sss.root</artifactId>
     <groupId>sss</groupId>
+    <artifactId>root</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
@@ -16,9 +16,8 @@
     <module>db</module>
     <module>voc</module>
     <module>jsonld</module>
-	
 	<module>filerepo</module>
-    <module>broadcasting</module>
+    <module>broadcast</module>
     <module>modeling</module>
     <module>search</module>
     <module>auth</module>
@@ -33,7 +32,6 @@
 	<module>friend</module>
 	<module>like</module>
     <module>eval</module>
-	
 	<module>coll</module> 
     <module>disc</module> 
     <module>user</module>

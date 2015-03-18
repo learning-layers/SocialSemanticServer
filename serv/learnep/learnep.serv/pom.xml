@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.learnep</artifactId>
+    <artifactId>learnep</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.learnep.serv</artifactId>
+  <artifactId>learnep.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.learnep.serv</name>
+  <name>learnep.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,31 +20,31 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.impl</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.api</artifactId>
+      <artifactId>learnep.impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>learnep.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

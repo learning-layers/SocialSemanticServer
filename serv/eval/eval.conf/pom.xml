@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.eval</artifactId>
+        <artifactId>eval</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sss.eval.conf</artifactId>
+    <artifactId>eval.conf</artifactId>
     <packaging>jar</packaging>
     
   <dependencies>
@@ -18,8 +18,8 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

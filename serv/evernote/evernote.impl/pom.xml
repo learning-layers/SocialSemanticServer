@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.evernote</artifactId>
+    <artifactId>evernote</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.evernote.impl</artifactId>
+  <artifactId>evernote.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.evernote.impl</name>
+  <name>evernote.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,13 +19,13 @@
    
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -43,7 +43,7 @@
     
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> -->
     
@@ -54,14 +54,14 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.evernote.api</artifactId>
+      <artifactId>evernote.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

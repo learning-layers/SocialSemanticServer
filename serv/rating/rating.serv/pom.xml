@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.rating</artifactId>
+    <artifactId>rating</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.rating.serv</artifactId>
+  <artifactId>rating.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.rating.serv</name>
+  <name>rating.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,25 +19,25 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.rating.impl</artifactId>
+      <artifactId>rating.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.rating.api</artifactId>
+      <artifactId>rating.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.conf</groupId>
-    <artifactId>sss.conf</artifactId>
+    <groupId>sss</groupId>
+    <artifactId>conf</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.conf</groupId>
-  <artifactId>sss.conf.conf</artifactId>
+  <groupId>sss</groupId>
+  <artifactId>conf.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.conf.conf</name>
+  <name>conf.conf</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,85 +20,85 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.eval.conf</artifactId>
+      <artifactId>eval.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.circle</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>circle.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.like</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>like.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.video</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>video.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.appstacklayout</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>appstacklayout.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.friend</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>friend.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.app</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>app.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.comment</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>comment.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.flag</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>flag.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.cloud.conf</artifactId>
+      <artifactId>cloud.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.conf</artifactId>
+      <artifactId>category.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.activity.conf</artifactId>
+      <artifactId>activity.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.i5cloud.conf</artifactId>
+      <artifactId>i5cloud.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -116,139 +116,139 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.conf</artifactId>
+      <artifactId>jsonld.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
      
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.evernote.conf</artifactId>
+      <artifactId>evernote.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.conf</artifactId>
+      <artifactId>entity.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.conf</artifactId>
+      <artifactId>learnep.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.dataexport.conf</artifactId>
+      <artifactId>dataexport.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.disc.conf</artifactId>
+      <artifactId>disc.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.search.conf</artifactId>
+      <artifactId>search.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.tag.conf</artifactId>
+      <artifactId>tag.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.rating.conf</artifactId>
+      <artifactId>rating.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.ue.conf</artifactId>
+      <artifactId>ue.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.conf</artifactId>
+      <artifactId>coll.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.user.conf</artifactId>
+      <artifactId>user.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.dataimport.conf</artifactId>
+      <artifactId>dataimport.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.conf</artifactId>
+      <artifactId>db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.conf</artifactId>
+      <artifactId>auth.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.conf</artifactId>
+      <artifactId>filerepo.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.modeling.ue.conf</artifactId>
+      <artifactId>modeling.ue.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.conf</artifactId>
+      <artifactId>voc.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.conf</artifactId>
+      <artifactId>broadcast.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

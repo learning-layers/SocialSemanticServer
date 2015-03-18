@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.modeling</artifactId>
+  <artifactId>modeling</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.modeling</name>
+  <name>modeling</name>
   <modules>
     <module>modeling.ue</module>
   </modules>

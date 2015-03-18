@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.circle</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>circle</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.circle</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>circle.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>circle.conf</name>
@@ -31,14 +31,14 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.circle</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>circle.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

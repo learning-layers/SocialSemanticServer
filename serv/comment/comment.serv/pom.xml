@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.comment</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>comment</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.comment</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>comment.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>comment.serv</name>
@@ -19,7 +19,7 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.serv.comment</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>comment.api</artifactId>
       <version>${project.version}</version>
     </dependency>   
@@ -31,14 +31,14 @@
     </dependency>   
     
     <dependency>
-      <groupId>sss.serv.comment</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>comment.impl</artifactId>
       <version>${project.version}</version>
     </dependency>   
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

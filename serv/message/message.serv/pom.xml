@@ -7,7 +7,7 @@
     <artifactId>message1</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.message</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>message.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>message.serv</name>
@@ -20,25 +20,25 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

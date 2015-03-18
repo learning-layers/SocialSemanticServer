@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.dataexport</artifactId>
+    <artifactId>dataexport</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.dataexport.api</artifactId>
+  <artifactId>dataexport.api</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.dataexport.api</name>
+  <name>dataexport.api</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

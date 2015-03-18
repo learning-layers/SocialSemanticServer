@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.voc</artifactId>
+  <artifactId>voc</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.voc</name>
+  <name>voc</name>
   <modules>
     <module>voc.serv</module>
     <module>voc.api</module>

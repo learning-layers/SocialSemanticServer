@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.broadcasting</artifactId>
+    <artifactId>broadcast</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.broadcast.api</artifactId>
+  <artifactId>broadcast.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.broadcast.api</name>
+  <name>broadcast.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,10 +19,10 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -31,17 +31,28 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>rating.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.datatypes</artifactId>
+      <artifactId>broadcast.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>junit</groupId>
@@ -49,6 +60,5 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
   </dependencies>
 </project>

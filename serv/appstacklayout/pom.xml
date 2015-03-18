@@ -6,7 +6,7 @@
     <artifactId>serv</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.appstacklayout</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>appstacklayout</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>

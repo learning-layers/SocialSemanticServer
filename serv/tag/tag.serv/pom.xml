@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.tag</artifactId>
+    <artifactId>tag</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.tag.serv</artifactId>
+  <artifactId>tag.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.tag.serv</name>
+  <name>tag.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,44 +18,44 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.tag.impl</artifactId>
+      <artifactId>tag.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.tag.api</artifactId>
+      <artifactId>tag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

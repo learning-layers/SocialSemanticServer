@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.solr</artifactId>
+    <artifactId>solr</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.solr.serv</artifactId>
+  <artifactId>solr.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.solr.serv</name>
+  <name>solr.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,7 +20,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.conf</artifactId>
+      <artifactId>filerepo.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -31,26 +31,26 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.solr.datatypes</artifactId>
+      <artifactId>solr.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
         
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.solr.api</artifactId>
+      <artifactId>solr.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.solr.impl</artifactId>
+      <artifactId>solr.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     

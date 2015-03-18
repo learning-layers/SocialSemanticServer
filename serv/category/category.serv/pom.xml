@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.category</artifactId>
+    <artifactId>category</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.category.serv</artifactId>
+  <artifactId>category.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.category.serv</name>
+  <name>category.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,49 +20,49 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.conf</artifactId>
+      <artifactId>category.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.impl</artifactId>
+      <artifactId>category.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.api</artifactId>
+      <artifactId>category.api</artifactId>
       <version>${project.version}</version>
     </dependency>
       

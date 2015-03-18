@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.coll</artifactId>
+  <artifactId>coll</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.coll</name>
+  <name>coll</name>
   <modules>
     <module>coll.serv</module>
     <module>coll.api</module>

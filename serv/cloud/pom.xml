@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.cloud</artifactId>
+  <artifactId>cloud</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.cloud</name>
+  <name>cloud</name>
   <modules>
     <module>cloud.serv</module>
     <module>cloud.impl</module>

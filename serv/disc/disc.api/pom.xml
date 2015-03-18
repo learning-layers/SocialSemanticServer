@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.disc</artifactId>
+    <artifactId>disc</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.disc.api</artifactId>
+  <artifactId>disc.api</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.disc.api</name>
+  <name>disc.api</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,8 +18,8 @@
   <dependencies>
     
     <dependency>
-       <groupId>sss.adapter</groupId>
-       <artifactId>sss.adapter.socket.datatypes</artifactId>
+       <groupId>sss.adapter.socket</groupId>
+       <artifactId>adapter.socket.datatypes</artifactId>
        <version>${project.version}</version>
     </dependency>
     
@@ -31,13 +31,13 @@
     
     <dependency>
        <groupId>sss.serv</groupId>
-       <artifactId>sss.disc.datatypes</artifactId>
+       <artifactId>disc.datatypes</artifactId>
        <version>${project.version}</version>
     </dependency>
     
     <dependency>
-       <groupId>sss.datatypes</groupId>
-       <artifactId>sss.datatypes.datatypes</artifactId>
+       <groupId>sss</groupId>
+       <artifactId>datatypes.datatypes</artifactId>
        <version>${project.version}</version>
     </dependency>
     

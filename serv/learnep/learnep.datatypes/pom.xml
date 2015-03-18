@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.learnep</artifactId>
+    <artifactId>learnep</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.learnep.datatypes</artifactId>
+  <artifactId>learnep.datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.learnep.datatypes</name>
+  <name>learnep.datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,19 +26,19 @@
     
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>-->
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
         
@@ -49,8 +49,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

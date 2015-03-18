@@ -3,16 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.adapter</groupId>
-    <artifactId>sss.adapter</artifactId>
+    <artifactId>adapter</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
   <groupId>sss.adapter</groupId>
-  <artifactId>sss.adapter.websocket</artifactId>
+  <artifactId>adapter.websocket</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>sss.adapter.websocket</name>
+  <name>adapter.websocket</name>
 
   <build>
     
@@ -33,8 +33,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -45,14 +45,14 @@
     </dependency>
 
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

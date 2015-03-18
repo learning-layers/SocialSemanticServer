@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.userevent</artifactId>
+    <artifactId>ue</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.userevent.impl</artifactId>
+  <artifactId>ue.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.userevent.impl</name>
+  <name>ue.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -38,13 +38,13 @@
     
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>-->
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -56,19 +56,19 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.api</artifactId>
+      <artifactId>ue.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.datatypes</artifactId>
+      <artifactId>ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

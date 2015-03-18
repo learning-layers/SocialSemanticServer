@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.learnep</artifactId>
+    <artifactId>learnep</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.learnep.impl</artifactId>
+  <artifactId>learnep.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.learnep.impl</name>
+  <name>learnep.impl</name>
   <url>http://maven.apache.org</url>
     <build>
         <plugins>
@@ -32,14 +32,14 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -57,7 +57,7 @@
     
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>-->
     
@@ -69,25 +69,25 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.conf</artifactId>
+      <artifactId>learnep.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.api</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.datatypes</artifactId>
+      <artifactId>learnep.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>learnep.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

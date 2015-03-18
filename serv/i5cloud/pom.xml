@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.i5cloud</artifactId>
+  <artifactId>i5cloud</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.i5cloud</name>
+  <name>i5cloud</name>
   <modules>
     <module>i5cloud.impl</module>
     <module>i5cloud.conf</module>

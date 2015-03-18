@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.auth</artifactId>
+    <artifactId>auth</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.auth.impl</artifactId>
+  <artifactId>auth.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.auth.impl</name>
+  <name>auth.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,14 +26,14 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -51,31 +51,31 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.conf</artifactId>
+      <artifactId>auth.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.datatypes</artifactId>
+      <artifactId>auth.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.api</artifactId>
+      <artifactId>auth.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

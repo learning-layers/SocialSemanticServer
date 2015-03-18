@@ -3,16 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.adapter</groupId>
-    <artifactId>sss.adapter</artifactId>
+    <artifactId>adapter</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
   <groupId>sss.adapter</groupId>
-  <artifactId>sss.adapter.rest.v2</artifactId>
+  <artifactId>adapter.rest.v2</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>sss.adapter.rest.v2</name>
+  <name>adapter.rest.v2</name>
 
   <build>
     
@@ -93,50 +93,50 @@
   <dependencies>
    
     <dependency>
-      <groupId>sss.serv.circle</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>circle.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.like</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>like.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.video</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>video.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.appstacklayout</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>appstacklayout.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
-      <groupId>sss.serv.app</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>app.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.dataimport.datatypes</artifactId>
+      <artifactId>dataimport.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
   
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -148,25 +148,25 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.serv</artifactId>
+      <artifactId>jsonld.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.rest.conf</artifactId>
+      <artifactId>adapter.rest.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -177,8 +177,8 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

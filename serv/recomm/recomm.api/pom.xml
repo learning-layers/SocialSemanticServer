@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.recomm</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>recomm</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.recomm</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>recomm.api</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>recomm.api</name>
@@ -19,8 +19,8 @@
   <dependencies>
   
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -31,8 +31,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 

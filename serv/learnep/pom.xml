@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.learnep</artifactId>
+  <artifactId>learnep</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.learnep</name>
+  <name>learnep</name>
   <modules>
     <module>learnep.serv</module>
     <module>learnep.datatypes</module>

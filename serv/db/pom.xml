@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.db</artifactId>
+  <artifactId>db</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.db</name>
+  <name>db</name>
   <modules>
     <module>db.serv</module>
     <module>db.conf</module>

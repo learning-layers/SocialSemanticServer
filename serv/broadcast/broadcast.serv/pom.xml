@@ -4,50 +4,70 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.broadcasting</artifactId>
+    <artifactId>broadcast</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.broadcast.datatypes</artifactId>
+  <artifactId>broadcast.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.broadcast.datatypes</name>
+  <name>broadcast.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
-  <dependencies>
 
+  <dependencies>
+    
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
+      <artifactId>serv.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>broadcast.impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-        
-    <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-      
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-
+    
+    
+    
   </dependencies>
 </project>

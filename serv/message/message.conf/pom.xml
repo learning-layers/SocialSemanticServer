@@ -7,7 +7,7 @@
     <artifactId>message1</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.message</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>message.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>message.conf</name>
@@ -31,14 +31,14 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

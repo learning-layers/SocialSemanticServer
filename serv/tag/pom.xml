@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.tag</artifactId>
+  <artifactId>tag</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.tag</name>
+  <name>tag</name>
   <modules>
     <module>tag.api</module>
     <module>tag.datatypes</module>

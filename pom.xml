@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>sss</groupId>
-  <artifactId>sss.root</artifactId>
+  <artifactId>root</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.root</name>
+  <name>root</name>
   <packaging>pom</packaging>
   <!-- <url>http://maven.apache.org</url> -->
   
@@ -144,7 +144,7 @@
   </build>
   
   <properties>
-    <ssVersion>8.2.1-alpha</ssVersion>
+    <ssVersion>8.2.2-alpha</ssVersion>
     <ssLog4JVersion>1.2.17</ssLog4JVersion>
     <!--<junitVersion>4.10</junitVersion>-->
     <!--<snakeyamlVersion>1.10</snakeyamlVersion>-->

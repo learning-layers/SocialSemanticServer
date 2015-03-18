@@ -4,37 +4,50 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.broadcasting</artifactId>
+    <artifactId>broadcast</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.broadcast.conf</artifactId>
+  <artifactId>broadcast.datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.broadcast.conf</name>
+  <name>broadcast.datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
   <dependencies>
-  
-        <dependency>
+
+    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
+      <artifactId>serv.errreg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+        
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+      
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 </project>

@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.dataimport</artifactId>
+    <artifactId>dataimport</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.dataimport.datatypes</artifactId>
+  <artifactId>dataimport.datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.dataimport.datatypes</name>
+  <name>dataimport.datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

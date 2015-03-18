@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.rating</artifactId>
+  <artifactId>rating</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.rating</name>
+  <name>rating</name>
   <modules>
     <module>rating.api</module>
     <module>rating.datatypes</module>

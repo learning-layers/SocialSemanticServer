@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.jsonld</artifactId>
+    <artifactId>jsonld</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.jsonld.impl</artifactId>
+  <artifactId>jsonld.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.jsonld.impl</name>
+  <name>jsonld.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,7 +20,7 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.datatypes</artifactId>
+      <artifactId>jsonld.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -32,73 +32,73 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.conf</artifactId>
+      <artifactId>jsonld.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.datatypes</artifactId>
+      <artifactId>auth.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.datatypes</artifactId>
+      <artifactId>broadcast.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.datatypes</artifactId>
+      <artifactId>coll.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.disc.datatypes</artifactId>
+      <artifactId>disc.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.datatypes</artifactId>
+      <artifactId>filerepo.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.modeling.ue.datatypes</artifactId>
+      <artifactId>modeling.ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.search.datatypes</artifactId>
+      <artifactId>search.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.solr.datatypes</artifactId>
+      <artifactId>solr.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.user.datatypes</artifactId>
+      <artifactId>user.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.datatypes</artifactId>
+      <artifactId>ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 

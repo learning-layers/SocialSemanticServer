@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.video</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>video</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.video</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>video.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>video.serv</name>
@@ -19,7 +19,7 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.serv.video</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>video.api</artifactId>
       <version>${project.version}</version>
     </dependency>   
@@ -31,14 +31,14 @@
     </dependency>   
     
     <dependency>
-      <groupId>sss.serv.video</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>video.impl</artifactId>
       <version>${project.version}</version>
     </dependency>   
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

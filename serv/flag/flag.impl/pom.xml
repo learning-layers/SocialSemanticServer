@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.flag</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>flag</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.flag</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>flag.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>flag.impl</name>
@@ -19,8 +19,8 @@
   <dependencies>
   
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -31,13 +31,13 @@
     </dependency>  
     
     <dependency>
-      <groupId>sss.serv.flag</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>flag.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>  
     
     <dependency>
-      <groupId>sss.serv.flag</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>flag.api</artifactId>
       <version>${project.version}</version>
     </dependency>   

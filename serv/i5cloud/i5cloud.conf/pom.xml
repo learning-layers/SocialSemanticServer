@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.i5cloud</artifactId>
+    <artifactId>i5cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.i5cloud.conf</artifactId>
+  <artifactId>i5cloud.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.i5cloud.conf</name>
+  <name>i5cloud.conf</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,8 +25,8 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>  
 

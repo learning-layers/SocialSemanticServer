@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.adapter</groupId>
-    <artifactId>sss.adapter.socket</artifactId>
+    <groupId>sss.adapter.socket</groupId>
+    <artifactId>adapter.socket</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.adapter</groupId>
-  <artifactId>sss.adapter.socket.impl</artifactId>
+  <groupId>sss.adapter.socket</groupId>
+  <artifactId>adapter.socket.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.adapter.socket.impl</name>
+  <name>adapter.socket.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,8 +19,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -37,8 +37,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -49,8 +49,8 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
 

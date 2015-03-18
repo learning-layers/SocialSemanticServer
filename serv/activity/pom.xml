@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.activity</artifactId>
+  <artifactId>activity</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.activity</name>
+  <name>activity</name>
   <modules>
     <module>activity.datatypes</module>
     <module>activity.api</module>

@@ -7,7 +7,7 @@
     <artifactId>message1</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.message</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>message.api</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>message.api</name>
@@ -19,14 +19,14 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -37,8 +37,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 

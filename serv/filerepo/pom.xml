@@ -7,10 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.filerepo</artifactId>
+  <artifactId>filerepo</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>sss.filerepo</name>
+  <name>filerepo</name>
   <modules>
     <module>filerepo.api</module>
     <module>filerepo.conf</module>

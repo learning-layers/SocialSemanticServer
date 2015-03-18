@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.tag</artifactId>
+    <artifactId>tag</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.tag.datatypes</artifactId>
+  <artifactId>tag.datatypes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.tag.datatypes</name>
+  <name>tag.datatypes</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,13 +31,13 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

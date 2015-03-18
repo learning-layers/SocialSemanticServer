@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.eval</artifactId>
+    <artifactId>eval</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>sss.eval.datatypes</artifactId>
+  <artifactId>eval.datatypes</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
@@ -18,14 +18,14 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.api</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
         
@@ -36,8 +36,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

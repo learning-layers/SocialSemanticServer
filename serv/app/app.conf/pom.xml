@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.app</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>app</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.app</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>app.conf</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>app.conf</name>

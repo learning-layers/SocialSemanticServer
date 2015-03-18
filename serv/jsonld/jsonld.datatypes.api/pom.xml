@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.jsonld</artifactId>
+    <artifactId>jsonld</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.jsonld.datatypes.api</artifactId>
+  <artifactId>jsonld.datatypes.api</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.jsonld.datatypes.api</name>
+  <name>jsonld.datatypes.api</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

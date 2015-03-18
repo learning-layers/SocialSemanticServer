@@ -3,41 +3,41 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.eval</artifactId>
+        <artifactId>eval</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sss.eval.serv</artifactId>
+    <artifactId>eval.serv</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>sss.eval.impl</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.eval.api</artifactId>
+      <artifactId>eval.impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>eval.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

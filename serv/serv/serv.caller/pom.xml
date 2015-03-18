@@ -33,31 +33,31 @@
       
       <dependency>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.voc.conf</artifactId>
+        <artifactId>voc.conf</artifactId>
         <version>${project.version}</version>
       </dependency> 
       
       <dependency>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.auth.datatypes</artifactId>
+        <artifactId>auth.datatypes</artifactId>
         <version>${project.version}</version>
       </dependency> 
       
       <dependency>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.search.datatypes</artifactId>
+        <artifactId>search.datatypes</artifactId>
         <version>${project.version}</version>
       </dependency> 
     
       <dependency>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.eval.datatypes</artifactId>
+        <artifactId>eval.datatypes</artifactId>
         <version>${project.version}</version>
       </dependency> 
       
       <dependency>
         <groupId>sss.serv</groupId>
-        <artifactId>sss.activity.datatypes</artifactId>
+        <artifactId>activity.datatypes</artifactId>
         <version>${project.version}</version>
       </dependency> 
     
@@ -68,44 +68,44 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.user.api</artifactId>
+      <artifactId>user.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.disc.datatypes</artifactId>
+      <artifactId>disc.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.datatypes</artifactId>
+      <artifactId>coll.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.datatypes</artifactId>
+      <artifactId>learnep.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.evernote.datatypes</artifactId>
+      <artifactId>evernote.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -118,49 +118,49 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.datatypes</artifactId>
+      <artifactId>broadcast.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.like</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>like.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.datatypes</artifactId>
+      <artifactId>ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.tag.datatypes</artifactId>
+      <artifactId>tag.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.datatypes</artifactId>
+      <artifactId>category.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.flag</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>flag.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.rating.datatypes</artifactId>
+      <artifactId>rating.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.datatypes</artifactId>
+      <artifactId>filerepo.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

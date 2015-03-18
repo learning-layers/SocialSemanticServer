@@ -5,14 +5,14 @@
   
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.db</artifactId>
+    <artifactId>db</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   
   <groupId>sss.serv</groupId>
-  <artifactId>sss.db.impl</artifactId>
+  <artifactId>db.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.db.impl</name>
+  <name>db.impl</name>
   <url>http://maven.apache.org</url>
   
   <properties>
@@ -35,25 +35,25 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.conf</artifactId>
+      <artifactId>db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.api</artifactId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.datatypes</artifactId>
+      <artifactId>db.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

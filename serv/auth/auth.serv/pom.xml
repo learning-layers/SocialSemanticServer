@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.auth</artifactId>
+    <artifactId>auth</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.auth.serv</artifactId>
+  <artifactId>auth.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.auth.serv</name>
+  <name>auth.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
    
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -37,19 +37,19 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.impl</artifactId>
+      <artifactId>auth.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.conf</artifactId>
+      <artifactId>auth.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

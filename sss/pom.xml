@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>sss</groupId>
-    <artifactId>sss.root</artifactId>
+    <artifactId>root</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   
@@ -153,79 +153,79 @@
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.eval.serv</artifactId>
+      <artifactId>eval.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.like</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>like.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.circle</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>circle.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.video</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>video.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.appstacklayout</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>appstacklayout.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.friend</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>friend.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.app</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>app.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>sss.serv.app</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>app.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.message</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>message.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.cloud.serv</artifactId>
+      <artifactId>cloud.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.activity.serv</artifactId>
+      <artifactId>activity.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.i5cloud.conf</artifactId>
+      <artifactId>i5cloud.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.i5cloud.serv</artifactId>
+      <artifactId>i5cloud.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -249,217 +249,217 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.evernote.serv</artifactId>
+      <artifactId>evernote.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.serv</artifactId>
+      <artifactId>entity.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.learnep.serv</artifactId>
+      <artifactId>learnep.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.dataexport.serv</artifactId>
+      <artifactId>dataexport.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.comment</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>comment.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.flag</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>flag.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.solr.serv</artifactId>
+      <artifactId>solr.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.modeling.ue.serv</artifactId>
+      <artifactId>modeling.ue.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.user.serv</artifactId>
+      <artifactId>user.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.serv</artifactId>
+      <artifactId>ue.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.impl</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>sss.dataimport.serv</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.datatypes</artifactId>
+      <artifactId>dataimport.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.serv</artifactId>
+      <artifactId>coll.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>coll.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.dataimport.conf</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>dataimport.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
       
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.serv</artifactId>
+      <artifactId>jsonld.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.jsonld.conf</artifactId>
+      <artifactId>jsonld.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
       
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.conf</artifactId>
+      <artifactId>db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.serv</artifactId>
+      <artifactId>auth.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.auth.conf</artifactId>
+      <artifactId>auth.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.serv</artifactId>
+      <artifactId>filerepo.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.disc.serv</artifactId>
+      <artifactId>disc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.rating.serv</artifactId>
+      <artifactId>rating.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.category.serv</artifactId>
+      <artifactId>category.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.tag.serv</artifactId>
+      <artifactId>tag.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.search.serv</artifactId>
+      <artifactId>search.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.filerepo.conf</artifactId>
+      <artifactId>filerepo.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.serv</artifactId>
+      <artifactId>broadcast.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.conf</artifactId>
+      <artifactId>broadcast.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

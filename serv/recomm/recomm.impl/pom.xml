@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>sss.serv.recomm</groupId>
+    <groupId>sss.serv</groupId>
     <artifactId>recomm</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv.recomm</groupId>
+  <groupId>sss.serv</groupId>
   <artifactId>recomm.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>recomm.impl</name>
@@ -26,7 +26,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -43,7 +43,7 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -55,13 +55,13 @@
     </dependency>    
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv.recomm</groupId>
+      <groupId>sss.serv</groupId>
       <artifactId>recomm.api</artifactId>
       <version>${project.version}</version>
     </dependency>

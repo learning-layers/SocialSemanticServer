@@ -19,14 +19,14 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
 
      <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -37,20 +37,20 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>  
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.api</artifactId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>  
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>  
 

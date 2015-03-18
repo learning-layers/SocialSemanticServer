@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.coll</artifactId>
+    <artifactId>coll</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.coll.impl</artifactId>
+  <artifactId>coll.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.coll.impl</name>
+  <name>coll.impl</name>
   <url>http://maven.apache.org</url>
     <build>
         <plugins>
@@ -38,7 +38,7 @@
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
         
@@ -50,7 +50,7 @@
     
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> -->
 
@@ -62,37 +62,37 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.conf</artifactId>
+      <artifactId>coll.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.datatypes</artifactId>
+      <artifactId>ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.datatypes</groupId>
-      <artifactId>sss.datatypes.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.datatypes</artifactId>
+      <artifactId>coll.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>   
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.coll.api</artifactId>
+      <artifactId>coll.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

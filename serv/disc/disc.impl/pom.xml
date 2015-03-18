@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.disc</artifactId>
+    <artifactId>disc</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.disc.impl</artifactId>
+  <artifactId>disc.impl</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.disc.impl</name>
+  <name>disc.impl</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,7 +20,7 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.voc.serv</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -32,7 +32,7 @@
       
 <!--    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.entity.datatypes</artifactId>
+      <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>-->
     
@@ -43,56 +43,56 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.adapter</groupId>
-      <artifactId>sss.adapter.socket.datatypes</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.api</artifactId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.serv</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.broadcast.serv</artifactId>
+      <artifactId>broadcast.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.userevent.serv</artifactId>
+      <artifactId>ue.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-       <groupId>sss.datatypes</groupId>
-       <artifactId>sss.datatypes.datatypes</artifactId>
+       <groupId>sss</groupId>
+       <artifactId>datatypes.datatypes</artifactId>
        <version>${project.version}</version>
     </dependency>
     
     <dependency>
        <groupId>sss.serv</groupId>
-       <artifactId>sss.disc.datatypes</artifactId>
+       <artifactId>disc.datatypes</artifactId>
        <version>${project.version}</version>
     </dependency>
     
     <dependency>
        <groupId>sss.serv</groupId>
-       <artifactId>sss.user.api</artifactId>
+       <artifactId>user.api</artifactId>
        <version>${project.version}</version>
     </dependency>
     
     <dependency>
        <groupId>sss.serv</groupId>
-       <artifactId>sss.disc.api</artifactId>
+       <artifactId>disc.api</artifactId>
        <version>${project.version}</version>
     </dependency>
     

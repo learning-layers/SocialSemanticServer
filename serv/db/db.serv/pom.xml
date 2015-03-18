@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>sss.serv</groupId>
-    <artifactId>sss.db</artifactId>
+    <artifactId>db</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>sss.db.serv</artifactId>
+  <artifactId>db.serv</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>sss.db.serv</name>
+  <name>db.serv</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,32 +24,32 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.conf</groupId>
-      <artifactId>sss.conf.api</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>conf.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.impl</artifactId>
+      <artifactId>db.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.util</groupId>
-      <artifactId>sss.util</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.datatypes</artifactId>
+      <artifactId>db.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>sss.db.conf</artifactId>
+      <artifactId>db.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
