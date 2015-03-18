@@ -412,7 +412,7 @@ implements
         return null;
       }
       
-      final String pngFilePath = SSCoreConf.instGet().getSsConf().getLocalWorkPath() + SSServCaller.fileIDFromURI (par.user, thumbUris.get(0));
+      final String pngFilePath = SSCoreConf.instGet().getSs().getLocalWorkPath() + SSServCaller.fileIDFromURI (par.user, thumbUris.get(0));
       
       return SSFileU.readPNGToBase64Str(pngFilePath);
       

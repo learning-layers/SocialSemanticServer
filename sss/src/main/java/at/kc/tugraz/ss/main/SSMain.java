@@ -54,7 +54,7 @@ public class SSMain{
     new Thread(new SSTester()).start();
     
     /* socket adapter */
-    if(SSCoreConf.instGet().getSsConf().use){
+    if(SSCoreConf.instGet().getSs().use){
       new SSServerSocket().run();
     }
   }

@@ -1,32 +1,32 @@
 !!at.kc.tugraz.ss.conf.conf.SSCoreConf
-activityConf:
+activity:
   use: true
-appConf:
+app:
   use: true
-appStackLayoutConf:
+appStackLayout:
   use: true  
-authConf:
+auth:
   authType: #noAuth, csvFileAuth, oidc
   fileName: users.csv
   systemUserPassword: '1234'
   use: true
-broadcasterConf:
+broadcaster:
   use: true
-categoryConf:
+category:
   use: true
   predefinedCategories:
-circleConf:
+circle:
   use: true    
-cloudConf:
+cloud:
   use: false
-collConf:
+coll:
   use: true
-commentConf:
+comment:
   use: true  
-dataExportConf:
+dataExport:
   use: true
   fileNameForUserRelationsExport:
-dataImportConf:
+dataImport:
   use: true
   initAtStartUp: false
   initAtStartUpOps:
@@ -35,23 +35,23 @@ dataImportConf:
   scheduleOps:
   scheduleIntervals:
   fileName:
-dbGraphConf:
+dbGraph: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
   use: false
-dbSQLConf:
+dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
   host: localhost
   password: root
   port: 3306
   schema: sss
   use: true
   username: root
-discConf:
+disc:
   use: true
-entityConf:
+entity:
   use: true
-evalConf:
+eval:
   tools:
     #- leave empty for no tool usage to be traced  
-evernoteConf:
+evernote:
   appName: SSS
   appVersion: '1.0'
   authEmails: 
@@ -59,15 +59,15 @@ evernoteConf:
   companyName: TU Graz
   evernoteEnvironment: production
   use: true
-filerepoConf:
+filerepo:
   fileRepoType: fileSys
   password: null
   path: F:/workspace_git/SSS_8/master/SocialSemanticServer/ss/tmp/
   use: true
   user: null
-friendConf:
+friend:
   use: true  
-i5CloudConf:
+i5Cloud:
   lasPass: 
   lasUser: 
   oidcConfURI: #http://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration, http://10.255.255.17/o/oauth2/.well-known/openid-configuration
@@ -76,23 +76,22 @@ i5CloudConf:
   uri: http://137.226.58.11:8081/i5Cloud/services/4/
   use: false
   userLabel:
-jsonLDConf:
-  uri: http://127.0.0.1:8084/ss-adapter-rest/
+jsonLD:
   use: true
-learnEpConf:
+learnEp:
   use: true
   useEpisodeLocking: false
-likeConf:
+like:
   use: true
-messageConf:
+message:
   use: true
-modelConf:
+model:
   use: false
-flagConf:
+flag:
   use: true
-ratingConf:
+rating:
   use: true
-recommConf:
+recomm:
   use: true
   initAtStartUp: false
   initAtStartUpOps:
@@ -105,27 +104,27 @@ recommConf:
   usePrivateTagsToo: true
   recommTagAlgorithm: BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF
   recommTagsGroups:
-searchConf:
+search:
   use: true
-solrConf:
+solr:
   fileRepoType: solr
   password: null
   path: http://localhost:8084/solr/
   use: false
   user: null
-ssConf:
+ss:
   host: localhost
   localWorkPath:
   port: 7001
   use: true
   version: #version of sss with respect to github
-tagConf:
+tag:
   use: true
-ueConf:
+ue:
   use: true
-userConf:
+user:
   use: true
-videoConf:
+video:
   use: true
-vocConf:
+voc:
   use: true

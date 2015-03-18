@@ -45,7 +45,7 @@ public class SSConf extends SSCoreServConfA{
   
   public void setLocalWorkPath(final String value){
   
-    localWorkPath = value;
+    localWorkPath = SSFileU.correctDirPath (value);
     
     if(SSStrU.isEmpty(this.localWorkPath)){
       this.localWorkPath = SSFileU.dirWorkingTmp();

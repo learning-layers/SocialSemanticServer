@@ -63,7 +63,7 @@ public class SSFileReplacer extends SSServImplStartA{
     this.fileAccessProperties = fileAccessProperties;
     this.sSCon                = sSCon;
     this.par                  = new SSFileReplacePar(par);
-    this.localWorkPath        = SSCoreConf.instGet().getSsConf().getLocalWorkPath();
+    this.localWorkPath        = SSCoreConf.instGet().getSs().getLocalWorkPath();
     this.fileId               = SSServCaller.fileIDFromURI               (this.par.user, this.par.file);
     this.fileOutputStream     = SSFileU.openOrCreateFileWithPathForWrite (localWorkPath + fileId);
   }

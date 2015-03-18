@@ -75,7 +75,7 @@ public class SSTagServ extends SSServA implements SSTagServI{
    
     //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
 //    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
-    final SSTagConf  tagConf  = ((SSCoreConf)coreConfA).getTagConf();
+    final SSTagConf  tagConf  = ((SSCoreConf)coreConfA).getTag();
     
     tagConf.use                = true;
     tagConf.executeOpAtStartUp = false;

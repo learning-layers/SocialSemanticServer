@@ -50,7 +50,7 @@ public class SSAuthOIDC{
     try{
       try{
         //      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
-        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getI5CloudConf().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
+        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getI5Cloud().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
         hrq.setAuthorization("Bearer "+ authToken);
         
         //TODO: process all error cases that can happen (in particular invalid tokens)

@@ -75,7 +75,7 @@ public class SSCollServ extends SSServA implements SSCollServI{
    
     //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
     final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
-    final SSCollConf collConf = coreConf.getCollConf();
+    final SSCollConf collConf = coreConf.getColl();
     
     collConf.use                = true;
     collConf.executeOpAtStartUp = false;

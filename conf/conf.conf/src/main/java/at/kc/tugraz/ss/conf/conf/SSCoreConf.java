@@ -63,43 +63,43 @@ public class SSCoreConf extends SSCoreConfA{
   private static       SSCoreConf        inst;
 //  private static final List<SSConfA>     confs = new ArrayList<SSConfA>();
   
-  private SSConf                ssConf             = null;
-  private SSJSONLDConf          jsonLDConf         = null;
-  private SSDBGraphConf         dbGraphConf        = null;
-  private SSDBSQLConf           dbSQLConf          = null;
-  private SSModelUEConf         modelConf          = null;
-  private SSFileRepoConf        filerepoConf       = null;
-  private SSFileRepoConf        solrConf           = null;
-  private SSVocConf             vocConf            = null;
-  private SSBroadcasterConf     broadcasterConf    = null;
-  private SSRecommConf          recommConf         = null;
-  private SSEvernoteConf        evernoteConf       = null;
-  private SSI5CloudConf         i5CloudConf        = null;
-  private SSCloudConf           cloudConf          = null;
-  private SSAuthConf            authConf           = null;
-  private SSDataImportConf      dataImportConf     = null;
-  private SSDataExportConf      dataExportConf     = null;
-  private SSUserConf            userConf           = null;
-  private SSEntityConf          entityConf         = null;
-  private SSCollConf            collConf           = null;
-  private SSActivityConf        activityConf       = null;
-  private SSUEConf              ueConf             = null;
-  private SSRatingConf          ratingConf         = null;
-  private SSTagConf             tagConf            = null;
-  private SSSearchConf          searchConf         = null;
-  private SSDiscConf            discConf           = null;
-  private SSLearnEpConf         learnEpConf        = null;
-  private SSCategoryConf        categoryConf       = null;
-  private SSFlagConf            flagConf           = null;
-  private SSCommentConf         commentConf        = null;
-  private SSMessageConf         messageConf        = null;
-  private SSAppConf             appConf            = null;
-  private SSFriendConf          friendConf         = null;
-  private SSAppStackLayoutConf  appStackLayoutConf = null;
-  private SSVideoConf           videoConf          = null;
-  private SSLikeConf            likeConf           = null;
-  private SSCircleConf          circleConf         = null;
-  private SSEvalConf            evalConf           = null;
+  private SSConf                ss             = null;
+  private SSJSONLDConf          jsonLD         = null;
+  private SSDBGraphConf         dbGraph        = null;
+  private SSDBSQLConf           dbSQL          = null;
+  private SSModelUEConf         model          = null;
+  private SSFileRepoConf        filerepo       = null;
+  private SSFileRepoConf        solr           = null;
+  private SSVocConf             voc            = null;
+  private SSBroadcasterConf     broadcaster    = null;
+  private SSRecommConf          recomm         = null;
+  private SSEvernoteConf        evernote       = null;
+  private SSI5CloudConf         i5Cloud        = null;
+  private SSCloudConf           cloud          = null;
+  private SSAuthConf            auth           = null;
+  private SSDataImportConf      dataImport     = null;
+  private SSDataExportConf      dataExport     = null;
+  private SSUserConf            user           = null;
+  private SSEntityConf          entity         = null;
+  private SSCollConf            coll           = null;
+  private SSActivityConf        activity       = null;
+  private SSUEConf              ue             = null;
+  private SSRatingConf          rating         = null;
+  private SSTagConf             tag            = null;
+  private SSSearchConf          search         = null;
+  private SSDiscConf            disc           = null;
+  private SSLearnEpConf         learnEp        = null;
+  private SSCategoryConf        category       = null;
+  private SSFlagConf            flag           = null;
+  private SSCommentConf         comment        = null;
+  private SSMessageConf         message        = null;
+  private SSAppConf             app            = null;
+  private SSFriendConf          friend         = null;
+  private SSAppStackLayoutConf  appStackLayout = null;
+  private SSVideoConf           video          = null;
+  private SSLikeConf            like           = null;
+  private SSCircleConf          circle         = null;
+  private SSEvalConf            eval           = null;
 
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception{
     
@@ -109,35 +109,6 @@ public class SSCoreConf extends SSCoreConfA{
     
     inst = (SSCoreConf) SSCoreConfA.instSet(pathToFile, SSCoreConf.class);
     
-//    confs.add(inst.ssConf);
-//    confs.add(inst.jsonLDConf);
-//    confs.add(inst.dbGraphConf);
-//    confs.add(inst.dbSQLConf);
-//    confs.add(inst.modelConf);
-//    confs.add(inst.filerepoConf);
-//    confs.add(inst.solrConf);
-//    confs.add(inst.vocConf);
-//    confs.add(inst.broadcasterConf);
-//    confs.add(inst.recommConf);
-//    confs.add(inst.evernoteConf);
-//    confs.add(inst.i5CloudConf);
-//    confs.add(inst.cloudConf);
-//    confs.add(inst.authConf);
-//    confs.add(inst.dataImportConf);
-//    confs.add(inst.dataExportConf);
-//    confs.add(inst.userConf);
-//    confs.add(inst.entityConf);
-//    confs.add(inst.collConf);
-//    confs.add(inst.locationConf);
-//    confs.add(inst.activityConf);
-//    confs.add(inst.ueConf);
-//    confs.add(inst.ratingConf);
-//    confs.add(inst.tagConf);
-//    confs.add(inst.searchConf);
-//    confs.add(inst.discConf);
-//    confs.add(inst.learnEpConf);
-//    confs.add(inst.categoryConf);
-
     return inst;
   }
   
@@ -166,43 +137,43 @@ public class SSCoreConf extends SSCoreConfA{
       
       final SSCoreConf copy = new SSCoreConf();
       
-      copy.ssConf             = SSConf.copy(inst.ssConf);
-      copy.jsonLDConf         = SSJSONLDConf.copy(inst.jsonLDConf);
-      copy.dbGraphConf        = SSDBGraphConf.copy(inst.dbGraphConf);
-      copy.dbSQLConf          = SSDBSQLConf.copy(inst.dbSQLConf);
-      copy.modelConf          = SSModelUEConf.copy(inst.modelConf);
-      copy.filerepoConf       = SSFileRepoConf.copy(inst.filerepoConf);
-      copy.solrConf           = SSFileRepoConf.copy(inst.solrConf);
-      copy.vocConf            = SSVocConf.copy(inst.vocConf);
-      copy.broadcasterConf    = SSBroadcasterConf.copy(inst.broadcasterConf);
-      copy.recommConf         = SSRecommConf.copy(inst.recommConf);
-      copy.evernoteConf       = SSEvernoteConf.copy(inst.evernoteConf);
-      copy.i5CloudConf        = SSI5CloudConf.copy(inst.i5CloudConf);
-      copy.cloudConf          = SSCloudConf.copy(inst.cloudConf);
-      copy.authConf           = SSAuthConf.copy(inst.authConf);
-      copy.dataImportConf     = SSDataImportConf.copy(inst.dataImportConf);
-      copy.dataExportConf     = SSDataExportConf.copy(inst.dataExportConf);
-      copy.userConf           = SSUserConf.copy(inst.userConf);
-      copy.entityConf         = SSEntityConf.copy(inst.entityConf);
-      copy.collConf           = SSCollConf.copy(inst.collConf);
-      copy.activityConf       = SSActivityConf.copy(inst.activityConf);
-      copy.ueConf             = SSUEConf.copy(inst.ueConf);
-      copy.ratingConf         = SSRatingConf.copy(inst.ratingConf);
-      copy.tagConf            = SSTagConf.copy(inst.tagConf);
-      copy.searchConf         = SSSearchConf.copy(inst.searchConf);
-      copy.discConf           = SSDiscConf.copy(inst.discConf);
-      copy.learnEpConf        = SSLearnEpConf.copy(inst.learnEpConf);
-      copy.categoryConf       = SSCategoryConf.copy(inst.categoryConf);
-      copy.flagConf           = SSFlagConf.copy(inst.flagConf);
-      copy.commentConf        = SSCommentConf.copy(inst.commentConf);
-      copy.messageConf        = SSMessageConf.copy(inst.messageConf);
-      copy.appConf            = SSAppConf.copy(inst.appConf);
-      copy.friendConf         = SSFriendConf.copy(inst.friendConf);
-      copy.appStackLayoutConf = SSAppStackLayoutConf.copy(inst.appStackLayoutConf);
-      copy.videoConf          = SSVideoConf.copy(inst.videoConf);
-      copy.likeConf           = SSLikeConf.copy(inst.likeConf);
-      copy.circleConf         = SSCircleConf.copy(inst.circleConf);
-      copy.evalConf           = SSEvalConf.copy(inst.evalConf);
+      copy.ss             = SSConf.copy(inst.ss);
+      copy.jsonLD         = SSJSONLDConf.copy(inst.jsonLD);
+      copy.dbGraph        = SSDBGraphConf.copy(inst.dbGraph);
+      copy.dbSQL          = SSDBSQLConf.copy(inst.dbSQL);
+      copy.model          = SSModelUEConf.copy(inst.model);
+      copy.filerepo       = SSFileRepoConf.copy(inst.filerepo);
+      copy.solr           = SSFileRepoConf.copy(inst.solr);
+      copy.voc            = SSVocConf.copy(inst.voc);
+      copy.broadcaster    = SSBroadcasterConf.copy(inst.broadcaster);
+      copy.recomm         = SSRecommConf.copy(inst.recomm);
+      copy.evernote       = SSEvernoteConf.copy(inst.evernote);
+      copy.i5Cloud        = SSI5CloudConf.copy(inst.i5Cloud);
+      copy.cloud          = SSCloudConf.copy(inst.cloud);
+      copy.auth           = SSAuthConf.copy(inst.auth);
+      copy.dataImport     = SSDataImportConf.copy(inst.dataImport);
+      copy.dataExport     = SSDataExportConf.copy(inst.dataExport);
+      copy.user           = SSUserConf.copy(inst.user);
+      copy.entity         = SSEntityConf.copy(inst.entity);
+      copy.coll           = SSCollConf.copy(inst.coll);
+      copy.activity       = SSActivityConf.copy(inst.activity);
+      copy.ue             = SSUEConf.copy(inst.ue);
+      copy.rating         = SSRatingConf.copy(inst.rating);
+      copy.tag            = SSTagConf.copy(inst.tag);
+      copy.search         = SSSearchConf.copy(inst.search);
+      copy.disc           = SSDiscConf.copy(inst.disc);
+      copy.learnEp        = SSLearnEpConf.copy(inst.learnEp);
+      copy.category       = SSCategoryConf.copy(inst.category);
+      copy.flag           = SSFlagConf.copy(inst.flag);
+      copy.comment        = SSCommentConf.copy(inst.comment);
+      copy.message        = SSMessageConf.copy(inst.message);
+      copy.app            = SSAppConf.copy(inst.app);
+      copy.friend         = SSFriendConf.copy(inst.friend);
+      copy.appStackLayout = SSAppStackLayoutConf.copy(inst.appStackLayout);
+      copy.video          = SSVideoConf.copy(inst.video);
+      copy.like           = SSLikeConf.copy(inst.like);
+      copy.circle         = SSCircleConf.copy(inst.circle);
+      copy.eval           = SSEvalConf.copy(inst.eval);
       
       return copy;
     }catch(Exception error){
@@ -211,300 +182,300 @@ public class SSCoreConf extends SSCoreConfA{
     }
   }
   
-  public SSEvalConf getEvalConf() {
-    return evalConf;
+  public SSConf getSs(){
+    return ss;
   }
 
-  public void setEvalConf(SSEvalConf evalConf) {
-    this.evalConf = evalConf;
-  }
-  
-  public SSFlagConf getFlagConf() {
-    return flagConf;
+  public void setSs(SSConf ss){
+    this.ss = ss;
   }
 
-  public void setFlagConf(SSFlagConf flagConf) {
-    this.flagConf = flagConf;
-  }
-  
-  public SSCommentConf getCommentConf() {
-    return commentConf;
+  public SSJSONLDConf getJsonLD(){
+    return jsonLD;
   }
 
-  public void setCommentConf(SSCommentConf commentConf) {
-    this.commentConf = commentConf;
-  }
-  
-  public SSFriendConf getFriendConf() {
-    return friendConf;
+  public void setJsonLD(SSJSONLDConf jsonLD){
+    this.jsonLD = jsonLD;
   }
 
-  public void setFriendConf(SSFriendConf friendConf) {
-    this.friendConf = friendConf;
-  }
-  
-  public SSLikeConf getLikeConf() {
-    return likeConf;
+  public SSDBGraphConf getDbGraph(){
+    return dbGraph;
   }
 
-  public void setLikeConf(SSLikeConf likeConf) {
-    this.likeConf = likeConf;
-  }
-  
-  public SSCircleConf getCircleConf() {
-    return circleConf;
+  public void setDbGraph(SSDBGraphConf dbGraph){
+    this.dbGraph = dbGraph;
   }
 
-  public void setCircleConf(SSCircleConf circleConf) {
-    this.circleConf = circleConf;
-  }
-  
-  public SSVideoConf getVideoConf() {
-    return videoConf;
+  public SSDBSQLConf getDbSQL(){
+    return dbSQL;
   }
 
-  public void setVideoConf(SSVideoConf videoConf) {
-    this.videoConf = videoConf;
-  }
-  
-  public SSAppStackLayoutConf getAppStackLayoutConf() {
-    return appStackLayoutConf;
+  public void setDbSQL(SSDBSQLConf dbSQL){
+    this.dbSQL = dbSQL;
   }
 
-  public void setAppStackLayoutConf(SSAppStackLayoutConf appStackLayoutConf) {
-    this.appStackLayoutConf = appStackLayoutConf;
-  }
-  
-  public SSAppConf getAppConf() {
-    return appConf;
+  public SSModelUEConf getModel(){
+    return model;
   }
 
-  public void setAppConf(SSAppConf appConf) {
-    this.appConf = appConf;
-  }
-    
-  public SSMessageConf getMessageConf() {
-    return messageConf;
+  public void setModel(SSModelUEConf model){
+    this.model = model;
   }
 
-  public void setMessageConf(SSMessageConf messageConf) {
-    this.messageConf = messageConf;
-  }
-  
-  public SSFileRepoConf getFilerepoConf() {
-    return filerepoConf;
+  public SSFileRepoConf getFilerepo(){
+    return filerepo;
   }
 
-  public void setFilerepoConf(SSFileRepoConf filerepoConf) {
-    this.filerepoConf = filerepoConf;
+  public void setFilerepo(SSFileRepoConf filerepo){
+    this.filerepo = filerepo;
   }
 
-  public SSFileRepoConf getSolrConf() {
-    return solrConf;
+  public SSFileRepoConf getSolr(){
+    return solr;
   }
 
-  public void setSolrConf(SSFileRepoConf solrConf) {
-    this.solrConf = solrConf;
-  }
-  
-  public SSModelUEConf getModelConf() {
-    return modelConf;
-  }
-  
-  public void setModelConf(SSModelUEConf modelConf) {
-    this.modelConf = modelConf;
-  }
-  
-  public SSVocConf getVocConf() {
-    return vocConf;
+  public void setSolr(SSFileRepoConf solr){
+    this.solr = solr;
   }
 
-  public void setVocConf(SSVocConf vocConf) {
-    this.vocConf = vocConf;
-  }
-  
-  public void setBroadcasterConf(SSBroadcasterConf broadcasterConf){
-    this.broadcasterConf = broadcasterConf;
-  }
-  
-  public SSBroadcasterConf getBroadcasterConf(){
-    return broadcasterConf;
-  }
-  
-  public SSDBGraphConf getDbGraphConf() {
-    return dbGraphConf;
+  public SSVocConf getVoc(){
+    return voc;
   }
 
-  public void setDbGraphConf(SSDBGraphConf dbGraphConf) {
-    this.dbGraphConf = dbGraphConf;
-  }
-  
-  public SSDBSQLConf getDbSQLConf() {
-    return dbSQLConf;
+  public void setVoc(SSVocConf voc){
+    this.voc = voc;
   }
 
-  public void setDbSQLConf(SSDBSQLConf dbSQLConf) {
-    this.dbSQLConf = dbSQLConf;
-  }
-  
-  public void setRecommConf(SSRecommConf recommConf){
-    this.recommConf = recommConf;
-  }
-  
-  public SSRecommConf getRecommConf(){
-    return recommConf;
-  }
-  
-  public void setEvernoteConf(SSEvernoteConf evernoteConf){
-    this.evernoteConf = evernoteConf;
-  }
-  
-  public SSEvernoteConf getEvernoteConf(){
-    return this.evernoteConf;
-  }
-  
-  public void setI5CloudConf(final SSI5CloudConf i5CloudConf){
-    this.i5CloudConf = i5CloudConf;
-  }
-  
-  public SSI5CloudConf getI5CloudConf(){
-    return this.i5CloudConf;
-  }
-  
-  public void setCloudConf(final SSCloudConf cloudConf){
-    this.cloudConf = cloudConf;
-  }
-  
-  public SSCloudConf getCloudConf(){
-    return this.cloudConf;
-  }
-  
-  public SSAuthConf getAuthConf(){
-    return authConf;
-  }
-  
-  public void setAuthConf(SSAuthConf authConf){
-    this.authConf = authConf;
-  }
-  
-  public SSDataImportConf getDataImportConf(){
-    return dataImportConf;
-  }
-  
-  public void setDataImportConf(SSDataImportConf dataImportConf){
-    this.dataImportConf = dataImportConf;
-  }
-  
-  public SSDataExportConf getDataExportConf() {
-    return dataExportConf;
+  public SSBroadcasterConf getBroadcaster(){
+    return broadcaster;
   }
 
-  public void setDataExportConf(SSDataExportConf dataExportConf) {
-    this.dataExportConf = dataExportConf;
-  }
-  
-  public SSUserConf getUserConf(){
-    return userConf;
-  }
-  
-  public void setUserConf(SSUserConf userConf){
-    this.userConf = userConf;
-  }
-  
-  public SSEntityConf getEntityConf(){
-    return entityConf;
-  }
-  
-  public void setEntityConf(SSEntityConf entityConf){
-    this.entityConf = entityConf;
-  }
-  
-  public SSCollConf getCollConf(){
-    return collConf;
-  }
-  
-  public void setCollConf(SSCollConf collConf){
-    this.collConf = collConf;
-  }
-  
-  public SSActivityConf getActivityConf() {
-    return activityConf;
+  public void setBroadcaster(SSBroadcasterConf broadcaster){
+    this.broadcaster = broadcaster;
   }
 
-  public void setActivityConf(SSActivityConf activityConf) {
-    this.activityConf = activityConf;
-  }
-  
-  public SSUEConf getUeConf(){
-    return ueConf;
-  }
-  
-  public void setUeConf(SSUEConf ueConf){
-    this.ueConf = ueConf;
-  }
-  
-  public SSRatingConf getRatingConf(){
-    return ratingConf;
-  }
-  
-  public void setRatingConf(SSRatingConf ratingConf){
-    this.ratingConf = ratingConf;
-  }
-  
-  public SSTagConf getTagConf(){
-    return tagConf;
-  }
-  
-  public void setTagConf(SSTagConf tagConf){
-    this.tagConf = tagConf;
-  }
-  
-  public SSCategoryConf getCategoryConf(){
-    return categoryConf;
-  }
-  
-  public void setCategoryConf(SSCategoryConf categoryConf){
-    this.categoryConf = categoryConf;
-  }
-  
-  public SSSearchConf getSearchConf(){
-    return searchConf;
-  }
-  
-  public void setSearchConf(SSSearchConf searchConf){
-    this.searchConf = searchConf;
-  }
-  
-  public SSDiscConf getDiscConf(){
-    return discConf;
-  }
-  
-  public void setLearnEpConf(SSLearnEpConf learnEpConf){
-    this.learnEpConf = learnEpConf;
-  }
-  
-  public SSLearnEpConf getLearnEpConf(){
-    return learnEpConf;
-  }
-  
-  public void setDiscConf(SSDiscConf discConf){
-    this.discConf = discConf;
-  }
-  
-  public SSConf getSsConf() {
-    return ssConf;
+  public SSRecommConf getRecomm(){
+    return recomm;
   }
 
-  public void setSsConf(SSConf ssConf) {
-    this.ssConf = ssConf;
+  public void setRecomm(SSRecommConf recomm){
+    this.recomm = recomm;
   }
 
-  public SSJSONLDConf getJsonLDConf() {
-    return jsonLDConf;
+  public SSEvernoteConf getEvernote(){
+    return evernote;
   }
 
-  public void setJsonLDConf(SSJSONLDConf jsonLDConf) {
-    this.jsonLDConf = jsonLDConf;
+  public void setEvernote(SSEvernoteConf evernote){
+    this.evernote = evernote;
+  }
+
+  public SSI5CloudConf getI5Cloud(){
+    return i5Cloud;
+  }
+
+  public void setI5Cloud(SSI5CloudConf i5Cloud){
+    this.i5Cloud = i5Cloud;
+  }
+
+  public SSCloudConf getCloud(){
+    return cloud;
+  }
+
+  public void setCloud(SSCloudConf cloud){
+    this.cloud = cloud;
+  }
+
+  public SSAuthConf getAuth(){
+    return auth;
+  }
+
+  public void setAuth(SSAuthConf auth){
+    this.auth = auth;
+  }
+
+  public SSDataImportConf getDataImport(){
+    return dataImport;
+  }
+
+  public void setDataImport(SSDataImportConf dataImport){
+    this.dataImport = dataImport;
+  }
+
+  public SSDataExportConf getDataExport(){
+    return dataExport;
+  }
+
+  public void setDataExport(SSDataExportConf dataExport){
+    this.dataExport = dataExport;
+  }
+
+  public SSUserConf getUser(){
+    return user;
+  }
+
+  public void setUser(SSUserConf user){
+    this.user = user;
+  }
+
+  public SSEntityConf getEntity(){
+    return entity;
+  }
+
+  public void setEntity(SSEntityConf entity){
+    this.entity = entity;
+  }
+
+  public SSCollConf getColl(){
+    return coll;
+  }
+
+  public void setColl(SSCollConf coll){
+    this.coll = coll;
+  }
+
+  public SSActivityConf getActivity(){
+    return activity;
+  }
+
+  public void setActivity(SSActivityConf activity){
+    this.activity = activity;
+  }
+
+  public SSUEConf getUe(){
+    return ue;
+  }
+
+  public void setUe(SSUEConf ue){
+    this.ue = ue;
+  }
+
+  public SSRatingConf getRating(){
+    return rating;
+  }
+
+  public void setRating(SSRatingConf rating){
+    this.rating = rating;
+  }
+
+  public SSTagConf getTag(){
+    return tag;
+  }
+
+  public void setTag(SSTagConf tag){
+    this.tag = tag;
+  }
+
+  public SSSearchConf getSearch(){
+    return search;
+  }
+
+  public void setSearch(SSSearchConf search){
+    this.search = search;
+  }
+
+  public SSDiscConf getDisc(){
+    return disc;
+  }
+
+  public void setDisc(SSDiscConf disc){
+    this.disc = disc;
+  }
+
+  public SSLearnEpConf getLearnEp(){
+    return learnEp;
+  }
+
+  public void setLearnEp(SSLearnEpConf learnEp){
+    this.learnEp = learnEp;
+  }
+
+  public SSCategoryConf getCategory(){
+    return category;
+  }
+
+  public void setCategory(SSCategoryConf category){
+    this.category = category;
+  }
+
+  public SSFlagConf getFlag(){
+    return flag;
+  }
+
+  public void setFlag(SSFlagConf flag){
+    this.flag = flag;
+  }
+
+  public SSCommentConf getComment(){
+    return comment;
+  }
+
+  public void setComment(SSCommentConf comment){
+    this.comment = comment;
+  }
+
+  public SSMessageConf getMessage(){
+    return message;
+  }
+
+  public void setMessage(SSMessageConf message){
+    this.message = message;
+  }
+
+  public SSAppConf getApp(){
+    return app;
+  }
+
+  public void setApp(SSAppConf app){
+    this.app = app;
+  }
+
+  public SSFriendConf getFriend(){
+    return friend;
+  }
+
+  public void setFriend(SSFriendConf friend){
+    this.friend = friend;
+  }
+
+  public SSAppStackLayoutConf getAppStackLayout(){
+    return appStackLayout;
+  }
+
+  public void setAppStackLayout(SSAppStackLayoutConf appStackLayout){
+    this.appStackLayout = appStackLayout;
+  }
+
+  public SSVideoConf getVideo(){
+    return video;
+  }
+
+  public void setVideo(SSVideoConf video){
+    this.video = video;
+  }
+
+  public SSLikeConf getLike(){
+    return like;
+  }
+
+  public void setLike(SSLikeConf like){
+    this.like = like;
+  }
+
+  public SSCircleConf getCircle(){
+    return circle;
+  }
+
+  public void setCircle(SSCircleConf circle){
+    this.circle = circle;
+  }
+
+  public SSEvalConf getEval(){
+    return eval;
+  }
+
+  public void setEval(SSEvalConf eval){
+    this.eval = eval;
   }
 }
 

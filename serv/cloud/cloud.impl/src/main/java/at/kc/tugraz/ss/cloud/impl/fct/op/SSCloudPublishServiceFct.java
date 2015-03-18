@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSSystemU;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSConf;
@@ -49,8 +48,7 @@ import org.apache.commons.io.FileUtils;
 public class SSCloudPublishServiceFct{
 
   public static String getLocalWorkTmpDirPath() throws Exception{
-    return SSFileU.correctDirPath (SSCoreConf.instGet().getSsConf().getLocalWorkPath()) +
-      SSFileU.correctDirPath (SSIDU.uniqueID());
+    return SSCoreConf.instGet().getSs().getLocalWorkPath() + SSFileU.correctDirPath (SSIDU.uniqueID());
   }
   
   public static void publishServiceFromWindowsToWindowsLocally(
@@ -325,9 +323,9 @@ public class SSCloudPublishServiceFct{
     
     try{
       final SSCoreConfA              confForServ        = servToStart.getConfForCloudDeployment(SSCoreConf.copy(), new ArrayList<Class>());
-      final SSCloudConf              cloudConf          = ((SSCoreConf)confForServ).getCloudConf();
-      final SSConf                   ssConf             = ((SSCoreConf)confForServ).getSsConf();
-      final SSAuthConf               authConf           = ((SSCoreConf)confForServ).getAuthConf();
+      final SSCloudConf              cloudConf          = ((SSCoreConf)confForServ).getCloud();
+      final SSConf                   ssConf             = ((SSCoreConf)confForServ).getSs();
+      final SSAuthConf               authConf           = ((SSCoreConf)confForServ).getAuth();
 //      final SSDBSQLConf              sqlConf            = ((SSCoreConf)confForServ).getDbSQLConf();
       
       cloudConf.use          = false;

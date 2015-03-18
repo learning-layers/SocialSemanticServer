@@ -24,9 +24,13 @@ public class SSAdapterRestConf extends SSCoreConfA{
   
   private static SSAdapterRestConf inst;
   
-  public SSConf       ssConf      = null;
-  public SSJSONLDConf jsonLDConf  = null;
-  
+  public SSConf       ss      = null;
+  public SSJSONLDConf jsonLD  = null;
+
+  public SSConf getSs(){
+    return ss;
+  }
+
   public static synchronized SSAdapterRestConf instSet(final String pathToFile) throws Exception{
     
     if(inst != null){
@@ -48,19 +52,15 @@ public class SSAdapterRestConf extends SSCoreConfA{
     return inst;
   }
   
-  public SSJSONLDConf getJsonLDConf() {
-    return jsonLDConf;
+  public void setSs(SSConf ss){
+    this.ss = ss;
   }
   
-  public void setJsonLDConf(SSJSONLDConf jsonLDConf) {
-    this.jsonLDConf = jsonLDConf;
+  public SSJSONLDConf getJsonLD(){
+    return jsonLD;
   }
   
-  public SSConf getSsConf() {
-    return ssConf;
-  }
-  
-  public void setSsConf(SSConf ssConf) {
-    this.ssConf = ssConf;
+  public void setJsonLD(SSJSONLDConf jsonLD){
+    this.jsonLD = jsonLD;
   }
 }

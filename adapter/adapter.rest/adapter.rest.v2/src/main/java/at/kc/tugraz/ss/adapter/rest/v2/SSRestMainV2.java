@@ -68,7 +68,7 @@ public class SSRestMainV2 extends Application {
     /* util */
     SSMimeTypeU.init();
     SSJSONLDU.init(
-      SSAdapterRestConf.instGet().getJsonLDConf().uri);
+      SSAdapterRestConf.instGet().getJsonLD().uri);
     
     /* json-ld */
 //    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
@@ -114,10 +114,10 @@ public class SSRestMainV2 extends Application {
     try{
       
       try{
-        sSCon = new SSSocketCon(conf.ssConf.host, conf.ssConf.port, jsonRequ);
+        sSCon = new SSSocketCon(conf.ss.host, conf.ss.port, jsonRequ);
       }catch(Exception error){
         
-        SSLogU.info("couldnt connect to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
+        SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
         throw error;
       }
       
@@ -125,7 +125,7 @@ public class SSRestMainV2 extends Application {
         sSCon.writeRequFullToSS ();
       }catch(Exception error){
         
-        SSLogU.info("couldnt write to " + conf.ssConf.host + " " + conf.ssConf.port.toString());
+        SSLogU.info("couldnt write to " + conf.ss.host + " " + conf.ss.port.toString());
         throw error;
       }
       
@@ -133,7 +133,7 @@ public class SSRestMainV2 extends Application {
         readMsgFullFromSS = sSCon.readMsgFullFromSS ();
       }catch(Exception error){
         
-        SSLogU.info("couldnt read from " + conf.ssConf.host + " " + conf.ssConf.port.toString());
+        SSLogU.info("couldnt read from " + conf.ss.host + " " + conf.ss.port.toString());
         throw error;
       }
       

@@ -45,7 +45,7 @@ public class SSDataImportEvernoteTask extends TimerTask {
     
     try{
       
-      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernoteConf();
+      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
       
       if(evernoteConf.authTokens == null){
         return;

@@ -83,7 +83,7 @@ public class SSAdapterRESTFileUpload{
       par.mimeType = mimeType;
       par.label    = SSLabel.get(label);
       
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ssConf.host, SSRestMainV1.conf.ssConf.port, SSJSONU.jsonStr(par));
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, SSJSONU.jsonStr(par));
       
       sSCon.writeRequFullToSS  ();
       sSCon.readMsgFullFromSS  ();

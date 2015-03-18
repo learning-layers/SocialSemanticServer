@@ -50,7 +50,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     
     SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSVocConf.dirNameConf + SSVocConf.fileNameSSAdapterWebSocketConf);
     
-    sSConf =  SSCoreConf.instGet().getSsConf();
+    sSConf =  SSCoreConf.instGet().getSs();
   }
   
 	@Override

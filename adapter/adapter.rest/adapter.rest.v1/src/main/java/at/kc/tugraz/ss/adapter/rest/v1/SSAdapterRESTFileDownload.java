@@ -58,7 +58,7 @@ public class SSAdapterRESTFileDownload{
     SSSocketCon      sSCon;
     
     try{
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ssConf.host, SSRestMainV1.conf.ssConf.port, SSJSONU.jsonStr(input));
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, SSJSONU.jsonStr(input));
       
       sSCon.writeRequFullToSS   ();
       sSCon.readMsgFullFromSS   ();
@@ -114,7 +114,7 @@ public class SSAdapterRESTFileDownload{
     SSSocketCon      sSCon;
     
     try{
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ssConf.host, SSRestMainV1.conf.ssConf.port, input);
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, input);
       
       sSCon.writeRequFullToSS   ();
       sSCon.readMsgFullFromSS   ();

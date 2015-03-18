@@ -78,11 +78,11 @@ public class SSSInitializer extends SSServImplStartA{
       
       try{
         //registering
-        SSVoc.inst.regServ               (SSCoreConf.instGet().getVocConf());
+        SSVoc.inst.regServ               (SSCoreConf.instGet().getVoc());
         
         SSMimeTypeU.init   ();
         SSJSONLDU.init(
-          SSCoreConf.instGet().getJsonLDConf().uri);
+          SSCoreConf.instGet().getJsonLD().uri);
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -91,17 +91,17 @@ public class SSSInitializer extends SSServImplStartA{
       
       try{
         
-        SSDBGraph.inst.regServ             (SSCoreConf.instGet().getDbGraphConf());
-        SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQLConf());
+        SSDBGraph.inst.regServ             (SSCoreConf.instGet().getDbGraph());
+        SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQL());
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;
       }
       
       try{
-        SSEntityServ.inst.regServ          (SSCoreConf.instGet().getEntityConf());
-        SSCircleServ.inst.regServ          (SSCoreConf.instGet().getCircleConf());
-        SSUserServ.inst.regServ            (SSCoreConf.instGet().getUserConf());
+        SSEntityServ.inst.regServ          (SSCoreConf.instGet().getEntity());
+        SSCircleServ.inst.regServ          (SSCoreConf.instGet().getCircle());
+        SSUserServ.inst.regServ            (SSCoreConf.instGet().getUser());
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -109,48 +109,48 @@ public class SSSInitializer extends SSServImplStartA{
       }
       
       try{
-        SSCollServ.inst.regServ            (SSCoreConf.instGet().getCollConf());
-        SSUEServ.inst.regServ              (SSCoreConf.instGet().getUeConf());
-        SSTagServ.inst.regServ             (SSCoreConf.instGet().getTagConf());
+        SSCollServ.inst.regServ            (SSCoreConf.instGet().getColl());
+        SSUEServ.inst.regServ              (SSCoreConf.instGet().getUe());
+        SSTagServ.inst.regServ             (SSCoreConf.instGet().getTag());
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;
       }
       
       try{
-        SSAuthServ.inst.regServ            (SSCoreConf.instGet().getAuthConf());
+        SSAuthServ.inst.regServ            (SSCoreConf.instGet().getAuth());
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;
       }
       
       try{
-        SSEvernoteServ.inst.regServ        (SSCoreConf.instGet().getEvernoteConf());
-        SSFilerepoServ.inst.regServ        (SSCoreConf.instGet().getFilerepoConf());
-        SSDataImportServ.inst.regServ      (SSCoreConf.instGet().getDataImportConf());
-        SSJSONLD.inst.regServ              (SSCoreConf.instGet().getJsonLDConf());
-        SSRatingServ.inst.regServ          (SSCoreConf.instGet().getRatingConf());
-        SSCategoryServ.inst.regServ        (SSCoreConf.instGet().getCategoryConf());
-        SSDiscServ.inst.regServ            (SSCoreConf.instGet().getDiscConf());
-        SSLearnEpServ.inst.regServ         (SSCoreConf.instGet().getLearnEpConf());
-        SSActivityServ.inst.regServ        (SSCoreConf.instGet().getActivityConf());
-        SSSearchServ.inst.regServ          (SSCoreConf.instGet().getSearchConf());
-        SSDataExportServ.inst.regServ      (SSCoreConf.instGet().getDataExportConf());
-        SSSolrServ.inst.regServ            (SSCoreConf.instGet().getSolrConf());
-        SSModelUEServ.inst.regServ         (SSCoreConf.instGet().getModelConf());
-        SSBroadcasterServ.inst.regServ     (SSCoreConf.instGet().getBroadcasterConf());
-        SSRecommServ.inst.regServ          (SSCoreConf.instGet().getRecommConf());
-        SSI5CloudServ.inst.regServ         (SSCoreConf.instGet().getI5CloudConf());
-        SSCloudServ.inst.regServ           (SSCoreConf.instGet().getCloudConf());
-        SSFlagServ.inst.regServ            (SSCoreConf.instGet().getFlagConf());
-        SSCommentServ.inst.regServ         (SSCoreConf.instGet().getCommentConf());
-        SSMessageServ.inst.regServ         (SSCoreConf.instGet().getMessageConf());
-        SSAppServ.inst.regServ             (SSCoreConf.instGet().getAppConf());
-        SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriendConf());
-        SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayoutConf());
-        SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideoConf());
-        SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLikeConf());
-        SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEvalConf());
+        SSEvernoteServ.inst.regServ        (SSCoreConf.instGet().getEvernote());
+        SSFilerepoServ.inst.regServ        (SSCoreConf.instGet().getFilerepo());
+        SSDataImportServ.inst.regServ      (SSCoreConf.instGet().getDataImport());
+        SSJSONLD.inst.regServ              (SSCoreConf.instGet().getJsonLD());
+        SSRatingServ.inst.regServ          (SSCoreConf.instGet().getRating());
+        SSCategoryServ.inst.regServ        (SSCoreConf.instGet().getCategory());
+        SSDiscServ.inst.regServ            (SSCoreConf.instGet().getDisc());
+        SSLearnEpServ.inst.regServ         (SSCoreConf.instGet().getLearnEp());
+        SSActivityServ.inst.regServ        (SSCoreConf.instGet().getActivity());
+        SSSearchServ.inst.regServ          (SSCoreConf.instGet().getSearch());
+        SSDataExportServ.inst.regServ      (SSCoreConf.instGet().getDataExport());
+        SSSolrServ.inst.regServ            (SSCoreConf.instGet().getSolr());
+        SSModelUEServ.inst.regServ         (SSCoreConf.instGet().getModel());
+        SSBroadcasterServ.inst.regServ     (SSCoreConf.instGet().getBroadcaster());
+        SSRecommServ.inst.regServ          (SSCoreConf.instGet().getRecomm());
+        SSI5CloudServ.inst.regServ         (SSCoreConf.instGet().getI5Cloud());
+        SSCloudServ.inst.regServ           (SSCoreConf.instGet().getCloud());
+        SSFlagServ.inst.regServ            (SSCoreConf.instGet().getFlag());
+        SSCommentServ.inst.regServ         (SSCoreConf.instGet().getComment());
+        SSMessageServ.inst.regServ         (SSCoreConf.instGet().getMessage());
+        SSAppServ.inst.regServ             (SSCoreConf.instGet().getApp());
+        SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriend());
+        SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayout());
+        SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideo());
+        SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLike());
+        SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

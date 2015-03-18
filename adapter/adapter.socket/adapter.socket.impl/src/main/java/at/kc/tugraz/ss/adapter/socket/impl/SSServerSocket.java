@@ -37,7 +37,7 @@ public class SSServerSocket implements Runnable{
   private boolean                 run        = true;
   
   public SSServerSocket() throws Exception {
-    this.port = SSCoreConf.instGet().getSsConf().port;
+    this.port = SSCoreConf.instGet().getSs().port;
   }
   
   @Override
@@ -86,14 +86,14 @@ public class SSServerSocket implements Runnable{
         switch(par.op){
           
           case systemVersionGet:
-            sScon.writeRetFullToClient(new SSSystemVersionGetRet(SSCoreConf.instGet().getSsConf().version, par.op));
+            sScon.writeRetFullToClient(new SSSystemVersionGetRet(SSCoreConf.instGet().getSs().version, par.op));
             return;
         }
         
         SSServA.callServViaClient(
           sScon, 
           par, 
-          SSCoreConf.instGet().getCloudConf().use);
+          SSCoreConf.instGet().getCloud().use);
         
       }catch(Exception error1){
         
