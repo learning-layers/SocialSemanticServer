@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -81,9 +80,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   private final SSCollSQLFct sqlFct;
 
-  public SSCollImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSCollImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
 
     this.sqlFct = new SSCollSQLFct(dbSQL);
   }

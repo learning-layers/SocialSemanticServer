@@ -22,9 +22,7 @@ package at.kc.tugraz.ss.service.tag.service;
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -49,7 +47,7 @@ public class SSTagServ extends SSServA implements SSTagServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSTagImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSTagImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override

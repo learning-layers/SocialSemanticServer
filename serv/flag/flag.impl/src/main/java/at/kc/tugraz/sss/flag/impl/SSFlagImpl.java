@@ -53,7 +53,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   
   public SSFlagImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
 
     this.sqlFct = new SSFlagSQLFct(dbSQL);
   }

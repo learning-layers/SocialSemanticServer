@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.serv.db.serv;
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.impl.SSDBGraphVirtuosoImpl;
-import at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;

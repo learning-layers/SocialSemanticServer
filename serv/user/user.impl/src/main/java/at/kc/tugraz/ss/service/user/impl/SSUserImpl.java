@@ -24,7 +24,6 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -56,9 +55,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
   
-  public SSUserImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSUserImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
 //    graphFct = new SSUserGraphFct (this);
     sqlFct   = new SSUserSQLFct   (this);

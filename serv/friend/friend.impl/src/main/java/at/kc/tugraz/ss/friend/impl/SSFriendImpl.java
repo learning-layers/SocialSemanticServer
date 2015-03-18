@@ -45,7 +45,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   private final SSFriendSQLFct sqlFct;
 
   public SSFriendImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSFriendSQLFct(dbSQL);
   }

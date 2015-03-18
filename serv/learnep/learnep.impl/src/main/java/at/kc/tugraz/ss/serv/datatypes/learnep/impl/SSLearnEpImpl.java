@@ -25,7 +25,6 @@ import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -99,13 +98,12 @@ import sss.serv.err.datatypes.SSErrE;
 
 public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI, SSLearnEpServerI, SSEntityHandlerImplI, SSUsersResourcesGathererI{
 
-//  private final SSLearnEpGraphFct       graphFct;
   private final SSLearnEpSQLFct sqlFct;
   private final SSLearnEpConf   learnEpConf;
 
-  public SSLearnEpImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSLearnEpImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
 
 //    graphFct  = new SSLearnEpGraphFct (this);
     sqlFct        = new SSLearnEpSQLFct(this);

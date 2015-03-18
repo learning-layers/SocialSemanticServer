@@ -23,7 +23,6 @@
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -66,15 +65,13 @@ implements
   SSEntityDescriberI, 
   SSUsersResourcesGathererI{
   
-//  private final SSUEGraphFct graphFct;
   private final SSUESQLFct   sqlFct;
   private final SSUEMiscFct  fct;
   
-  public SSUEImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSUEImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
-//    graphFct = new SSUEGraphFct(this);
     this.sqlFct   = new SSUESQLFct  (this);
     this.fct      = new SSUEMiscFct ();
   }

@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
 import at.kc.tugraz.ss.message.serv.SSMessageServ;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -91,7 +90,6 @@ public class SSSInitializer extends SSServImplStartA{
       
       try{
         
-        SSDBGraph.inst.regServ             (SSCoreConf.instGet().getDbGraph());
         SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQL());
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -160,7 +158,6 @@ public class SSSInitializer extends SSServImplStartA{
       try{
         //initializing
         SSVoc.inst.initServ();
-        SSDBGraph.inst.initServ();
         SSDBSQL.inst.initServ();
         SSEntityServ.inst.initServ();
         SSCircleServ.inst.initServ();

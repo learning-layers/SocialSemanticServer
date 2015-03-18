@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -74,9 +73,9 @@ implements
 
   private final SSDiscSQLFct sqlFct;
 
-  public SSDiscImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception {
+  public SSDiscImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception {
 
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
 
     sqlFct = new SSDiscSQLFct(this);
   }

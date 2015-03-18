@@ -67,7 +67,6 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.err.datatypes.SSErrE;
@@ -78,7 +77,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   
   public SSEvernoteImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSEvernoteSQLFct(dbSQL);
   }

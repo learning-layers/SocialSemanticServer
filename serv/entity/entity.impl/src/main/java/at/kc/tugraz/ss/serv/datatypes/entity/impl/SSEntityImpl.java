@@ -97,7 +97,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   
   public SSEntityImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     sqlFct = new SSEntitySQLFct   (this);
   }

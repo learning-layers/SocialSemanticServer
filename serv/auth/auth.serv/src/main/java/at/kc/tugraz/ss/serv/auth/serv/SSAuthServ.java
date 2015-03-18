@@ -26,9 +26,7 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -52,7 +50,7 @@ public class SSAuthServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAuthImpl((SSAuthConf)servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSAuthImpl((SSAuthConf)servConf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override

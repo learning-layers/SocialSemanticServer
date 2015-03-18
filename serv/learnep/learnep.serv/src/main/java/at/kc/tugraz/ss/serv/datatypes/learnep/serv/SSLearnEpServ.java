@@ -23,9 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
@@ -51,7 +49,7 @@ public class SSLearnEpServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSLearnEpImpl(servConf, (SSDBGraphI)SSDBGraph.inst.serv(), (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSLearnEpImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
 
   @Override

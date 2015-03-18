@@ -76,7 +76,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   private final SSCircleSQLFct sqlFct;
 
   public SSCircleImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSCircleSQLFct(dbSQL);
   }

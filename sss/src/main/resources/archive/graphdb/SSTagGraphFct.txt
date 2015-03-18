@@ -251,7 +251,7 @@ public class SSTagGraphFct extends SSDBGraphFct{
 
 //  public String[] getWeightedTags(String user, String page)  {
 //    Random rand = new Random();
-//    // Falsche �bergabe
+//    // Falsche ?bergabe
 //    String[] tags = this.getResourceTags(user, page, 3, false);
 //    for (int i = 0; i < tags.length; i++) {
 //      tags[i] = tags[i] + " | " + rand.nextInt(10);

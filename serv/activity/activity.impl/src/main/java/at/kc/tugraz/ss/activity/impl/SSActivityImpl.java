@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -62,9 +61,9 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   
   private final SSActivitySQLFct sqlFct;
   
-  public SSActivityImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSActivityImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSActivitySQLFct(dbSQL);
   }

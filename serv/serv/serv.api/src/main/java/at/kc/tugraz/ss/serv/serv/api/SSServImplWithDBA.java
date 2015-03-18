@@ -20,20 +20,17 @@
 */
 package at.kc.tugraz.ss.serv.serv.api;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 
 public abstract class SSServImplWithDBA extends SSServImplA{
   
   public final SSDBSQLI   dbSQL;
-  public final SSDBGraphI dbGraph;
 
-  public SSServImplWithDBA(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL){
+  public SSServImplWithDBA(final SSConfA conf, final SSDBSQLI dbSQL){
     
     super(conf);
     
     this.dbSQL   = dbSQL;
-    this.dbGraph = dbGraph;
   }
   
   @Override

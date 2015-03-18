@@ -53,7 +53,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
 
   public SSEvalImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
 
     sqlFct     = new SSEvalSQLFct(this);
     evalConf   = (SSEvalConf) conf;

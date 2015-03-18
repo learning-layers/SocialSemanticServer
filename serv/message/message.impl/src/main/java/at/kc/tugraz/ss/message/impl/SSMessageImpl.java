@@ -48,7 +48,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   private final SSMessageSQLFct sqlFct;
 
   public SSMessageImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSMessageSQLFct(dbSQL);
   }

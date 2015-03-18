@@ -25,9 +25,7 @@ import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.category.impl.SSCategoryImpl;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -49,7 +47,7 @@ public class SSCategoryServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCategoryImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCategoryImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override

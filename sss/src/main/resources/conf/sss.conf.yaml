@@ -35,8 +35,6 @@ dataImport:
   scheduleOps:
   scheduleIntervals:
   fileName:
-dbGraph: !!at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf
-  use: false
 dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
   host: localhost
   password: root

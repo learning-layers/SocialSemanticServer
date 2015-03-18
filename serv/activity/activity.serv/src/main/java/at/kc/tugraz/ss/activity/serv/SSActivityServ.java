@@ -24,9 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.impl.SSActivityImpl;
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
@@ -46,7 +44,7 @@ public class SSActivityServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSActivityImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSActivityImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override 

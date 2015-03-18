@@ -46,7 +46,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   private final SSLikeSQLFct sqlFct;
 
   public SSLikeImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSLikeSQLFct(dbSQL);
   }

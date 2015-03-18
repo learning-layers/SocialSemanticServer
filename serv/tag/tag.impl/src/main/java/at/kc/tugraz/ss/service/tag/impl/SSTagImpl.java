@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
@@ -74,9 +73,9 @@ implements
   
   private final SSTagSQLFct sqlFct;
   
-  public SSTagImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSTagImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
     sqlFct = new SSTagSQLFct (this);
   }

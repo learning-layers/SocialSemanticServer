@@ -55,7 +55,6 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -82,9 +81,9 @@ implements
   
   private final SSCategorySQLFct   sqlFct;
   
-  public SSCategoryImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
+  public SSCategoryImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
     sqlFct = new SSCategorySQLFct   (this);
   }

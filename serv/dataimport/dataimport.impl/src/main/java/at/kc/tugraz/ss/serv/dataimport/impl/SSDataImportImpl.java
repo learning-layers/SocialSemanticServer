@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
@@ -46,7 +45,6 @@ import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -70,8 +68,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   private final SSDataImportEvernoteHandler dataImpEvernoteHelper;
   
   
-  public SSDataImportImpl(final SSConfA conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbGraph, dbSQL);
+  public SSDataImportImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+    super(conf, dbSQL);
     
     this.sqlFct                = new SSDataImportSQLFct         (dbSQL);
     this.dataImpEvernoteHelper = new SSDataImportEvernoteHandler (dbSQL); 

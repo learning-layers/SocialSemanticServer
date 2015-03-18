@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.conf.conf;
 
 import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.db.conf.SSDBGraphConf;
 import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
@@ -65,7 +64,6 @@ public class SSCoreConf extends SSCoreConfA{
   
   private SSConf                ss             = null;
   private SSJSONLDConf          jsonLD         = null;
-  private SSDBGraphConf         dbGraph        = null;
   private SSDBSQLConf           dbSQL          = null;
   private SSModelUEConf         model          = null;
   private SSFileRepoConf        filerepo       = null;
@@ -139,7 +137,6 @@ public class SSCoreConf extends SSCoreConfA{
       
       copy.ss             = SSConf.copy(inst.ss);
       copy.jsonLD         = SSJSONLDConf.copy(inst.jsonLD);
-      copy.dbGraph        = SSDBGraphConf.copy(inst.dbGraph);
       copy.dbSQL          = SSDBSQLConf.copy(inst.dbSQL);
       copy.model          = SSModelUEConf.copy(inst.model);
       copy.filerepo       = SSFileRepoConf.copy(inst.filerepo);
@@ -196,14 +193,6 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setJsonLD(SSJSONLDConf jsonLD){
     this.jsonLD = jsonLD;
-  }
-
-  public SSDBGraphConf getDbGraph(){
-    return dbGraph;
-  }
-
-  public void setDbGraph(SSDBGraphConf dbGraph){
-    this.dbGraph = dbGraph;
   }
 
   public SSDBSQLConf getDbSQL(){

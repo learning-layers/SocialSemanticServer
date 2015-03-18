@@ -65,7 +65,7 @@ implements
   
   public SSVideoImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
 
     this.sqlFct = new SSVideoSQLFct(dbSQL);
   }

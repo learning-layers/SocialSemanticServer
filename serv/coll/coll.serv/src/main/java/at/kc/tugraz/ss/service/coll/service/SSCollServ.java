@@ -22,9 +22,7 @@
 
 import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBGraph;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -50,7 +48,7 @@ public class SSCollServ extends SSServA implements SSCollServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCollImpl(servConf, (SSDBGraphI) SSDBGraph.inst.serv(), (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCollImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override

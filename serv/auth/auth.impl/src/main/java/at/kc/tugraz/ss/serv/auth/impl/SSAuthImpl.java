@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
 import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
@@ -56,9 +55,9 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   private final SSAuthSQLFct    sqlFct;
   private final List<String>    csvFileAuthKeys = new ArrayList<>();
   
-  public SSAuthImpl(final SSAuthConf conf, final SSDBGraphI dbGraph, final SSDBSQLI dbSQL) throws Exception {
+  public SSAuthImpl(final SSAuthConf conf, final SSDBSQLI dbSQL) throws Exception {
     
-    super(conf, dbGraph, dbSQL);
+    super(conf, dbSQL);
     
     this.sqlFct = new SSAuthSQLFct(dbSQL);
     

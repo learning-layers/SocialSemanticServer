@@ -14,7 +14,6 @@
   <modules>
     <module>db.serv</module>
     <module>db.conf</module>
-    <module>db.datatypes</module>
     <module>db.api</module>
     <module>db.impl</module>
   </modules>

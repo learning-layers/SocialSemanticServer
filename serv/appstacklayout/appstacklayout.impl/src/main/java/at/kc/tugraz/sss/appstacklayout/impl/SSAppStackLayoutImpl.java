@@ -56,7 +56,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   
   public SSAppStackLayoutImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
 
-    super(conf, null, dbSQL);
+    super(conf, dbSQL);
 
     this.sqlFct = new SSAppStackLayoutSQLFct(dbSQL);
   }
