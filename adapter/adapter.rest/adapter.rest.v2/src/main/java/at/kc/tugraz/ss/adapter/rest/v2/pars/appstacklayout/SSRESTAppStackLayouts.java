@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.appstacklayout;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.appstacklayout.SSAppStackLayoutCreateRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.appstacklayout.SSAppStackLayoutUpdateRESTAPIV2Par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;

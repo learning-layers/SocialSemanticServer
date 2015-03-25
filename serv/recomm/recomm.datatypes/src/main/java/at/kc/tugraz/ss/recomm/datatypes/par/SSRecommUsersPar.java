@@ -20,56 +20,43 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "recommUsers request parameter")
 public class SSRecommUsersPar extends SSServPar{
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to be considered to retrieve recommendations for")
+
   public SSUri         forUser    = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "additional information to be taken into account")
   public List<String>  categories = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "number of users to be returned")
   public Integer       maxUsers    = 10;
     
-  public SSRecommUsersPar(){}
+  public SSRecommUsersPar(
+    final SSMethU      op,
+    final String       key,
+    final SSUri        user,
+    final SSUri        forUser,
+    final SSUri        entity, 
+    final List<String> categories, 
+    final Integer      maxUsers){
+  
+    super(op, key, user);
+    
+    this.forUser = forUser;
+    this.entity  = entity;
+    
+    if(categories != null){
+      this.categories.addAll(categories);
+    }
+    
+    this.maxUsers = maxUsers;
+  }
     
   public SSRecommUsersPar(final SSServPar par) throws Exception{
     
