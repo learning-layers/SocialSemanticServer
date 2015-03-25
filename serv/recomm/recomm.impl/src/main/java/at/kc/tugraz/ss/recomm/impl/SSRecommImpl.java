@@ -31,9 +31,9 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesUpdatePar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsUpdatePar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommFct;
@@ -43,22 +43,71 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import engine.Algorithm;
-import engine.CFResourceRecommenderEngine;
 import engine.EngineInterface;
-import engine.TagRecommenderEvalEngine;
+import engine.EntityRecommenderEngine;
+import engine.EntityType;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
-  private static final EngineInterface               tagRec       = new TagRecommenderEvalEngine();
-  private static final CFResourceRecommenderEngine   resourceRec  = new CFResourceRecommenderEngine();
+  private static final EngineInterface               regEngine       = new EntityRecommenderEngine();
   private        final SSRecommConf                  recommConf;
   
   public SSRecommImpl(final SSConfA conf) throws Exception{
     super(conf);
     
     recommConf = ((SSRecommConf)conf);
+  }
+  
+  @Override
+  public void recommUsers(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op));
+  }
+  
+  @Override
+  public Map<SSEntity, Double> recommUsers(final SSServPar parA) throws Exception{
+    
+    try{
+      final SSRecommUsersPar       par           = new SSRecommUsersPar(parA);
+      final Map<SSEntity, Double>  users         = new HashMap<>();
+      Integer                      userCounter   = 0;
+      
+      SSRecommFct.checkPar(par.user, par.forUser);
+      
+      //Users for resource (Tags): getEntitiesWithLikelihood(null,    entity, null, 10, false, null /* LD: Algorithm.USERTAGCB */, EntityType.USER); // CBtags
+      //Users for user:            getEntitiesWithLikelihood(forUser, null,   null, 10, false, null,                               EntityType.USER); // CF
+      //Users MostPopular:         getEntitiesWithLikelihood(null,    null,   null, 10, false, null,                               EntityType.USER); // MP
+      
+      final Map<String, Double> usersWithLikelihood =
+        regEngine.getEntitiesWithLikelihood(
+          SSStrU.toStr(par.forUser),
+          SSStrU.toStr(par.entity),
+          par.categories,
+          100,
+          null, //filterOwn
+          recommConf.recommUserAlgorithm, //algo
+          EntityType.USER);  //entity type to recommend
+
+      for(Map.Entry<String, Double> userWithLikelihood : usersWithLikelihood.entrySet()){
+        
+        users.put(
+          SSRecommFct.handleAccess(par.user, SSUri.get(userWithLikelihood.getKey())),
+          userWithLikelihood.getValue());
+        
+        if((++userCounter) >= par.maxUsers){
+          break;
+        }
+      }
+      
+      return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -103,13 +152,18 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
         }
       }
       
-      return tagRec.getEntitiesWithLikelihood(
+      //Tags for user and resource: getEntitiesWithLikelihood(forUser,  entity,  null, 10, false, null, EntityType.TAG);  // BLLac+MPr
+      //Tags for user:              getEntitiesWithLikelihood(forUser,  null,    null, 10, false, null, EntityType.TAG);  // BLL
+      //Tags for resource:          getEntitiesWithLikelihood(null,     entity,  null, 10, false, null, EntityType.TAG);  // MPr
+      //Tags MostPopular:           getEntitiesWithLikelihood(null,     null,    null, 10, false, null, EntityType.TAG);  // MP
+      return regEngine.getEntitiesWithLikelihood(
         SSStrU.toStr(par.forUser), 
         SSStrU.toStr(par.entity),
         par.categories,
         par.maxTags,
         !par.includeOwn, //filterOwn
-        algo); /* BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF */
+        algo,
+        EntityType.TAG);  //entity type to recommend
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -134,22 +188,28 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       Integer                      entityCounter = 0;
       SSEntity                     entity;
       
-      SSRecommResourcesFct.checkPar(par);
+      SSRecommFct.checkPar(par.user, par.forUser);
+      
+      //Resources for user (Tags): getEntitiesWithLikelihood(forUser, null,   null, 10, false, Algorithm.RESOURCETAGCB /* LD */,   EntityType.RESOURCE); // CBtags
+      //Resources for user (CF):   getEntitiesWithLikelihood(forUser, null,   null, 10, false, null /* or Algorithm.RESOURCECF */, EntityType.RESOURCE); // CF
+      //Resources for resource:    getEntitiesWithLikelihood(null,    entity, null, 10, false, null,                               EntityType.RESOURCE); // CF
+      //Resources MostPopular:     getEntitiesWithLikelihood(null,    null,   null, 10, false, null,                               EntityType.RESOURCE); // MP
       
       final Map<String, Double> entitiesWithLikelihood =
-        resourceRec.getEntitiesWithLikelihood(
+        regEngine.getEntitiesWithLikelihood(
           SSStrU.toStr(par.forUser),
           SSStrU.toStr(par.entity),
           par.categories,
           100,
           !par.includeOwn, //filterOwn
-          null); 
+          recommConf.recommResourceAlgorithm, //algo
+          EntityType.RESOURCE);  //entity type to recommend
 
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
         
         entity = 
-          SSRecommResourcesFct.handleAccess(
-            par, 
+          SSRecommFct.handleAccess(
+            par.user, 
             SSUri.get(entityWithLikelihood.getKey()));
         
         if(
@@ -177,39 +237,22 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public void recommTagsUpdate(final SSServPar parA) throws Exception{
+  public void recommUpdate(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSRecommTagsUpdatePar     par        = new SSRecommTagsUpdatePar(parA);
+      final SSRecommUpdatePar par = new SSRecommUpdatePar(parA);
       
-      SSRecommFct.exportEntityTagCategoryTimestampCombinationsForAllUsers(
-        recommConf.fileNameForTagRec,
-        recommConf.usePrivateTagsToo);
+      SSServCaller.dataExportUserEntityTagCategoryTimestamps(
+        par.user, 
+        true, 
+        recommConf.usePrivateTagsToo, 
+        true, 
+        recommConf.fileNameForRec);
       
-      tagRec.loadFile(
+      regEngine.loadFile(
         SSStrU.removeTrailingString(
-          recommConf.fileNameForTagRec,
-          SSStrU.dot + SSFileExtE.txt.toString()));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void recommResourcesUpdate(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSRecommResourcesUpdatePar par        = new SSRecommResourcesUpdatePar(parA);
-      
-      SSRecommFct.exportUsersResourcesForAllUsers(
-        recommConf.fileNameForResourceRec);
-      
-      resourceRec.loadFile(
-        SSStrU.removeTrailingString(
-          recommConf.fileNameForResourceRec,
+          recommConf.fileNameForRec,
           SSStrU.dot + SSFileExtE.txt.toString()));
       
     }catch(Exception error){

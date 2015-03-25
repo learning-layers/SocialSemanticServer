@@ -2263,74 +2263,20 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserRelations, opPars));
   }
   
-  public static void dataExportUserEntityTags(
-    final SSUri                     user,
-    final Map<String, List<String>> tagsPerEntities,
-    final String                    fileName,
-    final Boolean                   wasLastLine) throws Exception {
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.fileName,              fileName);
-    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
-    opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.wasLastLine,           wasLastLine);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTags, opPars));
-  }
-  
-  public static void dataExportUserEntityTagTimestamps(
-    final SSUri                     user,
-    final Map<String, List<String>> tagsPerEntities,
-    final Long                      timestampForTag,
-    final String                    fileName,
-    final Boolean                   wasLastLine) throws Exception {
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.fileName,              fileName);
-    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
-    opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.timestamp,             timestampForTag);
-    opPars.put(SSVarU.wasLastLine,           wasLastLine);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagTimestamps, opPars));
-  }
-  
-  public static void dataExportUserEntityTagCategories(
-    final SSUri                     user,
-    final Map<String, List<String>> tagsPerEntities,
-    final Map<String, List<String>> categoriesPerEntities,
-    final String                    fileName,
-    final Boolean                   wasLastLine) throws Exception {
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.fileName,              fileName);
-    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
-    opPars.put(SSVarU.categoriesPerEntities, categoriesPerEntities);
-    opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.wasLastLine,           wasLastLine);
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategories, opPars));
-  }
-  
   public static void dataExportUserEntityTagCategoryTimestamps(
     final SSUri                     user,
-    final Map<String, List<String>> tagsPerEntities,
-    final Map<String, List<String>> categoriesPerEntities,
-    final Long                      timestampForTag,
-    final String                    fileName,
-    final Boolean                   wasLastLine) throws Exception {
+    final Boolean                   exportTags,
+    final Boolean                   usePrivateTagsToo,
+    final Boolean                   exportCategories,
+    final String                    fileName) throws Exception {
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.fileName,              fileName);
-    opPars.put(SSVarU.tagsPerEntities,       tagsPerEntities);
-    opPars.put(SSVarU.categoriesPerEntities, categoriesPerEntities);
+    opPars.put(SSVarU.exportTags,            exportTags);
+    opPars.put(SSVarU.usePrivateTagsToo,     usePrivateTagsToo);
+    opPars.put(SSVarU.exportCategories,      exportCategories);
     opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.timestamp,             timestampForTag);
-    opPars.put(SSVarU.wasLastLine,           wasLastLine);
     
     SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
@@ -2655,8 +2601,8 @@ public class SSServCaller {
     return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTags, opPars));
   }
   
-  public static void recommTagsUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommTagsUpdate, new HashMap<>()));
+  public static void recommUpdate() throws Exception {
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdate, new HashMap<>()));
   }
   
   public static Map<SSEntity, Double> recommResources(
@@ -2681,10 +2627,6 @@ public class SSServCaller {
     opPars.put(SSVarU.includeOwn,             includeOwn);
     
     return (Map<SSEntity, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommResources, opPars));
-  }
-  
-  public static void recommResourcesUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommResourcesUpdate, new HashMap<>()));
   }
   
   /* file */

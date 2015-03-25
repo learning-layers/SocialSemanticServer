@@ -28,6 +28,6 @@ public interface SSRecommServerI{
 
   public Map<String, Double>   recommTags             (final SSServPar parA) throws Exception;
   public Map<SSEntity, Double> recommResources        (final SSServPar parA) throws Exception;
-  public void                  recommTagsUpdate       (final SSServPar parA) throws Exception;
-  public void                  recommResourcesUpdate  (final SSServPar parA) throws Exception;
+  public Map<SSEntity, Double> recommUsers            (final SSServPar parA) throws Exception;
+  public void                  recommUpdate           (final SSServPar parA) throws Exception;
 }

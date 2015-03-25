@@ -22,12 +22,8 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
-import sss.serv.err.datatypes.SSErrE;
 
 public class SSRecommResourcesFct{
   
@@ -47,41 +43,6 @@ public class SSRecommResourcesFct{
     }
     
     return true;
-  }
-
-  public static SSEntity handleAccess(
-    final SSRecommResourcesPar par, 
-    final SSUri                entityID) throws Exception{
-    
-    try{
-      
-      return SSServCallerU.canUserReadEntity(
-        par.user,
-        entityID,
-        false);
-      
-    }catch(Exception error){
-      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
-      throw error;
-    }
-  }
-
-  public static void checkPar(
-    final SSRecommResourcesPar par) throws Exception{
-    
-    if(par.user == null){
-      throw new Exception("user cannot be null");
-    }
-    
-    if(
-      par.forUser != null &&
-      !SSStrU.equals(par.user, par.forUser)){
-      throw new Exception("user cannot retrieve resource recommendations for other users");
-    }
   }
 
   public static void addCircleTypes(

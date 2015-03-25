@@ -164,9 +164,13 @@ public class SSVarU{
   public static final String wasLastLine                                    = "wasLastLine";
   public static final String isFirstLine                                    = "isFirstLine";
   public static final String categories                                     = "categories";
+  public static final String maxUsers                                       = "maxUsers";
   public static final String maxResources                                   = "maxResources";
   public static final String fileName                                       = "fileName";
+  public static final String exportTags                                     = "exportTags";
+  public static final String exportCategories                               = "exportCategories";
   public static final String tagsPerEntities                                = "tagsPerEntities";
+  public static final String usePrivateTagsToo                              = "usePrivateTagsToo";
   public static final String categoriesPerEntities                          = "categoriesPerEntities";
   public static final String users                                          = "users";
   public static final String setFriends                                     = "setFriends";

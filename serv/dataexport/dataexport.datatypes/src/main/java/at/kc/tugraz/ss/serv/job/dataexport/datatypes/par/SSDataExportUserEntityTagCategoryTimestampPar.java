@@ -29,10 +29,9 @@ import java.util.Map;
 public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
   
   public String                      fileName               = null;
-  public Map<String, List<String>>   tagsPerEntities        = null;
-  public Map<String, List<String>>   categoriesPerEntities  = null;
-  public Long                        timestamp              = null;
-  public Boolean                     wasLastLine            = null;
+  public Boolean                     exportTags             = null;
+  public Boolean                     usePrivateTagsToo      = null;
+  public Boolean                     exportCategories       = null;
   
   public SSDataExportUserEntityTagCategoryTimestampPar(final SSServPar par) throws Exception{
     
@@ -42,10 +41,9 @@ public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
       
       if(pars != null){
         fileName              = (String)                     pars.get(SSVarU.fileName);
-        tagsPerEntities       = (Map<String, List<String>>)  pars.get(SSVarU.tagsPerEntities);
-        categoriesPerEntities = (Map<String, List<String>>)  pars.get(SSVarU.categoriesPerEntities);
-        timestamp             = (Long)                       pars.get(SSVarU.timestamp);
-        wasLastLine           = (Boolean)                    pars.get(SSVarU.wasLastLine);
+        exportTags            = (Boolean)                    pars.get(SSVarU.exportTags);
+        usePrivateTagsToo     = (Boolean)                    pars.get(SSVarU.usePrivateTagsToo);
+        exportCategories      = (Boolean)                    pars.get(SSVarU.exportCategories);
       }
       
     }catch(Exception error){

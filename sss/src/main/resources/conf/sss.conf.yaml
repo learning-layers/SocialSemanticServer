@@ -97,10 +97,11 @@ recomm:
   executeScheduleAtStartUp: false
   scheduleOps:
   scheduleIntervals:
-  fileNameForTagRec: hugo1.txt
-  fileNameForResourceRec: hugo2.txt
+  fileNameForRec: hugo1.txt
   usePrivateTagsToo: true
-  recommTagAlgorithm: BLL #MP, BLL, BLLac, BLLacMPr, MPu, MPr, MPur, THREEL, THREELT, THREELTMPr, RESOURCEMP, RESOURCECF
+  recommTagAlgorithm: BLL #BLL, BLLacMPr
+  recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
+  recommUserAlgorithm: USERTAGCB #USERTAGCB
   recommTagsGroups:
 search:
   use: true

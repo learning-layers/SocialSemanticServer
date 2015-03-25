@@ -27,20 +27,23 @@ import java.util.List;
 
 public class SSRecommConf extends SSServConfA{
 
-  public String        fileNameForTagRec          = null;
-  public String        fileNameForResourceRec     = null;
+  public String        fileNameForRec             = null;
   public Boolean       usePrivateTagsToo          = null;
   public Algorithm     recommTagAlgorithm         = null;
+  public Algorithm     recommResourceAlgorithm    = null;
+  public Algorithm     recommUserAlgorithm        = null;
   public List<String>  recommTagsGroups           = new ArrayList<>();
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
-    copy.fileNameForTagRec       = orig.fileNameForTagRec;
-    copy.fileNameForResourceRec  = orig.fileNameForResourceRec;
+    copy.fileNameForRec          = orig.fileNameForRec;
+    copy.fileNameForRec          = orig.fileNameForRec;
     copy.usePrivateTagsToo       = orig.usePrivateTagsToo;
     copy.recommTagAlgorithm      = orig.recommTagAlgorithm;
+    copy.recommResourceAlgorithm = orig.recommResourceAlgorithm;
+    copy.recommUserAlgorithm     = orig.recommUserAlgorithm;
     
     if(orig.recommTagsGroups != null){
       copy.recommTagsGroups.addAll(orig.recommTagsGroups);

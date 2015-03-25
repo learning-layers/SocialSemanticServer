@@ -174,10 +174,7 @@ public enum SSMethU{
   learnEpRemove,
   
   //data export
-  dataExportUserEntityTags                            ,
   dataExportUserRelations,
-  dataExportUserEntityTagTimestamps                   ,
-  dataExportUserEntityTagCategories                   ,
   dataExportUserEntityTagCategoryTimestamps           ,
   
   //json ld
@@ -353,8 +350,8 @@ public enum SSMethU{
   //recomm
   recommTags,
   recommResources,
-  recommTagsUpdate,
-  recommResourcesUpdate,
+  recommUsers,
+  recommUpdate,
   
   //i5cloud
   i5CloudAuth,

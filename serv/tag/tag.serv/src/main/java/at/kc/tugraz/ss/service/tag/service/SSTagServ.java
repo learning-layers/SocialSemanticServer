@@ -58,6 +58,7 @@ public class SSTagServ extends SSServA implements SSTagServContainerI{
     regServForManagingEntities       ();
     regServForDescribingEntities     ();
     regServForGatheringUserRelations ();
+    regServForGatheringUsersResources();
     
     return this;
   }

@@ -20,33 +20,34 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
+import at.kc.tugraz.socialserver.utils.SSDateU;
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
-import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoriesPar;
-import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagTimestampsPar;
-import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -54,194 +55,111 @@ import sss.serv.err.datatypes.SSErr;
 
 public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportClientI, SSDataExportServerI{
 
-  private CSVWriter fileWriterUserEntityTags                      = null;
-  private CSVWriter fileWriterUserEntityTagTimestamps             = null;
-  private CSVWriter fileWriterUserEntityTagCategories             = null;
-  private CSVWriter fileWriterUserEntityTagCategoryTimestamps     = null;
-  
   public SSDataExportImpl(final SSConfA conf) throws Exception{
     super(conf);
-  }
-  
-  /*  SSDataExportServerI  */
-  
-  @Override
-  public void dataExportUserEntityTags(final SSServPar parA) throws Exception{
-    
-    final SSDataExportUserEntityTagsPar par = new SSDataExportUserEntityTagsPar(parA);
-    
-    if(par.wasLastLine){
-      
-      if(fileWriterUserEntityTags != null){
-        fileWriterUserEntityTags.close();
-        fileWriterUserEntityTags = null;
-      }
-      
-      return;
-    }
-    
-    if(fileWriterUserEntityTags == null){
-    
-      final FileOutputStream   out                     = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
-      final OutputStreamWriter writer                  = new OutputStreamWriter   (out,    Charset.forName(SSEncodingU.utf8));
-      fileWriterUserEntityTags                         = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
-    }
-    
-    final List<String>                              lineParts                    = new ArrayList<>();
-    final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
-    Map.Entry<String, List<String>>                 entityAndTags;
-    
-    while(entitiesTagsIterator.hasNext()){
-      
-      entityAndTags = entitiesTagsIterator.next();
-
-      lineParts.clear();
-      
-      lineParts.add(SSStrU.toStr(par.user));
-      lineParts.add(entityAndTags.getKey());
-      lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
-
-      fileWriterUserEntityTags.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
-    }
-  }
-  
-  @Override
-  public void dataExportUserEntityTagTimestamps(final SSServPar parA) throws Exception{
-    
-    final SSDataExportUserEntityTagTimestampsPar par = new SSDataExportUserEntityTagTimestampsPar(parA);
-    
-    if(par.wasLastLine){
-      
-      if(fileWriterUserEntityTagTimestamps != null){
-        fileWriterUserEntityTagTimestamps.close();
-        fileWriterUserEntityTagTimestamps = null;
-      }
-      
-      return;
-    }
-    
-    if(fileWriterUserEntityTagTimestamps == null){
-    
-      final FileOutputStream   out                     = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
-      final OutputStreamWriter writer                  = new OutputStreamWriter   (out,    Charset.forName(SSEncodingU.utf8));
-      fileWriterUserEntityTagTimestamps                = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
-    }
-    
-    final List<String>                              lineParts                    = new ArrayList<>();
-    final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
-    Map.Entry<String, List<String>>                 entityAndTags;
-    
-    while(entitiesTagsIterator.hasNext()){
-      
-      entityAndTags       = entitiesTagsIterator.next();
-
-      lineParts.clear();
-      
-      lineParts.add(SSStrU.toStr     (par.user));
-      lineParts.add(entityAndTags.getKey());
-      lineParts.add(Long.toString   (par.timestamp));
-      lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
-
-      fileWriterUserEntityTagTimestamps.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
-    }
-  }
-  
-  @Override
-  public void dataExportUserEntityTagCategories(final SSServPar parA) throws Exception{
-    
-    final SSDataExportUserEntityTagCategoriesPar par = new SSDataExportUserEntityTagCategoriesPar(parA);
-    
-    if(par.wasLastLine){
-      
-      if(fileWriterUserEntityTagCategories != null){
-        fileWriterUserEntityTagCategories.close();
-        fileWriterUserEntityTagCategories = null;
-      }
-      
-      return;
-    }
-    
-    if(fileWriterUserEntityTagCategories == null){
-    
-      final FileOutputStream   out                     = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
-      final OutputStreamWriter writer                  = new OutputStreamWriter   (out,    Charset.forName(SSEncodingU.utf8));
-      fileWriterUserEntityTagCategories    = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
-    }
-    
-    final List<String>                              lineParts                    = new ArrayList<>();
-    final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
-    final Iterator<Map.Entry<String, List<String>>> entitiesCategoriesIterator   = par.categoriesPerEntities.entrySet().iterator();
-    Map.Entry<String, List<String>>                 entityAndTags;
-    Map.Entry<String, List<String>>                 entityAndCategories;
-    
-    while(entitiesTagsIterator.hasNext()){
-      
-      entityAndTags       = entitiesTagsIterator.next();
-      entityAndCategories = entitiesCategoriesIterator.next();
-
-      lineParts.clear();
-      
-      lineParts.add(SSStrU.toStr     (par.user));
-      lineParts.add(entityAndTags.getKey());
-      lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
-      lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
-
-      fileWriterUserEntityTagCategories.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
-    }
   }
   
   @Override
   public void dataExportUserEntityTagCategoryTimestamps(final SSServPar parA) throws Exception{
     
-    final SSDataExportUserEntityTagCategoryTimestampPar par = new SSDataExportUserEntityTagCategoryTimestampPar(parA);
-    
-    if(par.wasLastLine){
+    final SSDataExportUserEntityTagCategoryTimestampPar par        = new SSDataExportUserEntityTagCategoryTimestampPar(parA);
+    CSVWriter                                           fileWriter = null;
+    FileOutputStream                                    out        = null; 
+    OutputStreamWriter                                  writer     = null;
       
-      if(fileWriterUserEntityTagCategoryTimestamps != null){
-        fileWriterUserEntityTagCategoryTimestamps.close();
-        fileWriterUserEntityTagCategoryTimestamps = null;
-      }
+    try{
       
-      return;
-    }
-    
-    if(fileWriterUserEntityTagCategoryTimestamps == null){
-    
-      final FileOutputStream   out                     = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
-      final OutputStreamWriter writer                  = new OutputStreamWriter   (out,    Charset.forName(SSEncodingU.utf8));
-      fileWriterUserEntityTagCategoryTimestamps        = new CSVWriter            (writer, SSStrU.semiColon.charAt(0));
-    }
-    
-    final List<String>                              lineParts                    = new ArrayList<>();
-    final Iterator<Map.Entry<String, List<String>>> entitiesTagsIterator         = par.tagsPerEntities.entrySet().iterator();
-    final Iterator<Map.Entry<String, List<String>>> entitiesCategoriesIterator   = par.categoriesPerEntities.entrySet().iterator();
-    Map.Entry<String, List<String>>                 entityAndTags;
-    Map.Entry<String, List<String>>                 entityAndCategories;
-    
-    while(entitiesTagsIterator.hasNext()){
-      
-      entityAndTags       = entitiesTagsIterator.next();
+      final Map<String, List<SSUri>>            usersResources        = new HashMap<>();
+      final Map<String, List<String>>           tagsPerEntities       = new HashMap<>();
+      final Map<String, List<String>>           categoriesPerEntities = new HashMap<>();
+      final List<String>                        lineParts             = new ArrayList<>();
+      final List<String>                        allUsers;
+      SSUri                                     user;
+      String                                    resourceString;
+
+      out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
+      writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8));
+      fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
       try{
-        entityAndCategories = entitiesCategoriesIterator.next();
-      }catch(Exception error){
-        entityAndCategories = null;
+        allUsers    = SSStrU.toStr(SSServCaller.userAll(false));
+      }catch(SSErr error){
+        
+        switch(error.code){
+          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+          default: SSServErrReg.regErrThrow(error); return;
+        }
       }
+      
+      for(SSServA serv : SSServA.getServsGatheringUsersResources()){
+        ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(allUsers, usersResources);
+      }
+      
+      for(Map.Entry<String, List<SSUri>> resourcesForUser : usersResources.entrySet()){
+        
+        user = SSUri.get(resourcesForUser.getKey());
+        
+        tagsPerEntities.clear();
+        categoriesPerEntities.clear();
+        
+        if(par.exportTags){
+          tagsPerEntities.putAll(
+            getTagsOfUserPerEntities(
+              user,
+              resourcesForUser.getValue(),
+              par.usePrivateTagsToo));
+        }
+        
+        if(par.exportCategories){
+          categoriesPerEntities.putAll(
+            getCategoriesPerEntities(
+              tagsPerEntities.size()));
+        }
+        
+        for(SSUri resource : resourcesForUser.getValue()){
+          
+          resourceString = SSStrU.toStr(resource);
+          
+          lineParts.clear();
+          
+          lineParts.add(SSStrU.toStr     (user));
+          lineParts.add(SSStrU.toStr     (resource));
+          lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
+          
+          if(
+            tagsPerEntities.containsKey(resourceString)){
+            lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+          }else{
+            lineParts.add(SSStrU.empty);
+          }
+          
+          if(
+            categoriesPerEntities.containsKey(resourceString)){
+            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+          }else{
+            lineParts.add(SSStrU.empty);
+          }
 
-      lineParts.clear();
+          fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
       
-      lineParts.add(SSStrU.toStr     (par.user));
-      lineParts.add(entityAndTags.getKey());
-      lineParts.add(Long.toString   (par.timestamp));
-      lineParts.add(StringUtils.join(entityAndTags.getValue(),       SSStrU.comma));
-      
-      if(entityAndCategories != null){
-        lineParts.add(StringUtils.join(entityAndCategories.getValue(), SSStrU.comma));
+      if(fileWriter != null){
+        fileWriter.close();
       }else{
-        lineParts.add(SSStrU.empty);
+        
+        if(writer != null){
+          writer.close();
+        }else{
+          
+          if(out != null){
+            out.close();
+          }
+        }
       }
-
-      fileWriterUserEntityTagCategoryTimestamps.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
     }
   }
 
@@ -308,5 +226,47 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         fileWriter.close();
       }
     }
+  }
+  
+  private static Map<String, List<String>> getTagsOfUserPerEntities(
+    final SSUri        userUri,
+    final List<SSUri>  entities,
+    final Boolean      usePrivateTagsToo) throws Exception{
+    
+    if(
+      usePrivateTagsToo == null ||
+      !usePrivateTagsToo){
+      
+      return SSTag.getTagLabelsPerEntities(
+        SSServCaller.tagsUserGet(
+          userUri,
+          userUri,
+          entities,
+          new ArrayList<>(),
+          SSSpaceE.sharedSpace,
+          null));
+      
+    }else{
+      
+      return SSTag.getTagLabelsPerEntities(
+        SSServCaller.tagsUserGet(
+          userUri,
+          userUri,
+          entities,
+          new ArrayList<>(),
+          null,
+          null));
+    }
+  }
+  private static Map<String, List<String>> getCategoriesPerEntities(
+    final Integer numberOfEntities){
+    
+    final Map<String, List<String>> categoriesPerEntities = new HashMap<>();
+    
+    for(Integer counter = 0; counter < numberOfEntities; counter++){
+      categoriesPerEntities.put(SSVocConf.sssUri + SSStrU.underline + counter.toString(), new ArrayList<>());
+    }
+    
+    return categoriesPerEntities;
   }
 }

@@ -25,8 +25,8 @@ import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 public interface SSDataExportServerI {
 
   public void dataExportUserRelations                       (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTags                      (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagTimestamps             (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagCategories             (final SSServPar parA) throws Exception;
+//  public void dataExportUserEntityTags                      (final SSServPar parA) throws Exception;
+//  public void dataExportUserEntityTagTimestamps             (final SSServPar parA) throws Exception;
+//  public void dataExportUserEntityTagCategories             (final SSServPar parA) throws Exception;
   public void dataExportUserEntityTagCategoryTimestamps     (final SSServPar parA) throws Exception;
 }

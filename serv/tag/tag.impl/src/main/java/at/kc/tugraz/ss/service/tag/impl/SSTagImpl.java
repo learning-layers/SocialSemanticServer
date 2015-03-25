@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.serv.api.SSConfA;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
 import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
 import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
+import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.tag.api.*;
@@ -69,7 +70,8 @@ implements
   SSTagServerI, 
   SSEntityHandlerImplI, 
   SSEntityDescriberI, 
-  SSUserRelationGathererI{
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
   
   private final SSTagSQLFct sqlFct;
   
@@ -116,6 +118,44 @@ implements
     
     for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
       SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final List<String>             allUsers, 
+    final Map<String, List<SSUri>> usersResources) throws Exception{
+    
+    SSUri userUri;
+      
+    for(String user : allUsers){
+      
+      userUri = SSUri.get(user);
+      
+      for(SSTag tag : 
+        SSServCaller.tagsUserGet(
+          userUri,
+          userUri,
+          SSUri.asListWithoutNullAndEmpty(),
+          new ArrayList<>(),
+          null,
+          null)){
+        
+        if(usersResources.containsKey(user)){
+          usersResources.get(user).add(tag.entity);
+        }else{
+          
+          final List<SSUri> resourceList = new ArrayList<>();
+          
+          resourceList.add(tag.entity);
+          
+          usersResources.put(user, resourceList);
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
     }
   }
   

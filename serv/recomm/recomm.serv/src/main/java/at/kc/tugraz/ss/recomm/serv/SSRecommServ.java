@@ -29,8 +29,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
-import at.kc.tugraz.ss.recomm.serv.task.SSRecommResourcesUpdateTask;
-import at.kc.tugraz.ss.recomm.serv.task.SSRecommTagsUpdateTask;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateTask;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -74,13 +73,8 @@ public class SSRecommServ extends SSServA{
       
       switch(initAtStartUpOp){
         
-        case recommTagsUpdate:{
-          SSDateU.scheduleNow(new SSRecommTagsUpdateTask());
-          break;
-        }
-        
-        case recommResourcesUpdate:{
-          SSDateU.scheduleNow(new SSRecommResourcesUpdateTask());
+        case recommUpdate:{
+          SSDateU.scheduleNow(new SSRecommUpdateTask());
           break;
         }
         
@@ -118,13 +112,8 @@ public class SSRecommServ extends SSServA{
         
         switch(scheduleOp){
           
-          case recommTagsUpdate:{
-            SSDateU.scheduleNow(new SSRecommTagsUpdateTask());
-            break;
-          }
-          
-          case recommResourcesUpdate:{
-            SSDateU.scheduleNow(new SSRecommResourcesUpdateTask());
+          case recommUpdate:{
+            SSDateU.scheduleNow(new SSRecommUpdateTask());
             break;
           }
           
@@ -139,19 +128,9 @@ public class SSRecommServ extends SSServA{
       
       switch(recommConf.scheduleOps.get(counter)){
         
-        case recommTagsUpdate:{
+        case recommUpdate:{
           
-          SSDateU.scheduleAtFixedRate(
-            new SSRecommTagsUpdateTask(),
-            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-          break;
-        }
-        
-        case recommResourcesUpdate:{
-          
-          SSDateU.scheduleAtFixedRate(
-            new SSRecommResourcesUpdateTask(),
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateTask(),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;
