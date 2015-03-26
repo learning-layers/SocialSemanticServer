@@ -26,21 +26,21 @@ import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import java.util.TimerTask;
 
-public class SSRecommUpdateTask extends TimerTask {
+public class SSRecommUpdateBulkFromSSSTask extends TimerTask {
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSRecommResourcesUpdater()).start();
+      new Thread(new SSRecommUpdateBulkFromSSSUpdater()).start();
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
   }
   
-  protected class SSRecommResourcesUpdater extends SSServImplStartA{
+  protected class SSRecommUpdateBulkFromSSSUpdater extends SSServImplStartA{
     
-    public SSRecommResourcesUpdater() throws Exception{
+    public SSRecommUpdateBulkFromSSSUpdater() throws Exception{
       super(null, null);
     }
     
@@ -48,7 +48,7 @@ public class SSRecommUpdateTask extends TimerTask {
     public void run() {
       
       try{
-        SSServCaller.recommUpdate();
+        SSServCaller.recommUpdateBulkFromSSS();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
       }finally{

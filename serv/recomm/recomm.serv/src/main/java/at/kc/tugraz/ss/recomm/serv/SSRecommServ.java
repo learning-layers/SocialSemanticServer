@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
-import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateTask;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkFromSSSTask;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
 import java.util.List;
@@ -74,7 +74,7 @@ public class SSRecommServ extends SSServA{
       switch(initAtStartUpOp){
         
         case recommUpdate:{
-          SSDateU.scheduleNow(new SSRecommUpdateTask());
+          SSDateU.scheduleNow(new SSRecommUpdateBulkFromSSSTask());
           break;
         }
         
@@ -113,7 +113,7 @@ public class SSRecommServ extends SSServA{
         switch(scheduleOp){
           
           case recommUpdate:{
-            SSDateU.scheduleNow(new SSRecommUpdateTask());
+            SSDateU.scheduleNow(new SSRecommUpdateBulkFromSSSTask());
             break;
           }
           
@@ -130,7 +130,7 @@ public class SSRecommServ extends SSServA{
         
         case recommUpdate:{
           
-          SSDateU.scheduleAtFixedRate(new SSRecommUpdateTask(),
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkFromSSSTask(),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

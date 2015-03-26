@@ -176,6 +176,7 @@ public enum SSMethU{
   //data export
   dataExportUserRelations,
   dataExportUserEntityTagCategoryTimestamps           ,
+  dataExportAddTagsCategoriesTimestampsForUserEntity,
   
   //json ld
   jsonLD                                              ,
@@ -352,6 +353,8 @@ public enum SSMethU{
   recommResources,
   recommUsers,
   recommUpdate,
+  recommUpdateBulkFromSSS,
+  recommUpdateBulkEntities,
   
   //i5cloud
   i5CloudAuth,

@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSDataExportUserRelationsPar extends SSServPar{
   

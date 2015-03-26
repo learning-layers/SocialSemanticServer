@@ -165,6 +165,24 @@ public class SSFileU{
     }
 	}
   
+  public static FileOutputStream openOrCreateFileWithPathForAppend(
+    final String filePath) throws Exception{
+		
+		try{
+      
+      final File file = new File(filePath);
+      
+      if(!file.exists()){
+        file.getParentFile().mkdirs();
+      }
+
+      return new FileOutputStream(file, true);
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+      return null;
+    }
+	}
+  
   public static String readFileText(
     final File    file, 
     final Charset charset) throws Exception {

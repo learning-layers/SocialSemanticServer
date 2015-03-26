@@ -24,7 +24,10 @@ import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
@@ -32,6 +35,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,6 +47,70 @@ import javax.ws.rs.core.Response;
 @Path("/recomm")
 @Api( value = "/recomm", basePath = "/recomm")
 public class SSRESTRecomm{
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/update/")
+  @ApiOperation(
+    value = "add a new combination of user, entity, tags, categories to be used for recommendations",
+    response = SSRecommUpdateRet.class)
+  public Response recommUpdate(
+    @Context HttpHeaders             headers,
+    final SSRecommUpdateRESTAPIV2Par input){
+    
+    final SSRecommUpdatePar par;
+    
+    try{
+      
+      par =
+        new SSRecommUpdatePar(
+          SSMethU.recommUpdate,
+          null,
+          null,
+          input.forUser,     //forUser
+          input.entity,      //entity
+          input.tags,        //tags
+          input.categories); //categories
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/update/bulk/entities")
+  @ApiOperation(
+    value = "add a new combinations of user, entity, tags, categories to be used for recommendations",
+    response = SSRecommUpdateRet.class)
+  public Response recommUpdateBulkEntities(
+    @Context HttpHeaders                         headers,
+    final SSRecommUpdateBulkEntitiesRESTAPIV2Par input){
+    
+    final SSRecommUpdateBulkEntitiesPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUpdateBulkEntitiesPar(
+          SSMethU.recommUpdateBulkEntities,
+          null,
+          null,
+          input.forUser,       //forUser
+          input.entities,      //entity
+          input.tags,          //tags
+          input.categories);   //categories
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handlePOSTRequest(headers, par);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)

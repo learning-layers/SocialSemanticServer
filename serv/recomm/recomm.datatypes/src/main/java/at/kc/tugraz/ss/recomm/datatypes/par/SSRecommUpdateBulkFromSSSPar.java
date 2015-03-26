@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.api;
+package at.kc.tugraz.ss.recomm.datatypes.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import java.util.Map;
 
-public interface SSRecommServerI{
-
-  public Map<String, Double>   recommTags               (final SSServPar parA) throws Exception;
-  public Map<SSEntity, Double> recommResources          (final SSServPar parA) throws Exception;
-  public Map<SSEntity, Double> recommUsers              (final SSServPar parA) throws Exception;
-  public Boolean               recommUpdate             (final SSServPar parA) throws Exception;
-  public Boolean               recommUpdateBulkFromSSS  (final SSServPar parA) throws Exception;
-  public Boolean               recommUpdateBulkEntities (final SSServPar parA) throws Exception;
+public class SSRecommUpdateBulkFromSSSPar extends SSServPar{
   
+  public SSRecommUpdateBulkFromSSSPar(final SSServPar par) throws Exception{
+    super(par);
+  }
 }

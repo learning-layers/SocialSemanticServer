@@ -30,26 +30,29 @@ import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.JsonNode;
 
-public class SSRecommUpdatePar extends SSServPar{
+public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
   
-  public SSUri          forUser     = null;
-  public SSUri          entity      = null;
-  public List<String>   tags        = new ArrayList<>();
-  public List<String>   categories  = new ArrayList<>();
+  public SSUri                forUser     = null;
+  public List<SSUri>          entities    = new ArrayList<>();
+  public List<List<String>>   tags        = new ArrayList<>();
+  public List<List<String>>   categories  = new ArrayList<>();
   
-  public SSRecommUpdatePar(
+  public SSRecommUpdateBulkEntitiesPar(
     final SSMethU             op,
     final String              key,
     final SSUri               user,
     final SSUri               forUser, 
-    final SSUri               entity, 
-    final List<String>        tags,
-    final List<String>        categories){
+    final List<SSUri>         entities, 
+    final List<List<String>>  tags,
+    final List<List<String>>  categories){
     
     super(op, key, user);
     
     this.forUser = forUser;
-    this.entity  = entity;
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
     
     if(tags != null){
       this.tags.addAll(tags);
@@ -60,33 +63,54 @@ public class SSRecommUpdatePar extends SSServPar{
     }
   }
    
-  public SSRecommUpdatePar(final SSServPar par) throws Exception{
+  public SSRecommUpdateBulkEntitiesPar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        forUser     = (SSUri)        pars.get(SSVarU.forUser);
-        entity      = (SSUri)        pars.get(SSVarU.entity);
-        tags        = (List<String>) pars.get(SSVarU.tags);
-        categories  = (List<String>) pars.get(SSVarU.categories);
+        forUser     = (SSUri)              pars.get(SSVarU.forUser);
+        entities    = (List<SSUri>)        pars.get(SSVarU.entities);
+        tags        = (List<List<String>>) pars.get(SSVarU.tags);
+        categories  = (List<List<String>>) pars.get(SSVarU.categories);
       }
       
       if(par.clientJSONObj != null){
         
         forUser    = SSUri.get  (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        entity     = SSUri.get  (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          entities.add(SSUri.get(objNode.getTextValue()));
+        }
         
         try{
+          List<String> entityTags;
+          
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tags)) {
-            tags.add(objNode.getTextValue());
+            
+            entityTags = new ArrayList<>();
+            
+            for(int counter = 0; counter < objNode.size(); counter++){
+              entityTags.add(objNode.get(counter).getTextValue());
+            }
+            
+            tags.add(entityTags);
           }
         }catch(Exception error){}
         
-        try{
+       try{
+          List<String> entityCategories;
+          
           for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
-            categories.add(objNode.getTextValue());
+            
+            entityCategories = new ArrayList<>();
+            
+            for(int counter = 0; counter < objNode.size(); counter++){
+              entityCategories.add(objNode.get(counter).getTextValue());
+            }
+            
+            categories.add(entityCategories);
           }
         }catch(Exception error){}
       }   
@@ -100,7 +124,7 @@ public class SSRecommUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
   
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
 }

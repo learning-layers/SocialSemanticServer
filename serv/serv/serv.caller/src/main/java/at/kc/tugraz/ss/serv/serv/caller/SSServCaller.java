@@ -2281,6 +2281,26 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
   
+  public static void dataExportAddTagsCategoriesTimestampsForUserEntity(
+    final SSUri        user,
+    final SSUri        forUser,
+    final SSUri        entity,
+    final List<String> tags,
+    final List<String> categories,
+    final String       fileName) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,          user);
+    opPars.put(SSVarU.forUser,       forUser);
+    opPars.put(SSVarU.entity,        entity);
+    opPars.put(SSVarU.tags,          tags);
+    opPars.put(SSVarU.categories,    categories);
+    opPars.put(SSVarU.fileName,      fileName);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
+  }
+  
   /* category */
   
   public static Boolean categoriesPredefinedAdd(
@@ -2601,8 +2621,27 @@ public class SSServCaller {
     return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTags, opPars));
   }
   
-  public static void recommUpdate() throws Exception {
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdate, new HashMap<>()));
+  public static void recommUpdate(
+    final SSUri               user,
+    final SSUri               forUser,
+    final SSUri               entity,
+    final List<String>        tags,
+    final List<String>        categories) throws Exception {
+    
+    final Map<String, Object> opPars = new HashMap<>();
+    
+    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.forUser,        forUser);
+    opPars.put(SSVarU.entity,         entity);
+    opPars.put(SSVarU.tags,           tags);
+    opPars.put(SSVarU.categories,     categories);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdate, opPars));
+  }
+  
+  public static void recommUpdateBulkFromSSS() throws Exception {
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdateBulkFromSSS, new HashMap<>()));
   }
   
   public static Map<SSEntity, Double> recommResources(

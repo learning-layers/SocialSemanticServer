@@ -1,7 +1,7 @@
 !!at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf
-ssConf:
+ss:
   host: localhost
   port: 8390
   localWorkPath:
-jsonLDConf:
+jsonLD:
   uri: http://localhost:8084/ss-adapter-rest/SSAdapterRest/

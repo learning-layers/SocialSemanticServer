@@ -31,11 +31,14 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkFromSSSPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
@@ -46,7 +49,9 @@ import engine.Algorithm;
 import engine.EngineInterface;
 import engine.EntityRecommenderEngine;
 import engine.EntityType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
@@ -237,14 +242,14 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
-  public void recommUpdate(final SSServPar parA) throws Exception{
+  public Boolean recommUpdateBulkFromSSS(final SSServPar parA) throws Exception{
     
     try{
       
-      final SSRecommUpdatePar par = new SSRecommUpdatePar(parA);
+      final SSRecommUpdateBulkFromSSSPar par = new SSRecommUpdateBulkFromSSSPar(parA);
       
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
-        par.user, 
+        par.user,
         true, 
         recommConf.usePrivateTagsToo, 
         true, 
@@ -255,8 +260,104 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
           recommConf.fileNameForRec,
           SSStrU.dot + SSFileExtE.txt.toString()));
       
+      return true;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void recommUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+//    SSServCallerU.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op));
+  }
+  
+  @Override
+  public Boolean recommUpdate(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSRecommUpdatePar par = new SSRecommUpdatePar(parA);
+      
+      SSServCaller.dataExportAddTagsCategoriesTimestampsForUserEntity(
+        par.user,
+        par.forUser,
+        par.entity,
+        par.tags,
+        par.categories,
+        recommConf.fileNameForRec);
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      
+      return null;
+    }
+  }
+  
+    @Override
+  public void recommUpdateBulkEntities(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op));
+  }
+  
+  @Override
+  public Boolean recommUpdateBulkEntities(final SSServPar parA) throws Exception{
+    
+    try{
+      
+      final SSRecommUpdateBulkEntitiesPar par = new SSRecommUpdateBulkEntitiesPar(parA);
+
+      List<String> tags;
+      List<String> categories;
+      
+      if(
+        !par.tags.isEmpty() &&
+        par.tags.size() != par.entities.size()){
+        
+        throw new Exception("tag list size differs from entity list size");
+      }
+      
+      if(
+        !par.categories.isEmpty() &&
+        par.categories.size() != par.entities.size()){
+        
+        throw new Exception("category list size differs from entity list size");
+      }
+      
+      for(int counter = 0; counter < par.entities.size(); counter++){
+
+        if(!par.tags.isEmpty()){
+          tags = par.tags.get(counter);
+        }else{
+          tags = new ArrayList<>();
+        }
+        
+        if(!par.categories.isEmpty()){
+          categories = par.categories.get(counter);
+        }else{
+          categories = new ArrayList<>();
+        }
+        
+        SSServCaller.dataExportAddTagsCategoriesTimestampsForUserEntity(
+          par.user,
+          par.forUser,
+          par.entities.get(counter),
+          tags,
+          categories, 
+          recommConf.fileNameForRec);
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }
