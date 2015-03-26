@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.app;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.app.SSAppAddRESTAPIV2Par;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
@@ -40,7 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/apps")
-@Api( value = "/apps", basePath = "/apps")
+@Api( value = "/apps") //, basePath = "/apps"
 public class SSRESTApps{
   
   @GET

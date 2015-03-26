@@ -49,7 +49,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/appstacklayouts")
-@Api( value = "/appstacklayouts", basePath = "/appstacklayouts")
+@Api( value = "/appstacklayouts") //, basePath = "/appstacklayouts"
 public class SSRESTAppStackLayouts{
   
   @GET

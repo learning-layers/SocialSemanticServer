@@ -43,7 +43,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/circles")
-@Api( value = "/circles", basePath = "/circles")
+@Api( value = "/circles") //, basePath = "/circles"
 public class SSRESTCircles{
   
   @GET

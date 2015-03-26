@@ -47,7 +47,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/videos")
-@Api( value = "/videos", basePath = "/videos")
+@Api( value = "/videos") //, basePath = "/videos"
 public class SSRESTVideos{
   
   @GET

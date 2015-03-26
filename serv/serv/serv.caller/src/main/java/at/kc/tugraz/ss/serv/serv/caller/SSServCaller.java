@@ -2738,75 +2738,75 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.fileRemoveReaderOrWriter, opPars));
   }
   
-  /* scaff */
-  
-  public static List<String> scaffRecommTagsBasedOnUserEntityTag(
-    final SSUri         user,
-    final SSUri         forUser,
-    final SSUri         entity,
-    final Integer       maxTags) throws  Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.maxTags,      maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTag, opPars));
-  }
-  
-  public static List<String> scaffRecommTagsBasedOnUserEntityTagTime(
-    final SSUri         user,
-    final SSUri         forUser,
-    final SSUri         entity,
-    final Integer       maxTags) throws  Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,  forUser);
-    opPars.put(SSVarU.entity,   entity);
-    opPars.put(SSVarU.maxTags,     maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagTime, opPars));
-  }
-  
-  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategory(
-    final SSUri         user,
-    final SSUri         forUser,
-    final SSUri         entity,
-    final List<String>  categories,
-    final Integer       maxTags) throws  Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.forUser, forUser);
-    opPars.put(SSVarU.entity,  entity);
-    opPars.put(SSVarU.categories, categories);
-    opPars.put(SSVarU.maxTags,    maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory, opPars));
-  }
-  
-  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(
-    final SSUri         user,
-    final SSUri         forUser,
-    final SSUri         entity,
-    final List<String>  categories,
-    final Integer       maxTags) throws  Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.forUser, forUser);
-    opPars.put(SSVarU.entity,  entity);
-    opPars.put(SSVarU.categories, categories);
-    opPars.put(SSVarU.maxTags,    maxTags);
-    
-    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime, opPars));
-  }
+//  /* scaff */
+//  
+//  public static List<String> scaffRecommTagsBasedOnUserEntityTag(
+//    final SSUri         user,
+//    final SSUri         forUser,
+//    final SSUri         entity,
+//    final Integer       maxTags) throws  Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,         user);
+//    opPars.put(SSVarU.forUser,   forUser);
+//    opPars.put(SSVarU.entity,    entity);
+//    opPars.put(SSVarU.maxTags,      maxTags);
+//    
+//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTag, opPars));
+//  }
+//  
+//  public static List<String> scaffRecommTagsBasedOnUserEntityTagTime(
+//    final SSUri         user,
+//    final SSUri         forUser,
+//    final SSUri         entity,
+//    final Integer       maxTags) throws  Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,        user);
+//    opPars.put(SSVarU.forUser,  forUser);
+//    opPars.put(SSVarU.entity,   entity);
+//    opPars.put(SSVarU.maxTags,     maxTags);
+//    
+//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagTime, opPars));
+//  }
+//  
+//  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategory(
+//    final SSUri         user,
+//    final SSUri         forUser,
+//    final SSUri         entity,
+//    final List<String>  categories,
+//    final Integer       maxTags) throws  Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,       user);
+//    opPars.put(SSVarU.forUser, forUser);
+//    opPars.put(SSVarU.entity,  entity);
+//    opPars.put(SSVarU.categories, categories);
+//    opPars.put(SSVarU.maxTags,    maxTags);
+//    
+//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory, opPars));
+//  }
+//  
+//  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(
+//    final SSUri         user,
+//    final SSUri         forUser,
+//    final SSUri         entity,
+//    final List<String>  categories,
+//    final Integer       maxTags) throws  Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,       user);
+//    opPars.put(SSVarU.forUser, forUser);
+//    opPars.put(SSVarU.entity,  entity);
+//    opPars.put(SSVarU.categories, categories);
+//    opPars.put(SSVarU.maxTags,    maxTags);
+//    
+//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime, opPars));
+//  }
   
   /* data import */
   

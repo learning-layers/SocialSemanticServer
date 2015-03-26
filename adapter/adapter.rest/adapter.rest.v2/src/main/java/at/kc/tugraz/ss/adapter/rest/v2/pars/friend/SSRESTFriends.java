@@ -39,7 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/friends")
-@Api( value = "/friends", basePath = "/friends")
+@Api( value = "/friends") //, basePath = "/friends"
 public class SSRESTFriends{
   
   @GET

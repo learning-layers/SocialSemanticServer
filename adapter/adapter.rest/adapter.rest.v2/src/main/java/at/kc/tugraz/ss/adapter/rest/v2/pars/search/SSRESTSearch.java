@@ -36,7 +36,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/search")
-@Api( value = "/search" , basePath = "/search")
+@Api( value = "/search") // , basePath = "/search"
 public class SSRESTSearch{
 
   @POST

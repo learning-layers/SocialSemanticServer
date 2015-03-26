@@ -60,12 +60,8 @@ public class SSAdapterRESTFileUpload{
     @FormDataParam(SSVarU.mimeType)   final String      mimeType,
     @FormDataParam(SSVarU.label)      final String      label,
     @FormDataParam(SSVarU.key)        final String      key,
-    
-    @ApiParam(
-      value = "file handle",
-      required = true)
-    @FormDataParam(SSVarU.fileHandle)
-    final InputStream fileHandle){
+    @ApiParam(value = "file handle", required = true)
+    @FormDataParam(SSVarU.fileHandle) final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     Response     result = null;
     SSSocketCon  sSCon  = null;

@@ -247,12 +247,6 @@ public enum SSMethU{
   ratingsUserRemove                                   ,
     ratingSet,
   
-  //scaff
-  scaffRecommTagsBasedOnUserEntityTag                 , //cikm | 3Layers mit den Kategorien 
-  scaffRecommTagsBasedOnUserEntityTagTime             , //umap | 3LT (3Layers mit Zeit)
-  scaffRecommTagsBasedOnUserEntityTagCategory         , //wbsc | BaseLevelLearning und MostPopular/LanguageModel
-  scaffRecommTagsBasedOnUserEntityTagCategoryTime     ,
-  
   //model ue
   modelUEUpdate                                       ,
   modelUETopicScores                                  ,
@@ -355,6 +349,7 @@ public enum SSMethU{
   recommUpdate,
   recommUpdateBulkFromSSS,
   recommUpdateBulkEntities,
+  recommUpdateBulk,
   
   //i5cloud
   i5CloudAuth,

@@ -16,25 +16,22 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## Documentation
 * Swagger JSON-based REST API documentation
- * release
+ * releases
     * `sss.package/api-docs`
- * src
-    * `SSS/sss.adapter/sss.adapter.rest.v1/src/main/webapp/api-docs/`
-    * `SSS/sss.adapter/sss.adapter.rest.v2/src/main/webapp/api-docs/`
 * Swagger-UI-styled documentation from Swagger's JSON files
  * for apiVersion `v1` 
-    * adapt `swagger-maven-plugin` in `SSS/sss.adapter/sss.adapter.rest.v1/pom.xml`
-    * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/SSAdapterRest`
-    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/sss.adapter/sss.adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
+    * adapt `swagger-maven-plugin` in `SSS/adapter/adapter.rest/adapter.rest.v1/pom.xml`
+	  * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/SSAdapterRest`
+      * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
+    * adapt swagger property `url` of object `SwaggerUi` in `SSS/adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
   * for apiVersion `v2` 
-    * adapt `swagger-maven-plugin` in `SSS/sss.adapter/sss.adapter.rest.v2/pom.xml`
-    * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2`
-    * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/sss.adapter/sss.adapter.rest.v2/src/main/webapp/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs` 
+    * adapt `swagger-maven-plugin` in `SSS/adapter/adapter.rest/adapter.rest.v2/pom.xml`
+      * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2`
+      * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs`
+    * adapt swagger property `url` of object `SwaggerUi` in `SSS/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs` 
  * build and deploy web projects 
-    * `SSS/sss.adapter/sss.adapter.rest.v1` 
-    * `SSS/sss.adapter/sss.adapter.rest.v2`
+    * `SSS/adapter/adapter.rest/adapter.rest.v1` 
+    * `SSS/adapter/adapter.rest/adapter.rest.v2`
  * access swagger docs via 
     * `http://{your-host}:{your-port}/sss.adapter.rest.v1/swagger/index.html`
     * `http://{your-host}:{your-port}/sss.adapter.rest.v2/index.html`
@@ -119,14 +116,14 @@ The source-code can be directly checked-out through this repository. It contains
 ### Logging and Configuration
 * adjust `SSS/sss/src/main/resources/conf/log4j.properties` and copy to `SSS/sss/`
 * adjust `SSS/sss/src/main/resources/conf/sss.conf.yaml` and copy to `SSS/sss/`
-* adjust `SSS/sss.adapter/sss.adapter.rest.v1/src/main/resources/sss.adapter.rest.v1.conf.yaml` and copy to `tomcat conf` dir or
-* adjust `SSS/sss.adapter/sss.adapter.rest.v2/src/main/resources/sss.adapter.rest.v2.conf.yaml` and copy to `tomcat conf` dir
+* adjust `SSS/adapter/adapter.rest/adapter.rest.v1/src/main/resources/sss.adapter.rest.v1.conf.yaml` and copy to `tomcat conf` dir or
+* adjust `SSS/adapter/adapter.rest/adapter.rest.v2/src/main/resources/sss.adapter.rest.v2.conf.yaml` and copy to `tomcat conf` dir
 
 ### Run
 * run `mvn clean install` on project `SSS/sss.root` to have 
  * `SSS/sss/target/sss.app/`
- * `SSS/sss.adapter/sss.adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
-* execute `SSS/sss/src/main/java/at/kc/tugraz/ss/main/SSMain.java` with VM options `-Dlog4j.configuration=file:log4j.properties`
+ * `SSS/adapter/adapter.rest/adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
+* run `SSS/sss/target/sss.app/ss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
 * rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `tomcat webapps` dir
 
 ## SSS client-side libraries

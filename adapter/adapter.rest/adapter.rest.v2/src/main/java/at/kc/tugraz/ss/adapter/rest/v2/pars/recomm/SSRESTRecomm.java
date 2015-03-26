@@ -23,16 +23,20 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
+import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
+import java.io.File;
+import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,9 +47,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/recomm")
-@Api( value = "/recomm", basePath = "/recomm")
+@Api( value = "/recomm") //, basePath = "/recomm"
 public class SSRESTRecomm{
   
   @POST
@@ -81,11 +86,93 @@ public class SSRESTRecomm{
   }
   
   @POST
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/update/bulk")
+  @ApiOperation(
+    value = "add a file containing user, entity, tag, category combinations to be used for recommendations",
+    response = SSRecommUpdateBulkRet.class)
+  public Response recommUpdateBulk(
+    @Context HttpHeaders                                   headers,
+    @ApiParam(name = "fileName", value = "description", required = false)
+    @FormDataParam("fileName") String fileName,
+    @ApiParam(name = "file", value = "description", required = true)
+    @FormDataParam("file") InputStream file){
+      
+//    @FormDataParam("additionalMetadata") FormDataContentDisposition fileData){
+    
+    
+//     {"name":"additionalMetadata","in":"formData","description":"Additional data to pass to server","required":false,"type":"string"},
+//	  {"name":"file","in":"formData","description":"file to upload","required":false,"type":"file"}
+    Response     result = null;
+    SSSocketCon  sSCon  = null;
+    int          read;
+
+    
+//    try{
+//      final SSRecommUpdateBulkPar par;
+//      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
+//      String                readMsgFullFromSS;
+//      
+//      par =
+//        new SSRecommUpdateBulkPar(
+//          SSMethU.recommUpdateBulk,
+//          null,
+//          null,
+//          SSLabel.get("test"));
+//      
+//      try{
+//        par.key = getBearer(headers);
+//      }catch(Exception error){
+//        return Response.status(401).build();
+//      }
+//      
+//      sSCon = new SSSocketCon(SSRestMainV2.conf.ss.host, SSRestMainV2.conf.ss.port, SSJSONU.jsonStr(par));
+//      
+//      sSCon.writeRequFullToSS  ();
+//      sSCon.readMsgFullFromSS  ();
+//      
+//      while ((read = fileHandle.read(bytes)) != -1) {
+//        sSCon.writeFileChunkToSS   (bytes, read);
+//      }
+//      
+//      sSCon.writeFileChunkToSS(new byte[0], -1);
+//      
+//      try{
+//        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
+//      }catch(Exception error){
+//        
+//        SSLogU.info("couldnt read from " + SSRestMainV2.conf.ss.host + " " + SSRestMainV2.conf.ss.port.toString());
+//        throw error;
+//      }
+//      
+//      sSCon.closeCon();
+//      
+//      return Response.status(200).entity(readMsgFullFromSS).build();
+//      
+//    }catch(Exception error){
+//      
+//      try{
+//        return Response.serverError().build();
+//      }catch(Exception error1){
+//        SSServErrReg.regErr(error1, "writing error to client didnt work");
+//      }
+//    }finally{
+//      
+//      if(sSCon != null){
+//        sSCon.closeCon();
+//      }
+//    }
+    
+    return result;
+  }
+  
+  @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path    ("/update/bulk/entities")
   @ApiOperation(
-    value = "add a new combinations of user, entity, tags, categories to be used for recommendations",
+    value = "add tags, categories for the user's given entities to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdateBulkEntities(
     @Context HttpHeaders                         headers,

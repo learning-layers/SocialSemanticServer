@@ -23,12 +23,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.tag;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagAddRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagEditRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagEntitiesForTagsGetRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagFrequsGetRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagsGetRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.tag.SSTagsRemoveRESTAPIV2Par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -60,7 +54,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/tags")
-@Api( value = "/tags", basePath = "/tags")
+@Api( value = "/tags") //, basePath = "/tags"
 public class SSRESTTags{
   
   @GET
