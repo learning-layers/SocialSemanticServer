@@ -146,6 +146,19 @@ public class SSFileU{
 
     return new FileInputStream(new File(filePath));
 	}
+  
+  public static Boolean existsFile(final String filePath) throws Exception{
+    
+    try{
+      
+      final File file = new File(filePath);
+      
+      return file.exists();
+    }catch(Exception error){
+      SSLogU.errThrow(error);
+      return null;
+    }
+  }
 	
 	public static FileOutputStream openOrCreateFileWithPathForWrite(
     final String filePath) throws Exception{

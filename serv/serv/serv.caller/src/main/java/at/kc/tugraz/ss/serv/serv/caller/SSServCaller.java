@@ -2603,6 +2603,7 @@ public class SSServCaller {
   
   public static Map<String, Double> recommTags(
     final SSUri         user,
+    final String        realm,
     final SSUri         forUser,
     final SSUri         entity,
     final List<String>  categories,
@@ -2612,6 +2613,7 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarU.realm,          realm);
     opPars.put(SSVarU.forUser,        forUser);
     opPars.put(SSVarU.entity,         entity);
     opPars.put(SSVarU.categories,     categories);
@@ -2621,31 +2623,41 @@ public class SSServCaller {
     return (Map<String, Double>) SSServA.callServViaServer(new SSServPar(SSMethU.recommTags, opPars));
   }
   
-  public static void recommUpdate(
-    final SSUri               user,
-    final SSUri               forUser,
-    final SSUri               entity,
-    final List<String>        tags,
-    final List<String>        categories) throws Exception {
+//  public static void recommUpdate(
+//    final SSUri               user,
+//    final String              realm,
+//    final SSUri               forUser,
+//    final SSUri               entity,
+//    final List<String>        tags,
+//    final List<String>        categories) throws Exception {
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarU.user,           user);
+//    opPars.put(SSVarU.realm,          realm);
+//    opPars.put(SSVarU.forUser,        forUser);
+//    opPars.put(SSVarU.entity,         entity);
+//    opPars.put(SSVarU.tags,           tags);
+//    opPars.put(SSVarU.categories,     categories);
+//    
+//    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdate, opPars));
+//  }
+  
+  public static void recommUpdateBulk(
+    final SSUri  user, 
+    final String realm) throws Exception {
     
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,         entity);
-    opPars.put(SSVarU.tags,           tags);
-    opPars.put(SSVarU.categories,     categories);
+    opPars.put(SSVarU.realm,          realm);
     
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdate, opPars));
-  }
-  
-  public static void recommUpdateBulkFromSSS() throws Exception {
-    
-    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdateBulkFromSSS, new HashMap<>()));
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommUpdateBulk, opPars));
   }
   
   public static Map<SSEntity, Double> recommResources(
     final SSUri           user,
+    final String          realm,
     final SSUri           forUser,
     final SSUri           entity,
     final List<String>    categories,
@@ -2657,6 +2669,7 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarU.user,                   user);
+    opPars.put(SSVarU.realm,                  realm);
     opPars.put(SSVarU.forUser,                forUser);
     opPars.put(SSVarU.entity,                 entity);
     opPars.put(SSVarU.categories,             categories);
@@ -2737,76 +2750,6 @@ public class SSServCaller {
     
     SSServA.callServViaServer(new SSServPar(SSMethU.fileRemoveReaderOrWriter, opPars));
   }
-  
-//  /* scaff */
-//  
-//  public static List<String> scaffRecommTagsBasedOnUserEntityTag(
-//    final SSUri         user,
-//    final SSUri         forUser,
-//    final SSUri         entity,
-//    final Integer       maxTags) throws  Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.user,         user);
-//    opPars.put(SSVarU.forUser,   forUser);
-//    opPars.put(SSVarU.entity,    entity);
-//    opPars.put(SSVarU.maxTags,      maxTags);
-//    
-//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTag, opPars));
-//  }
-//  
-//  public static List<String> scaffRecommTagsBasedOnUserEntityTagTime(
-//    final SSUri         user,
-//    final SSUri         forUser,
-//    final SSUri         entity,
-//    final Integer       maxTags) throws  Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.user,        user);
-//    opPars.put(SSVarU.forUser,  forUser);
-//    opPars.put(SSVarU.entity,   entity);
-//    opPars.put(SSVarU.maxTags,     maxTags);
-//    
-//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagTime, opPars));
-//  }
-//  
-//  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategory(
-//    final SSUri         user,
-//    final SSUri         forUser,
-//    final SSUri         entity,
-//    final List<String>  categories,
-//    final Integer       maxTags) throws  Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.user,       user);
-//    opPars.put(SSVarU.forUser, forUser);
-//    opPars.put(SSVarU.entity,  entity);
-//    opPars.put(SSVarU.categories, categories);
-//    opPars.put(SSVarU.maxTags,    maxTags);
-//    
-//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategory, opPars));
-//  }
-//  
-//  public static List<String> scaffRecommTagsBasedOnUserEntityTagCategoryTime(
-//    final SSUri         user,
-//    final SSUri         forUser,
-//    final SSUri         entity,
-//    final List<String>  categories,
-//    final Integer       maxTags) throws  Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.user,       user);
-//    opPars.put(SSVarU.forUser, forUser);
-//    opPars.put(SSVarU.entity,  entity);
-//    opPars.put(SSVarU.categories, categories);
-//    opPars.put(SSVarU.maxTags,    maxTags);
-//    
-//    return (List<String>) SSServA.callServViaServer(new SSServPar(SSMethU.scaffRecommTagsBasedOnUserEntityTagCategoryTime, opPars));
-//  }
   
   /* data import */
   

@@ -32,6 +32,7 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSRecommUpdatePar extends SSServPar{
   
+  public String         realm       = null;
   public SSUri          forUser     = null;
   public SSUri          entity      = null;
   public List<String>   tags        = new ArrayList<>();
@@ -41,6 +42,7 @@ public class SSRecommUpdatePar extends SSServPar{
     final SSMethU             op,
     final String              key,
     final SSUri               user,
+    final String              realm,
     final SSUri               forUser, 
     final SSUri               entity, 
     final List<String>        tags,
@@ -48,6 +50,7 @@ public class SSRecommUpdatePar extends SSServPar{
     
     super(op, key, user);
     
+    this.realm   = realm;
     this.forUser = forUser;
     this.entity  = entity;
     
@@ -67,6 +70,7 @@ public class SSRecommUpdatePar extends SSServPar{
     try{
       
       if(pars != null){
+        realm       = (String)       pars.get(SSVarU.realm);
         forUser     = (SSUri)        pars.get(SSVarU.forUser);
         entity      = (SSUri)        pars.get(SSVarU.entity);
         tags        = (List<String>) pars.get(SSVarU.tags);
@@ -75,6 +79,7 @@ public class SSRecommUpdatePar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
+        realm      = par.clientJSONObj.get(SSVarU.realm).getTextValue();
         forUser    = SSUri.get  (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         entity     = SSUri.get  (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         

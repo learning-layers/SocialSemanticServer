@@ -20,26 +20,32 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
+import at.kc.tugraz.socialserver.utils.SSJSONU;
+import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
+import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
+import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import java.io.File;
 import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -53,15 +59,23 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 @Api( value = "/recomm") //, basePath = "/recomm"
 public class SSRESTRecomm{
   
-  @POST
+  @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/update/")
+  @Path    ("/{realm}/update")
   @ApiOperation(
     value = "add a new combination of user, entity, tags, categories to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdate(
-    @Context HttpHeaders             headers,
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm,
+    
     final SSRecommUpdateRESTAPIV2Par input){
     
     final SSRecommUpdatePar par;
@@ -73,6 +87,7 @@ public class SSRESTRecomm{
           SSMethU.recommUpdate,
           null,
           null,
+          realm,       //realm
           input.forUser,     //forUser
           input.entity,      //entity
           input.tags,        //tags
@@ -82,100 +97,112 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handlePUTRequest(headers, par);
   }
   
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/update/bulk")
+  @Path("{realm}/update/bulk")
   @ApiOperation(
     value = "add a file containing user, entity, tag, category combinations to be used for recommendations",
     response = SSRecommUpdateBulkRet.class)
   public Response recommUpdateBulk(
-    @Context HttpHeaders                                   headers,
-    @ApiParam(name = "fileName", value = "description", required = false)
-    @FormDataParam("fileName") String fileName,
-    @ApiParam(name = "file", value = "description", required = true)
-    @FormDataParam("file") InputStream file){
+    @Context 
+      HttpHeaders headers,
+
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm,
+    
+    @ApiParam(
+      value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;", 
+      required = true)
+    @FormDataParam("file") 
+      final InputStream file){ 
       
-//    @FormDataParam("additionalMetadata") FormDataContentDisposition fileData){
-    
-    
-//     {"name":"additionalMetadata","in":"formData","description":"Additional data to pass to server","required":false,"type":"string"},
-//	  {"name":"file","in":"formData","description":"file to upload","required":false,"type":"file"}
     Response     result = null;
     SSSocketCon  sSCon  = null;
     int          read;
 
-    
-//    try{
-//      final SSRecommUpdateBulkPar par;
-//      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
-//      String                readMsgFullFromSS;
-//      
-//      par =
-//        new SSRecommUpdateBulkPar(
-//          SSMethU.recommUpdateBulk,
-//          null,
-//          null,
-//          SSLabel.get("test"));
-//      
-//      try{
-//        par.key = getBearer(headers);
-//      }catch(Exception error){
-//        return Response.status(401).build();
-//      }
-//      
-//      sSCon = new SSSocketCon(SSRestMainV2.conf.ss.host, SSRestMainV2.conf.ss.port, SSJSONU.jsonStr(par));
-//      
-//      sSCon.writeRequFullToSS  ();
-//      sSCon.readMsgFullFromSS  ();
-//      
-//      while ((read = fileHandle.read(bytes)) != -1) {
-//        sSCon.writeFileChunkToSS   (bytes, read);
-//      }
-//      
-//      sSCon.writeFileChunkToSS(new byte[0], -1);
-//      
-//      try{
-//        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
-//      }catch(Exception error){
-//        
-//        SSLogU.info("couldnt read from " + SSRestMainV2.conf.ss.host + " " + SSRestMainV2.conf.ss.port.toString());
-//        throw error;
-//      }
-//      
-//      sSCon.closeCon();
-//      
-//      return Response.status(200).entity(readMsgFullFromSS).build();
-//      
-//    }catch(Exception error){
-//      
-//      try{
-//        return Response.serverError().build();
-//      }catch(Exception error1){
-//        SSServErrReg.regErr(error1, "writing error to client didnt work");
-//      }
-//    }finally{
-//      
-//      if(sSCon != null){
-//        sSCon.closeCon();
-//      }
-//    }
+    try{
+      final SSRecommUpdateBulkPar par;
+      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
+      String                readMsgFullFromSS;
+      
+      par =
+        new SSRecommUpdateBulkPar(
+          SSMethU.recommUpdateBulk,
+          null,
+          null,
+          realm);
+      
+      try{
+        par.key = SSRestMainV2.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      sSCon = new SSSocketCon(SSRestMainV2.conf.ss.host, SSRestMainV2.conf.ss.port, SSJSONU.jsonStr(par));
+      
+      sSCon.writeRequFullToSS  ();
+      
+      sSCon.readMsgFullFromSS();
+      
+      while ((read = file.read(bytes)) != -1) {
+        sSCon.writeFileChunkToSS   (bytes, read);
+      }
+      
+      sSCon.writeFileChunkToSS(new byte[0], -1);
+      
+      try{
+        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
+      }catch(Exception error){
+        
+        SSLogU.info("couldnt read from " + SSRestMainV2.conf.ss.host + " " + SSRestMainV2.conf.ss.port.toString());
+        throw error;
+      }
+      
+      sSCon.closeCon();
+      
+      return Response.status(200).entity(readMsgFullFromSS).build();
+      
+    }catch(Exception error){
+      
+      try{
+        return Response.serverError().build();
+      }catch(Exception error1){
+        SSServErrReg.regErr(error1, "writing error to client didnt work");
+      }
+    }finally{
+      
+      if(sSCon != null){
+        sSCon.closeCon();
+      }
+    }
     
     return result;
   }
   
-  @POST
+  @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/update/bulk/entities")
+  @Path    ("{realm}/update/bulk/entities")
   @ApiOperation(
     value = "add tags, categories for the user's given entities to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdateBulkEntities(
-    @Context HttpHeaders                         headers,
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm,
+    
     final SSRecommUpdateBulkEntitiesRESTAPIV2Par input){
     
     final SSRecommUpdateBulkEntitiesPar par;
@@ -187,6 +214,7 @@ public class SSRESTRecomm{
           SSMethU.recommUpdateBulkEntities,
           null,
           null,
+          realm,               //realm
           input.forUser,       //forUser
           input.entities,      //entity
           input.tags,          //tags
@@ -196,18 +224,25 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handlePUTRequest(headers, par);
   }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/users/")
+  @Path    ("/{realm}/users")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsers(
-    @Context HttpHeaders          headers){
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false)
+    @PathParam("realm") 
+      final String realm){
     
     final SSRecommUsersPar par;
     
@@ -218,9 +253,10 @@ public class SSRESTRecomm{
           SSMethU.recommUsers,
           null,
           null, 
-          null, //forUser
-          null, //entity
-          null, //categories
+          realm, //realm
+          null,  //forUser
+          null,  //entity
+          null,  //categories
           10);
       
     }catch(Exception error){
@@ -233,16 +269,31 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/users/user/{forUser}/entity/{entity}")
+  @Path    ("/{realm}/users/user/{forUser}/entity/{entity}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserEntity(
-    @Context HttpHeaders               headers,
-    @ApiParam(value = "user to be considered to retrieve recommendations for") 
-    @PathParam(SSVarU.forUser) String  forUser, 
-    @ApiParam(value = "resource to be considered to retrieve recommendations for") 
-    @PathParam(SSVarU.entity) String  entity){
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm, 
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarU.forUser) 
+      String forUser, 
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarU.entity) 
+      String entity){
     
     final SSRecommUsersPar par;
     
@@ -253,6 +304,7 @@ public class SSRESTRecomm{
           SSMethU.recommUsers,
           null,
           null, 
+          realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           SSUri.get(entity,  SSVocConf.sssUri), //entity
           null, //categories
@@ -268,14 +320,25 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/users/user/{forUser}")
+  @Path    ("/{realm}/users/user/{forUser}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUser(
-    @Context HttpHeaders               headers,
-    @ApiParam(value = "user to be considered to retrieve recommendations for")
-    @PathParam(SSVarU.forUser) String  forUser){
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for", 
+      required = true)
+    @PathParam(SSVarU.forUser) 
+      String forUser){
     
     final SSRecommUsersPar par;
     
@@ -286,6 +349,7 @@ public class SSRESTRecomm{
           SSMethU.recommUsers,
           null,
           null, 
+          realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           null, //entity
           null, //categories
@@ -301,14 +365,25 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/users/entity/{entity}")
+  @Path    ("/{realm}/users/entity/{entity}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForEntity(
-    @Context HttpHeaders              headers,
-    @ApiParam(value = "resource to be considered to retrieve recommendations for")
-    @PathParam(SSVarU.entity) String  entity){
+    @Context 
+      HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = false) 
+    @PathParam(SSVarU.realm) 
+      String realm,
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true)
+    @PathParam(SSVarU.entity) 
+      String entity){
     
     final SSRecommUsersPar par;
     
@@ -319,6 +394,7 @@ public class SSRESTRecomm{
           SSMethU.recommUsers,
           null,
           null, 
+          realm, //realm
           null, //forUser
           SSUri.get(entity, SSVocConf.sssUri), //entity
           null, //categories

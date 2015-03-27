@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.auth;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.auth.SSAuthCheckCredRESTAPIV2Par;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import com.wordnik.swagger.annotations.Api;

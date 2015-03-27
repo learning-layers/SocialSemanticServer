@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSRecommFct{
-
+        
   public static void checkPar(
     final SSUri user,
     final SSUri forUser) throws Exception{

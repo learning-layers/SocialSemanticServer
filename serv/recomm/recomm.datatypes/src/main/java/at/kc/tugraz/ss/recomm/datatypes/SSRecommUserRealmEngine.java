@@ -18,13 +18,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.recomm.datatypes.par;
+package at.kc.tugraz.ss.recomm.datatypes;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import engine.EntityRecommenderEngine;
 
-public class SSRecommUpdateBulkFromSSSPar extends SSServPar{
+public class SSRecommUserRealmEngine{
   
-  public SSRecommUpdateBulkFromSSSPar(final SSServPar par) throws Exception{
-    super(par);
+  public final EntityRecommenderEngine engine;
+  public String                        realm;
+  
+  public static SSRecommUserRealmEngine get(
+    final EntityRecommenderEngine engine,
+    final String                  realm){
+    
+    return new SSRecommUserRealmEngine(engine, realm);
+  }
+  
+  private SSRecommUserRealmEngine(
+    final EntityRecommenderEngine engine,
+    final String                  realm){
+    
+    this.engine = engine;
+    this.realm  = realm;
   }
 }

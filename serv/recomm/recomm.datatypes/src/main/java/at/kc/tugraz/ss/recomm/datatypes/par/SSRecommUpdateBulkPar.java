@@ -21,26 +21,24 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
   
-  public SSLabel  fileName     = null;
+  public String  realm     = null;
   
   public SSRecommUpdateBulkPar(
     final SSMethU             op,
     final String              key,
     final SSUri               user,
-    final SSLabel             fileName){
+    final String              realm){
     
     super(op, key, user);
     
-    this.fileName = fileName;
+    this.realm = realm;
   }
   
   public SSRecommUpdateBulkPar(final SSServPar par) throws Exception{
@@ -50,11 +48,11 @@ public class SSRecommUpdateBulkPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileName      = (SSLabel)    pars.get(SSVarU.fileName);
+        realm      = (String)    pars.get(SSVarU.realm);
       }
       
       if(par.clientJSONObj != null){
-        fileName    = SSLabel.get (par.clientJSONObj.get(SSVarU.fileName).getTextValue());
+        realm    = par.clientJSONObj.get(SSVarU.realm).getTextValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -62,7 +60,4 @@ public class SSRecommUpdateBulkPar extends SSServPar{
   }
   
   /* json getters */
-  public String getFileName(){
-    return SSStrU.toStr(fileName);
-  }
 }

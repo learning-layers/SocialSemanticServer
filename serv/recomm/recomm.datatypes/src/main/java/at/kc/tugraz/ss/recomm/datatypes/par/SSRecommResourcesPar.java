@@ -38,6 +38,12 @@ import org.codehaus.jackson.JsonNode;
 @ApiModel(value = "recommResources request parameter")
 public class SSRecommResourcesPar extends SSServPar{
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "recomm realm the user wants to query")
+  public String         realm    = null;
+  
   @ApiModelProperty( 
     required = false, 
     value = "user to be considered to retrieve recommendations for")
@@ -96,6 +102,7 @@ public class SSRecommResourcesPar extends SSServPar{
     
     try{
       if(pars != null){
+        realm                         = (String)          pars.get(SSVarU.realm);
         forUser                       = (SSUri)           pars.get(SSVarU.forUser);
         entity                        = (SSUri)           pars.get(SSVarU.entity);
         categories                    = (List<String>)    pars.get(SSVarU.categories);
@@ -106,6 +113,10 @@ public class SSRecommResourcesPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
+        
+        try{
+          this.realm   = par.clientJSONObj.get(SSVarU.realm).getTextValue();
+        }catch(Exception error){}
         
         try{
           this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).getTextValue());

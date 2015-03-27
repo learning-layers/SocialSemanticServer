@@ -30,7 +30,7 @@ public interface SSRecommServerI{
   public Map<SSEntity, Double> recommResources          (final SSServPar parA) throws Exception;
   public Map<SSEntity, Double> recommUsers              (final SSServPar parA) throws Exception;
   public Boolean               recommUpdate             (final SSServPar parA) throws Exception;
-  public Boolean               recommUpdateBulkFromSSS  (final SSServPar parA) throws Exception;
+  public void                  recommUpdateBulk         (final SSServPar parA) throws Exception;
   public Boolean               recommUpdateBulkEntities (final SSServPar parA) throws Exception;
   
 }

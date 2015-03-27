@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @ApiModel(value = "recommUpdate request parameter")
 public class SSRecommUpdateRESTAPIV2Par{
-  
+
   @ApiModelProperty(
     required = true,
     value = "forUser")

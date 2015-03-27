@@ -347,7 +347,6 @@ public enum SSMethU{
   recommResources,
   recommUsers,
   recommUpdate,
-  recommUpdateBulkFromSSS,
   recommUpdateBulkEntities,
   recommUpdateBulk,
   

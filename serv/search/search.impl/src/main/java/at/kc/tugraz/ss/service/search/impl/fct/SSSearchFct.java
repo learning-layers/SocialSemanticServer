@@ -139,7 +139,8 @@ public class SSSearchFct {
       result.addAll(
         SSServCaller.recommResources(
           par.user,
-          par.user,
+          null, //realm
+          par.user, //forUser
           null,
           new ArrayList<>(),
           10,

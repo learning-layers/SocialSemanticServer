@@ -21,34 +21,50 @@
 package at.kc.tugraz.ss.recomm.serv.task;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.TimerTask;
 
-public class SSRecommUpdateBulkFromSSSTask extends TimerTask {
+public class SSRecommUpdateBulkTask extends TimerTask {
+  
+  private final SSRecommConf recommConf;
+  
+  public SSRecommUpdateBulkTask(
+    final SSRecommConf recommConf){
+    
+    this.recommConf = recommConf;
+  }
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSRecommUpdateBulkFromSSSUpdater()).start();
+      new Thread(new SSRecommUpdateBulkUpdater(recommConf)).start();
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
   }
   
-  protected class SSRecommUpdateBulkFromSSSUpdater extends SSServImplStartA{
+  protected class SSRecommUpdateBulkUpdater extends SSServImplStartA{
     
-    public SSRecommUpdateBulkFromSSSUpdater() throws Exception{
+    private final SSRecommConf recommConf;
+    
+    public SSRecommUpdateBulkUpdater(
+      final SSRecommConf recommConf) throws Exception{
+      
       super(null, null);
+      
+      this.recommConf = recommConf;
     }
     
     @Override
     public void run() {
       
       try{
-        SSServCaller.recommUpdateBulkFromSSS();
+        SSServCaller.recommUpdateBulk(SSVoc.systemUserUri, recommConf.fileNameForRec);
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
       }finally{

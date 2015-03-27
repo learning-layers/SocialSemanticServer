@@ -43,6 +43,7 @@ public class SSRecommResourcesTest extends SSServOpTestCaseA{
     final Map<SSEntity, Double> resources = 
       SSServCaller.recommResources(
         SSVoc.systemUserUri, 
+        ((SSRecommConf) conf).fileNameForRec,
         null,
         null,
         new ArrayList<>(),

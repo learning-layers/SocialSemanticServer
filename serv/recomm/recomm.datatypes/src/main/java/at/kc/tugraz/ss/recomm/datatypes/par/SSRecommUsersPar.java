@@ -32,6 +32,7 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSRecommUsersPar extends SSServPar{
 
+  public String        realm      = null;
   public SSUri         forUser    = null;
   public SSUri         entity     = null;
   public List<String>  categories = new ArrayList<>();
@@ -41,6 +42,7 @@ public class SSRecommUsersPar extends SSServPar{
     final SSMethU      op,
     final String       key,
     final SSUri        user,
+    final String       realm,
     final SSUri        forUser,
     final SSUri        entity, 
     final List<String> categories, 
@@ -48,6 +50,7 @@ public class SSRecommUsersPar extends SSServPar{
   
     super(op, key, user);
     
+    this.realm   = realm;
     this.forUser = forUser;
     this.entity  = entity;
     
@@ -64,6 +67,7 @@ public class SSRecommUsersPar extends SSServPar{
     
     try{
       if(pars != null){
+        realm                         = (String)          pars.get(SSVarU.realm);
         forUser                       = (SSUri)           pars.get(SSVarU.forUser);
         entity                        = (SSUri)           pars.get(SSVarU.entity);
         categories                    = (List<String>)    pars.get(SSVarU.categories);
@@ -71,6 +75,10 @@ public class SSRecommUsersPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
+        
+        try{
+          this.realm = par.clientJSONObj.get(SSVarU.realm).getTextValue();
+        }catch(Exception error){}
         
         try{
           this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).getTextValue());

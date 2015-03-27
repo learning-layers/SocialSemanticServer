@@ -32,6 +32,7 @@ import org.codehaus.jackson.JsonNode;
 
 public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
   
+  public String               realm       = null;
   public SSUri                forUser     = null;
   public List<SSUri>          entities    = new ArrayList<>();
   public List<List<String>>   tags        = new ArrayList<>();
@@ -41,6 +42,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     final SSMethU             op,
     final String              key,
     final SSUri               user,
+    final String              realm,
     final SSUri               forUser, 
     final List<SSUri>         entities, 
     final List<List<String>>  tags,
@@ -48,6 +50,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     
     super(op, key, user);
     
+    this.realm   = realm;
     this.forUser = forUser;
     
     if(entities != null){
@@ -70,6 +73,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     try{
       
       if(pars != null){
+        realm       = (String)             pars.get(SSVarU.realm);
         forUser     = (SSUri)              pars.get(SSVarU.forUser);
         entities    = (List<SSUri>)        pars.get(SSVarU.entities);
         tags        = (List<List<String>>) pars.get(SSVarU.tags);
@@ -78,6 +82,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
+        realm      = par.clientJSONObj.get(SSVarU.realm).getTextValue();
         forUser    = SSUri.get  (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
         
         for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {

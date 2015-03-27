@@ -42,6 +42,7 @@ public class SSRecommTagsTest extends SSServOpTestCaseA{
     final Map<String, Double> tags = 
       SSServCaller.recommTags(
         SSVoc.systemUserUri, 
+        ((SSRecommConf) conf).fileNameForRec,
         null,
         null,
         new ArrayList<>(),
