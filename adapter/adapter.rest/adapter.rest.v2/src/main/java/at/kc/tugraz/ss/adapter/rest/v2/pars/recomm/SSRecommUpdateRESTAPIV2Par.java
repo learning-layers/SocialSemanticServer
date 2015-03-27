@@ -33,6 +33,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "recommUpdate request parameter")
 public class SSRecommUpdateRESTAPIV2Par{
 
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "recomm realm the user wants to query")
+  public String       realm     = null;
+  
   @ApiModelProperty(
     required = true,
     value = "forUser")

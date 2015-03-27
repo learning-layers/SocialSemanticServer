@@ -62,20 +62,14 @@ public class SSRESTRecomm{
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{realm}/update")
+  @Path    ("/update")
   @ApiOperation(
     value = "add a new combination of user, entity, tags, categories to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdate(
     @Context 
-      HttpHeaders headers,
-    
-    @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = false) 
-    @PathParam(SSVarU.realm) 
-      String realm,
-    
+      final HttpHeaders headers,
+
     final SSRecommUpdateRESTAPIV2Par input){
     
     final SSRecommUpdatePar par;
@@ -87,7 +81,7 @@ public class SSRESTRecomm{
           SSMethU.recommUpdate,
           null,
           null,
-          realm,       //realm
+          input.realm,       //realm
           input.forUser,     //forUser
           input.entity,      //entity
           input.tags,        //tags
@@ -103,19 +97,19 @@ public class SSRESTRecomm{
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("{realm}/update/bulk")
+  @Path("/update/bulk")
   @ApiOperation(
     value = "add a file containing user, entity, tag, category combinations to be used for recommendations",
     response = SSRecommUpdateBulkRet.class)
   public Response recommUpdateBulk(
     @Context 
-      HttpHeaders headers,
+      final HttpHeaders headers,
 
     @ApiParam(
       value = "recomm realm the user wants to query", 
-      required = false) 
-    @PathParam(SSVarU.realm) 
-      String realm,
+      required = true) 
+    @FormDataParam(SSVarU.realm) 
+      final String realm,
     
     @ApiParam(
       value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;", 
@@ -189,19 +183,13 @@ public class SSRESTRecomm{
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{realm}/update/bulk/entities")
+  @Path    ("/update/bulk/entities")
   @ApiOperation(
     value = "add tags, categories for the user's given entities to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdateBulkEntities(
     @Context 
-      HttpHeaders headers,
-    
-    @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = false) 
-    @PathParam(SSVarU.realm) 
-      String realm,
+      final HttpHeaders headers,
     
     final SSRecommUpdateBulkEntitiesRESTAPIV2Par input){
     
@@ -214,7 +202,7 @@ public class SSRESTRecomm{
           SSMethU.recommUpdateBulkEntities,
           null,
           null,
-          realm,               //realm
+          input.realm,         //realm
           input.forUser,       //forUser
           input.entities,      //entity
           input.tags,          //tags
@@ -230,17 +218,50 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{realm}/users")
+  @Path    ("/users")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsers(
     @Context 
-      HttpHeaders headers,
+      final HttpHeaders headers){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSMethU.recommUsers,
+          null,
+          null, 
+          null, //realm
+          null,  //forUser
+          null,  //entity
+          null,  //categories
+          10);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/realm/{realm}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsers(
+    @Context 
+      final HttpHeaders headers,
     
     @ApiParam(
       value = "recomm realm the user wants to query", 
-      required = false)
+      required = true)
     @PathParam("realm") 
       final String realm){
     
@@ -269,17 +290,62 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{realm}/users/user/{forUser}/entity/{entity}")
+  @Path    ("/users/user/{forUser}/entity/{entity}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserEntity(
     @Context 
-      HttpHeaders headers,
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarU.forUser) 
+      String forUser, 
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarU.entity) 
+      String entity){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSMethU.recommUsers,
+          null,
+          null, 
+          null,                                //realm
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          SSUri.get(entity,  SSVocConf.sssUri), //entity
+          null, //categories
+          10);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/realm/{realm}/user/{forUser}/entity/{entity}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForUserEntity(
+    @Context 
+      final HttpHeaders headers,
     
     @ApiParam(
       value = "recomm realm the user wants to query", 
-      required = false) 
+      required = true) 
     @PathParam(SSVarU.realm) 
       String realm, 
     
@@ -320,25 +386,64 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{realm}/users/user/{forUser}")
+  @Path    ("/users/user/{forUser}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUser(
     @Context 
-      HttpHeaders headers,
-    
-    @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = false) 
-    @PathParam(SSVarU.realm) 
-      String realm,
+      final HttpHeaders headers,
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for", 
       required = true)
     @PathParam(SSVarU.forUser) 
-      String forUser){
+      final String forUser){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSMethU.recommUsers,
+          null,
+          null, 
+          null,                                //realm
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          null, //entity
+          null, //categories
+          10);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/realm/{realm}/user/{forUser}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForUser(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true) 
+    @PathParam(SSVarU.realm) 
+      final String realm,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for", 
+      required = true)
+    @PathParam(SSVarU.forUser) 
+      final String forUser){
     
     final SSRecommUsersPar par;
     
@@ -365,25 +470,64 @@ public class SSRESTRecomm{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{realm}/users/entity/{entity}")
+  @Path    ("/users/entity/{entity}")
   @ApiOperation(
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForEntity(
     @Context 
-      HttpHeaders headers,
-    
-    @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = false) 
-    @PathParam(SSVarU.realm) 
-      String realm,
+      final HttpHeaders headers,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
     @PathParam(SSVarU.entity) 
-      String entity){
+      final String entity){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSMethU.recommUsers,
+          null,
+          null, 
+          null, //realm
+          null, //forUser
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //categories
+          10);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleGETRequest(headers, par);
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/realm/{realm}/entity/{entity}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForEntity(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true) 
+    @PathParam(SSVarU.realm) 
+      final String realm,
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true)
+    @PathParam(SSVarU.entity) 
+      final String entity){
     
     final SSRecommUsersPar par;
     

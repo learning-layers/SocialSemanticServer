@@ -495,3 +495,5 @@ org.eclipse.wst.jsdt.ui.superType.name
 /adapter/adapter.rest/adapter.rest.v1/src/main/webapp/api-docs/service.json
 /sss/data/csv
 /adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/recomm.json
+/sss/sss-eval.log
+/sss/sss.log

@@ -55,7 +55,7 @@
         <version>2.4</version>
         <configuration>
           <outputDirectory>${project.build.directory}/sss.app/</outputDirectory>
-          <finalName>ss</finalName>
+          <finalName>sss</finalName>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>

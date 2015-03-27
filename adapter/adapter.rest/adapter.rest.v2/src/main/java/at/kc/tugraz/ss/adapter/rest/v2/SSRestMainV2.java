@@ -63,7 +63,7 @@ public class SSRestMainV2 extends Application {
     ResourceConfig resourceConfig;
     
     //    SSLogU.info("rest enter");
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.ld.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
     
     /* util */
     SSMimeTypeU.init();

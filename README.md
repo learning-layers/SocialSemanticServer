@@ -123,7 +123,7 @@ The source-code can be directly checked-out through this repository. It contains
 * run `mvn clean install` on project `SSS/sss.root` to have 
  * `SSS/sss/target/sss.app/`
  * `SSS/adapter/adapter.rest/adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
-* run `SSS/sss/target/sss.app/ss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
+* run `SSS/sss/target/sss.app/sss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
 * rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `tomcat webapps` dir
 
 ## SSS client-side libraries

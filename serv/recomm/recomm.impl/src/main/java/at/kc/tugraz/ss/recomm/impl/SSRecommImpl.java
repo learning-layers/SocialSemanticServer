@@ -434,7 +434,12 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
           throw new Exception("user already defined recomm realm: " + userEngines.get(userStr).realm + " re-use this!");
         }
       }else{
-        userEngines.put(userStr, SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm));
+        
+        if(checkForUpdate){
+          userEngines.put(userStr, SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm));
+        }else{
+          throw new Exception("realm to recommend from doesnt exist");
+        }
       }
       
       return userEngines.get(userStr);
