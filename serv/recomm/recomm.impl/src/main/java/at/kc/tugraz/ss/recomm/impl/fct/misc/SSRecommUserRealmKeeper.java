@@ -20,6 +20,8 @@
  */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
+import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
@@ -27,6 +29,7 @@ import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import engine.EntityRecommenderEngine;
+import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.recomm.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
+import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
@@ -54,6 +55,7 @@ import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import engine.Algorithm;
 import engine.EntityType;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,8 +73,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     recommConf = ((SSRecommConf)conf);
     sqlFct     = new SSRecommSQLFct(this);
-    
-    SSRecommUserRealmKeeper.setSssRealmAndEngine(recommConf.fileNameForRec);
   }
   
   @Override
@@ -276,15 +276,30 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   @Override
   public void recommLoadUserRealms (final SSServPar parA) throws Exception{
     
+    FileOutputStream sssRealmFileOut = null;
+    
     try{
-      SSRecommUserRealmKeeper.setUserRealmEngines(sqlFct.getUserRealms());
+      
+      SSRecommUserRealmKeeper.setUserRealmEngines  (sqlFct.getUserRealms());
       
       for(SSRecommUserRealmEngine engine : SSRecommUserRealmKeeper.getUserRealmEngines()){
         engine.engine.loadFile(engine.realm);
       }
+
+      SSRecommUserRealmKeeper.setSssRealmAndEngine (recommConf.fileNameForRec);
+      
+      sssRealmFileOut = 
+        SSFileU.openOrCreateFileWithPathForWrite(
+          SSFileU.dirWorkingDataCsv() +
+            SSRecommUserRealmKeeper.getSssRealm() +
+            SSStrU.dot + SSFileExtE.txt);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }finally{
+      if(sssRealmFileOut != null){
+        sssRealmFileOut.close();
+      }
     }
   }
   
