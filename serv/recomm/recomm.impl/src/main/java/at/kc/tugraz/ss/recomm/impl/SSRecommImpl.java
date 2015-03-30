@@ -60,6 +60,10 @@ import java.util.Map;
 public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
   
   private static String                                     sssRealm       = null;
+
+  public static void setSssRealm(String sssRealm){
+    SSRecommImpl.sssRealm = sssRealm;
+  }
   private static final Map<String, SSRecommUserRealmEngine> userEngines    = new HashMap<>();
   
   private        final SSRecommConf                  recommConf;
@@ -78,6 +82,10 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
     }
   }
   
+  public static String getSssRealm(){
+    return sssRealm;
+  }
+  
   @Override
   public void recommUsers(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
@@ -94,7 +102,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       final Map<SSEntity, Double>  users         = new HashMap<>();
       Integer                      userCounter   = 0;
       
-      SSRecommFct.checkPar(par.user, par.forUser);
+      SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
         checkAddAndGetUserRealmEngine(par.user, par.realm, false);
@@ -147,7 +155,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       final SSEntity        forUserEntity;
       Algorithm             algo = recommConf.recommTagAlgorithm;
       
-      SSRecommFct.checkPar(par.user, par.forUser);
+      SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
         checkAddAndGetUserRealmEngine(par.user, par.realm, false);
@@ -203,7 +211,7 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       Integer                      entityCounter = 0;
       SSEntity                     entity;
       
-      SSRecommFct.checkPar(par.user, par.forUser);
+      SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
         checkAddAndGetUserRealmEngine(par.user, par.realm, false);

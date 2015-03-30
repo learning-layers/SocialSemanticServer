@@ -97,7 +97,7 @@ public class SSRESTRecomm{
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/update/bulk")
+  @Path("/update/bulk/{realm}")
   @ApiOperation(
     value = "add a file containing user, entity, tag, category combinations to be used for recommendations",
     response = SSRecommUpdateBulkRet.class)
@@ -108,7 +108,7 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "recomm realm the user wants to query", 
       required = true) 
-    @FormDataParam(SSVarU.realm) 
+    @PathParam(SSVarU.realm) 
       final String realm,
     
     @ApiParam(

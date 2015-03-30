@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import sss.serv.err.datatypes.SSErrE;
@@ -30,17 +31,23 @@ import sss.serv.err.datatypes.SSErrE;
 public class SSRecommFct{
         
   public static void checkPar(
-    final SSUri user,
-    final SSUri forUser) throws Exception{
+    final SSUri  user,
+    final SSUri  forUser,
+    final String realm) throws Exception{
     
     if(user == null){
       throw new Exception("user cannot be null");
     }
     
     if(
-      forUser != null &&
-      !SSStrU.equals(user, forUser)){
-      throw new Exception("user cannot retrieve recommendations for other users");
+      realm == null ||
+      SSStrU.equals(realm, SSRecommImpl.getSssRealm())){
+      
+      if(
+        forUser != null &&
+        !SSStrU.equals(user, forUser)){
+        throw new Exception("user cannot retrieve recommendations for other users");
+      }
     }
   }
   
