@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
@@ -115,9 +116,19 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
 
       for(Map.Entry<String, Double> userWithLikelihood : usersWithLikelihood.entrySet()){
         
-        users.put(
-          SSRecommFct.handleAccess(par.user, SSUri.get(userWithLikelihood.getKey())),
-          userWithLikelihood.getValue());
+        if(SSStrU.equals(userRealmEngine.realm, SSRecommUserRealmKeeper.getSssRealm())){
+          
+          users.put(
+            SSRecommFct.handleAccess(par.user, SSUri.get(userWithLikelihood.getKey())),
+            userWithLikelihood.getValue());
+        }else{
+          
+          users.put(
+            SSEntity.get(
+              SSUri.get(userWithLikelihood.getKey()),
+              SSEntityE.user),
+            userWithLikelihood.getValue());
+        }
         
         if((++userCounter) >= par.maxUsers){
           break;
