@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
 import sss.serv.err.datatypes.SSErrE;
@@ -41,7 +40,7 @@ public class SSRecommFct{
     
     if(
       realm == null ||
-      SSStrU.equals(realm, SSRecommImpl.getSssRealm())){
+      SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
       
       if(
         forUser != null &&

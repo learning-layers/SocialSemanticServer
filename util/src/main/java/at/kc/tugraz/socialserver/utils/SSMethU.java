@@ -346,6 +346,7 @@ public enum SSMethU{
   recommTags,
   recommResources,
   recommUsers,
+  recommLoadUserRealms,
   recommUpdate,
   recommUpdateBulkEntities,
   recommUpdateBulk,

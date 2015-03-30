@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.db.api;
 
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -111,6 +110,9 @@ public class SSDBSQLFct extends SSDBFct{
   
   //likes
   protected static final String   likesTable                          = "likes";
+  
+  //recomm
+  protected static final String   recommUserRealmsTable               = "recommuserrealms";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

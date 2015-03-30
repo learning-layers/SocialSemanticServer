@@ -30,8 +30,12 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.serv.api.SSServA;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.List;
 
 public class SSRecommServ extends SSServA{
@@ -47,7 +51,7 @@ public class SSRecommServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSRecommImpl(servConf);
+    return new SSRecommImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override
@@ -55,9 +59,13 @@ public class SSRecommServ extends SSServA{
     
     final SSRecommConf recommConf = (SSRecommConf)servConf;
     
-    if(
-      !recommConf.use ||
-      !recommConf.initAtStartUp){
+    if(!recommConf.use){
+      return;
+    }
+    
+    SSServCaller.recommLoadUserRealms(SSVoc.systemUserUri);
+    
+    if(!recommConf.initAtStartUp){
       return;
     }
     

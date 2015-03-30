@@ -44,46 +44,34 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUpdateBulkUploader;
+import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
+import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
+import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import engine.Algorithm;
-import engine.EntityRecommenderEngine;
 import engine.EntityType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.serv.err.datatypes.SSErrE;
 
-public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SSRecommServerI{
+public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
   
-  private static String                                     sssRealm       = null;
-
-  public static void setSssRealm(String sssRealm){
-    SSRecommImpl.sssRealm = sssRealm;
-  }
-  private static final Map<String, SSRecommUserRealmEngine> userEngines    = new HashMap<>();
+  private final SSRecommConf   recommConf;
+  private final SSRecommSQLFct sqlFct;
   
-  private        final SSRecommConf                  recommConf;
-  
-  public SSRecommImpl(final SSConfA conf) throws Exception{
-    super(conf);
+  public SSRecommImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+    
+    super(conf, dbSQL);
     
     recommConf = ((SSRecommConf)conf);
+    sqlFct     = new SSRecommSQLFct(this);
     
-    if(sssRealm == null){
-      sssRealm = recommConf.fileNameForRec;
-    }
-    
-    if(!userEngines.containsKey(SSStrU.toStr(SSVoc.systemUserUri))){
-      userEngines.put(SSStrU.toStr(SSVoc.systemUserUri), SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), sssRealm));
-    }
-  }
-  
-  public static String getSssRealm(){
-    return sssRealm;
+    SSRecommUserRealmKeeper.setSssRealmAndEngine(recommConf.fileNameForRec);
   }
   
   @Override
@@ -105,7 +93,11 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, false);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm, 
+          false, 
+          sqlFct);
       
       //Users for resource (Tags): getEntitiesWithLikelihood(null,    entity, null, 10, false, null /* LD: Algorithm.USERTAGCB */, EntityType.USER); // CBtags
       //Users for user:            getEntitiesWithLikelihood(forUser, null,   null, 10, false, null,                               EntityType.USER); // CF
@@ -158,7 +150,11 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, false);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm,
+          false,
+          sqlFct);
       
       if(
         recommConf.recommTagsGroups != null &&
@@ -214,7 +210,11 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, false);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm, 
+          false,
+          sqlFct);
       
       //Resources for user (Tags): getEntitiesWithLikelihood(forUser, null,   null, 10, false, Algorithm.RESOURCETAGCB /* LD */,   EntityType.RESOURCE); // CBtags
       //Resources for user (CF):   getEntitiesWithLikelihood(forUser, null,   null, 10, false, null /* or Algorithm.RESOURCECF */, EntityType.RESOURCE); // CF
@@ -263,13 +263,32 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
   }
   
   @Override
+  public void recommLoadUserRealms (final SSServPar parA) throws Exception{
+    
+    try{
+      SSRecommUserRealmKeeper.setUserRealmEngines(sqlFct.getUserRealms());
+      
+      for(SSRecommUserRealmEngine engine : SSRecommUserRealmKeeper.getUserRealmEngines()){
+        engine.engine.loadFile(engine.realm);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
   public void recommUpdateBulk(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
     final SSRecommUpdateBulkPar par = new SSRecommUpdateBulkPar(parA);
     
-    checkAddAndGetUserRealmEngine(par.user, par.realm, true);
+    SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+      par.user, 
+      par.realm, 
+      true, 
+      sqlFct);
     
     new Thread(new SSRecommUpdateBulkUploader(recommConf, sSCon, par)).start();
   }
@@ -281,9 +300,17 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       final SSRecommUpdateBulkPar par = new SSRecommUpdateBulkPar(parA);
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, true);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm, 
+          true, 
+          sqlFct);
         
+      dbSQL.commit(par.shouldCommit);
+      
       SSServCaller.dataExportUserEntityTagCategoryTimestamps(
         par.user,
         true, 
@@ -294,6 +321,20 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       userRealmEngine.engine.loadFile(userRealmEngine.realm);
       
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
+          recommUpdateBulk(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -313,8 +354,16 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       final SSRecommUpdatePar par = new SSRecommUpdatePar(parA);
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, true);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm, 
+          true,
+          sqlFct);
+      
+      dbSQL.commit(par.shouldCommit);
       
       SSServCaller.dataExportAddTagsCategoriesTimestampsForUserEntity(
         par.user,
@@ -328,8 +377,22 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       return true;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
       
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(parA)){
+          
+          SSServErrReg.reset();
+          
+          return recommUpdate(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA);
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
@@ -352,8 +415,16 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       List<String> tags;
       List<String> categories;
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       final SSRecommUserRealmEngine userRealmEngine = 
-        checkAddAndGetUserRealmEngine(par.user, par.realm, true);
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          par.user, 
+          par.realm, 
+          true,
+          sqlFct);
+      
+      dbSQL.commit(par.shouldCommit);
       
       if(
         !par.tags.isEmpty() &&
@@ -396,63 +467,21 @@ public class SSRecommImpl extends SSServImplMiscA implements SSRecommClientI, SS
       
       return true;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
-    final SSUri   user,
-    final String  realm,
-    final Boolean checkForUpdate) throws Exception{
-    
-    try{
       
-      final String userStr = SSStrU.toStr(user);
-      
-      if(checkForUpdate){
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(SSStrU.equals(user, SSVoc.systemUserUri)){
+        if(dbSQL.rollBack(parA)){
           
-          if(realm == null){
-            throw new Exception("realm has to be set");
-          }
+          SSServErrReg.reset();
+          
+          return recommUpdateBulkEntities(parA);
         }else{
-          
-          if(
-            realm == null ||
-            SSStrU.equals(realm, sssRealm)){
-            
-            throw new Exception("realm has to be set");
-          }
-        }
-      }else{
-        
-        if(
-          realm == null ||
-          SSStrU.equals(realm, sssRealm)){
-          
-          return userEngines.get(SSStrU.toStr(SSVoc.systemUserUri));
+          SSServErrReg.regErrThrow(error);
+          return null;
         }
       }
       
-      if(userEngines.containsKey(userStr)){
-        
-        if(!SSStrU.equals(userEngines.get(userStr).realm, realm)){
-          throw new Exception("user already defined recomm realm: " + userEngines.get(userStr).realm + " re-use this!");
-        }
-      }else{
-        
-        if(checkForUpdate){
-          userEngines.put(userStr, SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm));
-        }else{
-          throw new Exception("realm to recommend from doesnt exist");
-        }
-      }
-      
-      return userEngines.get(userStr);
-      
-    }catch(Exception error){
+      dbSQL.rollBack(parA);
       SSServErrReg.regErrThrow(error);
       return null;
     }

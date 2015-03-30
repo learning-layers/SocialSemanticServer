@@ -1367,6 +1367,30 @@ LOCK TABLES `ratingass` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `recommuserrealms`
+--
+
+DROP TABLE IF EXISTS `recommuserrealms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recommuserrealms` (
+  `userId` varchar(255) NOT NULL,
+  `realm` varchar(255) NOT NULL,
+  PRIMARY KEY (`userId`,`realm`),
+  CONSTRAINT `userIdFKrecommuserrealms` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recommuserrealms`
+--
+
+LOCK TABLES `recommuserrealms` WRITE;
+/*!40000 ALTER TABLE `recommuserrealms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recommuserrealms` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `space`
 --
 
@@ -1611,4 +1635,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-27  9:24:51
+-- Dump completed on 2015-03-30 11:00:33

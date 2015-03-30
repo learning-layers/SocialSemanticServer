@@ -3061,6 +3061,16 @@ public class SSServCaller {
     
     return (SSUri) SSServA.callServViaServer(new SSServPar(SSMethU.videoUserAdd, opPars));
   }
+
+  public static void recommLoadUserRealms(
+    final SSUri user) throws Exception{
+    
+    final Map<String, Object>  opPars           = new HashMap<>();
+    
+    opPars.put(SSVarU.user,             user);
+    
+    SSServA.callServViaServer(new SSServPar(SSMethU.recommLoadUserRealms, opPars));
+  }
 }
 
 

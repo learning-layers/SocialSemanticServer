@@ -22,6 +22,7 @@ package at.kc.tugraz.socialserver.utils;
 
 public class SSSQLVarU{
 
+  public static final String realm                                          = "realm";
   public static final String usn                                            = "usn";
   public static final String link                                           = "link";
   public static final String videoAnnotationId                              = "videoAnnotationId";

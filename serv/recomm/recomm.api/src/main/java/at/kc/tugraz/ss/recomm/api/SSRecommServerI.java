@@ -32,5 +32,5 @@ public interface SSRecommServerI{
   public Boolean               recommUpdate             (final SSServPar parA) throws Exception;
   public void                  recommUpdateBulk         (final SSServPar parA) throws Exception;
   public Boolean               recommUpdateBulkEntities (final SSServPar parA) throws Exception;
-  
+  public void                  recommLoadUserRealms     (final SSServPar parA) throws Exception;
 }
