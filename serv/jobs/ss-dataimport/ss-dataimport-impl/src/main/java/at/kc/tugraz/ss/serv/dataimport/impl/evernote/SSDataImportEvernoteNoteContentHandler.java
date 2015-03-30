@@ -417,6 +417,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeU.imageTiff  + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageTiff  + "\"")){
+            mimeType = SSMimeTypeU.imageTiff;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeU.applicationPdf  + "\"") &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationPdf  + "\"")){
             mimeType = SSMimeTypeU.applicationPdf;
@@ -499,6 +505,7 @@ public class SSDataImportEvernoteNoteContentHandler{
             SSStrU.equals(mimeType, SSMimeTypeU.imageJpeg)      ||
             SSStrU.equals(mimeType, SSMimeTypeU.imagePng)       ||
             SSStrU.equals(mimeType, SSMimeTypeU.imageGif)       ||
+            SSStrU.equals(mimeType, SSMimeTypeU.imageTiff)      ||
             SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
 
             hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);

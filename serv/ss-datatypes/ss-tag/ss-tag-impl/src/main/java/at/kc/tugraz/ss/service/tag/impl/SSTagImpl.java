@@ -559,7 +559,7 @@ implements
       
       
       if(
-        par.space    == null &&
+        par.space  == null &&
         par.entity == null){
 
         dbSQL.startTrans(par.shouldCommit);
@@ -572,7 +572,7 @@ implements
       }
       
        if(
-         par.space    != null &&
+         par.space  != null &&
          par.entity == null){
          
          dbSQL.startTrans(par.shouldCommit);
@@ -584,7 +584,7 @@ implements
        }
       
       if(
-        par.space    == null &&
+        par.space  == null &&
         par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
@@ -597,7 +597,7 @@ implements
       }
       
       if(
-        par.space    != null &&
+        par.space  != null &&
         par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);

@@ -72,6 +72,8 @@ public enum SSFileExtE{
 	gif,
 	svg,
 	bmp,
+  tiff,
+  tif,
   
   //zip
   rar,

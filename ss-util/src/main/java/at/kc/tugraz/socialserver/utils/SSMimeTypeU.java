@@ -54,6 +54,7 @@ public class SSMimeTypeU {
 	public final static String                 imageGif                                                   = "image/gif";
 	public final static String                 imageSvg                                                   = "image/svg+xml";
 	public final static String                 imageBmp                                                   = "image/bmp";
+  public final static String                 imageTiff                                                  = "image/tiff";
 	public final static String                 videoAvi                                                   = "video/avi";
 	public final static String                 videoMp4                                                   = "video/mp4";
 	public final static String                 videoMpeg                                                  = "video/mpeg";
@@ -106,6 +107,7 @@ public class SSMimeTypeU {
     mimeTypesFileExt.put(imageIcon,                    SSFileExtE.ico.toString());
     mimeTypesFileExt.put(imageGif,                     SSFileExtE.gif.toString());
     mimeTypesFileExt.put(imageBmp,                     SSFileExtE.bmp.toString());
+    mimeTypesFileExt.put(imageTiff,                    SSFileExtE.tiff.toString());
     mimeTypesFileExt.put(applicationAtom,              SSFileExtE.atom.toString());
     mimeTypesFileExt.put(applicationLatex,             SSFileExtE.latex.toString());
     mimeTypesFileExt.put(imageSvg,                     SSFileExtE.svg.toString());
@@ -144,6 +146,9 @@ public class SSMimeTypeU {
     fileExtForMimTypes.put(SSFileExtE.css.toString(),   textCss);
     fileExtForMimTypes.put(SSFileExtE.vcf.toString(),   textVcard);
     fileExtForMimTypes.put(SSFileExtE.gif.toString(),   imageGif);
+    fileExtForMimTypes.put(SSFileExtE.bmp.toString(),   imageBmp);
+    fileExtForMimTypes.put(SSFileExtE.tif.toString(),   imageTiff);
+    fileExtForMimTypes.put(SSFileExtE.tiff.toString(),  imageTiff);
     fileExtForMimTypes.put(SSFileExtE.bmp.toString(),   imageBmp);
     fileExtForMimTypes.put(SSFileExtE.atom.toString(),  applicationAtom);
     fileExtForMimTypes.put(SSFileExtE.latex.toString(), applicationLatex);
