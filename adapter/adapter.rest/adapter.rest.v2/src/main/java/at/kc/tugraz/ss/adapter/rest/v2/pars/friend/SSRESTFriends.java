@@ -66,7 +66,7 @@ public class SSRESTFriends{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -94,6 +94,6 @@ public class SSRESTFriends{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }

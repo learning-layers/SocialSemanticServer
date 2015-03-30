@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.entity;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.entity.SSLikeSetRESTAPIV2Par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
@@ -76,7 +75,7 @@ public class SSRESTEntities {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -106,7 +105,7 @@ public class SSRESTEntities {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   //  @GET
@@ -141,7 +140,7 @@ public class SSRESTEntities {
 //      return Response.status(422).build();
 //    }
 //    
-//    return SSRestMainV2.handleGETRequest(headers, par);
+//    return SSRestMainV2.handleRequest(headers, par);
 //  }
   
   //  @GET
@@ -176,6 +175,6 @@ public class SSRESTEntities {
 //      return Response.status(422).build();
 //    }
 //    
-//    return SSRestMainV2.handleGETRequest(headers, par);
+//    return SSRestMainV2.handleRequest(headers, par);
 //  }
 }

@@ -22,15 +22,21 @@ package sss.serv.err.datatypes;
 
 public enum SSErrE{
   
+  restAdapterInternalError,
+  
   authCouldntConnectToOIDC,
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
   authNoUserForKey,
   
   spaceNotAvailable,
-  
+
+  sssConnectionFailed,
+  sssJsonRequestEncodingFailed,
+  sssWriteFailed,
+  sssReadFailed,
+  sssResponseParsingFailed,
   sssResponseFailed,
-  sssResponseParseFailed,
   searchResultPageUnavailable,
   searchResultOutDated,
   sqlDeadLock,

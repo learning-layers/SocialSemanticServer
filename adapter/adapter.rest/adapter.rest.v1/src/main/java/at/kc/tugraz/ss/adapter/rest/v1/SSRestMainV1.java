@@ -260,7 +260,7 @@ public class SSRestMainV1 extends Application {
       }
       
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParsingFailed, "couldn't parse json from sss")).build();
     }
   }
   
@@ -299,7 +299,7 @@ public class SSRestMainV1 extends Application {
       }
       
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParsingFailed, "couldn't parse json from sss")).build();
     }
   }
   
@@ -332,7 +332,7 @@ public class SSRestMainV1 extends Application {
       }
       
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParsingFailed, "couldn't parse json from sss")).build();
     }
   }
   
@@ -365,7 +365,7 @@ public class SSRestMainV1 extends Application {
       }
       
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParsingFailed, "couldn't parse json from sss")).build();
     }
   }
   

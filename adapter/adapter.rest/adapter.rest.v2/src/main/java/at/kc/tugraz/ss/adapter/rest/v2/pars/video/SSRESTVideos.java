@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.video;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.video.SSVideoAddRESTAPIV2Par;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.video.SSVideoAnnotationAddRESTAPIV2Par;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
@@ -76,7 +74,7 @@ public class SSRESTVideos{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -114,7 +112,7 @@ public class SSRESTVideos{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -149,6 +147,6 @@ public class SSRESTVideos{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }

@@ -20,28 +20,18 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
-import at.kc.tugraz.ss.adapter.rest.v2.pars.search.SSRESTSearch;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.entity.SSRESTEntities;
-import at.kc.tugraz.ss.adapter.rest.v2.pars.auth.SSRESTAuth;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -50,8 +40,6 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.server.ResourceConfig;
-import sss.serv.err.datatypes.SSErr;
 import sss.serv.err.datatypes.SSErrE;
 
 public class SSRestMainV2 extends Application {
@@ -60,20 +48,13 @@ public class SSRestMainV2 extends Application {
 
   public SSRestMainV2() throws Exception{
    
-    ResourceConfig resourceConfig;
-    
-    //    SSLogU.info("rest enter");
     SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
     
-    /* util */
-    SSMimeTypeU.init();
-    SSJSONLDU.init(
-      SSAdapterRestConf.instGet().getJsonLD().uri);
-    
-    /* json-ld */
-//    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
-    
     conf = SSAdapterRestConf.instGet();
+    
+    SSMimeTypeU.init();
+    
+    SSJSONLDU.init(conf.getJsonLD().uri);
   }
   
   @Override
@@ -82,273 +63,149 @@ public class SSRestMainV2 extends Application {
     final Set<Class<?>> classes = new HashSet<>();
     
     classes.add(MultiPartFeature.class);
-    classes.add(SSRESTAuth.class);
-    classes.add(SSRESTEntities.class);
-    classes.add(SSRESTSearch.class);
 
     return classes;
   }
   
-  public static String handleStandardJSONRESTCall(
-    final SSServPar   input, 
-    final SSMethU     op){
-    
-    try{
-      
-      input.op = op;
-      
-      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-      return null;
-    }
-  }
-  
-  public static String handleStandardJSONRESTCall(
-    final String      jsonRequ,
-    final SSMethU     op){
-    
-    SSSocketCon       sSCon = null;
-    String            readMsgFullFromSS;
-    
-    try{
-      
-      try{
-        sSCon = new SSSocketCon(conf.ss.host, conf.ss.port, jsonRequ);
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
-        throw error;
-      }
-      
-      try{
-        sSCon.writeRequFullToSS ();
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt write to " + conf.ss.host + " " + conf.ss.port.toString());
-        throw error;
-      }
-      
-      try{
-        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
-      }catch(Exception error){
-        
-        SSLogU.info("couldnt read from " + conf.ss.host + " " + conf.ss.port.toString());
-        throw error;
-      }
-      
-      return checkAndHandleSSSNodeSwitch(readMsgFullFromSS, jsonRequ);
-      
-    }catch(Exception error){
-      
-      final List<SSErrForClient> errors = new ArrayList<>();
-      
-      try{
-        
-        errors.add(SSErrForClient.get(error));
-        
-        if(sSCon != null){
-          return sSCon.prepErrorToClient (errors, op);
-        }
-        
-        SSServErrReg.regErrThrow(error);
-        
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
-      }
-    }finally{
-      
-      if(sSCon != null){
-        sSCon.closeCon();
-      }
-    }
-    
-    return null;
-  }
-  
-  private static String checkAndHandleSSSNodeSwitch(
-    final String msgFullFromSS,
-    final String clientJSONRequ) throws Exception{
-    
-    SSSocketCon sssNodeSocketCon = null;
-    
-    try{
-      
-      final SSClientPar clientPar = new SSClientPar (msgFullFromSS);
-      
-      if(!clientPar.useDifferentServiceNode){
-        return msgFullFromSS;
-      }
-      
-      sssNodeSocketCon =
-        new SSSocketCon(
-          clientPar.sssNodeHost,
-          clientPar.sssNodePort,
-          clientJSONRequ);
-      
-      sssNodeSocketCon.writeRequFullToSS();
-      
-      return sssNodeSocketCon.readMsgFullFromSS ();
-      
-    }catch(Exception error){
-      SSServErrReg.regErr     (error);
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.deployingServiceOnNodeFailed));
-      return null;
-    }finally{
-      if(sssNodeSocketCon != null){
-        sssNodeSocketCon.closeCon();
-      }
-    }
-  }
-  
-  public static String getBearer(
+  private static String getBearer(
     final HttpHeaders headers) throws Exception{
     
     String bearer = headers.getRequestHeader("authorization").get(0);
     return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
   }
   
-  public static Response handleGETRequest(
+  public static SSRESTObject handleRequest(
     final HttpHeaders      headers,
-    final SSServPar        par){
+    final SSServPar        par, 
+    final Boolean          keepSSSConnectionOpen,
+    final Boolean          getKeyFromHeaders){
     
-    try{
-      par.key = getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
+    final SSRESTObject restObj                  = new SSRESTObject(par);
+    final ObjectMapper sssJSONResponseMapper    = new ObjectMapper();
+    final JsonNode     sssJSONResponseRootNode;
+    
+    if(getKeyFromHeaders){
+    
+      try{
+        par.key = getBearer(headers);
+      }catch(Exception error){
+
+        restObj.response = Response.status(401).build();
+
+        return restObj;
+      }
     }
     
-    final String   response;
-    
     try{
-      response = handleStandardJSONRESTCall(par, par.op);
+      restObj.sssRequestMessage = SSJSONU.jsonStr(restObj.par);
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
-    }
-    
-    try{
-      final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(response);
       
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
-      }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      restObj.response = 
+        Response.status(500).entity(
+          getJSONStrForError(
+            SSErrE.sssJsonRequestEncodingFailed)).build();
+      
+      return restObj;
+    }
+    
+    try{
+
+      try{
+        
+        restObj.sssCon =
+          new SSSocketCon(
+            conf.ss.host,
+            conf.ss.port,
+            restObj.sssRequestMessage);
+        
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssConnectionFailed)).build();
+        
+        return restObj;
       }
       
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
-    }
-  }
-  
-  public static Response handlePOSTRequest(
-    final HttpHeaders      headers,
-    final SSServPar        par){
-    
-    try{
-      par.key = getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    return sendPOSTRequest(par);
-  }
-  
-  public static Response sendPOSTRequest(
-    final SSServPar        par){
-    
-    final String   response;
-    
-    try{
-      response = handleStandardJSONRESTCall(par, par.op);
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
-    }
-    
-    try{
-      final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(response);
-      
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
-      }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      try{
+        restObj.sssCon.writeRequFullToSS ();
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssWriteFailed)).build();
+        
+        return restObj;
       }
       
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
-    }
-  }
-  
-  public static Response handleDELETERequest(
-    final HttpHeaders      headers,
-    final SSServPar        par){
-    
-    try{
-      par.key = getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    final String   response;
-    
-    try{
-      response = handleStandardJSONRESTCall(par, par.op);
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
-    }
-    
-    try{
-      final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(response);
-      
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
-      }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+      try{
+        restObj.sssResponseMessage = restObj.sssCon.readMsgFullFromSS();
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssReadFailed)).build();
+        
+        return restObj;
       }
       
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
-    }
-  }
-  
-  public static Response handlePUTRequest(
-    final HttpHeaders      headers,
-    final SSServPar        par){
-    
-    try{
-      par.key = getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    final String   response;
-    
-    try{
-      response = handleStandardJSONRESTCall(par, par.op);
-    }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseFailed, "couldn't retrieve response from sss")).build();
-    }
-    
-    try{
-      final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(response);
-      
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
-      }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+//      restObj.sssResponseMessage =
+//        checkAndHandleSSSNodeSwitch(
+//          restObj.sssResponseMessage,
+//          restObj.sssRequestMessage);
+
+      try{
+        sssJSONResponseRootNode = sssJSONResponseMapper.readTree(restObj.sssResponseMessage);
+
+        if(sssJSONResponseRootNode.get(SSVarU.error).getBooleanValue()){
+
+          restObj.response =
+            Response.status(500).entity(
+              getJSONStrForError(
+                sssJSONResponseRootNode.get(SSVarU.id).getTextValue(),
+                sssJSONResponseRootNode.get(SSVarU.message).getTextValue())).build();
+
+        }else{
+          restObj.response =
+            Response.status(200).entity(
+              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
+        }
+        
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssResponseParsingFailed)).build();
       }
       
+      return restObj;
+      
     }catch(Exception error){
-      return Response.status(500).entity(getJSONStrForError(SSErrE.sssResponseParseFailed, "couldn't parse json from sss")).build();
+      
+      restObj.response =
+        Response.status(500).entity(
+          getJSONStrForError(
+            SSErrE.restAdapterInternalError)).build();
+      
+      return restObj;
+      
+    }finally{
+      
+      if(
+        !keepSSSConnectionOpen &&
+        restObj.sssCon != null){
+        
+        restObj.sssCon.closeCon();
+      }
     }
   }
   
-  private static String getJSONStrForError(
-    final SSErrE id, 
-    final String message){
+  public static String getJSONStrForError(
+    final SSErrE id){
     
     final Map<String, Object> jsonObj     = new HashMap<>();
     
@@ -358,15 +215,10 @@ public class SSRestMainV2 extends Application {
       jsonObj.put(SSVarU.id,                      id.toString());
     }
     
-    if(message == null){
-      
-      if(id == null){
-        jsonObj.put(SSVarU.message,               null);
-      }else{
-        jsonObj.put(SSVarU.message,               id.toString());
-      }
+    if(id == null){
+      jsonObj.put(SSVarU.message,               null);
     }else{
-      jsonObj.put(SSVarU.message,               message);
+      jsonObj.put(SSVarU.message,               id.toString());
     }
     
     try{
@@ -376,11 +228,11 @@ public class SSRestMainV2 extends Application {
     }
   }
   
-  private static String getJSONStrForError(
-    final String id, 
+  public static String getJSONStrForError(
+    final String id,
     final String message) throws Exception{
     
-   final Map<String, Object> jsonObj     = new HashMap<>();
+    final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
       jsonObj.put(SSVarU.id,                      null);
@@ -406,3 +258,38 @@ public class SSRestMainV2 extends Application {
     }
   }
 }
+
+//  private static String checkAndHandleSSSNodeSwitch(
+//    final String msgFullFromSS,
+//    final String clientJSONRequ) throws Exception{
+//    
+//    SSSocketCon sssNodeSocketCon = null;
+//    
+//    try{
+//      
+//      final SSClientPar clientPar = new SSClientPar (msgFullFromSS);
+//      
+//      if(!clientPar.useDifferentServiceNode){
+//        return msgFullFromSS;
+//      }
+//      
+//      sssNodeSocketCon =
+//        new SSSocketCon(
+//          clientPar.sssNodeHost,
+//          clientPar.sssNodePort,
+//          clientJSONRequ);
+//      
+//      sssNodeSocketCon.writeRequFullToSS();
+//      
+//      return sssNodeSocketCon.readMsgFullFromSS ();
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErr     (error);
+//      SSServErrReg.regErrThrow(new SSErr(SSErrE.deployingServiceOnNodeFailed));
+//      return null;
+//    }finally{
+//      if(sssNodeSocketCon != null){
+//        sssNodeSocketCon.closeCon();
+//      }
+//    }
+//  }

@@ -51,20 +51,23 @@ public class SSRESTAuth{
     @Context 
       HttpHeaders headers){
 
+    final SSAuthCheckCredPar par;
+    
     try{
       
-      return SSRestMainV2.handleGETRequest(
-        headers,
+      par = 
         new SSAuthCheckCredPar(
           SSMethU.authCheckCred,
           null,
           null,
           null,
-          null));
-      
+          null);
+
     }catch(Exception error){
       return Response.status(422).build();
     }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -93,6 +96,6 @@ public class SSRESTAuth{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.sendPOSTRequest(par);
+    return SSRestMainV2.handleRequest(null, par, false, false).response;
   }
 }

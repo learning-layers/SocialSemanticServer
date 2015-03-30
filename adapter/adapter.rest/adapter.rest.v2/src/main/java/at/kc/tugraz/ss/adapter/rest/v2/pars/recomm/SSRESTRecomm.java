@@ -20,13 +20,11 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
@@ -35,8 +33,6 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
-import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -54,6 +50,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import sss.serv.err.datatypes.SSErrE;
 
 @Path("/recomm")
 @Api( value = "/recomm") //, basePath = "/recomm"
@@ -91,7 +88,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePUTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -117,14 +114,12 @@ public class SSRESTRecomm{
     @FormDataParam("file") 
       final InputStream file){ 
       
-    Response     result = null;
-    SSSocketCon  sSCon  = null;
-    int          read;
+    final SSRecommUpdateBulkPar par;
+    SSRESTObject                restObj = null;
+    byte[]                      bytes  = new byte[SSSocketU.socketTranmissionSize];
+    int                         read;
 
     try{
-      final SSRecommUpdateBulkPar par;
-      byte[]                bytes  = new byte[SSSocketU.socketTranmissionSize];
-      String                readMsgFullFromSS;
       
       par =
         new SSRecommUpdateBulkPar(
@@ -133,51 +128,68 @@ public class SSRESTRecomm{
           null,
           realm);
       
-      try{
-        par.key = SSRestMainV2.getBearer(headers);
-      }catch(Exception error){
-        return Response.status(401).build();
+      restObj =
+        SSRestMainV2.handleRequest(
+          headers,
+          par,
+          true,  //keepSSSConnectionOpen
+          true); //getKeyFromHeaders
+      
+      if(restObj.response.getStatus() != 200){
+        return restObj.response;
       }
       
-      sSCon = new SSSocketCon(SSRestMainV2.conf.ss.host, SSRestMainV2.conf.ss.port, SSJSONU.jsonStr(par));
-      
-      sSCon.writeRequFullToSS  ();
-      
-      sSCon.readMsgFullFromSS();
-      
-      while ((read = file.read(bytes)) != -1) {
-        sSCon.writeFileChunkToSS   (bytes, read);
-      }
-      
-      sSCon.writeFileChunkToSS(new byte[0], -1);
-      
       try{
-        readMsgFullFromSS = sSCon.readMsgFullFromSS ();
+      
+        while ((read = file.read(bytes)) != -1) {
+          restObj.sssCon.writeFileChunkToSS   (bytes, read);
+        }
+
+        restObj.sssCon.writeFileChunkToSS(new byte[0], -1);
       }catch(Exception error){
         
-        SSLogU.info("couldnt read from " + SSRestMainV2.conf.ss.host + " " + SSRestMainV2.conf.ss.port.toString());
-        throw error;
+        restObj.response =
+          Response.status(500).entity(
+            SSRestMainV2.getJSONStrForError(
+              SSErrE.sssWriteFailed)).build();
       }
       
-      sSCon.closeCon();
+      try{
+        restObj.sssResponseMessage = restObj.sssCon.readMsgFullFromSS ();
+        restObj.response           = Response.status(200).entity(restObj.sssResponseMessage).build();
+        
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            SSRestMainV2.getJSONStrForError(
+              SSErrE.sssReadFailed)).build();
+      }
       
-      return Response.status(200).entity(readMsgFullFromSS).build();
+      return restObj.response;
       
     }catch(Exception error){
       
-      try{
+      if(restObj != null){
+      
+        restObj.response =
+          Response.status(500).entity(
+            SSRestMainV2.getJSONStrForError(
+              SSErrE.restAdapterInternalError)).build();
+        
+        return restObj.response;
+      }else{
         return Response.serverError().build();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1, "writing error to client didnt work");
       }
     }finally{
-      
-      if(sSCon != null){
-        sSCon.closeCon();
+
+      if(
+        restObj        != null &&
+        restObj.sssCon != null){
+        
+        restObj.sssCon.closeCon();
       }
     }
-    
-    return result;
   }
   
   @PUT
@@ -212,7 +224,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePUTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -245,7 +257,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -284,7 +296,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -329,7 +341,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -380,7 +392,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -419,7 +431,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -464,7 +476,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -503,7 +515,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET
@@ -548,6 +560,6 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }

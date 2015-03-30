@@ -75,7 +75,7 @@ public class SSRESTAppStackLayouts{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleGETRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @POST
@@ -106,7 +106,7 @@ public class SSRESTAppStackLayouts{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePOSTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @DELETE
@@ -134,7 +134,7 @@ public class SSRESTAppStackLayouts{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleDELETERequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @PUT
@@ -166,6 +166,6 @@ public class SSRESTAppStackLayouts{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handlePUTRequest(headers, par);
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }
