@@ -80,6 +80,8 @@ public class SSFileExtU {
     imageFileExts.add(SSFileExtE.gif.toString());
     imageFileExts.add(SSFileExtE.svg.toString());
     imageFileExts.add(SSFileExtE.bmp.toString());
+    imageFileExts.add(SSFileExtE.tif.toString());
+    imageFileExts.add(SSFileExtE.tiff.toString());
     
     zipFileExts.add(SSFileExtE.rar.toString());
     zipFileExts.add(SSFileExtE.zip.toString());
