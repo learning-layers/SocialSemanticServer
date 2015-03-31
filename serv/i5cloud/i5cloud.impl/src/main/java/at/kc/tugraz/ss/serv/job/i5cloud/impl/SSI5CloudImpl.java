@@ -24,7 +24,7 @@ import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -71,7 +71,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       
       con.setDoOutput(true);
       con.setRequestProperty(SSHTMLU.acceptCharset, SSEncodingU.utf8);
-      con.setRequestProperty(SSHTMLU.contentType,   SSMimeTypeU.applicationJson);
+      con.setRequestProperty(SSHTMLU.contentType,   SSMimeTypeE.applicationJson.toString());
       
       out = con.getOutputStream();
       
@@ -106,7 +106,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       i5CloudCon.setDoOutput         (true);
       i5CloudCon.setRequestMethod    (SSHTMLU.put);
       i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.authToken);
-      i5CloudCon.setRequestProperty  (SSHTMLU.contentType, SSMimeTypeU.multipartFormData);
+      i5CloudCon.setRequestProperty  (SSHTMLU.contentType, SSMimeTypeE.multipartFormData.toString());
       
       SSFileU.readFileBytes(
         i5CloudCon.getOutputStream(),

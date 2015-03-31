@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.solr.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -27,7 +28,7 @@ import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 public class SSSolrAddDocPar extends SSServPar{
   
   public String id                      = null;
-  public String mimeType                = null;
+  public SSMimeTypeE mimeType           = null;
   
   public SSSolrAddDocPar(SSServPar par) throws Exception{
     
@@ -37,7 +38,7 @@ public class SSSolrAddDocPar extends SSServPar{
       
       if(pars != null){
         id               = (String)          pars.get(SSVarU.id);
-        mimeType         = (String)          pars.get(SSVarU.mimeType);
+        mimeType         = (SSMimeTypeE)     pars.get(SSVarU.mimeType);
       }
       
     }catch(Exception error){

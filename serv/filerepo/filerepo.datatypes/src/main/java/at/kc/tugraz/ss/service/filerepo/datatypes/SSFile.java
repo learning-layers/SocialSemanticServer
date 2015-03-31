@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
@@ -31,25 +31,25 @@ public class SSFile extends SSEntity{
   @ApiModelProperty(
     required = false,
     value = "file extension")
-  public String fileExt  = null;
+  public SSFileExtE fileExt  = null;
   
   @ApiModelProperty(
     required = false,
     value = "mime type")
-  public String mimeType = null;
+  public SSMimeTypeE mimeType = null;
   
   public static SSFile get(
     final SSEntity        entity,
-    final String          fileExt,
-    final String          mimeType) throws Exception{
+    final SSFileExtE      fileExt,
+    final SSMimeTypeE     mimeType) throws Exception{
     
     return new SSFile(entity, fileExt, mimeType);
   }
   
   protected SSFile(
     final SSEntity         entity,
-    final String           fileExt,
-    final String           mimeType) throws Exception{
+    final SSFileExtE       fileExt,
+    final SSMimeTypeE      mimeType) throws Exception{
     
     super(entity);
     
@@ -62,8 +62,8 @@ public class SSFile extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.fileExt,       SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+//    ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+//    ld.put(SSVarU.fileExt,       SSVarU.sss + SSStrU.colon + SSFileExtE.class.getName());
     
     return ld;
   }

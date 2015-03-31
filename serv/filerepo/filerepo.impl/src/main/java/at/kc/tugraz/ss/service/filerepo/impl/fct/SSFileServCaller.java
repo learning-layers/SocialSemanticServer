@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -89,7 +89,7 @@ public class SSFileServCaller{
       SSServCaller.solrAddDoc(
         par.user,
         fileId,
-        SSMimeTypeU.mimeTypeForFileExt(
+        SSMimeTypeE.mimeTypeForFileExt(
           SSServCaller.fileExtGet(
             par.user,
             par.file)),

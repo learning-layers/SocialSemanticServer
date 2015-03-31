@@ -21,8 +21,9 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
 import at.kc.tugraz.socialserver.utils.SSDateU;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
@@ -119,8 +120,8 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
       
       case evernoteResource:{
         
-        String      fileExt  = null;
-        String      mimeType = null;
+        SSFileExtE      fileExt  = null;
+        SSMimeTypeE     mimeType = null;
         
         try{
           
@@ -128,7 +129,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
           
           if(desc.file != null){
             fileExt        = SSServCaller.fileExtGet        (par.user, desc.file);
-            mimeType       = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+            mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
           }else{
             SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
           }

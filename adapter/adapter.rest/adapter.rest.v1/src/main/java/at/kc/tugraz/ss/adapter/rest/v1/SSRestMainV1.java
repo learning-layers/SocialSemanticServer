@@ -20,11 +20,12 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
@@ -65,16 +66,12 @@ public class SSRestMainV1 extends Application {
     resourceConfig = new ResourceConfig(SSAdapterRESTFileReplace.class);
     resourceConfig.register(MultiPartFeature.class);
     
-    //    SSLogU.info("rest enter");
     SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v1.conf.yaml");
     
-    /* util */
-    SSMimeTypeU.init();
+    SSFileExtE.init    ();
+    SSMimeTypeE.init   ();
     SSJSONLDU.init(
       SSAdapterRestConf.instGet().getJsonLD().uri);
-    
-    /* json-ld */
-//    SSJSONLD.inst.initServ(SSAdapterRestConf.instGet().getJsonLDConf());
     
     conf = SSAdapterRestConf.instGet();
   }

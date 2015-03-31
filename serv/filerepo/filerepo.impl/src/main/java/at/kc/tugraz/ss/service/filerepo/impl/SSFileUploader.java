@@ -21,12 +21,11 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSHTMLU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -49,7 +48,7 @@ import javax.imageio.ImageIO;
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
-  private       String                fileExt;
+  private       SSFileExtE            fileExt;
   private       FileOutputStream      fileOutputStream  = null;
   private       FileInputStream       fileInputStream   = null;
   private       String                fileId            = null;
@@ -70,8 +69,8 @@ public class SSFileUploader extends SSServImplStartA{
     this.localWorkPath     = SSCoreConf.instGet().getSs().getLocalWorkPath();
     
     try{
-      this.fileExt           = SSMimeTypeU.fileExtForMimeType             (this.par.mimeType);
-      this.uri               = SSServCaller.vocURICreate                  (SSFileExtE.valueOf(this.fileExt));
+      this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
+      this.uri               = SSServCaller.vocURICreate                  (this.fileExt);
       this.fileId            = SSServCaller.fileIDFromURI                 (par.user, uri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
@@ -219,20 +218,24 @@ public class SSFileUploader extends SSServImplStartA{
       final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
       Boolean      thumbCreated      = false;
       
-      if(SSFileExtU.imageFileExts.contains(fileExt)){
+      if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath, 500, 500);
         thumbCreated = true;
       }
       
-      if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-        SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
-        thumbCreated = true;
-      }
-      
-      if(SSStrU.equals(SSFileExtE.doc, fileExt)){
-        SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-        SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
-        thumbCreated = true;
+      switch(fileExt){
+        
+        case pdf:{
+          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
+          thumbCreated = true;
+          break;
+        }
+        
+        case doc:{
+          SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
+          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
+          thumbCreated = true;          
+        }
       }
       
       if(thumbCreated){

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -53,15 +53,15 @@ public class SSDataImportEvernoteResourceContentHandler{
   //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   public void handleResourceContent() throws Exception{
     
-    String fileExt = null;
+    SSFileExtE fileExt = null;
     SSUri  fileUri;
     String fileId;
     
     try{
       
       try{
-        fileExt = SSMimeTypeU.fileExtForMimeType(resource.getMime()); 
-        fileUri = SSServCaller.vocURICreate(SSFileExtE.valueOf(fileExt));
+        fileExt = SSMimeTypeE.fileExtForMimeType1(resource.getMime()); 
+        fileUri = SSServCaller.vocURICreate(fileExt);
         fileId  = SSServCaller.fileIDFromURI(user, fileUri);
         
         SSFileU.writeFileBytes(

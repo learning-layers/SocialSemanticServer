@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -166,7 +166,7 @@ public class SSAdapterRESTFileDownload{
     return Response.
       ok(stream).
       header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-      header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
+      header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
       build();
     
 //      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").

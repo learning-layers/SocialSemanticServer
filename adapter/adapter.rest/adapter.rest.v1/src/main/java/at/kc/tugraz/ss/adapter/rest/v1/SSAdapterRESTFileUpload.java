@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.kc.tugraz.socialserver.utils.SSJSONU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSSocketU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
@@ -76,7 +77,7 @@ public class SSAdapterRESTFileUpload{
       par.op       = SSMethU.fileUpload;
       par.user     = SSUri.get(user);
       par.key      = key;
-      par.mimeType = mimeType;
+      par.mimeType = SSMimeTypeE.valueOf(mimeType);
       par.label    = SSLabel.get(label);
       
       sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, SSJSONU.jsonStr(par));

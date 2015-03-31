@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileExtU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
 import at.kc.tugraz.socialserver.utils.SSStrU;
@@ -101,32 +100,34 @@ public class SSDataImportEvernoteThumbHelper{
     
     try{
     
-      final String  filePath          = localWorkPath + SSServCaller.fileIDFromURI (user, fileURI);
-      final String  fileExt           = SSServCaller.fileExtGet    (user, fileURI);
-      final SSUri   thumbnailFileURI  = SSServCaller.vocURICreate(SSFileExtE.png);
-      final String  thumbnailPath     = localWorkPath + SSServCaller.fileIDFromURI (user, thumbnailFileURI);
+      final String      filePath          = localWorkPath + SSServCaller.fileIDFromURI (user, fileURI);
+      final SSFileExtE  fileExt           = SSServCaller.fileExtGet                    (user, fileURI);
+      final SSUri       thumbnailFileURI  = SSServCaller.vocURICreate                  (SSFileExtE.png);
+      final String      thumbnailPath     = localWorkPath + SSServCaller.fileIDFromURI (user, thumbnailFileURI);
 
-      if(SSFileExtU.imageFileExts.contains(fileExt)){
+      if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
         return thumbnailFileURI;
       }
 
-      if(SSStrU.equals(SSFileExtE.pdf, fileExt)){
-        SSFileU.writeScaledPNGFromPDF(filePath, thumbnailPath, width, width, false);
-        return thumbnailFileURI;
+      switch(fileExt){
+        
+        case pdf:{
+          
+          SSFileU.writeScaledPNGFromPDF(filePath, thumbnailPath, width, width, false);
+          return thumbnailFileURI;
+        }
+        
+        case doc:{
+          
+          final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
+          
+          SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
+          SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
+          return thumbnailFileURI;
+        }
       }
-
-      if(SSStrU.equals(SSFileExtE.doc, fileExt)){
-
-        final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
-
-        SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-        SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
-        return thumbnailFileURI;
-      }
-
-//      SSLogU.warn("thumb creation for fileExt " + fileExt + " not supported");
-    
+      
       return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -619,25 +619,13 @@ public class SSFileU{
     return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
   }
   
-  private static void formatAudioAndVideoFileNamesInDir(final File[] files) throws Exception {
+  private static void formatAudioAndVideoFileName(final File file) throws Exception{
     
-    for(File file : files){
-      
-      if(file.isDirectory()){
-        formatAudioAndVideoFileNamesInDir(file.listFiles());
-      }else{
-        formatAudioAndVideoFileName(file);
-      }
-    }
-  }
-  
-  private static void formatAudioAndVideoFileName(final File file) throws IOException{
+    final  Path      pathToFile  = file.toPath();
+    String            fileName   = pathToFile.getFileName().toString().toLowerCase();
+    final  SSFileExtE fileExt    = SSFileExtE.ext(fileName);
     
-    Path   pathToFile  = file.toPath();
-    String fileName    = pathToFile.getFileName().toString().toLowerCase();
-    String fileExt     = SSFileExtU.ext(fileName);
-    
-    if(!SSFileExtU.isAudioOrVideoFileExt(fileExt)){
+    if(!SSFileExtE.isAudioOrVideoFileExt(fileExt)){
       return;
     }
     
@@ -647,30 +635,6 @@ public class SSFileU{
       Files.move(pathToFile, pathToFile.resolveSibling(fileName));
     }catch(FileAlreadyExistsException error){
       System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
-    }
-  }
-  
-  private static void addTextToFileNamesAtBeginInDir(File[] files, String textToAddAtBegin) throws IOException{
-    
-    Path   pathToFile;
-    String fileName;
-    
-    for(File file : files){
-      
-      if(file.isDirectory()){
-        return;
-      }else{
-        
-        pathToFile  = file.toPath();
-        fileName    = pathToFile.getFileName().toString();
-        fileName    = textToAddAtBegin + fileName;
-        
-        try{
-          Files.move(pathToFile, pathToFile.resolveSibling(fileName));
-        }catch(FileAlreadyExistsException error){
-          System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
-        }
-      }
     }
   }
 }
@@ -778,3 +742,39 @@ public class SSFileU{
 //		
 //		return folder + "/";
 //	}
+//
+//private static void addTextToFileNamesAtBeginInDir(File[] files, String textToAddAtBegin) throws IOException{
+//    
+//    Path   pathToFile;
+//    String fileName;
+//    
+//    for(File file : files){
+//      
+//      if(file.isDirectory()){
+//        return;
+//      }else{
+//        
+//        pathToFile  = file.toPath();
+//        fileName    = pathToFile.getFileName().toString();
+//        fileName    = textToAddAtBegin + fileName;
+//        
+//        try{
+//          Files.move(pathToFile, pathToFile.resolveSibling(fileName));
+//        }catch(FileAlreadyExistsException error){
+//          System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
+//        }
+//      }
+//    }
+//  }
+
+//private static void formatAudioAndVideoFileNamesInDir(final File[] files) throws Exception {
+//    
+//    for(File file : files){
+//      
+//      if(file.isDirectory()){
+//        formatAudioAndVideoFileNamesInDir(file.listFiles());
+//      }else{
+//        formatAudioAndVideoFileName(file);
+//      }
+//    }
+//  }

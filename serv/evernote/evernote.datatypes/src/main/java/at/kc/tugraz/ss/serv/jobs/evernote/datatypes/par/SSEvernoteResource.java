@@ -20,8 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -38,36 +39,36 @@ public class SSEvernoteResource extends SSEntity{
   @ApiModelProperty(
     required = false,
     value = "file extension")
-  public String fileExt  = null;
+  public SSFileExtE fileExt  = null;
   
   @ApiModelProperty(
     required = false,
     value = "mime type")
-  public String mimeType = null;
+  public SSMimeTypeE mimeType = null;
   
   public static SSEvernoteResource get(
-    final SSEntity entity,
-    final SSUri    note, 
-    final String   fileExt, 
-    final String   mimeType) throws Exception{
+    final SSEntity     entity,
+    final SSUri        note, 
+    final SSFileExtE   fileExt, 
+    final SSMimeTypeE  mimeType) throws Exception{
     
     return new SSEvernoteResource(entity, note, fileExt, mimeType);
   }
   
   public static SSEvernoteResource get(
-    final SSUri  id,
-    final SSUri  note, 
-    final String fileExt, 
-    final String mimeType) throws Exception{
+    final SSUri           id,
+    final SSUri           note, 
+    final SSFileExtE      fileExt, 
+    final SSMimeTypeE     mimeType) throws Exception{
     
     return new SSEvernoteResource(id, note, fileExt, mimeType);
   }
   
   protected SSEvernoteResource(
-    final SSEntity  entity,
-    final SSUri     note, 
-    final String    fileExt, 
-    final String    mimeType) throws Exception{
+    final SSEntity      entity,
+    final SSUri         note, 
+    final SSFileExtE    fileExt, 
+    final SSMimeTypeE   mimeType) throws Exception{
 
     super(entity);
     
@@ -77,10 +78,10 @@ public class SSEvernoteResource extends SSEntity{
   }
   
   protected SSEvernoteResource(
-    final SSUri  id,
-    final SSUri  note, 
-    final String fileExt, 
-    final String mimeType) throws Exception{
+    final SSUri       id,
+    final SSUri       note, 
+    final SSFileExtE  fileExt, 
+    final SSMimeTypeE mimeType) throws Exception{
 
     super(id, SSEntityE.evernoteResource);
     
@@ -95,9 +96,9 @@ public class SSEvernoteResource extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.note,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.mimeType,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.fileExt,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+//    ld.put(SSVarU.note,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+//    ld.put(SSVarU.mimeType,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+//    ld.put(SSVarU.fileExt,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

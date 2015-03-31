@@ -20,9 +20,10 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
@@ -173,8 +174,9 @@ implements
     
     switch(desc.type){
       case file:{
-        final String fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
-        final String mimeType = SSMimeTypeU.mimeTypeForFileExt (fileExt);
+        
+        final SSFileExtE  fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
+        final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
         
         if(par.getThumb){
           
@@ -188,7 +190,6 @@ implements
           desc,
           fileExt,
           mimeType);
-        
       }
       
       default: return desc;

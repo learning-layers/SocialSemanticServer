@@ -20,9 +20,10 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
@@ -52,8 +53,8 @@ public class SSRestMainV2 extends Application {
     
     conf = SSAdapterRestConf.instGet();
     
-    SSMimeTypeU.init();
-    
+    SSFileExtE.init    ();
+    SSMimeTypeE.init   ();
     SSJSONLDU.init(conf.getJsonLD().uri);
   }
   

@@ -25,6 +25,7 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEn
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSIDU;
 import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
@@ -1179,10 +1180,10 @@ public class SSServCaller {
   }
   
   public static void solrAddDoc(
-    final SSUri   user,
-    final String  fileID,
-    final String  mimeType,
-    final Boolean shouldCommit) throws Exception{
+    final SSUri        user,
+    final String       fileID,
+    final SSMimeTypeE  mimeType,
+    final Boolean      shouldCommit) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
@@ -2711,7 +2712,7 @@ public class SSServCaller {
     SSServA.callServViaServer(new SSServPar(SSMethU.fileUpdateWritingMinutes, new HashMap<>()));
   }
   
-  public static String fileExtGet(
+  public static SSFileExtE fileExtGet(
     final SSUri  user,
     final SSUri  file) throws Exception{
     
@@ -2720,7 +2721,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,    user);
     opPars.put(SSVarU.file,    file);
     
-    return (String) SSServA.callServViaServer(new SSServPar(SSMethU.fileExtGet, opPars));
+    return (SSFileExtE) SSServA.callServViaServer(new SSServPar(SSMethU.fileExtGet, opPars));
   }
     
   public static String fileIDFromURI(

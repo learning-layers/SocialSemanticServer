@@ -20,9 +20,9 @@
  */
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.SSServPar;
 import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
@@ -46,7 +46,7 @@ public class SSFileUploadPar extends SSServPar{
   @ApiModelProperty(
     value = "file mime type",
     required = true)
-  public String   mimeType  = null;
+  public SSMimeTypeE   mimeType  = null;
   
   public SSFileUploadPar(){}
   
@@ -57,12 +57,12 @@ public class SSFileUploadPar extends SSServPar{
     try{
       
       if(pars != null){
-        mimeType   = (String)     pars.get(SSVarU.mimeType);
+        mimeType   = (SSMimeTypeE)     pars.get(SSVarU.mimeType);
         label      = (SSLabel)    pars.get(SSVarU.label);
       }
       
       if(par.clientJSONObj != null){
-        mimeType =              par.clientJSONObj.get(SSVarU.mimeType).getTextValue();
+        mimeType =              SSMimeTypeE.valueOf(par.clientJSONObj.get(SSVarU.mimeType).getTextValue());
         label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
       }
     }catch(Exception error){

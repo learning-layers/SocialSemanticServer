@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSFileU;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.socialserver.utils.SSStrU;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
@@ -298,7 +298,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     String         line;
     String         tmpLine;
     String         hash;
-    String         mimeType;
+    SSMimeTypeE    mimeType;
     int            startIndex;
     int            endIndex1;
     int            endIndex2;
@@ -345,123 +345,129 @@ public class SSDataImportEvernoteNoteContentHandler{
           mimeType = null;
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationZip + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationZip  + "\"")){
-            mimeType = SSMimeTypeU.applicationZip;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationZip + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationZip  + "\"")){
+            mimeType = SSMimeTypeE.applicationZip;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.textPlain + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textPlain  + "\"")){
-            mimeType = SSMimeTypeU.textPlain;
+            tmpLine.contains("type=\"" + SSMimeTypeE.textPlain + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.textPlain  + "\"")){
+            mimeType = SSMimeTypeE.textPlain;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.textVcard + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textVcard  + "\"")){
-            mimeType = SSMimeTypeU.textVcard;
+            tmpLine.contains("type=\"" + SSMimeTypeE.textVcard + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.textVcard  + "\"")){
+            mimeType = SSMimeTypeE.textVcard;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioAmr + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioAmr  + "\"")){
-            mimeType = SSMimeTypeU.audioAmr;
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioAmr + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioAmr  + "\"")){
+            mimeType = SSMimeTypeE.audioAmr;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioWav  + "\"")){
-            mimeType = SSMimeTypeU.audioWav;
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioWav + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioWav  + "\"")){
+            mimeType = SSMimeTypeE.audioWav;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg4  + "\"")){
-            mimeType = SSMimeTypeU.audioMpeg4;
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioMpeg4 + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioMpeg4  + "\"")){
+            mimeType = SSMimeTypeE.audioMpeg4;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
-            mimeType = SSMimeTypeU.audioMpeg;
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioMpeg + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioMpeg  + "\"")){
+            mimeType = SSMimeTypeE.audioMpeg;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.textHtml  + "\"")){
-            mimeType = SSMimeTypeU.textHtml;
+            tmpLine.contains("type=\"" + SSMimeTypeE.textHtml + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.textHtml  + "\"")){
+            mimeType = SSMimeTypeE.textHtml;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationBin + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationBin  + "\"")){
-            mimeType = SSMimeTypeU.applicationBin;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationBin + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationBin  + "\"")){
+            mimeType = SSMimeTypeE.applicationBin;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.imageJpeg + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageJpeg  + "\"")){
-            mimeType = SSMimeTypeU.imageJpeg;
+            tmpLine.contains("type=\"" + SSMimeTypeE.imageJpeg + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.imageJpeg  + "\"")){
+            mimeType = SSMimeTypeE.imageJpeg;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.imagePng + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imagePng + "\"")){
-            mimeType = SSMimeTypeU.imagePng;
+            tmpLine.contains("type=\"" + SSMimeTypeE.imagePng + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.imagePng + "\"")){
+            mimeType = SSMimeTypeE.imagePng;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.imageGif  + "\"")  &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.imageGif  + "\"")){
-            mimeType = SSMimeTypeU.imageGif;
+            tmpLine.contains("type=\"" + SSMimeTypeE.imageGif  + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.imageGif  + "\"")){
+            mimeType = SSMimeTypeE.imageGif;
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationPdf  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationPdf  + "\"")){
-            mimeType = SSMimeTypeU.applicationPdf;
+            tmpLine.contains("type=\"" + SSMimeTypeE.imageTiff  + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.imageTiff  + "\"")){
+            mimeType = SSMimeTypeE.imageTiff;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationPdf  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationPdf  + "\"")){
+            mimeType = SSMimeTypeE.applicationPdf;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsword2007  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsword2007  + "\"")){
-            mimeType = SSMimeTypeU.applicationMsword2007;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsword2007  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsword2007  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsword2007;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsword  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsword  + "\"")){
-            mimeType = SSMimeTypeU.applicationMsword;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsword  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsword  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsword;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMspowerpoint2007  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMspowerpoint2007  + "\"")){
-            mimeType = SSMimeTypeU.applicationMspowerpoint2007;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMspowerpoint2007  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMspowerpoint2007  + "\"")){
+            mimeType = SSMimeTypeE.applicationMspowerpoint2007;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMspowerpoint  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMspowerpoint  + "\"")){
-            mimeType = SSMimeTypeU.applicationMspowerpoint;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMspowerpoint  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMspowerpoint  + "\"")){
+            mimeType = SSMimeTypeE.applicationMspowerpoint;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcel2007 + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcel2007  + "\"")){
-            mimeType = SSMimeTypeU.applicationMsexcel2007;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsexcel2007 + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsexcel2007  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsexcel2007;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcel  + "\"")){
-            mimeType = SSMimeTypeU.applicationMsexcel;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsexcel  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsexcel  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsexcel;
           } 
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcelBinary  + "\"") &&
-            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeU.applicationMsexcelBinary  + "\"")){
-            mimeType = SSMimeTypeU.applicationMsexcelBinary;
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsexcelBinary  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsexcelBinary  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsexcelBinary;
           } 
           
           if(mimeType == null){
@@ -496,15 +502,16 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
-            SSStrU.equals(mimeType, SSMimeTypeU.imageJpeg)      ||
-            SSStrU.equals(mimeType, SSMimeTypeU.imagePng)       ||
-            SSStrU.equals(mimeType, SSMimeTypeU.imageGif)       ||
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
+            SSStrU.equals(mimeType, SSMimeTypeE.imageJpeg)      ||
+            SSStrU.equals(mimeType, SSMimeTypeE.imagePng)       ||
+            SSStrU.equals(mimeType, SSMimeTypeE.imageGif)       ||
+            SSStrU.equals(mimeType, SSMimeTypeE.imageTiff)      ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
 
-            hashEndIndex = tmpLine.indexOf("\"", hashIndex + 6);
-            hash         = tmpLine.substring(hashIndex + 6, hashEndIndex);
-            fileURI      = SSServCaller.vocURICreate(SSFileExtE.valueOf(SSMimeTypeU.fileExtForMimeType(mimeType)));
-            fileID       = SSServCaller.fileIDFromURI(user, fileURI);
+            hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
+            hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
+            fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
+            fileID       = SSServCaller.fileIDFromURI (user, fileURI);
             
             resource =
               SSServCaller.evernoteResourceByHashGet(
@@ -521,7 +528,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           result += tmpLine.substring(0, startIndex);
           
-          if(SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
+          if(SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
             thumbnailURI = SSDataImportEvernoteThumbHelper.createThumbnail(user, localWorkPath, fileURI, 500, 500);
             fileID       = SSServCaller.fileIDFromURI(user, thumbnailURI);
             
@@ -538,7 +545,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           if(
             resource != null                                    &&
-            !SSStrU.equals(mimeType, SSMimeTypeU.applicationPdf)){
+            !SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
           
             result +=
               "<img width=\"" +
@@ -550,62 +557,62 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\"/>";
           }
           
-          if(SSStrU.equals(mimeType, SSMimeTypeU.applicationZip)){
+          if(SSStrU.equals(mimeType, SSMimeTypeE.applicationZip)){
             result += "<div>Includes Compressed Archive (no preview available)</div>";
           }
           
           if(
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword) ||
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsword2007)){
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword) ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword2007)){
             
             result += "<div>Includes Microsoft Office Document (no preview available)</div>";
           }
           
           if(
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint) ||
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMspowerpoint2007)){
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMspowerpoint) ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMspowerpoint2007)){
 
             result += "<div>Includes Microsoft Office Powerpoint Document (no preview available)</div>";
           }
           
           if(
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel) ||
-            SSStrU.equals(mimeType, SSMimeTypeU.applicationMsexcel2007)){
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsexcel) ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsexcel2007)){
 
             result += "<div>Includes Microsoft Office Excel Document (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.textPlain + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.textPlain + "\"")){
             result += "<div>Includes Plain Text Document (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.textVcard + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.textVcard + "\"")){
             result += "<div>Includes VCard (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioAmr + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.audioAmr + "\"")){
             result += "<div>Includes Adaptive Multi-Rate Audio (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.audioWav + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.audioWav + "\"")){
             result += "<div>Includes Wave Audio (no preview available)</div>";
           }
           
           if(
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg4 + "\"") ||
-            tmpLine.contains("type=\"" + SSMimeTypeU.audioMpeg  + "\"")){
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioMpeg4 + "\"") ||
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioMpeg  + "\"")){
             result += "<div>Includes MPEG Audio (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.textHtml + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.textHtml + "\"")){
             result += "<div>Includes HTML Page (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.applicationBin + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.applicationBin + "\"")){
             result += "<div>Includes Application File (no preview available)</div>";
           }
           
-          if(tmpLine.contains("type=\"" + SSMimeTypeU.applicationMsexcelBinary + "\"")){
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsexcelBinary + "\"")){
             result += "<div>Includes Binary Spreadsheet File (no preview available)</div>";
           }
           

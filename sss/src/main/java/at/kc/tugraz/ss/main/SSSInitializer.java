@@ -20,8 +20,9 @@
   */
 package at.kc.tugraz.ss.main;
 
+import at.kc.tugraz.socialserver.utils.SSFileExtE;
 import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeU;
+import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
@@ -79,7 +80,8 @@ public class SSSInitializer extends SSServImplStartA{
         //registering
         SSVoc.inst.regServ               (SSCoreConf.instGet().getVoc());
         
-        SSMimeTypeU.init   ();
+        SSFileExtE.init    ();
+        SSMimeTypeE.init   ();
         SSJSONLDU.init(
           SSCoreConf.instGet().getJsonLD().uri);
         
