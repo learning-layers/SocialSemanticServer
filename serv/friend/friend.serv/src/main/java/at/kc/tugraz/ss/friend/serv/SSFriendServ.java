@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.friend.serv;
 
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.impl.SSFriendImpl;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSFriendServ extends SSServA{

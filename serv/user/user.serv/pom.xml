@@ -24,24 +24,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>datatypes.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
-    </dependency>     
-    
-    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>user.api</artifactId>
       <version>${project.version}</version>

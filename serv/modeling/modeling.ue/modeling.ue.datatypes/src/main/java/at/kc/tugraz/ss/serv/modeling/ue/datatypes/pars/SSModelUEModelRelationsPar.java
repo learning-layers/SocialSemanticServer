@@ -20,11 +20,11 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUERelationEnum;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSModelUEModelRelationsPar extends SSServPar{
   

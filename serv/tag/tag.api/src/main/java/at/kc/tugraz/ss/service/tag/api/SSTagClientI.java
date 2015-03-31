@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.tag.api;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSTagClientI {
 

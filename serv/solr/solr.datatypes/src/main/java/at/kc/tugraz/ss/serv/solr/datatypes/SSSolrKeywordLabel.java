@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.solr.datatypes;
 
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.SSEntityA;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;

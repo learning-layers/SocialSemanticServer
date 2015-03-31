@@ -20,21 +20,21 @@
 */
 package at.kc.tugraz.ss.recomm.serv;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.List;
 

@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.tag;
 
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
+import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;

@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.db.serv;
 
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.db.impl.SSDBSQLMySQLImpl;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSDBSQL extends SSServA{

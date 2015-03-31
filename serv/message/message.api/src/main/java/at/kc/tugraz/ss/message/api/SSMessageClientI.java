@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.message.api;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSMessageClientI{
   public void messageSend (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

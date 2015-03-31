@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.socialserver.service.broadcast.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.tugraz.sss.serv.SSServConfA;
 
 public class SSBroadcasterConf extends SSServConfA {
   

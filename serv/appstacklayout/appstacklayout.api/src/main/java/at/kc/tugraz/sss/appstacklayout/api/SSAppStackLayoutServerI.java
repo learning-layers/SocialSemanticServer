@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.sss.appstacklayout.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import java.util.List;
 

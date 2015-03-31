@@ -15,8 +15,8 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSDataImportMediaWikiUserPar extends SSServPar{
   
   public SSDataImportMediaWikiUserPar(final SSServPar par) throws Exception{

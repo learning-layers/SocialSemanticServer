@@ -31,12 +31,12 @@
   
   <dependencies>
 
+   
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.caller</artifactId>
@@ -51,7 +51,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -61,23 +61,8 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
-    </dependency>       
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>datatypes.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+       
     
     <dependency>
       <groupId>sss.serv</groupId>

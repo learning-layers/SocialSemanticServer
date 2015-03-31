@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.rating.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSRating{
 

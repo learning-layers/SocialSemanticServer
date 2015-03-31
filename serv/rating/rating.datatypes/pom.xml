@@ -19,31 +19,13 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>jsonld.datatypes.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>jsonld.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>datatypes.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

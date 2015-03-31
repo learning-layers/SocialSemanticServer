@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.cloud.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServA;
 
 public class SSCloudPublishServicePar extends SSServPar{
 

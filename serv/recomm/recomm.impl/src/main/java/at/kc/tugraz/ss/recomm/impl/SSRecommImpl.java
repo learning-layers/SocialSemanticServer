@@ -20,15 +20,15 @@
 */
 package at.kc.tugraz.ss.recomm.impl;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServPar;
+
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
@@ -48,11 +48,11 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUpdateBulkUploader;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import engine.Algorithm;
 import engine.EntityType;
 import java.io.FileOutputStream;
@@ -60,7 +60,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
   

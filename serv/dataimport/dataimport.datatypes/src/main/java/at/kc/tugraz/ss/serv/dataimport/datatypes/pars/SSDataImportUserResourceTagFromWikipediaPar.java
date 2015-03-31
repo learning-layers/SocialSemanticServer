@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSDataImportUserResourceTagFromWikipediaPar extends SSServPar{
   
   public SSDataImportUserResourceTagFromWikipediaPar(SSServPar par) throws Exception{

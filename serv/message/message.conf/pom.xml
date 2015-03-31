@@ -18,17 +18,8 @@
   
   <dependencies>
   
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+   
+   
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -36,12 +27,7 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

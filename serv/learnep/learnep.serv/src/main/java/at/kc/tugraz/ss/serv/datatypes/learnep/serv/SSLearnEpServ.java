@@ -20,19 +20,19 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.lang.reflect.Method;
 import java.util.List;
 

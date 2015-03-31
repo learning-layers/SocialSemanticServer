@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCaller;
 
 public class SSRecommResourcesFct{
   

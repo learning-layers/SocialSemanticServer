@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSFriendsUserGetPar extends SSServPar{
   
   public SSFriendsUserGetPar(

@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import com.wordnik.swagger.annotations.ApiModel;

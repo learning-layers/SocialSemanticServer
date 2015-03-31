@@ -20,23 +20,23 @@
 */
  package at.kc.tugraz.ss.serv.auth.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
 import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSDBSQLI;
+
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
@@ -47,8 +47,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   

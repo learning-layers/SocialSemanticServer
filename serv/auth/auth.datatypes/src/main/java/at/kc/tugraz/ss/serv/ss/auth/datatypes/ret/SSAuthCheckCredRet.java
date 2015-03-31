@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.tugraz.sss.serv.SSLinkU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 

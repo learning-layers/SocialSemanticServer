@@ -18,9 +18,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.appstacklayout.conf;
+package at.kc.tugraz.sss.video.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.tugraz.sss.serv.SSServConfA;
 
 public class SSVideoConf extends SSServConfA{
   

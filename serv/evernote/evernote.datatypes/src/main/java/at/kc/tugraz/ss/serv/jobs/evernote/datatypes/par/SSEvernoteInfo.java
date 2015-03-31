@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.clients.UserStoreClient;
 import com.evernote.edam.notestore.SyncChunk;

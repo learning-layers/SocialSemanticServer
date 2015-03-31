@@ -20,10 +20,10 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

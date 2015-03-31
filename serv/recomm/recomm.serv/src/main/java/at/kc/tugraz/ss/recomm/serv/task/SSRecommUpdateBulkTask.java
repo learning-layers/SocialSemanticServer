@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.ss.recomm.serv.task;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.util.TimerTask;
 
 public class SSRecommUpdateBulkTask extends TimerTask {

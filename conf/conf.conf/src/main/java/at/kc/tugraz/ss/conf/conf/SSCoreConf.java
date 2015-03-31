@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.circle.conf.SSCircleConf;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
 import at.kc.tugraz.ss.message.conf.SSMessageConf;
 import at.kc.tugraz.ss.recomm.conf.SSFriendConf;
@@ -37,12 +37,11 @@ import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
-import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.rating.conf.SSRatingConf;
@@ -53,9 +52,10 @@ import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
 import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
-import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
+import at.kc.tugraz.sss.video.conf.SSVideoConf;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCoreConf extends SSCoreConfA{
 

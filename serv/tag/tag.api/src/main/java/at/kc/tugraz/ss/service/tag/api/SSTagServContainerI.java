@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.service.tag.api;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServContainerI;
+import at.tugraz.sss.serv.SSServContainerI;
 
 public interface SSTagServContainerI extends SSServContainerI{
 }

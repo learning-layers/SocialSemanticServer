@@ -20,16 +20,17 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
+import at.tugraz.sss.serv.SSServErrReg;
+
+import at.tugraz.sss.serv.SSServImplStartA;
 import java.io.FileOutputStream;
 import java.io.IOException;
 

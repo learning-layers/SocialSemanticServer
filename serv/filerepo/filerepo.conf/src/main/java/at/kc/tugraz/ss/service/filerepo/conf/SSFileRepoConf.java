@@ -20,9 +20,9 @@
 */
  package at.kc.tugraz.ss.service.filerepo.conf;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServConfA;
 import at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE;
 
 public class SSFileRepoConf extends SSServConfA{

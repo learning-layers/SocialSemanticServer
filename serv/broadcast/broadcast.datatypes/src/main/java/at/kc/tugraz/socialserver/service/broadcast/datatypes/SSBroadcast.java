@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.socialserver.service.broadcast.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSJSONLDPropI;
 import java.util.HashMap;
 import java.util.Map;
 

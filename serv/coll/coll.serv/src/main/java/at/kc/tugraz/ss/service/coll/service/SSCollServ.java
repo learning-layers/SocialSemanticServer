@@ -20,15 +20,15 @@
 */
  package at.kc.tugraz.ss.service.coll.service;
 
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServContainerI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;

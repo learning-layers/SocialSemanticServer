@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;

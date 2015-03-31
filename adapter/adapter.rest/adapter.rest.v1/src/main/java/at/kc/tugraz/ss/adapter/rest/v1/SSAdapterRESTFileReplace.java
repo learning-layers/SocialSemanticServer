@@ -20,16 +20,17 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSSocketU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -79,9 +80,9 @@ public class SSAdapterRESTFileReplace{
       par.key      = key;
       par.file     = SSUri.get(file);
       
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, SSJSONU.jsonStr(par));
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
       
-      sSCon.writeRequFullToSS ();
+      sSCon.writeRequFullToSS (SSJSONU.jsonStr(par));
       sSCon.readMsgFullFromSS();
       
       while ((read = fileHandle.read(bytes)) != -1){

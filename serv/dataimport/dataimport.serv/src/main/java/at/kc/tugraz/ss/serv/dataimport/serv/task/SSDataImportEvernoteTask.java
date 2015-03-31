@@ -20,20 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.HashMap;
 import java.util.TimerTask;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDataImportEvernoteTask extends TimerTask {
   

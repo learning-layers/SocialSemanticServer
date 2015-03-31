@@ -20,11 +20,12 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
+
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

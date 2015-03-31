@@ -23,9 +23,9 @@
 import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.impl.SSCloudImpl;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSCloudServ extends SSServA{

@@ -20,16 +20,16 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import at.tugraz.sss.serv.SSServErrReg;
 @XmlRootElement
 @ApiModel(value = "collUserHierarchyGet request parameter")
 public class SSCollUserHierarchyGetPar extends SSServPar{

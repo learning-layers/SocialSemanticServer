@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.main.test.video;
 
-import at.kc.tugraz.sss.appstacklayout.conf.SSVideoConf;
+import at.kc.tugraz.sss.video.conf.SSVideoConf;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
 
 public class SSVideoTester extends Thread{

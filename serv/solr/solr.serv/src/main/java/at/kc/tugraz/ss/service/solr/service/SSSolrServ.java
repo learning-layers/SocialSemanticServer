@@ -20,9 +20,9 @@
 */
  package at.kc.tugraz.ss.service.solr.service;
 
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;

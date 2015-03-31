@@ -17,27 +17,13 @@
   </properties>
   <dependencies>
 	
-    <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    
+    
+    
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>datatypes.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

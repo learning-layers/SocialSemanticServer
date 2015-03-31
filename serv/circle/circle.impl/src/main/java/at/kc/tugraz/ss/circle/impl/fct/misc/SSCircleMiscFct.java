@@ -20,24 +20,24 @@
  */
 package at.kc.tugraz.ss.circle.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSCircleRightE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSCircleE;
+import at.tugraz.sss.serv.SSCircleRightE;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
 import java.util.List;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCircleMiscFct{
   

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 

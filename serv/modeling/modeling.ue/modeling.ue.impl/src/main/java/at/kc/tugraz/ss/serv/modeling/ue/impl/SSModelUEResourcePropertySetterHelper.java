@@ -22,8 +22,8 @@
 
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.kc.tugraz.socialserver.utils.SSNumberU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSNumberU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.Map;

@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.like.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
@@ -31,15 +31,15 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 
 public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLikeServerI{
   

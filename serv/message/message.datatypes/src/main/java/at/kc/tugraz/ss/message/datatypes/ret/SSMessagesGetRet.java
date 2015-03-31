@@ -20,8 +20,8 @@
   */
 package at.kc.tugraz.ss.message.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.api;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServContainerI;
+import at.tugraz.sss.serv.SSServContainerI;
 
 public interface SSCollServContainerI extends SSServContainerI{
 }

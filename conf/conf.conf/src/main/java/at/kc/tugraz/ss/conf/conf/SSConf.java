@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.conf.conf;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSCoreServConfA;
 
 public class SSConf extends SSCoreServConfA{
   

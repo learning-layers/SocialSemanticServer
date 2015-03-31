@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import java.util.List;
 import java.util.Map;

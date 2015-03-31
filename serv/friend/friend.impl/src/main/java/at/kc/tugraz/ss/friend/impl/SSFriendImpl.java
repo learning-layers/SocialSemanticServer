@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.friend.impl;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
@@ -30,13 +30,14 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSDBSQLI;
+
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 

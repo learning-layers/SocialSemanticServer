@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.Map;
 
 public interface SSRecommServerI{

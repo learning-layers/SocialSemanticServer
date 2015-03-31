@@ -20,23 +20,22 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
@@ -54,7 +53,8 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import java.util.*;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSUEImpl 
 extends SSServImplWithDBA 
@@ -201,9 +201,10 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par,
+    final SSServPar   parA,
     final SSEntity           desc) throws Exception{
     
+    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
     if(par.getUEs){
       
       desc.uEs.addAll(

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.cloud.api;
 
 import at.kc.tugraz.ss.cloud.datatypes.ret.SSCloudPublishServiceRet;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSCloudServerI{
   

@@ -20,22 +20,22 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSIDU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
@@ -45,8 +45,9 @@ import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import java.util.*;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
   

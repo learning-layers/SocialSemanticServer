@@ -20,15 +20,16 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSFileServCaller{
   

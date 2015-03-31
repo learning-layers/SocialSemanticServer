@@ -20,18 +20,18 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDDescRet;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 
 public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SSJSONLDServerI{
 

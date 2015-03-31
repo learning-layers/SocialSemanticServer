@@ -20,10 +20,12 @@
 */
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntityUserSubEntitiesGetPar extends SSServPar{
   
@@ -40,7 +42,7 @@ public class SSEntityUserSubEntitiesGetPar extends SSServPar{
       }
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      throw new SSErr(SSErrE.servParCreationFailed);
     }
   }
 }

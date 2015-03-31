@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSI5CloudAuthPar extends SSServPar{
   
   public SSI5CloudAuthPar(final SSServPar par) throws Exception{

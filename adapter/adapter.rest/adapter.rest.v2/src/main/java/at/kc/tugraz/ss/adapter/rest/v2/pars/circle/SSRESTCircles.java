@@ -5,8 +5,8 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.circle;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.circle.SSCircleCreateRESTAPIV2Par;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.circle.SSCircleEntitiesAddRESTAPIV2Par;
@@ -25,8 +25,8 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;

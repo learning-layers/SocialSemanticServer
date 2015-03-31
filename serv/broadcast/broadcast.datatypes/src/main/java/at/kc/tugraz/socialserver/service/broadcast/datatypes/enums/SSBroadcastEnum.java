@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.socialserver.service.broadcast.datatypes.enums;
 
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.api.SSJSONLDPropI;
+import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.SSJSONLDPropI;
 
 public enum SSBroadcastEnum implements SSJSONLDPropI{
 

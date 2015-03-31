@@ -20,18 +20,18 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.JsonNode;
-
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSTagUserFrequsGetPar extends SSServPar{
 
   public SSUri              forUser              = null;

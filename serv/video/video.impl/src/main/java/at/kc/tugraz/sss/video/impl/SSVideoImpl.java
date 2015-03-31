@@ -20,22 +20,21 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSEntityUpdaterI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
@@ -50,7 +49,8 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
 import java.util.ArrayList;
 import java.util.List;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSVideoImpl 
 extends SSServImplWithDBA 
@@ -197,8 +197,10 @@ implements
   }
   
   @Override
-  public void updateEntity(final SSEntityUpdatePar par) throws Exception{
+  public void updateEntity(final SSServPar parA) throws Exception{
 
+    final SSEntityUpdatePar par = (SSEntityUpdatePar)parA;
+    
     if(!par.videos.isEmpty()){
 
       for(SSUri video : par.videos){
@@ -215,9 +217,11 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par,
-    final SSEntity           desc) throws Exception{
+    final SSServPar parA,
+    final SSEntity  desc) throws Exception{
     
+    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
+      
     switch(desc.type){
       
       case video:{

@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.rating.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 
 public interface SSRatingServerI {

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;

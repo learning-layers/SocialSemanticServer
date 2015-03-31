@@ -20,19 +20,17 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.socialserver.utils.SSHTMLU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSSocketU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSHTMLU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.SSSocketCon;
+
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;

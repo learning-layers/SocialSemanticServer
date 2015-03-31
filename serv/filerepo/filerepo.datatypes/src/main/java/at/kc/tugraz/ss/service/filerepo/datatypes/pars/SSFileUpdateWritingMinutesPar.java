@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 public class SSFileUpdateWritingMinutesPar extends SSServPar{
   
   public SSFileUpdateWritingMinutesPar(SSServPar par) throws Exception{

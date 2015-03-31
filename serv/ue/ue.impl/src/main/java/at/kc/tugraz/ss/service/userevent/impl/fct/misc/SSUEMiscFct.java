@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSIDU;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.ArrayList;
 import java.util.List;

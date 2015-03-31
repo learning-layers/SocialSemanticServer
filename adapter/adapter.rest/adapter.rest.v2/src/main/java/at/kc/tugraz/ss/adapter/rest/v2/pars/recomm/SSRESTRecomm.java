@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSSocketU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
@@ -50,7 +50,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
 
 @Path("/recomm")
 @Api( value = "/recomm") //, basePath = "/recomm"

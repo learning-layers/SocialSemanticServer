@@ -20,9 +20,9 @@
   */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
@@ -36,16 +36,15 @@ import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.serv.auth.serv.SSAuthServ;
 import at.kc.tugraz.ss.serv.dataimport.serv.SSDataImportServ;
-import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
-import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
 import at.kc.tugraz.ss.serv.job.i5cloud.serv.SSI5CloudServ;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
+import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
+import at.tugraz.sss.serv.SSServImplStartA;
 import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
@@ -61,6 +60,7 @@ import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
+import at.tugraz.sss.serv.SSServErrReg;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{

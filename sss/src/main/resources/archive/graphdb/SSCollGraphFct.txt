@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.coll.impl.fct.graph;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
 public class SSCollFctGraph extends SSDBGraphFct{
   

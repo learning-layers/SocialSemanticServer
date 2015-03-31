@@ -20,6 +20,12 @@
   
     <dependency>
       <groupId>sss.serv</groupId>
+      <artifactId>db.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>  
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
       <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
     </dependency>  

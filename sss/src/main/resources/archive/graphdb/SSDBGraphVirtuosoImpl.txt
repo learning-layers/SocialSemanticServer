@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.db.impl;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphI;
+import at.tugraz.sss.serv.SSDBGraphI;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSQueryResult;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSStatement;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplDBA;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.tugraz.sss.serv.SSServImplDBA;
+import at.tugraz.sss.serv.SSConfA;
 import java.util.List;
 //import org.openrdf.query.BindingSet;
 //import org.openrdf.query.QueryLanguage;

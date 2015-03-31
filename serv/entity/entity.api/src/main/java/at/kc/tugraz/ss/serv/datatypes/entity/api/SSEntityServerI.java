@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.SSImage;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
+import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSImage;
+import at.tugraz.sss.serv.SSLocation;
 import java.util.List;
 
 public interface SSEntityServerI {

@@ -20,17 +20,18 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSEntityCircle;
+
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDiscUserEntryAddFct{
   

@@ -20,13 +20,13 @@
 */
  package at.kc.tugraz.ss.service.filerepo.service;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoClientI;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;

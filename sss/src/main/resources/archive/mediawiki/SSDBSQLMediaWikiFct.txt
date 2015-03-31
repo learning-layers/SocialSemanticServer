@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.serv.db.api.mediaWiki;
 
 import at.kc.tugraz.socialserver.utils.SSMediaWikiU;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.datatypes.mediaWiki.SSMediaWikiRevision;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.modeling.ue.serv;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.impl.SSModelUEImpl;
@@ -29,9 +29,9 @@ import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 
 import java.util.HashMap;
 import java.util.List;

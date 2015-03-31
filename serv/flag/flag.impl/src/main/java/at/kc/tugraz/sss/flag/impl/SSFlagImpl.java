@@ -20,20 +20,19 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
@@ -45,7 +44,8 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import java.util.List;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
   
@@ -73,8 +73,10 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   
   @Override
   public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par,
+    final SSServPar  parA,
     final SSEntity           desc) throws Exception{
+    
+    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
     
     if(par.getFlags){
       

@@ -20,20 +20,20 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.serv;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportEvernoteTask;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.lang.reflect.Method;
 import java.util.List;
 

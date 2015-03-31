@@ -20,25 +20,24 @@
 */
 package at.kc.tugraz.sss.comment.impl;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityUpdaterI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityUpdaterI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSUserRelationGathererI;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
@@ -46,6 +45,7 @@ import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsUserGetPar;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsUserGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.util.List;
 import java.util.Map;
 
@@ -92,8 +92,10 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par, 
+    final SSServPar parA, 
     SSEntity                 desc) throws Exception{
+    
+    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
     
     desc.comments.addAll(
       SSServCaller.commentsGet(
@@ -106,8 +108,10 @@ implements
   
   @Override
   public void updateEntity(
-    final SSEntityUpdatePar par) throws Exception{
+    final SSServPar parA) throws Exception{
 
+    final SSEntityUpdatePar par = (SSEntityUpdatePar) parA;
+    
     if(par.comments.isEmpty()){
       return;
     }

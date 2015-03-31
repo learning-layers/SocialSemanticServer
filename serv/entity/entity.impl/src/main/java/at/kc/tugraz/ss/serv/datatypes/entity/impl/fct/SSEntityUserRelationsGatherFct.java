@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServErrReg;
+
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.List;
 import java.util.Map;
 

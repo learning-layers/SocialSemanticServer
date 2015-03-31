@@ -20,18 +20,18 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.misc;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoriesGetPar;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

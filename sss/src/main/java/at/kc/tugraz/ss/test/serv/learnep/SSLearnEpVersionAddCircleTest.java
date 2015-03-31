@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.test.serv.learnep;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
 public class SSLearnEpVersionAddCircleTest extends SSServOpTestCaseA{

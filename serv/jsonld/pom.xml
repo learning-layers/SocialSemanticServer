@@ -17,7 +17,5 @@
     <module>jsonld.datatypes</module>
     <module>jsonld.serv</module>
     <module>jsonld.conf</module>
-    <module>jsonld.util</module>
-    <module>jsonld.datatypes.api</module>
   </modules>
 </project>

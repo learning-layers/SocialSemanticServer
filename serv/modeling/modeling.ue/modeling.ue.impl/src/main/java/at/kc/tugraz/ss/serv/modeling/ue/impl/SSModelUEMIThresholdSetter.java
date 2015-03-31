@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.socialserver.utils.*;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;

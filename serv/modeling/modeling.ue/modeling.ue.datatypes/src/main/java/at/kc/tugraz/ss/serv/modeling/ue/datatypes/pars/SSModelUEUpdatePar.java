@@ -19,8 +19,9 @@
 * limitations under the License.
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
+import at.tugraz.sss.serv.SSServErrReg;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public class SSModelUEUpdatePar extends SSServPar{
   

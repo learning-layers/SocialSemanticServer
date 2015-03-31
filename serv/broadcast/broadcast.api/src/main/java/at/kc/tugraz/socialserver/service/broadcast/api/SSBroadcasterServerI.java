@@ -21,7 +21,7 @@
  package at.kc.tugraz.socialserver.service.broadcast.api;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
 
 public interface SSBroadcasterServerI {

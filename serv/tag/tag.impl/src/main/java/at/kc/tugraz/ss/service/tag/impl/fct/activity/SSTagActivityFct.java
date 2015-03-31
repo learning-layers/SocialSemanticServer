@@ -20,15 +20,15 @@
 */
 package at.kc.tugraz.ss.service.tag.impl.fct.activity;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
-import sss.serv.err.datatypes.SSErr;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSTagActivityFct{
   

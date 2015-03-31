@@ -20,12 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.websocket.servlets;
 
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -72,9 +69,9 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
         return;
       }
       
-      sSCon = new SSSocketCon(sSConf.host, sSConf.port, clientMsg.toString());
+      sSCon = new SSSocketCon(sSConf.host, sSConf.port);
 
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (clientMsg.toString());
       writeStringToClient       (sSCon.readMsgFullFromSS());
       
     }catch(Exception error1){
@@ -128,9 +125,9 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
   private void handleSSFileRepoRequest() throws Exception{
     
     if(SSObjU.isNull(sSCon)){
-      sSCon = new SSSocketCon(sSConf.host, sSConf.port, clientMsg.toString());
+      sSCon = new SSSocketCon(sSConf.host, sSConf.port);
       
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (clientMsg.toString());
       writeStringToClient       (sSCon.readMsgFullFromSS());
       return;
     }
@@ -156,8 +153,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     
     if(SSMethU.equals(op, SSMethU.fileDownload)){
       
-      sSCon.sSJsonRequ = clientMsg.toString();
-      sSCon.writeRequFullToSS();
+      sSCon.writeRequFullToSS(clientMsg.toString());
 
       writeBytesToClient(sSCon.readFileChunkFromSS());
     }

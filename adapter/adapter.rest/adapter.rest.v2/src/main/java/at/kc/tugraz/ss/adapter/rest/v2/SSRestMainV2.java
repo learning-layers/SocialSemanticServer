@@ -20,16 +20,16 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
 
 public class SSRestMainV2 extends Application {
   
@@ -116,8 +116,7 @@ public class SSRestMainV2 extends Application {
         restObj.sssCon =
           new SSSocketCon(
             conf.ss.host,
-            conf.ss.port,
-            restObj.sssRequestMessage);
+            conf.ss.port);
         
       }catch(Exception error){
         
@@ -130,7 +129,7 @@ public class SSRestMainV2 extends Application {
       }
       
       try{
-        restObj.sssCon.writeRequFullToSS ();
+        restObj.sssCon.writeRequFullToSS (restObj.sssRequestMessage);
       }catch(Exception error){
         
         restObj.response =

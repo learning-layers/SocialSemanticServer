@@ -20,13 +20,13 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUERelationEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityA;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.*;
 

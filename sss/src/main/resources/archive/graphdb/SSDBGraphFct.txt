@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
 import at.kc.tugraz.socialserver.utils.*;
 import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
 import at.kc.tugraz.ss.serv.db.datatypes.graph.SSQueryResultItem;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
 import java.util.*;
 
 public class SSDBGraphFct extends SSDBFct{

@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.category.datatypes.par;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import at.tugraz.sss.serv.SSServErrReg;
 @XmlRootElement
 @ApiModel(value = "categoriesPredefinedGet request parameter")
 public class SSCategoriesPredefinedGetPar extends SSServPar{

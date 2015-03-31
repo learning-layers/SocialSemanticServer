@@ -20,21 +20,19 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSClientPar;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSErrForClient;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSClientPar;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +47,10 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSErrForClient;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSRestMainV1 extends Application {
   
@@ -112,6 +112,7 @@ public class SSRestMainV1 extends Application {
     
     SSSocketCon       sSCon = null;
     String            readMsgFullFromSS;
+    String message;
     
     try{
       SSLogU.debug(jsonRequ);
@@ -125,7 +126,9 @@ public class SSRestMainV1 extends Application {
         tmp += ",\"op\":\"" + op.toString() + "\"}";
         
         try{
-          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port, tmp);
+          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port);
+          
+          message = tmp;
         }catch(Exception error){
           
           SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
@@ -133,7 +136,9 @@ public class SSRestMainV1 extends Application {
         }
       }else{
         try{
-          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port, jsonRequ);
+          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port);
+          
+          message = jsonRequ;
         }catch(Exception error){
           
           SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
@@ -142,7 +147,7 @@ public class SSRestMainV1 extends Application {
       }
       
       try{
-        sSCon.writeRequFullToSS ();
+        sSCon.writeRequFullToSS (message);
       }catch(Exception error){
         
         SSLogU.info("couldnt write to " + conf.ss.host + " " + conf.ss.port.toString());
@@ -203,10 +208,9 @@ public class SSRestMainV1 extends Application {
       sssNodeSocketCon =
         new SSSocketCon(
           clientPar.sssNodeHost,
-          clientPar.sssNodePort,
-          clientJSONRequ);
+          clientPar.sssNodePort);
       
-      sssNodeSocketCon.writeRequFullToSS();
+      sssNodeSocketCon.writeRequFullToSS(clientJSONRequ);
       
       return sssNodeSocketCon.readMsgFullFromSS ();
       

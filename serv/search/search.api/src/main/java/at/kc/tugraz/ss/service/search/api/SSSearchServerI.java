@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.search.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import java.util.List;
 

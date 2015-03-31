@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.enums;
 
-import at.kc.tugraz.socialserver.utils.*;
+import at.tugraz.sss.serv.*;
 
 public enum SSFileRepoTypeE {
   

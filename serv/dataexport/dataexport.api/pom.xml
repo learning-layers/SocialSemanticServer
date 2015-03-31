@@ -20,7 +20,7 @@
   
 <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
 

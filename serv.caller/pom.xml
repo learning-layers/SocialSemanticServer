@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>sss</groupId>
+    <artifactId>root</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>sss.serv</groupId>
+  <artifactId>serv.caller</artifactId>
+  <packaging>jar</packaging>
+  <name>serv.caller</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>voc.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+      
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>auth.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+      
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>search.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>eval.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+      
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>activity.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>user.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>disc.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>coll.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>learnep.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>recomm.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>evernote.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>broadcast.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>like.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>ue.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>tag.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>category.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>flag.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>rating.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>filerepo.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+  </dependencies>
+</project>

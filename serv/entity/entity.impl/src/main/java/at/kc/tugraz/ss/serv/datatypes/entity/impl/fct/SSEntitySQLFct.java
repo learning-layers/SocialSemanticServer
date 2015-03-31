@@ -20,21 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntity;
+
+import at.tugraz.sss.serv.SSImageE;
+import at.tugraz.sss.serv.SSLocation;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +42,9 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
 

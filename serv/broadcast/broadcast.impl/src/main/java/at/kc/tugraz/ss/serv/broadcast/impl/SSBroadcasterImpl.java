@@ -27,12 +27,13 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.pars.SSBroadcastAdd
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastServerTimeRet;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastAddRet;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastsGetRet;
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

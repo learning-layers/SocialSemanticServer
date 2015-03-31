@@ -20,17 +20,17 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.lang.reflect.Method;
 import java.util.List;
 

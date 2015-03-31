@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.test.tag;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

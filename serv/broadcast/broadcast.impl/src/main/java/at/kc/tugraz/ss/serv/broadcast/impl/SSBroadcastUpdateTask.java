@@ -20,10 +20,11 @@
  */
 package at.kc.tugraz.ss.serv.broadcast.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSServErrReg;
+
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.TimerTask;
 
 public class SSBroadcastUpdateTask extends TimerTask {

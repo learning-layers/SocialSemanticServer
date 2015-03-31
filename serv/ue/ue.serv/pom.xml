@@ -30,12 +30,6 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>datatypes.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-        
-    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>ue.api</artifactId>
       <version>${project.version}</version>
@@ -47,12 +41,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
-    </dependency>    
-
 
     <dependency>
       <groupId>junit</groupId>

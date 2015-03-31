@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.socialserver.service.broadcast.datatypes.pars;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSBroadcastAddPar extends SSServPar{
   

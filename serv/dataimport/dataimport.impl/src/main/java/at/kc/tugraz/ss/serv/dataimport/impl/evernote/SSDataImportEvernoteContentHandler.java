@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import java.util.List;
 
 public class SSDataImportEvernoteContentHandler implements Runnable{

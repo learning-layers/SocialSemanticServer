@@ -20,20 +20,21 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUserFileWritesPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileRemoveReaderOrWriterPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
@@ -42,15 +43,13 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityDescriberI;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
@@ -58,6 +57,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.util.*;
 import java.util.List;
 
@@ -169,8 +169,10 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSEntityDescGetPar par,
+    final SSServPar parA,
     final SSEntity      desc) throws Exception{
+
+    final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
     
     switch(desc.type){
       case file:{

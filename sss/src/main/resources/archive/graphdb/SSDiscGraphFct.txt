@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.disc.impl.fct.graph;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBGraphFct;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSDBGraphFct;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
 public class SSDiscGraphFct extends SSDBGraphFct{
   

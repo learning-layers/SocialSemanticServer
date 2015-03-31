@@ -21,7 +21,8 @@
 
 package at.kc.tugraz.ss.serv.solr.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSSolrRemoveAllDocsPar extends SSServPar{
   

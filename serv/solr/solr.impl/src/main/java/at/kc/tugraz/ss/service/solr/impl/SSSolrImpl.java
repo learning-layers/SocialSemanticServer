@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.service.solr.impl;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrAddDocPar;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrRemoveDocPar;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrSearchPar;
@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.datatypes.*;
 import at.kc.tugraz.ss.service.solr.impl.fct.SSSolrFct;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.io.*;
 import java.util.*;
 import org.apache.solr.client.solrj.impl.*;

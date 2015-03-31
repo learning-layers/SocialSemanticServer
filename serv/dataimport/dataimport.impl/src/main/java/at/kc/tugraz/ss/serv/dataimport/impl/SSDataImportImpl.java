@@ -20,21 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
@@ -42,11 +42,11 @@ import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHandler
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -57,7 +57,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   

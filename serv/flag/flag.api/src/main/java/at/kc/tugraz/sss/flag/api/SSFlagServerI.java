@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import java.util.List;
 

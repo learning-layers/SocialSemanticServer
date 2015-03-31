@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.jsonld.util.SSJSONLDU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
 import java.util.HashMap;

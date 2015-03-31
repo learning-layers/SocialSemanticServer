@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
+import at.tugraz.sss.serv.SSFileU;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;

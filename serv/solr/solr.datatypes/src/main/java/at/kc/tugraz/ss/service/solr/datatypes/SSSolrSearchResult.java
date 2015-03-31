@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.solr.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.service.solr.datatypes.enums.*;
 import java.util.*;
 import org.apache.solr.common.*;

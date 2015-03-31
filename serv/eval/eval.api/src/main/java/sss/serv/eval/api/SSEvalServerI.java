@@ -20,7 +20,7 @@
 */
 package sss.serv.eval.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSEvalServerI {
   public Boolean evalLog                       (final SSServPar parA) throws Exception;

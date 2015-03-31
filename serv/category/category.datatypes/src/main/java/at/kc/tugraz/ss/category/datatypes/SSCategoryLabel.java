@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.category.datatypes;
 
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
+import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 

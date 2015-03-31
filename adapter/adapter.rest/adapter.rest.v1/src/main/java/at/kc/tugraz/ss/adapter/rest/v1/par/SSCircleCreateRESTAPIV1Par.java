@@ -15,9 +15,9 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v1.par;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;

@@ -20,10 +20,10 @@
 */
  package at.kc.tugraz.ss.service.search.service;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;

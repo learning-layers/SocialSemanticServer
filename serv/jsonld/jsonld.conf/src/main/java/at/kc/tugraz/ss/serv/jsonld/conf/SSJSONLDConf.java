@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.serv.jsonld.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
+import at.tugraz.sss.serv.SSCoreServConfA;
 
 public class SSJSONLDConf extends SSCoreServConfA{
   

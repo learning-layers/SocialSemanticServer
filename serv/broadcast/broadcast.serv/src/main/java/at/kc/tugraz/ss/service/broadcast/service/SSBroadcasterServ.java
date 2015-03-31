@@ -24,11 +24,11 @@ import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterClientI;
 import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterServerI;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcasterImpl;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcastUpdateTask;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSBroadcasterServ extends SSServA{

@@ -24,12 +24,6 @@
     </dependency>
     
     <dependency>
-     <groupId>sss.serv</groupId>
-     <artifactId>serv.test.api</artifactId>
-     <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>db.serv</artifactId>
       <version>${project.version}</version>

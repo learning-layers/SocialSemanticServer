@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSServConfA;
+import at.tugraz.sss.serv.SSServConfA;
 
 public class SSI5CloudConf extends SSServConfA{
   

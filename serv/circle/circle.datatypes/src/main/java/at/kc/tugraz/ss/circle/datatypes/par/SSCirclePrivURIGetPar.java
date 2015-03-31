@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCirclePrivURIGetPar extends SSServPar{
   

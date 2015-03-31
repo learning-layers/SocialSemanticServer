@@ -20,19 +20,20 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import at.tugraz.sss.serv.SSServErrReg;
 @XmlRootElement
 @ApiModel(value = "entityUserAdd request parameter")
 public class SSEntityUserAddPar extends SSServPar{
@@ -122,7 +123,7 @@ public class SSEntityUserAddPar extends SSServPar{
         }catch(Exception error){}
       }      
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      throw new SSErr(SSErrE.servParCreationFailed);
     }
   }
   

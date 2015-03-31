@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.sss.app.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import java.util.List;
 

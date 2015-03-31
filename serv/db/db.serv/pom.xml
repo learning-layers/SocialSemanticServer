@@ -17,27 +17,15 @@
   </properties>
   <dependencies>
     
-    <dependency>
+   <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>db.impl</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

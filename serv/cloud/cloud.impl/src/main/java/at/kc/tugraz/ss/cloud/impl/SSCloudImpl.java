@@ -20,18 +20,19 @@
 */
 package at.kc.tugraz.ss.cloud.impl;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSSystemU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSSystemU;
 import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.datatypes.par.SSCloudPublishServicePar;
 import at.kc.tugraz.ss.cloud.datatypes.ret.SSCloudPublishServiceRet;
 import at.kc.tugraz.ss.cloud.impl.fct.op.SSCloudPublishServiceFct;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCloudServerI{
 

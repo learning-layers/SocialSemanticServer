@@ -20,18 +20,19 @@
 */
 package at.kc.tugraz.ss.cloud.impl.fct.op;
 
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSIDU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSIDU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
+
+import at.tugraz.sss.serv.SSServA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;

@@ -20,24 +20,25 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSHTMLU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSHTMLU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplStartA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;

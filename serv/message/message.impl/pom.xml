@@ -23,16 +23,15 @@
       <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
+      <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -50,7 +49,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency>    
     

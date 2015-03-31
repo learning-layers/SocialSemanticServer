@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSEntity;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 

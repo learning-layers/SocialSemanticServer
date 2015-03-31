@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
 import java.util.Map;
 

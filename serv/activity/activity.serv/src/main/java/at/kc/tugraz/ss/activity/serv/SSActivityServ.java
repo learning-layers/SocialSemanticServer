@@ -23,12 +23,12 @@ package at.kc.tugraz.ss.activity.serv;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.impl.SSActivityImpl;
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSActivityServ extends SSServA{

@@ -25,11 +25,7 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    
     
     <dependency>
       <groupId>sss</groupId>

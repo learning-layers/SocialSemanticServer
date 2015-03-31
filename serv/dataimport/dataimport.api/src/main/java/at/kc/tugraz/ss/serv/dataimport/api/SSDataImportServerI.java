@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.Map;
 
 public interface SSDataImportServerI {

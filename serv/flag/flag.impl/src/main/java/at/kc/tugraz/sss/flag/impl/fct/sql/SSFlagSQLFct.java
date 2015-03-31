@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.sss.flag.impl.fct.sql;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSSQLVarU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSDBSQLI;
+
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

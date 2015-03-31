@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.voc.conf;
 
-import at.kc.tugraz.ss.serv.serv.api.SSCoreServConfA;
+import at.tugraz.sss.serv.SSCoreServConfA;
 
 public class SSVocConf extends SSCoreServConfA{
 

@@ -20,14 +20,14 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
- import at.kc.tugraz.socialserver.utils.SSVarU;
- import at.kc.tugraz.ss.serv.datatypes.SSServPar;
- import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+ import at.tugraz.sss.serv.SSVarU;
+ import at.tugraz.sss.serv.SSServPar;
+ 
  import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
  import javax.xml.bind.annotation.XmlRootElement;
- 
+ import at.tugraz.sss.serv.SSServErrReg;
  @XmlRootElement
  @ApiModel(value = "dataImportEvernote request parameter")
  public class SSDataImportEvernotePar extends SSServPar{

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSJSONLDServerI {
   public Object jsonLD(final SSServPar parA) throws Exception;

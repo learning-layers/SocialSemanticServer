@@ -20,26 +20,26 @@
 */
 package at.kc.tugraz.ss.service.coll.impl;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntityCircle;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
+import at.tugraz.sss.serv.SSEntityCircle;
+
+import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryAddRet;
@@ -54,10 +54,10 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
-import at.kc.tugraz.ss.serv.serv.api.SSEntityHandlerImplI;
-import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSUserRelationGathererI;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
@@ -73,8 +73,8 @@ import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import java.util.*;
-import sss.serv.err.datatypes.SSErrE;
-import sss.serv.err.datatypes.SSWarnE;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSWarnE;
 
 public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
 

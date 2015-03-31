@@ -20,15 +20,14 @@
 */
 package at.kc.tugraz.ss.test.serv.coll;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 
 import java.util.ArrayList;
 import java.util.List;

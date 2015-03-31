@@ -20,15 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.impl;
 
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSHTMLU;
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSEncodingU;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSHTMLU;
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSServPar;
+
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
@@ -37,8 +37,9 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudAuthPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplMiscA;
 import i5.las.httpConnector.client.TimeoutException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;

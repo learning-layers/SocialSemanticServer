@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.userrelationgatherer;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
 import java.util.List;

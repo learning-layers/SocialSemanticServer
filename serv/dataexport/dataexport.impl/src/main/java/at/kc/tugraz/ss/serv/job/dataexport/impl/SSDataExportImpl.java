@@ -20,14 +20,14 @@
  */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
-import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSEncodingU;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
@@ -35,12 +35,12 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportAddTagsCate
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.api.SSUserRelationGathererI;
-import at.kc.tugraz.ss.serv.serv.api.SSUsersResourcesGathererI;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.SSUserRelationGathererI;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -50,7 +50,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import sss.serv.err.datatypes.SSErr;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportClientI, SSDataExportServerI{
   

@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.kc.tugraz.socialserver.utils.SSFileExtE;
-import at.kc.tugraz.socialserver.utils.SSJSONU;
-import at.kc.tugraz.socialserver.utils.SSMimeTypeE;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSocketCon;
+
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -58,11 +59,11 @@ public class SSAdapterRESTFileDownload{
     SSSocketCon      sSCon;
     
     try{
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, SSJSONU.jsonStr(input));
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
       
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
       sSCon.readMsgFullFromSS   ();
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
 
       stream = new StreamingOutput(){
 
@@ -114,11 +115,11 @@ public class SSAdapterRESTFileDownload{
     SSSocketCon      sSCon;
     
     try{
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port, input);
+      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
       
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (input);
       sSCon.readMsgFullFromSS   ();
-      sSCon.writeRequFullToSS   ();
+      sSCon.writeRequFullToSS   (input);
       
       stream = new StreamingOutput(){
         

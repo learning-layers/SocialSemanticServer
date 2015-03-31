@@ -26,18 +26,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>solr.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>

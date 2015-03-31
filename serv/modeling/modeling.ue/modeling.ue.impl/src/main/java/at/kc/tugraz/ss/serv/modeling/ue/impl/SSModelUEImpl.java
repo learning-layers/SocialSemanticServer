@@ -26,10 +26,10 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEServerI;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.socialserver.utils.*;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEditorsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEMIsForEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEModelRelationsPar;
@@ -41,15 +41,15 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntitiesForForMi
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicScoresPar;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSServPar;
+
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 

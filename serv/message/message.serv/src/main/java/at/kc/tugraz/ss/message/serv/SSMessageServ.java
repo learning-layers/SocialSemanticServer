@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.message.serv;
 
-import at.kc.tugraz.ss.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.serv.api.SSServA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplA;
+import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
 public class SSMessageServ extends SSServA{

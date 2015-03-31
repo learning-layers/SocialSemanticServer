@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 
-import at.kc.tugraz.socialserver.utils.SSEncodingU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
+import at.tugraz.sss.serv.SSEncodingU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+
 import java.security.MessageDigest;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSAuthMiscFct{
   

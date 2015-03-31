@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.search;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;

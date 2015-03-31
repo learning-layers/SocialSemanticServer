@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.app;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;

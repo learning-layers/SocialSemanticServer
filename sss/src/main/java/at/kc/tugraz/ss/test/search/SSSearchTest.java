@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.test.search;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;

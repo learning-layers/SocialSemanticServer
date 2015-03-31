@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.voc.impl;
 
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.tugraz.sss.serv.SSServImplMiscA;
 
 public class SSVocImpl extends SSServImplMiscA implements SSVocI{
  

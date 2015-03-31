@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.test.category;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.List;
 

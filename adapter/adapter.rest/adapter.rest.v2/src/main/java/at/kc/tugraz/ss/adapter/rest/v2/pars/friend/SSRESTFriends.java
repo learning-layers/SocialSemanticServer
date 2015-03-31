@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.friend;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;

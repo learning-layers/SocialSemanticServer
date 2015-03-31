@@ -20,15 +20,16 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.op;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.ss.i5cloud.util.SSI5CloudU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
+
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.enums.SSI5CloudAchsoVideoMetaDataE;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;

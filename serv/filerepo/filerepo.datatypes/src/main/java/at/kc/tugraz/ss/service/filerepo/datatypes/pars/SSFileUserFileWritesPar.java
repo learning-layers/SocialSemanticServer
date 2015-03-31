@@ -20,10 +20,10 @@
  */
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import at.tugraz.sss.serv.SSServErrReg;
 @XmlRootElement
 @ApiModel(value = "fileUserFileWrites request parameter")
 public class SSFileUserFileWritesPar extends SSServPar{

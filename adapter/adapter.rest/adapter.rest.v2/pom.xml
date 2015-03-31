@@ -96,6 +96,12 @@
    
     <dependency>
       <groupId>sss.serv</groupId>
+      <artifactId>entity.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
       <artifactId>circle.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -142,11 +148,7 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+   
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -154,11 +156,7 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -178,11 +176,7 @@
       <version>${project.version}</version>
     </dependency> 
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
+    
     
     <!-- TOMCAT start --> 
     

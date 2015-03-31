@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.ss.adapter.socket.datatypes.SSSocketCon;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
@@ -33,13 +33,14 @@ import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.api.SSConfA;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSDBSQLI;
+
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 

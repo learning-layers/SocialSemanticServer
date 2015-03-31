@@ -22,13 +22,13 @@ package at.kc.tugraz.ss.serv.lomextractor.impl;
 
 import at.kc.tugraz.socialserver.utils.SSEncodingU;
 import at.kc.tugraz.socialserver.utils.SSFileU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorClientI;
 import at.kc.tugraz.ss.serv.lomextractor.api.SSLOMExtractorServerI;
 import at.kc.tugraz.ss.serv.lomextractor.conf.SSLOMExtractorConf;
 import at.kc.tugraz.ss.serv.lomextractor.datatypes.SSLOMResource;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.serv.api.SSServImplMiscA;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServImplMiscA;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;

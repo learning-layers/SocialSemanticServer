@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSStrU;
 
 public enum SSRecommDataSetE{
 

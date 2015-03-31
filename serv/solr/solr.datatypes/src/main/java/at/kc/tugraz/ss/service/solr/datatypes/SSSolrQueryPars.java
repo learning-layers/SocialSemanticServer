@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.solr.datatypes;
 
-import at.kc.tugraz.socialserver.utils.*;
+import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
 import at.kc.tugraz.ss.service.solr.datatypes.enums.*;
 

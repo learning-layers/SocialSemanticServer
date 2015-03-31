@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.socialserver.service.broadcast.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public class SSBroadcastServerTimePar extends SSServPar{
   

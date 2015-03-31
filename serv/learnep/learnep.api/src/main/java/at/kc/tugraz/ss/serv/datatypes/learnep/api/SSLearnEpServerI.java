@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSLearnEpServerI {

@@ -20,9 +20,9 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
-    </dependency>     
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

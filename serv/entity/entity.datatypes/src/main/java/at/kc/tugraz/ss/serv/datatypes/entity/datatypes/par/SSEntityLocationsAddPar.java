@@ -20,11 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.kc.tugraz.socialserver.utils.SSVarU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLocation;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class SSEntityLocationsAddPar extends SSServPar{
         locations      = (List<SSLocation>)    pars.get(SSVarU.locations);
       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      throw new SSErr(SSErrE.servParCreationFailed);
     }
   }
 }

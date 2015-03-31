@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.solr.api;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
 
 public interface SSSolrServerI{

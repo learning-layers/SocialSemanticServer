@@ -160,11 +160,11 @@
 
   <modules>
     <module>sss</module>
-    <module>util</module>
     <module>adapter</module>
     <module>serv</module>
-    <module>datatypes</module>
     <module>conf</module>
+    <module>serv.serv</module>
+    <module>serv.caller</module>
   </modules>
   
 </project>

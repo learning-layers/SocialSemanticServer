@@ -20,21 +20,23 @@
 */
 package at.kc.tugraz.ss.serv.db.api;
 
-import at.kc.tugraz.socialserver.utils.SSStrU;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSEntityA;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSUri;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.serv.err.datatypes.SSErr;
-import sss.serv.err.datatypes.SSErrE;
 
 public class SSDBSQLFct extends SSDBFct{
 

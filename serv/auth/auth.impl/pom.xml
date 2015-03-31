@@ -17,13 +17,12 @@
   </properties>
   
   <dependencies>
-  
-    <dependency>
+  <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.err.datatypes</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>jar</type>
+      <artifactId>db.api</artifactId>
+      <version>${project.version}</version>
     </dependency>
+   
     
     <dependency>
       <groupId>sss</groupId>
@@ -37,15 +36,11 @@
       <version>${project.version}</version>
     </dependency> 
     
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.errreg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+   
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.datatypes</artifactId>
+      <artifactId>serv.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -55,11 +50,7 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+   
     
     <dependency>
       <groupId>sss.serv</groupId>

@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.test.serv.entity;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTestCaseA{

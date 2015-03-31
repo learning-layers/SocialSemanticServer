@@ -23,12 +23,7 @@
       <artifactId>video.api</artifactId>
       <version>${project.version}</version>
     </dependency>   
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>   
+   
     
     <dependency>
       <groupId>sss.serv</groupId>

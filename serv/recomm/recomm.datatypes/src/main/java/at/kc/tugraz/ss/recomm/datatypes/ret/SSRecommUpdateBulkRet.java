@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.datatypes.SSServRetI;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 

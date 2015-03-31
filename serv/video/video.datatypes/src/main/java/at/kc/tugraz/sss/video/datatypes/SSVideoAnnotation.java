@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.sss.video.datatypes;
 
-import at.kc.tugraz.ss.datatypes.datatypes.SSEntity;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSEntityE;
 import java.util.Map;
 
 public class SSVideoAnnotation extends SSEntity{

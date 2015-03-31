@@ -20,7 +20,8 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSUserSystemUserPar extends SSServPar{
   

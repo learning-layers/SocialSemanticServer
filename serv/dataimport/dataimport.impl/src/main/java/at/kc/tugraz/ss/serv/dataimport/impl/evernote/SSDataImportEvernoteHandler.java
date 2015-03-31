@@ -20,23 +20,23 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.socialserver.utils.SSDateU;
-import at.kc.tugraz.socialserver.utils.SSLinkU;
-import at.kc.tugraz.socialserver.utils.SSObjU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSLinkU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSEntityE;
-import at.kc.tugraz.ss.datatypes.datatypes.label.SSLabel;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSSpaceE;
-import at.kc.tugraz.ss.datatypes.datatypes.enums.SSToolContextE;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
@@ -285,7 +285,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         noteUri,
         noteTagNames,
-        SSSpaceE.privateSpace,
+        SSSpaceE.sharedSpace,
         note.getUpdated(),
         false);
       

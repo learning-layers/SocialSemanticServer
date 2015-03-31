@@ -19,8 +19,20 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>entity.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss</groupId>
       <artifactId>conf.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

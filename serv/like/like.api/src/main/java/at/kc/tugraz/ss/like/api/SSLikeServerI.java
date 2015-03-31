@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.like.api;
 
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
+import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
-import at.kc.tugraz.ss.serv.datatypes.SSServPar;
+import at.tugraz.sss.serv.SSServPar;
 
 public interface SSLikeServerI{
   public SSUri   likeUserSet (final SSServPar parA) throws Exception;

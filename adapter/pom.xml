@@ -16,7 +16,6 @@
   
   <modules>
     <module>adapter.websocket</module>
-    <module>adapter.socket</module>
     <module>adapter.rest</module>
   </modules>
   

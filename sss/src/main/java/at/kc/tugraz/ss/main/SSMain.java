@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.main;
 
-import at.kc.tugraz.ss.adapter.socket.impl.SSServerSocket;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.socialserver.utils.SSStrU;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;

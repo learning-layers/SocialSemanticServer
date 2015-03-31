@@ -20,19 +20,18 @@
   */
 package at.kc.tugraz.ss.service.coll.impl.fct.activity;
 
-import at.kc.tugraz.socialserver.utils.SSLogU;
+import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.datatypes.datatypes.SSTextComment;
-import at.kc.tugraz.ss.datatypes.datatypes.entity.SSUri;
-import at.kc.tugraz.ss.serv.err.reg.SSServErrReg;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
-import java.util.ArrayList;
-import java.util.List;
-import sss.serv.err.datatypes.SSErr;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCollActivityFct{
   

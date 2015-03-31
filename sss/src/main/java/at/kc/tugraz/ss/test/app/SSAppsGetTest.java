@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.test.app;
 
-import at.kc.tugraz.socialserver.utils.SSMethU;
-import at.kc.tugraz.ss.serv.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.test.api.SSServOpTestCaseA;
+import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
