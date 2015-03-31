@@ -285,7 +285,7 @@ public class SSDataImportEvernoteHandler {
         userUri,
         noteUri,
         noteTagNames,
-        SSSpaceE.privateSpace,
+        SSSpaceE.sharedSpace,
         note.getUpdated(),
         false);
       
