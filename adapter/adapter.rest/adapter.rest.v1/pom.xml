@@ -93,49 +93,49 @@
   <dependencies>
    
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>circle.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>entity.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>like.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>video.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>appstacklayout.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>app.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>message.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>dataimport.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -146,18 +146,14 @@
       <version>${project.version}</version>
     </dependency>
     
-   
-    
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
-    
-    
     <dependency>
-      <groupId>sss.serv</groupId>
+      <groupId>sss.servs</groupId>
       <artifactId>jsonld.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -173,8 +169,6 @@
       <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
     </dependency> 
-    
-    
     
     <!-- TOMCAT start --> 
     

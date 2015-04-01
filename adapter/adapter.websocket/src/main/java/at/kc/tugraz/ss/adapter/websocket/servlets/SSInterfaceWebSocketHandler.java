@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.websocket.servlets;
 
-import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.io.IOException;
 import java.nio.ByteBuffer;
