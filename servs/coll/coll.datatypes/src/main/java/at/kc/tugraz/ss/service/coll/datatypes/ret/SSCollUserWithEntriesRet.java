@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -33,11 +33,11 @@ public class SSCollUserWithEntriesRet extends SSServRetI{
 
   public SSColl coll = null;
 
-  public static SSCollUserWithEntriesRet get(SSColl coll, SSMethU op){
+  public static SSCollUserWithEntriesRet get(SSColl coll, SSServOpE op){
     return new SSCollUserWithEntriesRet(coll, op);
   }
   
-  private SSCollUserWithEntriesRet(SSColl coll, SSMethU op) {
+  private SSCollUserWithEntriesRet(SSColl coll, SSServOpE op) {
 
     super(op);
     

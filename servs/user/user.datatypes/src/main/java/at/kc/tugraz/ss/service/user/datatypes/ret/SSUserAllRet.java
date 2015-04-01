@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,14 +37,14 @@ public class SSUserAllRet extends SSServRetI{
   
   public static SSUserAllRet get(
     final List<SSUser> users,
-    final SSMethU      op){
+    final SSServOpE      op){
     
     return new SSUserAllRet(users, op);
   }
   
   private SSUserAllRet(
     final List<SSUser> users,
-    final SSMethU      op){
+    final SSServOpE      op){
     
     super(op);
     

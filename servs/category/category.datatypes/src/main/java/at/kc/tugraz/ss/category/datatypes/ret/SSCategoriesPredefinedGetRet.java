@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -36,14 +36,14 @@ public class SSCategoriesPredefinedGetRet extends SSServRetI{
   
   public static SSCategoriesPredefinedGetRet get(
     final List<String> categories,
-    final SSMethU      op){
+    final SSServOpE      op){
     
     return new SSCategoriesPredefinedGetRet(categories, op);
   }
   
   private SSCategoriesPredefinedGetRet(
     final List<String> categories,
-    final SSMethU      op){
+    final SSServOpE      op){
     
     super(op);
     

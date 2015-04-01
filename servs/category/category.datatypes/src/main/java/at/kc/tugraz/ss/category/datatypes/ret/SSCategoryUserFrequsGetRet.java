@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,14 +37,14 @@ public class SSCategoryUserFrequsGetRet extends SSServRetI{
   
   public static SSCategoryUserFrequsGetRet get(
     final List<SSCategoryFrequ> categoryFrequs, 
-    final SSMethU               op){
+    final SSServOpE               op){
     
     return new SSCategoryUserFrequsGetRet(categoryFrequs, op);
   }
   
   private SSCategoryUserFrequsGetRet(
     final List<SSCategoryFrequ> categoryFrequs, 
-    final SSMethU               op){
+    final SSServOpE               op){
     
     super(op);
     

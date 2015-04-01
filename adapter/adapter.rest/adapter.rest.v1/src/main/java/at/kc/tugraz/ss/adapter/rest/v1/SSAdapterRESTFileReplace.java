@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -75,7 +75,7 @@ public class SSAdapterRESTFileReplace{
       byte[]                 bytes  = new byte[SSSocketU.socketTranmissionSize];
       String                 returnMsg;
     
-      par.op       = SSMethU.fileReplace;
+      par.op       = SSServOpE.fileReplace;
       par.user     = SSUri.get(user);
       par.key      = key;
       par.file     = SSUri.get(file);

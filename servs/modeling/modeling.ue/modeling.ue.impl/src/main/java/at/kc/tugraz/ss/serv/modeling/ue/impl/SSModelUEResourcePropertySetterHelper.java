@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
-import at.tugraz.sss.serv.SSNumberU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
@@ -593,7 +592,7 @@ public class SSModelUEResourcePropertySetterHelper {
 	 */
 	public void increaseActivePeriod(SSModelUEEntity resource) {
 		
-		if(SSNumberU.isGreaterThan(resource.events.size(), 0)){
+		if(resource.events.size() > 0){
 			
 			resource.counters.put(
 					SSModelUEResourceCounterEnum.counterActivePeriod.toString(),

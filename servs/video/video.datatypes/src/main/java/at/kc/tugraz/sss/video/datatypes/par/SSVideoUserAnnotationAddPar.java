@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSTextComment;
@@ -39,7 +39,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public SSTextComment       description        = null;
   
   public SSVideoUserAnnotationAddPar(
-    final SSMethU              op,
+    final SSServOpE              op,
     final String               key,
     final SSUri                user,
     final SSUri                video,

@@ -74,11 +74,11 @@ public class SSEvalServ extends SSServA{
   
   private void setMaxRequsForClientOps() throws Exception{
     
-//    SSMethU op;
+//    SSServOpE op;
 //      
 //    for(Method method : servImplClientInteraceClass.getMethods()){
 //      
-//      op = SSMethU.get(method.getName());
+//      op = SSServOpE.get(method.getName());
 //
 //      switch(op){
 //        case learnEpVersionGetTimelineState: maxRequsForClientOpsPerUser.put(op, 10);

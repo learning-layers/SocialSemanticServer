@@ -25,12 +25,12 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 
 public class SSDataImportUserResourceTagFromWikipediaTest extends SSServOpTestCaseA{
   
   public SSDataImportUserResourceTagFromWikipediaTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, null, SSMethU.dataImportUserResourceTagFromWikipedia);
+    super(dataImportConf, null, SSServOpE.dataImportUserResourceTagFromWikipedia);
   }
   
   @Override

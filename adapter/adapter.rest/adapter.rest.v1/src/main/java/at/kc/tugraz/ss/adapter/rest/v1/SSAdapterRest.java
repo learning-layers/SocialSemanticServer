@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSSearchRESTAPIV1Par;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
+import static at.kc.tugraz.ss.adapter.rest.v1.SSRestMainV1.conf;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutCreateRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
@@ -45,14 +46,14 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleUsersAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSFriendsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSLikeSetRESTAPIV1Par;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSSystemVersionGetPar;
+import at.kc.tugraz.ss.adapter.rest.v1.par.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagEditRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagEntitiesForTagsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagFrequsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSTagsRemoveRESTAPIV1Par;
-import at.tugraz.sss.serv.SSSystemVersionGetPar;
-import at.tugraz.sss.serv.SSSystemVersionGetRet;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
@@ -98,6 +99,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
@@ -196,6 +198,7 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
+import at.tugraz.sss.serv.SSSocketCon;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -226,7 +229,7 @@ public class SSAdapterRest{
     
     final SSFriendUserAddPar par = 
       new SSFriendUserAddPar(
-        SSMethU.friendAdd, 
+        SSServOpE.friendAdd, 
         input.key, 
         input.user, 
         input.friend);
@@ -247,7 +250,7 @@ public class SSAdapterRest{
     
     final SSFriendsUserGetPar par =
       new SSFriendsUserGetPar(
-        SSMethU.friendsGet,
+        SSServOpE.friendsGet,
         input.key,
         input.user);
     
@@ -267,7 +270,7 @@ public class SSAdapterRest{
     
     final SSAppAddPar par =
       new SSAppAddPar(
-        SSMethU.appAdd,
+        SSServOpE.appAdd,
         input.key,
         input.user,
         input.label,
@@ -298,7 +301,7 @@ public class SSAdapterRest{
     
     final SSAppsGetPar par = 
       new SSAppsGetPar(
-        SSMethU.appsGet, 
+        SSServOpE.appsGet, 
         input.key, 
         input.user);
     
@@ -318,7 +321,7 @@ public class SSAdapterRest{
     
     final SSAppStackLayoutCreatePar par =
       new SSAppStackLayoutCreatePar(
-        SSMethU.appStackLayoutCreate,
+        SSServOpE.appStackLayoutCreate,
         input.key,
         input.user,
         null, 
@@ -342,7 +345,7 @@ public class SSAdapterRest{
     
     final SSAppStackLayoutsGetPar par = 
       new SSAppStackLayoutsGetPar(
-        SSMethU.appStackLayoutsGet, 
+        SSServOpE.appStackLayoutsGet, 
         input.key, 
         input.user);
     
@@ -362,7 +365,7 @@ public class SSAdapterRest{
     
     final SSLikeUserSetPar par = 
       new SSLikeUserSetPar(
-        SSMethU.likeSet, 
+        SSServOpE.likeSet, 
         input.key, 
         input.user, 
         input.entity, 
@@ -384,7 +387,7 @@ public class SSAdapterRest{
     
     final SSSearchPar par = 
       new SSSearchPar(
-        SSMethU.search, 
+        SSServOpE.search, 
         input.key, 
         input.user, 
         input.includeTextualContent, 
@@ -425,7 +428,7 @@ public class SSAdapterRest{
     
     final SSAuthCheckCredPar par = 
       new SSAuthCheckCredPar(
-        SSMethU.authCheckCred, 
+        SSServOpE.authCheckCred, 
         SSAuthConf.noAuthKey,
         null,
         input.label,
@@ -454,7 +457,7 @@ public class SSAdapterRest{
     
      final SSCircleEntitiesRemovePar par = 
       new SSCircleEntitiesRemovePar(
-        SSMethU.circleEntitiesRemove, 
+        SSServOpE.circleEntitiesRemove, 
         input.key, 
         input.user,
         input.circle,
@@ -477,7 +480,7 @@ public class SSAdapterRest{
     
     final SSCirclesGetPar par = 
       new SSCirclesGetPar(
-        SSMethU.circlesGet, 
+        SSServOpE.circlesGet, 
         input.key, 
         input.user,
         input.forUser, 
@@ -501,7 +504,7 @@ public class SSAdapterRest{
     
     final SSCircleGetPar par = 
       new SSCircleGetPar(
-        SSMethU.circleGet, 
+        SSServOpE.circleGet, 
         input.key, 
         input.user, 
         input.forUser, 
@@ -525,7 +528,7 @@ public class SSAdapterRest{
     
     final SSCircleCreatePar par =
       new SSCircleCreatePar(
-        SSMethU.circleCreate,
+        SSServOpE.circleCreate,
         input.key,
         input.user,
         input.label,
@@ -552,7 +555,7 @@ public class SSAdapterRest{
     
     final SSCircleUsersAddPar par =
       new SSCircleUsersAddPar(
-        SSMethU.circleUsersAdd,
+        SSServOpE.circleUsersAdd,
         input.key,
         input.user,
         input.circle,
@@ -575,7 +578,7 @@ public class SSAdapterRest{
     
     final SSCircleEntitiesAddPar par = 
       new SSCircleEntitiesAddPar(
-        SSMethU.circleEntitiesAdd, 
+        SSServOpE.circleEntitiesAdd, 
         input.key, 
         input.user, 
         input.circle, 
@@ -599,7 +602,7 @@ public class SSAdapterRest{
     
     final SSEntityUserGetPar par = 
       new SSEntityUserGetPar(
-        SSMethU.entityGet, 
+        SSServOpE.entityGet, 
         input.key, 
         input.user, 
         input.entity, 
@@ -621,7 +624,7 @@ public class SSAdapterRest{
     
     final SSTagAddPar par =  
       new SSTagAddPar(
-        SSMethU.tagAdd, 
+        SSServOpE.tagAdd, 
         input.key, 
         input.user, 
         input.entity, 
@@ -645,7 +648,7 @@ public class SSAdapterRest{
     
     final SSTagsUserRemovePar par = 
       new SSTagsUserRemovePar(
-        SSMethU.tagsRemove, 
+        SSServOpE.tagsRemove, 
         input.key, 
         input.user, 
         input.entity, 
@@ -668,7 +671,7 @@ public class SSAdapterRest{
     
     final SSTagUserEditPar par = 
       new SSTagUserEditPar(
-        SSMethU.tagEdit, 
+        SSServOpE.tagEdit, 
         input.key, 
         input.user, 
         input.tag, 
@@ -691,7 +694,7 @@ public class SSAdapterRest{
     
     final SSTagsUserGetPar par =
       new SSTagsUserGetPar(
-        SSMethU.tagsGet,
+        SSServOpE.tagsGet,
         input.key,
         input.user,
         input.forUser,
@@ -716,7 +719,7 @@ public class SSAdapterRest{
     
     final SSTagUserFrequsGetPar par = 
       new SSTagUserFrequsGetPar(
-        SSMethU.tagFrequsGet, 
+        SSServOpE.tagFrequsGet, 
         input.key, 
         input.user, 
         input.forUser, 
@@ -742,7 +745,7 @@ public class SSAdapterRest{
     
     final SSTagUserEntitiesForTagsGetPar par = 
       new SSTagUserEntitiesForTagsGetPar(
-        SSMethU.tagEntitiesForTagsGet, 
+        SSServOpE.tagEntitiesForTagsGet, 
         input.key, 
         input.user, 
         input.forUser, 
@@ -774,7 +777,7 @@ public class SSAdapterRest{
     value = "get predefined categories",
     response = SSCategoriesPredefinedGetRet.class)
   public String categoriesPredefinedGet(final SSCategoriesPredefinedGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoriesPredefinedGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoriesPredefinedGet);
   }
   
   @POST
@@ -785,7 +788,7 @@ public class SSAdapterRest{
     value = "set flags",
     response = SSFlagsUserSetRet.class)
   public String flagsSet(final SSFlagsUserSetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.flagsSet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.flagsSet);
   }
   
   @POST
@@ -796,7 +799,7 @@ public class SSAdapterRest{
     value = "retrieve flags set",
     response = SSFlagsUserGetRet.class)
   public String flagsGet(final SSFlagsUserGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.flagsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.flagsGet);
   }
   
   @POST
@@ -807,7 +810,7 @@ public class SSAdapterRest{
     value = "retrieve more detailed information for given entities of a user",
     response = SSEntityDescsGetRet.class)
   public String entityDescsGet(final SSEntityDescsGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityDescsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescsGet);
   }
   
   @POST
@@ -818,7 +821,7 @@ public class SSAdapterRest{
     value = "retrieve activities from within a certain time frame",
     response = SSActivitiesUserGetRet.class)
   public String activitiesGet(final SSActivitiesUserGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.activitiesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activitiesGet);
   }
   
   @POST
@@ -829,7 +832,7 @@ public class SSAdapterRest{
     value = "retrieve available activity types",
     response = SSActivityTypesGetRet.class)
   public String activityTypesGet(final SSActivityTypesGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.activityTypesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activityTypesGet);
   }
   
   @POST
@@ -840,7 +843,7 @@ public class SSAdapterRest{
     value = "add an activity",
     response = SSActivityUserAddRet.class)
   public String activityAdd(final SSActivityAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.activityAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activityAdd);
   }
   
   @POST
@@ -851,7 +854,18 @@ public class SSAdapterRest{
     value = "retrieve the version of the sss instance",
     response = SSSystemVersionGetRet.class)
   public String systemVersionGet(final SSSystemVersionGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.systemVersionGet);
+
+    try{
+    return new SSSocketCon(
+      SSRestMainV1.conf.ss.host,
+      SSRestMainV1.conf.ss.port).prepRetFullToClient(
+        new SSSystemVersionGetRet(
+          SSRestMainV1.conf.ss.version,
+          SSServOpE.systemVersionGet));
+    }catch(Exception error){
+      SSLogU.err(error);
+      return null;
+    }
   }
   
   @POST
@@ -862,7 +876,7 @@ public class SSAdapterRest{
     value = "set an entity public (make it accessible for everyone)",
     response = SSCircleEntityPublicSetRet.class)
   public String entityPublicSet(final SSCircleEntityPublicSetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.circleEntityPublicSet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.circleEntityPublicSet);
   }
   
   @POST
@@ -873,7 +887,7 @@ public class SSAdapterRest{
     value = "add an entity",
     response = SSEntityUserAddRet.class)
   public String entityAdd(final SSEntityUserAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityAdd);
   }
   
   @POST
@@ -884,7 +898,7 @@ public class SSAdapterRest{
     value = "copy an entity and hand it to a user",
     response = SSEntityUserCopyRet.class)
   public String entityCopy(final SSEntityUserCopyPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityCopy);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityCopy);
   }
 
   @POST
@@ -895,7 +909,7 @@ public class SSAdapterRest{
     value = "retrieve users who can access given entity",
     response = SSCircleEntityUsersGetRet.class)
   public String entityEntityUsersGet(final SSCircleEntityUsersGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.circleEntityUsersGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.circleEntityUsersGet);
   }
   
   @POST
@@ -906,7 +920,7 @@ public class SSAdapterRest{
     value = "retrieve all the user's collections given entity is in",
     response = SSCollsUserEntityIsInGetRet.class)
   public String collsEntityIsInGet(final SSCollsUserEntityIsInGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collsEntityIsInGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collsEntityIsInGet);
   }
   
   @POST
@@ -917,7 +931,7 @@ public class SSAdapterRest{
     value = "retrieve a list of all public collections given user could subscribe to",
     response = SSCollsUserCouldSubscribeGetRet.class)
   public String collsCouldSubscribeGet(final SSCollsUserCouldSubscribeGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collsCouldSubscribeGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collsCouldSubscribeGet);
   }
   
   @POST
@@ -928,7 +942,7 @@ public class SSAdapterRest{
     value = "retrieve the user's root collection",
     response = SSCollUserRootGetRet.class)
   public String collRootGet(final SSCollUserRootGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collRootGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collRootGet);
   }
   
   @POST
@@ -939,7 +953,7 @@ public class SSAdapterRest{
     value = "retrieve the parent collection for given user's collection",
     response = SSCollUserParentGetRet.class)
   public String collParentGet(final SSCollUserParentGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collParentGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collParentGet);
   }
   
   @POST
@@ -950,7 +964,7 @@ public class SSAdapterRest{
     value = "add a (new) collection or any other entity to given user's collection",
     response = SSCollUserEntryAddRet.class)
   public String collEntryAdd(final SSCollUserEntryAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collEntryAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntryAdd);
   }
   
   @POST
@@ -961,7 +975,7 @@ public class SSAdapterRest{
     value = "add existing collections or (new) entities to a collection",
     response = SSCollUserEntriesAddRet.class)
   public String collEntriesAdd(final SSCollUserEntriesAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collEntriesAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntriesAdd);
   }
   
   @POST
@@ -972,7 +986,7 @@ public class SSAdapterRest{
     value = "change the sequential order of entries in a user's collection",
     response = SSCollUserEntryChangePosRet.class)
   public String collEntryChangePos(final SSCollUserEntryChangePosPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collEntryChangePos);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntryChangePos);
   }
   
   @POST
@@ -983,7 +997,7 @@ public class SSAdapterRest{
     value = "delete an item from a user's collection",
     response = SSCollUserEntryDeleteRet.class)
   public String collEntryDelete(final SSCollUserEntryDeletePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collEntryDelete);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntryDelete);
   }
   
   @POST
@@ -994,7 +1008,7 @@ public class SSAdapterRest{
     value = "delete one or more entries from a collection",
     response = SSCollUserEntriesDeleteRet.class)
   public String collEntriesDelete(final SSCollUserEntriesDeletePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collEntriesDelete);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntriesDelete);
   }
   
   @POST
@@ -1005,7 +1019,7 @@ public class SSAdapterRest{
     value = "share an entity directly with given users",
     response = SSCircleEntityShareRet.class)
   public String circleEntityShare(final SSCircleEntitySharePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.circleEntityShare);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.circleEntityShare);
   }
   
   @POST
@@ -1016,7 +1030,7 @@ public class SSAdapterRest{
     value = "retrieve a user's collection with entries",
     response = SSCollUserWithEntriesRet.class)
   public String collWithEntries(final SSCollUserWithEntriesPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collWithEntries);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collWithEntries);
   }
   
   @POST
@@ -1027,7 +1041,7 @@ public class SSAdapterRest{
     value = "retrieve the user's collections with entries",
     response = SSCollsUserWithEntriesRet.class)
   public String collsWithEntries(final SSCollsUserWithEntriesPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collsWithEntries);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collsWithEntries);
   }
   
   @POST
@@ -1038,7 +1052,7 @@ public class SSAdapterRest{
     value = "retrieve the parent collection order for a user's collection",
     response = SSCollUserHierarchyGetRet.class)
   public String collHierarchyGet(final SSCollUserHierarchyGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collHierarchyGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collHierarchyGet);
   }
    
   @POST
@@ -1049,7 +1063,7 @@ public class SSAdapterRest{
     value = "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
     response = SSCollUserCumulatedTagsGetRet.class)
   public String collCumulatedTagsGet(final SSCollUserCumulatedTagsGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.collCumulatedTagsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collCumulatedTagsGet);
   }
   
   @POST
@@ -1060,7 +1074,7 @@ public class SSAdapterRest{
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
     response = SSDiscUserEntryAddRet.class)
   public String discEntryAdd(final SSDiscUserEntryAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.discEntryAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.discEntryAdd);
   }
   
   @POST
@@ -1071,7 +1085,7 @@ public class SSAdapterRest{
     value = "retrieve discussions for a certain entity",
     response = SSDiscUserDiscURIsForTargetGetRet.class)
   public String discURIsForTargetGet(final SSDiscUserDiscURIsForTargetGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.discURIsForTargetGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.discURIsForTargetGet);
   }
   
   @POST
@@ -1082,7 +1096,7 @@ public class SSAdapterRest{
     value = "remove a discussion from given user",
     response = SSDiscUserRemoveRet.class)
   public String discRemove(final SSDiscUserRemovePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.discRemove);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.discRemove);
   }
   
   @POST
@@ -1093,7 +1107,7 @@ public class SSAdapterRest{
     value = "retrieve the discussion with its entries",
     response = SSDiscUserWithEntriesRet.class)
   public String discWithEntriesGet(final SSDiscUserWithEntriesGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.discWithEntriesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.discWithEntriesGet);
   }
   
   @POST
@@ -1104,7 +1118,7 @@ public class SSAdapterRest{
     value = "retrieve all discussions given user is allowed to see",
     response = SSDiscsUserAllGetRet.class)
   public String discsAllGet(final SSDiscsUserAllGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.discsAllGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.discsAllGet);
   }
   
   @POST
@@ -1115,7 +1129,7 @@ public class SSAdapterRest{
     value = "remove certain attached attributes from an entity",
     response = SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.class)
   public String entityDirectlyAdjoinedEntitiesRemove(final SSEntityUserDirectlyAdjoinedEntitiesRemovePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityDirectlyAdjoinedEntitiesRemove);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDirectlyAdjoinedEntitiesRemove);
   }
   
   @POST
@@ -1126,7 +1140,7 @@ public class SSAdapterRest{
     value = "retrieve more detailed information for given entity",
     response = SSEntityDescGetRet.class)
   public String entityDescGet(final SSEntityDescGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityDescGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescGet);
   }
   
   @POST
@@ -1137,7 +1151,7 @@ public class SSAdapterRest{
     value = "updates/adds given properties for an entity",
     response = SSEntityUserUpdateRet.class)
   public String entityUpdate(final SSEntityUserUpdatePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.entityUpdate);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityUpdate);
   }
   
   @POST
@@ -1148,7 +1162,7 @@ public class SSAdapterRest{
     value = "retrieve number of minutes left user is allowed to replace / re-upload a file",
     response = SSFileWritingMinutesLeftRet.class)
   public String fileWritingMinutesLeft(final SSFileWritingMinutesLeftPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.fileWritingMinutesLeft);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileWritingMinutesLeft);
   }
   
   @POST
@@ -1159,7 +1173,7 @@ public class SSAdapterRest{
     value = "retrieve automatically usage-based modeled details for given entity",
     response = SSModelUEResourceDetailsRet.class)
   public String modelUEResourceDetails(final SSModelUEEntityDetailsPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.modelUEResourceDetails);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.modelUEResourceDetails);
   }
   
   @POST
@@ -1170,7 +1184,7 @@ public class SSAdapterRest{
     value = "retrieve the overall rating (by all users) for given entity",
     response = SSRatingOverallGetRet.class)
   public String ratingOverallGet(final SSRatingOverallGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.ratingOverallGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.ratingOverallGet);
   }
   
   @POST
@@ -1181,7 +1195,7 @@ public class SSAdapterRest{
     value = "set the user's rating for given entity",
     response = SSRatingUserSetRet.class)
   public String ratingSet(final SSRatingUserSetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.ratingSet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.ratingSet);
   }
   
   @POST
@@ -1192,7 +1206,7 @@ public class SSAdapterRest{
     value = "retrieve tag recommendations based on user, entity, tag, time and category combinations",
     response = SSRecommTagsRet.class)
   public String recommTags(final SSRecommTagsPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.recommTags);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.recommTags);
   }
   
   @POST
@@ -1203,7 +1217,7 @@ public class SSAdapterRest{
     value = "retrieve resource recommendations based on user, entity, tag, time and category combinations",
     response = SSRecommResourcesRet.class)
   public String recommResources(final SSRecommResourcesPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.recommResources);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.recommResources);
   }
   
   @POST
@@ -1214,7 +1228,7 @@ public class SSAdapterRest{
     value = "retrieve all users",
     response = SSUserAllRet.class)
   public String userAll(final SSUserAllPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.userAll);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.userAll);
   }
   
   @POST
@@ -1225,7 +1239,7 @@ public class SSAdapterRest{
     value = "add a usage-based trace, i.e. user event, for entity, user combination",
     response = SSUEAddRet.class)
   public String uEAdd(final SSUEAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.uEAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.uEAdd);
   }
   
   @POST
@@ -1236,7 +1250,7 @@ public class SSAdapterRest{
     value = "retrieve user events for user, entity, time combination",
     response = SSUEsGetRet.class)
   public String uEsGet(final SSUEsGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.uEsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.uEsGet);
   }
   
   @POST
@@ -1247,7 +1261,7 @@ public class SSAdapterRest{
     value = "retrieve given user event",
     response = SSUEGetRet.class)
   public String uEGet(final SSUEGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.uEGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.uEGet);
   }
   
   @POST
@@ -1258,7 +1272,7 @@ public class SSAdapterRest{
     value = "retrieve the number of certain user events",
     response = SSUECountGetRet.class)
   public String uECountGet(final SSUECountGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.uECountGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.uECountGet);
   }
   
 //  @GET
@@ -1275,9 +1289,9 @@ public class SSAdapterRest{
 //    @PathParam(SSVarU.type) 
 //    final SSJSONLDPar input){
 //    
-//    String jsonRequ = "{\"op\":\"" + SSMethU.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + input.type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+//    String jsonRequ = "{\"op\":\"" + SSServOpE.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + input.type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
 //    
-//    return handleStandardJSONRESTCall(jsonRequ, SSMethU.jsonLD);
+//    return handleStandardJSONRESTCall(jsonRequ, SSServOpE.jsonLD);
 //  }
   
   @POST
@@ -1285,7 +1299,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "broadcastsGet")
   public String broadcastsGet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.broadcastsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.broadcastsGet);
   }
 
   @Deprecated
@@ -1294,7 +1308,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpLockHold")
   public String learnEpLockHold(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockHold);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpLockHold);
   }
   
   @POST
@@ -1302,7 +1316,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpsLockHold")
   public String learnEpsLockHold(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsLockHold);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpsLockHold);
   }
   
   @POST
@@ -1310,7 +1324,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpLockSet")
   public String learnEpLockSet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockSet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpLockSet);
   }
   
   @POST
@@ -1318,7 +1332,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpLockRemove")
   public String learnEpLockRemove(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpLockRemove);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpLockRemove);
   }
   
   @POST
@@ -1326,7 +1340,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpsGet")
   public String learnEpsGet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpsGet);
   }
   
   @POST
@@ -1334,7 +1348,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionsGet")
   public String learnEpVersionsGet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionsGet);
   }
   
   @POST
@@ -1342,7 +1356,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionGet")
   public String learnEpVersionGet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionGet);
   }
   
   @POST
@@ -1350,7 +1364,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCurrentGet")
   public String learnEpVersionCurrentGet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionCurrentGet);
   }
   
   @POST
@@ -1358,7 +1372,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCurrentSet")
   public String learnEpVersionCurrentSet(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCurrentSet);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionCurrentSet);
   }
     
   @POST
@@ -1366,7 +1380,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionCreate")
   public String learnEpVersionCreate(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionCreate);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionCreate);
   }
   
   @POST
@@ -1374,7 +1388,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionAddCircle")
   public String learnEpVersionAddCircle(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddCircle);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionAddCircle);
   }
   
   @POST
@@ -1382,7 +1396,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionAddEntity")
   public String learnEpVersionAddEntity(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionAddEntity);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionAddEntity);
   }
   
   @POST
@@ -1390,7 +1404,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpCreate")
   public String learnEpCreate(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpCreate);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpCreate);
   }
   
   @POST
@@ -1398,7 +1412,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionUpdateCircle")
   public String learnEpVersionUpdateCircle(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateCircle);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionUpdateCircle);
   }
   
   @POST
@@ -1406,7 +1420,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionUpdateEntity")
   public String learnEpVersionUpdateEntity(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionUpdateEntity);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionUpdateEntity);
   }
   
   @POST
@@ -1414,7 +1428,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionSetTimelineState")
   public String learnEpVersionSetTimelineState(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionSetTimelineState);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionSetTimelineState);
   }
   
   @POST
@@ -1422,7 +1436,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionGetTimelineState")
   public String learnEpVersionGetTimelineState(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionGetTimelineState);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionGetTimelineState);
   }
   
   @POST
@@ -1430,7 +1444,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionRemoveCircle")
   public String learnEpVersionRemoveCircle(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveCircle);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionRemoveCircle);
   }
   
   @POST
@@ -1438,7 +1452,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpVersionRemoveEntity")
   public String learnEpVersionRemoveEntity(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpVersionRemoveEntity);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpVersionRemoveEntity);
   }
   
   @POST
@@ -1446,7 +1460,7 @@ public class SSAdapterRest{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "learnEpRemove")
   public String learnEpRemove(String jsonRequ){
-    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSMethU.learnEpRemove);
+    return SSRestMainV1.handleStandardJSONRESTCall(jsonRequ, SSServOpE.learnEpRemove);
   }
   
   /* category */ 
@@ -1459,7 +1473,7 @@ public class SSAdapterRest{
     value = "changes the label of the category assigned to entities by given user",
     response = SSCategoryUserEditRet.class)
   public String categoryEdit(final SSCategoryUserEditPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoryEdit);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoryEdit);
   }
   
   @POST
@@ -1470,7 +1484,7 @@ public class SSAdapterRest{
     value = "retrieve entities for categories (currently startTime is not used to retrieve entities)",
     response = SSCategoryUserEntitiesForCategoriesGetRet.class)
   public String categoryEntitiesForCategoriesGet(final SSCategoryUserEntitiesForCategoriesGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoryEntitiesForCategoriesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoryEntitiesForCategoriesGet);
   }
   
   @POST
@@ -1481,7 +1495,7 @@ public class SSAdapterRest{
     value = "retrieve category assignments",
     response = SSCategoriesUserGetRet.class)
   public String categoriesGet(final SSCategoriesUserGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoriesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoriesGet);
   }
   
   @POST
@@ -1492,7 +1506,7 @@ public class SSAdapterRest{
     value = "add a category within for an entity within given space",
     response = SSCategoryAddRet.class)
   public String categoryAdd(final SSCategoryAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoryAdd);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoryAdd);
   }
   
   @POST
@@ -1503,7 +1517,7 @@ public class SSAdapterRest{
     value = "retrieve category frequencies",
     response = SSCategoryUserFrequsGetRet.class)
   public String categoryFrequsGet(final SSCategoryUserFrequsGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoryFrequsGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoryFrequsGet);
   }
   
   @POST
@@ -1514,7 +1528,7 @@ public class SSAdapterRest{
     value = "remove category, user, entity, space combinations",
     response = SSCategoriesUserRemoveRet.class)
   public String categoriesRemove(final SSCategoriesUserRemovePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.categoriesRemove);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.categoriesRemove);
   }
   
   @POST
@@ -1525,7 +1539,7 @@ public class SSAdapterRest{
     value = "send a message to a user",
     response = SSMessageSendRet.class)
   public String messageSend(final SSMessageSendPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.messageSend);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.messageSend);
   }
   
   @POST
@@ -1536,7 +1550,7 @@ public class SSAdapterRest{
     value = "retrieve messages for the user",
     response = SSMessagesGetRet.class)
   public String messagesGet(final SSMessagesGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.messagesGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.messagesGet);
   }
   
   @POST
@@ -1547,7 +1561,7 @@ public class SSAdapterRest{
     value = "log events for evaluation purposes",
     response = SSMessagesGetRet.class)
   public String evalLog(final SSEvalLogPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.evalLog);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.evalLog);
   }
 }
 
@@ -1555,7 +1569,7 @@ public class SSAdapterRest{
 //    Map<String, Object> ret = new HashMap<>();
 //    
 //    try{
-//      ret.put(SSVarU.op,                  SSMethU.jsonLD);
+//      ret.put(SSVarU.op,                  SSServOpE.jsonLD);
 //      ret.put(SSVarU.error,               false);
 //      ret.put(SSVarU.jsonLD,              ((SSJSONLDImpl)SSJSONLD.inst.impl()).jsonLDDesc(entityType));
 //      

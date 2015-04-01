@@ -98,7 +98,7 @@ public class SSMain{
   
   //  private void checkAndExecScaffServTests(String[] args) throws Exception{
   //
-  //    if(SSStrU.equals(args[0], SSMethU.scaffRecommTags)){
+  //    if(SSStrU.equals(args[0], SSServOpE.scaffRecommTags)){
   //
   //      SSUri user;
   //      SSUri resource;
@@ -106,7 +106,7 @@ public class SSMain{
   //      opPars = new HashMap<>();
   //      opPars.put(SSVarU.userLabel,  SSLabelStr.get("833086"));
   //
-  //      user     = (SSUri) SSServReg.callServServer(new SSServPar(SSMethU.userCreateUri, opPars));
+  //      user     = (SSUri) SSServReg.callServServer(new SSServPar(SSServOpE.userCreateUri, opPars));
   //      resource = SSUri.get(SSStrU.addAtBegin("Technological_singularity", SSLinkU.wikipediaEn.toString()));
   //
   //      opPars = new HashMap<>();
@@ -114,37 +114,37 @@ public class SSMain{
   //      opPars.put(SSVarU.resource, resource);
   //      opPars.put(SSVarU.maxTags,  10);
   //
-  //      System.out.println(SSServReg.callServServer(new SSServPar(SSMethU.scaffRecommTags, opPars)));
+  //      System.out.println(SSServReg.callServServer(new SSServPar(SSServOpE.scaffRecommTags, opPars)));
   //    }
   //  }
   //
   //  private void checkAndExecDataImportServTests(String[] args) throws Exception{
   //
-  //    if(SSStrU.equals(args[0], SSMethU.dataImportUserResourceTagFromWikipedia)){
+  //    if(SSStrU.equals(args[0], SSServOpE.dataImportUserResourceTagFromWikipedia)){
   //
   //      opPars = new HashMap<>();
   //
-  //      SSServReg.callServServer(new SSServPar(SSMethU.dataImportUserResourceTagFromWikipedia, opPars));
+  //      SSServReg.callServServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
   //    }
   //  }
   //
   //  private void checkAndExecLomExtractFromDirServTests(String[] args) throws Exception{
   //
-  //    if(SSStrU.equals(args[0], SSMethU.lomExtractFromDir)){
+  //    if(SSStrU.equals(args[0], SSServOpE.lomExtractFromDir)){
   //
   //      opPars = new HashMap<>();
   //
-  //      SSServReg.callServServer(new SSServPar(SSMethU.lomExtractFromDir, opPars));
+  //      SSServReg.callServServer(new SSServPar(SSServOpE.lomExtractFromDir, opPars));
   //    }
   //  }
   //
   //  private void checkAndExecSolrServTests(String[] args) throws Exception{
   //
-  //    if(SSStrU.equals(args[0], SSMethU.solrRemoveDocsAll)){
+  //    if(SSStrU.equals(args[0], SSServOpE.solrRemoveDocsAll)){
   //
   //      opPars = new HashMap<>();
   //
-  //      SSServReg.callServServer(new SSServPar(SSMethU.solrRemoveDocsAll, opPars));
+  //      SSServReg.callServServer(new SSServPar(SSServOpE.solrRemoveDocsAll, opPars));
   //    }
   //  }
   

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.appstacklayout;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
@@ -67,7 +67,7 @@ public class SSRESTAppStackLayouts{
     try{
       par =
         new SSAppStackLayoutsGetPar(
-          SSMethU.appStackLayoutsGet,
+          SSServOpE.appStackLayoutsGet,
           null,
           null);
       
@@ -94,7 +94,7 @@ public class SSRESTAppStackLayouts{
     try{
       par =
         new SSAppStackLayoutCreatePar(
-          SSMethU.appStackLayoutCreate,
+          SSServOpE.appStackLayoutCreate,
           null,
           null,
           input.uuid,
@@ -125,7 +125,7 @@ public class SSRESTAppStackLayouts{
     try{
       par =
         new SSAppStackLayoutDeletePar(
-          SSMethU.appStackLayoutDelete,
+          SSServOpE.appStackLayoutDelete,
           null,
           null,
           SSUri.get(stack, SSVocConf.sssUri));
@@ -154,7 +154,7 @@ public class SSRESTAppStackLayouts{
     try{
       par =
         new SSAppStackLayoutUpdatePar(
-          SSMethU.appStackLayoutUpdate,
+          SSServOpE.appStackLayoutUpdate,
           null,
           null,
           SSUri.get(stack, SSVocConf.sssUri),

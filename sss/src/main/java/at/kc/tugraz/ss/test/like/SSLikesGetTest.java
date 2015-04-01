@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.like;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLikesGetTest extends SSServOpTestCaseA{
   
   public SSLikesGetTest(final SSLikeConf likeConf) {
-    super(likeConf, null, SSMethU.likesGet);
+    super(likeConf, null, SSServOpE.likesGet);
   }
   
   @Override

@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,7 +31,7 @@ public class SSFileThumbGetRet extends SSServRetI{
   
   public String file;
 
-  public SSFileThumbGetRet(String fileId, SSMethU op){
+  public SSFileThumbGetRet(String fileId, SSServOpE op){
     
     super(op);
     

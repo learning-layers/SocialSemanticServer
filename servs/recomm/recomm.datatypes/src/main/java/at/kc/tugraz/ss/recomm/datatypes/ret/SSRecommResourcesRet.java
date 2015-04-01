@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -38,14 +38,14 @@ public class SSRecommResourcesRet extends SSServRetI{
 
   public static SSRecommResourcesRet get(
     final Map<SSEntity, Double> resourcesWithLikelihood, 
-    final SSMethU               op) throws Exception{
+    final SSServOpE               op) throws Exception{
     
     return new SSRecommResourcesRet(resourcesWithLikelihood, op);
   }
   
   private SSRecommResourcesRet(
     final Map<SSEntity, Double> resourcesWithLikelihood, 
-    final SSMethU               op) throws Exception{
+    final SSServOpE               op) throws Exception{
     
     super(op);
     

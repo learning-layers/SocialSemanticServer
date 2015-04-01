@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.main.test.video;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.SSServOpTestCaseA;
 public class SSVideoAddTest extends SSServOpTestCaseA{
   
   public SSVideoAddTest(final SSVideoConf videoConf) {
-    super(videoConf, null, SSMethU.videoUserAdd);
+    super(videoConf, null, SSServOpE.videoUserAdd);
   }
   
   @Override

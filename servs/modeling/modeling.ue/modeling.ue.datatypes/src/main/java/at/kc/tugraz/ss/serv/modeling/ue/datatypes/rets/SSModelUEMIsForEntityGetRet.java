@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -35,11 +35,11 @@ public class SSModelUEMIsForEntityGetRet extends SSServRetI{
 
   public List<String> mIs = new ArrayList<>();
 
-  public static SSModelUEMIsForEntityGetRet get(List<String> mIs, SSMethU op){
+  public static SSModelUEMIsForEntityGetRet get(List<String> mIs, SSServOpE op){
     return new SSModelUEMIsForEntityGetRet(mIs, op);
   }
   
-  private SSModelUEMIsForEntityGetRet(List<String> mIs, SSMethU op){
+  private SSModelUEMIsForEntityGetRet(List<String> mIs, SSServOpE op){
     
     super(op);
     

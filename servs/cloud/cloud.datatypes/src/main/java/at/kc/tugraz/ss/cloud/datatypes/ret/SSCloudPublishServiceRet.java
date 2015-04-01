@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.cloud.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -36,7 +36,7 @@ public class SSCloudPublishServiceRet extends SSServRetI{
   public static SSCloudPublishServiceRet get(
     final String  sssNodeHost,
     final Integer sssNodePort, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSCloudPublishServiceRet(sssNodeHost, sssNodePort, op);
   }
@@ -44,7 +44,7 @@ public class SSCloudPublishServiceRet extends SSServRetI{
   private SSCloudPublishServiceRet(
     final String  sssNodeHost,
     final Integer sssNodePort,
-    final SSMethU op){
+    final SSServOpE op){
 
     super(op);
     

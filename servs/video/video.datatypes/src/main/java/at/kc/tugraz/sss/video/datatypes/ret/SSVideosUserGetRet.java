@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.sss.video.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -37,14 +37,14 @@ public class SSVideosUserGetRet extends SSServRetI{
   
   public static SSVideosUserGetRet get(
     final List<SSVideo>    videos,
-    final SSMethU          op){
+    final SSServOpE          op){
     
     return new SSVideosUserGetRet(videos, op);
   }
   
   private SSVideosUserGetRet(
     final List<SSVideo>    videos,
-    final SSMethU          op) {
+    final SSServOpE          op) {
     
     super(op);
     

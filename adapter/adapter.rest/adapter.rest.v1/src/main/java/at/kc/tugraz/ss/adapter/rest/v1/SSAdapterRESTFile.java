@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v1;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
@@ -50,7 +50,7 @@ public class SSAdapterRESTFile{
     value = "retrieve a file's extension",
     response = SSFileExtGetRet.class)
   public String fileExtGet(final SSFileExtGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.fileExtGet);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileExtGet);
   }
   
   @POST
@@ -61,7 +61,7 @@ public class SSAdapterRESTFile{
     value = "query whether given file can be downloaded with write access",
     response = SSFileCanWriteRet.class)
   public String fileCanWrite(final SSFileCanWritePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.fileCanWrite);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileCanWrite);
   }
   
   @POST
@@ -72,7 +72,7 @@ public class SSAdapterRESTFile{
     value = "set user being writer or reaader for given file",
     response = SSFileSetReaderOrWriterRet.class)
   public String fileSetReaderOrWriter(final SSFileSetReaderOrWriterPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.fileSetReaderOrWriter);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileSetReaderOrWriter);
   }
   
   @POST
@@ -83,6 +83,6 @@ public class SSAdapterRESTFile{
     value = "retrieve files user currently could replace when uploading respective file again as he is writer",
     response = SSFileGetEditingFilesRet.class)
   public String fileUserFileWrites(final SSFileUserFileWritesPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSMethU.fileUserFileWrites);
+    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileUserFileWrites);
   }
 }

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSDiscUserWithEntriesRet extends SSServRetI{
 
   public SSDisc disc = null;
 
-  public static SSDiscUserWithEntriesRet get(SSDisc disc, SSMethU op){
+  public static SSDiscUserWithEntriesRet get(SSDisc disc, SSServOpE op){
     return new SSDiscUserWithEntriesRet(disc, op);
   }
   
-  private SSDiscUserWithEntriesRet(SSDisc disc, SSMethU op){
+  private SSDiscUserWithEntriesRet(SSDisc disc, SSServOpE op){
     
     super(op);
     this.disc = disc;

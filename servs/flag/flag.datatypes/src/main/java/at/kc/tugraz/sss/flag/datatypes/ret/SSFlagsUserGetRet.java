@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.sss.flag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -38,14 +38,14 @@ public class SSFlagsUserGetRet extends SSServRetI{
   
   public static SSFlagsUserGetRet get(
     final List<SSFlag>   flags,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSFlagsUserGetRet(flags, op);
   }
   
   private SSFlagsUserGetRet(
     final List<SSFlag>   flags,
-    final SSMethU        op) {
+    final SSServOpE        op) {
     
     super(op);
     

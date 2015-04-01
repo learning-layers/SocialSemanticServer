@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.impl;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
@@ -57,7 +57,7 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
     Object[] consts = clz.getEnumConstants();
     
     if(!SSObjU.isNull(consts)){
-      return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSMethU.jsonLD)).invoke(consts[0]);
+      return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSServOpE.jsonLD)).invoke(consts[0]);
     }
     
     return ((SSJSONLDPropI) clz.newInstance()).jsonLDDesc();

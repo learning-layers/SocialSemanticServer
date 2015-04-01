@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -93,7 +93,7 @@ public class SSRestMainV1 extends Application {
   
   public static String handleStandardJSONRESTCall(
     final SSServPar   input, 
-    final SSMethU     op){
+    final SSServOpE     op){
     
     try{
       
@@ -108,7 +108,7 @@ public class SSRestMainV1 extends Application {
   
   public static String handleStandardJSONRESTCall(
     final String      jsonRequ,
-    final SSMethU     op){
+    final SSServOpE     op){
     
     SSSocketCon       sSCon = null;
     String            readMsgFullFromSS;

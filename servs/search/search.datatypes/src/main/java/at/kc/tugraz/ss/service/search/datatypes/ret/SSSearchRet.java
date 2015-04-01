@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.service.search.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -43,7 +43,7 @@ public class SSSearchRet extends SSServRetI{
     final String         pagesID,
     final Integer        pageNumber,
     final Integer        pageNumbers,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSSearchRet(entities, pagesID, pageNumber, pageNumbers, op);
   }
@@ -53,7 +53,7 @@ public class SSSearchRet extends SSServRetI{
     final String         pagesID,
     final Integer        pageNumber,
     final Integer        pageNumbers,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     super(op);
     

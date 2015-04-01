@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.recomm.serv;
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
@@ -77,7 +77,7 @@ public class SSRecommServ extends SSServA{
       return;
     }
     
-    for(SSMethU initAtStartUpOp : recommConf.initAtStartUpOps){
+    for(SSServOpE initAtStartUpOp : recommConf.initAtStartUpOps){
       
       switch(initAtStartUpOp){
         
@@ -116,7 +116,7 @@ public class SSRecommServ extends SSServA{
     
     if(recommConf.executeScheduleAtStartUp){
       
-      for(SSMethU scheduleOp : recommConf.scheduleOps){
+      for(SSServOpE scheduleOp : recommConf.scheduleOps){
         
         switch(scheduleOp){
           

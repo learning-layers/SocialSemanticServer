@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.sss.app.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -37,14 +37,14 @@ public class SSAppsGetRet extends SSServRetI{
   
   public static SSAppsGetRet get(
     final List<SSApp>    apps,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSAppsGetRet(apps, op);
   }
   
   private SSAppsGetRet(
     final List<SSApp>    apps,
-    final SSMethU        op) {
+    final SSServOpE        op) {
     
     super(op);
     

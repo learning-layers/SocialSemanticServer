@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSCategoryAddRet extends SSServRetI{
 
   public static SSCategoryAddRet get(
     final SSUri   category, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSCategoryAddRet(category, op);
   }
   
   private SSCategoryAddRet(
     final SSUri   category, 
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

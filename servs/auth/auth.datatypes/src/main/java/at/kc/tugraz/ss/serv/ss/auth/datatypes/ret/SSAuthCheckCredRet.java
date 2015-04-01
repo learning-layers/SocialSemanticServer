@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 
 import at.tugraz.sss.serv.SSLinkU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -37,14 +37,14 @@ public class SSAuthCheckCredRet extends SSServRetI{
   public static SSAuthCheckCredRet get(
     final String  key, 
     final SSUri   uri,
-    final SSMethU op){
+    final SSServOpE op){
     return new SSAuthCheckCredRet(key, uri, op);
   }
 
   private SSAuthCheckCredRet(
     final String  key,
     final SSUri   uri,
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

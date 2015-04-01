@@ -29,13 +29,13 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.List;
 
 public class SSLearnEpsGetTest extends SSServOpTestCaseA{
   
   public SSLearnEpsGetTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, null, SSMethU.learnEpsGet);
+    super(learnEpConf, null, SSServOpE.learnEpsGet);
   }
   
   @Override

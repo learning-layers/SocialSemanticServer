@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -34,11 +34,11 @@ public class SSLearnEpsGetRet extends SSServRetI{
 
   public List<SSLearnEp> learnEps = null;
 
-  public static SSLearnEpsGetRet get(List<SSLearnEp> learnEp, SSMethU op){
+  public static SSLearnEpsGetRet get(List<SSLearnEp> learnEp, SSServOpE op){
     return new SSLearnEpsGetRet(learnEp, op);
   }
   
-  private SSLearnEpsGetRet(List<SSLearnEp> learnEps, SSMethU op){
+  private SSLearnEpsGetRet(List<SSLearnEp> learnEps, SSServOpE op){
     
     super(op);
     

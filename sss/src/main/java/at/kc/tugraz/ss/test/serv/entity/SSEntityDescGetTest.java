@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.test.serv.entity;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 public class SSEntityDescGetTest extends SSServOpTestCaseA{
   
   public SSEntityDescGetTest(final SSEntityConf entityConf){
-    super(entityConf, null, SSMethU.entityDescGet);
+    super(entityConf, null, SSServOpE.entityDescGet);
   }  
   
   @Override

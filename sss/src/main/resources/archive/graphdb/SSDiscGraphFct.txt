@@ -68,7 +68,7 @@ public class SSDiscGraphFct extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(disc));
 //      
-//      label = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      label = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      
 //      discs.add(SSDisc.get(
 //        SSUri.get(disc), 

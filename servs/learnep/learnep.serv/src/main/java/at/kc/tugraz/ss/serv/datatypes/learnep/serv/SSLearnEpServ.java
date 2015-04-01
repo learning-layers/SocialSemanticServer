@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -82,11 +82,11 @@ public class SSLearnEpServ extends SSServA{
   
   private void setMaxRequsForClientOps() throws Exception{
     
-    SSMethU op;
+    SSServOpE op;
       
     for(Method method : servImplClientInteraceClass.getMethods()){
       
-      op = SSMethU.get(method.getName());
+      op = SSServOpE.get(method.getName());
 
       switch(op){
         case learnEpVersionGetTimelineState: maxRequsForClientOpsPerUser.put(op, 10);

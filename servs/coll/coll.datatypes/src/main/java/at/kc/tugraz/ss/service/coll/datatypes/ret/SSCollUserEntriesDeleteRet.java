@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSCollUserEntriesDeleteRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCollUserEntriesDeleteRet get(boolean worked, SSMethU op){
+  public static SSCollUserEntriesDeleteRet get(boolean worked, SSServOpE op){
     return new SSCollUserEntriesDeleteRet(worked, op);
   }
   
-  private SSCollUserEntriesDeleteRet(boolean worked, SSMethU op) {
+  private SSCollUserEntriesDeleteRet(boolean worked, SSServOpE op) {
 
     super(op);
     

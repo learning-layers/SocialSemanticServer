@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -35,11 +35,11 @@ public class SSModelUERelatedPersonsRet extends SSServRetI{
 
   public List<SSUri> relatedPersons = new ArrayList<>();
 
-  public static SSModelUERelatedPersonsRet get(List<SSUri> relatedPersons, SSMethU op){
+  public static SSModelUERelatedPersonsRet get(List<SSUri> relatedPersons, SSServOpE op){
     return new SSModelUERelatedPersonsRet(relatedPersons, op);
   }
   
-  private SSModelUERelatedPersonsRet(List<SSUri> relatedPersons, SSMethU op){
+  private SSModelUERelatedPersonsRet(List<SSUri> relatedPersons, SSServOpE op){
     
     super(op);
     

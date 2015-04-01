@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.dataimport.serv;
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
@@ -76,7 +76,7 @@ public class SSDataImportServ extends SSServA{
       return;
     }
     
-    for(SSMethU initAtStartUpOp : dataImportConf.initAtStartUpOps){
+    for(SSServOpE initAtStartUpOp : dataImportConf.initAtStartUpOps){
       
       switch(initAtStartUpOp){
         
@@ -115,7 +115,7 @@ public class SSDataImportServ extends SSServA{
     
     if(dataImportConf.executeScheduleAtStartUp){
       
-      for(SSMethU scheduleOp : dataImportConf.scheduleOps){
+      for(SSServOpE scheduleOp : dataImportConf.scheduleOps){
         
         switch(scheduleOp){
           
@@ -160,11 +160,11 @@ public class SSDataImportServ extends SSServA{
   
   private void setMaxRequsForClientOps() throws Exception{
     
-    SSMethU op;
+    SSServOpE op;
     
     for(Method method : servImplClientInteraceClass.getMethods()){
       
-      op = SSMethU.get(method.getName());
+      op = SSServOpE.get(method.getName());
       
       switch(op){
         case dataImportEvernote: maxRequsForClientOpsPerUser.put(op, 1);

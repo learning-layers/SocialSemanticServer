@@ -14,75 +14,50 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.ops</artifactId>
+      <artifactId>serv.errreg</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>1.10</version> <!-- ${snakeyamlVersion} -->
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.api</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.1</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.conf</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.13</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.names</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>com.lowagie</groupId>
-      <artifactId>itext</artifactId>
-      <version>2.0.8</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.jsonld</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>org.xhtmlrenderer</groupId>
-      <artifactId>core-renderer</artifactId>
-      <version>R8</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.entities</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>jpedal</groupId>
-      <artifactId>jpedal_lgpl</artifactId>
-      <version>1</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.util</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.10-FINAL</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>3.10-FINAL</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-scratchpad</artifactId>
-      <version>3.10-FINAL</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${ssLog4JVersion}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
-      <scope>compile</scope>
-      <version>${ssSwaggerVersion}</version>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.ops</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
   </dependencies>

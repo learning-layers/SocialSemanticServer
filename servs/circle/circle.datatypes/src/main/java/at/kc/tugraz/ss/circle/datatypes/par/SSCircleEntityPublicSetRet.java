@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -34,14 +34,14 @@ public class SSCircleEntityPublicSetRet extends SSServRetI{
 
   public static SSCircleEntityPublicSetRet get(
     final SSUri entityUri, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSCircleEntityPublicSetRet(entityUri, op);
   }
   
   private SSCircleEntityPublicSetRet(
     final SSUri entityUri,
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.serv.dataexport;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataExportUserRelationsTest extends SSServOpTestCaseA{
   
   public SSDataExportUserRelationsTest(final SSDataExportConf dataExportConf){
-    super(dataExportConf, null, SSMethU.dataExportUserRelations);
+    super(dataExportConf, null, SSServOpE.dataExportUserRelations);
   }  
   
   @Override

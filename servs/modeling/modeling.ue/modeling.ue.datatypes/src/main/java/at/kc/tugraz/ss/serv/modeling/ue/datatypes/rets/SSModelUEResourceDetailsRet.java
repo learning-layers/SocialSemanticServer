@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -49,7 +49,7 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
 	  String                        recentTopic                                ,
 	  List<SSUri>                   contributedResources                       ,
 	  List<SSModelUETopicScore>     topicScores, 
-    SSMethU                       op){
+    SSServOpE                       op){
     
     super(op);
 

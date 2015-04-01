@@ -25,7 +25,7 @@ import java.util.Map;
 
 public abstract class SSServOpTestCaseA extends SSServImplStartA{
   
-  protected final SSMethU   op;
+  protected final SSServOpE   op;
   protected String          jsonRequ;
   protected SSServPar       clientServPar;
   
@@ -33,7 +33,7 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
   protected abstract void testFromClient() throws Exception;
   protected abstract void setUp()          throws Exception;
   
-  public SSServOpTestCaseA(final SSConfA conf, final SSDBSQLI dbSQL, final SSMethU op){
+  public SSServOpTestCaseA(final SSConfA conf, final SSDBSQLI dbSQL, final SSServOpE op){
     super(conf, dbSQL);
     
     this.op = op;

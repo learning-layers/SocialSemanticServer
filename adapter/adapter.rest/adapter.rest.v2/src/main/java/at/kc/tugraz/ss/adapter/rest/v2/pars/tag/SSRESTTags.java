@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.tag;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
@@ -73,7 +73,7 @@ public class SSRESTTags{
       
       par =
         new SSTagsUserGetPar(
-          SSMethU.tagsGet,
+          SSServOpE.tagsGet,
           null,
           null,
           null,
@@ -105,7 +105,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagsUserGetPar(
-          SSMethU.tagsGet,
+          SSServOpE.tagsGet,
           null,
           null,
           input.forUser,
@@ -137,7 +137,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagUserFrequsGetPar(
-          SSMethU.tagFrequsGet,
+          SSServOpE.tagFrequsGet,
           null,
           null,
           null,
@@ -170,7 +170,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagUserFrequsGetPar(
-          SSMethU.tagFrequsGet,
+          SSServOpE.tagFrequsGet,
           null,
           null,
           input.forUser,
@@ -203,7 +203,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagUserEntitiesForTagsGetPar(
-          SSMethU.tagEntitiesForTagsGet,
+          SSServOpE.tagEntitiesForTagsGet,
           null,
           null,
           input.forUser,
@@ -235,7 +235,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagsUserRemovePar(
-          SSMethU.tagsRemove,
+          SSServOpE.tagsRemove,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
@@ -266,7 +266,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagAddPar(
-          SSMethU.tagAdd,
+          SSServOpE.tagAdd,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
@@ -298,7 +298,7 @@ public class SSRESTTags{
     try{
       par =
         new SSTagUserEditPar(
-          SSMethU.tagEdit,
+          SSServOpE.tagEdit,
           null,
           null,
           SSTagLabel.get(tag),

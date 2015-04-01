@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,11 +31,11 @@ public class SSCategoriesUserRemoveRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCategoriesUserRemoveRet get(boolean worked, SSMethU op){
+  public static SSCategoriesUserRemoveRet get(boolean worked, SSServOpE op){
     return new SSCategoriesUserRemoveRet(worked, op);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked, SSMethU op){
+  private SSCategoriesUserRemoveRet(boolean worked, SSServOpE op){
     
     super(op);
     

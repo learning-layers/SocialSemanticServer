@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.search;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -34,7 +34,7 @@ import java.util.List;
 public class SSSearchTest extends SSServOpTestCaseA{
   
   public SSSearchTest(final SSSearchConf searchConf){
-    super(searchConf, null, SSMethU.search);
+    super(searchConf, null, SSServOpE.search);
   }
   
   @Override

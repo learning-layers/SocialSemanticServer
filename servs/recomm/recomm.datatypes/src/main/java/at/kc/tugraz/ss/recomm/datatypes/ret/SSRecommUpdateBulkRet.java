@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +29,11 @@ public class SSRecommUpdateBulkRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSRecommUpdateBulkRet get(boolean worked, SSMethU op){
+  public static SSRecommUpdateBulkRet get(boolean worked, SSServOpE op){
     return new SSRecommUpdateBulkRet(worked, op);
   }
   
-  private SSRecommUpdateBulkRet(boolean worked, SSMethU op) {
+  private SSRecommUpdateBulkRet(boolean worked, SSServOpE op) {
 
     super(op);
     

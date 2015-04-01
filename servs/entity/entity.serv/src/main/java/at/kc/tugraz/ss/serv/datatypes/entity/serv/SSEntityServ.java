@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
@@ -82,11 +82,11 @@ public class SSEntityServ extends SSServA{
   
   private void setMaxRequsForClientOps() throws Exception{
     
-    SSMethU op;
+    SSServOpE op;
     
     for(Method method : servImplClientInteraceClass.getMethods()){
       
-      op = SSMethU.get(method.getName());
+      op = SSServOpE.get(method.getName());
       
       switch(op){
         case entityDescsGet: maxRequsForClientOpsPerUser.put(op, 15);

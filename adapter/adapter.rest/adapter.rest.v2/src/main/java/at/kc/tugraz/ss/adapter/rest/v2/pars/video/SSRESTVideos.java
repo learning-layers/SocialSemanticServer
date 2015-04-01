@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.video;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
@@ -64,7 +64,7 @@ public class SSRESTVideos{
       
       par =
         new SSVideosUserGetPar(
-          SSMethU.videosGet,
+          SSServOpE.videosGet,
           null,
           null,
           null,
@@ -94,7 +94,7 @@ public class SSRESTVideos{
       
       par =
         new SSVideoUserAddPar(
-          SSMethU.videoAdd,
+          SSServOpE.videoAdd,
           null, 
           null,
           input.uuid,
@@ -133,7 +133,7 @@ public class SSRESTVideos{
       
       par =
         new SSVideoUserAnnotationAddPar(
-          SSMethU.videoAnnotationAdd,
+          SSServOpE.videoAnnotationAdd,
           null,
           null,
           SSUri.get(video, SSVocConf.sssUri),

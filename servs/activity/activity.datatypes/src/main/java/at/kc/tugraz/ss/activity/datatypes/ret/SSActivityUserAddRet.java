@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSActivityUserAddRet extends SSServRetI{
 
   public static SSActivityUserAddRet get(
     final SSUri      activity, 
-    final SSMethU    op){
+    final SSServOpE    op){
     
     return new SSActivityUserAddRet(activity, op);
   }
   
   private SSActivityUserAddRet(
     final SSUri      activity, 
-    final SSMethU    op) {
+    final SSServOpE    op) {
 
     super(op);
     

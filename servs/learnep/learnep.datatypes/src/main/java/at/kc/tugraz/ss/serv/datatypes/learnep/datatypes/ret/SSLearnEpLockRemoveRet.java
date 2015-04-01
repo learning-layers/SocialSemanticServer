@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -33,14 +33,14 @@ public class SSLearnEpLockRemoveRet extends SSServRetI{
 
   public static SSLearnEpLockRemoveRet get(
     final Boolean worked, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSLearnEpLockRemoveRet(worked, op);
   }
   
   private SSLearnEpLockRemoveRet(
     final Boolean worked,
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

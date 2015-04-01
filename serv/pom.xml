@@ -13,5 +13,13 @@
     <module>serv.serv</module>
     <module>serv.caller</module>
     <module>serv.ops</module>
+    <module>serv.util</module>
+    <module>serv.entities</module>
+    <module>serv.jsonld</module>
+    <module>serv.names</module>
+    <module>serv.conf</module>
+    <module>serv.api</module>
+    <module>serv.socket</module>
+    <module>serv.errreg</module>
   </modules>
 </project>

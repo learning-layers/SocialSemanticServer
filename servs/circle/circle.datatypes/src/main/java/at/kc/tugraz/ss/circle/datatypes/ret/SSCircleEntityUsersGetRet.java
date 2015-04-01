@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -37,14 +37,14 @@ public class SSCircleEntityUsersGetRet extends SSServRetI{
 
   public static SSCircleEntityUsersGetRet get(
     final List<SSEntity> users,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSCircleEntityUsersGetRet(users, op);
   }
   
   private SSCircleEntityUsersGetRet(
     final List<SSEntity> users,
-    final SSMethU        op) {
+    final SSServOpE        op) {
 
     super(op);
     

@@ -44,7 +44,7 @@ public class SSAuthMiscFct{
         throw new Exception("to digest string not valid");
       }
       
-      final MessageDigest digest = MessageDigest.getInstance(SSEncodingU.md5);
+      final MessageDigest digest = MessageDigest.getInstance(SSEncodingU.md5.toString());
       
       byte[] hash = digest.digest(toDigest.getBytes());
 

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.serv.dataimport;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportAchsoTest extends SSServOpTestCaseA{
   
   public SSDataImportAchsoTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, null, SSMethU.dataImportAchso);
+    super(dataImportConf, null, SSServOpE.dataImportAchso);
   }  
   
   @Override

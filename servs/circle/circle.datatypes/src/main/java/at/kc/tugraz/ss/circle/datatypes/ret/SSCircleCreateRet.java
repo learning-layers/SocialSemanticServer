@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -27,11 +27,11 @@ public class SSCircleCreateRet extends SSServRetI{
 
   public SSUri circle = null;
 
-  public static SSCircleCreateRet get(final SSUri circleUri, final SSMethU op){
+  public static SSCircleCreateRet get(final SSUri circleUri, final SSServOpE op){
     return new SSCircleCreateRet(circleUri, op);
   }
   
-  private SSCircleCreateRet(final SSUri circleUri, final SSMethU op){
+  private SSCircleCreateRet(final SSUri circleUri, final SSServOpE op){
 
     super(op);
     

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.app;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
@@ -58,7 +58,7 @@ public class SSRESTApps{
       
       par =
         new SSAppsGetPar(
-          SSMethU.appsGet,
+          SSServOpE.appsGet,
           null, 
           null);
       
@@ -86,7 +86,7 @@ public class SSRESTApps{
       
       par =
         new SSAppAddPar(
-          SSMethU.appAdd,
+          SSServOpE.appAdd,
           null,
           null,
           input.label,

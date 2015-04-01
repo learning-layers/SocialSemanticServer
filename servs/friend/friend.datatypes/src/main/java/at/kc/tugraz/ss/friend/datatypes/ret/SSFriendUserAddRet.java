@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -34,14 +34,14 @@ public class SSFriendUserAddRet extends SSServRetI{
   
   public static SSFriendUserAddRet get(
     final SSUri   friend,
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSFriendUserAddRet(friend, op);
   }
   
   private SSFriendUserAddRet(
     final SSUri   friend,
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

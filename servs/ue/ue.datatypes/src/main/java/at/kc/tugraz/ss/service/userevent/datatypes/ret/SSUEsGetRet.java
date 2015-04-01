@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,14 +37,14 @@ public class SSUEsGetRet extends SSServRetI{
   
   public static SSUEsGetRet get(
     final List<SSUE> uEs, 
-    final SSMethU    op){
+    final SSServOpE    op){
     
     return new SSUEsGetRet(uEs, op);
   }
   
   private SSUEsGetRet(
     final List<SSUE> uEs, 
-    final SSMethU    op){
+    final SSServOpE    op){
     
     super(op);
     

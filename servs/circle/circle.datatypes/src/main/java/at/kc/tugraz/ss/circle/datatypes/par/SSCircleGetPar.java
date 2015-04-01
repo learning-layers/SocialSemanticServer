@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -37,7 +37,7 @@ public class SSCircleGetPar extends SSServPar{
   public SSCircleGetPar(){}
   
   public SSCircleGetPar(
-    final SSMethU         op,
+    final SSServOpE         op,
     final String          key,
     final SSUri           user,
     final SSUri           forUser,

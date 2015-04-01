@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.serv.learnep;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSLearnEpVersionCurrentSetTest extends SSServOpTestCaseA{
   
   public SSLearnEpVersionCurrentSetTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, null, SSMethU.learnEpVersionCurrentSet);
+    super(learnEpConf, null, SSServOpE.learnEpVersionCurrentSet);
   }
   
   @Override

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.serv.learnep;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -34,7 +34,7 @@ import java.util.List;
 public class SSLearnEpVersionsGetTest extends SSServOpTestCaseA{
   
   public SSLearnEpVersionsGetTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, null, SSMethU.learnEpVersionsGet);
+    super(learnEpConf, null, SSServOpE.learnEpVersionsGet);
   }
   
   @Override

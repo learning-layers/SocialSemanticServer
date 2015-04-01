@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.tag;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 public class SSTagAddTest extends SSServOpTestCaseA{
   
   public SSTagAddTest(final SSTagConf tagConf) {
-    super(tagConf, null, SSMethU.tagAdd);
+    super(tagConf, null, SSServOpE.tagAdd);
   }
   
   @Override

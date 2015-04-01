@@ -5,7 +5,7 @@
  */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.circle;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.adapter.rest.v2.pars.circle.SSCircleCreateRESTAPIV2Par;
@@ -62,7 +62,7 @@ public class SSRESTCircles{
       
       par =
         new SSCircleEntitiesGetPar(
-          SSMethU.circleEntitiesGet,
+          SSServOpE.circleEntitiesGet,
           null,  //key
           null,  //user
           null,  //forUser
@@ -94,7 +94,7 @@ public class SSRESTCircles{
       
       par =
         new SSCirclesGetPar(
-          SSMethU.circlesGet,
+          SSServOpE.circlesGet,
           null,
           null,
           SSUri.get(user, SSVocConf.sssUri),
@@ -127,7 +127,7 @@ public class SSRESTCircles{
       
       par =
         new SSCircleGetPar(
-          SSMethU.circleGet,
+          SSServOpE.circleGet,
           null,
           null,
           SSUri.get(user,   SSVocConf.sssUri),
@@ -159,7 +159,7 @@ public class SSRESTCircles{
     try{
       par =
         new SSCircleUsersAddPar(
-          SSMethU.circleUsersAdd,
+          SSServOpE.circleUsersAdd,
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri),
@@ -191,7 +191,7 @@ public class SSRESTCircles{
       
       par =
         new SSCircleEntitiesAddPar(
-          SSMethU.circleEntitiesAdd,
+          SSServOpE.circleEntitiesAdd,
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri),
@@ -224,7 +224,7 @@ public class SSRESTCircles{
       
       par =
         new SSCircleEntitiesRemovePar(
-          SSMethU.circleEntitiesRemove,
+          SSServOpE.circleEntitiesRemove,
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
@@ -254,7 +254,7 @@ public class SSRESTCircles{
       
       par =
         new SSCirclesGetPar(
-          SSMethU.circlesGet,
+          SSServOpE.circlesGet,
           null,
           null,
           null,
@@ -286,7 +286,7 @@ public class SSRESTCircles{
       
       par =
         new SSCircleCreatePar(
-          SSMethU.circleCreate,
+          SSServOpE.circleCreate,
           null,
           null,
           input.label,

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.friend;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
@@ -58,7 +58,7 @@ public class SSRESTFriends{
       
       par =
         new SSFriendsUserGetPar(
-          SSMethU.friendsGet,
+          SSServOpE.friendsGet,
           null,
           null);
       
@@ -85,7 +85,7 @@ public class SSRESTFriends{
     try{
       par =
         new SSFriendUserAddPar(
-          SSMethU.friendAdd,
+          SSServOpE.friendAdd,
           null,
           null,
           input.friend);

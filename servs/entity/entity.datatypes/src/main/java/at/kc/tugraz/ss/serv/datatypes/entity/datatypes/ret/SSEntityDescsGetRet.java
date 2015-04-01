@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSEntityA;
@@ -37,14 +37,14 @@ public class SSEntityDescsGetRet extends SSServRetI{
 
   public static SSEntityDescsGetRet get(
     final List<SSEntityA> descs, 
-    final SSMethU         op){
+    final SSServOpE         op){
     
     return new SSEntityDescsGetRet(descs, op);
   }
   
   private SSEntityDescsGetRet(
     final List<SSEntityA> descs, 
-    final SSMethU         op){
+    final SSServOpE         op){
     
     super(op);
     

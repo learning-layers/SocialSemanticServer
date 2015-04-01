@@ -69,7 +69,7 @@ public class SSModelUEMIThresholdSetter {
 			}
 		}
 		
-		distinctFrequenciesArray = SSNumberU.toIntegerArray(distinctFrequencies);
+		distinctFrequenciesArray = SSStrU.toIntegerArray(distinctFrequencies);
 		
 		java.util.Arrays.sort( distinctFrequenciesArray );
 		

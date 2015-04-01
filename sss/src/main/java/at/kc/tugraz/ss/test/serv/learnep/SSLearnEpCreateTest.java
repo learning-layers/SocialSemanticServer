@@ -27,12 +27,12 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 
 public class SSLearnEpCreateTest extends SSServOpTestCaseA{
   
   public SSLearnEpCreateTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, null, SSMethU.learnEpCreate);
+    super(learnEpConf, null, SSServOpE.learnEpCreate);
   }
   
   @Override

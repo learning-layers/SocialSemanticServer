@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSRatingOverallGetRet extends SSServRetI{
   
   public SSRatingOverall ratingOverall = null;
   
-  public static SSRatingOverallGetRet get(SSRatingOverall ratingOverall, SSMethU op){
+  public static SSRatingOverallGetRet get(SSRatingOverall ratingOverall, SSServOpE op){
     return new SSRatingOverallGetRet(ratingOverall, op);
   }
   
-  private SSRatingOverallGetRet(SSRatingOverall ratingOverall, SSMethU op){
+  private SSRatingOverallGetRet(SSRatingOverall ratingOverall, SSServOpE op){
     
     super(op);
     

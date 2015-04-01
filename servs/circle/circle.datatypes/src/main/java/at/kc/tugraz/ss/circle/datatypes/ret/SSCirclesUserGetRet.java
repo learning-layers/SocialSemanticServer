@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +33,14 @@ public class SSCirclesUserGetRet extends SSServRetI{
   
   public static SSCirclesUserGetRet get(
     final List<String> circles, 
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSCirclesUserGetRet(circles, op);
   }
   
   private SSCirclesUserGetRet(
     final List<String>  circles,
-    final SSMethU         op){
+    final SSServOpE         op){
     
     super(op);
     

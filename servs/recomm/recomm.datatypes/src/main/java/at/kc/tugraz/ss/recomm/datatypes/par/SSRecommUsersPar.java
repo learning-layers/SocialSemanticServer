@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -39,7 +39,7 @@ public class SSRecommUsersPar extends SSServPar{
   public Integer       maxUsers    = 10;
     
   public SSRecommUsersPar(
-    final SSMethU      op,
+    final SSServOpE      op,
     final String       key,
     final SSUri        user,
     final String       realm,

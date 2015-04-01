@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,14 +37,14 @@ public class SSTagUserEntitiesForTagsGetRet extends SSServRetI{
   
   public static SSTagUserEntitiesForTagsGetRet get(
     final List<SSUri> entities, 
-    final SSMethU     op){
+    final SSServOpE     op){
     
     return new SSTagUserEntitiesForTagsGetRet(entities, op);
   }
   
   private SSTagUserEntitiesForTagsGetRet(
     final List<SSUri> entities, 
-    final SSMethU     op){
+    final SSServOpE     op){
     
     super(op);
     

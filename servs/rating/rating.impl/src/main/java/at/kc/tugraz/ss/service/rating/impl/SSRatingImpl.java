@@ -415,6 +415,6 @@ implements
 //    opPars.put(SSVarU.eventType,    SSUEEnum.rateEntity);
 //    opPars.put(SSVarU.content,      String.valueOf(par.value));
 //    
-//    SSServReg.callServServer(new SSServPar(SSMethU.uEAdd, opPars));
+//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
 //  }
 }

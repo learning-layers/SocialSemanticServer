@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSTagUserEditRet extends SSServRetI{
 
   public static SSTagUserEditRet get(
     final SSUri   tag, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSTagUserEditRet(tag, op);
   }
   
   private SSTagUserEditRet(
     final SSUri   tag, 
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

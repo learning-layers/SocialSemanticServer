@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,13 +37,13 @@ public class SSCollsUserEntityIsInGetRet extends SSServRetI{
 
   public static SSCollsUserEntityIsInGetRet get(
     final List<SSColl> colls,
-    final SSMethU      op){
+    final SSServOpE      op){
     return new SSCollsUserEntityIsInGetRet(colls, op);
   }
   
   private SSCollsUserEntityIsInGetRet(
     final List<SSColl> colls, 
-    final SSMethU      op) {
+    final SSServOpE      op) {
 
     super(op);
     

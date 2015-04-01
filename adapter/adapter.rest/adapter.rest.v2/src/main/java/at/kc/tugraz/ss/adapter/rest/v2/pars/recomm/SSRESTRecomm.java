@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
@@ -75,7 +75,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdatePar(
-          SSMethU.recommUpdate,
+          SSServOpE.recommUpdate,
           null,
           null,
           input.realm,       //realm
@@ -123,7 +123,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdateBulkPar(
-          SSMethU.recommUpdateBulk,
+          SSServOpE.recommUpdateBulk,
           null,
           null,
           realm);
@@ -211,7 +211,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdateBulkEntitiesPar(
-          SSMethU.recommUpdateBulkEntities,
+          SSServOpE.recommUpdateBulkEntities,
           null,
           null,
           input.realm,         //realm
@@ -244,7 +244,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           null, //realm
@@ -283,7 +283,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           realm, //realm
@@ -328,7 +328,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           null,                                //realm
@@ -379,7 +379,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           realm,                                //realm
@@ -418,7 +418,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           null,                                //realm
@@ -463,7 +463,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           realm,                                //realm
@@ -502,7 +502,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           null, //realm
@@ -547,7 +547,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSMethU.recommUsers,
+          SSServOpE.recommUsers,
           null,
           null, 
           realm, //realm

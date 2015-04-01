@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.app;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SSAppsGetTest extends SSServOpTestCaseA{
   
   public SSAppsGetTest(final SSAppConf appConf) {
-    super(appConf, null, SSMethU.appsGet);
+    super(appConf, null, SSServOpE.appsGet);
   }
   
   @Override

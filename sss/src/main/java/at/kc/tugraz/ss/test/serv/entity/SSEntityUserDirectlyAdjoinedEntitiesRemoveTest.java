@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.serv.entity;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveTest extends SSServOpTestCaseA{
   
   public SSEntityUserDirectlyAdjoinedEntitiesRemoveTest(final SSEntityConf entityConf){
-    super(entityConf, null, SSMethU.entityUserDirectlyAdjoinedEntitiesRemove);
+    super(entityConf, null, SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove);
   }  
   
   @Override

@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,14 +32,14 @@ public class SSCirclesGetRet extends SSServRetI{
 
   public static SSCirclesGetRet get(
     final List<SSEntityCircle> circles, 
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSCirclesGetRet(circles, op);
   }
   
   private SSCirclesGetRet(
     final List<SSEntityCircle> circles, 
-    final SSMethU        op){
+    final SSServOpE        op){
 
     super(op);
     

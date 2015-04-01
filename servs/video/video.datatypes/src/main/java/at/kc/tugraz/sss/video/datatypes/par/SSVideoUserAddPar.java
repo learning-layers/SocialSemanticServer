@@ -21,7 +21,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSTextComment;
@@ -44,7 +44,7 @@ public class SSVideoUserAddPar extends SSServPar{
   public Float                 accuracy         = null;
 
   public SSVideoUserAddPar(
-    final SSMethU        op,
+    final SSServOpE        op,
     final String         key,
     final SSUri          user,
     final String         uuid,

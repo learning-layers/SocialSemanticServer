@@ -21,7 +21,6 @@
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.tugraz.sss.serv.SSNumberU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.tugraz.sss.serv.SSEntityE;
@@ -43,25 +42,25 @@ public class SSModelUEMISetterHelper {
 		
 		if(
 				SSEntityE.isColl(resource.type)      &&
-				SSNumberU.isGreaterThan(counter,collectionThreshold)){
+				counter > collectionThreshold){
 			
 			return true;
 
 		}else if(
 				SSEntityE.isDisc(resource.type)         &&		
-				SSNumberU.isGreaterThan(counter,discussionThreshold)){
+				counter > discussionThreshold){
 
 			return true;
 			
 		}else if(
 				SSEntityE.isResourceOrFile(resource.type)   &&
-				SSNumberU.isGreaterThan(counter,digitalResourceThreshold)){
+				counter > digitalResourceThreshold){
 
 			return true;
 			
 		}else if(
 				SSEntityE.isUser(resource.type) && 
-				SSNumberU.isGreaterThan(counter,personThreshold)){
+				counter > personThreshold){
 
 			return true;
 		}
@@ -79,19 +78,19 @@ public class SSModelUEMISetterHelper {
 		
 		if(
 				SSEntityE.isColl(resource.type) &&
-				SSNumberU.isLessThanOrEqual(counter,collectionThreshold)                ){
+				counter <= collectionThreshold){
 		
 			return true;
 			
 		}else if(
 				SSEntityE.isDisc(resource.type)   &&				
-				SSNumberU.isLessThanOrEqual(counter,discussionThreshold)                ){
+				counter <= discussionThreshold){
 			
 			return true;
 			
 		}else if(
 				SSEntityE.isResourceOrFile(resource.type)  &&
-				SSNumberU.isLessThanOrEqual(counter,digitalResourceThreshold)           ){
+				counter <= digitalResourceThreshold){
 			
 			return true;
 		}

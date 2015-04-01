@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,7 +32,7 @@ public class SSFileCanWriteRet extends SSServRetI{
 	public String  file           = null;
 	public boolean canWrite       = false;
 	
-	public SSFileCanWriteRet(String newFileUriOrId, SSMethU op){
+	public SSFileCanWriteRet(String newFileUriOrId, SSServOpE op){
     
     super(op);
     

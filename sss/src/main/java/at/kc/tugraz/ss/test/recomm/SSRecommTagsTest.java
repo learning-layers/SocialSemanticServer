@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.recomm;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class SSRecommTagsTest extends SSServOpTestCaseA{
   
   public SSRecommTagsTest(final SSRecommConf recommConf) {
-    super(recommConf, null, SSMethU.recommTags);
+    super(recommConf, null, SSServOpE.recommTags);
   }
   
   @Override

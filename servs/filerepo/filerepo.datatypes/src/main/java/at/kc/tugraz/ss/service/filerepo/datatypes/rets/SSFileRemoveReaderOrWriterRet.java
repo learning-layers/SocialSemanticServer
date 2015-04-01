@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,7 +32,7 @@ public class SSFileRemoveReaderOrWriterRet extends SSServRetI{
 	public String  file       = null;
 	public boolean worked     = false;
 	
-	public SSFileRemoveReaderOrWriterRet(String newFileUriOrId, SSMethU op){
+	public SSFileRemoveReaderOrWriterRet(String newFileUriOrId, SSServOpE op){
     
     super(op);
 		this.file = newFileUriOrId;

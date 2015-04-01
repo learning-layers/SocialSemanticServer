@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.sss.comment.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSTextComment;
@@ -37,14 +37,14 @@ public class SSCommentsUserGetRet extends SSServRetI{
 
   public static SSCommentsUserGetRet get(
     final List<SSTextComment> comments,
-    final SSMethU             op){
+    final SSServOpE             op){
     
     return new SSCommentsUserGetRet(comments, op);
   }
   
   private SSCommentsUserGetRet(
     final List<SSTextComment> comments,
-    final SSMethU             op) {
+    final SSServOpE             op) {
     
     super(op);
     

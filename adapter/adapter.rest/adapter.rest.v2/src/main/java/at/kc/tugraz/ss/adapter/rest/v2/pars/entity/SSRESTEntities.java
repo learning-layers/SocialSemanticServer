@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.entity;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
@@ -65,7 +65,7 @@ public class SSRESTEntities {
       
       par =
         new SSEntityUserGetPar(
-          SSMethU.entityGet,
+          SSServOpE.entityGet,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
@@ -95,7 +95,7 @@ public class SSRESTEntities {
     try{
       par =
         new SSLikeUserSetPar(
-          SSMethU.likeSet,
+          SSServOpE.likeSet,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
@@ -127,7 +127,7 @@ public class SSRESTEntities {
 //      
 //      par =
 //        new SSTagsUserGetPar(
-//          SSMethU.tagsGet,
+//          SSServOpE.tagsGet,
 //          null,
 //          null,
 //          SSUri.get(user, SSVocConf.sssUri),
@@ -161,7 +161,7 @@ public class SSRESTEntities {
 //    try{
 //      par =
 //        new SSTagUserFrequsGetPar(
-//          SSMethU.tagFrequsGet,
+//          SSServOpE.tagFrequsGet,
 //          null,
 //          null,
 //          SSUri.get(user, SSVocConf.sssUri),

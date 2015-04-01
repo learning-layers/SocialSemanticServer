@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -36,7 +36,7 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   public static SSDiscUserEntryAddRet get(
     final SSUri   disc, 
     final SSUri   discEntry, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSDiscUserEntryAddRet(disc, discEntry, op);
   }
@@ -44,7 +44,7 @@ public class SSDiscUserEntryAddRet extends SSServRetI{
   private SSDiscUserEntryAddRet(
     final SSUri disc, 
     final SSUri discEntry, 
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

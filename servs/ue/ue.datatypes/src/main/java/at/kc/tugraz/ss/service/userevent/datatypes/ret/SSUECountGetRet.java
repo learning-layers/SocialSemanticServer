@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -33,14 +33,14 @@ public class SSUECountGetRet extends SSServRetI{
 
   public static SSUECountGetRet get(
     final Integer count, 
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSUECountGetRet(count, op);
   }
   
   private SSUECountGetRet(
     final Integer count, 
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

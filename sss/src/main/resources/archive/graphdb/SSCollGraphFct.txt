@@ -236,7 +236,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(coll));
 //      
-//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      space  = binding(item, bindType);
 //      
 //      collRoot =
@@ -298,7 +298,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, entryUri);
 //      
-//      entryLabel = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      entryLabel = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      
 //      if(sort){
 //        entries.add(SSCollEntry.get(entryUri, entryLabel, space, getCollEntryPosition(collUri, entryUri)));
@@ -333,7 +333,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, SSUri.get(coll));
 //      
-//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      space  = binding(item, bindType);
 //      
 //      colls.put(
@@ -382,7 +382,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, collUri);
 //      
-//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      type   = SSStrU.removeDoubleQuotes(binding(item, bindType));
 //      
 //      return SSColl.get(
@@ -476,7 +476,7 @@ public class SSCollFctGraph extends SSDBGraphFct{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.resource, coll);
 //      
-//      label  = (String) SSServReg.callServServer(new SSServPar(SSMethU.labelGet, opPars));
+//      label  = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
 //      
 //      resultColls.put(
 //        coll.toString(),

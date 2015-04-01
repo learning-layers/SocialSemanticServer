@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +35,7 @@ import java.util.List;
 public class SSTagsUserGetTest extends SSServOpTestCaseA{
   
   public SSTagsUserGetTest(final SSTagConf tagConf) {
-    super(tagConf, null, SSMethU.tagsUserGet);
+    super(tagConf, null, SSServOpE.tagsUserGet);
   }
   
   @Override

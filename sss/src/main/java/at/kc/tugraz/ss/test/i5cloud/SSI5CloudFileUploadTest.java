@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.i5cloud;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -29,7 +29,7 @@ import at.tugraz.sss.serv.SSServOpTestCaseA;
 public class SSI5CloudFileUploadTest extends SSServOpTestCaseA{
   
   public SSI5CloudFileUploadTest(SSI5CloudConf i5CloudConf){
-    super(i5CloudConf, null, SSMethU.i5CloudFileUpload);
+    super(i5CloudConf, null, SSServOpE.i5CloudFileUpload);
   }
   
   @Override

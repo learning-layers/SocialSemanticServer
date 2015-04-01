@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -35,7 +35,7 @@ public class SSTagUserEditPar extends SSServPar{
   public SSTagLabel      label   = null;
   
   public SSTagUserEditPar(
-    final SSMethU    op,
+    final SSServOpE    op,
     final String     key, 
     final SSUri      user, 
     final SSTagLabel tag, 

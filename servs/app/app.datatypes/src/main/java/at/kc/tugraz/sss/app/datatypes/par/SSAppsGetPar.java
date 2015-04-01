@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 
 public class SSAppsGetPar extends SSServPar{
   
   public SSAppsGetPar(
-    final SSMethU  op,
+    final SSServOpE  op,
     final String   key,
     final SSUri    user){
     

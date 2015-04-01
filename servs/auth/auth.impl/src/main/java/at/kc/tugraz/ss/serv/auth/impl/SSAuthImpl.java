@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -224,7 +224,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           return SSAuthCheckCredRet.get(
             SSAuthConf.noAuthKey,
             userUri,
-            SSMethU.authCheckCred);
+            SSServOpE.authCheckCred);
         }
 
         case csvFileAuth:{
@@ -240,7 +240,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             return SSAuthCheckCredRet.get(
               par.key,
               userUri,
-              SSMethU.authCheckCred);
+              SSServOpE.authCheckCred);
             
           }else{
 
@@ -263,7 +263,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 email,
                 par.password),
               userUri,
-              SSMethU.authCheckCred);
+              SSServOpE.authCheckCred);
           }
         }
         
@@ -301,7 +301,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           return SSAuthCheckCredRet.get(
             par.key,
             userUri,
-            SSMethU.authCheckCred);
+            SSServOpE.authCheckCred);
         }
 
         default: 

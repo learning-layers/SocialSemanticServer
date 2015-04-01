@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,11 +31,11 @@ public class SSJSONLDDescRet extends SSServRetI{
 
   public Object desc = null;
 
-  public static SSJSONLDDescRet get(Object jsonLDDesc, SSMethU op){
+  public static SSJSONLDDescRet get(Object jsonLDDesc, SSServOpE op){
     return new SSJSONLDDescRet(jsonLDDesc, op);
   }
   
-  private SSJSONLDDescRet(Object jsonLDDesc, SSMethU op) {
+  private SSJSONLDDescRet(Object jsonLDDesc, SSServOpE op) {
 
     super(op);
     

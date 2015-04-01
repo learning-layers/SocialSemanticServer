@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -95,7 +95,7 @@ public class SSDataImportEvernoteTask extends TimerTask {
         if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
           
           try{
-            if(dbSQL.rollBack(new SSServPar(SSMethU.dataImportEvernote, new HashMap<>()))){
+            if(dbSQL.rollBack(new SSServPar(SSServOpE.dataImportEvernote, new HashMap<>()))){
               
               SSServErrReg.reset();
               

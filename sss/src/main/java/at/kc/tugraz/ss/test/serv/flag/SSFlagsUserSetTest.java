@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.serv.flag;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -35,7 +35,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 public class SSFlagsUserSetTest extends SSServOpTestCaseA{
   
   public SSFlagsUserSetTest(final SSFlagConf flagConf) {
-    super(flagConf, null, SSMethU.flagsUserSet);
+    super(flagConf, null, SSServOpE.flagsUserSet);
   }
   
   @Override

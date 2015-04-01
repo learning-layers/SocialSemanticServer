@@ -21,7 +21,7 @@
 package at.kc.tugraz.socialserver.service.broadcast.datatypes.rets;
 
 import at.tugraz.sss.serv.SSLinkU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSBroadcastServerTimeRet extends SSServRetI{
 
   public Long serverTime = -1L;
 
-  public static SSBroadcastServerTimeRet get(Long serverTime, SSMethU op) {
+  public static SSBroadcastServerTimeRet get(Long serverTime, SSServOpE op) {
     return new SSBroadcastServerTimeRet(serverTime, op);
   }
 
-  private SSBroadcastServerTimeRet(Long  serverTime, SSMethU op) {
+  private SSBroadcastServerTimeRet(Long  serverTime, SSServOpE op) {
     
     super(op);
     

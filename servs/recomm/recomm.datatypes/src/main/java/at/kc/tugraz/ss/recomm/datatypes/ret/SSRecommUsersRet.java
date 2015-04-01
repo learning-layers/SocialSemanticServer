@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
 import at.tugraz.sss.serv.SSServRetI;
@@ -35,14 +35,14 @@ public class SSRecommUsersRet extends SSServRetI{
 
   public static SSRecommUsersRet get(
     final Map<SSEntity, Double> usersWithLikelihood, 
-    final SSMethU               op) throws Exception{
+    final SSServOpE               op) throws Exception{
     
     return new SSRecommUsersRet(usersWithLikelihood, op);
   }
   
   private SSRecommUsersRet(
     final Map<SSEntity, Double> usersWithLikelihood, 
-    final SSMethU               op) throws Exception{
+    final SSServOpE               op) throws Exception{
     
     super(op);
     

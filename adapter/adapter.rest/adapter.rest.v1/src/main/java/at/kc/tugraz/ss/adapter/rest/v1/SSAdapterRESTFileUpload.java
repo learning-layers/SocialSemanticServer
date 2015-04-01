@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSStrU;
@@ -75,7 +75,7 @@ public class SSAdapterRESTFileUpload{
       String                resultMsg;
       
       par          = new SSFileUploadPar();
-      par.op       = SSMethU.fileUpload;
+      par.op       = SSServOpE.fileUpload;
       par.user     = SSUri.get(user);
       par.key      = key;
       par.mimeType = SSMimeTypeE.valueOf(mimeType);

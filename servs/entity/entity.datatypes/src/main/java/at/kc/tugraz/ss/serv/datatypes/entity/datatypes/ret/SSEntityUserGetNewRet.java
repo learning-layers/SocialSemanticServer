@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSEntity;
@@ -34,14 +34,14 @@ public class SSEntityUserGetNewRet extends SSServRetI{
 
   public static SSEntityUserGetNewRet get(
     final SSEntity     entity, 
-    final SSMethU      op){
+    final SSServOpE      op){
     
     return new SSEntityUserGetNewRet(entity, op);
   }
   
   private SSEntityUserGetNewRet(
     final SSEntity     entity, 
-    final SSMethU      op){
+    final SSServOpE      op){
     
     super(op);
     

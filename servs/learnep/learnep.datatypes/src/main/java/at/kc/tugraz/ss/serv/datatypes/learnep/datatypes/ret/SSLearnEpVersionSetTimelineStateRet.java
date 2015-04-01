@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
 
   public SSUri learnEpTimelineState = null;
 
-  public static SSLearnEpVersionSetTimelineStateRet get(SSUri learnEpTimelineStateUri, SSMethU op){
+  public static SSLearnEpVersionSetTimelineStateRet get(SSUri learnEpTimelineStateUri, SSServOpE op){
     return new SSLearnEpVersionSetTimelineStateRet(learnEpTimelineStateUri, op);
   }
   
-  private SSLearnEpVersionSetTimelineStateRet(SSUri learnEpTimelineStateUri, SSMethU op){
+  private SSLearnEpVersionSetTimelineStateRet(SSUri learnEpTimelineStateUri, SSServOpE op){
     
     super(op);
     this.learnEpTimelineState = learnEpTimelineStateUri;

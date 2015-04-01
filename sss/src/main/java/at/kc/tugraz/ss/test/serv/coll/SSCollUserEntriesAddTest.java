@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.serv.coll;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
@@ -38,7 +38,7 @@ import java.util.List;
 public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   
   public SSCollUserEntriesAddTest(SSCollConf collConf) throws Exception {
-    super(collConf, null, SSMethU.collUserEntriesAdd);
+    super(collConf, null, SSServOpE.collUserEntriesAdd);
   }
   
   @Override

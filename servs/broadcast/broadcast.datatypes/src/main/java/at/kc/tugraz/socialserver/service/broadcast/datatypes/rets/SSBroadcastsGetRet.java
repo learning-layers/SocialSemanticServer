@@ -21,7 +21,7 @@
 package at.kc.tugraz.socialserver.service.broadcast.datatypes.rets;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -37,14 +37,14 @@ public class SSBroadcastsGetRet extends SSServRetI{
 
   public static SSBroadcastsGetRet get(
     final List<SSBroadcast> broadcasts, 
-    final SSMethU           op){
+    final SSServOpE           op){
     
     return new SSBroadcastsGetRet(broadcasts, op);
   }
 
   private SSBroadcastsGetRet(
     final List<SSBroadcast> broadcasts, 
-    final SSMethU           op){
+    final SSServOpE           op){
 
     super(op);
     

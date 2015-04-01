@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
 
   public SSUri entity = null;
 
-  public static SSEntityUserDirectlyAdjoinedEntitiesRemoveRet get(SSUri entityUri, SSMethU op){
+  public static SSEntityUserDirectlyAdjoinedEntitiesRemoveRet get(SSUri entityUri, SSServOpE op){
     return new SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(entityUri, op);
   }
   
-  private SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(SSUri entityUri, SSMethU op){
+  private SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(SSUri entityUri, SSServOpE op){
     
     super(op);
     this.entity = entityUri;

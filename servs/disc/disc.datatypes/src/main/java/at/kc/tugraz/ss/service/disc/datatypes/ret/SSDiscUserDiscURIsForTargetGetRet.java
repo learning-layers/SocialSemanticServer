@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -37,14 +37,14 @@ public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
 
   public static SSDiscUserDiscURIsForTargetGetRet get(
     final List<SSUri>   discUris, 
-    final SSMethU       op){
+    final SSServOpE       op){
     
     return new SSDiscUserDiscURIsForTargetGetRet(discUris, op);
   }
   
   private SSDiscUserDiscURIsForTargetGetRet(
     final List<SSUri>   discUris, 
-    final SSMethU       op){
+    final SSServOpE       op){
     
     super(op);
     

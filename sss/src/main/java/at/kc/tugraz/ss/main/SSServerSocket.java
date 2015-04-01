@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSSystemVersionGetRet;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -82,16 +81,6 @@ public class SSServerSocket implements Runnable{
         SSLogU.info(clientMsg);
         
         par       = new SSServPar(clientMsg);
-        
-        switch(par.op){
-          
-          case systemVersionGet:
-            sScon.writeRetFullToClient(
-              new SSSystemVersionGetRet(
-                SSCoreConf.instGet().getSs().version, 
-                par.op));
-            return;
-        }
         
         SSServA.callServViaClient(
           sScon, 

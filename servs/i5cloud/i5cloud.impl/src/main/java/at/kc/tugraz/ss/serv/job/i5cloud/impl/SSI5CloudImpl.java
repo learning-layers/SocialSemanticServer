@@ -71,12 +71,12 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       con = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "auth").openConnection();
       
       con.setDoOutput(true);
-      con.setRequestProperty(SSHTMLU.acceptCharset, SSEncodingU.utf8);
+      con.setRequestProperty(SSHTMLU.acceptCharset, SSEncodingU.utf8.toString());
       con.setRequestProperty(SSHTMLU.contentType,   SSMimeTypeE.applicationJson.toString());
       
       out = con.getOutputStream();
       
-      out.write(SSJSONU.jsonStr(messageBody).getBytes(SSEncodingU.utf8));
+      out.write(SSJSONU.jsonStr(messageBody).getBytes(SSEncodingU.utf8.toString()));
       
       return SSJSONU.jsonMap(SSFileU.readStreamText(con.getInputStream()));
       

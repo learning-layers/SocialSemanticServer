@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
@@ -38,14 +38,14 @@ public class SSActivityTypesGetRet extends SSServRetI{
 
   public static SSActivityTypesGetRet get(
     final List<SSActivityE> types, 
-    final SSMethU           op){
+    final SSServOpE           op){
     
     return new SSActivityTypesGetRet(types, op);
   }
   
   private SSActivityTypesGetRet(
     final List<SSActivityE> types, 
-    final SSMethU           op){
+    final SSServOpE           op){
 
     super(op);
     

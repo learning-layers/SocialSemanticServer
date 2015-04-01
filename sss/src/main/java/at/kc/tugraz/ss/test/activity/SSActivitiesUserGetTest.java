@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.activity;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -32,7 +32,7 @@ import java.util.List;
 public class SSActivitiesUserGetTest extends SSServOpTestCaseA{
   
   public SSActivitiesUserGetTest(final SSActivityConf activityConf) {
-    super(activityConf, null, SSMethU.activitiesUserGet);
+    super(activityConf, null, SSServOpE.activitiesUserGet);
   }
   
   @Override

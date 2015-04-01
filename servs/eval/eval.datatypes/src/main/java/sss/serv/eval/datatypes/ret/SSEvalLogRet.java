@@ -20,7 +20,7 @@
 */
 package sss.serv.eval.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,11 +31,11 @@ public class SSEvalLogRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSEvalLogRet get(Boolean worked, SSMethU op){
+  public static SSEvalLogRet get(Boolean worked, SSServOpE op){
     return new SSEvalLogRet(worked, op);
   }
   
-  private SSEvalLogRet(Boolean worked, SSMethU op){
+  private SSEvalLogRet(Boolean worked, SSServOpE op){
     
     super(op);
     

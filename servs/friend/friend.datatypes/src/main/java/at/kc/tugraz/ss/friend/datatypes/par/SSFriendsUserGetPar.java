@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 public class SSFriendsUserGetPar extends SSServPar{
   
   public SSFriendsUserGetPar(
-    final SSMethU  op,
+    final SSServOpE  op,
     final String   key,
     final SSUri    user){
   

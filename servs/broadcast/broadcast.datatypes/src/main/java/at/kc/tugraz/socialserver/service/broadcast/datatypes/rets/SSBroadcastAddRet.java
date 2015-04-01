@@ -21,7 +21,7 @@
 package at.kc.tugraz.socialserver.service.broadcast.datatypes.rets;
 
 import at.tugraz.sss.serv.SSLinkU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSBroadcastAddRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSBroadcastAddRet get(boolean  worked, SSMethU op) {
+  public static SSBroadcastAddRet get(boolean  worked, SSServOpE op) {
     return new SSBroadcastAddRet(worked, op);
   }
 
-  private SSBroadcastAddRet(boolean worked, SSMethU op) {
+  private SSBroadcastAddRet(boolean worked, SSServOpE op) {
 
     super(op);
     

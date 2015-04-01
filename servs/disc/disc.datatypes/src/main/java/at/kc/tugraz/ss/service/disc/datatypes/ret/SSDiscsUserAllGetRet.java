@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -36,11 +36,11 @@ public class SSDiscsUserAllGetRet extends SSServRetI{
 
   public List<SSDisc> discs = new ArrayList<>();
 
-  public static SSDiscsUserAllGetRet get(List<SSDisc> discs, SSMethU op){
+  public static SSDiscsUserAllGetRet get(List<SSDisc> discs, SSServOpE op){
     return new SSDiscsUserAllGetRet(discs, op);
   }
   
-  private SSDiscsUserAllGetRet(List<SSDisc> discs, SSMethU op){
+  private SSDiscsUserAllGetRet(List<SSDisc> discs, SSServOpE op){
     
     super(op);
     

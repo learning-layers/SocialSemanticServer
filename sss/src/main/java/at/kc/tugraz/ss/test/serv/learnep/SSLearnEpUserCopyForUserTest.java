@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.test.serv.learnep;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -37,7 +37,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 public class SSLearnEpUserCopyForUserTest extends SSServOpTestCaseA{
   
   public SSLearnEpUserCopyForUserTest(final SSLearnEpConf learnEpConf) {
-    super(learnEpConf, null, SSMethU.learnEpUserCopyForUser);
+    super(learnEpConf, null, SSServOpE.learnEpUserCopyForUser);
   }
   
   @Override

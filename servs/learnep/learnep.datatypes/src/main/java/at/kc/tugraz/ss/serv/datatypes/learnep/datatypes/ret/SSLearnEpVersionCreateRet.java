@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,11 +32,11 @@ public class SSLearnEpVersionCreateRet extends SSServRetI{
 
   public SSUri learnEpVersion = null;
 
-  public static SSLearnEpVersionCreateRet get(SSUri learnEpVersionUri, SSMethU op){
+  public static SSLearnEpVersionCreateRet get(SSUri learnEpVersionUri, SSServOpE op){
     return new SSLearnEpVersionCreateRet(learnEpVersionUri, op);
   }
   
-  private SSLearnEpVersionCreateRet(SSUri learnEpVersionUri, SSMethU op){
+  private SSLearnEpVersionCreateRet(SSUri learnEpVersionUri, SSServOpE op){
     
     super(op);
     this.learnEpVersion = learnEpVersionUri;

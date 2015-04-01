@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
@@ -35,14 +35,14 @@ public class SSCircleEntitiesRemoveRet extends SSServRetI{
 
   public static SSCircleEntitiesRemoveRet get(
     final List<SSUri>    entities,
-    final SSMethU        op){
+    final SSServOpE        op){
     
     return new SSCircleEntitiesRemoveRet(entities, op);
   }
   
   private SSCircleEntitiesRemoveRet(
     final List<SSUri>    entities,
-    final SSMethU        op) {
+    final SSServOpE        op) {
 
     super(op);
     

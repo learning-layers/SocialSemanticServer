@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class SSActivitiesUserGetRet extends SSServRetI{
   public static SSActivitiesUserGetRet get(
     final List<SSActivity> activities, 
     final Long             queryTime, 
-    final SSMethU          op){
+    final SSServOpE          op){
     
     return new SSActivitiesUserGetRet(activities, queryTime, op);
   }
@@ -44,7 +44,7 @@ public class SSActivitiesUserGetRet extends SSServRetI{
   private SSActivitiesUserGetRet(
     final List<SSActivity> activities, 
     final Long             queryTime, 
-    final SSMethU          op) {
+    final SSServOpE          op) {
 
     super(op);
     

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -35,11 +35,11 @@ public class SSCollsUserCouldSubscribeGetRet extends SSServRetI{
  
   public List<SSColl> colls = new ArrayList<>();
 
-  public static SSCollsUserCouldSubscribeGetRet get(final List<SSColl> colls, final SSMethU op){
+  public static SSCollsUserCouldSubscribeGetRet get(final List<SSColl> colls, final SSServOpE op){
     return new SSCollsUserCouldSubscribeGetRet(colls, op);
   }
   
-  private SSCollsUserCouldSubscribeGetRet(final List<SSColl> colls, final SSMethU op) {
+  private SSCollsUserCouldSubscribeGetRet(final List<SSColl> colls, final SSServOpE op) {
 
     super(op);
     

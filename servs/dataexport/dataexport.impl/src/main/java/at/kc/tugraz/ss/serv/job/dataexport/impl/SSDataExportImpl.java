@@ -78,7 +78,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       String                                    resourceString;
       
       out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
-      writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8));
+      writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
       try{
@@ -176,7 +176,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       final List<String> lineParts = new ArrayList<>();
       
       out        = SSFileU.openOrCreateFileWithPathForAppend  (SSFileU.dirWorkingDataCsv() + par.fileName);
-      writer     = new OutputStreamWriter                     (out,    Charset.forName(SSEncodingU.utf8));
+      writer     = new OutputStreamWriter                     (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                              (writer, SSStrU.semiColon.charAt(0));
       
       lineParts.add(SSStrU.toStr     (par.forUser));
@@ -250,7 +250,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
       final OutputStreamWriter writer =
         new OutputStreamWriter(
           out,
-          Charset.forName(SSEncodingU.utf8));
+          Charset.forName(SSEncodingU.utf8.toString()));
       
       fileWriter =
         new CSVWriter(

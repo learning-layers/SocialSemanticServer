@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,13 +34,13 @@ public class SSDiscUserRemoveRet extends SSServRetI{
 
   public static SSDiscUserRemoveRet get(
     final SSUri   discUri, 
-    final SSMethU op){
+    final SSServOpE op){
     return new SSDiscUserRemoveRet(discUri, op);
   }
   
   private SSDiscUserRemoveRet(
     final SSUri   discUri, 
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

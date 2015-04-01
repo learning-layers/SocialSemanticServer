@@ -22,7 +22,7 @@
 package at.kc.tugraz.ss.test.i5cloud;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class SSI5CloudAuthTest extends SSServOpTestCaseA{
   
   public SSI5CloudAuthTest(SSI5CloudConf i5CloudConf){
-    super(i5CloudConf, null, SSMethU.i5CloudAuth);
+    super(i5CloudConf, null, SSServOpE.i5CloudAuth);
   }  
   
   @Override

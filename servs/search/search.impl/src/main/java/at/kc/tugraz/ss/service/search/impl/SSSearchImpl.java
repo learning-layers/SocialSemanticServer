@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.search.impl;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -282,7 +282,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
   }
   
   private SSSearchRet handleSearchPageRequest(
-    final SSMethU     op,
+    final SSServOpE     op,
     final SSSearchPar par) throws Exception{
     
     try{

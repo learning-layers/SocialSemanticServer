@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -35,11 +35,11 @@ public class SSTagUserFrequsGetRet extends SSServRetI{
   
   public List<SSTagFrequ> tagFrequs = new ArrayList<>();
   
-  public static SSTagUserFrequsGetRet get(List<SSTagFrequ> tagFrequs, SSMethU op){
+  public static SSTagUserFrequsGetRet get(List<SSTagFrequ> tagFrequs, SSServOpE op){
     return new SSTagUserFrequsGetRet(tagFrequs, op);
   }
   
-  private SSTagUserFrequsGetRet(List<SSTagFrequ> tagFrequs, SSMethU op){
+  private SSTagUserFrequsGetRet(List<SSTagFrequ> tagFrequs, SSServOpE op){
     
     super(op);
     

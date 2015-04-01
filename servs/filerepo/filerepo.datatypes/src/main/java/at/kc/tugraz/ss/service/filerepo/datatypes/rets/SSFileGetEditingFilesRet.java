@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -35,7 +35,7 @@ public class SSFileGetEditingFilesRet extends SSServRetI{
 	public List<String> files  = new ArrayList<>();
 	public List<String> labels = new ArrayList<>();
 	
-	public SSFileGetEditingFilesRet(SSMethU op, List<String> fileUris, List<String> fileNames){
+	public SSFileGetEditingFilesRet(SSServOpE op, List<String> fileUris, List<String> fileNames){
     
     super(op);
     

@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.sss.video.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSVideoUserAnnotationAddRet extends SSServRetI{
   
   public static SSVideoUserAnnotationAddRet get(
     final SSUri    annotation,
-    final SSMethU  op){
+    final SSServOpE  op){
     
     return new SSVideoUserAnnotationAddRet(annotation, op);
   }
   
   private SSVideoUserAnnotationAddRet(
     final SSUri    annotation,
-    final SSMethU  op) {
+    final SSServOpE  op) {
     
     super(op);
     

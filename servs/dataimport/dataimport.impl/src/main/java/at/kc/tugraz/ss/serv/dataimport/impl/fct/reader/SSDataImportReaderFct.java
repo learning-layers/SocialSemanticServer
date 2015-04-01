@@ -52,7 +52,7 @@ public class SSDataImportReaderFct {
         throw new Exception("csv file to read users from not found at: " + filePath);
       }
       
-      reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8));
+      reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8.toString()));
       csvReader = new CSVReader           (reader, SSStrU.semiColon.charAt(0));
       
       return csvReader.readAll();

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -33,14 +33,14 @@ public class SSDataImportEvernoteRet extends SSServRetI{
   
   public static SSDataImportEvernoteRet get(
     final Boolean   worked, 
-    final SSMethU   op){
+    final SSServOpE   op){
     
     return new SSDataImportEvernoteRet(worked, op);
   }
   
   private SSDataImportEvernoteRet(
     final Boolean   worked, 
-    final SSMethU   op){
+    final SSServOpE   op){
     
     super(op);
     

@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
   
   public static SSAppStackLayoutUpdateRet get(
     final SSUri    stack,
-    final SSMethU  op){
+    final SSServOpE  op){
     
     return new SSAppStackLayoutUpdateRet(stack, op);
   }
   
   private SSAppStackLayoutUpdateRet(
     final SSUri    stack,
-    final SSMethU  op) {
+    final SSServOpE  op) {
     
     super(op);
     

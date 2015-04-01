@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,11 +31,11 @@ public class SSLearnEpVersionRemoveCircleRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSLearnEpVersionRemoveCircleRet get(Boolean worked, SSMethU op){
+  public static SSLearnEpVersionRemoveCircleRet get(Boolean worked, SSServOpE op){
     return new SSLearnEpVersionRemoveCircleRet(worked, op);
   }
   
-  private SSLearnEpVersionRemoveCircleRet(Boolean worked, SSMethU op){
+  private SSLearnEpVersionRemoveCircleRet(Boolean worked, SSServOpE op){
     
     super(op);
     this.worked = worked;

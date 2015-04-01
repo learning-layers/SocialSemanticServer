@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -33,14 +33,14 @@ public class SSAppStackLayoutDeleteRet extends SSServRetI{
   
   public static SSAppStackLayoutDeleteRet get(
     final Boolean  worked,
-    final SSMethU  op){
+    final SSServOpE  op){
     
     return new SSAppStackLayoutDeleteRet(worked, op);
   }
   
   private SSAppStackLayoutDeleteRet(
     final Boolean    worked,
-    final SSMethU    op) {
+    final SSServOpE    op) {
     
     super(op);
     

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -32,7 +32,7 @@ public class SSLearnEpLockSetPar extends SSServPar{
   public SSUri         forUser       = null;
   
   public SSLearnEpLockSetPar(
-    final SSMethU  op,
+    final SSServOpE  op,
     final String   key,
     final SSUri    user,
     final SSUri    forUser, 

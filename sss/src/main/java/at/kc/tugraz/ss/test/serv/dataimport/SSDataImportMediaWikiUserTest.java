@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.serv.dataimport;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 public class SSDataImportMediaWikiUserTest extends SSServOpTestCaseA{
   
   public SSDataImportMediaWikiUserTest(SSDataImportConf dataImportConf){
-    super(dataImportConf, null, SSMethU.dataImportMediaWikiUser);
+    super(dataImportConf, null, SSServOpE.dataImportMediaWikiUser);
   }  
   
   @Override

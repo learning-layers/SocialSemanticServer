@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.message.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -34,14 +34,14 @@ public class SSMessageSendRet extends SSServRetI{
   
   public static SSMessageSendRet get(
     final SSUri   message,
-    final SSMethU op){
+    final SSServOpE op){
     
     return new SSMessageSendRet(message, op);
   }
   
   private SSMessageSendRet(
     final SSUri   message,
-    final SSMethU op){
+    final SSServOpE op){
     
     super(op);
     

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -31,11 +31,11 @@ public class SSRatingUserSetRet extends SSServRetI{
   
   public boolean worked = false;
   
-  public static SSRatingUserSetRet get(boolean worked, SSMethU op){
+  public static SSRatingUserSetRet get(boolean worked, SSServOpE op){
     return new SSRatingUserSetRet(worked, op);
   }
   
-  private SSRatingUserSetRet(boolean worked, SSMethU op){
+  private SSRatingUserSetRet(boolean worked, SSServOpE op){
     
     super(op);
     

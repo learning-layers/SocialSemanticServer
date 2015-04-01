@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -35,11 +35,11 @@ public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
 
   public final List<SSTagFrequ> tagFrequs = new ArrayList<>();
 
-  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSMethU op){
+  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSServOpE op){
     return new SSCollUserCumulatedTagsGetRet(tagFrequs, op);
   }
   
-  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSMethU op) {
+  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSServOpE op) {
 
     super(op);
     

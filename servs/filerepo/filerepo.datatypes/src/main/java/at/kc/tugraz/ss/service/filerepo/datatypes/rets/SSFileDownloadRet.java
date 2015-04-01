@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -32,7 +32,7 @@ public class SSFileDownloadRet extends SSServRetI{
   
   public  SSUri file;
 
-  public SSFileDownloadRet(SSUri uri, SSMethU op){
+  public SSFileDownloadRet(SSUri uri, SSServOpE op){
     
     super(op);
     

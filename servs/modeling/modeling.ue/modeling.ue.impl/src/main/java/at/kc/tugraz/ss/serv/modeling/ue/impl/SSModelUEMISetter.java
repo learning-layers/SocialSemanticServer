@@ -20,13 +20,11 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
-import at.tugraz.sss.serv.SSNumberU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.ArrayList;
@@ -452,7 +450,7 @@ public class SSModelUEMISetter {
 		}
 
 		
-		if(SSNumberU.isGreaterThan(counter,4)){
+		if(counter > 4){
 			
 			resource.mIStandardNot = false;
 			resource.mIStandard    = true;
@@ -472,10 +470,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setRecommend(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterRecommend.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterRecommend.toString()) <= 0){
 			
 			resource.mIRecommendNot       = true;
 			resource.mIRecommend          = false;
@@ -506,10 +501,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setIsEditor(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterIsEditor.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterIsEditor.toString()) <= 0){
 			
 			resource.mIIsEditorNot        = true;
 			resource.mIIsEditor           = false;
@@ -540,10 +532,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setContributedDiscussion(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterContributedDiscussion.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterContributedDiscussion.toString()) <= 0){
 			
 			resource.mIContributeDiscussionNot        = true;
 			resource.mIContributeDiscussion           = false;
@@ -574,10 +563,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setParticipated(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterParticipated.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterParticipated.toString()) <= 0){
 			
 			resource.mIParticipatedNot      = true;
 			resource.mIParticipated         = false;
@@ -607,10 +593,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setReferredBy(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterReferredBy.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterReferredBy.toString()) <= 0){
 			
 			resource.mIReferredByNot        = true;
 			resource.mIReferredBy           = false;
@@ -660,21 +643,14 @@ public class SSModelUEMISetter {
 	private void setCollaborateCollection(SSModelUEEntity resource){
 		
 		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString()), 
-						0)                                   ||
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollection.toString()),
-						0)                                  ){
+      resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString()) <= 0 ||
+			resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollection.toString())  <= 0){
 			
 			resource.mICollaborateCollectionNot                 = true;
 			resource.mICollaborateCollection                    = false;
 			resource.mICollaborateCollectionNumberOf            = false;
 			
-		}else if(
-				SSNumberU.isGreaterThan(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString()), 
-						0)){
+		}else if(resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateCollectionInitial.toString()) > 0){
 			
 			resource.mICollaborateCollectionNot                 = false;
 			
@@ -700,21 +676,14 @@ public class SSModelUEMISetter {
 	private void setCollaborateDiscussion(SSModelUEEntity resource){
 		
 		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussionInitial.toString()), 
-						0)                                   ||
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussion.toString()),
-						0)                                  ){
+      resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussionInitial.toString()) <= 0 ||
+			resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussion.toString())  <= 0){
 			
 			resource.mICollaborateDiscussionNot                 = true;
 			resource.mICollaborateDiscussion                    = false;
 			resource.mICollaborateDiscussionNumberOf            = false;
 			
-		}else if(
-				SSNumberU.isGreaterThan(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussionInitial.toString()), 
-						0)){
+		}else if(resource.counters.get(SSModelUEResourceCounterEnum.counterCollaborateDiscussionInitial.toString()) > 0){
 			
 			resource.mICollaborateDiscussionNot                 = false;
 			
@@ -739,10 +708,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setOrganizeCollection(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterOrganizeCollection.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterOrganizeCollection.toString()) <= 0){
 			
 			
 			resource.mIOrganizeCollectionNot       = true;
@@ -791,10 +757,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setChange(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterChange.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterChange.toString()) <= 0){
 			
 			resource.mIChangeNot                          = true;
 			resource.mIChange                             = false;
@@ -834,10 +797,7 @@ public class SSModelUEMISetter {
 	 **/ 
 	private void setTag(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterTag.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterTag.toString()) <= 0){
 			
 			resource.mITagNot       = true;
 			resource.mITag          = false;
@@ -921,10 +881,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setChangePerson(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterChangePerson.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterChangePerson.toString()) <= 0){
 
 			resource.mIChangePersonNot                = true; 
 			resource.mIChangePerson                   = false;
@@ -955,10 +912,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setChangeByAddOrDelete(SSModelUEEntity resource){
 	
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterAddAndDelete.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterAddAndDelete.toString()) <= 0){
 
 			resource.mIChangeByAddOrDeleteNot         = true; 
 			resource.mIChangeByAddOrDelete            = false;
@@ -988,10 +942,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setDiscuss(SSModelUEEntity resource){
 	
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterDiscussionAbout.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterDiscussionAbout.toString()) <= 0){
 
 			resource.mIDiscussNot = true;
 			resource.mIDiscuss    = false;
@@ -1012,10 +963,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setCollect(SSModelUEEntity resource){
 
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollection.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterCollection.toString()) <= 0){
 			
 			resource.mICollectNot                = true;
 			resource.mICollect                   = false;
@@ -1046,10 +994,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setCollectSimilar(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterCollectSimilar.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterCollectSimilar.toString()) <= 0){
 			
 			resource.mICollectSimilarNot         = true;
 			resource.mICollectSimilar            = false;
@@ -1080,10 +1025,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setPresentAudience(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterPresentAudience.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterPresentAudience.toString()) <= 0){
 			
 			resource.mIPresentAudienceNot         = true;
 			resource.mIPresentAudience            = false;
@@ -1114,10 +1056,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setMadeOutOf(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterMadeOutOf.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterMadeOutOf.toString()) <= 0){
 			
 			resource.mIMadeOutOfOthersNot         = true;
 			resource.mIMadeOutOfOthers            = false;
@@ -1148,10 +1087,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setShareCommunity(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterShareCommunity.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterShareCommunity.toString()) <= 0){
 			
 			resource.mIShareCommunityNot       = true;
 			resource.mIShareCommunity          = false;
@@ -1182,10 +1118,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setViewPerson(SSModelUEEntity resource){
 
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterViewPerson.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterViewPerson.toString()) <= 0){
 			
 			resource.mIViewPersonNot           = true;
 			resource.mIViewPerson              = false;
@@ -1215,10 +1148,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setView(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterView.toString()),
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterView.toString()) <= 0){
 			
 			resource.mIViewNot         = true;
 			resource.mIView            = false;
@@ -1249,10 +1179,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setRateHigh(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterRateHigh.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterRateHigh.toString()) <= 0){
 			
 			resource.mIRateHighNot      = true;
 			resource.mIRateHigh         = false;
@@ -1283,10 +1210,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setGotRated(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterGotRated.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterGotRated.toString()) <= 0){
 			
 			resource.mIGotRatedNot      = true;
 			resource.mIGotRated         = false;
@@ -1317,10 +1241,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setAssess(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterAssess.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterAssess.toString()) <= 0){
 			
 			resource.mIAssesNot           = true;
 			resource.mIAsses              = false;
@@ -1387,10 +1308,7 @@ public class SSModelUEMISetter {
 	 **/
 	private void setSelectFromOther(SSModelUEEntity resource){
 		
-		if(
-				SSNumberU.isLessThanOrEqual(
-						resource.counters.get(SSModelUEResourceCounterEnum.counterSelectFromOther.toString()), 
-						0)){
+		if(resource.counters.get(SSModelUEResourceCounterEnum.counterSelectFromOther.toString()) <= 0){
 			
 			resource.mISelectFromOtherNot        = true;
 			resource.mISelectFromOther           = false;

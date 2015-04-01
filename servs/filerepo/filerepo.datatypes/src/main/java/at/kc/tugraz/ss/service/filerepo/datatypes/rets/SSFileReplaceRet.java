@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServRetI;
@@ -36,7 +36,7 @@ public class SSFileReplaceRet extends SSServRetI{
   public SSFileReplaceRet(
     final SSUri            uri, 
     final SSUri            user, 
-    final SSMethU          op){
+    final SSServOpE          op){
     
     super(op);
     

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.like.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,14 +34,14 @@ public class SSLikeUserSetRet extends SSServRetI{
 
   public static SSLikeUserSetRet get(
     final SSUri     entity, 
-    final SSMethU   op){
+    final SSServOpE   op){
     
     return new SSLikeUserSetRet(entity, op);
   }
   
   private SSLikeUserSetRet(
     final SSUri     entity, 
-    final SSMethU   op){
+    final SSServOpE   op){
     
     super(op);
     

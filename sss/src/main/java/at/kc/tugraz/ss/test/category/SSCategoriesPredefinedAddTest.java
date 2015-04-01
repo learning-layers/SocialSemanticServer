@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.category;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SSCategoriesPredefinedAddTest extends SSServOpTestCaseA{
   
   public SSCategoriesPredefinedAddTest(final SSCategoryConf catConf) {
-    super(catConf, null, SSMethU.categoriesPredefinedAdd);
+    super(catConf, null, SSServOpE.categoriesPredefinedAdd);
   }
   
   @Override

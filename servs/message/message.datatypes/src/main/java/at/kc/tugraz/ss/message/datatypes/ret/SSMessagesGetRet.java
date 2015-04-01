@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.message.datatypes.ret;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class SSMessagesGetRet extends SSServRetI{
   public static SSMessagesGetRet get(
     final List<SSMessage> messages,
     final Long            queryTime,
-    final SSMethU         op){
+    final SSServOpE         op){
     
     return new SSMessagesGetRet(messages, queryTime, op);
   }
@@ -44,7 +44,7 @@ public class SSMessagesGetRet extends SSServRetI{
   private SSMessagesGetRet(
     final List<SSMessage> messages,
     final Long            queryTime,
-    final SSMethU         op){
+    final SSServOpE         op){
     
     super(op);
     

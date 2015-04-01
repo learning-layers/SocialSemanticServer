@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.test.serv.coll;
 
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -33,7 +33,7 @@ import java.util.List;
 public class SSCollUserCummulatedTagsGetTest extends SSServOpTestCaseA{
   
   public SSCollUserCummulatedTagsGetTest(final SSCollConf collConf) throws Exception {
-    super(collConf, null, SSMethU.collUserCumulatedTagsGet);
+    super(collConf, null, SSServOpE.collUserCumulatedTagsGet);
   }
   
   @Override

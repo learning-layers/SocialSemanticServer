@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.test.serv.dataimport;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMethU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSServOpTestCaseA;
@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 public class SSDataImportEvernoteTest extends SSServOpTestCaseA{
   
   public SSDataImportEvernoteTest(SSEvernoteConf evernoteConf){
-    super(evernoteConf, null, SSMethU.dataImportEvernote);
+    super(evernoteConf, null, SSServOpE.dataImportEvernote);
   }  
   
   @Override
