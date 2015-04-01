@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSLinkU;
-import at.tugraz.sss.serv.SSMethU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import java.util.HashMap;

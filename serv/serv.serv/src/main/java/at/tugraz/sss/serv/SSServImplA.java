@@ -40,7 +40,7 @@ public abstract class SSServImplA{
       return;
     }
     
-    clientInterfaceClass.getMethod(SSMethU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
+    clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
   }
 
   public Object handleServerOp(
@@ -52,7 +52,7 @@ public abstract class SSServImplA{
       return null;
     }
     
-    return serverInterfaceClass.getMethod(SSMethU.toStr(par.op), SSServPar.class).invoke(this, par);
+    return serverInterfaceClass.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 }
 

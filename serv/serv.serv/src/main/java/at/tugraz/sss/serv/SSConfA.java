@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSMethU;
 import java.util.ArrayList;
 import java.util.List;
 

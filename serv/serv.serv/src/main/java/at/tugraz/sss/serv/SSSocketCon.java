@@ -250,9 +250,9 @@ public class SSSocketCon{
   
     final Map<String, Object> ret       = new HashMap<>();
     
-    ret.put(SSVarU.op,                SSMethU.toStr(result.op));
-    ret.put(SSVarU.error,             false);
-    ret.put(SSMethU.toStr(result.op), result);
+    ret.put(SSVarU.op,               SSStrU.toStr(result.op));
+    ret.put(SSVarU.error,            false);
+    ret.put(SSStrU.toStr(result.op), result);
     
 //    if(sendJSONLD){
 //      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
@@ -275,7 +275,7 @@ public class SSSocketCon{
     final Map<String, Object> ret           = new HashMap<>();
     final List<String>        errorMessages = SSErrForClient.messages           (errors);
     
-    ret.put(SSVarU.op,                      SSMethU.toStr(op));
+    ret.put(SSVarU.op,                      SSStrU.toStr(op));
     ret.put(SSVarU.error,                   true);
     ret.put(SSVarU.errorMsg,                errorMessages);
     ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
@@ -285,7 +285,7 @@ public class SSSocketCon{
     ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
     
 //    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
-    ret.put(SSMethU.toStr(op), null);
+    ret.put(SSStrU.toStr(op), null);
 
     ret.put(SSVarU.id, null);
     

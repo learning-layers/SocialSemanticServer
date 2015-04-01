@@ -12,11 +12,11 @@
     
   <dependencies>
     
-    <!--    <dependency>
-      <groupId>com.github.jsonld-java</groupId>
-      <artifactId>jsonld-java</artifactId>
-      <version>0.2</version>
-    </dependency>-->
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.ops</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>org.yaml</groupId>
@@ -88,3 +88,9 @@
   </dependencies>
   
 </project>
+
+    <!--    <dependency>
+      <groupId>com.github.jsonld-java</groupId>
+      <artifactId>jsonld-java</artifactId>
+      <version>0.2</version>
+    </dependency>-->

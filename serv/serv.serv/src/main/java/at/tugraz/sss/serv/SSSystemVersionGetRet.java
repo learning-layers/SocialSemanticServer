@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSMethU;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;

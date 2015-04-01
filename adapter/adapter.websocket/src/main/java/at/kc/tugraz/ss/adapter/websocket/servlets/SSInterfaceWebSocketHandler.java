@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.adapter.websocket.servlets;
 
+import at.tugraz.sss.serv.SSMethU;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.*;
@@ -61,9 +62,9 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
       op             = SSMethU.get(objJSON.get(SSVarU.op));
       
       if(
-        SSMethU.equals(op, SSMethU.fileReplace)  ||
-        SSMethU.equals(op, SSMethU.fileDownload) ||
-        SSMethU.equals(op, SSMethU.fileUpload)){
+        SSStrU.equals(op, SSMethU.fileReplace)  ||
+        SSStrU.equals(op, SSMethU.fileDownload) ||
+        SSStrU.equals(op, SSMethU.fileUpload)){
         
         handleSSFileRepoRequest();
         return;
@@ -133,8 +134,8 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     }
     
     if(
-      SSMethU.equals(op, SSMethU.fileReplace) ||
-      SSMethU.equals(op, SSMethU.fileUpload)){
+      SSStrU.equals(op, SSMethU.fileReplace) ||
+      SSStrU.equals(op, SSMethU.fileUpload)){
       
       BASE64Decoder dataUriDecoder = new BASE64Decoder();
       String        dataUriChunk;
@@ -151,7 +152,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
       }
     }
     
-    if(SSMethU.equals(op, SSMethU.fileDownload)){
+    if(SSStrU.equals(op, SSMethU.fileDownload)){
       
       sSCon.writeRequFullToSS(clientMsg.toString());
 

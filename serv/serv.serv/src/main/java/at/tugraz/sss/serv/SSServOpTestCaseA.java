@@ -47,9 +47,9 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
     final Map<String, Object> ret = new HashMap<>();
     
     try{
-      ret.put(SSVarU.op,                            SSMethU.toStr(op));
+      ret.put(SSVarU.op,                            SSStrU.toStr(op));
       ret.put(SSVarU.error,                         false);
-      ret.put(SSMethU.toStr(op),                    clientServResult);
+      ret.put(SSStrU.toStr(op),                     clientServResult);
       ret.put(SSJSONLDU.context,                    SSJSONLDU.jsonLDContext(clientServResult.jsonLDDesc()));
 
       SSJSONU.jsonStr(ret);

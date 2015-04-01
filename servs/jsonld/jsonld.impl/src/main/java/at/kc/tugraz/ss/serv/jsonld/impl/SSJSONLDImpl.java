@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDDescRet;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 
 public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SSJSONLDServerI{
@@ -56,7 +57,7 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
     Object[] consts = clz.getEnumConstants();
     
     if(!SSObjU.isNull(consts)){
-      return consts[0].getClass().getDeclaredMethod(SSMethU.toStr(SSMethU.jsonLD)).invoke(consts[0]);
+      return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSMethU.jsonLD)).invoke(consts[0]);
     }
     
     return ((SSJSONLDPropI) clz.newInstance()).jsonLDDesc();
