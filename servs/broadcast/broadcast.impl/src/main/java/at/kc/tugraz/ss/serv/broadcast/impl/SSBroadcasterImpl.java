@@ -52,7 +52,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op), parA.op);
   }
 
   @Override
@@ -60,7 +60,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op), parA.op);
   }
 
   @Override
@@ -68,7 +68,7 @@ public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterC
 
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op));
+    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op), parA.op);
   }
   
   @Override

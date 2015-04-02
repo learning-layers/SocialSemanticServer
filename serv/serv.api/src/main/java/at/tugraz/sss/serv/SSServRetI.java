@@ -21,6 +21,8 @@
 package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSJSONLDOpI;
+import at.tugraz.sss.serv.SSJSONLDOpI;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 

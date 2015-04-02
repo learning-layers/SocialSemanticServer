@@ -352,7 +352,7 @@ public abstract class SSServA{
     opPars.put(SSVarU.user, parA.user);
     opPars.put(SSVarU.serv, serv);
     
-    sSCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
+    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), parA.op);
   }
   
   private static SSServA getClientServAvailableOnNodes(

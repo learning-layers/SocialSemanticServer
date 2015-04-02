@@ -99,7 +99,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(parA), parA.op));
+    sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(parA), parA.op), parA.op);
   }
 
   @Override
@@ -182,7 +182,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(parA), parA.op));
+    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(parA), parA.op), parA.op);
   }
 
   @Override
@@ -259,7 +259,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -302,7 +302,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(parA), parA.op));
+    sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(parA), parA.op), parA.op);
   }
   
   @Override

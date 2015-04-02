@@ -234,7 +234,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(parA), parA.op), parA.op);
   }  
   
   @Override 
@@ -313,7 +313,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserEntitiesForCategoriesGetRet.get(categoryUserEntitiesForCategoriesGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoryUserEntitiesForCategoriesGetRet.get(categoryUserEntitiesForCategoriesGet(parA), parA.op), parA.op);
   }
 
   @Override
@@ -360,7 +360,7 @@ implements
     
     final SSUri tagUri = categoryAdd(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryAddRet.get(tagUri, parA.op));
+    sSCon.writeRetFullToClient(SSCategoryAddRet.get(tagUri, parA.op), parA.op);
 
 //    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
@@ -503,7 +503,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserEditRet.get(categoryUserEdit(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoryUserEditRet.get(categoryUserEdit(parA), parA.op), parA.op);
   }
   
   @Override
@@ -578,7 +578,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(parA), parA.op), parA.op);
     
     SSCategoryActivityFct.removeCategories(new SSCategoriesUserRemovePar(parA));
   }
@@ -683,7 +683,7 @@ implements
        
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -808,7 +808,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesUserGetRet.get(categoriesUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCategoriesUserGetRet.get(categoriesUserGet(parA), parA.op), parA.op);
   }
   
   @Override

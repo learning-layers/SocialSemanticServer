@@ -143,7 +143,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -166,7 +166,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), SSDateU.dateAsLong(), parA.op));
+    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), SSDateU.dateAsLong(), parA.op), parA.op);
   }
   
   @Override
@@ -355,7 +355,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivityUserAddRet.get(activityAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSActivityUserAddRet.get(activityAdd(parA), parA.op), parA.op);
   }
   
   @Override

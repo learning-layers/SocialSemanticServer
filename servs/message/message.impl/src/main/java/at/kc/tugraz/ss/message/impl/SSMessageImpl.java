@@ -59,7 +59,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), SSDateU.dateAsLong(), parA.op));
+    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), SSDateU.dateAsLong(), parA.op), parA.op);
   }
   
   @Override
@@ -96,7 +96,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSMessageSendRet.get(messageSend(parA), parA.op));
+    sSCon.writeRetFullToClient(SSMessageSendRet.get(messageSend(parA), parA.op), parA.op);
   }
   
   @Override

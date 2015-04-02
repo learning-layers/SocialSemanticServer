@@ -147,7 +147,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCommentsUserGetRet.get(commentsUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCommentsUserGetRet.get(commentsUserGet(parA), parA.op), parA.op);
   }
   
   @Override

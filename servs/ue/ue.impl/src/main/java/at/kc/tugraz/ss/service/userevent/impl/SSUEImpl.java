@@ -225,7 +225,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUECountGetRet.get(uECountGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSUECountGetRet.get(uECountGet(parA), parA.op), parA.op);
   }
   
   //TODO dtheiler: count via db then: count(p.catId) as the_count 
@@ -254,7 +254,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(parA), parA.op), parA.op);
   }
     
   @Override
@@ -262,7 +262,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -270,7 +270,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op), parA.op);
   }
   
   @Override

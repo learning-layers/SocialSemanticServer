@@ -393,7 +393,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSColl collParent = collUserParentGet(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
+    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op), parA.op);
   }
   
   @Override
@@ -421,7 +421,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -447,7 +447,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op), parA.op);
     
     SSCollActivityFct.removeCollEntry(new SSCollUserEntryDeletePar(parA));
   }
@@ -500,7 +500,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op), parA.op);
   }
   
    @Override
@@ -531,7 +531,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op), parA.op);
     
     SSCollActivityFct.removeCollEntries(new SSCollUserEntriesDeletePar(parA));
   }
@@ -578,7 +578,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op), parA.op);
     
     SSCollActivityFct.addCollEntry(new SSCollUserEntryAddPar(parA));
   }
@@ -662,7 +662,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op), parA.op);
     
     SSCollActivityFct.addCollEntries(new SSCollUserEntriesAddPar(parA));
   }
@@ -716,7 +716,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op), parA.op);
     
 //    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
   }
@@ -771,7 +771,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op), parA.op);
   }
   
   @Override
@@ -794,7 +794,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op), parA.op);
   }
   
   @Override
@@ -826,7 +826,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -871,7 +871,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op), parA.op);
   }
   
    @Override
@@ -954,7 +954,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op), parA.op);
   }
   
   @Override

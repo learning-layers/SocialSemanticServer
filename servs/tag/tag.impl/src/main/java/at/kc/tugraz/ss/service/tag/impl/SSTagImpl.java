@@ -285,7 +285,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op), parA.op);
   }
 
   @Override
@@ -332,7 +332,7 @@ implements
     
     final SSUri tagUri = tagAdd(parA);
     
-    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op));
+    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op), parA.op);
 
     SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
@@ -469,7 +469,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op));
+    sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op), parA.op);
   }
   
   @Override
@@ -555,7 +555,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op), parA.op);
     
     SSTagActivityFct.removeTags(new SSTagsUserRemovePar(parA));
   }
@@ -661,7 +661,7 @@ implements
        
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -815,7 +815,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op), parA.op);
   }
   
   @Override

@@ -223,7 +223,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(parA), parA.op));
+    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(parA), parA.op), parA.op);
 //      }
   }
   

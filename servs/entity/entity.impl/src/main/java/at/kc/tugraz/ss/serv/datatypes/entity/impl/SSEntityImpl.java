@@ -163,7 +163,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op), parA.op);
     
     SSEntityActivityFct.copyEntityForUsers(new SSEntityUserCopyPar(parA));
   }
@@ -227,7 +227,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op), parA.op);
 
 //    SSEntityActivityFct.entityUpdate(new SSEntityUserUpdatePar(parA));
   }
@@ -370,7 +370,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -419,7 +419,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -466,7 +466,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -513,7 +513,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA), parA.op), parA.op);
   }
   
   @Override
@@ -673,7 +673,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(parA), parA.op), parA.op);
   }
   
   @Override

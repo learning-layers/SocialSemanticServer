@@ -62,7 +62,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(search(parA));
+    sSCon.writeRetFullToClient(search(parA), parA.op);
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }

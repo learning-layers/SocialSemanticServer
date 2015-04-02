@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -256,25 +255,27 @@ public class SSSocketCon{
   }
   
   public String prepRetFullToClient(
-    final SSServRetI result) throws Exception{
+    final Object    result, 
+    final SSServOpE op) throws Exception{
     
     final Map<String, Object> ret       = new HashMap<>();
     
-    ret.put(SSVarU.op,               SSStrU.toStr(result.op));
-    ret.put(SSVarU.error,            false);
-    ret.put(SSStrU.toStr(result.op), result);
+    ret.put(SSVarU.op,        SSStrU.toStr(op));
+    ret.put(SSVarU.error,     false);
+    ret.put(SSStrU.toStr(op), result);
     
     return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
 }
   
   public void writeRetFullToClient(
-    final SSServRetI  result) throws Exception{
+    final Object    result, 
+    final SSServOpE op) throws Exception{
   
 //    if(sendJSONLD){
 //      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
 //    }
     
-    writeMsgFullToClient(prepRetFullToClient(result));
+    writeMsgFullToClient(prepRetFullToClient(result, op));
   }
   
   public void writeErrorFullToClient(

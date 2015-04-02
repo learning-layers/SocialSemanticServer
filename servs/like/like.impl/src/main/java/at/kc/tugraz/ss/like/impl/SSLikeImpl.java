@@ -56,7 +56,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeUserSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeUserSet(parA), parA.op), parA.op);
   }
    
   @Override

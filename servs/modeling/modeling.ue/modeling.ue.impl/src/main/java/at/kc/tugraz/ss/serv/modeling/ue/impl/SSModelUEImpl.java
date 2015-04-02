@@ -67,11 +67,11 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
   /* SSModelUserEventClientI  */
   
   @Override
-  public void modelUEResourceDetails(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void modelUEResourceDetails(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(modelUEResourceDetails(parA));
+    sSCon.writeRetFullToClient(modelUEResourceDetails(parA), parA.op);
   }
   
   @Override
@@ -79,7 +79,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op));
+    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op), parA.op);
   }
   
   @Override
@@ -87,7 +87,7 @@ public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op), parA.op);
   }
   
   /* SSModelUEServerI  */

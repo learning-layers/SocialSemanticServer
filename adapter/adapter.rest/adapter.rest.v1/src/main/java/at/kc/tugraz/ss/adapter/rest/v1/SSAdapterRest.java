@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
-import static at.kc.tugraz.ss.adapter.rest.v1.SSRestMainV1.conf;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutCreateRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
@@ -99,7 +98,6 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
@@ -856,12 +854,14 @@ public class SSAdapterRest{
   public String systemVersionGet(final SSSystemVersionGetPar input){
 
     try{
-    return new SSSocketCon(
-      SSRestMainV1.conf.ss.host,
-      SSRestMainV1.conf.ss.port).prepRetFullToClient(
-        new SSSystemVersionGetRet(
-          SSRestMainV1.conf.ss.version,
-          SSServOpE.systemVersionGet));
+      return new SSSocketCon(
+        SSRestMainV1.conf.ss.host,
+        SSRestMainV1.conf.ss.port).prepRetFullToClient(
+          new SSSystemVersionGetRet(
+            SSRestMainV1.conf.ss.version,
+            SSServOpE.systemVersionGet),
+          SSServOpE.systemVersionGet);
+      
     }catch(Exception error){
       SSLogU.err(error);
       return null;

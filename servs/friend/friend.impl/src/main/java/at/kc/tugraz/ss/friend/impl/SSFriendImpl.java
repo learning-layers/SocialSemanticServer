@@ -56,7 +56,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFriendsUserGetRet.get(friendsUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSFriendsUserGetRet.get(friendsUserGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -86,7 +86,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFriendUserAddRet.get(friendUserAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSFriendUserAddRet.get(friendUserAdd(parA), parA.op), parA.op);
   }
   
   @Override

@@ -16,15 +16,27 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.socket</artifactId>
+      <artifactId>serv.jsonld</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.entities</artifactId>
+      <artifactId>serv.ops</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.socket</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+<!--    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.entities</artifactId>
+      <version>${project.version}</version>
+    </dependency>-->
     
   </dependencies>
 </project>

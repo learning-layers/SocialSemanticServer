@@ -49,7 +49,7 @@ public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCl
 //
 //    SSColl collParent = collUserParentGet(parA);
 //
-//    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
+//    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op), parA.op);
 //  }
 
   /* SSCloudServerI */

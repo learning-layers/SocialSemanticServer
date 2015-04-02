@@ -217,7 +217,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(parA), parA.op), parA.op);
     
 //    saveRatingUserSetUE(par);
     
@@ -324,7 +324,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -347,7 +347,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(parA), parA.op), parA.op);
   }
   
   @Override

@@ -152,7 +152,7 @@ public class SSFileUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, par.op));
+    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, par.op), par.op);
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{

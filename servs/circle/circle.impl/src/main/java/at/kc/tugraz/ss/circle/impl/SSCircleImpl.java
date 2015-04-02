@@ -86,7 +86,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op), parA.op);
   }
   
   @Override
@@ -141,7 +141,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     final SSUri result = circleCreate(parA);
     
-    sSCon.writeRetFullToClient(SSCircleCreateRet.get(result, parA.op));
+    sSCon.writeRetFullToClient(SSCircleCreateRet.get(result, parA.op), parA.op);
     
     SSCircleActivityFct.createCircle(new SSCircleCreatePar(parA), result);
   }
@@ -230,7 +230,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
     final SSUri result = circleUsersAdd(parA);
     
-    sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result, parA.op));
+    sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result, parA.op), parA.op);
     
     SSCircleActivityFct.addUsersToCircle(new SSCircleUsersAddPar(parA));
   }
@@ -283,7 +283,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(parA), parA.op), parA.op);
     
     SSCircleActivityFct.addEntitiesToCircle(new SSCircleEntitiesAddPar(parA));
   }
@@ -402,7 +402,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -490,7 +490,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
    SSServCallerU.checkKey(parA);
 
-   sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(parA), parA.op));
+   sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -597,7 +597,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntitiesGetRet.get(circleEntitiesGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntitiesGetRet.get(circleEntitiesGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -852,7 +852,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op), parA.op);
     
     SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
   }
@@ -906,7 +906,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -977,7 +977,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(circleEntityShare(parA), parA.op));
+    sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(circleEntityShare(parA), parA.op), parA.op);
   }
   
   @Override  

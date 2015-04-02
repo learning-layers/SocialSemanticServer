@@ -97,7 +97,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op), parA.op);
   }
 
   @Override
@@ -195,7 +195,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op), parA.op);
   }
   
   @Override

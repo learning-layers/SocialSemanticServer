@@ -45,7 +45,7 @@ public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op));
+    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op), parA.op);
   }
 
   @Override

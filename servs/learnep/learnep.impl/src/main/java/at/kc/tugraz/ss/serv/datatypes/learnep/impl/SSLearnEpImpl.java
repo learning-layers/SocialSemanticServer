@@ -279,7 +279,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(parA), parA.op), parA.op);
   }
 
   @Override
@@ -340,7 +340,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -421,7 +421,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(parA), parA.op), parA.op);
   }
   
    @Override
@@ -466,7 +466,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(parA), parA.op), parA.op);
   }
   
   @Override
@@ -513,7 +513,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     final SSUri result = learnEpVersionCreate(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result, parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result, parA.op), parA.op);
     
 //    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
   }
@@ -592,7 +592,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op), parA.op);
   }
   
   @Override
@@ -681,7 +681,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(parA), parA.op), parA.op);
   }
   
   @Override
@@ -784,7 +784,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     final SSUri learnEp = learnEpCreate(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp, parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp, parA.op), parA.op);
     
 //    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
   }
@@ -838,7 +838,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op), parA.op);
   }
   
   @Override
@@ -906,7 +906,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op), parA.op);
   }
   
   @Override
@@ -995,7 +995,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1049,7 +1049,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1103,7 +1103,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1182,7 +1182,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1207,7 +1207,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1255,7 +1255,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op), parA.op);
     
 //    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
   }
@@ -1345,7 +1345,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(learnEpLockHold(parA));
+    sSCon.writeRetFullToClient(learnEpLockHold(parA), parA.op);
   }
   
   @Override
@@ -1395,7 +1395,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1446,7 +1446,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -1508,7 +1508,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(parA), parA.op), parA.op);
   }
   
   @Override

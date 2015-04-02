@@ -353,7 +353,7 @@ implements
     
     SSDiscActivityFct.discEntryAdd(new SSDiscUserEntryAddPar(parA), ret);
     
-    sSCon.writeRetFullToClient(ret);
+    sSCon.writeRetFullToClient(ret, parA.op);
   }
   
   @Override
@@ -472,7 +472,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSDiscsUserAllGetRet.get(discsUserAllGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -514,7 +514,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSDiscUserWithEntriesRet.get(discUserWithEntriesGet(parA), parA.op), parA.op);
   }
   
   @Override
@@ -570,7 +570,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op));
+    sSCon.writeRetFullToClient(SSDiscUserRemoveRet.get(discUserRemove(parA), parA.op), parA.op);
     
 //    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
   }
@@ -621,7 +621,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSDiscUserDiscURIsForTargetGetRet.get(discUserDiscURIsForTargetGet(parA), parA.op));
+    sSCon.writeRetFullToClient(SSDiscUserDiscURIsForTargetGetRet.get(discUserDiscURIsForTargetGet(parA), parA.op), parA.op);
   }
   
   @Override

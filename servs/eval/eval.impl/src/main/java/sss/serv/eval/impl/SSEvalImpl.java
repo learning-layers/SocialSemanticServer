@@ -64,7 +64,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(parA), parA.op));
+    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(parA), parA.op), parA.op);
   }
 
   @Override
