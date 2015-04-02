@@ -26,8 +26,8 @@ import java.util.Map;
 public abstract class SSServOpTestCaseA extends SSServImplStartA{
   
   protected final SSServOpE   op;
-  protected String          jsonRequ;
-  protected SSServPar       clientServPar;
+  protected String            jsonRequ;
+  protected SSServPar         clientServPar;
   
   protected abstract void test()           throws Exception;
   protected abstract void testFromClient() throws Exception;
@@ -54,7 +54,8 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
 
       SSJSONU.jsonStr(ret);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSLogU.err(error);
+      throw error;
     }
   }
   
@@ -69,7 +70,7 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
       tearDown();
       
     }catch(Exception error1){
-      SSServErrReg.regErr(error1);
+      SSLogU.err(error1);
     }finally{
       try{
         finalizeImpl();

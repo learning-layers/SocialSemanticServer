@@ -46,7 +46,7 @@ import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsUserGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
 import java.util.Map;
 
@@ -93,7 +93,7 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServParI parA, 
+    final SSServPar parA, 
     SSEntity         desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
@@ -109,7 +109,7 @@ implements
   
   @Override
   public void updateEntity(
-    final SSServParI parA) throws Exception{
+    final SSServPar parA) throws Exception{
 
     final SSEntityUpdatePar par = (SSEntityUpdatePar) parA;
     

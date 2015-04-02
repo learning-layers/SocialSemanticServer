@@ -36,7 +36,7 @@ public interface SSDBSQLI{
   public void       closeCon  ()   throws Exception;
   
   public Boolean rollBack(
-    final SSServParI parA);
+    final SSServPar parA);
 
   public ResultSet select(
     final List<String>                         tables,

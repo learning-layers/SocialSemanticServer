@@ -23,6 +23,7 @@ package at.tugraz.sss.serv;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarU;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -33,7 +34,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 @XmlRootElement
-public class SSServPar implements SSServParI{
+public class SSServPar{
   
   @XmlElement
   @ApiModelProperty(
@@ -236,16 +237,6 @@ public class SSServPar implements SSServParI{
   }
   
   protected SSServPar(){}
-  
-  @Override
-  public SSServOpE getOpE(){
-    return op;
-  }
-  
-  @Override
-  public SSUri getUserUri(){
-    return user;
-  }
   
   /* json getters */
   public String getOp(){

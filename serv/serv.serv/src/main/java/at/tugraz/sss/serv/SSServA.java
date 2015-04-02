@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
@@ -267,7 +267,7 @@ public class SSServA implements SSServRegI{
   @Override
   public SSServImplA callServViaClient(
     final SSSocketCon  sSCon,
-    final SSServParI   par,
+    final SSServPar   par,
     final Boolean      useCloud) throws Exception{
     
     try{
@@ -276,8 +276,8 @@ public class SSServA implements SSServRegI{
       final SSServImplA          servImpl = serv.serv();
       
       servImpl.handleClientOp(
-        serv.servImplClientInteraceClass, 
-        sSCon, 
+        serv.servImplClientInteraceClass,
+        sSCon,
         par);
       
       return servImpl;
@@ -303,13 +303,13 @@ public class SSServA implements SSServRegI{
   }
   
   @Override
-  public Object callServViaServer(final SSServParI par) throws Exception{
+  public Object callServViaServer(final SSServPar par) throws Exception{
     
     SSServContainerI serv;
     
     try{
       
-      serv = servsForServerOps.get(par.getOpE());
+      serv = servsForServerOps.get(par.op);
       
       if(serv == null){
         throw new SSErr(SSErrE.notServerServiceForOpAvailable);
@@ -362,22 +362,22 @@ public class SSServA implements SSServRegI{
   
   private void deployServNode(
     final SSSocketCon        sSCon,
-    final SSServParI         par,
+    final SSServPar         par,
     final SSServContainerI   serv) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, par.getUserUri());
+    opPars.put(SSVarU.user, par.user);
     opPars.put(SSVarU.serv, serv);
     
-    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.getOpE());
+    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
   }
   
   private SSServContainerI getClientServAvailableOnNodes(
-    final SSServParI par) throws Exception{
+    final SSServPar par) throws Exception{
     
     try{
-      final SSServContainerI serv = servs.get(par.getOpE());
+      final SSServContainerI serv = servs.get(par.op);
       
       if(serv == null){
         throw new SSErr(SSErrE.noClientServiceForOpAvailableOnNodes);
@@ -399,10 +399,10 @@ public class SSServA implements SSServRegI{
   }
   
   private SSServContainerI getClientServAvailableOnMachine(
-    final SSServParI par) throws Exception{
+    final SSServPar par) throws Exception{
     
     try{
-      final SSServContainerI serv = servsForClientOps.get(par.getOpE());
+      final SSServContainerI serv = servsForClientOps.get(par.op);
       
       if(serv == null){
         throw new SSErr(SSErrE.noClientServiceForOpAvailableOnMachine);
@@ -477,7 +477,7 @@ public class SSServA implements SSServRegI{
 
 
 //      if(servImpl instanceof SSServImplWithDBA){
-//        
+//
 //        if(((SSServImplWithDBA)servImpl).dbSQL.getActive() > ((SSServImplWithDBA)servImpl).dbSQL.getMaxActive() - 30){
 //          throw new SSErr(SSErrE.maxNumDBConsReached);
 //        }

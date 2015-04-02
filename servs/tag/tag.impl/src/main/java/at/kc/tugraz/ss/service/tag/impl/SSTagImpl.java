@@ -62,7 +62,7 @@ import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelati
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 
 public class SSTagImpl 
 extends SSServImplWithDBA 
@@ -260,7 +260,7 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServParI parA,
+    final SSServPar parA,
     final SSEntity   desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;

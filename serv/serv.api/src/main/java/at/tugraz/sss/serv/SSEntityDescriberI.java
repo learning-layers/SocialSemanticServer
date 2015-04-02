@@ -27,6 +27,6 @@ public interface SSEntityDescriberI{
     final SSEntity           entity) throws Exception;
   
   public SSEntity getDescForEntity(
-    final SSServParI    par,
+    final SSServPar    par,
     final SSEntity      desc) throws Exception;
 }

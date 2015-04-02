@@ -58,7 +58,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.*;
 import java.util.List;
 
@@ -170,7 +170,7 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServParI parA,
+    final SSServPar parA,
     final SSEntity      desc) throws Exception{
 
     final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;

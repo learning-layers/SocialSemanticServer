@@ -22,7 +22,7 @@ package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSStrU;
 
@@ -36,7 +36,7 @@ public abstract class SSServImplDBA extends SSServImplA{
   public void handleClientOp(
     final Class       servImplClientInteraceClass, 
     final SSSocketCon sSCon, 
-    final SSServParI  par) throws Exception{
+    final SSServPar  par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }
@@ -44,7 +44,7 @@ public abstract class SSServImplDBA extends SSServImplA{
   @Override
   public Object handleServerOp(
     final Class      servImplServerInteraceClass, 
-    final SSServParI par) throws Exception{
+    final SSServPar par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

@@ -49,7 +49,7 @@ import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 
 public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
@@ -79,7 +79,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServParI parA,
+    final SSServPar parA,
     final SSEntity           desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;

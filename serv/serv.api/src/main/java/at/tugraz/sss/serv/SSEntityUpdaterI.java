@@ -21,5 +21,5 @@
 package at.tugraz.sss.serv;
 
 public interface SSEntityUpdaterI{
-  public void updateEntity(final SSServParI par) throws Exception;
+  public void updateEntity(final SSServPar par) throws Exception;
 }

@@ -71,7 +71,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 
 public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
   
@@ -94,7 +94,7 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServParI parA,
+    final SSServPar parA,
     final SSEntity   desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;

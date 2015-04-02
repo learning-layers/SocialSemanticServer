@@ -78,10 +78,10 @@ public interface SSServRegI{
     final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception;
   
   public Object callServViaServer(
-    final SSServParI par) throws Exception;
+    final SSServPar par) throws Exception;
   
   public SSServImplA callServViaClient(
     final SSSocketCon  sSCon,
-    final SSServParI   par,
+    final SSServPar   par,
     final Boolean      useCloud) throws Exception;
 }

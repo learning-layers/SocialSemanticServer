@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplDBA;
-import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSServPar;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
@@ -888,7 +888,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public Boolean rollBack(final SSServParI par){
+  public Boolean rollBack(final SSServPar par){
     
     try{
       
